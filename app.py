@@ -5,9 +5,9 @@ import numpy as np
 import re
 
 # --- ページ設定 ---
-st.set_page_config(page_title="スイングトレード・スクリーナー", layout="wide")
-st.title("📈 ダイバージェンス・スクリーナー")
-st.markdown("移動平均線・ボリンジャーバンド・RSIを用いた戦略に基づき、220銘柄+αをリアルタイム解析します。")
+st.set_page_config(page_title="国策銘柄・買い時スクリーナー", layout="wide")
+st.title("🏹 買い時・即戦力スクリーナー")
+st.markdown("「25日線・ボリバン・RSIダイバージェンス」に基づき、今、買い向かうべき銘柄を抽出します。")
 
 # --- ベース銘柄データの定義 ---
 def get_base_tickers():
@@ -29,7 +29,7 @@ def get_base_tickers():
     7721/東京計器 6946/日本アビオニクス 6703/沖電気工業 3105/日清紡ホールディングス 6486/イーグル工業 5631/日本製鋼所 8093/極東貿易
     9434/ソフトバンク 4755/楽天グループ 5801/古河電気工業
     6269/三井海洋開発 6834/精工技研 6618/大泉製作所 6777/ｓａｎｔｅｃ 3648/ＡＧＳ 6340/渋谷工業
-    1812/鹿島建設 1802/大林組 1803/清水建設 8058/三菱商事 1833/奥村組 8031/三井物産 8001/伊藤忠商事
+    1812/鹿島建設 1802/大林組 1803/清水建設 8058/三菱商商事 1833/奥村組 8031/三井物産 8001/伊藤忠商事
     6762/ＴＤＫ 6981/村田製作所
     5019/出光興産 5021/コスモエネルギーホールディングス 8002/丸紅
     3401/帝人 3407/旭化成 4205/日本ゼオン 4004/レゾナック・ホールディングス 4208/ＵＢＥ
@@ -38,152 +38,101 @@ def get_base_tickers():
     matches = re.findall(r'([A-Za-z0-9]{4,5})/([^\s]+)', raw_data)
     return {f"{code}.T": name for code, name in matches}
 
-# --- セッションステート（状態保持）の初期化 ---
 if 'tickers_dict' not in st.session_state:
     st.session_state.tickers_dict = get_base_tickers()
 
-# --- サイドバー：銘柄管理 UI ---
+# --- サイドバー管理（追加・削除・リセット） ---
 st.sidebar.header("⚙️ 監視銘柄の管理")
-st.sidebar.info(f"現在の監視対象: 合計 {len(st.session_state.tickers_dict)} 銘柄")
-
-# 1. 銘柄の追加
-st.sidebar.subheader("➕ 追加")
-custom_tickers_input = st.sidebar.text_area("追加する銘柄（形式: コード/銘柄名）\n例: 7203/トヨタ自動車", height=100)
-if st.sidebar.button("銘柄を追加"):
-    if custom_tickers_input:
-        custom_matches = re.findall(r'([A-Za-z0-9]{4,5})/([^\s]+)', custom_tickers_input)
-        added_count = 0
-        for code, name in custom_matches:
-            ticker_code = f"{code}.T"
-            if ticker_code not in st.session_state.tickers_dict:
-                st.session_state.tickers_dict[ticker_code] = name
-                added_count += 1
-        if added_count > 0:
-            st.sidebar.success(f"{added_count}銘柄を追加しました！")
-            st.rerun()
-        else:
-            st.sidebar.warning("正しい形式（コード/名称）で入力してください。")
-
-# 2. 銘柄の削除
-st.sidebar.subheader("🗑️ 削除")
-current_tickers = list(st.session_state.tickers_dict.keys())
-display_options = {t: f"{t.replace('.T', '')}/{st.session_state.tickers_dict[t]}" for t in current_tickers}
-
-remove_targets = st.sidebar.multiselect(
-    "削除する銘柄を選択",
-    options=current_tickers,
-    format_func=lambda x: display_options.get(x, x)
-)
-if st.sidebar.button("選択した銘柄を削除"):
-    if remove_targets:
-        for t in remove_targets:
-            st.session_state.tickers_dict.pop(t, None)
-        st.sidebar.success(f"{len(remove_targets)}銘柄を削除しました！")
+custom_input = st.sidebar.text_area("追加（コード/銘柄名）", height=70)
+if st.sidebar.button("追加実行"):
+    if custom_input:
+        matches = re.findall(r'([A-Za-z0-9]{4,5})/([^\s]+)', custom_input)
+        for c, n in matches: st.session_state.tickers_dict[f"{c}.T"] = n
         st.rerun()
 
-# 3. リセット
-st.sidebar.subheader("🔄 リセット")
-if st.sidebar.button("初期リスト(220銘柄)に戻す"):
+remove_targets = st.sidebar.multiselect("削除選択", options=list(st.session_state.tickers_dict.keys()), format_func=lambda x: f"{x.replace('.T','')}/{st.session_state.tickers_dict[x]}")
+if st.sidebar.button("削除実行"):
+    for t in remove_targets: st.session_state.tickers_dict.pop(t, None)
+    st.rerun()
+
+if st.sidebar.button("初期化リセット"):
     st.session_state.tickers_dict = get_base_tickers()
-    st.sidebar.success("初期リストにリセットしました！")
     st.rerun()
 
-st.sidebar.markdown("---")
-if st.sidebar.button("📉 データを再取得・解析"):
-    st.cache_data.clear()
-    st.rerun()
-
-# --- データ取得・解析処理 ---
+# --- 解析ロジック ---
 @st.cache_data(ttl=3600)
-def fetch_and_analyze(tickers, tickers_dict):
-    # show_errors=Falseを削除してTypeErrorを回避
+def analyze_buy_signals(tickers, tickers_dict):
     data = yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
     
-    perfect_matches = []
-    near_matches = []
-    
+    buy_now = []      # 買い向かうべき（シグナル点灯）
+    buy_ready = []    # 買い準備（そろそろ来そう）
+
     for ticker in tickers:
         try:
-            # 1銘柄のみの場合と複数銘柄の場合でデータフレームの構造が異なるため対応
-            if len(tickers) == 1:
-                df = data.copy()
-            else:
-                df = data[ticker].copy()
-            
+            df = data[ticker].copy() if len(tickers) > 1 else data.copy()
             df = df.dropna()
-            if len(df) < 30: continue
-            
-            # テクニカル指標計算
+            if len(df) < 40: continue
+
+            # インジケーター計算
+            df['MA5'] = df['Close'].rolling(window=5).mean()
             df['MA25'] = df['Close'].rolling(window=25).mean()
             df['STD'] = df['Close'].rolling(window=25).std()
-            df['Upper2'] = df['MA25'] + (df['STD'] * 2)
             df['Lower2'] = df['MA25'] - (df['STD'] * 2)
             
-            # RSI(14)
+            # RSI
             delta = df['Close'].diff()
-            gain = delta.clip(lower=0).ewm(alpha=1/14, min_periods=14).mean()
-            loss = -delta.clip(upper=0).ewm(alpha=1/14, min_periods=14).mean()
-            rs = gain / loss
-            df['RSI'] = 100 - (100 / (1 + rs))
+            gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
+            loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+            df['RSI'] = 100 - (100 / (1 + gain / loss))
             
-            latest = df.iloc[-1]
+            # 直近データ
+            curr = df.iloc[-1]
             prev = df.iloc[-2]
-            is_ma25_up = latest['MA25'] > prev['MA25']
             
-            close = latest['Close']
-            lower2 = latest['Lower2']
-            upper2 = latest['Upper2']
-            rsi = latest['RSI']
+            # ダイバージェンスの簡易判定（直近20日の安値とRSIの関係）
+            low_20 = df.iloc[-20:]
+            idx_price_min = low_20['Low'].idxmin()
+            idx_rsi_min = low_20['RSI'].idxmin()
             
-            result_data = {
-                "コード": ticker.replace(".T", ""),
-                "銘柄名": tickers_dict[ticker],
-                "現在値": round(close, 1),
-                "MA25向き": "⤴️ 上" if is_ma25_up else "⤵️ 下",
-                "RSI": round(rsi, 1),
-                "-2σ": round(lower2, 1),
-                "+2σ": round(upper2, 1)
+            # 価格が安値を更新しているがRSIが更新していない状態
+            is_divergence = (idx_price_min != idx_rsi_min) and (df.loc[idx_price_min, 'RSI'] > df['RSI'].min())
+
+            res = {
+                "コード": ticker.replace(".T",""), "銘柄名": tickers_dict[ticker],
+                "現在値": round(curr['Close'], 1), "RSI": round(curr['RSI'], 1),
+                "MA25": "⤴️" if curr['MA25'] >= prev['MA25'] else "⤵️"
             }
-            
-            # 1. 完全合致の判定
-            perfect_buy = is_ma25_up and (close <= lower2 * 1.02) and (rsi < 40)
-            perfect_sell = (close >= upper2 * 0.98) and (rsi > 70)
-            
-            # 2. 監視候補の判定
-            near_buy = is_ma25_up and (close <= lower2 * 1.05) and (rsi < 50) and not perfect_buy
-            near_sell = (close >= upper2 * 0.95) and (rsi > 60) and not perfect_sell
-            
-            if perfect_buy:
-                perfect_matches.append({**result_data, "シグナル": "🟢 完全合致: 押し目"})
-            elif perfect_sell:
-                perfect_matches.append({**result_data, "シグナル": "🔴 完全合致: 天井警戒"})
-            elif near_buy:
-                near_matches.append({**result_data, "シグナル": "🟡 監視候補: 押し目接近"})
-            elif near_sell:
-                near_matches.append({**result_data, "シグナル": "🟠 監視候補: 天井接近"})
 
-        except Exception:
-            continue
-            
-    return pd.DataFrame(perfect_matches), pd.DataFrame(near_matches)
+            # --- 判定1: 買い向かうべきタイミング（シグナル点灯） ---
+            # 条件：RSIが底を打って上昇 ＆ 5日線を突破 ＆ ダイバージェンス兆候
+            if curr['Close'] > curr['MA5'] and prev['Close'] <= prev['MA5'] and curr['RSI'] > 30:
+                if curr['Close'] < curr['MA25'] * 1.05: # 高値掴み防止
+                    buy_now.append({**res, "状況": "🔥 5日線突破・反発開始"})
 
-# --- UI描画 ---
+            # --- 判定2: 買い準備（来ていそうな銘柄） ---
+            # 条件：ボリバン-2σ以下 ＆ RSIが30以下（極めて売られすぎ）
+            elif curr['Close'] <= curr['Lower2'] * 1.02 or curr['RSI'] <= 35:
+                buy_ready.append({**res, "状況": "⏳ 売られすぎ・底打ち待ち"})
+
+        except: continue
+    return pd.DataFrame(buy_now), pd.DataFrame(buy_ready)
+
+# --- UI表示 ---
 tickers_list = list(st.session_state.tickers_dict.keys())
+if tickers_list:
+    with st.spinner('「買い時」をスキャン中...'):
+        df_now, df_ready = analyze_buy_signals(tickers_list, st.session_state.tickers_dict)
 
-if not tickers_list:
-    st.warning("監視対象がありません。サイドバーから追加するかリセットしてください。")
-else:
-    with st.spinner('全銘柄のデータを解析中...'):
-        df_perfect, df_near = fetch_and_analyze(tickers_list, st.session_state.tickers_dict)
-
-    st.header("🎯 条件クリア銘柄（完全合致）")
-    if not df_perfect.empty:
-        st.dataframe(df_perfect.sort_values(['シグナル', 'RSI']), use_container_width=True, hide_index=True)
+    st.header("🎯 買い向かうべきタイミング（即戦力）")
+    st.caption("5日線を上に抜け、反発の初動を捉えた銘柄です。ダイバージェンスを確認しエントリーを検討。")
+    if not df_now.empty:
+        st.dataframe(df_now, use_container_width=True, hide_index=True)
     else:
-        st.info("現在、完全に条件をクリアしている銘柄はありません。")
+        st.info("現在、即エントリーのシグナルが出ている銘柄はありません。")
 
-    st.header("👀 監視候補（わずかにクリアできなかった銘柄）")
-    if not df_near.empty:
-        st.dataframe(df_near.sort_values(['シグナル', 'RSI']), use_container_width=True, hide_index=True)
+    st.header("⏳ 買い準備・来ていそうな銘柄（監視）")
+    st.caption("ボリンジャーバンド-2σ到達やRSI30台など、底打ちが近い銘柄です。数日内の反発に備えてください。")
+    if not df_ready.empty:
+        st.dataframe(df_ready.sort_values("RSI"), use_container_width=True, hide_index=True)
     else:
-        st.info("現在、監視候補に該当する銘柄はありません。")
+        st.info("現在、底打ち待ちの候補はありません。")
