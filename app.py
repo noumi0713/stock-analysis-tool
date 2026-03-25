@@ -6,8 +6,8 @@ import re
 
 # --- ページ設定 ---
 st.set_page_config(page_title="スイングトレード・スクリーナー", layout="wide")
-st.title("ダイバージェンス・スクリーナー")
-st.markdown("移動平均線・ボリンジャーバンド・RSIを用いたスクリーニング結果を表示します。")
+st.title("📈 ダイバージェンス・スクリーナー")
+st.markdown("移動平均線・ボリンジャーバンド・RSIを用いた戦略に基づき、220銘柄+αをリアルタイム解析します。")
 
 # --- ベース銘柄データの定義 ---
 def get_base_tickers():
@@ -25,7 +25,7 @@ def get_base_tickers():
     4543/テルモ 7733/オリンパス 4507/塩野義製薬 7747/朝日インテック 7701/島津製作所 6869/シスメックス 4527/ロート製薬
     5803/フジクラ 8801/三井不動産 6504/富士電機 5802/住友電気工業
     3436/ＳＵＭＣＯ 5713/住友金属鉱山 5726/大阪チタニウムテクノロジーズ 5333/日本碍子 5310/東洋炭素 5302/日本カーボン 5406/神戸製鋼所 5401/日本製鉄 5411/ＪＦＥホールディングス
-    9301/三菱倉庫 9303/住友倉庫 9364/上組 9302/三井倉庫ホールディングス 9147/ＮＸホールディングス 9304/渋沢倉庫 9358/宇徳
+    9301/三菱倉庫 9303/住友倉庫 9364/上組 9302/三井倉庫ホールディングス 9147/ＮＸホールディングス 9107/川崎汽船 9101/日本郵船 9104/商船三井 9304/渋沢倉庫 9358/宇徳
     7721/東京計器 6946/日本アビオニクス 6703/沖電気工業 3105/日清紡ホールディングス 6486/イーグル工業 5631/日本製鋼所 8093/極東貿易
     9434/ソフトバンク 4755/楽天グループ 5801/古河電気工業
     6269/三井海洋開発 6834/精工技研 6618/大泉製作所 6777/ｓａｎｔｅｃ 3648/ＡＧＳ 6340/渋谷工業
@@ -35,7 +35,7 @@ def get_base_tickers():
     3401/帝人 3407/旭化成 4205/日本ゼオン 4004/レゾナック・ホールディングス 4208/ＵＢＥ
     8015/豊田通商 5714/ＤＯＷＡホールディングス 5706/三井金属鉱業 5715/古河機械金属 3315/日本コークス工業
     """
-    matches = re.findall(r'([A-Za-z0-9]{4})/([^\s]+)', raw_data)
+    matches = re.findall(r'([A-Za-z0-9]{4,5})/([^\s]+)', raw_data)
     return {f"{code}.T": name for code, name in matches}
 
 # --- セッションステート（状態保持）の初期化 ---
@@ -48,40 +48,38 @@ st.sidebar.info(f"現在の監視対象: 合計 {len(st.session_state.tickers_di
 
 # 1. 銘柄の追加
 st.sidebar.subheader("➕ 追加")
-custom_tickers_input = st.sidebar.text_area("追加する銘柄コード/銘柄名\n例: 7203/トヨタ自動車", height=100)
+custom_tickers_input = st.sidebar.text_area("追加する銘柄（形式: コード/銘柄名）\n例: 7203/トヨタ自動車", height=100)
 if st.sidebar.button("銘柄を追加"):
     if custom_tickers_input:
-        custom_matches = re.findall(r'([A-Za-z0-9]{4})/([^\s]+)', custom_tickers_input)
+        custom_matches = re.findall(r'([A-Za-z0-9]{4,5})/([^\s]+)', custom_tickers_input)
         added_count = 0
         for code, name in custom_matches:
             ticker_code = f"{code}.T"
             if ticker_code not in st.session_state.tickers_dict:
                 st.session_state.tickers_dict[ticker_code] = name
                 added_count += 1
-        
         if added_count > 0:
             st.sidebar.success(f"{added_count}銘柄を追加しました！")
-            st.rerun() # 画面を再読み込みして反映
+            st.rerun()
         else:
-            st.sidebar.warning("正しい形式（コード/銘柄名）で入力してください。")
+            st.sidebar.warning("正しい形式（コード/名称）で入力してください。")
 
 # 2. 銘柄の削除
 st.sidebar.subheader("🗑️ 削除")
 current_tickers = list(st.session_state.tickers_dict.keys())
-# 表示用に「コード/銘柄名」の辞書を作成
 display_options = {t: f"{t.replace('.T', '')}/{st.session_state.tickers_dict[t]}" for t in current_tickers}
 
 remove_targets = st.sidebar.multiselect(
-    "削除する銘柄を選択（複数可）",
+    "削除する銘柄を選択",
     options=current_tickers,
-    format_func=lambda x: display_options[x] # ドロップダウンの表示を見やすくする
+    format_func=lambda x: display_options.get(x, x)
 )
 if st.sidebar.button("選択した銘柄を削除"):
     if remove_targets:
         for t in remove_targets:
             st.session_state.tickers_dict.pop(t, None)
         st.sidebar.success(f"{len(remove_targets)}銘柄を削除しました！")
-        st.rerun() # 画面を再読み込みして反映
+        st.rerun()
 
 # 3. リセット
 st.sidebar.subheader("🔄 リセット")
@@ -90,28 +88,32 @@ if st.sidebar.button("初期リスト(220銘柄)に戻す"):
     st.sidebar.success("初期リストにリセットしました！")
     st.rerun()
 
-# 再解析ボタン
 st.sidebar.markdown("---")
-if st.sidebar.button("📉 最新データで再取得・解析"):
+if st.sidebar.button("📉 データを再取得・解析"):
     st.cache_data.clear()
     st.rerun()
-
 
 # --- データ取得・解析処理 ---
 @st.cache_data(ttl=3600)
 def fetch_and_analyze(tickers, tickers_dict):
-    data = yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True, show_errors=False)
+    # show_errors=Falseを削除してTypeErrorを回避
+    data = yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
     
     perfect_matches = []
     near_matches = []
     
     for ticker in tickers:
         try:
-            df = data[ticker].copy() if len(tickers) > 1 else data.copy()
+            # 1銘柄のみの場合と複数銘柄の場合でデータフレームの構造が異なるため対応
+            if len(tickers) == 1:
+                df = data.copy()
+            else:
+                df = data[ticker].copy()
+            
             df = df.dropna()
             if len(df) < 30: continue
             
-            # テクニカル指標
+            # テクニカル指標計算
             df['MA25'] = df['Close'].rolling(window=25).mean()
             df['STD'] = df['Close'].rolling(window=25).std()
             df['Upper2'] = df['MA25'] + (df['STD'] * 2)
@@ -143,11 +145,11 @@ def fetch_and_analyze(tickers, tickers_dict):
                 "+2σ": round(upper2, 1)
             }
             
-            # 1. 完全合致（条件クリア）の判定
+            # 1. 完全合致の判定
             perfect_buy = is_ma25_up and (close <= lower2 * 1.02) and (rsi < 40)
             perfect_sell = (close >= upper2 * 0.98) and (rsi > 70)
             
-            # 2. わずかにクリアできなかった銘柄（監視候補）の判定
+            # 2. 監視候補の判定
             near_buy = is_ma25_up and (close <= lower2 * 1.05) and (rsi < 50) and not perfect_buy
             near_sell = (close >= upper2 * 0.95) and (rsi > 60) and not perfect_sell
             
@@ -168,11 +170,10 @@ def fetch_and_analyze(tickers, tickers_dict):
 # --- UI描画 ---
 tickers_list = list(st.session_state.tickers_dict.keys())
 
-# リストが空になった場合のエラー回避
 if not tickers_list:
-    st.warning("監視対象の銘柄がありません。サイドバーから銘柄を追加するか、リセットしてください。")
+    st.warning("監視対象がありません。サイドバーから追加するかリセットしてください。")
 else:
-    with st.spinner('株価データを取得・解析中...'):
+    with st.spinner('全銘柄のデータを解析中...'):
         df_perfect, df_near = fetch_and_analyze(tickers_list, st.session_state.tickers_dict)
 
     st.header("🎯 条件クリア銘柄（完全合致）")
