@@ -5,10 +5,10 @@ import numpy as np
 import re
 
 # --- ページ設定 ---
-st.set_page_config(page_title="国策銘柄・買い時スクリーナー", layout="wide")
-st.title("🏹 買い時・即戦力スクリーナー")
+st.set_page_config(page_title="国策銘柄・精密スクリーナー", layout="wide")
+st.title("🏹 買い時・即戦力スクリーナー（出来高分析搭載）")
 
-# --- ベース銘柄データの定義 [cite: 1] ---
+# --- ベース銘柄データの定義 ---
 def get_base_tickers():
     raw_data = """
     6857/アドバンテスト 8035/東京エレクトロン 6723/ルネサスエレクトロニクス 6920/レーザーテック 7735/ＳＣＲＥＥＮホールディングス 6963/ローム 6707/サンケン電気 7282/豊田合成 9984/ソフトバンクグループ 6501/日立製作所
@@ -17,7 +17,7 @@ def get_base_tickers():
     4502/武田薬品工業 4568/第一三共 4471/三洋化成工業 8111/ゴールドウイン 4613/関西ペイント 6028/テクノプロ・ホールディングス 2931/ユーグレナ 4523/エーザイ 4519/中外製薬 4901/富士フイルムホールディングス
     7013/ＩＨＩ 9412/スカパーＪＳＡＴホールディングス 5595/ＱＰＳ研究所 186A/アストロスケールホールディングス 9348/ｉｓｐａｃｅ 3402/東レ 7224/新明和工業 3524/日東製網 6965/浜松ホトニクス
     3692/ＦＦＲＩセキュリティ 4441/トビラシステムズ 3916/デジタル・インフォメーション・テクノロジー 2326/デジタルアーツ 3040/ソリトンシステムズ 4258/網屋 9433/ＫＤＤＩ 4398/ブロードバンドセキュリティ 4722/フューチャー
-    9404/日本テレビホールディングス 7832/バンダイナムコホールディングス 4751/サイバーエージェント 9468/ＫＡＤＯＫＡＷＡ 7974/任天堂 4816/東映アニメーション 9684/スクウェア・エニックス・ホールディングス 9697/カプコン 3765/ガンホー・オンライン・エンターテイメント
+    9404/日本テレビホールディングス 7832/バンダイナムコホールディングス 4751/サイバーエージェント 9468/ＫＡＤＯＫＡＷＡ 7974/任天堂 4816/東映アニメーション 9684/スクウェア・エニックス・ホールディングス 9697/カプコン 3765/ガンホー・オンライン・エンターテンメント
     3182/オイシックス・ラ・大地 1332/ニッスイ 1333/マルハニチロ 2282/日本ハム 2607/不二製油グループ本社 2802/味の素 2811/カゴメ 2193/クックパッド 2296/伊藤ハム米久ホールディングス 2216/カンロ
     9501/東京電力ホールディングス 5020/ＥＮＥＯＳホールディングス 6752/パナソニックホールディングス 4204/積水化学工業 4107/伊勢化学工業 5711/三菱マテリアル 4118/カネカ 9503/関西電力 1605/ＩＮＰＥＸ 1963/日揮ホールディングス
     1414/ショーボンドホールディングス 1813/不動テトラ 9621/建設技術研究所 1417/ミライト・ワン 208A/構造計画研究所 8088/岩谷産業 6632/ＪＶＣケンウッド 5285/ヤマックス 1848/富士ピー・エス 1888/若築建設
@@ -40,31 +40,19 @@ def get_base_tickers():
 if 'tickers_dict' not in st.session_state:
     st.session_state.tickers_dict = get_base_tickers()
 
-# --- サイドバー管理 ---
+# --- サイドバー ---
 st.sidebar.header("⚙️ 監視銘柄の管理")
-custom_input = st.sidebar.text_area("追加（コード/銘柄名）", height=70)
-if st.sidebar.button("追加実行"):
-    if custom_input:
-        matches = re.findall(r'([A-Za-z0-9]{4,5})/([^\s]+)', custom_input)
-        for c, n in matches: st.session_state.tickers_dict[f"{c}.T"] = n
-        st.rerun()
-
-remove_targets = st.sidebar.multiselect("削除選択", options=list(st.session_state.tickers_dict.keys()), format_func=lambda x: f"{x.replace('.T','')}/{st.session_state.tickers_dict[x]}")
-if st.sidebar.button("削除実行"):
-    for t in remove_targets: st.session_state.tickers_dict.pop(t, None)
-    st.rerun()
-
 if st.sidebar.button("初期化リセット"):
     st.session_state.tickers_dict = get_base_tickers()
     st.rerun()
 
 # --- 解析ロジック ---
 @st.cache_data(ttl=3600)
-def analyze_buy_signals(tickers, tickers_dict):
+def analyze_buy_signals_with_vol(tickers, tickers_dict):
     data = yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
     
-    buy_now = []      # 買い向かうべき
-    buy_ready = []    # 買い準備
+    buy_now = []
+    buy_ready = []
 
     for ticker in tickers:
         try:
@@ -72,6 +60,7 @@ def analyze_buy_signals(tickers, tickers_dict):
             df = df.dropna()
             if len(df) < 40: continue
 
+            # テクニカル計算
             df['MA5'] = df['Close'].rolling(window=5).mean()
             df['MA25'] = df['Close'].rolling(window=25).mean()
             df['STD'] = df['Close'].rolling(window=25).std()
@@ -82,29 +71,36 @@ def analyze_buy_signals(tickers, tickers_dict):
             loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
             df['RSI'] = 100 - (100 / (1 + gain / loss))
             
+            # 出来高分析（直近5日平均との比較）
+            avg_vol = df['Volume'].iloc[-6:-1].mean()
+            curr_vol = df['Volume'].iloc[-1]
+            vol_ratio = (curr_vol / avg_vol) if avg_vol > 0 else 1.0
+            vol_change_pct = (vol_ratio - 1) * 100
+
             curr = df.iloc[-1]
             prev = df.iloc[-2]
             
-            # MA25の向きに応じた絵文字とテキスト（アゲを赤系に変更）
-            if curr['MA25'] >= prev['MA25']:
-                ma25_trend = "🔴 上昇(⤴️)"
-            else:
-                ma25_trend = "🔵 下落(⤵️)"
+            ma25_trend = "🔴 上昇(⤴️)" if curr['MA25'] >= prev['MA25'] else "🔵 下落(⤵️)"
 
             res = {
-                "コード": ticker.replace(".T",""), 
-                "銘柄名": tickers_dict[ticker],
-                "現在値": round(curr['Close'], 1), 
-                "RSI": round(curr['RSI'], 1),
-                "MA25トレンド": ma25_trend
+                "コード": ticker.replace(".T",""), "銘柄名": tickers_dict[ticker],
+                "現在値": f"{curr['Close']:.1f}", "RSI": f"{curr['RSI']:.1f}",
+                "MA25トレンド": ma25_trend,
+                "Vol変化": f"{vol_change_pct:+.1f}%"
             }
 
+            # --- 判定1: 買い向かうべき（シグナル点灯） ---
             if curr['Close'] > curr['MA5'] and prev['Close'] <= prev['MA5'] and curr['RSI'] > 30:
                 if curr['Close'] < curr['MA25'] * 1.05:
-                    buy_now.append({**res, "状況": "🔥 5日線突破・反発開始"})
+                    status = "🔥 5日線突破"
+                    if vol_ratio > 1.2: status += " (買い流入強)"
+                    buy_now.append({**res, "状況": status})
 
+            # --- 判定2: 買い準備（監視） ---
             elif curr['Close'] <= curr['Lower2'] * 1.02 or curr['RSI'] <= 35:
-                buy_ready.append({**res, "状況": "⏳ 売られすぎ・底打ち待ち"})
+                status = "⏳ 底打ち待ち"
+                if vol_ratio < 0.8: status += " (売り枯れ兆候)"
+                buy_ready.append({**res, "状況": status})
 
         except: continue
     return pd.DataFrame(buy_now), pd.DataFrame(buy_ready)
@@ -112,28 +108,24 @@ def analyze_buy_signals(tickers, tickers_dict):
 # --- UI表示 ---
 tickers_list = list(st.session_state.tickers_dict.keys())
 if tickers_list:
-    with st.spinner('「買い時」をスキャン中...'):
-        df_now, df_ready = analyze_buy_signals(tickers_list, st.session_state.tickers_dict)
+    with st.spinner('出来高とチャートを多角解析中...'):
+        df_now, df_ready = analyze_buy_signals_with_vol(tickers_list, st.session_state.tickers_dict)
 
-    # テーブルのスタイル設定（赤と青をより明確に）
     def color_trend(val):
-        if '🔴' in val:
-            return 'color: #ff4b4b; font-weight: bold' # Streamlitの標準的な赤
-        elif '🔵' in val:
-            return 'color: #1c83e1; font-weight: bold' # Streamlitの標準的な青
+        if '🔴' in val: return 'color: #ff4b4b; font-weight: bold'
+        if '🔵' in val: return 'color: #1c83e1; font-weight: bold'
         return ''
 
     st.header("🎯 買い向かうべきタイミング（即戦力）")
+    st.caption("出来高を伴って5日線を突破した銘柄は、大口の買いが入った可能性が高いです。")
     if not df_now.empty:
-        # スタイルを適用して表示
-        st.dataframe(df_now.style.applymap(color_trend, subset=['MA25トレンド']), 
-                     use_container_width=True, hide_index=True)
+        st.dataframe(df_now.style.applymap(color_trend, subset=['MA25トレンド']), use_container_width=True, hide_index=True)
     else:
-        st.info("現在、即エントリーのシグナルが出ている銘柄はありません。")
+        st.info("現在、即エントリーのシグナル銘柄はありません。")
 
     st.header("⏳ 買い準備・来ていそうな銘柄（監視）")
+    st.caption("価格下落と同時に出来高が減っている（Vol変化がマイナス）ものは、売り枯れが近く反発が期待できます。")
     if not df_ready.empty:
-        st.dataframe(df_ready.sort_values("RSI").style.applymap(color_trend, subset=['MA25トレンド']), 
-                     use_container_width=True, hide_index=True)
-    else:
-        st.info("現在、底打ち待ちの候補はありません。")
+        df_ready['RSI_val'] = df_ready['RSI'].astype(float)
+        df_ready = df_ready.sort_values("RSI_val").drop(columns=['RSI_val'])
+        st.dataframe(df_ready.style.applymap(color_trend, subset=['MA25トレンド']), use_container_width=True, hide_index=True)
