@@ -81,20 +81,17 @@ def get_base_tickers():
                         ticker_data[ticker_key] = {"name": name, "theme": current_theme}
     return ticker_data
 
-# --- セッションステート初期化（古いデータの自動リセット機能付き） ---
 if 'tickers_dict' not in st.session_state:
     st.session_state.tickers_dict = get_base_tickers()
 else:
-    # エラー回避: 万が一古いデータ（ただの文字列）が残っていたら、最新版に強制リセットする
     _first_val = next(iter(st.session_state.tickers_dict.values()), None)
     if isinstance(_first_val, str):
         st.session_state.tickers_dict = get_base_tickers()
 
-# --- サイドバー：銘柄管理 UI ---
+# --- サイドバー管理 ---
 st.sidebar.header("⚙️ 監視銘柄の管理")
 st.sidebar.info(f"監視対象: {len(st.session_state.tickers_dict)} 銘柄")
 
-# 追加
 st.sidebar.subheader("➕ 銘柄追加")
 custom_input = st.sidebar.text_area("形式: コード/銘柄名\n例: 7203/トヨタ自動車", height=100)
 if st.sidebar.button("銘柄を追加"):
@@ -104,7 +101,6 @@ if st.sidebar.button("銘柄を追加"):
             st.session_state.tickers_dict[f"{c}.T"] = {"name": n, "theme": "ユーザー追加"}
         st.rerun()
 
-# 削除
 st.sidebar.subheader("🗑️ 銘柄削除")
 current_codes = list(st.session_state.tickers_dict.keys())
 del_options = {t: f"{t.replace('.T','')}/{st.session_state.tickers_dict[t]['name']}" for t in current_codes}
@@ -113,16 +109,21 @@ if st.sidebar.button("選択した銘柄を削除"):
     for t in remove_targets: st.session_state.tickers_dict.pop(t, None)
     st.rerun()
 
-# リセット
 st.sidebar.markdown("---")
 if st.sidebar.button("🔄 初期リスト(24テーマ)にリセット"):
     st.session_state.tickers_dict = get_base_tickers()
     st.rerun()
 
-# --- 解析ロジック ---
+# =========================================================
+# 【重要改善】データの取得と解析を分離し、条件切替を瞬時に反映
+# =========================================================
+
 @st.cache_data(ttl=3600)
-def analyze_with_vol(tickers, tickers_dict):
-    data = yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
+def fetch_market_data(tickers):
+    # データ取得だけをキャッシュし、毎回ダウンロードする待ち時間をゼロにする
+    return yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
+
+def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
     buy_now, buy_ready = [], []
 
     for ticker in tickers:
@@ -145,7 +146,8 @@ def analyze_with_vol(tickers, tickers_dict):
             vol_ratio = (df['Volume'].iloc[-1] / avg_vol) if avg_vol > 0 else 1.0
 
             curr, prev = df.iloc[-1], df.iloc[-2]
-            ma25_trend = "🔴 上昇(⤴️)" if curr['MA25'] >= prev['MA25'] else "🔵 下落(⤵️)"
+            is_ma25_up = curr['MA25'] >= prev['MA25']
+            ma25_trend = "🔴 上昇(⤴️)" if is_ma25_up else "🔵 下落(⤵️)"
 
             res = {
                 "コード": ticker.replace(".T",""), 
@@ -157,53 +159,14 @@ def analyze_with_vol(tickers, tickers_dict):
                 "Vol変化": f"{(vol_ratio-1)*100:+.1f}%"
             }
 
-            if curr['Close'] > curr['MA5'] and prev['Close'] <= prev['MA5'] and curr['RSI'] > 30:
-                if curr['Close'] < curr['MA25'] * 1.05:
-                    status = "🔥 5日線突破"
-                    if vol_ratio > 1.2: status += " (買い流入強)"
-                    buy_now.append({**res, "状況": status})
+            is_5ma_cross = curr['Close'] > curr['MA5'] and prev['Close'] <= prev['MA5']
 
-            elif curr['Close'] <= curr['Lower2'] * 1.02 or curr['RSI'] <= 35:
-                status = "⏳ 底打ち待ち"
-                if vol_ratio < 0.8: status += " (売り枯れ兆候)"
-                buy_ready.append({**res, "状況": status})
-        except: continue
-    return pd.DataFrame(buy_now), pd.DataFrame(buy_ready)
-
-# --- メイン UI ---
-tickers_list = list(st.session_state.tickers_dict.keys())
-if tickers_list:
-    with st.spinner('全24テーマ・市場データを精密解析中...'):
-        df_now, df_ready = analyze_with_vol(tickers_list, st.session_state.tickers_dict)
-
-    def style_trend(val):
-        if '🔴' in str(val): return 'color: #ff4b4b; font-weight: bold'
-        if '🔵' in str(val): return 'color: #1c83e1; font-weight: bold'
-        return ''
-
-    st.header("🎯 買い向かうべきタイミング（即戦力）")
-    with st.container():
-        st.markdown("""
-        <div style="background-color: #1e1e1e; padding: 15px; border-radius: 10px; border-left: 5px solid #ff4b4b; margin-bottom: 20px;">
-            <h4 style="margin-top:0;">💡 狙い目の理想条件</h4>
-            <ul style="font-size: 0.95rem;">
-                <li><b>MA25トレンド（🔴 赤）</b>：上昇中、または下げ止まりの土台がある。</li>
-                <li><b>RSIダイバージェンス</b>：株価は安値を更新しているが、RSIが切り上がっている。</li>
-                <li><b>売り枯れと急増</b>：Vol変化がマイナスの状態（売り枯れ）から、プラス（買い流入）に転じた瞬間。</li>
-                <li><b>トリガー</b>：5日移動平均線をローソク足の実体が上抜けた時。</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
-    if not df_now.empty:
-        cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "MA25トレンド", "Vol変化", "状況"]
-        st.dataframe(df_now[cols].style.applymap(style_trend, subset=['MA25トレンド']), use_container_width=True, hide_index=True)
-    else:
-        st.info("現在、シグナル合致銘柄はありません。")
-
-    st.header("⏳ 買い準備・監視候補")
-    if not df_ready.empty:
-        df_ready['RSI_val'] = df_ready['RSI'].astype(float)
-        df_ready = df_ready.sort_values("RSI_val").drop(columns=['RSI_val'])
-        cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "MA25トレンド", "Vol変化", "状況"]
-        st.dataframe(df_ready[cols].style.applymap(style_trend, subset=['MA25トレンド']), use_container_width=True, hide_index=True)
+            # --------------------------------------------------
+            # モードに応じたフィルタリングロジック
+            # --------------------------------------------------
+            if is_strict_mode:
+                # 【厳格モード】相場暴落時用。中長期のトレンドが上向いている銘柄のみを抽出
+                # 即戦力：MA25が上昇中 ＋ 5日線突破 ＋ RSIが30以上(反発確認) ＋ 出来高増加
+                if is_ma25_up and is_5ma_cross and curr['RSI'] > 30 and curr['Close'] < curr['MA25'] * 1.05:
+                    status = "🔥 5日線突破 (厳格)"
+                    if vol_ratio > 1.0: status += " (
