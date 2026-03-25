@@ -8,7 +8,7 @@ import re
 st.set_page_config(page_title="国策銘柄・精密スクリーナー", layout="wide")
 st.title("🏹 買い時・即戦力スクリーナー")
 
-# --- ベース銘柄データの定義（全24テーマ最新版に更新） ---
+# --- ベース銘柄データの定義 ---
 def get_base_tickers():
     raw_data = """
     1. AI・半導体
@@ -66,7 +66,6 @@ def get_base_tickers():
     for line in lines:
         line = line.strip()
         if not line: continue
-        # 「/」が含まれていなければテーマの見出しとみなす
         if '/' not in line:
             current_theme = line 
         else:
@@ -74,19 +73,22 @@ def get_base_tickers():
             for s in stocks:
                 if '/' in s:
                     code, name = s.split('/')
-                    # 重複銘柄（複数テーマにまたがる企業）はテーマ名を連結
                     ticker_key = f"{code}.T"
                     if ticker_key in ticker_data:
-                        # 既に登録されている場合はテーマを追記
                         if current_theme not in ticker_data[ticker_key]["theme"]:
                             ticker_data[ticker_key]["theme"] += f", {current_theme}"
                     else:
                         ticker_data[ticker_key] = {"name": name, "theme": current_theme}
     return ticker_data
 
-# --- セッションステート初期化 ---
+# --- セッションステート初期化（古いデータの自動リセット機能付き） ---
 if 'tickers_dict' not in st.session_state:
     st.session_state.tickers_dict = get_base_tickers()
+else:
+    # エラー回避: 万が一古いデータ（ただの文字列）が残っていたら、最新版に強制リセットする
+    _first_val = next(iter(st.session_state.tickers_dict.values()), None)
+    if isinstance(_first_val, str):
+        st.session_state.tickers_dict = get_base_tickers()
 
 # --- サイドバー：銘柄管理 UI ---
 st.sidebar.header("⚙️ 監視銘柄の管理")
