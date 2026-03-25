@@ -114,13 +114,9 @@ if st.sidebar.button("🔄 初期リスト(24テーマ)にリセット"):
     st.session_state.tickers_dict = get_base_tickers()
     st.rerun()
 
-# =========================================================
-# 【重要改善】データの取得と解析を分離し、条件切替を瞬時に反映
-# =========================================================
-
+# --- データの取得と解析を分離 ---
 @st.cache_data(ttl=3600)
 def fetch_market_data(tickers):
-    # データ取得だけをキャッシュし、毎回ダウンロードする待ち時間をゼロにする
     return yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
 
 def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
@@ -161,12 +157,72 @@ def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
 
             is_5ma_cross = curr['Close'] > curr['MA5'] and prev['Close'] <= prev['MA5']
 
-            # --------------------------------------------------
             # モードに応じたフィルタリングロジック
-            # --------------------------------------------------
             if is_strict_mode:
-                # 【厳格モード】相場暴落時用。中長期のトレンドが上向いている銘柄のみを抽出
-                # 即戦力：MA25が上昇中 ＋ 5日線突破 ＋ RSIが30以上(反発確認) ＋ 出来高増加
+                # 【厳格モード】
                 if is_ma25_up and is_5ma_cross and curr['RSI'] > 30 and curr['Close'] < curr['MA25'] * 1.05:
                     status = "🔥 5日線突破 (厳格)"
-                    if vol_ratio > 1.0: status += " (
+                    if vol_ratio > 1.0: 
+                        status += " (買い流入)"
+                    buy_now.append({**res, "状況": status})
+
+                elif is_ma25_up and curr['Close'] <= curr['Lower2'] and curr['RSI'] <= 30:
+                    status = "⏳ 極限底打ち待ち"
+                    if vol_ratio < 0.8: 
+                        status += " (完全売り枯れ)"
+                    buy_ready.append({**res, "状況": status})
+            else:
+                # 【通常モード】
+                if is_5ma_cross and curr['RSI'] > 30 and curr['Close'] < curr['MA25'] * 1.05:
+                    status = "🔥 5日線突破"
+                    if vol_ratio > 1.2: 
+                        status += " (買い流入強)"
+                    buy_now.append({**res, "状況": status})
+
+                elif curr['Close'] <= curr['Lower2'] * 1.02 or curr['RSI'] <= 35:
+                    status = "⏳ 底打ち待ち"
+                    if vol_ratio < 0.8: 
+                        status += " (売り枯れ兆候)"
+                    buy_ready.append({**res, "状況": status})
+
+        except: continue
+    return pd.DataFrame(buy_now), pd.DataFrame(buy_ready)
+
+# --- メイン UI ---
+tickers_list = list(st.session_state.tickers_dict.keys())
+
+if tickers_list:
+    with st.spinner('市場データを取得中...（初回のみ数秒かかります）'):
+        market_data = fetch_market_data(tickers_list)
+
+    st.markdown("### ⚙️ スクリーニング条件の設定")
+    mode_selection = st.radio(
+        "相場の状況に合わせて条件を切り替えてください：",
+        ["通常モード（平時・上昇相場向け：多くのチャンスを検出）", "厳格モード（暴落・パニック相場向け：ダマシを極限まで排除）"],
+        index=1
+    )
+    is_strict = "厳格" in mode_selection
+
+    if is_strict:
+        st.warning("**【厳格モード作動中】** 全体相場が暴落している際、「本来のトレンドは上向き（MA25が赤🔴）なのに、連れ安で一時的に売られすぎた優良銘柄」のみを抽出します。ダマシのナイフを回避します。")
+
+    df_now, df_ready = analyze_signals(market_data, tickers_list, st.session_state.tickers_dict, is_strict)
+
+    def style_trend(val):
+        if '🔴' in str(val): return 'color: #ff4b4b; font-weight: bold'
+        if '🔵' in str(val): return 'color: #1c83e1; font-weight: bold'
+        return ''
+
+    st.header("🎯 買い向かうべきタイミング（即戦力）")
+    if not df_now.empty:
+        cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "MA25トレンド", "Vol変化", "状況"]
+        st.dataframe(df_now[cols].style.applymap(style_trend, subset=['MA25トレンド']), use_container_width=True, hide_index=True)
+    else:
+        st.info("現在、シグナル合致銘柄はありません。")
+
+    st.header("⏳ 買い準備・監視候補")
+    if not df_ready.empty:
+        df_ready['RSI_val'] = df_ready['RSI'].astype(float)
+        df_ready = df_ready.sort_values("RSI_val").drop(columns=['RSI_val'])
+        cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "MA25トレンド", "Vol変化", "状況"]
+        st.dataframe(df_ready[cols].style.applymap(style_trend, subset=['MA25トレンド']), use_container_width=True, hide_index=True)
