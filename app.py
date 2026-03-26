@@ -3,6 +3,8 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import re
+import datetime
+import pytz
 
 # --- ページ設定 ---
 st.set_page_config(page_title="国策銘柄・精密スクリーナー", layout="wide")
@@ -114,13 +116,46 @@ if st.sidebar.button("🔄 初期リスト(24テーマ)にリセット"):
     st.session_state.tickers_dict = get_base_tickers()
     st.rerun()
 
-# --- データの取得と解析を分離 ---
+# --- 出来高補正ロジック ---
+def get_volume_multiplier():
+    """現在時刻(JST)から、ザラ場中の出来高を1日分(300分)に換算する係数を計算"""
+    now = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
+    
+    # 土日は市場が閉まっているため補正なし
+    if now.weekday() >= 5:
+        return 1.0
+
+    # 9:00前、または15:00以降は補正なし
+    if now.hour < 9 or now.hour >= 15:
+        return 1.0
+        
+    # ザラ場の経過時間（分）を計算
+    if 9 <= now.hour < 11 or (now.hour == 11 and now.minute <= 30):
+        # 前場 (9:00 - 11:30)
+        elapsed = (now.hour - 9) * 60 + now.minute
+    elif 11 <= now.hour <= 12 and not (now.hour == 12 and now.minute >= 30):
+        # 昼休み (11:30 - 12:30) は前場終了時点(150分)で計算を止める
+        elapsed = 150
+    else:
+        # 後場 (12:30 - 15:00)
+        elapsed = 150 + (now.hour - 12) * 60 + now.minute - 30
+        
+    if elapsed <= 0:
+        return 1.0
+        
+    # 1日の総取引時間(300分)に対する倍率
+    return 300 / elapsed
+
+# --- データの取得と解析 ---
 @st.cache_data(ttl=3600)
 def fetch_market_data(tickers):
     return yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
 
 def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
     buy_now, buy_ready = [], []
+    
+    # ザラ場用の出来高補正係数を取得
+    vol_multiplier = get_volume_multiplier()
 
     for ticker in tickers:
         try:
@@ -138,8 +173,12 @@ def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
             loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
             df['RSI'] = 100 - (100 / (1 + gain / loss))
             
+            # --- 出来高の計算をアップデート ---
             avg_vol = df['Volume'].iloc[-6:-1].mean()
-            vol_ratio = (df['Volume'].iloc[-1] / avg_vol) if avg_vol > 0 else 1.0
+            
+            # 直近の出来高を現在時刻に合わせて1日の着地予想に引き伸ばす
+            projected_vol = df['Volume'].iloc[-1] * vol_multiplier
+            vol_ratio = (projected_vol / avg_vol) if avg_vol > 0 else 1.0
 
             curr, prev = df.iloc[-1], df.iloc[-2]
             is_ma25_up = curr['MA25'] >= prev['MA25']
@@ -157,9 +196,7 @@ def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
 
             is_5ma_cross = curr['Close'] > curr['MA5'] and prev['Close'] <= prev['MA5']
 
-            # モードに応じたフィルタリングロジック
             if is_strict_mode:
-                # 【厳格モード】
                 if is_ma25_up and is_5ma_cross and curr['RSI'] > 30 and curr['Close'] < curr['MA25'] * 1.05:
                     status = "🔥 5日線突破 (厳格)"
                     if vol_ratio > 1.0: 
@@ -172,7 +209,6 @@ def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
                         status += " (完全売り枯れ)"
                     buy_ready.append({**res, "状況": status})
             else:
-                # 【通常モード】
                 if is_5ma_cross and curr['RSI'] > 30 and curr['Close'] < curr['MA25'] * 1.05:
                     status = "🔥 5日線突破"
                     if vol_ratio > 1.2: 
