@@ -14,7 +14,7 @@ st.title("🏹 買い時・即戦力スクリーナー")
 def get_base_tickers():
     raw_data = """
     1. AI・半導体
-    6857/アドバンテスト 8035/東京エレクトロン 6723/ルネサスエレクトロニクス 6920/レーザーテック 7735/ＳＣＲＥＥＮホールディングス 6963/ローム 6707/サンケン電気 7282/豊田合成 9984/ソフトバンクグループ 6501/日立製作所 285A/キオクシア
+    6857/アドバンテスト 8035/東京エレクトロン 6723/ルネサスエレクトロニクス 6920/レーザーテック 7735/ＳＣＲＥＥＮホールディングス 6963/ローム 6707/サンケン電気 7282/豊田合成 9984/ソフトバンクグループ 6501/日立製作所
     2. 造船
     7011/三菱重工業 7012/川崎重工業 7014/名村造船所 7003/三井Ｅ＆Ｓ 7018/内海造船 6302/住友重機械工業 9101/日本郵船 9104/商船三井 9107/川崎汽船 7022/サノヤスホールディングス
     3. 量子
@@ -118,43 +118,28 @@ if st.sidebar.button("🔄 初期リスト(24テーマ)にリセット"):
 
 # --- 出来高補正ロジック ---
 def get_volume_multiplier():
-    """現在時刻(JST)から、ザラ場中の出来高を1日分(300分)に換算する係数を計算"""
     now = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
-    
-    # 土日は市場が閉まっているため補正なし
-    if now.weekday() >= 5:
-        return 1.0
-
-    # 9:00前、または15:00以降は補正なし
-    if now.hour < 9 or now.hour >= 15:
-        return 1.0
+    if now.weekday() >= 5: return 1.0
+    if now.hour < 9 or now.hour >= 15: return 1.0
         
-    # ザラ場の経過時間（分）を計算
     if 9 <= now.hour < 11 or (now.hour == 11 and now.minute <= 30):
-        # 前場 (9:00 - 11:30)
         elapsed = (now.hour - 9) * 60 + now.minute
     elif 11 <= now.hour <= 12 and not (now.hour == 12 and now.minute >= 30):
-        # 昼休み (11:30 - 12:30) は前場終了時点(150分)で計算を止める
         elapsed = 150
     else:
-        # 後場 (12:30 - 15:00)
         elapsed = 150 + (now.hour - 12) * 60 + now.minute - 30
         
-    if elapsed <= 0:
-        return 1.0
-        
-    # 1日の総取引時間(300分)に対する倍率
+    if elapsed <= 0: return 1.0
     return 300 / elapsed
 
 # --- データの取得と解析 ---
-@st.cache_data(ttl=3600)
+# キャッシュの有効期限を3600秒(1時間)から300秒(5分)に変更し、株価が頻繁に更新されるように修正
+@st.cache_data(ttl=300)
 def fetch_market_data(tickers):
     return yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
 
 def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
     buy_now, buy_ready = [], []
-    
-    # ザラ場用の出来高補正係数を取得
     vol_multiplier = get_volume_multiplier()
 
     for ticker in tickers:
@@ -173,16 +158,15 @@ def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
             loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
             df['RSI'] = 100 - (100 / (1 + gain / loss))
             
-            # --- 出来高の計算をアップデート ---
             avg_vol = df['Volume'].iloc[-6:-1].mean()
-            
-            # 直近の出来高を現在時刻に合わせて1日の着地予想に引き伸ばす
             projected_vol = df['Volume'].iloc[-1] * vol_multiplier
             vol_ratio = (projected_vol / avg_vol) if avg_vol > 0 else 1.0
 
             curr, prev = df.iloc[-1], df.iloc[-2]
-            is_ma25_up = curr['MA25'] >= prev['MA25']
-            ma25_trend = "🔴 上昇(⤴️)" if is_ma25_up else "🔵 下落(⤵️)"
+            
+            # --- 変更点: MA25からMA5の上向き判定に変更 ---
+            is_ma5_up = curr['MA5'] >= prev['MA5']
+            ma5_trend = "🔴 上昇(⤴️)" if is_ma5_up else "🔵 下落(⤵️)"
 
             res = {
                 "コード": ticker.replace(".T",""), 
@@ -190,20 +174,21 @@ def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
                 "テーマ": tickers_dict[ticker]["theme"],
                 "現在値": f"{curr['Close']:.1f}", 
                 "RSI": f"{curr['RSI']:.1f}",
-                "MA25トレンド": ma25_trend, 
+                "MA5トレンド": ma5_trend,  # 表示項目もMA5に変更
                 "Vol変化": f"{(vol_ratio-1)*100:+.1f}%"
             }
 
             is_5ma_cross = curr['Close'] > curr['MA5'] and prev['Close'] <= prev['MA5']
 
             if is_strict_mode:
-                if is_ma25_up and is_5ma_cross and curr['RSI'] > 30 and curr['Close'] < curr['MA25'] * 1.05:
+                # 厳格モードの条件も「MA5が上向き」に変更
+                if is_ma5_up and is_5ma_cross and curr['RSI'] > 30 and curr['Close'] < curr['MA25'] * 1.05:
                     status = "🔥 5日線突破 (厳格)"
                     if vol_ratio > 1.0: 
                         status += " (買い流入)"
                     buy_now.append({**res, "状況": status})
 
-                elif is_ma25_up and curr['Close'] <= curr['Lower2'] and curr['RSI'] <= 30:
+                elif is_ma5_up and curr['Close'] <= curr['Lower2'] and curr['RSI'] <= 30:
                     status = "⏳ 極限底打ち待ち"
                     if vol_ratio < 0.8: 
                         status += " (完全売り枯れ)"
@@ -240,7 +225,8 @@ if tickers_list:
     is_strict = "厳格" in mode_selection
 
     if is_strict:
-        st.warning("**【厳格モード作動中】** 全体相場が暴落している際、「本来のトレンドは上向き（MA25が赤🔴）なのに、連れ安で一時的に売られすぎた優良銘柄」のみを抽出します。ダマシのナイフを回避します。")
+        # 説明文言もMA5に修正
+        st.warning("**【厳格モード作動中】** 全体相場が不安定な際、「短期のトレンドがすでに上向き（MA5が赤🔴）に転じており、下落リスクが低い銘柄」のみを抽出します。")
 
     df_now, df_ready = analyze_signals(market_data, tickers_list, st.session_state.tickers_dict, is_strict)
 
@@ -251,8 +237,8 @@ if tickers_list:
 
     st.header("🎯 買い向かうべきタイミング（即戦力）")
     if not df_now.empty:
-        cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "MA25トレンド", "Vol変化", "状況"]
-        st.dataframe(df_now[cols].style.applymap(style_trend, subset=['MA25トレンド']), use_container_width=True, hide_index=True)
+        cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "MA5トレンド", "Vol変化", "状況"]
+        st.dataframe(df_now[cols].style.applymap(style_trend, subset=['MA5トレンド']), use_container_width=True, hide_index=True)
     else:
         st.info("現在、シグナル合致銘柄はありません。")
 
@@ -260,5 +246,5 @@ if tickers_list:
     if not df_ready.empty:
         df_ready['RSI_val'] = df_ready['RSI'].astype(float)
         df_ready = df_ready.sort_values("RSI_val").drop(columns=['RSI_val'])
-        cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "MA25トレンド", "Vol変化", "状況"]
-        st.dataframe(df_ready[cols].style.applymap(style_trend, subset=['MA25トレンド']), use_container_width=True, hide_index=True)
+        cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "MA5トレンド", "Vol変化", "状況"]
+        st.dataframe(df_ready[cols].style.applymap(style_trend, subset=['MA5トレンド']), use_container_width=True, hide_index=True)
