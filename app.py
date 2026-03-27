@@ -133,7 +133,6 @@ def get_volume_multiplier():
     return 300 / elapsed
 
 # --- データの取得と解析 ---
-# キャッシュの有効期限を3600秒(1時間)から300秒(5分)に変更し、株価が頻繁に更新されるように修正
 @st.cache_data(ttl=300)
 def fetch_market_data(tickers):
     return yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
@@ -164,9 +163,17 @@ def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
 
             curr, prev = df.iloc[-1], df.iloc[-2]
             
-            # --- 変更点: MA25からMA5の上向き判定に変更 ---
+            # --- 新しいトレンド判定条件 ---
             is_ma5_up = curr['MA5'] >= prev['MA5']
-            ma5_trend = "🔴 上昇(⤴️)" if is_ma5_up else "🔵 下落(⤵️)"
+            is_ma5_above_ma25 = curr['MA5'] > curr['MA25']
+            is_strong_uptrend = is_ma5_up and is_ma5_above_ma25
+            
+            if is_strong_uptrend:
+                trend_status = "🔴 MA5>25＆上昇"
+            elif is_ma5_up:
+                trend_status = "🟡 MA5上昇(25線下)"
+            else:
+                trend_status = "🔵 下落(⤵️)"
 
             res = {
                 "コード": ticker.replace(".T",""), 
@@ -174,16 +181,16 @@ def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
                 "テーマ": tickers_dict[ticker]["theme"],
                 "現在値": f"{curr['Close']:.1f}", 
                 "RSI": f"{curr['RSI']:.1f}",
-                "MA5トレンド": ma5_trend,  # 表示項目もMA5に変更
+                "トレンド": trend_status,
                 "Vol変化": f"{(vol_ratio-1)*100:+.1f}%"
             }
 
             is_5ma_cross = curr['Close'] > curr['MA5'] and prev['Close'] <= prev['MA5']
 
             if is_strict_mode:
-                # 厳格モードの条件も「MA5が上向き」に変更
-                if is_ma5_up and is_5ma_cross and curr['RSI'] > 30 and curr['Close'] < curr['MA25'] * 1.05:
-                    status = "🔥 5日線突破 (厳格)"
+                # 【厳格モード】MA5>MA25かつ上向き の状態で5日線を突破
+                if is_strong_uptrend and is_5ma_cross and curr['RSI'] > 30 and curr['Close'] < curr['MA25'] * 1.05:
+                    status = "🔥 強い上昇の初動 (厳格)"
                     if vol_ratio > 1.0: 
                         status += " (買い流入)"
                     buy_now.append({**res, "状況": status})
@@ -225,20 +232,20 @@ if tickers_list:
     is_strict = "厳格" in mode_selection
 
     if is_strict:
-        # 説明文言もMA5に修正
-        st.warning("**【厳格モード作動中】** 全体相場が不安定な際、「短期のトレンドがすでに上向き（MA5が赤🔴）に転じており、下落リスクが低い銘柄」のみを抽出します。")
+        st.warning("**【厳格モード作動中】** 「5日線が25日線より上に位置し、かつ上向き（強い上昇トレンド）」の状態で反発した銘柄のみを抽出します。")
 
     df_now, df_ready = analyze_signals(market_data, tickers_list, st.session_state.tickers_dict, is_strict)
 
     def style_trend(val):
         if '🔴' in str(val): return 'color: #ff4b4b; font-weight: bold'
+        if '🟡' in str(val): return 'color: #faca2b; font-weight: bold'
         if '🔵' in str(val): return 'color: #1c83e1; font-weight: bold'
         return ''
 
     st.header("🎯 買い向かうべきタイミング（即戦力）")
     if not df_now.empty:
-        cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "MA5トレンド", "Vol変化", "状況"]
-        st.dataframe(df_now[cols].style.applymap(style_trend, subset=['MA5トレンド']), use_container_width=True, hide_index=True)
+        cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "トレンド", "Vol変化", "状況"]
+        st.dataframe(df_now[cols].style.applymap(style_trend, subset=['トレンド']), use_container_width=True, hide_index=True)
     else:
         st.info("現在、シグナル合致銘柄はありません。")
 
@@ -246,5 +253,5 @@ if tickers_list:
     if not df_ready.empty:
         df_ready['RSI_val'] = df_ready['RSI'].astype(float)
         df_ready = df_ready.sort_values("RSI_val").drop(columns=['RSI_val'])
-        cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "MA5トレンド", "Vol変化", "状況"]
-        st.dataframe(df_ready[cols].style.applymap(style_trend, subset=['MA5トレンド']), use_container_width=True, hide_index=True)
+        cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "トレンド", "Vol変化", "状況"]
+        st.dataframe(df_ready[cols].style.applymap(style_trend, subset=['トレンド']), use_container_width=True, hide_index=True)
