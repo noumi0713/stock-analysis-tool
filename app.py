@@ -12,6 +12,10 @@ st.title("🏹 買い時・即戦力スクリーナー")
 
 # --- ベース銘柄データの定義 ---
 def get_base_tickers():
+    # エラー回避のため、変数の定義を先頭に移動しました
+    ticker_data = {}
+    current_theme = "不明"
+    
     raw_data = """
     1. AI・半導体
     6857/アドバンテスト 8035/東京エレクトロン 6723/ルネサスエレクトロニクス 6920/レーザーテック 7735/ＳＣＲＥＥＮホールディングス 6963/ローム 6707/サンケン電気 7282/豊田合成 9984/ソフトバンクグループ 6501/日立製作所
@@ -74,8 +78,7 @@ def get_base_tickers():
     30. バイオ燃料
     9212/ＧｒｅｅｎＥａｒｔｈＩｎｓｔｉｔｕｔｅ 2931/ユーグレナ
     """
-    ticker_data = {}
-    current_theme = "不明"
+    
     lines = raw_data.strip().split('\n')
     for line in lines:
         line = line.strip()
