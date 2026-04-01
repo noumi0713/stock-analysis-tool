@@ -78,7 +78,6 @@ def get_base_tickers():
     30. バイオ燃料
     9212/ＧｒｅｅｎＥａｒｔｈＩｎｓｔｉｔｕｔｅ 2931/ユーグレナ
     """
-    
     lines = raw_data.strip().split('\n')
     for line in lines:
         line = line.strip()
