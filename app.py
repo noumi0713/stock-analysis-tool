@@ -12,7 +12,6 @@ st.title("🏹 買い時・即戦力スクリーナー")
 
 # --- ベース銘柄データの定義 ---
 def get_base_tickers():
-    # インデントエラーを完全に防ぐため、リスト形式に修正しました
     raw_lines = [
         "1. AI・半導体",
         "6857/アドバンテスト 8035/東京エレクトロン 6723/ルネサスエレクトロニクス 6920/レーザーテック 7735/ＳＣＲＥＥＮホールディングス 6963/ローム 6707/サンケン電気 7282/豊田合成 9984/ソフトバンクグループ 6501/日立製作所",
@@ -148,7 +147,8 @@ def get_volume_multiplier():
 # --- データの取得と解析 ---
 @st.cache_data(ttl=300)
 def fetch_market_data(tickers):
-    return yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
+    # progress=False を追加し、Streamlit上の不要なプログレスバー出力を抑制して安定化
+    return yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True, progress=False)
 
 def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
     buy_now, buy_ready = [], []
@@ -156,7 +156,13 @@ def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
 
     for ticker in tickers:
         try:
-            df = data[ticker].copy() if len(tickers) > 1 else data.copy()
+            # 複数銘柄時と単一銘柄時でデータ構造が異なる点への安全なアクセス
+            if len(tickers) > 1:
+                if ticker not in data.columns.levels[0]: continue
+                df = data[ticker].copy()
+            else:
+                df = data.copy()
+
             df = df.dropna()
             if len(df) < 40: continue
 
@@ -170,13 +176,14 @@ def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
             loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
             df['RSI'] = 100 - (100 / (1 + gain / loss))
             
-            avg_vol = df['Volume'].iloc[-6:-1].mean()
+            # 出来高の比較対象を mean() から median() に変更（突発的な出来高急増に引きずられないように修正）
+            avg_vol = df['Volume'].iloc[-6:-1].median()
             projected_vol = df['Volume'].iloc[-1] * vol_multiplier
             vol_ratio = (projected_vol / avg_vol) if avg_vol > 0 else 1.0
 
             curr, prev = df.iloc[-1], df.iloc[-2]
             
-            # --- 新しいトレンド判定条件 ---
+            # --- トレンド判定条件 ---
             is_ma5_up = curr['MA5'] >= prev['MA5']
             is_ma5_above_ma25 = curr['MA5'] > curr['MA25']
             is_strong_uptrend = is_ma5_up and is_ma5_above_ma25
@@ -226,7 +233,9 @@ def analyze_signals(data, tickers, tickers_dict, is_strict_mode):
                         status += " (売り枯れ兆候)"
                     buy_ready.append({**res, "状況": status})
 
-        except: continue
+        except Exception as e:
+            continue
+            
     return pd.DataFrame(buy_now), pd.DataFrame(buy_ready)
 
 # --- メイン UI ---
