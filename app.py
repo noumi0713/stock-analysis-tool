@@ -245,7 +245,8 @@ if tickers_list:
     st.header("🎯 買い向かうべきタイミング（即戦力）")
     if not df_now.empty:
         cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "トレンド", "Vol変化", "状況"]
-        st.dataframe(df_now[cols].style.applymap(style_trend, subset=['トレンド']), use_container_width=True, hide_index=True)
+        # ★修正箇所：applymap() を map() に変更
+        st.dataframe(df_now[cols].style.map(style_trend, subset=['トレンド']), use_container_width=True, hide_index=True)
     else:
         st.info("現在、シグナル合致銘柄はありません。")
 
@@ -254,4 +255,5 @@ if tickers_list:
         df_ready['RSI_val'] = df_ready['RSI'].astype(float)
         df_ready = df_ready.sort_values("RSI_val").drop(columns=['RSI_val'])
         cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "トレンド", "Vol変化", "状況"]
-        st.dataframe(df_ready[cols].style.applymap(style_trend, subset=['トレンド']), use_container_width=True, hide_index=True)
+        # ★修正箇所：applymap() を map() に変更
+        st.dataframe(df_ready[cols].style.map(style_trend, subset=['トレンド']), use_container_width=True, hide_index=True)
