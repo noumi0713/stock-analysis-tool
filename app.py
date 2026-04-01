@@ -79,7 +79,8 @@ def get_base_tickers():
     current_theme = "不明"
     for line in raw_lines:
         line = line.strip()
-        if not line: continue
+        if not line:
+            continue
         if '/' not in line:
             current_theme = line 
         else:
@@ -94,7 +95,7 @@ def get_base_tickers():
                     else:
                         ticker_data[ticker_key] = {"name": name, "theme": current_theme}
     return ticker_data
-
+    
 if 'tickers_dict' not in st.session_state:
     st.session_state.tickers_dict = get_base_tickers()
 else:
