@@ -12,10 +12,6 @@ st.title("🏹 買い時・即戦力スクリーナー")
 
 # --- ベース銘柄データの定義 ---
 def get_base_tickers():
-    # エラー回避のため、変数の定義を先頭に移動しました
-    ticker_data = {}
-    current_theme = "不明"
-    
     raw_data = """
     1. AI・半導体
     6857/アドバンテスト 8035/東京エレクトロン 6723/ルネサスエレクトロニクス 6920/レーザーテック 7735/ＳＣＲＥＥＮホールディングス 6963/ローム 6707/サンケン電気 7282/豊田合成 9984/ソフトバンクグループ 6501/日立製作所
@@ -65,19 +61,9 @@ def get_base_tickers():
     6506/安川電機 6954/ファナック 202A/豆蔵ホールディングス 3132/マクニカホールディングス 6268/ナブテスコ 6273/ＳＭＣ 6324/ハーモニック・ドライブ・システムズ 3741/セック 4425/Ｋｕｄａｎ 7779/サイバーダイン
     24. 蓄電池（次世代電池・材料含む）
     6752/パナソニックホールディングス 6762/ＴＤＫ 6981/村田製作所 4204/積水化学工業 4118/カネカ 4107/伊勢化学工業 3407/旭化成 6502/東芝 6810/マクセル 485A/パワーエックス 6617/東光高岳
-    25. 再エネ
-    9519/レノバ 1407/ウエストホールディングス
-    26. 石炭
-    1514/住石ホールディングス 8835/太平洋興発
-    27. 天然ガス
-    1663/Ｋ＆Ｏエナジーグループ 1963/日揮ホールディングス
-    28. 電力卸
-    9513/電源開発 9517/イーレックス
-    29. 肥料
-    4031/片倉コープアグリ 4979/ＯＡＴアグリオ
-    30. バイオ燃料
-    9212/ＧｒｅｅｎＥａｒｔｈＩｎｓｔｉｔｕｔｅ 2931/ユーグレナ
     """
+    ticker_data = {}
+    current_theme = "不明"
     lines = raw_data.strip().split('\n')
     for line in lines:
         line = line.strip()
@@ -126,7 +112,7 @@ if st.sidebar.button("選択した銘柄を削除"):
     st.rerun()
 
 st.sidebar.markdown("---")
-if st.sidebar.button("🔄 初期リスト(30テーマ)にリセット"):
+if st.sidebar.button("🔄 初期リスト(24テーマ)にリセット"):
     st.session_state.tickers_dict = get_base_tickers()
     st.rerun()
 
@@ -259,6 +245,7 @@ if tickers_list:
     st.header("🎯 買い向かうべきタイミング（即戦力）")
     if not df_now.empty:
         cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "トレンド", "Vol変化", "状況"]
+        # ★修正箇所：applymap() を map() に変更
         st.dataframe(df_now[cols].style.map(style_trend, subset=['トレンド']), use_container_width=True, hide_index=True)
     else:
         st.info("現在、シグナル合致銘柄はありません。")
@@ -268,4 +255,5 @@ if tickers_list:
         df_ready['RSI_val'] = df_ready['RSI'].astype(float)
         df_ready = df_ready.sort_values("RSI_val").drop(columns=['RSI_val'])
         cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "トレンド", "Vol変化", "状況"]
+        # ★修正箇所：applymap() を map() に変更
         st.dataframe(df_ready[cols].style.map(style_trend, subset=['トレンド']), use_container_width=True, hide_index=True)
