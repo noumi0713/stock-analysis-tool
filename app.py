@@ -267,4 +267,3 @@ if tickers_list:
         df_ready = df_ready.sort_values("RSI_val").drop(columns=['RSI_val'])
         cols = ["コード", "銘柄名", "テーマ", "現在値", "RSI", "トレンド", "Vol変化", "状況"]
         st.dataframe(df_ready[cols].style.map(style_trend, subset=['トレンド']), use_container_width=True, hide_index=True)
-    
