@@ -18,35 +18,58 @@ st.markdown("""
 # --- 入力UI ---
 st.sidebar.header("📂 銘柄リストの読み込み")
 
-# 1. テキスト入力
 bulk_input = st.sidebar.text_area(
-    "銘柄コードを貼り付け（カンマ区切り、または改行）", 
+    "銘柄コードを貼り付け", 
     height=150, 
-    placeholder="例: 7203, 6758, 9984\n※数字4桁を自動で抽出します"
+    placeholder="例1: 7203 トヨタ自動車\n例2: 1332, 1605, 1721\n※名前が一緒に入っていれば自動で抽出します"
 )
 
-# 2. CSVアップロード
-uploaded_file = st.sidebar.file_uploader("またはCSVファイルをアップロード", type=["csv"])
+uploaded_file = st.sidebar.file_uploader("またはCSVをアップロード（JPX公式CSV対応）", type=["csv"])
 
-# 銘柄抽出ロジック
-raw_codes = []
+# --- 銘柄抽出・名前マッピングロジック ---
+tickers_info = {}
 
 if bulk_input:
-    # 4桁の数字をすべて抽出
-    raw_codes.extend(re.findall(r'\b\d{4}\b', bulk_input))
+    for line in bulk_input.splitlines():
+        # 4桁の数字をすべて検索
+        matches = re.findall(r'\b\d{4}\b', line)
+        if len(matches) > 1:
+            # カンマ区切りなどで1行に複数ある場合は名前が判別できないため「-」にする
+            for code in matches:
+                tickers_info[f"{code}.T"] = "-"
+        elif len(matches) == 1:
+            # 1行に1銘柄の場合、コード以外の文字を「銘柄名」として抽出
+            code = matches[0]
+            name = re.sub(r'\b\d{4}\b', '', line).strip(' ,/:"\'\t　')
+            tickers_info[f"{code}.T"] = name if name else "-"
 
 if uploaded_file is not None:
     try:
-        # CSVをテキストとして読み込み、4桁の数字を抽出
-        content = uploaded_file.getvalue().decode("utf-8")
-        raw_codes.extend(re.findall(r'\b\d{4}\b', content))
+        # JPXのCSVはShift-JISのことが多いのでエンコーディングを考慮して読み込み
+        try:
+            df_csv = pd.read_csv(uploaded_file, encoding='utf-8')
+        except UnicodeDecodeError:
+            uploaded_file.seek(0)
+            df_csv = pd.read_csv(uploaded_file, encoding='shift_jis')
+            
+        # 「コード」と「銘柄名」の列があるか確認
+        if 'コード' in df_csv.columns and '銘柄名' in df_csv.columns:
+            for _, row in df_csv.iterrows():
+                code = str(row['コード'])[:4]
+                if code.isdigit():
+                    tickers_info[f"{code}.T"] = str(row['銘柄名'])
+        else:
+            # フォーマットが違う場合は強引にテキストとしてコードのみ抽出
+            uploaded_file.seek(0)
+            content = uploaded_file.getvalue().decode("utf-8", errors="ignore")
+            for line in content.splitlines():
+                matches = re.findall(r'\b\d{4}\b', line)
+                for code in matches:
+                    tickers_info[f"{code}.T"] = "-"
     except Exception as e:
-        st.sidebar.error("CSVの読み込みに失敗しました。")
+        st.sidebar.error(f"CSVの読み込みに失敗しました: {e}")
 
-# 重複排除と.Tの付与
-unique_codes = list(set(raw_codes))
-tickers_list = [f"{code}.T" for code in unique_codes]
-
+tickers_list = list(tickers_info.keys())
 st.sidebar.info(f"読み込み済みの銘柄数: {len(tickers_list)} 銘柄")
 
 # --- 出来高補正 ---
@@ -61,22 +84,20 @@ def get_vol_mul():
         elaps = 150 + (now.hour - 12) * 60 + now.minute - 30
     return 300 / elaps if elaps > 0 else 1.0
 
-# --- データ取得・解析（大本命・本命の判定ロジック） ---
+# --- データ取得・解析 ---
 @st.cache_data(ttl=300)
 def fetch_data(ts):
     return yf.download(ts, period="6mo", interval="1d", group_by="ticker", threads=True)
 
-def analyze(data, ts):
+def analyze(data, ts, t_info):
     dai_honmei_list, honmei_list = [], []
     v_mul = get_vol_mul()
     
-    # プログレスバーの準備
     progress_bar = st.progress(0)
     status_text = st.empty()
     total = len(ts)
     
     for i, t in enumerate(ts):
-        # 進捗の更新
         if i % 10 == 0 or i == total - 1:
             progress_bar.progress((i + 1) / total)
             status_text.text(f"解析中... {i+1} / {total} 銘柄完了")
@@ -106,13 +127,13 @@ def analyze(data, ts):
             
             res = {
                 "コード": t.replace(".T",""), 
+                "銘柄名": t_info.get(t, "-"),
                 "現在値": f"{c['Close']:.1f}", 
                 "高値から": f"{drop_pct:.1f}%", 
                 "RSI": f"{c['RSI']:.1f}", 
                 "Vol変化": f"{vol_change_pct:+.1f}%"
             }
             
-            # 👑 大本命の判定条件
             is_dai_honmei = (
                 -13.0 <= drop_pct <= -7.0 and
                 vol_change_pct <= -40.0 and
@@ -120,7 +141,6 @@ def analyze(data, ts):
                 c['MA25'] * 0.97 <= c['Close'] <= c['MA25'] * 1.05
             )
             
-            # 🎯 本命の判定条件
             is_honmei = (
                 -15.0 <= drop_pct <= -6.0 and
                 vol_change_pct <= -30.0 and
@@ -148,16 +168,19 @@ if st.button("🚀 スキャンを実行する", type="primary"):
         with st.spinner('市場データを一括ダウンロード中...（銘柄数に応じて時間がかかります）'):
             m_data = fetch_data(tickers_list)
         
-        df_dai, df_hon = analyze(m_data, tickers_list)
+        df_dai, df_hon = analyze(m_data, tickers_list, tickers_info)
         
         def style_eval(v):
             if '👑' in str(v): return 'color: #FFD700; font-weight: bold; background-color: #333333'
             if '🎯' in str(v): return 'color: #ff4b4b; font-weight: bold'
             return ''
 
+        # 列の並び順に「銘柄名」を追加
+        cols = ["コード", "銘柄名", "現在値", "高値から", "RSI", "Vol変化", "評価"]
+
         st.header("👑 大本命（完璧な売り枯れ押し目）")
         if not df_dai.empty:
-            st.dataframe(df_dai.style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
+            st.dataframe(df_dai[cols].style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
         else: 
             st.info("大本命の条件に合致する銘柄はありませんでした。")
 
@@ -165,6 +188,6 @@ if st.button("🚀 スキャンを実行する", type="primary"):
         if not df_hon.empty:
             df_hon['SortVal'] = abs(df_hon['高値から'].str.replace('%', '').astype(float) + 10.0)
             df_hon = df_hon.sort_values('SortVal').drop(columns=['SortVal'])
-            st.dataframe(df_hon.style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
+            st.dataframe(df_hon[cols].style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
         else: 
             st.info("本命の条件に合致する銘柄はありませんでした。")
