@@ -8,7 +8,7 @@ import pytz
 
 # --- ページ設定 ---
 st.set_page_config(page_title="総合スクリーナー（押し目＆PO）", layout="wide")
-st.title("📈 買い時キャッチ（押し目 ＆ パーフェクトオーダー）")
+st.title("📈 買い時キャッチ（3日ヨコヨコ押し目 ＆ PO）")
 
 # ==========================================
 # 1. 銘柄データ（30の国策テーマのみ）
@@ -106,7 +106,6 @@ def get_vol_mul():
 # --- データ取得・解析 ---
 @st.cache_data(ttl=300)
 def fetch_data(ts):
-    # PO検知のために75日線が必要なので、期間を少し長め（1年）に設定します
     return yf.download(ts, period="1y", interval="1d", group_by="ticker", threads=True)
 
 def analyze(data, ts, t_dict):
@@ -117,7 +116,7 @@ def analyze(data, ts, t_dict):
         try:
             df = data[t].copy() if len(ts) > 1 else data.copy()
             df = df.dropna()
-            if len(df) < 80: continue # 75日線を計算するため最低80日のデータが必要
+            if len(df) < 80: continue 
             
             # テクニカル指標の計算
             df['MA5'] = df['Close'].rolling(5).mean()
@@ -138,6 +137,10 @@ def analyze(data, ts, t_dict):
             recent_high = df['RecentHigh'].iloc[-2] 
             drop_pct = ((c['Close'] / recent_high) - 1) * 100
             
+            # 【新規追加】3日ヨコヨコの判定（直近3日間の終値の変動幅）
+            recent_3_closes = df['Close'].iloc[-3:]
+            sideways_3d_pct = ((recent_3_closes.max() / recent_3_closes.min()) - 1) * 100
+            
             avg_vol = df['Volume'].iloc[-6:-1].mean()
             curr_vol = df['Volume'].iloc[-1] * v_mul
             vol_change_pct = ((curr_vol / avg_vol) - 1) * 100 if avg_vol > 0 else 0
@@ -148,15 +151,12 @@ def analyze(data, ts, t_dict):
                 "テーマ": t_dict[t]["theme"],
                 "現在値": f"{c['Close']:.1f}", 
                 "高値から": f"{drop_pct:.1f}%", 
+                "3日値幅": f"{sideways_3d_pct:.1f}%", # 追加：ヨコヨコ度合いを表示
                 "RSI": f"{c['RSI']:.1f}", 
                 "Vol変化": f"{vol_change_pct:+.1f}%"
             }
             
-            # --------------------------------------------------
             # 🌟 パーフェクトオーダーの判定条件
-            # --------------------------------------------------
-            # 1. 株価 > MA5 > MA25 > MA75
-            # 2. MA25とMA75が前日より上向き
             is_perfect_order = (
                 c['Close'] > c['MA5'] and
                 c['MA5'] > c['MA25'] and
@@ -165,31 +165,32 @@ def analyze(data, ts, t_dict):
                 c['MA75'] >= p['MA75']
             )
 
-            # --------------------------------------------------
-            # 👑 大本命の判定条件（押し目）
-            # --------------------------------------------------
+            # 👑 大本命の判定条件（3日ヨコヨコ追加）
             is_dai_honmei = (
-                not is_perfect_order and # POと重複させない
+                not is_perfect_order and 
                 -13.0 <= drop_pct <= -7.0 and
                 vol_change_pct <= -40.0 and
                 35.0 <= c['RSI'] <= 55.0 and
-                c['MA25'] * 0.97 <= c['Close'] <= c['MA25'] * 1.05
+                c['MA25'] * 0.97 <= c['Close'] <= c['MA25'] * 1.05 and
+                sideways_3d_pct <= 2.5  # 直近3日間の値幅が2.5%以内でピタリと止まっている
             )
             
-            # --------------------------------------------------
-            # 🎯 本命の判定条件（押し目）
-            # --------------------------------------------------
+            # 🎯 本命の判定条件（3日ヨコヨコ追加）
             is_honmei = (
                 not is_perfect_order and
                 not is_dai_honmei and
                 -15.0 <= drop_pct <= -6.0 and
                 vol_change_pct <= -30.0 and
                 30.0 <= c['RSI'] <= 60.0 and
-                c['Close'] >= c['MA25'] * 0.97
+                c['Close'] >= c['MA25'] * 0.97 and
+                sideways_3d_pct <= 4.0  # 直近3日間の値幅が4.0%以内
             )
             
             if is_perfect_order:
-                po_list.append({**res, "評価": "🌟 上昇PO"})
+                # PO銘柄には「3日値幅」は不要なので削除してスッキリ見せる
+                res_po = res.copy()
+                del res_po["3日値幅"]
+                po_list.append({**res_po, "評価": "🌟 上昇PO"})
             elif is_dai_honmei:
                 dai_honmei_list.append({**res, "評価": "👑 大本命"})
             elif is_honmei:
@@ -203,7 +204,7 @@ def analyze(data, ts, t_dict):
 # --- 表示 ---
 ts_list = list(st.session_state.tickers_dict.keys())
 if ts_list:
-    st.markdown("相場の強弱に合わせて「売り枯れ押し目」と「パーフェクトオーダー」を自動判別します。")
+    st.markdown("相場の強弱に合わせて「下げ止まり確認済みの押し目」と「パーフェクトオーダー」を自動判別します。")
     
     with st.spinner('市場データを取得・解析中...'):
         m_data = fetch_data(ts_list)
@@ -217,14 +218,16 @@ if ts_list:
         return ''
 
     # 1. 大本命
-    st.header("👑 大本命（完璧な売り枯れ押し目）")
+    st.header("👑 大本命（底打ち確認済みの完璧な押し目）")
+    st.markdown("条件: 高値から-7%〜-13% / 出来高激減(-40%以下) / RSI35〜55 / **直近3日間の値幅2.5%以内(ヨコヨコ)**")
     if not df_dai.empty:
         st.dataframe(df_dai.style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
     else: 
-        st.info("現在、大本命の条件に合致する銘柄はありません。")
+        st.info("現在、大本命の条件に合致する銘柄はありません。落ちるナイフを回避しています。")
 
     # 2. 本命
-    st.header("🎯 本命（監視すべき優良な押し目）")
+    st.header("🎯 本命（下げ止まりつつある優良な押し目）")
+    st.markdown("条件: 高値から-6%〜-15% / 出来高低下(-30%以下) / RSI30〜60 / **直近3日間の値幅4.0%以内(ヨコヨコ)**")
     if not df_hon.empty:
         df_hon['SortVal'] = abs(df_hon['高値から'].str.replace('%', '').astype(float) + 10.0)
         df_hon = df_hon.sort_values('SortVal').drop(columns=['SortVal'])
@@ -236,7 +239,6 @@ if ts_list:
     st.header("🌟 パーフェクトオーダー（強い上昇トレンド）")
     st.markdown("条件: 現在値 ＞ 5日線 ＞ 25日線 ＞ 75日線 ＆ 25日・75日線が上向き")
     if not df_po.empty:
-        # RSIが低い順（過熱していない順）に並び替え
         df_po['SortRSI'] = df_po['RSI'].astype(float)
         df_po = df_po.sort_values('SortRSI').drop(columns=['SortRSI'])
         st.dataframe(df_po.style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
