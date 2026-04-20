@@ -7,8 +7,8 @@ import datetime
 import pytz
 
 # --- ページ設定 ---
-st.set_page_config(page_title="総合スクリーナー（押し目＆PO）", layout="wide")
-st.title("📈 買い時キャッチ（3日ヨコヨコ押し目 ＆ PO）")
+st.set_page_config(page_title="総合スクリーナー（押し目＆PO＆5日線上）", layout="wide")
+st.title("📈 買い時キャッチ（押し目 ＆ PO ＆ 5日線上）")
 
 # ==========================================
 # 1. 銘柄データ（30の国策テーマのみ）
@@ -109,7 +109,7 @@ def fetch_data(ts):
     return yf.download(ts, period="1y", interval="1d", group_by="ticker", threads=True)
 
 def analyze(data, ts, t_dict):
-    dai_honmei_list, honmei_list, po_list = [], [], []
+    dai_honmei_list, honmei_list, po_list, ma5_list = [], [], [], [] # ma5_listを追加
     v_mul = get_vol_mul()
     
     for t in ts:
@@ -137,7 +137,10 @@ def analyze(data, ts, t_dict):
             recent_high = df['RecentHigh'].iloc[-2] 
             drop_pct = ((c['Close'] / recent_high) - 1) * 100
             
-            # 【新規追加】3日ヨコヨコの判定（直近3日間の終値の変動幅）
+            # 前日比の計算（追加）
+            dod_pct = ((c['Close'] / p['Close']) - 1) * 100
+            
+            # 3日ヨコヨコの判定
             recent_3_closes = df['Close'].iloc[-3:]
             sideways_3d_pct = ((recent_3_closes.max() / recent_3_closes.min()) - 1) * 100
             
@@ -145,18 +148,31 @@ def analyze(data, ts, t_dict):
             curr_vol = df['Volume'].iloc[-1] * v_mul
             vol_change_pct = ((curr_vol / avg_vol) - 1) * 100 if avg_vol > 0 else 0
             
+            # 汎用出力フォーマット
             res = {
                 "コード": t.replace(".T",""), 
                 "銘柄名": t_dict[t]["name"], 
                 "テーマ": t_dict[t]["theme"],
                 "現在値": f"{c['Close']:.1f}", 
                 "高値から": f"{drop_pct:.1f}%", 
-                "3日値幅": f"{sideways_3d_pct:.1f}%", # 追加：ヨコヨコ度合いを表示
+                "3日値幅": f"{sideways_3d_pct:.1f}%",
                 "RSI": f"{c['RSI']:.1f}", 
                 "Vol変化": f"{vol_change_pct:+.1f}%"
             }
             
-            # 🌟 パーフェクトオーダーの判定条件
+            # 🌟 5日線上抜け用のフォーマット（追加・指定カラムのみ）
+            res_ma5 = {
+                "コード": t.replace(".T",""), 
+                "銘柄名": t_dict[t]["name"], 
+                "テーマ": t_dict[t]["theme"],
+                "現在値": f"{c['Close']:.1f}", 
+                "前日比": f"{dod_pct:+.1f}%", 
+                "RSI": f"{c['RSI']:.1f}", 
+                "Vol変化": f"{vol_change_pct:+.1f}%",
+                "評価": "📈 5日線上"
+            }
+            
+            # 判定条件
             is_perfect_order = (
                 c['Close'] > c['MA5'] and
                 c['MA5'] > c['MA25'] and
@@ -165,17 +181,15 @@ def analyze(data, ts, t_dict):
                 c['MA75'] >= p['MA75']
             )
 
-            # 👑 大本命の判定条件（3日ヨコヨコ追加）
             is_dai_honmei = (
                 not is_perfect_order and 
                 -13.0 <= drop_pct <= -7.0 and
                 vol_change_pct <= -40.0 and
                 35.0 <= c['RSI'] <= 55.0 and
                 c['MA25'] * 0.97 <= c['Close'] <= c['MA25'] * 1.05 and
-                sideways_3d_pct <= 2.5  # 直近3日間の値幅が2.5%以内でピタリと止まっている
+                sideways_3d_pct <= 2.5
             )
             
-            # 🎯 本命の判定条件（3日ヨコヨコ追加）
             is_honmei = (
                 not is_perfect_order and
                 not is_dai_honmei and
@@ -183,11 +197,14 @@ def analyze(data, ts, t_dict):
                 vol_change_pct <= -30.0 and
                 30.0 <= c['RSI'] <= 60.0 and
                 c['Close'] >= c['MA25'] * 0.97 and
-                sideways_3d_pct <= 4.0  # 直近3日間の値幅が4.0%以内
+                sideways_3d_pct <= 4.0
             )
             
+            # 5日線より上で推移しているか（追加）
+            is_above_ma5 = c['Close'] > c['MA5']
+            
+            # リストへの振り分け
             if is_perfect_order:
-                # PO銘柄には「3日値幅」は不要なので削除してスッキリ見せる
                 res_po = res.copy()
                 del res_po["3日値幅"]
                 po_list.append({**res_po, "評価": "🌟 上昇PO"})
@@ -195,26 +212,30 @@ def analyze(data, ts, t_dict):
                 dai_honmei_list.append({**res, "評価": "👑 大本命"})
             elif is_honmei:
                 honmei_list.append({**res, "評価": "🎯 本命"})
+            elif is_above_ma5:
+                # POや押し目判定から漏れたが、5日線より上にある銘柄を抽出
+                ma5_list.append(res_ma5)
                 
         except Exception as e:
             continue
             
-    return pd.DataFrame(dai_honmei_list), pd.DataFrame(honmei_list), pd.DataFrame(po_list)
+    return pd.DataFrame(dai_honmei_list), pd.DataFrame(honmei_list), pd.DataFrame(po_list), pd.DataFrame(ma5_list)
 
 # --- 表示 ---
 ts_list = list(st.session_state.tickers_dict.keys())
 if ts_list:
-    st.markdown("相場の強弱に合わせて「下げ止まり確認済みの押し目」と「パーフェクトオーダー」を自動判別します。")
+    st.markdown("相場の強弱に合わせて「下げ止まり確認済みの押し目」「パーフェクトオーダー」「5日線上抜け」を自動判別します。")
     
     with st.spinner('市場データを取得・解析中...'):
         m_data = fetch_data(ts_list)
     
-    df_dai, df_hon, df_po = analyze(m_data, ts_list, st.session_state.tickers_dict)
+    df_dai, df_hon, df_po, df_ma5 = analyze(m_data, ts_list, st.session_state.tickers_dict)
     
     def style_eval(v):
         if '🌟' in str(v): return 'color: #00FF00; font-weight: bold; background-color: #1E3A1E'
         if '👑' in str(v): return 'color: #FFD700; font-weight: bold; background-color: #333333'
         if '🎯' in str(v): return 'color: #ff4b4b; font-weight: bold'
+        if '📈' in str(v): return 'color: #00BFFF; font-weight: bold'
         return ''
 
     # 1. 大本命
@@ -244,3 +265,14 @@ if ts_list:
         st.dataframe(df_po.style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
     else:
         st.info("現在、パーフェクトオーダーを形成している銘柄はありません。")
+        
+    # 4. 5日線上（新規追加）
+    st.header("📈 5日線上（短期モメンタム継続・初動）")
+    st.markdown("条件: 現在値 ＞ 5日線 （※POや特定の押し目条件以外の銘柄）")
+    if not df_ma5.empty:
+        # 前日比でソート（勢いのある順）
+        df_ma5['SortDoD'] = df_ma5['前日比'].str.replace('%', '').astype(float)
+        df_ma5 = df_ma5.sort_values('SortDoD', ascending=False).drop(columns=['SortDoD'])
+        st.dataframe(df_ma5.style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
+    else:
+        st.info("現在、5日線上で推移している銘柄はありません。")
