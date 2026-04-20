@@ -7,8 +7,8 @@ import datetime
 import pytz
 
 # --- ページ設定 ---
-st.set_page_config(page_title="総合スクリーナー（押し目＆PO＆5日線上）", layout="wide")
-st.title("📈 買い時キャッチ（押し目 ＆ PO ＆ 5日線上）")
+st.set_page_config(page_title="総合スクリーナー（押し目＆PO＆5日線上向き）", layout="wide")
+st.title("📈 買い時キャッチ（押し目 ＆ PO ＆ 5日線上向き）")
 
 # ==========================================
 # 1. 銘柄データ（30の国策テーマのみ）
@@ -109,7 +109,7 @@ def fetch_data(ts):
     return yf.download(ts, period="1y", interval="1d", group_by="ticker", threads=True)
 
 def analyze(data, ts, t_dict):
-    dai_honmei_list, honmei_list, po_list, ma5_list = [], [], [], [] # ma5_listを追加
+    dai_honmei_list, honmei_list, po_list, ma5_list = [], [], [], []
     v_mul = get_vol_mul()
     
     for t in ts:
@@ -137,7 +137,7 @@ def analyze(data, ts, t_dict):
             recent_high = df['RecentHigh'].iloc[-2] 
             drop_pct = ((c['Close'] / recent_high) - 1) * 100
             
-            # 前日比の計算（追加）
+            # 前日比の計算
             dod_pct = ((c['Close'] / p['Close']) - 1) * 100
             
             # 3日ヨコヨコの判定
@@ -160,7 +160,7 @@ def analyze(data, ts, t_dict):
                 "Vol変化": f"{vol_change_pct:+.1f}%"
             }
             
-            # 🌟 5日線上抜け用のフォーマット（追加・指定カラムのみ）
+            # 🌟 5日線上抜け用のフォーマット
             res_ma5 = {
                 "コード": t.replace(".T",""), 
                 "銘柄名": t_dict[t]["name"], 
@@ -169,7 +169,7 @@ def analyze(data, ts, t_dict):
                 "前日比": f"{dod_pct:+.1f}%", 
                 "RSI": f"{c['RSI']:.1f}", 
                 "Vol変化": f"{vol_change_pct:+.1f}%",
-                "評価": "📈 5日線上"
+                "評価": "📈 5日線上向き"
             }
             
             # 判定条件
@@ -200,8 +200,8 @@ def analyze(data, ts, t_dict):
                 sideways_3d_pct <= 4.0
             )
             
-            # 5日線より上で推移しているか（追加）
-            is_above_ma5 = c['Close'] > c['MA5']
+            # 【変更】5日線より上で推移、かつ5日線が上向きであるか
+            is_above_ma5 = (c['Close'] > c['MA5']) and (c['MA5'] > p['MA5'])
             
             # リストへの振り分け
             if is_perfect_order:
@@ -213,7 +213,7 @@ def analyze(data, ts, t_dict):
             elif is_honmei:
                 honmei_list.append({**res, "評価": "🎯 本命"})
             elif is_above_ma5:
-                # POや押し目判定から漏れたが、5日線より上にある銘柄を抽出
+                # POや押し目判定から漏れたが、5日線より上＆5日線上向きの銘柄を抽出
                 ma5_list.append(res_ma5)
                 
         except Exception as e:
@@ -224,7 +224,7 @@ def analyze(data, ts, t_dict):
 # --- 表示 ---
 ts_list = list(st.session_state.tickers_dict.keys())
 if ts_list:
-    st.markdown("相場の強弱に合わせて「下げ止まり確認済みの押し目」「パーフェクトオーダー」「5日線上抜け」を自動判別します。")
+    st.markdown("相場の強弱に合わせて「下げ止まり確認済みの押し目」「パーフェクトオーダー」「5日線上向きモメンタム」を自動判別します。")
     
     with st.spinner('市場データを取得・解析中...'):
         m_data = fetch_data(ts_list)
@@ -266,13 +266,13 @@ if ts_list:
     else:
         st.info("現在、パーフェクトオーダーを形成している銘柄はありません。")
         
-    # 4. 5日線上（新規追加）
-    st.header("📈 5日線上（短期モメンタム継続・初動）")
-    st.markdown("条件: 現在値 ＞ 5日線 （※POや特定の押し目条件以外の銘柄）")
+    # 4. 5日線上向き（変更）
+    st.header("📈 5日線上向き（短期モメンタム継続・初動）")
+    st.markdown("条件: 現在値 ＞ 5日線 ＆ **5日線が上向き** （※POや特定の押し目条件以外の銘柄）")
     if not df_ma5.empty:
         # 前日比でソート（勢いのある順）
         df_ma5['SortDoD'] = df_ma5['前日比'].str.replace('%', '').astype(float)
         df_ma5 = df_ma5.sort_values('SortDoD', ascending=False).drop(columns=['SortDoD'])
         st.dataframe(df_ma5.style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
     else:
-        st.info("現在、5日線上で推移している銘柄はありません。")
+        st.info("現在、5日線が上向きで、かつその上で推移している銘柄はありません。")
