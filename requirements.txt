@@ -1,4 +1,5 @@
-streamlit
+google-generativeai
 yfinance
 pandas
-anthropic
+streamlit
+plotly
