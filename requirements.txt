@@ -1,5 +1,7 @@
 google-generativeai
 yfinance
 pandas
+numpy
 streamlit
 plotly
+pytz
