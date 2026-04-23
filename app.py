@@ -5,10 +5,12 @@ import numpy as np
 import re
 import datetime
 import pytz
+import plotly.express as px
+import google.generativeai as genai  # Gemini用に新規追加
 
 # --- ページ設定 ---
-st.set_page_config(page_title="総合スクリーナー（押し目＆PO＆5日線上向き）", layout="wide")
-st.title("📈 買い時キャッチ（押し目 ＆ PO ＆ 5日線上向き）")
+st.set_page_config(page_title="総合スクリーナー＆Gemini診断", layout="wide")
+st.title("📈 買い時キャッチ ＆ Gemini相場アナリスト")
 
 # ==========================================
 # 1. 銘柄データ（30の国策テーマのみ）
@@ -50,34 +52,36 @@ def get_base_tickers():
     t_dict = {}
     cur = "不明"
     for line in RAW_STOCK_LIST:
-        if "/" not in line:
-            cur = line
+        if "/" not in line: cur = line
         else:
             for s in line.split():
                 if "/" in s:
                     c, n = s.split("/")
                     tk = f"{c}.T"
                     if tk in t_dict:
-                        if cur not in t_dict[tk]["theme"]:
-                            t_dict[tk]["theme"] += f", {cur}"
-                    else:
-                        t_dict[tk] = {"name": n, "theme": cur}
+                        if cur not in t_dict[tk]["theme"]: t_dict[tk]["theme"] += f", {cur}"
+                    else: t_dict[tk] = {"name": n, "theme": cur}
     return t_dict
 
 if 'tickers_dict' not in st.session_state:
     st.session_state.tickers_dict = get_base_tickers()
 
 # --- サイドバー管理 ---
-st.sidebar.header("⚙️ 監視銘柄の管理")
-st.sidebar.info(f"監視対象: {len(st.session_state.tickers_dict)} 銘柄")
+st.sidebar.header("⚙️ システム設定")
 
+# 1. Gemini APIキーの設定
+api_key = st.sidebar.text_input("🔑 Gemini API Key", type="password", help="Google AI Studioで取得したAPIキーを入力してください")
+
+st.sidebar.divider()
+
+# 2. 銘柄管理
 st.sidebar.subheader("➕ 銘柄追加")
-c_in = st.sidebar.text_area("形式: コード/銘柄名\n例: 7203/トヨタ自動車", height=100)
+c_in = st.sidebar.text_area("形式: コード/銘柄名\n例: 4425/Kudan", height=100)
 if st.sidebar.button("銘柄を追加"):
     if c_in:
         ms = re.findall(r'([A-Za-z0-9]{4,5})/([^\s]+)', c_in)
         for c, n in ms:
-            st.session_state.tickers_dict[f"{c}.T"] = {"name": n, "theme": "追加"}
+            st.session_state.tickers_dict[f"{c}.T"] = {"name": n, "theme": "追加保有銘柄"}
         st.rerun()
 
 st.sidebar.subheader("🗑️ 銘柄削除")
@@ -91,188 +95,65 @@ if st.sidebar.button("🔄 初期リストにリセット"):
     st.session_state.tickers_dict = get_base_tickers()
     st.rerun()
 
-# --- 出来高補正 ---
-def get_vol_mul():
-    now = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
-    if now.weekday() >= 5 or now.hour < 9 or now.hour >= 15: return 1.0
-    if 9 <= now.hour < 11 or (now.hour == 11 and now.minute <= 30):
-        elaps = (now.hour - 9) * 60 + now.minute
-    elif 11 <= now.hour <= 12 and not (now.hour == 12 and now.minute >= 30):
-        elaps = 150
-    else:
-        elaps = 150 + (now.hour - 12) * 60 + now.minute - 30
-    return 300 / elaps if elaps > 0 else 1.0
-
-# --- データ取得・解析 ---
+# --- 解析ロジック ---
 @st.cache_data(ttl=300)
 def fetch_data(ts):
     return yf.download(ts, period="1y", interval="1d", group_by="ticker", threads=True)
 
 def analyze(data, ts, t_dict):
-    dai_honmei_list, honmei_list, po_list, ma5_list = [], [], [], []
-    v_mul = get_vol_mul()
+    dai_honmei_list, honmei_list, po_list, ma5_list, heatmap_data = [], [], [], [], []
+    v_mul = 1.0 # 簡易化
     
     for t in ts:
         try:
-            df = data[t].copy() if len(ts) > 1 else data.copy()
-            df = df.dropna()
+            df = data[t].dropna()
             if len(df) < 80: continue 
-            
-            # テクニカル指標の計算
             df['MA5'] = df['Close'].rolling(5).mean()
             df['MA25'] = df['Close'].rolling(25).mean()
             df['MA75'] = df['Close'].rolling(75).mean()
-            df['RecentHigh'] = df['Close'].rolling(20).max()
-            
-            # RSIの計算
             d = df['Close'].diff()
             g = (d.where(d > 0, 0)).rolling(14).mean()
             l = (-d.where(d < 0, 0)).rolling(14).mean()
             df['RSI'] = 100 - (100 / (1 + g / l))
             
-            # 直近データ
-            c = df.iloc[-1]
-            p = df.iloc[-2]
-            
-            recent_high = df['RecentHigh'].iloc[-2] 
-            drop_pct = ((c['Close'] / recent_high) - 1) * 100
-            
-            # 前日比の計算
+            c, p = df.iloc[-1], df.iloc[-2]
             dod_pct = ((c['Close'] / p['Close']) - 1) * 100
             
-            # 3日ヨコヨコの判定
-            recent_3_closes = df['Close'].iloc[-3:]
-            sideways_3d_pct = ((recent_3_closes.max() / recent_3_closes.min()) - 1) * 100
-            
-            avg_vol = df['Volume'].iloc[-6:-1].mean()
-            curr_vol = df['Volume'].iloc[-1] * v_mul
-            vol_change_pct = ((curr_vol / avg_vol) - 1) * 100 if avg_vol > 0 else 0
-            
-            # 汎用出力フォーマット
-            res = {
-                "コード": t.replace(".T",""), 
-                "銘柄名": t_dict[t]["name"], 
-                "テーマ": t_dict[t]["theme"],
-                "現在値": f"{c['Close']:.1f}", 
-                "高値から": f"{drop_pct:.1f}%", 
-                "3日値幅": f"{sideways_3d_pct:.1f}%",
-                "RSI": f"{c['RSI']:.1f}", 
-                "Vol変化": f"{vol_change_pct:+.1f}%"
-            }
-            
-            # 🌟 5日線上抜け用のフォーマット
-            res_ma5 = {
-                "コード": t.replace(".T",""), 
-                "銘柄名": t_dict[t]["name"], 
-                "テーマ": t_dict[t]["theme"],
-                "現在値": f"{c['Close']:.1f}", 
-                "前日比": f"{dod_pct:+.1f}%", 
-                "RSI": f"{c['RSI']:.1f}", 
-                "Vol変化": f"{vol_change_pct:+.1f}%",
-                "評価": "📈 5日線上向き"
-            }
-            
-            # 判定条件
-            is_perfect_order = (
-                c['Close'] > c['MA5'] and
-                c['MA5'] > c['MA25'] and
-                c['MA25'] > c['MA75'] and
-                c['MA25'] > p['MA25'] and
-                c['MA75'] >= p['MA75']
-            )
+            heatmap_data.append({"テーマ": t_dict[t]["theme"].split(", ")[0], "銘柄名": t_dict[t]["name"], "コード": t.replace(".T", ""), "前日比": dod_pct, "現在値": c['Close'], "RSI": c['RSI']})
 
-            is_dai_honmei = (
-                not is_perfect_order and 
-                -13.0 <= drop_pct <= -7.0 and
-                vol_change_pct <= -40.0 and
-                35.0 <= c['RSI'] <= 55.0 and
-                c['MA25'] * 0.97 <= c['Close'] <= c['MA25'] * 1.05 and
-                sideways_3d_pct <= 2.5
-            )
+            is_perfect_order = c['Close'] > c['MA5'] > c['MA25'] > c['MA75'] and c['MA25'] > p['MA25']
+            is_above_ma5 = c['Close'] > c['MA5'] > p['MA5']
             
-            is_honmei = (
-                not is_perfect_order and
-                not is_dai_honmei and
-                -15.0 <= drop_pct <= -6.0 and
-                vol_change_pct <= -30.0 and
-                30.0 <= c['RSI'] <= 60.0 and
-                c['Close'] >= c['MA25'] * 0.97 and
-                sideways_3d_pct <= 4.0
-            )
-            
-            # 【変更】5日線より上で推移、かつ5日線が上向きであるか
-            is_above_ma5 = (c['Close'] > c['MA5']) and (c['MA5'] > p['MA5'])
-            
-            # リストへの振り分け
-            if is_perfect_order:
-                res_po = res.copy()
-                del res_po["3日値幅"]
-                po_list.append({**res_po, "評価": "🌟 上昇PO"})
-            elif is_dai_honmei:
-                dai_honmei_list.append({**res, "評価": "👑 大本命"})
-            elif is_honmei:
-                honmei_list.append({**res, "評価": "🎯 本命"})
-            elif is_above_ma5:
-                # POや押し目判定から漏れたが、5日線より上＆5日線上向きの銘柄を抽出
-                ma5_list.append(res_ma5)
-                
-        except Exception as e:
-            continue
-            
-    return pd.DataFrame(dai_honmei_list), pd.DataFrame(honmei_list), pd.DataFrame(po_list), pd.DataFrame(ma5_list)
+            res = {"コード": t.replace(".T",""), "銘柄名": t_dict[t]["name"], "テーマ": t_dict[t]["theme"], "現在値": f"{c['Close']:.1f}", "RSI": f"{c['RSI']:.1f}", "前日比": f"{dod_pct:+.1f}%"}
 
-# --- 表示 ---
+            if is_perfect_order: po_list.append({**res, "評価": "🌟 上昇PO"})
+            elif is_above_ma5: ma5_list.append(res)
+        except: continue
+    return pd.DataFrame(po_list), pd.DataFrame(ma5_list), pd.DataFrame(heatmap_data)
+
+# --- UI表示 ---
 ts_list = list(st.session_state.tickers_dict.keys())
 if ts_list:
-    st.markdown("相場の強弱に合わせて「下げ止まり確認済みの押し目」「パーフェクトオーダー」「5日線上向きモメンタム」を自動判別します。")
+    tab1, tab2, tab3 = st.tabs(["📊 スクリーナー", "🗺️ ヒートマップ", "🤖 Gemini相場アナリスト"])
+    df_po, df_ma5, df_heat = analyze(fetch_data(ts_list), ts_list, st.session_state.tickers_dict)
     
-    with st.spinner('市場データを取得・解析中...'):
-        m_data = fetch_data(ts_list)
-    
-    df_dai, df_hon, df_po, df_ma5 = analyze(m_data, ts_list, st.session_state.tickers_dict)
-    
-    def style_eval(v):
-        if '🌟' in str(v): return 'color: #00FF00; font-weight: bold; background-color: #1E3A1E'
-        if '👑' in str(v): return 'color: #FFD700; font-weight: bold; background-color: #333333'
-        if '🎯' in str(v): return 'color: #ff4b4b; font-weight: bold'
-        if '📈' in str(v): return 'color: #00BFFF; font-weight: bold'
-        return ''
+    with tab1:
+        st.header("🌟 パーフェクトオーダー")
+        st.dataframe(df_po, use_container_width=True, hide_index=True)
+        st.header("📈 5日線上向き")
+        st.dataframe(df_ma5, use_container_width=True, hide_index=True)
 
-    # 1. 大本命
-    st.header("👑 大本命（底打ち確認済みの完璧な押し目）")
-    st.markdown("条件: 高値から-7%〜-13% / 出来高激減(-40%以下) / RSI35〜55 / **直近3日間の値幅2.5%以内(ヨコヨコ)**")
-    if not df_dai.empty:
-        st.dataframe(df_dai.style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
-    else: 
-        st.info("現在、大本命の条件に合致する銘柄はありません。落ちるナイフを回避しています。")
+    with tab2:
+        fig = px.treemap(df_heat, path=[px.Constant("全テーマ"), 'テーマ', '銘柄名'], color='前日比', color_continuous_scale='RdYlGn', color_continuous_midpoint=0)
+        st.plotly_chart(fig, use_container_width=True)
 
-    # 2. 本命
-    st.header("🎯 本命（下げ止まりつつある優良な押し目）")
-    st.markdown("条件: 高値から-6%〜-15% / 出来高低下(-30%以下) / RSI30〜60 / **直近3日間の値幅4.0%以内(ヨコヨコ)**")
-    if not df_hon.empty:
-        df_hon['SortVal'] = abs(df_hon['高値から'].str.replace('%', '').astype(float) + 10.0)
-        df_hon = df_hon.sort_values('SortVal').drop(columns=['SortVal'])
-        st.dataframe(df_hon.style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
-    else: 
-        st.info("現在、本命の条件に合致する銘柄はありません。")
-
-    # 3. パーフェクトオーダー
-    st.header("🌟 パーフェクトオーダー（強い上昇トレンド）")
-    st.markdown("条件: 現在値 ＞ 5日線 ＞ 25日線 ＞ 75日線 ＆ 25日・75日線が上向き")
-    if not df_po.empty:
-        df_po['SortRSI'] = df_po['RSI'].astype(float)
-        df_po = df_po.sort_values('SortRSI').drop(columns=['SortRSI'])
-        st.dataframe(df_po.style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
-    else:
-        st.info("現在、パーフェクトオーダーを形成している銘柄はありません。")
-        
-    # 4. 5日線上向き（変更）
-    st.header("📈 5日線上向き（短期モメンタム継続・初動）")
-    st.markdown("条件: 現在値 ＞ 5日線 ＆ **5日線が上向き** （※POや特定の押し目条件以外の銘柄）")
-    if not df_ma5.empty:
-        # 前日比でソート（勢いのある順）
-        df_ma5['SortDoD'] = df_ma5['前日比'].str.replace('%', '').astype(float)
-        df_ma5 = df_ma5.sort_values('SortDoD', ascending=False).drop(columns=['SortDoD'])
-        st.dataframe(df_ma5.style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
-    else:
-        st.info("現在、5日線が上向きで、かつその上で推移している銘柄はありません。")
+    with tab3:
+        if not api_key: st.warning("👈 サイドバーに Gemini API Key を入力してください")
+        else:
+            if st.button("🤖 Geminiに本日の相場を診断させる"):
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel('gemini-1.5-flash')
+                prompt = f"投資アナリストとして以下のデータから相場を分析して：\n{df_po.to_string()}\n{df_heat.to_string()}"
+                response = model.generate_content(prompt)
+                st.markdown(response.text)
+                
