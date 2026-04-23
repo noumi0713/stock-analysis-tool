@@ -5,12 +5,10 @@ import numpy as np
 import re
 import datetime
 import pytz
-import plotly.express as px
-import google.generativeai as genai
 
 # --- ページ設定 ---
-st.set_page_config(page_title="総合スクリーナー＆Gemini診断", layout="wide")
-st.title("📈 買い時キャッチ ＆ Gemini相場アナリスト")
+st.set_page_config(page_title="総合スクリーナー＆テーマ分析", layout="wide")
+st.title("📈 買い時キャッチ ＆ テーマ別動向")
 
 # ==========================================
 # 1. 銘柄データ（30の国策テーマ）
@@ -67,17 +65,11 @@ if 'tickers_dict' not in st.session_state:
     st.session_state.tickers_dict = get_base_tickers()
 
 # --- サイドバー設定 ---
-st.sidebar.header("⚙️ システム設定")
+st.sidebar.header("⚙️ 監視銘柄の管理")
+st.sidebar.info(f"監視対象: {len(st.session_state.tickers_dict)} 銘柄")
 
-# 1. APIキーの自動読み込み対応
-default_key = st.secrets.get("GEMINI_API_KEY", "")
-api_key = st.sidebar.text_input("🔑 Gemini API Key", type="password", value=default_key)
-
-st.sidebar.divider()
-
-# 2. 銘柄操作
 st.sidebar.subheader("➕ 銘柄追加")
-c_in = st.sidebar.text_area("形式: コード/銘柄名", height=100)
+c_in = st.sidebar.text_area("形式: コード/銘柄名\n例: 4425/Kudan", height=100)
 if st.sidebar.button("銘柄を追加"):
     if c_in:
         ms = re.findall(r'([A-Za-z0-9]{4,5})/([^\s]+)', c_in)
@@ -92,17 +84,36 @@ if st.sidebar.button("削除実行"):
     for t in del_target: st.session_state.tickers_dict.pop(t, None)
     st.rerun()
 
-# --- ロジック ---
+if st.sidebar.button("🔄 初期リストにリセット"):
+    st.session_state.tickers_dict = get_base_tickers()
+    st.rerun()
+
+# --- データ取得・解析関数 ---
+def get_vol_mul():
+    now = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
+    if now.weekday() >= 5 or now.hour < 9 or now.hour >= 15: return 1.0
+    if 9 <= now.hour < 11 or (now.hour == 11 and now.minute <= 30):
+        elaps = (now.hour - 9) * 60 + now.minute
+    elif 11 <= now.hour <= 12 and not (now.hour == 12 and now.minute >= 30):
+        elaps = 150
+    else:
+        elaps = 150 + (now.hour - 12) * 60 + now.minute - 30
+    return 300 / elaps if elaps > 0 else 1.0
+
 @st.cache_data(ttl=300)
 def fetch_data(ts):
     return yf.download(ts, period="1y", interval="1d", group_by="ticker", threads=True)
 
 def analyze(data, ts, t_dict):
-    po_list, ma5_list, heat_list = [], [], []
+    po_list, ma5_list, theme_data = [], [], []
+    v_mul = get_vol_mul()
+    
     for t in ts:
         try:
-            df = data[t].dropna()
+            df = data[t].copy() if len(ts) > 1 else data.copy()
+            df = df.dropna()
             if len(df) < 80: continue
+            
             df['MA5'] = df['Close'].rolling(5).mean()
             df['MA25'] = df['Close'].rolling(25).mean()
             df['MA75'] = df['Close'].rolling(75).mean()
@@ -114,42 +125,102 @@ def analyze(data, ts, t_dict):
             c, p = df.iloc[-1], df.iloc[-2]
             dod_pct = ((c['Close'] / p['Close']) - 1) * 100
             
-            heat_list.append({"テーマ": t_dict[t]["theme"].split(", ")[0], "銘柄名": t_dict[t]["name"], "コード": t.replace(".T",""), "前日比": dod_pct, "現在値": c['Close'], "RSI": c['RSI']})
+            theme_data.append({
+                "テーマ": t_dict[t]["theme"].split(", ")[0], 
+                "銘柄名": t_dict[t]["name"], 
+                "コード": t.replace(".T",""), 
+                "前日比": dod_pct, 
+                "現在値": c['Close'], 
+                "RSI": c['RSI']
+            })
             
-            res = {"コード": t.replace(".T",""), "銘柄名": t_dict[t]["name"], "現在値": f"{c['Close']:.1f}", "RSI": f"{c['RSI']:.1f}", "前日比": f"{dod_pct:+.1f}%"}
+            res = {
+                "コード": t.replace(".T",""), 
+                "銘柄名": t_dict[t]["name"], 
+                "現在値": f"{c['Close']:.1f}", 
+                "RSI": f"{c['RSI']:.1f}", 
+                "前日比": f"{dod_pct:+.1f}%"
+            }
+            
             if c['Close'] > df['MA5'].iloc[-1] > df['MA25'].iloc[-1] > df['MA75'].iloc[-1] and df['MA25'].iloc[-1] > df['MA25'].iloc[-2]:
                 po_list.append({**res, "評価": "🌟 上昇PO"})
             elif c['Close'] > df['MA5'].iloc[-1] > df['MA5'].iloc[-2]:
-                ma5_list.append(res)
-        except: continue
-    return pd.DataFrame(po_list), pd.DataFrame(ma5_list), pd.DataFrame(heat_list)
+                ma5_list.append({**res, "評価": "📈 5日線上向き"})
+        except Exception as e:
+            continue
+            
+    return pd.DataFrame(po_list), pd.DataFrame(ma5_list), pd.DataFrame(theme_data)
 
 # --- UI表示 ---
 ts_list = list(st.session_state.tickers_dict.keys())
 if ts_list:
-    tab1, tab2, tab3 = st.tabs(["📊 スクリーナー", "🗺️ ヒートマップ", "🤖 Gemini診断"])
-    df_po, df_ma5, df_heat = analyze(fetch_data(ts_list), ts_list, st.session_state.tickers_dict)
+    tab1, tab2 = st.tabs(["📊 スクリーナー", "🗺️ テーマ別動向 (プルダウン)"])
     
+    with st.spinner('市場データを取得・解析中...'):
+        df_po, df_ma5, df_theme = analyze(fetch_data(ts_list), ts_list, st.session_state.tickers_dict)
+    
+    def style_eval(v):
+        if '🌟' in str(v): return 'color: #00FF00; font-weight: bold; background-color: #1E3A1E'
+        if '📈' in str(v): return 'color: #00BFFF; font-weight: bold'
+        return ''
+
+    # --- タブ1: スクリーナー ---
     with tab1:
-        st.header("🌟 パーフェクトオーダー")
-        st.dataframe(df_po, use_container_width=True, hide_index=True)
-        st.header("📈 5日線上向き")
-        st.dataframe(df_ma5, use_container_width=True, hide_index=True)
-
-    with tab2:
-        # ヒートマップ：赤と緑の2色（中間は黒系）に設定
-        fig = px.treemap(df_heat, path=[px.Constant("全テーマ"), 'テーマ', '銘柄名'], color='前日比',
-                         color_continuous_scale=['#ff4b4b', '#1E1E1E', '#00FF00'], 
-                         color_continuous_midpoint=0)
-        st.plotly_chart(fig, use_container_width=True)
-
-    with tab3:
-        if not api_key: st.warning("APIキーを設定してください")
+        st.header("🌟 パーフェクトオーダー（強い上昇トレンド）")
+        if not df_po.empty:
+            df_po['SortRSI'] = df_po['RSI'].astype(float)
+            st.dataframe(df_po.sort_values('SortRSI').drop(columns=['SortRSI']).style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
         else:
-            if st.button("🤖 診断開始"):
-                genai.configure(api_key=api_key)
-                # エラー対策：モデル名をフルネームで指定
-                model = genai.GenerativeModel('models/gemini-1.5-flash')
-                prompt = f"以下の銘柄データから、現在の相場テーマと過熱感をプロの視点で分析して：\n{df_po.to_string()}\n{df_heat.sort_values('前日比', ascending=False).head(10).to_string()}"
-                response = model.generate_content(prompt)
-                st.markdown(response.text)
+            st.info("現在、パーフェクトオーダーを形成している銘柄はありません。")
+            
+        st.header("📈 5日線上向き（短期モメンタム継続・初動）")
+        if not df_ma5.empty:
+            df_ma5['SortDoD'] = df_ma5['前日比'].str.replace('%', '').astype(float)
+            st.dataframe(df_ma5.sort_values('SortDoD', ascending=False).drop(columns=['SortDoD']).style.map(style_eval, subset=['評価']), use_container_width=True, hide_index=True)
+        else:
+            st.info("現在、該当する銘柄はありません。")
+
+    # --- タブ2: テーマ別動向（プルダウン形式） ---
+    with tab2:
+        st.markdown("各テーマの**平均前日比**を算出し、強いセクター順に並べています。クリックして展開すると個別銘柄を確認できます。")
+        
+        if not df_theme.empty:
+            # 1. テーマごとの平均前日比を計算して、強い順に並び替え
+            theme_avg = df_theme.groupby('テーマ')['前日比'].mean().reset_index()
+            theme_avg = theme_avg.sort_values('前日比', ascending=False)
+            
+            # プラスは緑、マイナスは赤に色付けする関数（データフレーム用）
+            def color_dod(val):
+                if '+' in str(val): return 'color: #00FF00'
+                elif '-' in str(val): return 'color: #ff4b4b'
+                return 'color: gray'
+
+            # 2. 強いテーマから順番にプルダウン（expander）を作成
+            for _, t_row in theme_avg.iterrows():
+                theme_name = t_row['テーマ']
+                avg_val = t_row['前日比']
+                
+                # アイコンの設定
+                if avg_val > 0:
+                    icon = "🟢"
+                elif avg_val < 0:
+                    icon = "🔴"
+                else:
+                    icon = "⚪"
+                    
+                expander_title = f"{icon} {theme_name} 【 平均: {avg_val:+.2f}% 】"
+                
+                with st.expander(expander_title):
+                    # そのテーマに属する銘柄だけを抽出し、前日比が強い順に並べる
+                    df_theme_stocks = df_theme[df_theme['テーマ'] == theme_name].sort_values('前日比', ascending=False)
+                    
+                    # 表示用にデータを綺麗に整形
+                    display_df = df_theme_stocks[['コード', '銘柄名', '現在値', '前日比', 'RSI']].copy()
+                    display_df['現在値'] = display_df['現在値'].apply(lambda x: f"{x:.1f} 円")
+                    display_df['前日比'] = display_df['前日比'].apply(lambda x: f"{x:+.2f} %")
+                    display_df['RSI'] = display_df['RSI'].apply(lambda x: f"{x:.1f}")
+                    
+                    # テーブルとして綺麗に表示
+                    st.dataframe(display_df.style.map(color_dod, subset=['前日比']), use_container_width=True, hide_index=True)
+        else:
+            st.warning("データが取得できませんでした。")
