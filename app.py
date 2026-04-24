@@ -3,6 +3,7 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import datetime
+import pytz
 
 # --- ページ設定 ---
 st.set_page_config(page_title="テーマ別株式スクリーナー", layout="wide")
@@ -41,7 +42,7 @@ RAW_STOCK_LIST = [
     "27. 天然ガス", "1663/Ｋ＆Ｏエナジーグループ 1963/日揮ホールディングス",
     "28. 電力卸", "9513/電源開発 9517/イーレックス",
     "29. 肥料", "4031/片倉コープアグリ 4979/ＯＡＴアグリオ",
-    "30. バイオ燃料", "9212/ＧｒｅｅｎＥａｒｔｈＩｎｓｔｉｔｕｔｅ 2931/ユーグレナ",
+    "30. バイオ燃料", "9212/ＧｒｅｅＮＥａｒｔｈＩｎｓｔｉｔｕｔｅ 2931/ユーグレナ",
     "31. ドローン・次世代モビリティ", "278A/テラドローン 6232/ＡＣＳＬ 6052/ブルーイノベーション 7272/ヤマハ発動機 6594/ニデック 7732/トプコン 2303/ドーン 3687/フィックスターズ 6701/日本電気 9433/ＫＤＤＩ"
 ]
 
@@ -71,6 +72,14 @@ def fetch_data(tickers):
     if not tickers: return None
     return yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
 
+# テクニカル指標計算用の内部関数
+def calc_rsi(series, period=14):
+    delta = series.diff()
+    gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
+    rs = gain / loss
+    return 100 - (100 / (1 + rs))
+
 def analyze_stocks(data, tickers_dict):
     results = []
     ts = list(tickers_dict.keys())
@@ -81,10 +90,8 @@ def analyze_stocks(data, tickers_dict):
             df['MA5'] = df['Close'].rolling(5).mean()
             df['MA25'] = df['Close'].rolling(25).mean()
             df['MA75'] = df['Close'].rolling(75).mean()
-            delta = df['Close'].diff()
-            gain = (delta.where(delta > 0, 0)).rolling(14).mean()
-            loss = (-delta.where(delta < 0, 0)).rolling(14).mean()
-            df['RSI'] = 100 - (100 / (1 + gain/loss))
+            df['RSI'] = calc_rsi(df['Close'])
+            
             c = df.iloc[-1]
             p = df.iloc[-2]
             dod = ((c['Close'] / p['Close']) - 1) * 100
@@ -108,7 +115,7 @@ def analyze_stocks(data, tickers_dict):
 tickers_dict = get_base_tickers()
 all_tickers = list(tickers_dict.keys())
 
-with st.spinner('ドローン関連を含む全31テーマを解析中...'):
+with st.spinner('データを解析中...'):
     raw_data = fetch_data(all_tickers)
     if raw_data is not None:
         analysis_df = analyze_stocks(raw_data, tickers_dict)
@@ -116,8 +123,9 @@ with st.spinner('ドローン関連を含む全31テーマを解析中...'):
         st.error("データの取得に失敗しました。")
         st.stop()
 
-tab1, tab2 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向 (プルダウン)"])
+tab1, tab2, tab3 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 日付指定検索"])
 
+# --- タブ1: スクリーナー ---
 with tab1:
     col1, col2 = st.columns(2)
     po_stocks = analysis_df[analysis_df["判定"] == "🌟 パーフェクトオーダー"].drop_duplicates(subset="コード")
@@ -129,6 +137,7 @@ with tab1:
         st.info(f"📈 短期上昇傾向 ({len(ma5_stocks)}銘柄)")
         st.dataframe(ma5_stocks[["コード", "銘柄名", "現在値", "前日比", "RSI"]].sort_values("前日比", ascending=False), hide_index=True)
 
+# --- タブ2: テーマ分析 ---
 with tab2:
     theme_perf = analysis_df.groupby("テーマ")["前日比"].mean().sort_values(ascending=False)
     for theme_name in theme_perf.index:
@@ -137,3 +146,55 @@ with tab2:
         with st.expander(f"{icon} {theme_name} (平均: {avg_pct:+.2f}%)"):
             theme_df = analysis_df[analysis_df["テーマ"] == theme_name].sort_values("前日比", ascending=False)
             st.dataframe(theme_df[["コード", "銘柄名", "現在値", "前日比", "RSI", "判定"]], use_container_width=True, hide_index=True)
+
+# --- タブ3: 日付指定検索 (NEW!) ---
+with tab3:
+    st.subheader("🔍 過去データの抽出")
+    st.write("カレンダーから日付を選択して、その日の数値を表示します。")
+    
+    # 日付選択 (初期値は最新の平日)
+    target_date = st.date_input("抽出日を選択", value=datetime.date.today())
+    target_ts = pd.Timestamp(target_date)
+
+    hist_results = []
+    ts = list(tickers_dict.keys())
+    
+    found_any = False
+    for t in ts:
+        try:
+            df_hist = raw_data[t].dropna()
+            # RSIを履歴全体で計算
+            df_hist['RSI'] = calc_rsi(df_hist['Close'])
+            
+            # 指定した日付がインデックスに存在するか確認
+            if target_ts in df_hist.index:
+                row = df_hist.loc[target_ts]
+                for theme in tickers_dict[t]["themes"]:
+                    hist_results.append({
+                        "テーマ": theme,
+                        "コード": t.replace(".T", ""),
+                        "銘柄名": tickers_dict[t]["name"],
+                        "引値": round(row['Close'], 1),
+                        "出来高": int(row['Volume']),
+                        "RSI": round(row['RSI'], 1) if not np.isnan(row['RSI']) else "算出中"
+                    })
+                found_any = True
+        except: continue
+
+    if found_any:
+        df_hist_view = pd.DataFrame(hist_results)
+        st.write(f"### {target_date} の市場データ")
+        
+        # テーマごとに並び替えて表示
+        st.dataframe(
+            df_hist_view.sort_values(["テーマ", "コード"]),
+            use_container_width=True,
+            hide_index=True
+        )
+        
+        # CSVダウンロードボタン
+        csv = df_hist_view.to_csv(index=False).encode('utf-8-sig')
+        st.download_button("結果をCSVで保存", csv, f"stock_data_{target_date}.csv", "text/csv")
+    else:
+        st.warning(f"{target_date} のデータは見つかりませんでした。市場の休場日（土日・祝日）であるか、データ取得範囲（過去6ヶ月）外の可能性があります。")
+
