@@ -32,7 +32,7 @@ RAW_STOCK_LIST = [
     "17. 海洋", "6269/三井海洋開発 1963/日揮ホールディングス 7003/三井Ｅ＆Ｓ 7011/三菱重工業 6834/精工技研 6618/大泉製作所 5802/住友電気工業 6777/ｓａｎｔｅｃ 3648/ＡＧＳ 6340/渋谷工業",
     "18. (対米) 次世代原子力", "6501/日立製作所 7011/三菱重工業 1812/鹿島建設 1802/大林組 1803/清水建設 8058/三菱商事 1833/奥村組 7013/ＩＨＩ 8031/三井物産 8001/伊藤忠商事",
     "19. (対米) 天然ガス・AI電源", "6501/日立製作所 7011/三菱重工業 7013/ＩＨＩ 6503/三菱電機 5803/フジクラ 6762/ＴＤＫ 6981/村田製作所 6752/パナソニックホールディングス 9984/ソフトバンクグループ 6701/日本電気",
-    "20. (対米) 原油インフラ・備蓄", "5020/ＥＮＥＯＳホールディングス 5019/出光興産 5021/コスモエネルギーホールディングス 1605/ＩＮＰＥＸ 8058/三菱商事 8031/三井物産 8001/伊藤忠商事 8053/住友商事 8002/丸紅 1963/日揮ホールディングス",
+    "20. (対米) 原油インフラ・備蓄", "5020/ＥＮＥＯＳホールディングス 5019/出光興産 5021/コスモエネルギーホールディングス 1605/ＩＮＰＥＸ 8058/三菱商商事 8031/三井物産 8001/伊藤忠商事 8053/住友商事 8002/丸紅 1963/日揮ホールディングス",
     "21. (対米) 先端マテリアル", "8031/三井物産 5711/三菱マテリアル 5802/住友電気工業 3402/東レ 3401/帝人 3407/旭化成 4205/日本ゼオン 4063/信越化学工業 4004/レゾナック・ホールディングス 4208/ＵＢＥ",
     "22. (対米) 重要鉱物資源", "5713/住友金属鉱山 5711/三菱マテリアル 8031/三井物産 8058/三菱商事 8015/豊田通商 5714/ＤＯＷＡホールディングス 5706/三井金属鉱業 5715/古河機械金属 3315/日本コークス工業 8002/丸紅",
     "23. フィジカルAI", "6506/安川電機 6954/ファナック 202A/豆蔵ホールディングス 3132/マクニカホールディングス 6268/ナブテスコ 6273/ＳＭＣ 6324/ハーモニック・ドライブ・システムズ 3741/セック 4425/Ｋｕｄａｎ 7779/サイバーダイン",
@@ -67,12 +67,12 @@ def get_base_tickers():
     return t_dict
 
 # --- データ取得と解析 ---
+# 期間を6ヶ月に設定（抽出範囲をカバーするため）
 @st.cache_data(ttl=600)
 def fetch_data(tickers):
     if not tickers: return None
     return yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
 
-# テクニカル指標計算用の内部関数
 def calc_rsi(series, period=14):
     delta = series.diff()
     gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
@@ -115,7 +115,7 @@ def analyze_stocks(data, tickers_dict):
 tickers_dict = get_base_tickers()
 all_tickers = list(tickers_dict.keys())
 
-with st.spinner('データを解析中...'):
+with st.spinner('市場データを読み込み中...'):
     raw_data = fetch_data(all_tickers)
     if raw_data is not None:
         analysis_df = analyze_stocks(raw_data, tickers_dict)
@@ -123,7 +123,7 @@ with st.spinner('データを解析中...'):
         st.error("データの取得に失敗しました。")
         st.stop()
 
-tab1, tab2, tab3 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 日付指定検索"])
+tab1, tab2, tab3 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 期間データ抽出"])
 
 # --- タブ1: スクリーナー ---
 with tab1:
@@ -147,54 +147,65 @@ with tab2:
             theme_df = analysis_df[analysis_df["テーマ"] == theme_name].sort_values("前日比", ascending=False)
             st.dataframe(theme_df[["コード", "銘柄名", "現在値", "前日比", "RSI", "判定"]], use_container_width=True, hide_index=True)
 
-# --- タブ3: 日付指定検索 (NEW!) ---
+# --- タブ3: 期間データ抽出 (UPDATED!) ---
 with tab3:
-    st.subheader("🔍 過去データの抽出")
-    st.write("カレンダーから日付を選択して、その日の数値を表示します。")
+    st.subheader("📅 期間指定データ抽出")
+    st.write("指定した期間内の監視銘柄のデータを日別に一覧表示します。")
     
-    # 日付選択 (初期値は最新の平日)
-    target_date = st.date_input("抽出日を選択", value=datetime.date.today())
-    target_ts = pd.Timestamp(target_date)
+    # 期間選択（デフォルトは直近1ヶ月）
+    today = datetime.date.today()
+    default_start = today - datetime.timedelta(days=30)
+    date_range = st.date_input("期間を選択", [default_start, today])
 
-    hist_results = []
-    ts = list(tickers_dict.keys())
-    
-    found_any = False
-    for t in ts:
-        try:
-            df_hist = raw_data[t].dropna()
-            # RSIを履歴全体で計算
-            df_hist['RSI'] = calc_rsi(df_hist['Close'])
-            
-            # 指定した日付がインデックスに存在するか確認
-            if target_ts in df_hist.index:
-                row = df_hist.loc[target_ts]
-                for theme in tickers_dict[t]["themes"]:
-                    hist_results.append({
-                        "テーマ": theme,
-                        "コード": t.replace(".T", ""),
-                        "銘柄名": tickers_dict[t]["name"],
-                        "引値": round(row['Close'], 1),
-                        "出来高": int(row['Volume']),
-                        "RSI": round(row['RSI'], 1) if not np.isnan(row['RSI']) else "算出中"
-                    })
-                found_any = True
-        except: continue
-
-    if found_any:
-        df_hist_view = pd.DataFrame(hist_results)
-        st.write(f"### {target_date} の市場データ")
+    if len(date_range) == 2:
+        start_date, end_date = date_range
+        start_ts = pd.Timestamp(start_date)
+        end_ts = pd.Timestamp(end_date)
         
-        # テーマごとに並び替えて表示
-        st.dataframe(
-            df_hist_view.sort_values(["テーマ", "コード"]),
-            use_container_width=True,
-            hide_index=True
-        )
-        
-        # CSVダウンロードボタン
-        csv = df_hist_view.to_csv(index=False).encode('utf-8-sig')
-        st.download_button("結果をCSVで保存", csv, f"stock_data_{target_date}.csv", "text/csv")
+        if st.button("📊 データを抽出"):
+            with st.spinner("期間データを集計中..."):
+                all_period_data = []
+                for t in all_tickers:
+                    try:
+                        df_hist = raw_data[t].dropna()
+                        # その銘柄の全期間のRSIをあらかじめ計算
+                        df_hist['RSI'] = calc_rsi(df_hist['Close'])
+                        
+                        # 指定期間でフィルタリング
+                        mask = (df_hist.index >= start_ts) & (df_hist.index <= end_ts)
+                        df_filtered = df_hist.loc[mask]
+                        
+                        if not df_filtered.empty:
+                            for idx, row in df_filtered.iterrows():
+                                for theme in tickers_dict[t]["themes"]:
+                                    all_period_data.append({
+                                        "日付": idx.date(),
+                                        "テーマ": theme,
+                                        "コード": t.replace(".T", ""),
+                                        "銘柄名": tickers_dict[t]["name"],
+                                        "引値": round(row['Close'], 1),
+                                        "出来高": int(row['Volume']),
+                                        "RSI": round(row['RSI'], 1) if not np.isnan(row['RSI']) else "算出中"
+                                    })
+                    except: continue
+                
+                if all_period_data:
+                    df_range_view = pd.DataFrame(all_period_data)
+                    # 日付とテーマで並び替え
+                    df_range_view = df_range_view.sort_values(["日付", "テーマ", "コード"], ascending=[False, True, True])
+                    
+                    st.success(f"{len(df_range_view)} 件のデータを抽出しました。")
+                    st.dataframe(df_range_view, use_container_width=True, hide_index=True)
+                    
+                    # CSVダウンロード
+                    csv = df_range_view.to_csv(index=False).encode('utf-8-sig')
+                    st.download_button(
+                        label="💾 抽出結果をCSVで保存",
+                        data=csv,
+                        file_name=f"stock_data_{start_date}_to_{end_date}.csv",
+                        mime="text/csv"
+                    )
+                else:
+                    st.warning("指定された期間内にデータが見つかりませんでした。")
     else:
-        st.warning(f"{target_date} のデータは見つかりませんでした。市場の休場日（土日・祝日）であるか、データ取得範囲（過去6ヶ月）外の可能性があります。")
-
+        st.info("開始日と終了日の両方を選択してください。")
