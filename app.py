@@ -66,8 +66,6 @@ def get_base_tickers():
                             t_dict[ticker]["themes"].append(cur_theme)
     return t_dict
 
-# --- データ取得と解析 ---
-# 期間を6ヶ月に設定（抽出範囲をカバーするため）
 @st.cache_data(ttl=600)
 def fetch_data(tickers):
     if not tickers: return None
@@ -111,6 +109,37 @@ def analyze_stocks(data, tickers_dict):
         except: continue
     return pd.DataFrame(results)
 
+# 過去N営業日のテーマ別ランキングを算出する関数 (NEW!)
+def get_historical_theme_ranking(data, tickers_dict, days=14):
+    records = []
+    for t, info in tickers_dict.items():
+        try:
+            df = data[t].dropna().copy()
+            if len(df) < 2: continue
+            # 各銘柄の日別リターンを計算
+            df['Return'] = df['Close'].pct_change() * 100
+            # 直近指定日数分を抽出
+            df_recent = df.tail(days)
+            for date, row in df_recent.iterrows():
+                if pd.isna(row['Return']): continue
+                for theme in info["themes"]:
+                    records.append({
+                        "Date": date.date(),
+                        "Theme": theme,
+                        "Return": row['Return']
+                    })
+        except: continue
+    
+    if not records: return pd.DataFrame()
+    
+    df_records = pd.DataFrame(records)
+    # 日付×テーマごとに平均リターンを算出
+    daily_theme_perf = df_records.groupby(['Date', 'Theme'])['Return'].mean().reset_index()
+    # 日付ごとのランキング（順位）を付与
+    daily_theme_perf['Rank'] = daily_theme_perf.groupby('Date')['Return'].rank(ascending=False, method='min').astype(int)
+    
+    return daily_theme_perf.sort_values(['Date', 'Rank'], ascending=[False, True])
+
 # --- UI 構築 ---
 tickers_dict = get_base_tickers()
 all_tickers = list(tickers_dict.keys())
@@ -137,22 +166,60 @@ with tab1:
         st.info(f"📈 短期上昇傾向 ({len(ma5_stocks)}銘柄)")
         st.dataframe(ma5_stocks[["コード", "銘柄名", "現在値", "前日比", "RSI"]].sort_values("前日比", ascending=False), hide_index=True)
 
-# --- タブ2: テーマ分析 ---
+# --- タブ2: テーマ分析 (UPDATED!) ---
 with tab2:
-    theme_perf = analysis_df.groupby("テーマ")["前日比"].mean().sort_values(ascending=False)
-    for theme_name in theme_perf.index:
-        avg_pct = theme_perf[theme_name]
-        icon = "🟢" if avg_pct > 0 else "🔴"
-        with st.expander(f"{icon} {theme_name} (平均: {avg_pct:+.2f}%)"):
-            theme_df = analysis_df[analysis_df["テーマ"] == theme_name].sort_values("前日比", ascending=False)
-            st.dataframe(theme_df[["コード", "銘柄名", "現在値", "前日比", "RSI", "判定"]], use_container_width=True, hide_index=True)
+    st.subheader("📊 テーマ別パフォーマンス")
+    sub_tab1, sub_tab2 = st.tabs(["🔥 最新のテーマ動向", "📅 過去2週間の日別ランキング"])
+    
+    # 既存の最新動向
+    with sub_tab1:
+        theme_perf = analysis_df.groupby("テーマ")["前日比"].mean().sort_values(ascending=False)
+        for theme_name in theme_perf.index:
+            avg_pct = theme_perf[theme_name]
+            icon = "🟢" if avg_pct > 0 else "🔴"
+            with st.expander(f"{icon} {theme_name} (平均: {avg_pct:+.2f}%)"):
+                theme_df = analysis_df[analysis_df["テーマ"] == theme_name].sort_values("前日比", ascending=False)
+                st.dataframe(theme_df[["コード", "銘柄名", "現在値", "前日比", "RSI", "判定"]], use_container_width=True, hide_index=True)
+                
+    # 新規追加: 過去2週間の日別ランキング
+    with sub_tab2:
+        st.write("過去2週間（約14営業日）における、テーマ全体の平均騰落率ランキング推移です。その日どのテーマに資金が向かったかが可視化されます。")
+        hist_df = get_historical_theme_ranking(raw_data, tickers_dict, days=14)
+        
+        if not hist_df.empty:
+            dates = hist_df['Date'].unique()
+            
+            # --- トップ5の推移表を作成 ---
+            st.markdown("### 📈 日別トップ5テーマ推移")
+            pivot_data = []
+            for d in dates:
+                top5 = hist_df[hist_df['Date'] == d].head(5)
+                row = {"日付": d}
+                for i, (_, r) in enumerate(top5.iterrows()):
+                    row[f"{i+1}位"] = f"{r['Theme']} ({r['Return']:.2f}%)"
+                pivot_data.append(row)
+            st.dataframe(pd.DataFrame(pivot_data), use_container_width=True, hide_index=True)
+            
+            st.divider()
+            
+            # --- 日付ごとの全ランキング詳細 ---
+            st.markdown("### 🔍 日付別 全テーマランキング詳細")
+            selected_date = st.selectbox("詳細を見る日付を選択してください", dates)
+            
+            df_selected = hist_df[hist_df['Date'] == selected_date].copy()
+            df_selected['Return'] = df_selected['Return'].round(2)
+            df_selected.rename(columns={'Theme': 'テーマ', 'Return': '平均騰落率(%)', 'Rank': '順位'}, inplace=True)
+            
+            # UIを見やすくするためのカラム分け
+            st.dataframe(df_selected[['順位', 'テーマ', '平均騰落率(%)']], use_container_width=True, hide_index=True)
+        else:
+            st.warning("履歴データが取得できませんでした。")
 
-# --- タブ3: 期間データ抽出 (UPDATED!) ---
+# --- タブ3: 期間データ抽出 ---
 with tab3:
     st.subheader("📅 期間指定データ抽出")
     st.write("指定した期間内の監視銘柄のデータを日別に一覧表示します。")
     
-    # 期間選択（デフォルトは直近1ヶ月）
     today = datetime.date.today()
     default_start = today - datetime.timedelta(days=30)
     date_range = st.date_input("期間を選択", [default_start, today])
@@ -168,10 +235,8 @@ with tab3:
                 for t in all_tickers:
                     try:
                         df_hist = raw_data[t].dropna()
-                        # その銘柄の全期間のRSIをあらかじめ計算
                         df_hist['RSI'] = calc_rsi(df_hist['Close'])
                         
-                        # 指定期間でフィルタリング
                         mask = (df_hist.index >= start_ts) & (df_hist.index <= end_ts)
                         df_filtered = df_hist.loc[mask]
                         
@@ -191,13 +256,11 @@ with tab3:
                 
                 if all_period_data:
                     df_range_view = pd.DataFrame(all_period_data)
-                    # 日付とテーマで並び替え
                     df_range_view = df_range_view.sort_values(["日付", "テーマ", "コード"], ascending=[False, True, True])
                     
                     st.success(f"{len(df_range_view)} 件のデータを抽出しました。")
                     st.dataframe(df_range_view, use_container_width=True, hide_index=True)
                     
-                    # CSVダウンロード
                     csv = df_range_view.to_csv(index=False).encode('utf-8-sig')
                     st.download_button(
                         label="💾 抽出結果をCSVで保存",
