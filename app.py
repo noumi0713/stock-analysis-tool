@@ -135,73 +135,6 @@ def get_historical_theme_ranking(data, tickers_dict, days=14):
     
     return daily_theme_perf.sort_values(['Date', 'Rank'], ascending=[False, True])
 
-# --- 新規追加: 独自スコアリング関数 ---
-def calculate_custom_scores(data, tickers_dict):
-    records = []
-    for t, info in tickers_dict.items():
-        try:
-            df = data[t].dropna().copy()
-            if len(df) < 20: continue # MA5やRSI計算のために最低限のデータ数を確認
-            
-            # 必要なテクニカル指標の計算
-            df['MA5'] = df['Close'].rolling(5).mean()
-            df['RSI'] = calc_rsi(df['Close'], period=14)
-            
-            current_price = float(df['Close'].iloc[-1])
-            current_ma5 = float(df['MA5'].iloc[-1])
-            current_rsi = float(df['RSI'].iloc[-1])
-            today_vol = float(df['Volume'].iloc[-1])
-            
-            # 過去5日間の平均出来高（当日より前の5日間、または直近5日間）
-            past_5_vol_avg = float(df['Volume'].iloc[-6:-1].mean())
-            
-            # --- アルゴリズム計算 ---
-            # x2（トレンド）: 現在の株価 / 5日移動平均（下回っていれば0点）
-            if current_price < current_ma5 or current_ma5 == 0:
-                x2 = 0.0
-            else:
-                x2 = current_price / current_ma5
-                
-            # x3（出来高ペナルティ）: - (当日出来高 ÷ 過去5日平均出来高)
-            if past_5_vol_avg > 0:
-                x3 = -(today_vol / past_5_vol_avg)
-            else:
-                x3 = 0.0
-                
-            # x4（RSI過熱感）: 75 ÷ 現在のRSI（短期）
-            if current_rsi > 0:
-                x4 = 75.0 / current_rsi
-            else:
-                x4 = 0.0
-                
-            # 合計スコア
-            total_score = x2 + x3 + x4
-            
-            # 銘柄ごとのデータを保存
-            records.append({
-                "コード": t.replace(".T", ""),
-                "銘柄名": info["name"],
-                "テーマ": ", ".join(info["themes"]), # 複数テーマに属する場合はカンマ区切り
-                "合計スコア": round(total_score, 3),
-                "x2(トレンド)": round(x2, 3),
-                "x3(出来高ペナルティ)": round(x3, 3),
-                "x4(RSI過熱感)": round(x4, 3),
-                "現在値": round(current_price, 1),
-                "RSI": round(current_rsi, 1)
-            })
-            
-        except Exception as e:
-            continue
-            
-    if not records: return pd.DataFrame()
-    
-    # データフレーム化し、スコアの高い順にソート
-    score_df = pd.DataFrame(records)
-    score_df = score_df.sort_values("合計スコア", ascending=False).reset_index(drop=True)
-    score_df.insert(0, "順位", score_df.index + 1)
-    
-    return score_df
-
 
 # --- UI 構築 ---
 tickers_dict = get_base_tickers()
@@ -215,8 +148,7 @@ with st.spinner('市場データを読み込み中...'):
         st.error("データの取得に失敗しました。")
         st.stop()
 
-# タブを4つに拡張
-tab1, tab2, tab3, tab4 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 期間データ抽出", "🏆 独自スコア分析"])
+tab1, tab2, tab3 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 期間データ抽出"])
 
 # --- タブ1: スクリーナー ---
 with tab1:
@@ -331,33 +263,4 @@ with tab3:
                     st.warning("指定された期間内にデータが見つかりませんでした。")
     else:
         st.info("開始日と終了日の両方を選択してください。")
-
-# --- タブ4: 独自スコア分析 (NEW!) ---
-with tab4:
-    st.subheader("🏆 独自加点制アルゴリズム スコアランキング")
-    st.write("""
-    指定されたアルゴリズムに基づいて、監視対象160銘柄を自動スコアリングしてランキング表示します。
-    * **x2（トレンド）**: 現在の株価 ÷ 5日移動平均（下回っていれば0点）
-    * **x3（出来高ペナルティ）**: - (当日出来高 ÷ 過去5日平均出来高)
-    * **x4（RSI過熱感）**: 75 ÷ 現在のRSI（短期）
-    ※合計スコア = x2 + x3 + x4
-    """)
     
-    with st.spinner("スコアを計算中..."):
-        custom_score_df = calculate_custom_scores(raw_data, tickers_dict)
-        
-        if not custom_score_df.empty:
-            st.success("計算が完了しました。")
-            st.dataframe(custom_score_df, use_container_width=True, hide_index=True)
-            
-            # CSVダウンロードボタン
-            csv_scores = custom_score_df.to_csv(index=False).encode('utf-8-sig')
-            st.download_button(
-                label="💾 スコアランキングをCSVで保存",
-                data=csv_scores,
-                file_name=f"custom_scoring_ranking_{datetime.date.today()}.csv",
-                mime="text/csv"
-            )
-        else:
-            st.warning("スコアの計算に失敗しました。データが不足している可能性があります。")
-        
