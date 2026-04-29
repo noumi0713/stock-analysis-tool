@@ -3,6 +3,7 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import datetime
+import pytz
 
 # --- ページ設定 ---
 st.set_page_config(page_title="テーマ別株式スクリーナー", layout="wide")
@@ -31,7 +32,7 @@ RAW_STOCK_LIST = [
     "17. 海洋", "6269/三井海洋開発 1963/日揮ホールディングス 7003/三井Ｅ＆Ｓ 7011/三菱重工業 6834/精工技研 6618/大泉製作所 5802/住友電気工業 6777/ｓａｎｔｅｃ 3648/ＡＧＳ 6340/渋谷工業",
     "18. (対米) 次世代原子力", "6501/日立製作所 7011/三菱重工業 1812/鹿島建設 1802/大林組 1803/清水建設 8058/三菱商事 1833/奥村組 7013/ＩＨＩ 8031/三井物産 8001/伊藤忠商事",
     "19. (対米) 天然ガス・AI電源", "6501/日立製作所 7011/三菱重工業 7013/ＩＨＩ 6503/三菱電機 5803/フジクラ 6762/ＴＤＫ 6981/村田製作所 6752/パナソニックホールディングス 9984/ソフトバンクグループ 6701/日本電気",
-    "20. (対米) 原油インフラ・備蓄", "5020/ＥＮＥＯＳホールディングス 5019/出光興産 5021/コスモエネルギーホールディングス 1605/ＩＮＰＥＸ 8058/三菱商事 8031/三井物産 8001/伊藤忠商事 8053/住友商事 8002/丸紅 1963/日揮ホールディングス",
+    "20. (対米) 原油インフラ・備蓄", "5020/ＥＮＥＯＳホールディングス 5019/出光興産 5021/コスモエネルギーホールディングス 1605/ＩＮＰＥＸ 8058/三菱商商事 8031/三井物産 8001/伊藤忠商事 8053/住友商事 8002/丸紅 1963/日揮ホールディングス",
     "21. (対米) 先端マテリアル", "8031/三井物産 5711/三菱マテリアル 5802/住友電気工業 3402/東レ 3401/帝人 3407/旭化成 4205/日本ゼオン 4063/信越化学工業 4004/レゾナック・ホールディングス 4208/ＵＢＥ",
     "22. (対米) 重要鉱物資源", "5713/住友金属鉱山 5711/三菱マテリアル 8031/三井物産 8058/三菱商事 8015/豊田通商 5714/ＤＯＷＡホールディングス 5706/三井金属鉱業 5715/古河機械金属 3315/日本コークス工業 8002/丸紅",
     "23. フィジカルAI", "6506/安川電機 6954/ファナック 202A/豆蔵ホールディングス 3132/マクニカホールディングス 6268/ナブテスコ 6273/ＳＭＣ 6324/ハーモニック・ドライブ・システムズ 3741/セック 4425/Ｋｕｄａｎ 7779/サイバーダイン",
@@ -69,35 +70,6 @@ def get_base_tickers():
 def fetch_data(tickers):
     if not tickers: return None
     return yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
-
-# 独自アルゴリズム用のEPS取得（APIコール制限対策）
-@st.cache_data(ttl=3600)
-def fetch_eps_bulk(tickers):
-    res = {}
-    for t in tickers:
-        try:
-            info = yf.Ticker(t).info
-            res[t] = {
-                'forwardEps': info.get('forwardEps', 0),
-                'trailingEps': info.get('trailingEps', 0)
-            }
-        except:
-            res[t] = {'forwardEps': 0, 'trailingEps': 0}
-    return res
-
-# 安全装置（0除算や欠損値を0.0に変換してクラッシュを防ぐ）
-def safe_div(num, den):
-    try:
-        n = float(num)
-        d = float(den)
-        if pd.isna(n) or pd.isna(d) or d == 0:
-            return 0.0
-        res = n / d
-        if pd.isinf(res) or pd.isna(res):
-            return 0.0
-        return res
-    except:
-        return 0.0
 
 def calc_rsi(series, period=14):
     delta = series.diff()
@@ -156,10 +128,80 @@ def get_historical_theme_ranking(data, tickers_dict, days=14):
         except: continue
     
     if not records: return pd.DataFrame()
+    
     df_records = pd.DataFrame(records)
     daily_theme_perf = df_records.groupby(['Date', 'Theme'])['Return'].mean().reset_index()
     daily_theme_perf['Rank'] = daily_theme_perf.groupby('Date')['Return'].rank(ascending=False, method='min').astype(int)
+    
     return daily_theme_perf.sort_values(['Date', 'Rank'], ascending=[False, True])
+
+# --- 新規追加: 独自スコアリング関数 ---
+def calculate_custom_scores(data, tickers_dict):
+    records = []
+    for t, info in tickers_dict.items():
+        try:
+            df = data[t].dropna().copy()
+            if len(df) < 20: continue # MA5やRSI計算のために最低限のデータ数を確認
+            
+            # 必要なテクニカル指標の計算
+            df['MA5'] = df['Close'].rolling(5).mean()
+            df['RSI'] = calc_rsi(df['Close'], period=14)
+            
+            current_price = float(df['Close'].iloc[-1])
+            current_ma5 = float(df['MA5'].iloc[-1])
+            current_rsi = float(df['RSI'].iloc[-1])
+            today_vol = float(df['Volume'].iloc[-1])
+            
+            # 過去5日間の平均出来高（当日より前の5日間、または直近5日間）
+            past_5_vol_avg = float(df['Volume'].iloc[-6:-1].mean())
+            
+            # --- アルゴリズム計算 ---
+            # x2（トレンド）: 現在の株価 / 5日移動平均（下回っていれば0点）
+            if current_price < current_ma5 or current_ma5 == 0:
+                x2 = 0.0
+            else:
+                x2 = current_price / current_ma5
+                
+            # x3（出来高ペナルティ）: - (当日出来高 ÷ 過去5日平均出来高)
+            if past_5_vol_avg > 0:
+                x3 = -(today_vol / past_5_vol_avg)
+            else:
+                x3 = 0.0
+                
+            # x4（RSI過熱感）: 75 ÷ 現在のRSI（短期）
+            if current_rsi > 0:
+                x4 = 75.0 / current_rsi
+            else:
+                x4 = 0.0
+                
+            # 合計スコア
+            total_score = x2 + x3 + x4
+            
+            # 銘柄ごとのデータを保存
+            records.append({
+                "コード": t.replace(".T", ""),
+                "銘柄名": info["name"],
+                "テーマ": ", ".join(info["themes"]), # 複数テーマに属する場合はカンマ区切り
+                "合計スコア": round(total_score, 3),
+                "x2(トレンド)": round(x2, 3),
+                "x3(出来高ペナルティ)": round(x3, 3),
+                "x4(RSI過熱感)": round(x4, 3),
+                "現在値": round(current_price, 1),
+                "RSI": round(current_rsi, 1)
+            })
+            
+        except Exception as e:
+            continue
+            
+    if not records: return pd.DataFrame()
+    
+    # データフレーム化し、スコアの高い順にソート
+    score_df = pd.DataFrame(records)
+    score_df = score_df.sort_values("合計スコア", ascending=False).reset_index(drop=True)
+    score_df.insert(0, "順位", score_df.index + 1)
+    
+    return score_df
+
 
 # --- UI 構築 ---
 tickers_dict = get_base_tickers()
@@ -173,8 +215,8 @@ with st.spinner('市場データを読み込み中...'):
         st.error("データの取得に失敗しました。")
         st.stop()
 
-# ★ 4つ目のタブを追加
-tab1, tab2, tab3, tab4 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 期間データ抽出", "🧮 独自スコアリング分析"])
+# タブを4つに拡張
+tab1, tab2, tab3, tab4 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 期間データ抽出", "🏆 独自スコア分析"])
 
 # --- タブ1: スクリーナー ---
 with tab1:
@@ -203,11 +245,12 @@ with tab2:
                 st.dataframe(theme_df[["コード", "銘柄名", "現在値", "前日比", "RSI", "判定"]], use_container_width=True, hide_index=True)
                 
     with sub_tab2:
-        st.write("過去2週間（約14営業日）における、テーマ全体の平均騰落率ランキング推移です。")
+        st.write("過去2週間（約14営業日）における、テーマ全体の平均騰落率ランキング推移です。その日どのテーマに資金が向かったかが可視化されます。")
         hist_df = get_historical_theme_ranking(raw_data, tickers_dict, days=14)
         
         if not hist_df.empty:
             dates = hist_df['Date'].unique()
+            
             st.markdown("### 📈 日別トップ5テーマ推移")
             pivot_data = []
             for d in dates:
@@ -219,11 +262,14 @@ with tab2:
             st.dataframe(pd.DataFrame(pivot_data), use_container_width=True, hide_index=True)
             
             st.divider()
+            
             st.markdown("### 🔍 日付別 全テーマランキング詳細")
             selected_date = st.selectbox("詳細を見る日付を選択してください", dates)
+            
             df_selected = hist_df[hist_df['Date'] == selected_date].copy()
             df_selected['Return'] = df_selected['Return'].round(2)
             df_selected.rename(columns={'Theme': 'テーマ', 'Return': '平均騰落率(%)', 'Rank': '順位'}, inplace=True)
+            
             st.dataframe(df_selected[['順位', 'テーマ', '平均騰落率(%)']], use_container_width=True, hide_index=True)
         else:
             st.warning("履歴データが取得できませんでした。")
@@ -232,6 +278,7 @@ with tab2:
 with tab3:
     st.subheader("📅 期間指定データ抽出")
     st.write("指定した期間内の監視銘柄のデータを日別に一覧表示します。")
+    
     today = datetime.date.today()
     default_start = today - datetime.timedelta(days=30)
     date_range = st.date_input("期間を選択", [default_start, today])
@@ -248,8 +295,10 @@ with tab3:
                     try:
                         df_hist = raw_data[t].dropna()
                         df_hist['RSI'] = calc_rsi(df_hist['Close'])
+                        
                         mask = (df_hist.index >= start_ts) & (df_hist.index <= end_ts)
                         df_filtered = df_hist.loc[mask]
+                        
                         if not df_filtered.empty:
                             for idx, row in df_filtered.iterrows():
                                 for theme in tickers_dict[t]["themes"]:
@@ -267,8 +316,10 @@ with tab3:
                 if all_period_data:
                     df_range_view = pd.DataFrame(all_period_data)
                     df_range_view = df_range_view.sort_values(["日付", "テーマ", "コード"], ascending=[False, True, True])
+                    
                     st.success(f"{len(df_range_view)} 件のデータを抽出しました。")
                     st.dataframe(df_range_view, use_container_width=True, hide_index=True)
+                    
                     csv = df_range_view.to_csv(index=False).encode('utf-8-sig')
                     st.download_button(
                         label="💾 抽出結果をCSVで保存",
@@ -281,94 +332,32 @@ with tab3:
     else:
         st.info("開始日と終了日の両方を選択してください。")
 
-# --- タブ4: 独自スコアリング分析 (NEW!) ---
+# --- タブ4: 独自スコア分析 (NEW!) ---
 with tab4:
-    st.subheader("🧮 5項目加点制スコアリング (全160銘柄)")
-    st.write("各銘柄に対して独自のアルゴリズムでスコアを計算し、ランキング化します。")
-    st.markdown("""
-    **【評価項目】**
-    * **x1 (EPS成長性):** 予想EPS ÷ 実績EPS
-    * **x2 (PBR評価の代替):** 約2週間前の株価 ÷ 現在の株価
-    * **x3 (トレンド):** 現在の株価 ÷ 5日移動平均（下回っていれば0点）
-    * **x4 (出来高ペナルティ):** - (当日出来高 ÷ 過去5日平均出来高)
-    * **x5 (RSI過熱感):** 75 ÷ 現在のRSI
+    st.subheader("🏆 独自加点制アルゴリズム スコアランキング")
+    st.write("""
+    指定されたアルゴリズムに基づいて、監視対象160銘柄を自動スコアリングしてランキング表示します。
+    * **x2（トレンド）**: 現在の株価 ÷ 5日移動平均（下回っていれば0点）
+    * **x3（出来高ペナルティ）**: - (当日出来高 ÷ 過去5日平均出来高)
+    * **x4（RSI過熱感）**: 75 ÷ 現在のRSI（短期）
+    ※合計スコア = x2 + x3 + x4
     """)
-
-    # APIリクエスト制限を防ぐため、ボタン実行式にする
-    if st.button("🚀 スコア計算を実行 (※EPS取得のため1〜2分かかります)"):
-        with st.spinner("株価データとEPSを解析中... (Yahoo Finance APIへのアクセス中)"):
-            eps_data = fetch_eps_bulk(all_tickers)
-            score_results = []
+    
+    with st.spinner("スコアを計算中..."):
+        custom_score_df = calculate_custom_scores(raw_data, tickers_dict)
+        
+        if not custom_score_df.empty:
+            st.success("計算が完了しました。")
+            st.dataframe(custom_score_df, use_container_width=True, hide_index=True)
             
-            for t, info_dict in tickers_dict.items():
-                try:
-                    df = raw_data[t].dropna()
-                    # 最低でも過去15日程度のデータが必要
-                    if len(df) < 15:
-                        continue
-                        
-                    # 各種値の取得
-                    current_price = float(df['Close'].iloc[-1])
-                    price_14_ago = float(df['Close'].iloc[-11] if len(df) > 10 else df['Close'].iloc[0]) # 約2週間前（10営業日）
-                    ma5 = df['Close'].rolling(5).mean().iloc[-1]
-                    
-                    vol_today = float(df['Volume'].iloc[-1])
-                    # 過去5日平均出来高（当日を除いた直近5日分）
-                    vol_ma5 = df['Volume'].iloc[-6:-1].mean()
-                    if pd.isna(vol_ma5) or vol_ma5 == 0:
-                        vol_ma5 = vol_today
-                    
-                    # RSIの計算
-                    df_rsi = df.copy()
-                    df_rsi['RSI'] = calc_rsi(df_rsi['Close'])
-                    current_rsi = float(df_rsi['RSI'].iloc[-1])
-                    
-                    # EPSデータの取得
-                    f_eps = eps_data.get(t, {}).get('forwardEps', 0)
-                    t_eps = eps_data.get(t, {}).get('trailingEps', 0)
-                    
-                    # --- スコア計算 (safe_div によるクラッシュ防止) ---
-                    x1 = safe_div(f_eps, t_eps)
-                    x2 = safe_div(price_14_ago, current_price)
-                    
-                    x3_raw = safe_div(current_price, ma5)
-                    x3 = x3_raw if current_price >= ma5 else 0.0
-                    
-                    x4 = -safe_div(vol_today, vol_ma5)
-                    x5 = safe_div(75, current_rsi)
-                    
-                    total_score = x1 + x2 + x3 + x4 + x5
-                    
-                    score_results.append({
-                        "コード": t.replace(".T", ""),
-                        "銘柄名": info_dict["name"],
-                        "テーマ": info_dict["themes"][0],
-                        "総合スコア": round(total_score, 3),
-                        "x1(EPS)": round(x1, 3),
-                        "x2(割安)": round(x2, 3),
-                        "x3(ﾄﾚﾝﾄﾞ)": round(x3, 3),
-                        "x4(出来高)": round(x4, 3),
-                        "x5(RSI)": round(x5, 3)
-                    })
-                except Exception as e:
-                    continue
-                    
-            if score_results:
-                score_df = pd.DataFrame(score_results)
-                # 総合スコアで降順にソート
-                score_df = score_df.sort_values("総合スコア", ascending=False).reset_index(drop=True)
-                score_df.index = score_df.index + 1 # ランキングなので1から開始
-                
-                st.success(f"全 {len(score_df)} 銘柄の計算が完了しました！")
-                st.dataframe(score_df, use_container_width=True)
-                
-                # CSVダウンロードボタン
-                csv_score = score_df.to_csv(index_label="順位").encode('utf-8-sig')
-                st.download_button(
-                    label="💾 スコアリング結果をCSVで保存",
-                    data=csv_score,
-                    file_name=f"scoring_ranking_{datetime.date.today()}.csv",
-                    mime="text/csv"
-                )
-            else:
-                st.error("スコア計算に失敗しました。")
+            # CSVダウンロードボタン
+            csv_scores = custom_score_df.to_csv(index=False).encode('utf-8-sig')
+            st.download_button(
+                label="💾 スコアランキングをCSVで保存",
+                data=csv_scores,
+                file_name=f"custom_scoring_ranking_{datetime.date.today()}.csv",
+                mime="text/csv"
+            )
+        else:
+            st.warning("スコアの計算に失敗しました。データが不足している可能性があります。")
+        
