@@ -3,7 +3,6 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import datetime
-import pytz
 
 # --- ページ設定 ---
 st.set_page_config(page_title="テーマ別株式スクリーナー", layout="wide")
@@ -44,6 +43,20 @@ RAW_STOCK_LIST = [
     "29. 肥料", "4031/片倉コープアグリ 4979/ＯＡＴアグリオ",
     "30. バイオ燃料", "9212/ＧｒｅｅＮＥａｒｔｈＩｎｓｔｉｔｕｔｅ 2931/ユーグレナ",
     "31. ドローン・次世代モビリティ", "278A/テラドローン 6232/ＡＣＳＬ 6052/ブルーイノベーション 7272/ヤマハ発動機 6594/ニデック 7732/トプコン 2303/ドーン 3687/フィックスターズ 6701/日本電気 9433/ＫＤＤＩ"
+]
+
+# === 特選50銘柄リスト（攻め3テーマ ＋ 守り2テーマ） ===
+TARGET_50_TICKERS = [
+    # 攻め：次世代「創エネ」・AIエネルギーミックス
+    "9519.T", "1407.T", "9513.T", "9517.T", "1663.T", "1963.T", "6501.T", "7011.T", "1803.T", "6752.T",
+    # 攻め：フィジカルAI・次世代ロボティクス
+    "6506.T", "6954.T", "6273.T", "6268.T", "6324.T", "4425.T", "3741.T", "7779.T", "202A.T", "3132.T",
+    # 攻め：宇宙・新防衛エコシステム
+    "9412.T", "464A.T", "9348.T", "186A.T", "7013.T", "7224.T", "7721.T", "6946.T", "5631.T", "6486.T",
+    # 守り：創薬・先端医療
+    "4568.T", "4519.T", "4507.T", "4523.T", "4543.T", "7733.T", "7747.T", "6869.T", "7701.T", "4901.T",
+    # 守り：防災・国土強靭化
+    "1414.T", "1813.T", "9621.T", "1417.T", "208A.T", "8088.T", "6632.T", "5285.T", "1848.T", "1888.T"
 ]
 
 # --- ヘルパー関数 ---
@@ -135,6 +148,100 @@ def get_historical_theme_ranking(data, tickers_dict, days=14):
     
     return daily_theme_perf.sort_values(['Date', 'Rank'], ascending=[False, True])
 
+# --- 🚀 新機能：特選50銘柄 新アルゴリズムスコアリング ---
+def calculate_new_algorithm_scores(data, tickers_dict, target_tickers):
+    records = []
+    for t in target_tickers:
+        if t not in tickers_dict or t not in data:
+            continue
+        info = tickers_dict[t]
+        try:
+            df = data[t].dropna().copy()
+            if len(df) < 26: continue 
+            
+            df['MA5'] = df['Close'].rolling(5).mean()
+            df['MA25'] = df['Close'].rolling(25).mean()
+            df['RSI'] = calc_rsi(df['Close'], period=14)
+            
+            # 当日と前日のデータを取得
+            c = df.iloc[-1]
+            p = df.iloc[-2]
+            
+            current_price = float(c['Close'])
+            current_ma5 = float(c['MA5'])
+            current_ma25 = float(c['MA25'])
+            prev_ma25 = float(p['MA25'])
+            current_rsi = float(c['RSI'])
+            today_vol = float(c['Volume'])
+            dod_pct = ((current_price / float(p['Close'])) - 1) * 100
+            
+            # 過去5日間の平均出来高（直前5日間）
+            past_5_vol_avg = float(df['Volume'].iloc[-6:-1].mean())
+            
+            # ==========================================
+            # スイング特化型 5項目加点制アルゴリズム（各20点満点）
+            # ==========================================
+            
+            # ① 中期トレンド（25日線が上向きか）
+            score1 = 20 if current_ma25 > prev_ma25 else 0
+            
+            # ② 短期位置（現在値が5日線を上回っているか）
+            score2 = 20 if current_price > current_ma5 else 0
+            
+            # ③ RSI適正度（過熱と売られすぎを排除）
+            if 45 <= current_rsi <= 65:
+                score3 = 20
+            elif 40 <= current_rsi < 45 or 65 < current_rsi <= 70:
+                score3 = 10
+            else:
+                score3 = 0
+                
+            # ④ 出来高エネルギー（大口の資金流入サイン）
+            score4 = 0
+            if past_5_vol_avg > 0:
+                vol_ratio = today_vol / past_5_vol_avg
+                if vol_ratio >= 1.2:
+                    score4 = 20
+                elif vol_ratio >= 1.0:
+                    score4 = 10
+                    
+            # ⑤ ボラティリティ安定度（急騰・急落後のリスク排除）
+            if -2.0 <= dod_pct <= 4.0:
+                score5 = 20
+            elif -4.0 <= dod_pct < -2.0 or 4.0 < dod_pct <= 7.0:
+                score5 = 10
+            else:
+                score5 = 0
+                
+            total_score = score1 + score2 + score3 + score4 + score5
+            
+            records.append({
+                "コード": t.replace(".T", ""),
+                "銘柄名": info["name"],
+                "テーマ": info["themes"][0] if info["themes"] else "",
+                "総合スコア": int(total_score),
+                "①中期トレンド": int(score1),
+                "②短期位置": int(score2),
+                "③RSI適正": int(score3),
+                "④出来高増": int(score4),
+                "⑤値動き安定": int(score5),
+                "現在値": round(current_price, 1),
+                "前日比(%)": round(dod_pct, 2),
+                "RSI": round(current_rsi, 1)
+            })
+            
+        except Exception as e:
+            continue
+            
+    if not records: return pd.DataFrame()
+    
+    score_df = pd.DataFrame(records)
+    # スコアの高い順にソート（同点の場合はRSIが低い順）
+    score_df = score_df.sort_values(["総合スコア", "RSI"], ascending=[False, True]).reset_index(drop=True)
+    score_df.insert(0, "順位", score_df.index + 1)
+    
+    return score_df
+
 
 # --- UI 構築 ---
 tickers_dict = get_base_tickers()
@@ -148,7 +255,8 @@ with st.spinner('市場データを読み込み中...'):
         st.error("データの取得に失敗しました。")
         st.stop()
 
-tab1, tab2, tab3 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 期間データ抽出"])
+# 🎯 タブ構成
+tab1, tab2, tab3, tab4 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 期間データ抽出", "🎯 特選50銘柄 スコア分析"])
 
 # --- タブ1: スクリーナー ---
 with tab1:
@@ -177,7 +285,7 @@ with tab2:
                 st.dataframe(theme_df[["コード", "銘柄名", "現在値", "前日比", "RSI", "判定"]], use_container_width=True, hide_index=True)
                 
     with sub_tab2:
-        st.write("過去2週間（約14営業日）における、テーマ全体の平均騰落率ランキング推移です。その日どのテーマに資金が向かったかが可視化されます。")
+        st.write("過去2週間（約14営業日）における、テーマ全体の平均騰落率ランキング推移です。")
         hist_df = get_historical_theme_ranking(raw_data, tickers_dict, days=14)
         
         if not hist_df.empty:
@@ -203,13 +311,10 @@ with tab2:
             df_selected.rename(columns={'Theme': 'テーマ', 'Return': '平均騰落率(%)', 'Rank': '順位'}, inplace=True)
             
             st.dataframe(df_selected[['順位', 'テーマ', '平均騰落率(%)']], use_container_width=True, hide_index=True)
-        else:
-            st.warning("履歴データが取得できませんでした。")
 
 # --- タブ3: 期間データ抽出 ---
 with tab3:
     st.subheader("📅 期間指定データ抽出")
-    st.write("指定した期間内の監視銘柄のデータを日別に一覧表示します。")
     
     today = datetime.date.today()
     default_start = today - datetime.timedelta(days=30)
@@ -259,8 +364,33 @@ with tab3:
                         file_name=f"stock_data_{start_date}_to_{end_date}.csv",
                         mime="text/csv"
                     )
-                else:
-                    st.warning("指定された期間内にデータが見つかりませんでした。")
-    else:
-        st.info("開始日と終了日の両方を選択してください。")
+
+# --- タブ4: 🎯 特選50銘柄 スコア分析 ---
+with tab4:
+    st.subheader("🎯 攻守5テーマ・特選50銘柄 新アルゴリズム診断")
+    st.write("""
+    スイングトレードにおける「最も安全かつ上昇期待値の高いタイミング」を、100点満点の5項目加点制で自動判定します。
+    * **① 中期トレンド (20点)**: 25日線が上向きか
+    * **② 短期位置 (20点)**: 現在値が5日線を上回っているか
+    * **③ RSI適正度 (20点)**: RSIが45〜65の安全圏か（過熱・売られすぎの排除）
+    * **④ 出来高エネルギー (20点)**: 出来高が過去5日平均より増加しているか
+    * **⑤ 値動き安定度 (20点)**: 前日比が -2%〜+4% の範囲内か（急騰・急落リスクの排除）
+    """)
     
+    with st.spinner("アルゴリズム診断を実行中..."):
+        new_score_df = calculate_new_algorithm_scores(raw_data, tickers_dict, TARGET_50_TICKERS)
+        
+        if not new_score_df.empty:
+            st.success("診断が完了しました。（同点の場合はRSIが低い銘柄を上位に表示します）")
+            st.dataframe(new_score_df, use_container_width=True, hide_index=True)
+            
+            # CSVダウンロードボタン
+            csv_scores = new_score_df.to_csv(index=False).encode('utf-8-sig')
+            st.download_button(
+                label="💾 診断結果をCSVで保存",
+                data=csv_scores,
+                file_name=f"swing_algorithm_scores_{datetime.date.today()}.csv",
+                mime="text/csv"
+            )
+        else:
+            st.warning("スコアの計算に失敗しました。データが不足している可能性があります。")
