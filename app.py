@@ -31,7 +31,7 @@ RAW_STOCK_LIST = [
     "17. 海洋", "6269/三井海洋開発 1963/日揮ホールディングス 7003/三井Ｅ＆Ｓ 7011/三菱重工業 6834/精工技研 6618/大泉製作所 5802/住友電気工業 6777/ｓａｎｔｅｃ 3648/ＡＧＳ 6340/渋谷工業",
     "18. (対米) 次世代原子力", "6501/日立製作所 7011/三菱重工業 1812/鹿島建設 1802/大林組 1803/清水建設 8058/三菱商事 1833/奥村組 7013/ＩＨＩ 8031/三井物産 8001/伊藤忠商事",
     "19. (対米) 天然ガス・AI電源", "6501/日立製作所 7011/三菱重工業 7013/ＩＨＩ 6503/三菱電機 5803/フジクラ 6762/ＴＤＫ 6981/村田製作所 6752/パナソニックホールディングス 9984/ソフトバンクグループ 6701/日本電気",
-    "20. (対米) 原油インフラ・備蓄", "5020/ＥＮＥＯＳホールディングス 5019/出光興産 5021/コスモエネルギーホールディングス 1605/ＩＮＰＥＸ 8058/三菱商商事 8031/三井物産 8001/伊藤忠商事 8053/住友商事 8002/丸紅 1963/日揮ホールディングス",
+    "20. (対米) 原油インフラ・備蓄", "5020/ＥＮＥＯＳホールディングス 5019/出光興産 5021/コスモエネルギーホールディングス 1605/ＩＮＰＥＸ 8058/三菱商事 8031/三井物産 8001/伊藤忠商事 8053/住友商事 8002/丸紅 1963/日揮ホールディングス",
     "21. (対米) 先端マテリアル", "8031/三井物産 5711/三菱マテリアル 5802/住友電気工業 3402/東レ 3401/帝人 3407/旭化成 4205/日本ゼオン 4063/信越化学工業 4004/レゾナック・ホールディングス 4208/ＵＢＥ",
     "22. (対米) 重要鉱物資源", "5713/住友金属鉱山 5711/三菱マテリアル 8031/三井物産 8058/三菱商事 8015/豊田通商 5714/ＤＯＷＡホールディングス 5706/三井金属鉱業 5715/古河機械金属 3315/日本コークス工業 8002/丸紅",
     "23. フィジカルAI", "6506/安川電機 6954/ファナック 202A/豆蔵ホールディングス 3132/マクニカホールディングス 6268/ナブテスコ 6273/ＳＭＣ 6324/ハーモニック・ドライブ・システムズ 3741/セック 4425/Ｋｕｄａｎ 7779/サイバーダイン",
@@ -43,20 +43,6 @@ RAW_STOCK_LIST = [
     "29. 肥料", "4031/片倉コープアグリ 4979/ＯＡＴアグリオ",
     "30. バイオ燃料", "9212/ＧｒｅｅＮＥａｒｔｈＩｎｓｔｉｔｕｔｅ 2931/ユーグレナ",
     "31. ドローン・次世代モビリティ", "278A/テラドローン 6232/ＡＣＳＬ 6052/ブルーイノベーション 7272/ヤマハ発動機 6594/ニデック 7732/トプコン 2303/ドーン 3687/フィックスターズ 6701/日本電気 9433/ＫＤＤＩ"
-]
-
-# === 特選50銘柄リスト（攻め3テーマ ＋ 守り2テーマ） ===
-TARGET_50_TICKERS = [
-    # 攻め：次世代「創エネ」・AIエネルギーミックス
-    "9519.T", "1407.T", "9513.T", "9517.T", "1663.T", "1963.T", "6501.T", "7011.T", "1803.T", "6752.T",
-    # 攻め：フィジカルAI・次世代ロボティクス
-    "6506.T", "6954.T", "6273.T", "6268.T", "6324.T", "4425.T", "3741.T", "7779.T", "202A.T", "3132.T",
-    # 攻め：宇宙・新防衛エコシステム
-    "9412.T", "464A.T", "9348.T", "186A.T", "7013.T", "7224.T", "7721.T", "6946.T", "5631.T", "6486.T",
-    # 守り：創薬・先端医療
-    "4568.T", "4519.T", "4507.T", "4523.T", "4543.T", "7733.T", "7747.T", "6869.T", "7701.T", "4901.T",
-    # 守り：防災・国土強靭化
-    "1414.T", "1813.T", "9621.T", "1417.T", "208A.T", "8088.T", "6632.T", "5285.T", "1848.T", "1888.T"
 ]
 
 # --- ヘルパー関数 ---
@@ -148,106 +134,11 @@ def get_historical_theme_ranking(data, tickers_dict, days=14):
     
     return daily_theme_perf.sort_values(['Date', 'Rank'], ascending=[False, True])
 
-# --- 🚀 新機能：特選50銘柄 新アルゴリズムスコアリング ---
-def calculate_new_algorithm_scores(data, tickers_dict, target_tickers):
-    records = []
-    for t in target_tickers:
-        if t not in tickers_dict or t not in data:
-            continue
-        info = tickers_dict[t]
-        try:
-            df = data[t].dropna().copy()
-            if len(df) < 26: continue 
-            
-            df['MA5'] = df['Close'].rolling(5).mean()
-            df['MA25'] = df['Close'].rolling(25).mean()
-            df['RSI'] = calc_rsi(df['Close'], period=14)
-            
-            # 当日と前日のデータを取得
-            c = df.iloc[-1]
-            p = df.iloc[-2]
-            
-            current_price = float(c['Close'])
-            current_ma5 = float(c['MA5'])
-            current_ma25 = float(c['MA25'])
-            prev_ma25 = float(p['MA25'])
-            current_rsi = float(c['RSI'])
-            today_vol = float(c['Volume'])
-            dod_pct = ((current_price / float(p['Close'])) - 1) * 100
-            
-            # 過去5日間の平均出来高（直前5日間）
-            past_5_vol_avg = float(df['Volume'].iloc[-6:-1].mean())
-            
-            # ==========================================
-            # スイング特化型 5項目加点制アルゴリズム（各20点満点）
-            # ==========================================
-            
-            # ① 中期トレンド（25日線が上向きか）
-            score1 = 20 if current_ma25 > prev_ma25 else 0
-            
-            # ② 短期位置（現在値が5日線を上回っているか）
-            score2 = 20 if current_price > current_ma5 else 0
-            
-            # ③ RSI適正度（過熱と売られすぎを排除）
-            if 45 <= current_rsi <= 65:
-                score3 = 20
-            elif 40 <= current_rsi < 45 or 65 < current_rsi <= 70:
-                score3 = 10
-            else:
-                score3 = 0
-                
-            # ④ 出来高エネルギー（大口の資金流入サイン）
-            score4 = 0
-            if past_5_vol_avg > 0:
-                vol_ratio = today_vol / past_5_vol_avg
-                if vol_ratio >= 1.2:
-                    score4 = 20
-                elif vol_ratio >= 1.0:
-                    score4 = 10
-                    
-            # ⑤ ボラティリティ安定度（急騰・急落後のリスク排除）
-            if -2.0 <= dod_pct <= 4.0:
-                score5 = 20
-            elif -4.0 <= dod_pct < -2.0 or 4.0 < dod_pct <= 7.0:
-                score5 = 10
-            else:
-                score5 = 0
-                
-            total_score = score1 + score2 + score3 + score4 + score5
-            
-            records.append({
-                "コード": t.replace(".T", ""),
-                "銘柄名": info["name"],
-                "テーマ": info["themes"][0] if info["themes"] else "",
-                "総合スコア": int(total_score),
-                "①中期トレンド": int(score1),
-                "②短期位置": int(score2),
-                "③RSI適正": int(score3),
-                "④出来高増": int(score4),
-                "⑤値動き安定": int(score5),
-                "現在値": round(current_price, 1),
-                "前日比(%)": round(dod_pct, 2),
-                "RSI": round(current_rsi, 1)
-            })
-            
-        except Exception as e:
-            continue
-            
-    if not records: return pd.DataFrame()
-    
-    score_df = pd.DataFrame(records)
-    # スコアの高い順にソート（同点の場合はRSIが低い順）
-    score_df = score_df.sort_values(["総合スコア", "RSI"], ascending=[False, True]).reset_index(drop=True)
-    score_df.insert(0, "順位", score_df.index + 1)
-    
-    return score_df
-
-
 # --- UI 構築 ---
 tickers_dict = get_base_tickers()
 all_tickers = list(tickers_dict.keys())
 
-with st.spinner('市場データを読み込み中...'):
+with st.spinner('全テーマの市場データを読み込み中...'):
     raw_data = fetch_data(all_tickers)
     if raw_data is not None:
         analysis_df = analyze_stocks(raw_data, tickers_dict)
@@ -255,8 +146,8 @@ with st.spinner('市場データを読み込み中...'):
         st.error("データの取得に失敗しました。")
         st.stop()
 
-# 🎯 タブ構成
-tab1, tab2, tab3, tab4 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 期間データ抽出", "🎯 特選50銘柄 スコア分析"])
+# 🎯 タブ構成（タブ4を「特選50銘柄」から「詳細テクニカル分析」へ変更）
+tab1, tab2, tab3, tab4 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 期間データ抽出", "📊 詳細テクニカル分析"])
 
 # --- タブ1: スクリーナー ---
 with tab1:
@@ -365,32 +256,128 @@ with tab3:
                         mime="text/csv"
                     )
 
-# --- タブ4: 🎯 特選50銘柄 スコア分析 ---
+# --- タブ4: 📊 詳細テクニカル分析 (新規統合) ---
 with tab4:
-    st.subheader("🎯 攻守5テーマ・特選50銘柄 新アルゴリズム診断")
-    st.write("""
-    スイングトレードにおける「最も安全かつ上昇期待値の高いタイミング」を、100点満点の5項目加点制で自動判定します。
-    * **① 中期トレンド (20点)**: 25日線が上向きか
-    * **② 短期位置 (20点)**: 現在値が5日線を上回っているか
-    * **③ RSI適正度 (20点)**: RSIが45〜65の安全圏か（過熱・売られすぎの排除）
-    * **④ 出来高エネルギー (20点)**: 出来高が過去5日平均より増加しているか
-    * **⑤ 値動き安定度 (20点)**: 前日比が -2%〜+4% の範囲内か（急騰・急落リスクの排除）
-    """)
+    st.subheader("📊 詳細テクニカル分析 (個別・複数銘柄)")
     
-    with st.spinner("アルゴリズム診断を実行中..."):
-        new_score_df = calculate_new_algorithm_scores(raw_data, tickers_dict, TARGET_50_TICKERS)
+    # UIを2カラムに分けてスッキリ配置
+    col_sel1, col_sel2 = st.columns(2)
+    
+    # 定番銘柄の辞書設定（保有陣形と監視候補）
+    DEFAULT_TECH_TICKERS = {
+        "5713": "住友金属鉱山 (非鉄)",
+        "6503": "三菱電機",
+        "5803": "フジクラ",
+        "4425": "Ｋｕｄａｎ",
+        "7011": "三菱重工業",
+        "6752": "パナソニックHD",
+        "5802": "住友電気工業",
+        "9412": "スカパーJSAT"
+    }
+    
+    with col_sel1:
+        selected_from_list = st.multiselect(
+            "📋 リストから選択（複数可）",
+            options=list(DEFAULT_TECH_TICKERS.keys()),
+            default=["5713", "6503", "5803", "4425"], # デフォルトでセット
+            format_func=lambda x: f"{x} {DEFAULT_TECH_TICKERS[x]}"
+        )
         
-        if not new_score_df.empty:
-            st.success("診断が完了しました。（同点の場合はRSIが低い銘柄を上位に表示します）")
-            st.dataframe(new_score_df, use_container_width=True, hide_index=True)
-            
-            # CSVダウンロードボタン
-            csv_scores = new_score_df.to_csv(index=False).encode('utf-8-sig')
-            st.download_button(
-                label="💾 診断結果をCSVで保存",
-                data=csv_scores,
-                file_name=f"swing_algorithm_scores_{datetime.date.today()}.csv",
-                mime="text/csv"
-            )
+    with col_sel2:
+        custom_input = st.text_input(
+            "📝 新規銘柄コードを追加（カンマ区切り）",
+            placeholder="例: 7203, 9984, 8035"
+        )
+        
+    # 選択と手入力を結合
+    final_tickers = set(selected_from_list)
+    if custom_input:
+        custom_codes = [code.strip() for code in custom_input.split(',')]
+        for code in custom_codes:
+            if code.isdigit():
+                final_tickers.add(code)
+                
+    final_tickers = list(final_tickers)
+
+    if st.button("🚀 指標を計算・更新する"):
+        if not final_tickers:
+            st.warning("銘柄を選択または入力してください。")
         else:
-            st.warning("スコアの計算に失敗しました。データが不足している可能性があります。")
+            results_tech = []
+            with st.spinner("指定銘柄の最新データを取得・計算中..."):
+                for code in final_tickers:
+                    try:
+                        ticker_symbol = f"{code}.T"
+                        df_tech = yf.download(ticker_symbol, period="3mo", interval="1d", progress=False)
+                        
+                        if df_tech.empty or len(df_tech) < 20: continue
+                        
+                        if isinstance(df_tech.columns, pd.MultiIndex):
+                            df_tech.columns = df_tech.columns.droplevel(1)
+                            
+                        # 指標の計算
+                        df_tech['MA5'] = df_tech['Close'].rolling(window=5).mean()
+                        df_tech['MA5_Deviation'] = ((df_tech['Close'] / df_tech['MA5']) - 1) * 100
+                        df_tech['RSI'] = calc_rsi(df_tech['Close'], period=14)
+                        df_tech['Vol_Change'] = df_tech['Volume'].pct_change() * 100
+                        df_tech['Vol_Change_5d_Avg'] = df_tech['Vol_Change'].rolling(window=5).mean()
+                        
+                        df_tech['Prev_Close'] = df_tech['Close'].shift(1)
+                        df_tech['Daily_Range_Pct'] = np.where(
+                            df_tech['Prev_Close'] > 0,
+                            ((df_tech['High'] - df_tech['Low']) / df_tech['Prev_Close']) * 100,
+                            0
+                        )
+                        df_tech['Volatility_5d_Avg'] = df_tech['Daily_Range_Pct'].rolling(window=5).mean()
+                        
+                        latest = df_tech.iloc[-1]
+                        prev = df_tech.iloc[-2]
+                        current_price = float(latest['Close'])
+                        dod_pct = ((current_price / float(prev['Close'])) - 1) * 100
+                        
+                        company_name = DEFAULT_TECH_TICKERS.get(code, "新規追加/個別銘柄")
+                        
+                        results_tech.append({
+                            "コード": code,
+                            "銘柄名": company_name,
+                            "現在値": round(current_price, 1),
+                            "前日比 (%)": round(dod_pct, 2),
+                            "RSI (14日)": round(float(latest['RSI']), 1),
+                            "5日線 乖離率 (%)": round(float(latest['MA5_Deviation']), 2),
+                            "5日間 出来高変化率平均 (%)": round(float(latest['Vol_Change_5d_Avg']), 1),
+                            "5日間 平均ボラティリティ (%)": round(float(latest['Volatility_5d_Avg']), 2)
+                        })
+                    except Exception as e:
+                        continue
+                        
+            if results_tech:
+                result_df = pd.DataFrame(results_tech)
+                
+                with st.expander("📖 各指標の読み方・戦略ガイド"):
+                    st.write("""
+                    * **RSI (14日)**: 45〜65が安全圏。70以上は利益確定の目安、40以下は底打ちのサインです。
+                    * **5日線 乖離率 (%)**: 0%に近い（またはマイナス）ほど、5日線にタッチしており「押し目買い」のチャンスです。+5%を超えると高値掴みのリスクが高まります。
+                    * **5日間 出来高変化率平均 (%)**: プラスの数値が大きいほど、直近1週間で大口の資金が継続して流入している「強いトレンド」を示します。
+                    * **5日間 平均ボラティリティ (%)**: 数値が高いほど1日の乱高下が激しい状態です。急騰後はボラティリティが跳ね上がります。数値が低く落ち着いている時が安全な仕込み時です。
+                    """)
+                
+                def color_rsi(val):
+                    color = 'red' if val >= 70 else 'blue' if val <= 40 else 'green'
+                    return f'color: {color}'
+                    
+                def color_deviation(val):
+                    color = 'red' if val >= 5 else 'blue' if val <= 0 else 'black'
+                    return f'color: {color}'
+
+                styled_df = result_df.style\
+                    .map(color_rsi, subset=['RSI (14日)'])\
+                    .map(color_deviation, subset=['5日線 乖離率 (%)'])\
+                    .format({
+                        "前日比 (%)": "{:+.2f}",
+                        "5日線 乖離率 (%)": "{:+.2f}",
+                        "5日間 出来高変化率平均 (%)": "{:+.1f}",
+                    })
+
+                st.dataframe(styled_df, use_container_width=True, hide_index=True)
+            else:
+                st.warning("表示できるデータがありませんでした。")
