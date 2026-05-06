@@ -138,6 +138,9 @@ def get_historical_theme_ranking(data, tickers_dict, days=14):
 tickers_dict = get_base_tickers()
 all_tickers = list(tickers_dict.keys())
 
+# テーマ一覧の取得
+all_theme_names = [line for line in RAW_STOCK_LIST if "/" not in line]
+
 with st.spinner('全テーマの市場データを読み込み中...'):
     raw_data = fetch_data(all_tickers)
     if raw_data is not None:
@@ -146,7 +149,7 @@ with st.spinner('全テーマの市場データを読み込み中...'):
         st.error("データの取得に失敗しました。")
         st.stop()
 
-# 🎯 タブ構成（タブ4を「特選50銘柄」から「詳細テクニカル分析」へ変更）
+# 🎯 タブ構成
 tab1, tab2, tab3, tab4 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 期間データ抽出", "📊 詳細テクニカル分析"])
 
 # --- タブ1: スクリーナー ---
@@ -256,14 +259,22 @@ with tab3:
                         mime="text/csv"
                     )
 
-# --- タブ4: 📊 詳細テクニカル分析 (新規統合) ---
+# --- タブ4: 📊 詳細テクニカル分析 (新規統合＆テーマ一括対応) ---
 with tab4:
-    st.subheader("📊 詳細テクニカル分析 (個別・複数銘柄)")
+    st.subheader("📊 詳細テクニカル分析 (テーマ一括・個別銘柄)")
     
-    # UIを2カラムに分けてスッキリ配置
+    # テーマ一括選択（全画面幅を使用）
+    selected_themes = st.multiselect(
+        "📂 テーマから一括選択（複数可）",
+        options=all_theme_names,
+        placeholder="ここからテーマを選ぶと、そのテーマの全銘柄が自動で分析リストに追加されます"
+    )
+    
+    st.write("---")
+    
+    # UIを2カラムに分けて配置（個別選択と手入力）
     col_sel1, col_sel2 = st.columns(2)
     
-    # 定番銘柄の辞書設定（保有陣形と監視候補）
     DEFAULT_TECH_TICKERS = {
         "5713": "住友金属鉱山 (非鉄)",
         "6503": "三菱電機",
@@ -277,20 +288,33 @@ with tab4:
     
     with col_sel1:
         selected_from_list = st.multiselect(
-            "📋 リストから選択（複数可）",
+            "📋 注目銘柄リストから追加",
             options=list(DEFAULT_TECH_TICKERS.keys()),
-            default=["5713", "6503", "5803", "4425"], # デフォルトでセット
+            default=[], # テーマ選択をメインにするため、デフォルトは空に変更
             format_func=lambda x: f"{x} {DEFAULT_TECH_TICKERS[x]}"
         )
         
     with col_sel2:
         custom_input = st.text_input(
-            "📝 新規銘柄コードを追加（カンマ区切り）",
+            "📝 新規銘柄コードを手動追加（カンマ区切り）",
             placeholder="例: 7203, 9984, 8035"
         )
         
-    # 選択と手入力を結合
-    final_tickers = set(selected_from_list)
+    # ▼ 選択された銘柄をすべて結合する処理
+    final_tickers = set()
+    
+    # 1. テーマから追加
+    if selected_themes:
+        for t, info in tickers_dict.items():
+            for theme in selected_themes:
+                if theme in info["themes"]:
+                    final_tickers.add(t.replace(".T", ""))
+                    
+    # 2. リストから追加
+    for code in selected_from_list:
+        final_tickers.add(code)
+        
+    # 3. 手動入力から追加
     if custom_input:
         custom_codes = [code.strip() for code in custom_input.split(',')]
         for code in custom_codes:
@@ -299,12 +323,12 @@ with tab4:
                 
     final_tickers = list(final_tickers)
 
-    if st.button("🚀 指標を計算・更新する"):
+    if st.button("🚀 指標を計算・更新する", type="primary"):
         if not final_tickers:
-            st.warning("銘柄を選択または入力してください。")
+            st.warning("テーマを選択するか、銘柄を入力してください。")
         else:
             results_tech = []
-            with st.spinner("指定銘柄の最新データを取得・計算中..."):
+            with st.spinner(f"計 {len(final_tickers)} 銘柄の最新データを取得・計算中..."):
                 for code in final_tickers:
                     try:
                         ticker_symbol = f"{code}.T"
@@ -335,9 +359,16 @@ with tab4:
                         current_price = float(latest['Close'])
                         dod_pct = ((current_price / float(prev['Close'])) - 1) * 100
                         
-                        company_name = DEFAULT_TECH_TICKERS.get(code, "新規追加/個別銘柄")
+                        # 銘柄名と所属テーマの取得
+                        if ticker_symbol in tickers_dict:
+                            company_name = tickers_dict[ticker_symbol]["name"]
+                            theme_name = ", ".join(tickers_dict[ticker_symbol]["themes"])
+                        else:
+                            company_name = DEFAULT_TECH_TICKERS.get(code, "新規追加")
+                            theme_name = "個別追加"
                         
                         results_tech.append({
+                            "テーマ": theme_name,
                             "コード": code,
                             "銘柄名": company_name,
                             "現在値": round(current_price, 1),
@@ -352,6 +383,9 @@ with tab4:
                         
             if results_tech:
                 result_df = pd.DataFrame(results_tech)
+                
+                # 乖離率の低い順（押し目買いの安全な順）にデフォルトでソート
+                result_df = result_df.sort_values("5日線 乖離率 (%)", ascending=True)
                 
                 with st.expander("📖 各指標の読み方・戦略ガイド"):
                     st.write("""
