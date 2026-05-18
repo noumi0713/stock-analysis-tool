@@ -1,417 +1,104 @@
-import streamlit as st
-import yfinance as yf
-import pandas as pd
+# ... existing code ...
 import numpy as np
 import datetime
+import requests
+from io import StringIO
+
+# === ご指定の16テーマ監視対象辞書（各10銘柄に拡充） ===
+TARGET_THEME_DICT = {
+    "半導体": [("8035", "東京エレクトロン"), ("6857", "アドバンテスト"), ("6920", "レーザーテック"), ("7735", "SCREEN"), ("6723", "ルネサス"), ("6963", "ローム"), ("6146", "ディスコ"), ("6890", "フェローテック"), ("4063", "信越化学工業"), ("7731", "ニコン")],
+    "AI関連": [("9984", "ソフトバンクG"), ("3993", "PKSHA"), ("6526", "ソシオネクスト"), ("4736", "日本ラッド"), ("5586", "Laboro.AI"), ("4488", "AI inside"), ("4382", "HEROZ"), ("5132", "pluszero"), ("4071", "プラスアルファ"), ("9432", "NTT")],
+    "フィジカルAi": [("6954", "ファナック"), ("6506", "安川電機"), ("6324", "ハーモニック"), ("6268", "ナブテスコ"), ("6273", "SMC"), ("6383", "ダイフク"), ("6103", "オークマ"), ("6481", "THK"), ("7779", "CYBERDYNE"), ("6301", "コマツ")],
+    "レアアース": [("5713", "住友金属鉱山"), ("5711", "三菱マテリアル"), ("5714", "DOWA"), ("5706", "三井金属"), ("5802", "住友電気工業"), ("5724", "アサカ理研"), ("4004", "レゾナック"), ("4099", "四国化成"), ("5715", "古河機械金属"), ("5726", "大阪チタニウム")],
+    "宇宙": [("7011", "三菱重工業"), ("9348", "ispace"), ("5595", "QPS研究所"), ("7013", "IHI"), ("9412", "スカパーJSAT"), ("186A", "アストロスケール"), ("6503", "三菱電機"), ("6701", "NEC"), ("7721", "東京計器"), ("3402", "東レ")],
+    "データセンター": [("9432", "NTT"), ("6501", "日立製作所"), ("1951", "エクシオG"), ("6702", "富士通"), ("6504", "富士電機"), ("1417", "ミライト・ワン"), ("1932", "きんでん"), ("8058", "三菱商事"), ("3778", "さくらインターネット"), ("6988", "日東電工")],
+    "ドローン": [("6232", "ACSL"), ("278A", "テラドローン"), ("6052", "ブルーイノベーション"), ("7272", "ヤマハ発動機"), ("6594", "ニデック"), ("7732", "トプコン"), ("2303", "ドーン"), ("3687", "フィックスターズ"), ("9433", "KDDI"), ("7012", "川崎重工業")],
+    "防衛": [("7012", "川崎重工業"), ("7721", "東京計器"), ("6208", "石川製作所"), ("7011", "三菱重工業"), ("7013", "IHI"), ("6946", "日本アビオニクス"), ("6703", "沖電気工業"), ("5631", "日本製鋼所"), ("6503", "三菱電機"), ("4274", "細谷火工")],
+    "銀行": [("8306", "三菱UFJ"), ("8316", "三井住友"), ("8411", "みずほ"), ("8308", "りそなHD"), ("8309", "三井住友トラスト"), ("7182", "ゆうちょ銀行"), ("8331", "千葉銀行"), ("5831", "静岡FG"), ("8354", "ふくおかFG"), ("7167", "めぶきFG")],
+    "光デバイス": [("6965", "浜松ホトニクス"), ("6777", "santec"), ("5803", "フジクラ"), ("6618", "大泉製作所"), ("5802", "住友電気工業"), ("5801", "古河電気工業"), ("6971", "京セラ"), ("7731", "ニコン"), ("6701", "NEC"), ("6988", "日東電工")],
+    "蓄電池": [("6752", "パナソニックHD"), ("6762", "TDK"), ("6981", "村田製作所"), ("6504", "富士電機"), ("6674", "GSユアサ"), ("6810", "マクセル"), ("4118", "カネカ"), ("4098", "チタン工業"), ("5711", "三菱マテリアル"), ("6955", "FDK")],
+    "量子コンピュータ": [("6701", "NEC"), ("6702", "富士通"), ("3687", "フィックスターズ"), ("6501", "日立製作所"), ("9432", "NTT"), ("6503", "三菱電機"), ("6971", "京セラ"), ("4704", "トレンドマイクロ"), ("6758", "ソニーG"), ("4063", "信越化学工業")],
+    "ペロブスカイト太陽光電池": [("4204", "積水化学工業"), ("4118", "カネカ"), ("5020", "ENEOS"), ("4369", "トリケミカル"), ("3407", "旭化成"), ("6752", "パナソニックHD"), ("6504", "富士電機"), ("6988", "日東電工"), ("4188", "三菱ケミカルG"), ("7911", "TOPPAN")],
+    "商社": [("8058", "三菱商事"), ("8031", "三井物産"), ("8001", "伊藤忠商事"), ("8053", "住友商事"), ("8002", "丸紅"), ("8015", "豊田通商"), ("2768", "双日"), ("8078", "阪和興業"), ("8012", "長瀬産業"), ("8020", "兼松")],
+    "保険業": [("8766", "東京海上"), ("8725", "MS&AD"), ("8630", "SOMPO"), ("8750", "第一生命HD"), ("8795", "T&D HD"), ("7181", "かんぽ生命保険"), ("7164", "全国保証"), ("7148", "FPG"), ("8604", "野村HD"), ("8601", "大和証券G")],
+    "非鉄金属": [("5713", "住友金属鉱山"), ("5726", "大阪チタニウム"), ("5706", "三井金属"), ("5711", "三菱マテリアル"), ("5802", "住友電気工業"), ("5803", "フジクラ"), ("5801", "古河電気工業"), ("5714", "DOWA"), ("5715", "古河機械金属"), ("5857", "ARE HD")]
+}
+
+# 初期ポートフォリオの一括生成
+INITIAL_PORTFOLIO = []
+for theme, stocks in TARGET_THEME_DICT.items():
+    for code, name in stocks:
+        INITIAL_PORTFOLIO.append({"テーマ": theme, "コード": code, "銘柄名": name})
 
 # --- ページ設定 ---
-st.set_page_config(page_title="テーマ別株式スクリーナー", layout="wide")
+st.set_page_config(page_title="テーマ別株式スクリーナー", layout="wide", page_icon="📈")
+
+# セッションの初期化（銘柄が100件未満なら新しい160銘柄リストで強制上書き）
+if "my_portfolio" not in st.session_state or len(st.session_state["my_portfolio"]) < 100:
+    st.session_state["my_portfolio"] = INITIAL_PORTFOLIO
+    st.session_state["target_themes_loaded"] = True
+
 st.title("📈 戦略的テーマ監視ダッシュボード")
 
-# ==========================================
-# 1. 銘柄データ（全31テーマ）
-# ==========================================
-RAW_STOCK_LIST = [
-    "1. AI・半導体", "6857/アドバンテスト 8035/東京エレクトロン 6723/ルネサスエレクトロニクス 6920/レーザーテック 7735/ＳＣＲＥＥＮホールディングス 6963/ローム 6707/サンケン電気 7282/豊田合成 9984/ソフトバンクグループ 6501/日立製作所",
-    "2. 造船", "7011/三菱重工業 7012/川崎重工業 7014/名村造船所 7003/三井Ｅ＆Ｓ 7018/内海造船 6302/住友重機械工業 9101/日本郵船 9104/商船三井 9107/川崎汽船 7022/サノヤスホールディングス",
-    "3. 量子", "6701/日本電気 6702/富士通 9432/日本電信電話 6501/日立製作所 6503/三菱電機 6971/京セラ 8053/住友商事 4704/トレンドマイクロ 6758/ソニーグループ 4063/信越化学工業",
-    "4. 合成生物学・バイオ", "4502/武田薬品工業 4568/第一三共 4471/三洋化成工業 8111/ゴールドウイン 4613/関西ペイント 6028/テクノプロ・ホールディングス 2931/ユーグレナ 4523/エーザイ 4519/中外製薬 4901/富士フイルムホールディングス",
-    "5. 航空・宇宙", "7011/三菱重工業 7013/ＩＨＩ 9412/スカパーＪＳＡＴホールディングス 464A/ＱＰＳ研究所 186A/アストロスケールホールディングス 9348/ｉｓｐａｃｅ 3402/東レ 7224/新明和工業 3524/日東製網 6965/浜松ホトニクス 290A/シンスペ",
-    "6. デジタル・サイバーセキュリティ", "4704/トレンドマイクロ 3692/ＦＦＲＩセキュリティ 4441/トビラシステムズ 3916/デジタル・インフォメーション・テクノロジー 2326/デジタルアーツ 3040/ソリトンシステムズ 4258/網屋 9433/ＫＤＤＩ 4398/ブロードバンドセキュリティ 4722/フューチャー 6701/日本電気",
-    "7. コンテンツ", "6758/ソニーグループ 9404/日本テレビホールディングス 7832/バンダイナムコホールディングス 4751/サイバーエージェント 9468/ＫＡＤＯＫＡＷＡ 7974/任天堂 4816/東映アニメーション 9684/スクウェア・エニックス・ホールディングス 9697/カプコン 3765/ガンホー・オンライン・エンターテイメント",
-    "8. フードテック", "3182/オイシックス・ラ・大地 1332/ニッスイ 1333/マルハニチロ 2282/日本ハム 2607/不二製油グループ本社 2802/味の素 2811/カゴメ 2193/クックパッド 2296/伊藤ハム米久ホールディングス 2216/カンロ",
-    "9. 資源・エネルギー・GX", "9501/東京電力ホールディングス 5020/ＥＮＥＯＳホールディングス 6752/パナソニックホールディングス 4204/積水化学工業 4107/伊勢化学工業 5711/三菱マテリアル 4118/カネカ 9503/関西電力 1605/ＩＮＰＥＸ 1963/日揮ホールディングス",
-    "10. 防災・国土強靭化", "1414/ショーボンドホールディングス 1813/不動テトラ 9621/建設技術研究所 1417/ミライト・ワン 208A/構造計画研究所 8088/岩谷産業 6632/ＪＶＣケンウッド 5285/ヤマックス 1848/富士ピー・エス 1888/若築建設",
-    "11. 創薬・先端医療", "4543/テルモ 7733/オリンパス 4519/中外製薬 4507/塩野義製薬 4523/エーザイ 4901/富士フイルムホールディングス 7747/朝日インテック 7701/島津製作所 6869/シスメックス 4527/ロート製薬",
-    "12. フュージョンエネルギー", "5803/フジクラ 8801/三井不動産 6971/京セラ 6965/浜松ホトニクス 7011/三菱重工業 6501/日立製作所 6503/三菱電機 6504/富士電機 5802/住友電気工業 7013/ＩＨＩ",
-    "13. マテリアル", "4063/信越化学工業 3436/ＳＵＭＣＯ 5713/住友金属鉱山 5726/大阪チタニウムテクノロジーズ 5333/日本碍子 5310/東洋炭素 5302/日本カーボン 5406/神戸製鋼所 5401/日本製鉄 5411/ＪＦＥホールディングス",
-    "14. 港湾ロジスティクス", "9301/三菱倉庫 9303/住友倉庫 9364/上組 9302/三井倉庫ホールディングス 9147/ＮＸホールディングス 9107/川崎汽船 9101/日本郵船 9104/商船三井 9304/渋沢倉庫 9358/宇徳",
-    "15. 防衛産業", "7011/三菱重工業 7012/川崎重工業 7013/ＩＨＩ 7721/東京計器 6946/日本アビオニクス 6703/沖電気工業 3105/日清紡ホールディングス 6486/イーグル工業 5631/日本製鋼所 8093/極東貿易",
-    "16. 情報通信", "9432/日本電信電話 9433/ＫＤＤＩ 9434/ソフトバンク 4755/楽天グループ 9412/スカパーＪＳＡＴホールディングス 5801/古河電気工業 5802/住友電気工業 5803/フジクラ 6701/日本電気 6702/富士通",
-    "17. 海洋", "6269/三井海洋開発 1963/日揮ホールディングス 7003/三井Ｅ＆Ｓ 7011/三菱重工業 6834/精工技研 6618/大泉製作所 5802/住友電気工業 6777/ｓａｎｔｅｃ 3648/ＡＧＳ 6340/渋谷工業",
-    "18. (対米) 次世代原子力", "6501/日立製作所 7011/三菱重工業 1812/鹿島建設 1802/大林組 1803/清水建設 8058/三菱商事 1833/奥村組 7013/ＩＨＩ 8031/三井物産 8001/伊藤忠商事",
-    "19. (対米) 天然ガス・AI電源", "6501/日立製作所 7011/三菱重工業 7013/ＩＨＩ 6503/三菱電機 5803/フジクラ 6762/ＴＤＫ 6981/村田製作所 6752/パナソニックホールディングス 9984/ソフトバンクグループ 6701/日本電気",
-    "20. (対米) 原油インフラ・備蓄", "5020/ＥＮＥＯＳホールディングス 5019/出光興産 5021/コスモエネルギーホールディングス 1605/ＩＮＰＥＸ 8058/三菱商事 8031/三井物産 8001/伊藤忠商事 8053/住友商事 8002/丸紅 1963/日揮ホールディングス",
-    "21. (対米) 先端マテリアル", "8031/三井物産 5711/三菱マテリアル 5802/住友電気工業 3402/東レ 3401/帝人 3407/旭化成 4205/日本ゼオン 4063/信越化学工業 4004/レゾナック・ホールディングス 4208/ＵＢＥ",
-    "22. (対米) 重要鉱物資源", "5713/住友金属鉱山 5711/三菱マテリアル 8031/三井物産 8058/三菱商事 8015/豊田通商 5714/ＤＯＷＡホールディングス 5706/三井金属鉱業 5715/古河機械金属 3315/日本コークス工業 8002/丸紅",
-    "23. フィジカルAI", "6506/安川電機 6954/ファナック 202A/豆蔵ホールディングス 3132/マクニカホールディングス 6268/ナブテスコ 6273/ＳＭＣ 6324/ハーモニック・ドライブ・システムズ 3741/セック 4425/Ｋｕｄａｎ 7779/サイバーダイン",
-    "24. 蓄電池", "6752/パナソニックホールディングス 6762/ＴＤＫ 6981/村田製作所 4204/積水化学工業 4118/カネカ 4107/伊勢化学工業 3407/旭化成 6502/東芝 6810/マクセル 485A/パワーエックス 6617/東光高岳",
-    "25. 再エネ", "9519/レノバ 1407/ウエストホールディングス",
-    "26. 石炭", "1514/住石ホールディングス 8835/太平洋興発",
-    "27. 天然ガス", "1663/Ｋ＆Ｏエナジーグループ 1963/日揮ホールディングス",
-    "28. 電力卸", "9513/電源開発 9517/イーレックス",
-    "29. 肥料", "4031/片倉コープアグリ 4979/ＯＡＴアグリオ",
-    "30. バイオ燃料", "9212/ＧｒｅｅＮＥａｒｔｈＩｎｓｔｉｔｕｔｅ 2931/ユーグレナ",
-    "31. ドローン・次世代モビリティ", "278A/テラドローン 6232/ＡＣＳＬ 6052/ブルーイノベーション 7272/ヤマハ発動機 6594/ニデック 7732/トプコン 2303/ドーン 3687/フィックスターズ 6701/日本電気 9433/ＫＤＤＩ"
-]
+TARGET_THEME_DICT = {
+    "半導体": [("8035", "東京エレクトロン"), ("6857", "アドバンテスト"), ("6920", "レーザーテック"), ("7735", "SCREEN")],
+    "AI関連": [("9984", "ソフトバンクG"), ("3993", "PKSHA"), ("6526", "ソシオネクスト"), ("4736", "日本ラッド")],
+    "フィジカルAi": [("6954", "ファナック"), ("6506", "安川電機"), ("6324", "ハーモニック")],
+    "レアアース": [("5713", "住友金属鉱山"), ("5711", "三菱マテリアル"), ("5714", "DOWA")],
+    "宇宙": [("7011", "三菱重工業"), ("9348", "ispace"), ("464A", "QPS研究所"), ("7013", "IHI")],
+    "データセンター": [("9432", "NTT"), ("6501", "日立製作所"), ("1951", "エクシオG"), ("6702", "富士通")],
+    "ドローン": [("6232", "ACSL"), ("278A", "テラドローン"), ("6052", "ブルーイノベーション")],
+    "防衛": [("7012", "川崎重工業"), ("7721", "東京計器"), ("6208", "石川製作所"), ("7011", "三菱重工業")],
+    "銀行": [("8306", "三菱UFJ"), ("8316", "三井住友"), ("8411", "みずほ")],
+    "光デバイス": [("6965", "浜松ホトニクス"), ("6777", "santec"), ("5803", "フジクラ"), ("6618", "大泉製作所")],
+    "蓄電池": [("6752", "パナソニックHD"), ("6762", "TDK"), ("6981", "村田製作所"), ("6504", "富士電機")],
+    "量子コンピュータ": [("6701", "NEC"), ("6702", "富士通"), ("3687", "フィックスターズ")],
+    "ペロブスカイト太陽光電池": [("4204", "積水化学工業"), ("4118", "カネカ"), ("5020", "ENEOS")],
+    "商社": [("8058", "三菱商事"), ("8031", "三井物産"), ("8001", "伊藤忠商事")],
+    "保険業": [("8766", "東京海上"), ("8725", "MS&AD"), ("8630", "SOMPO")],
+    "非鉄金属": [("5713", "住友金属鉱山"), ("5726", "大阪チタニウム"), ("5706", "三井金属")]
+}
 
-# --- ヘルパー関数 ---
-def get_base_tickers():
-    t_dict = {}
-    cur_theme = "不明"
-    for line in RAW_STOCK_LIST:
-        if "/" not in line:
-            cur_theme = line
-        else:
-            stocks = line.split()
-            for s in stocks:
-                if "/" in s:
-                    code, name = s.split("/")
-                    ticker = f"{code}.T"
-                    if ticker not in t_dict:
-                        t_dict[ticker] = {"name": name, "themes": [cur_theme]}
-                    else:
-                        if cur_theme not in t_dict[ticker]["themes"]:
-                            t_dict[ticker]["themes"].append(cur_theme)
-    return t_dict
+# 初期ポートフォリオの一括生成
+INITIAL_PORTFOLIO = []
+for theme, stocks in TARGET_THEME_DICT.items():
+    for code, name in stocks:
+        INITIAL_PORTFOLIO.append({"テーマ": theme, "コード": code, "銘柄名": name})
 
-@st.cache_data(ttl=600)
-def fetch_data(tickers):
-    if not tickers: return None
-    return yf.download(tickers, period="6mo", interval="1d", group_by="ticker", threads=True)
+# --- ページ設定 ---
+st.set_page_config(page_title="テーマ別株式スクリーナー", layout="wide", page_icon="📈")
 
-def calc_rsi(series, period=14):
-    delta = series.diff()
-    gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
-    loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
-    rs = gain / loss
-    return 100 - (100 / (1 + rs))
+# セッションの初期化（指定された16テーマ構成で強制上書きしてリセットする処理）
+if "my_portfolio" not in st.session_state or "target_themes_loaded" not in st.session_state:
+    st.session_state["my_portfolio"] = INITIAL_PORTFOLIO
+    st.session_state["target_themes_loaded"] = True
 
-def analyze_stocks(data, tickers_dict):
-    results = []
-    ts = list(tickers_dict.keys())
-    for t in ts:
-        try:
-            df = data[t].dropna()
-            if len(df) < 25: continue
-            df['MA5'] = df['Close'].rolling(5).mean()
-            df['MA25'] = df['Close'].rolling(25).mean()
-            df['MA75'] = df['Close'].rolling(75).mean()
-            df['RSI'] = calc_rsi(df['Close'])
-            
-            c = df.iloc[-1]
-            p = df.iloc[-2]
-            dod = ((c['Close'] / p['Close']) - 1) * 100
-            
-            status = "横ばい"
-            if c['Close'] > df['MA5'].iloc[-1] > df['MA25'].iloc[-1] > df['MA75'].iloc[-1]:
-                if df['MA25'].iloc[-1] > df['MA25'].iloc[-2]:
-                    status = "🌟 パーフェクトオーダー"
-            elif c['Close'] > df['MA5'].iloc[-1] > df['MA5'].iloc[-2]:
-                status = "📈 5日線上向き"
+st.title("📈 戦略的テーマ監視ダッシュボード")
+# ... existing code ...
+```
 
-            for theme in tickers_dict[t]["themes"]:
-                results.append({
-                    "テーマ": theme, "コード": t.replace(".T", ""), "銘柄名": tickers_dict[t]["name"],
-                    "現在値": round(c['Close'], 1), "前日比": dod, "RSI": round(c['RSI'], 1), "判定": status
-                })
-        except: continue
-    return pd.DataFrame(results)
+### 2. トレンド発掘機能の更新
+「✨ トレンド自動発掘」タブでの計算ロジックも、今回追加した16テーマに絞って集計されるように修正します。以下のコードを既存の関数の間に差し込んでください。
 
-def get_historical_theme_ranking(data, tickers_dict, days=14):
-    records = []
-    for t, info in tickers_dict.items():
-        try:
-            df = data[t].dropna().copy()
-            if len(df) < 2: continue
-            df['Return'] = df['Close'].pct_change() * 100
-            df_recent = df.tail(days)
-            for date, row in df_recent.iterrows():
-                if pd.isna(row['Return']): continue
-                for theme in info["themes"]:
-                    records.append({
-                        "Date": date.date(),
-                        "Theme": theme,
-                        "Return": row['Return']
-                    })
-        except: continue
-    
-    if not records: return pd.DataFrame()
-    
-    df_records = pd.DataFrame(records)
-    daily_theme_perf = df_records.groupby(['Date', 'Theme'])['Return'].mean().reset_index()
-    daily_theme_perf['Rank'] = daily_theme_perf.groupby('Date')['Return'].rank(ascending=False, method='min').astype(int)
-    
-    return daily_theme_perf.sort_values(['Date', 'Rank'], ascending=[False, True])
+```python:テーマ別株式スクリーナー:app.py
+# ... existing code ...
+    merged = pd.merge(components_df, ret_df, on="コード")
+    sector_perf = merged.groupby("テーマ")["5日リターン(%)"].mean().reset_index()
+    sector_perf = sector_perf.sort_values("5日リターン(%)", ascending=False)
+    return sector_perf, merged
 
-# --- UI 構築 ---
-tickers_dict = get_base_tickers()
-all_tickers = list(tickers_dict.keys())
+@st.cache_data(ttl=3600)
+def fetch_custom_theme_components():
+    """指定された16テーマの辞書から構成銘柄データを生成（トレンド自動判定用）"""
+    components = []
+    for theme, stocks in TARGET_THEME_DICT.items():
+        for code, name in stocks:
+            components.append({"テーマ": theme, "コード": code, "銘柄名": name})
+    return pd.DataFrame(components)
 
-# テーマ一覧の取得
-all_theme_names = [line for line in RAW_STOCK_LIST if "/" not in line]
+@st.cache_data(ttl=1800) # 30分キャッシュしてサーバー負荷を軽減
+def fetch_market_ranking_from_web(ranking_type="gainers"):
+# ... existing code ...
+```
 
-with st.spinner('全テーマの市場データを読み込み中...'):
-    raw_data = fetch_data(all_tickers)
-    if raw_data is not None:
-        analysis_df = analyze_stocks(raw_data, tickers_dict)
-    else:
-        st.error("データの取得に失敗しました。")
-        st.stop()
-
-# 🎯 タブ構成
-tab1, tab2, tab3, tab4 = st.tabs(["🔥 強気銘柄スクリーナー", "📂 テーマ別動向", "📅 期間データ抽出", "📊 詳細テクニカル分析"])
-
-# --- タブ1: スクリーナー ---
-with tab1:
-    col1, col2 = st.columns(2)
-    po_stocks = analysis_df[analysis_df["判定"] == "🌟 パーフェクトオーダー"].drop_duplicates(subset="コード")
-    ma5_stocks = analysis_df[analysis_df["判定"] == "📈 5日線上向き"].drop_duplicates(subset="コード")
-    with col1:
-        st.success(f"🌟 パーフェクトオーダー中 ({len(po_stocks)}銘柄)")
-        st.dataframe(po_stocks[["コード", "銘柄名", "現在値", "前日比", "RSI"]].sort_values("前日比", ascending=False), hide_index=True)
-    with col2:
-        st.info(f"📈 短期上昇傾向 ({len(ma5_stocks)}銘柄)")
-        st.dataframe(ma5_stocks[["コード", "銘柄名", "現在値", "前日比", "RSI"]].sort_values("前日比", ascending=False), hide_index=True)
-
-# --- タブ2: テーマ分析 ---
-with tab2:
-    st.subheader("📊 テーマ別パフォーマンス")
-    sub_tab1, sub_tab2 = st.tabs(["🔥 最新のテーマ動向", "📅 過去2週間の日別ランキング"])
-    
-    with sub_tab1:
-        theme_perf = analysis_df.groupby("テーマ")["前日比"].mean().sort_values(ascending=False)
-        for theme_name in theme_perf.index:
-            avg_pct = theme_perf[theme_name]
-            icon = "🟢" if avg_pct > 0 else "🔴"
-            with st.expander(f"{icon} {theme_name} (平均: {avg_pct:+.2f}%)"):
-                theme_df = analysis_df[analysis_df["テーマ"] == theme_name].sort_values("前日比", ascending=False)
-                st.dataframe(theme_df[["コード", "銘柄名", "現在値", "前日比", "RSI", "判定"]], use_container_width=True, hide_index=True)
-                
-    with sub_tab2:
-        st.write("過去2週間（約14営業日）における、テーマ全体の平均騰落率ランキング推移です。")
-        hist_df = get_historical_theme_ranking(raw_data, tickers_dict, days=14)
-        
-        if not hist_df.empty:
-            dates = hist_df['Date'].unique()
-            
-            st.markdown("### 📈 日別トップ5テーマ推移")
-            pivot_data = []
-            for d in dates:
-                top5 = hist_df[hist_df['Date'] == d].head(5)
-                row = {"日付": d}
-                for i, (_, r) in enumerate(top5.iterrows()):
-                    row[f"{i+1}位"] = f"{r['Theme']} ({r['Return']:.2f}%)"
-                pivot_data.append(row)
-            st.dataframe(pd.DataFrame(pivot_data), use_container_width=True, hide_index=True)
-            
-            st.divider()
-            
-            st.markdown("### 🔍 日付別 全テーマランキング詳細")
-            selected_date = st.selectbox("詳細を見る日付を選択してください", dates)
-            
-            df_selected = hist_df[hist_df['Date'] == selected_date].copy()
-            df_selected['Return'] = df_selected['Return'].round(2)
-            df_selected.rename(columns={'Theme': 'テーマ', 'Return': '平均騰落率(%)', 'Rank': '順位'}, inplace=True)
-            
-            st.dataframe(df_selected[['順位', 'テーマ', '平均騰落率(%)']], use_container_width=True, hide_index=True)
-
-# --- タブ3: 期間データ抽出 ---
-with tab3:
-    st.subheader("📅 期間指定データ抽出")
-    
-    today = datetime.date.today()
-    default_start = today - datetime.timedelta(days=30)
-    date_range = st.date_input("期間を選択", [default_start, today])
-
-    if len(date_range) == 2:
-        start_date, end_date = date_range
-        start_ts = pd.Timestamp(start_date)
-        end_ts = pd.Timestamp(end_date)
-        
-        if st.button("📊 データを抽出"):
-            with st.spinner("期間データを集計中..."):
-                all_period_data = []
-                for t in all_tickers:
-                    try:
-                        df_hist = raw_data[t].dropna()
-                        df_hist['RSI'] = calc_rsi(df_hist['Close'])
-                        
-                        mask = (df_hist.index >= start_ts) & (df_hist.index <= end_ts)
-                        df_filtered = df_hist.loc[mask]
-                        
-                        if not df_filtered.empty:
-                            for idx, row in df_filtered.iterrows():
-                                for theme in tickers_dict[t]["themes"]:
-                                    all_period_data.append({
-                                        "日付": idx.date(),
-                                        "テーマ": theme,
-                                        "コード": t.replace(".T", ""),
-                                        "銘柄名": tickers_dict[t]["name"],
-                                        "引値": round(row['Close'], 1),
-                                        "出来高": int(row['Volume']),
-                                        "RSI": round(row['RSI'], 1) if not np.isnan(row['RSI']) else "算出中"
-                                    })
-                    except: continue
-                
-                if all_period_data:
-                    df_range_view = pd.DataFrame(all_period_data)
-                    df_range_view = df_range_view.sort_values(["日付", "テーマ", "コード"], ascending=[False, True, True])
-                    
-                    st.success(f"{len(df_range_view)} 件のデータを抽出しました。")
-                    st.dataframe(df_range_view, use_container_width=True, hide_index=True)
-                    
-                    csv = df_range_view.to_csv(index=False).encode('utf-8-sig')
-                    st.download_button(
-                        label="💾 抽出結果をCSVで保存",
-                        data=csv,
-                        file_name=f"stock_data_{start_date}_to_{end_date}.csv",
-                        mime="text/csv"
-                    )
-
-# --- タブ4: 📊 詳細テクニカル分析 (新規統合＆テーマ一括対応) ---
-with tab4:
-    st.subheader("📊 詳細テクニカル分析 (テーマ一括・個別銘柄)")
-    
-    # テーマ一括選択（全画面幅を使用）
-    selected_themes = st.multiselect(
-        "📂 テーマから一括選択（複数可）",
-        options=all_theme_names,
-        placeholder="ここからテーマを選ぶと、そのテーマの全銘柄が自動で分析リストに追加されます"
-    )
-    
-    st.write("---")
-    
-    # UIを2カラムに分けて配置（個別選択と手入力）
-    col_sel1, col_sel2 = st.columns(2)
-    
-    DEFAULT_TECH_TICKERS = {
-        "5713": "住友金属鉱山 (非鉄)",
-        "6503": "三菱電機",
-        "5803": "フジクラ",
-        "4425": "Ｋｕｄａｎ",
-        "7011": "三菱重工業",
-        "6752": "パナソニックHD",
-        "5802": "住友電気工業",
-        "9412": "スカパーJSAT"
-    }
-    
-    with col_sel1:
-        selected_from_list = st.multiselect(
-            "📋 注目銘柄リストから追加",
-            options=list(DEFAULT_TECH_TICKERS.keys()),
-            default=[], # テーマ選択をメインにするため、デフォルトは空に変更
-            format_func=lambda x: f"{x} {DEFAULT_TECH_TICKERS[x]}"
-        )
-        
-    with col_sel2:
-        custom_input = st.text_input(
-            "📝 新規銘柄コードを手動追加（カンマ区切り）",
-            placeholder="例: 7203, 9984, 8035"
-        )
-        
-    # ▼ 選択された銘柄をすべて結合する処理
-    final_tickers = set()
-    
-    # 1. テーマから追加
-    if selected_themes:
-        for t, info in tickers_dict.items():
-            for theme in selected_themes:
-                if theme in info["themes"]:
-                    final_tickers.add(t.replace(".T", ""))
-                    
-    # 2. リストから追加
-    for code in selected_from_list:
-        final_tickers.add(code)
-        
-    # 3. 手動入力から追加
-    if custom_input:
-        custom_codes = [code.strip() for code in custom_input.split(',')]
-        for code in custom_codes:
-            if code.isdigit():
-                final_tickers.add(code)
-                
-    final_tickers = list(final_tickers)
-
-    if st.button("🚀 指標を計算・更新する", type="primary"):
-        if not final_tickers:
-            st.warning("テーマを選択するか、銘柄を入力してください。")
-        else:
-            results_tech = []
-            with st.spinner(f"計 {len(final_tickers)} 銘柄の最新データを取得・計算中..."):
-                for code in final_tickers:
-                    try:
-                        ticker_symbol = f"{code}.T"
-                        df_tech = yf.download(ticker_symbol, period="3mo", interval="1d", progress=False)
-                        
-                        if df_tech.empty or len(df_tech) < 20: continue
-                        
-                        if isinstance(df_tech.columns, pd.MultiIndex):
-                            df_tech.columns = df_tech.columns.droplevel(1)
-                            
-                        # 指標の計算
-                        df_tech['MA5'] = df_tech['Close'].rolling(window=5).mean()
-                        df_tech['MA5_Deviation'] = ((df_tech['Close'] / df_tech['MA5']) - 1) * 100
-                        df_tech['RSI'] = calc_rsi(df_tech['Close'], period=14)
-                        df_tech['Vol_Change'] = df_tech['Volume'].pct_change() * 100
-                        df_tech['Vol_Change_5d_Avg'] = df_tech['Vol_Change'].rolling(window=5).mean()
-                        
-                        df_tech['Prev_Close'] = df_tech['Close'].shift(1)
-                        df_tech['Daily_Range_Pct'] = np.where(
-                            df_tech['Prev_Close'] > 0,
-                            ((df_tech['High'] - df_tech['Low']) / df_tech['Prev_Close']) * 100,
-                            0
-                        )
-                        df_tech['Volatility_5d_Avg'] = df_tech['Daily_Range_Pct'].rolling(window=5).mean()
-                        
-                        latest = df_tech.iloc[-1]
-                        prev = df_tech.iloc[-2]
-                        current_price = float(latest['Close'])
-                        dod_pct = ((current_price / float(prev['Close'])) - 1) * 100
-                        
-                        # 銘柄名と所属テーマの取得
-                        if ticker_symbol in tickers_dict:
-                            company_name = tickers_dict[ticker_symbol]["name"]
-                            theme_name = ", ".join(tickers_dict[ticker_symbol]["themes"])
-                        else:
-                            company_name = DEFAULT_TECH_TICKERS.get(code, "新規追加")
-                            theme_name = "個別追加"
-                        
-                        results_tech.append({
-                            "テーマ": theme_name,
-                            "コード": code,
-                            "銘柄名": company_name,
-                            "現在値": round(current_price, 1),
-                            "前日比 (%)": round(dod_pct, 2),
-                            "RSI (14日)": round(float(latest['RSI']), 1),
-                            "5日線 乖離率 (%)": round(float(latest['MA5_Deviation']), 2),
-                            "5日間 出来高変化率平均 (%)": round(float(latest['Vol_Change_5d_Avg']), 1),
-                            "5日間 平均ボラティリティ (%)": round(float(latest['Volatility_5d_Avg']), 2)
-                        })
-                    except Exception as e:
-                        continue
-                        
-            if results_tech:
-                result_df = pd.DataFrame(results_tech)
-                
-                # 乖離率の低い順（押し目買いの安全な順）にデフォルトでソート
-                result_df = result_df.sort_values("5日線 乖離率 (%)", ascending=True)
-                
-                with st.expander("📖 各指標の読み方・戦略ガイド"):
-                    st.write("""
-                    * **RSI (14日)**: 45〜65が安全圏。70以上は利益確定の目安、40以下は底打ちのサインです。
-                    * **5日線 乖離率 (%)**: 0%に近い（またはマイナス）ほど、5日線にタッチしており「押し目買い」のチャンスです。+5%を超えると高値掴みのリスクが高まります。
-                    * **5日間 出来高変化率平均 (%)**: プラスの数値が大きいほど、直近1週間で大口の資金が継続して流入している「強いトレンド」を示します。
-                    * **5日間 平均ボラティリティ (%)**: 数値が高いほど1日の乱高下が激しい状態です。急騰後はボラティリティが跳ね上がります。数値が低く落ち着いている時が安全な仕込み時です。
-                    """)
-                
-                def color_rsi(val):
-                    color = 'red' if val >= 70 else 'blue' if val <= 40 else 'green'
-                    return f'color: {color}'
-                    
-                def color_deviation(val):
-                    color = 'red' if val >= 5 else 'blue' if val <= 0 else 'black'
-                    return f'color: {color}'
-
-                styled_df = result_df.style\
-                    .map(color_rsi, subset=['RSI (14日)'])\
-                    .map(color_deviation, subset=['5日線 乖離率 (%)'])\
-                    .format({
-                        "前日比 (%)": "{:+.2f}",
-                        "5日線 乖離率 (%)": "{:+.2f}",
-                        "5日間 出来高変化率平均 (%)": "{:+.1f}",
-                    })
-
-                st.dataframe(styled_df, use_container_width=True, hide_index=True)
-            else:
-                st.warning("表示できるデータがありませんでした。")
+コードを更新してアプリを再読み込みすると、自動的に「⚙️ リスト管理」タブの内容が **ご指定いただいた16テーマ・約55銘柄** に置き換わり、明日以降の毎日のテクニカル監視がこのリストをもとに実行されるようになります！さらに銘柄を追加したい場合はリスト管理タブから手動で追記も可能です。
