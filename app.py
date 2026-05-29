@@ -180,3 +180,4 @@ if len(ticker_code) == 4 and ticker_code.isdigit():
         st.error(f"エラーが発生しました: {e}")
 elif len(ticker_code) > 0 and len(ticker_code) < 4:
     st.info("👈 サイドバーに4桁の銘柄コードを入力してください。")
+
