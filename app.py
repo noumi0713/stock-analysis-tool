@@ -1,3 +1,15 @@
+この「Too Many Requests（リクエスト過多）」エラーは、yfinance（Yahooファイナンスのデータ取得ライブラリ）を使用する際に非常によく発生する問題です。
+### エラーの根本原因
+Streamlitの仕様上、**サイドバーの数字を1文字打ち込んだり、買値の数値を変更したりするたびに、プログラム全体が上から下まで再実行**されます。
+例えば「6981」と入力する際、「6」「69」「698」「6981」と4回連続でYahooファイナンスにデータ取得のリクエストが飛んでしまうため、Yahoo側のスパム防止機能（アクセス制限）に引っかかって弾かれてしまった状態です。
+### 解決策
+この問題を完全に防ぐために、コードに以下の2つの強力な対策を組み込みました。
+ 1. **Streamlitのキャッシュ機能 (@st.cache_data) の導入:**
+   一度取得したデータを5分間（300秒）アプリ内に保存します。「買値」を変更しても、再通信せずに保存したデータを使って瞬時に計算を行うため、アクセス制限に引っかからなくなります。
+ 2. **文字数制限ロック:**
+   銘柄コードが「4桁」入力された時だけ通信を開始するように制限をかけました。これにより、入力途中の無駄な通信を完全に遮断します。
+以下のコードに丸ごと上書きして再度実行してください。これでサクサク動くようになります。
+```python
 import streamlit as st
 import yfinance as yf
 import pandas as pd
@@ -9,10 +21,21 @@ st.set_page_config(page_title="モメンタム投資アナライザー", layout=
 st.title("📈 モメンタム投資 システムアナライザー")
 
 # ==========================================
+# 🚀 【追加】データ取得のキャッシュ機能（アクセス制限防止）
+# 一度取得したデータは5分間(300秒)保持し、無駄な通信を防ぎます。
+# ==========================================
+@st.cache_data(ttl=300)
+def fetch_stock_data(ticker_symbol, period):
+    stock = yf.Ticker(ticker_symbol)
+    df = stock.history(period=period)
+    stock_name = stock.info.get('longName', ticker_symbol.replace('.T', ''))
+    return df, stock_name
+
+# ==========================================
 # サイドバー（入力フォーム）
 # ==========================================
 st.sidebar.header("検索条件")
-ticker_code = st.sidebar.text_input("銘柄コード (4桁の数字)", value="9984")
+ticker_code = st.sidebar.text_input("銘柄コード (4桁の数字を入力)", value="9984")
 period = st.sidebar.selectbox(
     "取得期間", 
     options=["1mo", "3mo", "6mo", "1y", "max"], 
@@ -21,32 +44,29 @@ period = st.sidebar.selectbox(
 )
 entry_price = st.sidebar.number_input("実際の買値（任意・保有中の場合に入力）", value=0)
 
-# 日本株のティッカーシンボルに変換
-ticker_symbol = f"{ticker_code}.T" if ticker_code.isdigit() else ticker_code
-
-if ticker_code:
+# ==========================================
+# メイン処理
+# ==========================================
+# 🚀 【追加】4桁入力された時のみ処理を実行する（入力途中の通信エラー防止）
+if len(ticker_code) == 4 and ticker_code.isdigit():
+    ticker_symbol = f"{ticker_code}.T"
+    
     try:
-        with st.spinner("データを取得中..."):
-            stock = yf.Ticker(ticker_symbol)
-            df = stock.history(period=period)
-            
-            info = stock.info
-            stock_name = info.get('longName', ticker_code)
+        with st.spinner("データを取得・計算中..."):
+            # キャッシュ化された関数を呼び出す
+            df, stock_name = fetch_stock_data(ticker_symbol, period)
 
         if df.empty:
-            st.error("データが取得できませんでした。銘柄コードを確認してください。")
+            st.error("データが取得できませんでした。銘柄コードを確認するか、少し時間をおいてください。")
         else:
             # ==========================================
             # データ処理と指標計算
             # ==========================================
-            # 5日移動平均線と乖離率
             df['SMA5'] = df['Close'].rolling(window=5).mean()
             df['乖離率(%)'] = ((df['Close'] - df['SMA5']) / df['SMA5']) * 100
-            
-            # 売買代金（億円）
             df['売買代金(億円)'] = (df['Close'] * df['Volume']) / 100000000
 
-            # RSI(14)の計算 (Wilder's Smoothing方式)
+            # RSI(14)の計算
             delta = df['Close'].diff()
             up = delta.clip(lower=0)
             down = -1 * delta.clip(upper=0)
@@ -60,7 +80,6 @@ if ticker_code:
             current_price = latest['Close']
             current_sma5 = latest['SMA5']
             current_dev = latest['乖離率(%)']
-            current_vol = latest['Volume']
             current_tv = latest['売買代金(億円)']
             current_rsi = latest['RSI(14)']
             
@@ -101,7 +120,6 @@ if ticker_code:
             # ==========================================
             st.subheader(f"■ {stock_name} ({ticker_code}) の現在ステータス")
             
-            # メトリクスを5列に変更してRSIを追加
             col1, col2, col3, col4, col5 = st.columns(5)
             col1.metric("現在値", f"{int(current_price):,}円", f"{int(price_change):,}円 ({price_change_pct:.2f}%)")
             col2.metric("5日線", f"{int(current_sma5):,}円")
@@ -111,7 +129,6 @@ if ticker_code:
 
             st.markdown("---")
             
-            # 判定結果のアラート表示
             if status_color == "success":
                 st.success(f"**システム判定:** {status} \n\n **推奨アクション:** {action}")
             elif status_color == "warning":
@@ -131,50 +148,33 @@ if ticker_code:
             st.markdown("---")
 
             # ==========================================
-            # UI表示: 高機能チャート (Plotly)
+            # UI表示: 高機能チャート
             # ==========================================
             st.subheader("📊 チャート・売買代金・RSI")
             
-            # サブプロットの作成 (上: ローソク足+SMA5, 中: 売買代金, 下: RSI)
             fig = make_subplots(rows=3, cols=1, shared_xaxes=True, 
                                 vertical_spacing=0.05, row_heights=[0.5, 0.25, 0.25])
 
-            # 1段目: ローソク足
+            # ローソク足 & 5日線
             fig.add_trace(go.Candlestick(x=df.index, open=df['Open'], high=df['High'], 
-                                         low=df['Low'], close=df['Close'], name="価格"), 
-                          row=1, col=1)
-            
-            # 1段目: 5日移動平均線
+                                         low=df['Low'], close=df['Close'], name="価格"), row=1, col=1)
             fig.add_trace(go.Scatter(x=df.index, y=df['SMA5'], mode='lines', 
-                                     line=dict(color='magenta', width=2), name="5日線 (SMA5)"), 
-                          row=1, col=1)
+                                     line=dict(color='magenta', width=2), name="5日線 (SMA5)"), row=1, col=1)
 
-            # エントリー価格ライン
             if entry_price > 0:
-                fig.add_hline(y=entry_price, line_dash="dash", line_color="blue", 
-                              annotation_text="買値", row=1, col=1)
-                fig.add_hline(y=stop_loss_line, line_dash="dash", line_color="red", 
-                              annotation_text="損切り(-8%)", row=1, col=1)
+                fig.add_hline(y=entry_price, line_dash="dash", line_color="blue", annotation_text="買値", row=1, col=1)
+                fig.add_hline(y=stop_loss_line, line_dash="dash", line_color="red", annotation_text="損切り(-8%)", row=1, col=1)
 
-            # 2段目: 売買代金（棒グラフ）
-            fig.add_trace(go.Bar(x=df.index, y=df['売買代金(億円)'], marker_color='orange', name="売買代金"), 
-                          row=2, col=1)
+            # 売買代金
+            fig.add_trace(go.Bar(x=df.index, y=df['売買代金(億円)'], marker_color='orange', name="売買代金"), row=2, col=1)
 
-            # 3段目: RSI(14)
+            # RSI
             fig.add_trace(go.Scatter(x=df.index, y=df['RSI(14)'], mode='lines',
-                                     line=dict(color='purple', width=1.5), name="RSI(14)"),
-                          row=3, col=1)
-            
-            # RSIの基準線（70: 買われすぎ, 30: 売られすぎ）
+                                     line=dict(color='purple', width=1.5), name="RSI(14)"), row=3, col=1)
             fig.add_hline(y=70, line_dash="dash", line_color="red", line_width=1, row=3, col=1)
             fig.add_hline(y=30, line_dash="dash", line_color="blue", line_width=1, row=3, col=1)
 
-            # レイアウト調整
-            fig.update_layout(height=800, xaxis_rangeslider_visible=False, 
-                              margin=dict(l=0, r=0, t=30, b=0),
-                              hovermode='x unified')
-            
-            # Y軸の設定（RSIは0〜100に固定）
+            fig.update_layout(height=800, xaxis_rangeslider_visible=False, margin=dict(l=0, r=0, t=30, b=0), hovermode='x unified')
             fig.update_yaxes(range=[0, 100], row=3, col=1)
             
             st.plotly_chart(fig, use_container_width=True)
@@ -190,3 +190,7 @@ if ticker_code:
 
     except Exception as e:
         st.error(f"エラーが発生しました: {e}")
+elif len(ticker_code) > 0 and len(ticker_code) < 4:
+    st.info("👈 サイドバーに4桁の銘柄コードを入力してください。")
+
+```
