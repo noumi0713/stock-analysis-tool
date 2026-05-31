@@ -15,7 +15,7 @@ st.title("📈 モメンタム投資 システムアナライザー (複数銘�
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_stock_data(ticker_symbol, period):
-    time.sleep(1) # YahooファイナンスのBAN対策（1秒待機）
+    time.sleep(1) # YahooファイナンスのBAN対策
     stock = yf.Ticker(ticker_symbol)
     df = stock.history(period=period)
     stock_name = stock.info.get('longName', ticker_symbol.replace('.T', ''))
@@ -39,7 +39,6 @@ period = st.sidebar.selectbox(
 
 # 入力文字列から4桁の数字だけを抽出
 valid_codes = re.findall(r'\b\d{4}\b', ticker_input)
-# 順番を保ったまま重複を削除
 valid_codes = list(dict.fromkeys(valid_codes))
 
 # 買値の動的入力フォーム
@@ -54,8 +53,8 @@ if valid_codes:
 # メイン処理（タブの生成とデータ表示）
 # ==========================================
 if valid_codes:
-    # 銘柄数に合わせてタブを生成
     tabs = st.tabs(valid_codes)
+    all_details_list = [] # まとめてダウンロード用のデータ格納リスト
     
     for idx, ticker_code in enumerate(valid_codes):
         with tabs[idx]:
@@ -77,7 +76,6 @@ if valid_codes:
                 df['乖離率(%)'] = ((df['Close'] - df['SMA5']) / df['SMA5']) * 100
                 df['売買代金(億円)'] = (df['Close'] * df['Volume']) / 100000000
 
-                # RSI(14)の計算
                 delta = df['Close'].diff()
                 up = delta.clip(lower=0)
                 down = -1 * delta.clip(upper=0)
@@ -86,7 +84,6 @@ if valid_codes:
                 rs = ema_up / ema_down
                 df['RSI(14)'] = 100 - (100 / (1 + rs))
 
-                # 最新日のデータを抽出
                 latest = df.iloc[-1]
                 current_price = latest['Close']
                 current_sma5 = latest['SMA5']
@@ -118,7 +115,6 @@ if valid_codes:
                     status_color = "warning"
                     action = "新規買いは慎重に。保有中の場合は逆指値を維持。"
 
-                # 損切りラインの計算
                 if entry_price > 0:
                     stop_loss_line = entry_price * 0.92
                     pnl_pct = ((current_price - entry_price) / entry_price) * 100
@@ -166,7 +162,6 @@ if valid_codes:
                 fig = make_subplots(rows=3, cols=1, shared_xaxes=True, 
                                     vertical_spacing=0.05, row_heights=[0.5, 0.25, 0.25])
 
-                # ローソク足 & 5日線
                 fig.add_trace(go.Candlestick(x=df.index, open=df['Open'], high=df['High'], 
                                             low=df['Low'], close=df['Close'], name="価格"), row=1, col=1)
                 fig.add_trace(go.Scatter(x=df.index, y=df['SMA5'], mode='lines', 
@@ -176,10 +171,7 @@ if valid_codes:
                     fig.add_hline(y=entry_price, line_dash="dash", line_color="blue", annotation_text="買値", row=1, col=1)
                     fig.add_hline(y=stop_loss_line, line_dash="dash", line_color="red", annotation_text="損切り(-8%)", row=1, col=1)
 
-                # 売買代金
                 fig.add_trace(go.Bar(x=df.index, y=df['売買代金(億円)'], marker_color='orange', name="売買代金"), row=2, col=1)
-
-                # RSI
                 fig.add_trace(go.Scatter(x=df.index, y=df['RSI(14)'], mode='lines',
                                         line=dict(color='purple', width=1.5), name="RSI(14)"), row=3, col=1)
                 fig.add_hline(y=70, line_dash="dash", line_color="red", line_width=1, row=3, col=1)
@@ -187,20 +179,52 @@ if valid_codes:
 
                 fig.update_layout(height=800, xaxis_rangeslider_visible=False, margin=dict(l=0, r=0, t=30, b=0), hovermode='x unified')
                 fig.update_yaxes(range=[0, 100], row=3, col=1)
-                
                 st.plotly_chart(fig, use_container_width=True)
 
                 # ==========================================
-                # UI表示: 生データテーブル
+                # UI表示: 生データテーブルとダウンロード
                 # ==========================================
                 with st.expander("詳細データ（直近10営業日）"):
                     display_df = df[['Close', 'SMA5', '乖離率(%)', 'RSI(14)', 'Volume', '売買代金(億円)']].tail(10).iloc[::-1]
                     display_df.index = display_df.index.strftime('%Y-%m-%d')
                     display_df = display_df.round({'Close': 0, 'SMA5': 1, '乖離率(%)': 2, 'RSI(14)': 1, '売買代金(億円)': 0})
                     st.dataframe(display_df, use_container_width=True)
+                    
+                    # 個別ダウンロードボタン
+                    csv = display_df.to_csv(index=True).encode('utf-8-sig')
+                    st.download_button(
+                        label=f"📥 {ticker_code} のみCSVでダウンロード",
+                        data=csv,
+                        file_name=f"{ticker_code}_detailed_data.csv",
+                        mime="text/csv",
+                        key=f"dl_{ticker_code}"
+                    )
+                    
+                    # 全銘柄一括エクスポート用のリストに追加
+                    export_df = display_df.copy()
+                    export_df.insert(0, '銘柄コード', ticker_code)
+                    export_df.insert(1, '銘柄名', stock_name)
+                    all_details_list.append(export_df)
 
             except Exception as e:
                 st.error(f"エラーが発生しました ({ticker_code}): {e}")
+
+    # ==========================================
+    # 全銘柄の一括ダウンロード機能（サイドバー下部）
+    # ==========================================
+    if all_details_list:
+        combined_df = pd.concat(all_details_list)
+        combined_csv = combined_df.to_csv(index=True).encode('utf-8-sig')
+        
+        st.sidebar.markdown("---")
+        st.sidebar.subheader("データの一括エクスポート")
+        st.sidebar.download_button(
+            label="📥 全銘柄の詳細データをまとめてダウンロード",
+            data=combined_csv,
+            file_name="all_stocks_detailed_data.csv",
+            mime="text/csv",
+            key="dl_all"
+        )
 
 else:
     st.info("👈 サイドバーに4桁の銘柄コードを入力してください。")
