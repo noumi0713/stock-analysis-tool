@@ -5,13 +5,14 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import time
 import re
+import io # Excel保存のために追加
 
 # ページ設定
 st.set_page_config(page_title="モメンタム投資アナライザー", layout="wide")
 st.title("📈 モメンタム投資 システムアナライザー (複数銘柄対応)")
 
 # ==========================================
-# データ取得のキャッシュ機能（アクセス制限防止）
+# データ取得のキャッシュ機能
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_stock_data(ticker_symbol, period):
@@ -54,7 +55,7 @@ if valid_codes:
 # ==========================================
 if valid_codes:
     tabs = st.tabs(valid_codes)
-    all_details_list = [] # まとめてダウンロード用のデータ格納リスト
+    all_details_list = [] # まとめて保存用のデータ格納リスト
     
     for idx, ticker_code in enumerate(valid_codes):
         with tabs[idx]:
@@ -182,7 +183,7 @@ if valid_codes:
                 st.plotly_chart(fig, use_container_width=True)
 
                 # ==========================================
-                # UI表示: 生データテーブルとダウンロード
+                # UI表示: 生データテーブル
                 # ==========================================
                 with st.expander("詳細データ（直近10営業日）"):
                     display_df = df[['Close', 'SMA5', '乖離率(%)', 'RSI(14)', 'Volume', '売買代金(億円)']].tail(10).iloc[::-1]
@@ -190,17 +191,7 @@ if valid_codes:
                     display_df = display_df.round({'Close': 0, 'SMA5': 1, '乖離率(%)': 2, 'RSI(14)': 1, '売買代金(億円)': 0})
                     st.dataframe(display_df, use_container_width=True)
                     
-                    # 個別ダウンロードボタン
-                    csv = display_df.to_csv(index=True).encode('utf-8-sig')
-                    st.download_button(
-                        label=f"📥 {ticker_code} のみCSVでダウンロード",
-                        data=csv,
-                        file_name=f"{ticker_code}_detailed_data.csv",
-                        mime="text/csv",
-                        key=f"dl_{ticker_code}"
-                    )
-                    
-                    # 全銘柄一括エクスポート用のリストに追加
+                    # 全銘柄一括保存用のリストに追加
                     export_df = display_df.copy()
                     export_df.insert(0, '銘柄コード', ticker_code)
                     export_df.insert(1, '銘柄名', stock_name)
@@ -210,20 +201,31 @@ if valid_codes:
                 st.error(f"エラーが発生しました ({ticker_code}): {e}")
 
     # ==========================================
-    # 全銘柄の一括ダウンロード機能（サイドバー下部）
+    # スプレッドシート(Excel)の出力・保存機能
     # ==========================================
     if all_details_list:
         combined_df = pd.concat(all_details_list)
-        combined_csv = combined_df.to_csv(index=True).encode('utf-8-sig')
         
         st.sidebar.markdown("---")
-        st.sidebar.subheader("データの一括エクスポート")
+        st.sidebar.subheader("データのエクスポート")
+        
+        # ① 直接PCのフォルダに保存するボタン
+        if st.sidebar.button("💾 フォルダに直接保存 (Excel形式)"):
+            combined_df.to_excel("momentum_analysis_data.xlsx", index=True, engine='openpyxl')
+            st.sidebar.success("✅ アプリと同じフォルダに 'momentum_analysis_data.xlsx' を保存しました！")
+            
+        # ② ブラウザ経由でダウンロードするボタン
+        excel_buffer = io.BytesIO()
+        with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
+            combined_df.to_excel(writer, sheet_name='モメンタム分析データ')
+        excel_data = excel_buffer.getvalue()
+
         st.sidebar.download_button(
-            label="📥 全銘柄の詳細データをまとめてダウンロード",
-            data=combined_csv,
-            file_name="all_stocks_detailed_data.csv",
-            mime="text/csv",
-            key="dl_all"
+            label="📊 ブラウザからダウンロード (Excel形式)",
+            data=excel_data,
+            file_name="momentum_analysis_data.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            key="dl_all_excel"
         )
 
 else:
