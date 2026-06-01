@@ -1,7 +1,5 @@
-google-generativeai
+streamlit
 yfinance
 pandas
-numpy
-streamlit
 plotly
-pytz
+openpyxl
