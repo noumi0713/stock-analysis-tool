@@ -23,7 +23,7 @@ def fetch_stock_data(ticker_symbol, period):
     stock_name = f"銘柄コード {ticker_symbol.replace('.T', '')}"
     return df, stock_name
 
-# 【修正】複数ページからデータを取得し、確実にトップ50を抽出するように強化
+# 【修正】取得先をYahooから「みんかぶ(Minkabu)」に変更しクラウド制限を回避
 @st.cache_data(ttl=600)
 def fetch_trading_value_ranking():
     headers = {
@@ -31,20 +31,22 @@ def fetch_trading_value_ranking():
     }
     all_dfs = []
     try:
-        # 念のため3ページ目まで取得して結合する
-        for page in range(1, 4):
-            url = f"https://finance.yahoo.co.jp/ranking/tradingValue?p={page}"
+        # みんかぶのランキングを1〜2ページ目まで取得してトップ50をカバーする
+        for page in range(1, 3):
+            url = f"https://minkabu.jp/ranking/trade_value?page={page}"
             res = requests.get(url, headers=headers, timeout=10)
             dfs = pd.read_html(res.content)
             
-            if dfs and not dfs[0].empty:
-                all_dfs.append(dfs[0])
+            if dfs:
+                # ページ内で最も行数が多いテーブルをランキング表とみなす
+                ranking_df = max(dfs, key=len)
+                if len(ranking_df) > 10:
+                    all_dfs.append(ranking_df)
             time.sleep(1) # 連続アクセスによるBAN防止
             
         if all_dfs:
-            # 取得した全ページ分のデータを縦に結合し、上位50件だけを切り出す
-            ranking_df = pd.concat(all_dfs, ignore_index=True)
-            return ranking_df.head(50)
+            final_df = pd.concat(all_dfs, ignore_index=True)
+            return final_df.head(50)
         return pd.DataFrame()
     except Exception as e:
         return pd.DataFrame()
@@ -255,25 +257,36 @@ elif app_mode == "🏆 東証 売買代金ランキング":
     st.subheader("🔥 東証 売買代金ランキング (トップ50)")
     st.write("「市場の資金が今どこに最も集中しているか」を可視化します。この上位銘柄をアナライザーにかけて一点突破を狙います。")
     
-    with st.spinner("Yahoo!ファイナンスから最新のランキングを取得中..."):
+    with st.spinner("最新のランキングを取得中..."):
         ranking_df = fetch_trading_value_ranking()
         
     if not ranking_df.empty:
-        # インデックスを1から始まるようにリセット（順位をわかりやすくする）
         ranking_df.index = range(1, len(ranking_df) + 1)
         
-        # ランキングの表示
-        st.dataframe(ranking_df, use_container_width=True, height=600)
-        
-        # コード列を探して抽出
-        code_col = [col for col in ranking_df.columns if 'コード' in str(col)]
+        # 銘柄名やコードが含まれる列から4桁の数字を正確に抽出するロジック
+        target_cols = [col for col in ranking_df.columns if any(x in str(col) for x in ['コード', '銘柄', '名称', 'name', 'code'])]
         codes_list = []
-        if code_col:
-            for val in ranking_df[code_col[0]]:
-                # 文字列の中から4桁の数字を抽出
-                match = re.search(r'\b\d{4}\b', str(val))
-                if match:
-                    codes_list.append(match.group())
+        
+        if target_cols:
+            for col in target_cols:
+                for val in ranking_df[col]:
+                    match = re.search(r'\b([1-9]\d{3})\b', str(val))
+                    if match:
+                        code = match.group(1)
+                        if code not in codes_list and 1300 <= int(code) <= 9999:
+                            codes_list.append(code)
+                if codes_list:
+                    break
+        
+        # もし列名から特定できなかった場合はデータフレーム全体を文字列化して抽出
+        if not codes_list:
+            raw_text = ranking_df.to_string()
+            matches = re.findall(r'\b([1-9]\d{3})\b', raw_text)
+            for match in matches:
+                if match not in codes_list and 1300 <= int(match) <= 9999:
+                    codes_list.append(match)
+
+        st.dataframe(ranking_df, use_container_width=True, height=600)
                     
         if codes_list:
             st.markdown("### 🎯 アナライザー用 ワンタッチ入力コード")
@@ -288,6 +301,9 @@ elif app_mode == "🏆 東証 売買代金ランキング":
             with st.expander("全50銘柄のコード"):
                 st.code(top50)
     else:
-        # もしクラウド環境のアクセス制限で取得できなかった場合の代替手段
-        st.error("ランキングデータの取得に失敗しました。クラウド環境からのアクセス制限の可能性があります。")
-        st.markdown("[👉 こちらのリンクからYahoo!ファイナンスの売買代金ランキングを直接確認できます](https://finance.yahoo.co.jp/ranking/tradingValue)")
+        # みんかぶ等の他のサイトでさえもブロックされた場合の最終代替手段
+        st.error("ランキングデータの自動取得に失敗しました。クラウド環境からのアクセスが完全にブロックされています。")
+        st.markdown("### 💡 代替手段（こちらをお使いください）")
+        st.info("以下のリンクからスマホやPCのブラウザでランキングを確認し、気になった銘柄のコードを左側のメニューに直接入力してください。")
+        st.markdown("- [🔗 みんかぶ - 売買代金ランキング](https://minkabu.jp/ranking/trade_value)")
+        st.markdown("- [🔗 Yahoo!ファイナンス - 売買代金ランキング](https://finance.yahoo.co.jp/ranking/tradingValue)")
