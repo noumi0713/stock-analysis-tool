@@ -5,21 +5,22 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import time
 import re
-import io # Excel保存のために追加
+import io
 
 # ページ設定
 st.set_page_config(page_title="モメンタム投資アナライザー", layout="wide")
 st.title("📈 モメンタム投資 システムアナライザー (複数銘柄対応)")
 
 # ==========================================
-# データ取得のキャッシュ機能
+# データ取得のキャッシュ機能（大幅軽量化）
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_stock_data(ticker_symbol, period):
     time.sleep(1) # YahooファイナンスのBAN対策
     stock = yf.Ticker(ticker_symbol)
     df = stock.history(period=period)
-    stock_name = stock.info.get('longName', ticker_symbol.replace('.T', ''))
+    # 【修正】リクエスト過多の原因となる stock.info（銘柄名取得）を廃止して高速化
+    stock_name = f"銘柄コード {ticker_symbol.replace('.T', '')}"
     return df, stock_name
 
 # ==========================================
@@ -31,10 +32,11 @@ st.sidebar.info("複数の銘柄コードをカンマ(,)やスペース区切り
 # 複数銘柄の入力
 ticker_input = st.sidebar.text_input("銘柄コード", value="9984, 4063, 6723, 6506")
 
+# 【修正】デフォルト(index)を「0(1mo)」に変更
 period = st.sidebar.selectbox(
     "取得期間", 
     options=["1mo", "3mo", "6mo", "1y", "max"], 
-    index=1, 
+    index=0, 
     format_func=lambda x: {"1mo": "1ヶ月", "3mo": "3ヶ月", "6mo": "半年", "1y": "1年", "max": "全期間"}[x]
 )
 
@@ -126,7 +128,7 @@ if valid_codes:
                 # ==========================================
                 # UI表示: サマリー情報
                 # ==========================================
-                st.subheader(f"■ {stock_name} ({ticker_code}) の現在ステータス")
+                st.subheader(f"■ {stock_name} の現在ステータス")
                 
                 col1, col2, col3, col4, col5 = st.columns(5)
                 col1.metric("現在値", f"{int(current_price):,}円", f"{int(price_change):,}円 ({price_change_pct:.2f}%)")
@@ -211,8 +213,11 @@ if valid_codes:
         
         # ① 直接PCのフォルダに保存するボタン
         if st.sidebar.button("💾 フォルダに直接保存 (Excel形式)"):
-            combined_df.to_excel("momentum_analysis_data.xlsx", index=True, engine='openpyxl')
-            st.sidebar.success("✅ アプリと同じフォルダに 'momentum_analysis_data.xlsx' を保存しました！")
+            try:
+                combined_df.to_excel("momentum_analysis_data.xlsx", index=True, engine='openpyxl')
+                st.sidebar.success("✅ アプリと同じフォルダに 'momentum_analysis_data.xlsx' を保存しました！")
+            except Exception as e:
+                st.sidebar.error("PCへの直接保存はローカル環境専用です。")
             
         # ② ブラウザ経由でダウンロードするボタン
         excel_buffer = io.BytesIO()
