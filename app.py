@@ -67,28 +67,33 @@ if st.sidebar.button("🚀 データ取得＆スクリーニング実行"):
                         if df is None or df.empty or len(df) < 26:
                             continue
                             
-                        # --- 当日（ザラ場中）の最新価格を強制反映する確実な補完処理 ---
+                        acquired_time_str = ""
+                        JST = timezone(timedelta(hours=+9), 'JST')
+                            
+                        # --- 当日（ザラ場中〜15:30大引け）の最新価格を強制反映する確実な補完処理 ---
                         try:
                             # yfinanceの fast_info は不安定なため、
                             # 直近1日分の「1分足データ」を取得して、確実な現在値（直近約定値）を抽出する
+                            # 東証の取引時間延長（15:30引け）にも完全対応し、最新時刻のデータを取得
                             df_min = ticker_obj.history(period="1d", interval="1m")
                             
                             if df_min is not None and not df_min.empty:
                                 latest_price = float(df_min['Close'].iloc[-1])
                                 latest_datetime = df_min.index[-1]
                                 
-                                # JST(日本時間)で日付を比較するための準備
-                                JST = timezone(timedelta(hours=+9), 'JST')
-                                
-                                if latest_datetime.tz is not None:
-                                    latest_date = latest_datetime.tz_convert(JST).date()
+                                # JST(日本時間)で日付と時刻を処理
+                                if latest_datetime.tz is None:
+                                    latest_dt_jst = pd.Timestamp(latest_datetime).tz_localize(JST)
                                 else:
-                                    latest_date = latest_datetime.date()
+                                    latest_dt_jst = latest_datetime.tz_convert(JST)
                                     
-                                if df.index.tz is not None:
+                                acquired_time_str = latest_dt_jst.strftime('%m/%d %H:%M')
+                                latest_date = latest_dt_jst.date()
+                                    
+                                if df.index[-1].tz is not None:
                                     last_df_date = df.index[-1].tz_convert(JST).date()
                                 else:
-                                    last_df_date = df.index[-1].date()
+                                    last_df_date = pd.Timestamp(df.index[-1]).tz_localize(JST).date()
                                 
                                 # 1分足から取得した日付が、日足の最終日より新しい場合（＝今日の日足がまだ無い場合）
                                 if latest_date > last_df_date:
@@ -122,8 +127,12 @@ if st.sidebar.button("🚀 データ取得＆スクリーニング実行"):
                         if len(close_px) < 26:
                             continue
                         
-                        # 取得できたデータの「最新日付」を記録（今日の日付になっているか確認用）
-                        latest_date = close_px.index[-1].strftime('%m/%d')
+                        # 取得できたデータの「最新日時」を記録（1分足が取れなかった場合は日足の最終日）
+                        if not acquired_time_str:
+                            if close_px.index[-1].tz is not None:
+                                acquired_time_str = close_px.index[-1].tz_convert(JST).strftime('%m/%d')
+                            else:
+                                acquired_time_str = close_px.index[-1].strftime('%m/%d')
                         
                         # SMAの計算
                         sma5 = close_px.rolling(window=5).mean()
@@ -151,7 +160,7 @@ if st.sidebar.button("🚀 データ取得＆スクリーニング実行"):
                         
                         ticker_info = {
                             "銘柄コード": ticker_code,
-                            "取得日": latest_date,
+                            "取得日時": acquired_time_str,
                             "株価": round(current_close, 1),
                             "SMA5乖離率(%)": round(kairi_sma5, 2),
                             "SMA5": round(current_sma5, 1),
