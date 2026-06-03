@@ -1,7 +1,7 @@
 import streamlit as st
 import yfinance as yf
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 # ページ設定
 st.set_page_config(page_title="新・トレンドフォロー型モメンタムスクリーナー", layout="wide", page_icon="📈")
@@ -66,6 +66,45 @@ if st.sidebar.button("🚀 データ取得＆スクリーニング実行"):
                         
                         if df is None or df.empty or len(df) < 26:
                             continue
+                            
+                        # --- 当日（ザラ場中）の最新価格を強制反映する補完処理 ---
+                        try:
+                            # fast_infoからよりリアルタイムな直近価格を取得
+                            latest_price = None
+                            if hasattr(ticker_obj, 'fast_info'):
+                                if 'lastPrice' in ticker_obj.fast_info:
+                                    latest_price = ticker_obj.fast_info['lastPrice']
+                                elif hasattr(ticker_obj.fast_info, 'last_price'):
+                                    latest_price = ticker_obj.fast_info.last_price
+                            
+                            if latest_price is not None and not pd.isna(latest_price):
+                                latest_price = float(latest_price)
+                                
+                                # 日本時間(JST)の現在日時を取得
+                                JST = timezone(timedelta(hours=+9), 'JST')
+                                now_tokyo = datetime.now(JST)
+                                today_date = now_tokyo.date()
+                                
+                                # 取得した履歴データの最終日付を取得
+                                if df.index.tz is not None:
+                                    last_df_date = df.index.tz_convert(JST)[-1].date()
+                                else:
+                                    last_df_date = df.index[-1].date()
+                                
+                                # 平日(月〜金) かつ 日本時間の朝9:00以降（市場オープン後）かチェック
+                                if today_date.weekday() < 5 and now_tokyo.hour >= 9:
+                                    if last_df_date < today_date:
+                                        # 今日が平日9時以降なのに、日足データが前日までしかない場合、当日の行をリアルタイム価格で追加
+                                        new_index = pd.Timestamp(now_tokyo)
+                                        new_row = pd.DataFrame({'Close': [latest_price]}, index=[new_index])
+                                        df = pd.concat([df, new_row])
+                                    elif last_df_date == today_date:
+                                        # 既に今日の日付の行がある場合は、ザラ場中の最新価格で上書き
+                                        df.loc[df.index[-1], 'Close'] = latest_price
+                        except Exception:
+                            # 補完処理中にエラーが出た場合は無視して既存のデータ(前日までの足)を使用
+                            pass
+                        # ----------------------------------------------------
                         
                         close_px = df['Close']
                         
