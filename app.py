@@ -41,38 +41,58 @@ if st.sidebar.button("🚀 データ取得＆スクリーニング実行"):
     if not tickers_to_fetch:
         st.warning("対象となる銘柄がありません。")
     else:
+        # 進捗状況を視覚化するためのプログレスバーを追加
+        progress_text = st.empty()
+        progress_bar = st.progress(0)
+        
         with st.spinner('株価データを取得・計算中です...'):
             try:
-                # 過去6ヶ月分のデータを一括取得（移動平均線の計算のため）
-                # progress=Falseでプログレスバーを非表示にし、処理を高速化
-                data = yf.download(tickers_to_fetch, period="6mo", group_by="ticker", progress=False)
-                
-                # 1銘柄だけの場合と複数銘柄の場合でデータ構造が異なるための対応
-                if len(tickers_to_fetch) == 1:
-                    data = {tickers_to_fetch[0]: data}
-                
                 results = []
                 all_data_list = []
+                total_tickers = len(tickers_to_fetch)
                 
-                for ticker in tickers_to_fetch:
+                # yfinanceの仕様変更やデータ構造のブレによる読み込みエラーを防ぐため、
+                # 1銘柄ずつ独立して安全にデータを取得・パースする方式に変更
+                for i, ticker in enumerate(tickers_to_fetch):
+                    # プログレスバーの更新
+                    progress_text.text(f"データ解析中... {i+1}/{total_tickers} ({ticker})")
+                    progress_bar.progress((i + 1) / total_tickers)
+                    
                     try:
-                        df = data[ticker] if len(tickers_to_fetch) > 1 else data[ticker]
+                        # 1銘柄ずつ取得
+                        df = yf.download(ticker, period="6mo", progress=False)
                         
                         if df is None or df.empty or len(df) < 26:
                             continue
                         
-                        # 終値系列を取得
-                        close_px = df['Close']
+                        # yfinanceのバージョンによるMultiIndex（多重列）を安全に解除
+                        if isinstance(df.columns, pd.MultiIndex):
+                            if ticker in df.columns.levels[1]:
+                                close_px = df['Close'][ticker]
+                            else:
+                                close_px = df['Close'].iloc[:, 0]
+                        else:
+                            close_px = df['Close']
+                        
+                        # 万が一DataFrame形式で返ってきた場合はSeriesに変換
+                        if isinstance(close_px, pd.DataFrame):
+                            close_px = close_px.iloc[:, 0]
+                            
+                        # 欠損値(NaN)を前日の値で補完し、データ抜けによるエラーを防止
+                        close_px = close_px.ffill().dropna()
+                        
+                        if len(close_px) < 26:
+                            continue
                         
                         # SMAの計算
                         sma5 = close_px.rolling(window=5).mean()
                         sma25 = close_px.rolling(window=25).mean()
                         
-                        # 直近の値を取得
-                        current_close = close_px.iloc[-1]
-                        current_sma5 = sma5.iloc[-1]
-                        current_sma25 = sma25.iloc[-1]
-                        prev_sma25 = sma25.iloc[-2]
+                        # 直近の値を取得（float型に明示的に変換し、型の不整合を防止）
+                        current_close = float(close_px.iloc[-1])
+                        current_sma5 = float(sma5.iloc[-1])
+                        current_sma25 = float(sma25.iloc[-1])
+                        prev_sma25 = float(sma25.iloc[-2])
                         
                         # 【第1段階：絶対条件②】2つの移動平均線による「波の定義」
                         cond_sma25_up = current_sma25 > prev_sma25
@@ -104,9 +124,13 @@ if st.sidebar.button("🚀 データ取得＆スクリーニング実行"):
                             results.append(ticker_info)
                             
                     except Exception as e:
+                        # 特定の銘柄でエラーが起きても全体を止めずにスキップ
                         continue
 
                 # 結果の表示
+                progress_text.empty() # プログレスバーのテキストを消去
+                progress_bar.empty()  # プログレスバー本体を消去
+                
                 st.success("データの取得と計算が完了しました！")
                 
                 st.subheader(f"🎯 ストライクゾーン到達銘柄 (条件完全クリア): {len(results)}件")
