@@ -67,40 +67,44 @@ if st.sidebar.button("🚀 データ取得＆スクリーニング実行"):
                         if df is None or df.empty or len(df) < 26:
                             continue
                             
-                        # --- 当日（ザラ場中）の最新価格を強制反映する補完処理 ---
+                        # --- 当日（ザラ場中）の最新価格を強制反映する確実な補完処理 ---
                         try:
-                            # fast_infoからよりリアルタイムな直近価格を取得
-                            latest_price = None
-                            if hasattr(ticker_obj, 'fast_info'):
-                                if 'lastPrice' in ticker_obj.fast_info:
-                                    latest_price = ticker_obj.fast_info['lastPrice']
-                                elif hasattr(ticker_obj.fast_info, 'last_price'):
-                                    latest_price = ticker_obj.fast_info.last_price
+                            # yfinanceの fast_info は不安定なため、
+                            # 直近1日分の「1分足データ」を取得して、確実な現在値（直近約定値）を抽出する
+                            df_min = ticker_obj.history(period="1d", interval="1m")
                             
-                            if latest_price is not None and not pd.isna(latest_price):
-                                latest_price = float(latest_price)
+                            if df_min is not None and not df_min.empty:
+                                latest_price = float(df_min['Close'].iloc[-1])
+                                latest_datetime = df_min.index[-1]
                                 
-                                # 日本時間(JST)の現在日時を取得
+                                # JST(日本時間)で日付を比較するための準備
                                 JST = timezone(timedelta(hours=+9), 'JST')
-                                now_tokyo = datetime.now(JST)
-                                today_date = now_tokyo.date()
                                 
-                                # 取得した履歴データの最終日付を取得
+                                if latest_datetime.tz is not None:
+                                    latest_date = latest_datetime.tz_convert(JST).date()
+                                else:
+                                    latest_date = latest_datetime.date()
+                                    
                                 if df.index.tz is not None:
-                                    last_df_date = df.index.tz_convert(JST)[-1].date()
+                                    last_df_date = df.index[-1].tz_convert(JST).date()
                                 else:
                                     last_df_date = df.index[-1].date()
                                 
-                                # 平日(月〜金) かつ 日本時間の朝9:00以降（市場オープン後）かチェック
-                                if today_date.weekday() < 5 and now_tokyo.hour >= 9:
-                                    if last_df_date < today_date:
-                                        # 今日が平日9時以降なのに、日足データが前日までしかない場合、当日の行をリアルタイム価格で追加
-                                        new_index = pd.Timestamp(now_tokyo)
-                                        new_row = pd.DataFrame({'Close': [latest_price]}, index=[new_index])
-                                        df = pd.concat([df, new_row])
-                                    elif last_df_date == today_date:
-                                        # 既に今日の日付の行がある場合は、ザラ場中の最新価格で上書き
-                                        df.loc[df.index[-1], 'Close'] = latest_price
+                                # 1分足から取得した日付が、日足の最終日より新しい場合（＝今日の日足がまだ無い場合）
+                                if latest_date > last_df_date:
+                                    # dfのタイムゾーンに合わせてインデックスを作成
+                                    if df.index.tz is not None:
+                                        new_index = pd.Timestamp(latest_datetime).tz_convert(df.index.tz)
+                                    else:
+                                        new_index = pd.Timestamp(latest_datetime).tz_localize(None)
+                                        
+                                    new_row = pd.DataFrame({'Close': [latest_price]}, index=[new_index])
+                                    df = pd.concat([df, new_row])
+                                    
+                                # 日足データに「今日」の行がすでにある場合、最新価格で上書きする
+                                elif latest_date == last_df_date:
+                                    df.loc[df.index[-1], 'Close'] = latest_price
+                                    
                         except Exception:
                             # 補完処理中にエラーが出た場合は無視して既存のデータ(前日までの足)を使用
                             pass
