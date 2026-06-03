@@ -59,20 +59,15 @@ if st.sidebar.button("🚀 データ取得＆スクリーニング実行"):
                     progress_bar.progress((i + 1) / total_tickers)
                     
                     try:
-                        # 1銘柄ずつ取得
-                        df = yf.download(ticker, period="6mo", progress=False)
+                        # yfinanceの仕様による当日データ（今日のデータ）の反映遅延を軽減するため、
+                        # download() ではなく Ticker().history() メソッドを使用する方式に変更
+                        ticker_obj = yf.Ticker(ticker)
+                        df = ticker_obj.history(period="6mo")
                         
                         if df is None or df.empty or len(df) < 26:
                             continue
                         
-                        # yfinanceのバージョンによるMultiIndex（多重列）を安全に解除
-                        if isinstance(df.columns, pd.MultiIndex):
-                            if ticker in df.columns.levels[1]:
-                                close_px = df['Close'][ticker]
-                            else:
-                                close_px = df['Close'].iloc[:, 0]
-                        else:
-                            close_px = df['Close']
+                        close_px = df['Close']
                         
                         # 万が一DataFrame形式で返ってきた場合はSeriesに変換
                         if isinstance(close_px, pd.DataFrame):
@@ -83,6 +78,9 @@ if st.sidebar.button("🚀 データ取得＆スクリーニング実行"):
                         
                         if len(close_px) < 26:
                             continue
+                        
+                        # 取得できたデータの「最新日付」を記録（今日の日付になっているか確認用）
+                        latest_date = close_px.index[-1].strftime('%m/%d')
                         
                         # SMAの計算
                         sma5 = close_px.rolling(window=5).mean()
@@ -110,6 +108,7 @@ if st.sidebar.button("🚀 データ取得＆スクリーニング実行"):
                         
                         ticker_info = {
                             "銘柄コード": ticker_code,
+                            "取得日": latest_date,
                             "株価": round(current_close, 1),
                             "SMA5乖離率(%)": round(kairi_sma5, 2),
                             "SMA5": round(current_sma5, 1),
