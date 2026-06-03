@@ -4,8 +4,8 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import time
+import random
 import re
-import io
 import requests
 
 # ページ設定
@@ -17,7 +17,8 @@ st.title("📈 モメンタム投資 システムアナライザー")
 # ==========================================
 @st.cache_data(ttl=300)
 def fetch_stock_data(ticker_symbol, period):
-    time.sleep(1) # BAN対策
+    # 個別銘柄の取得時も少し待機を入れる
+    time.sleep(random.uniform(1.0, 2.0))
     stock = yf.Ticker(ticker_symbol)
     df = stock.history(period=period)
     stock_name = f"銘柄コード {ticker_symbol.replace('.T', '')}"
@@ -26,20 +27,24 @@ def fetch_stock_data(ticker_symbol, period):
 @st.cache_data(ttl=600)
 def fetch_trading_value_ranking():
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        "Accept-Language": "ja,en-US;q=0.9,en;q=0.8"
     }
     all_dfs = []
     try:
+        # みんかぶのランキングを1〜2ページ目まで取得
         for page in range(1, 3):
             url = f"https://minkabu.jp/ranking/trade_value?page={page}"
-            res = requests.get(url, headers=headers, timeout=10)
+            res = requests.get(url, headers=headers, timeout=15)
             dfs = pd.read_html(res.content)
             
             if dfs:
                 ranking_df = max(dfs, key=len)
                 if len(ranking_df) > 10:
                     all_dfs.append(ranking_df)
-            time.sleep(1)
+            
+            # 【重要】BAN対策: ページ遷移の間に2.5〜4.5秒のランダムな待機時間を設ける
+            time.sleep(random.uniform(2.5, 4.5))
             
         if all_dfs:
             final_df = pd.concat(all_dfs, ignore_index=True)
@@ -150,6 +155,7 @@ if app_mode == "📊 個別銘柄アナライザー":
 
                     # UI表示
                     st.subheader(f"■ {stock_name} の現在ステータス")
+                    
                     col1, col2, col3, col4, col5 = st.columns(5)
                     col1.metric("現在値", f"{int(current_price):,}円", f"{int(price_change):,}円 ({price_change_pct:.2f}%)")
                     col2.metric("5日線", f"{int(current_sma5):,}円")
@@ -172,12 +178,10 @@ if app_mode == "📊 個別銘柄アナライザー":
                     with col_pnl:
                         if entry_price > 0:
                             st.info(f"💰 **現在の損益:** {pnl_pct:.2f}%")
-                        else:
-                            st.info("💡 サイドバーで買値を入力すると現在の損益(%)が計算されます")
 
                     st.markdown("---")
 
-                    # UI表示: チャート
+                    # チャート
                     st.subheader("📊 チャート・売買代金・RSI")
                     fig = make_subplots(rows=3, cols=1, shared_xaxes=True, 
                                         vertical_spacing=0.05, row_heights=[0.5, 0.25, 0.25])
@@ -201,66 +205,58 @@ if app_mode == "📊 個別銘柄アナライザー":
                     fig.update_yaxes(range=[0, 100], row=3, col=1)
                     st.plotly_chart(fig, use_container_width=True)
 
-                    # 生データ
-                    with st.expander("詳細データ（直近10営業日）"):
-                        display_df = df[['Close', 'SMA5', '乖離率(%)', 'RSI(14)', 'Volume', '売買代金(億円)']].tail(10).iloc[::-1]
-                        display_df.index = display_df.index.strftime('%Y-%m-%d')
-                        display_df = display_df.round({'Close': 0, 'SMA5': 1, '乖離率(%)': 2, 'RSI(14)': 1, '売買代金(億円)': 0})
-                        st.dataframe(display_df, use_container_width=True)
-                        
-                        export_df = display_df.copy()
-                        export_df.insert(0, '銘柄コード', ticker_code)
-                        export_df.insert(1, '銘柄名', stock_name)
-                        all_details_list.append(export_df)
+                    # データ収集
+                    display_df = df[['Close', 'SMA5', '乖離率(%)', 'RSI(14)', 'Volume', '売買代金(億円)']].tail(10).iloc[::-1]
+                    display_df.index = display_df.index.strftime('%Y-%m-%d')
+                    
+                    export_df = display_df.copy()
+                    export_df.insert(0, '日付', display_df.index)
+                    export_df.insert(1, '銘柄コード', ticker_code)
+                    export_df.insert(2, '銘柄名', stock_name)
+                    all_details_list.append(export_df)
 
                 except Exception as e:
                     st.error(f"エラーが発生しました ({ticker_code}): {e}")
 
-        # ダウンロードセクション
+        # 【修正】CSVでのダウンロード機能
         if all_details_list:
             combined_df = pd.concat(all_details_list)
             st.sidebar.markdown("---")
             st.sidebar.subheader("データのエクスポート")
             
-            # 【新規追加】Googleスプレッドシート互換のCSVダウンロード
-            # utf-8-sigにすることで、スプレッドシートや日本のExcelで開いても絶対に文字化けしません
-            csv_data = combined_df.to_csv(index=True).encode('utf-8-sig')
+            if st.sidebar.button("💾 フォルダに直接保存 (CSV形式)"):
+                try:
+                    combined_df.to_csv("momentum_analysis_data.csv", index=False, encoding="utf-8-sig")
+                    st.sidebar.success("✅ 保存しました！")
+                except Exception:
+                    st.sidebar.error("PCへの直接保存はローカル環境専用です。")
+            
+            # utf-8-sig はExcelで文字化けさせないためのBOM付きUTF-8
+            csv_data = combined_df.to_csv(index=False).encode('utf-8-sig')
+
             st.sidebar.download_button(
-                label="🟢 Googleスプレッドシート用 CSVを保存",
+                label="📊 ブラウザからダウンロード (CSV)",
                 data=csv_data,
                 file_name="momentum_analysis_data.csv",
                 mime="text/csv",
                 key="dl_all_csv"
             )
-            
-            excel_buffer = io.BytesIO()
-            with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
-                combined_df.to_excel(writer, sheet_name='モメンタム分析データ')
-            excel_data = excel_buffer.getvalue()
-
-            st.sidebar.download_button(
-                label="📊 Excel形式でダウンロード (.xlsx)",
-                data=excel_data,
-                file_name="momentum_analysis_data.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                key="dl_all_excel"
-            )
     else:
         st.info("👈 サイドバーに4桁の銘柄コードを入力してください。")
+
 
 # ==========================================
 # モード②: 東証 売買代金ランキング
 # ==========================================
 elif app_mode == "🏆 東証 売買代金ランキング":
     st.subheader("🔥 東証 売買代金ランキング (トップ50)")
-    st.write("「市場の資金が今どこに最も集中しているか」を可視化します。")
+    st.write("「市場の資金が今どこに最も集中しているか」を可視化します。この上位銘柄をアナライザーにかけて一点突破を狙います。")
     
-    with st.spinner("最新のランキングを取得中..."):
+    with st.spinner("最新のランキングを取得中... (アクセス制限対策のため少し時間がかかります)"):
         ranking_df = fetch_trading_value_ranking()
         
     if not ranking_df.empty:
         ranking_df.index = range(1, len(ranking_df) + 1)
-        st.dataframe(ranking_df, use_container_width=True, height=600)
         
         target_cols = [col for col in ranking_df.columns if any(x in str(col) for x in ['コード', '銘柄', '名称', 'name', 'code'])]
         codes_list = []
@@ -282,9 +278,22 @@ elif app_mode == "🏆 東証 売買代金ランキング":
             for match in matches:
                 if match not in codes_list and 1300 <= int(match) <= 9999:
                     codes_list.append(match)
+
+        # ランキング表の表示
+        st.dataframe(ranking_df, use_container_width=True, height=600)
+        
+        # 【追加】ランキング表自体のCSVダウンロード
+        ranking_csv = ranking_df.to_csv(index=False).encode('utf-8-sig')
+        st.download_button(
+            label="📥 このランキング一覧をCSVでダウンロード",
+            data=ranking_csv,
+            file_name="trading_value_ranking_top50.csv",
+            mime="text/csv"
+        )
                     
         if codes_list:
             st.markdown("### 🎯 アナライザー用 ワンタッチ入力コード")
+            st.info("以下のコードをコピーして、左側のメニューから「📊 個別銘柄アナライザー」に戻り、銘柄コード欄に貼り付けるだけで一括分析が可能です。")
             
             top10 = ", ".join(codes_list[:10])
             top20 = ", ".join(codes_list[:20])
@@ -295,5 +304,8 @@ elif app_mode == "🏆 東証 売買代金ランキング":
             with st.expander("全50銘柄のコード"):
                 st.code(top50)
     else:
-        st.error("ランキングデータの自動取得に失敗しました。")
+        st.error("ランキングデータの自動取得に失敗しました。クラウド環境からのアクセスが完全にブロックされています。")
+        st.markdown("### 💡 代替手段（こちらをお使いください）")
+        st.info("以下のリンクからスマホやPCのブラウザでランキングを確認し、気になった銘柄のコードを左側のメニューに直接入力してください。")
         st.markdown("- [🔗 みんかぶ - 売買代金ランキング](https://minkabu.jp/ranking/trade_value)")
+        st.markdown("- [🔗 Yahoo!ファイナンス - 売買代金ランキング](https://finance.yahoo.co.jp/ranking/tradingValue)")
