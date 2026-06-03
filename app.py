@@ -1,311 +1,154 @@
 import streamlit as st
 import yfinance as yf
 import pandas as pd
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-import time
-import random
-import re
-import requests
+from datetime import datetime
 
 # ページ設定
-st.set_page_config(page_title="モメンタム投資アナライザー", layout="wide", initial_sidebar_state="expanded")
-st.title("📈 モメンタム投資 システムアナライザー")
+st.set_page_config(page_title="新・トレンドフォロー型モメンタムスクリーナー", layout="wide", page_icon="📈")
 
-# ==========================================
-# データ取得関数群
-# ==========================================
-@st.cache_data(ttl=300)
-def fetch_stock_data(ticker_symbol, period):
-    # 個別銘柄の取得時も少し待機を入れる
-    time.sleep(random.uniform(1.0, 2.0))
-    stock = yf.Ticker(ticker_symbol)
-    df = stock.history(period=period)
-    stock_name = f"銘柄コード {ticker_symbol.replace('.T', '')}"
-    return df, stock_name
+# タイトルとルールの表示
+st.title("📈 新・トレンドフォロー型モメンタムスクリーナー")
+st.markdown("""
+**【ご自身の相場判断に基づく完全版投資ルール】**
+* **絶対条件①**: 東証プライム市場の売買代金ランキング上位50位以内（大口資金の流入） ※ご自身でリストをご用意ください。
+* **絶対条件②**: 株価がSMA25の上にあり、かつSMA25が上向き（上昇トレンド）
+* **ストライクゾーン**: SMA5からの乖離率が「-3% 〜 +3%以内」（高値掴み排除）
+""")
 
-@st.cache_data(ttl=600)
-def fetch_trading_value_ranking():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        "Accept-Language": "ja,en-US;q=0.9,en;q=0.8"
-    }
-    all_dfs = []
-    try:
-        # みんかぶのランキングを1〜2ページ目まで取得
-        for page in range(1, 3):
-            url = f"https://minkabu.jp/ranking/trade_value?page={page}"
-            res = requests.get(url, headers=headers, timeout=15)
-            dfs = pd.read_html(res.content)
-            
-            if dfs:
-                ranking_df = max(dfs, key=len)
-                if len(ranking_df) > 10:
-                    all_dfs.append(ranking_df)
-            
-            # 【重要】BAN対策: ページ遷移の間に2.5〜4.5秒のランダムな待機時間を設ける
-            time.sleep(random.uniform(2.5, 4.5))
-            
-        if all_dfs:
-            final_df = pd.concat(all_dfs, ignore_index=True)
-            return final_df.head(50)
-        return pd.DataFrame()
-    except Exception as e:
-        return pd.DataFrame()
+st.sidebar.header("⚙️ 対象銘柄の入力")
 
-# ==========================================
-# サイドバー（モード切替と入力フォーム）
-# ==========================================
-st.sidebar.header("🧭 メニュー")
-app_mode = st.sidebar.radio("機能を選択してください", ["📊 個別銘柄アナライザー", "🏆 東証 売買代金ランキング"])
+st.sidebar.markdown("証券会社のツール等で抽出した**「売買代金上位銘柄」**のコードを貼り付けてください。")
+custom_tickers = st.sidebar.text_area(
+    "銘柄コードを入力（カンマ、スペース、または改行区切り）\n例: 7203, 8306, 9984", 
+    "7203\n8306\n9984\n6920\n8035"
+)
 
-st.sidebar.markdown("---")
+import re
+# 入力されたコードを整形（カンマ、スペース、改行で分割し、.Tを付与）
+raw_tickers = re.split(r'[\n, ]+', custom_tickers)
+tickers_to_fetch = []
+for t in raw_tickers:
+    t = t.strip()
+    if t:
+        if not t.upper().endswith('.T'):
+            t += '.T'
+        else:
+            t = t.upper()
+        if t not in tickers_to_fetch:
+            tickers_to_fetch.append(t)
 
-# ==========================================
-# モード①: 個別銘柄アナライザー
-# ==========================================
-if app_mode == "📊 個別銘柄アナライザー":
-    st.sidebar.header("検索条件")
-    st.sidebar.info("複数の銘柄コードをカンマ(,)やスペース区切りで入力できます。")
-
-    ticker_input = st.sidebar.text_input("銘柄コード", value="9984, 4063, 6723, 6506")
-
-    period = st.sidebar.selectbox(
-        "取得期間", 
-        options=["1mo", "3mo", "6mo", "1y", "max"], 
-        index=0, 
-        format_func=lambda x: {"1mo": "1ヶ月", "3mo": "3ヶ月", "6mo": "半年", "1y": "1年", "max": "全期間"}[x]
-    )
-
-    valid_codes = re.findall(r'\b\d{4}\b', ticker_input)
-    valid_codes = list(dict.fromkeys(valid_codes))
-
-    entry_prices = {}
-    if valid_codes:
-        st.sidebar.markdown("---")
-        st.sidebar.subheader("実際の買値（任意）")
-        for code in valid_codes:
-            entry_prices[code] = st.sidebar.number_input(f"{code} の買値", value=0, step=100, key=f"entry_{code}")
-
-    if valid_codes:
-        tabs = st.tabs(valid_codes)
-        all_details_list = []
-        
-        for idx, ticker_code in enumerate(valid_codes):
-            with tabs[idx]:
-                ticker_symbol = f"{ticker_code}.T"
-                entry_price = entry_prices[ticker_code]
+if st.sidebar.button("🚀 データ取得＆スクリーニング実行"):
+    if not tickers_to_fetch:
+        st.warning("対象となる銘柄がありません。")
+    else:
+        with st.spinner('株価データを取得・計算中です...'):
+            try:
+                # 過去6ヶ月分のデータを一括取得（移動平均線の計算のため）
+                # progress=Falseでプログレスバーを非表示にし、処理を高速化
+                data = yf.download(tickers_to_fetch, period="6mo", group_by="ticker", progress=False)
                 
-                try:
-                    with st.spinner(f"{ticker_code} のデータを取得・計算中..."):
-                        df, stock_name = fetch_stock_data(ticker_symbol, period)
-
-                    if df.empty:
-                        st.error(f"{ticker_code} のデータが取得できませんでした。")
+                # 1銘柄だけの場合と複数銘柄の場合でデータ構造が異なるための対応
+                if len(tickers_to_fetch) == 1:
+                    data = {tickers_to_fetch[0]: data}
+                
+                results = []
+                all_data_list = []
+                
+                for ticker in tickers_to_fetch:
+                    try:
+                        df = data[ticker] if len(tickers_to_fetch) > 1 else data[ticker]
+                        
+                        if df is None or df.empty or len(df) < 26:
+                            continue
+                        
+                        # 終値系列を取得
+                        close_px = df['Close']
+                        
+                        # SMAの計算
+                        sma5 = close_px.rolling(window=5).mean()
+                        sma25 = close_px.rolling(window=25).mean()
+                        
+                        # 直近の値を取得
+                        current_close = close_px.iloc[-1]
+                        current_sma5 = sma5.iloc[-1]
+                        current_sma25 = sma25.iloc[-1]
+                        prev_sma25 = sma25.iloc[-2]
+                        
+                        # 【第1段階：絶対条件②】2つの移動平均線による「波の定義」
+                        cond_sma25_up = current_sma25 > prev_sma25
+                        cond_above_sma25 = current_close > current_sma25
+                        
+                        # 【第1段階：絶対条件③】ストライクゾーンの厳守
+                        kairi_sma5 = ((current_close - current_sma5) / current_sma5) * 100
+                        cond_kairi = -3.0 <= kairi_sma5 <= 3.0
+                        
+                        # 全銘柄のデータを記録
+                        trend_status = "⭕️上昇トレンド" if cond_sma25_up and cond_above_sma25 else "❌条件未達"
+                        strike_zone = "🎯圏内" if cond_kairi else "圏外"
+                        
+                        ticker_code = ticker.replace(".T", "")
+                        
+                        ticker_info = {
+                            "銘柄コード": ticker_code,
+                            "株価": round(current_close, 1),
+                            "SMA5乖離率(%)": round(kairi_sma5, 2),
+                            "SMA5": round(current_sma5, 1),
+                            "SMA25": round(current_sma25, 1),
+                            "トレンド判定": trend_status,
+                            "ストライクゾーン": strike_zone
+                        }
+                        all_data_list.append(ticker_info)
+                        
+                        # 全条件を満たした場合のみ結果リストに追加
+                        if cond_sma25_up and cond_above_sma25 and cond_kairi:
+                            results.append(ticker_info)
+                            
+                    except Exception as e:
                         continue
 
-                    # 指標計算
-                    df['SMA5'] = df['Close'].rolling(window=5).mean()
-                    df['乖離率(%)'] = ((df['Close'] - df['SMA5']) / df['SMA5']) * 100
-                    df['売買代金(億円)'] = (df['Close'] * df['Volume']) / 100000000
+                # 結果の表示
+                st.success("データの取得と計算が完了しました！")
+                
+                st.subheader(f"🎯 ストライクゾーン到達銘柄 (条件完全クリア): {len(results)}件")
+                
+                # 乖離率のカラーリング設定（Pandas Styler）
+                def color_kairi(val):
+                    if isinstance(val, (int, float)) and not pd.isna(val):
+                        color = 'red' if val > 0 else 'blue'
+                        return f'color: {color}'
+                    return ''
 
-                    delta = df['Close'].diff()
-                    up = delta.clip(lower=0)
-                    down = -1 * delta.clip(upper=0)
-                    ema_up = up.ewm(com=13, adjust=False).mean()
-                    ema_down = down.ewm(com=13, adjust=False).mean()
-                    rs = ema_up / ema_down
-                    df['RSI(14)'] = 100 - (100 / (1 + rs))
+                if results:
+                    result_df = pd.DataFrame(results)
+                    st.dataframe(
+                        result_df.style.map(color_kairi, subset=['SMA5乖離率(%)']) if hasattr(result_df.style, 'map') else result_df.style.applymap(color_kairi, subset=['SMA5乖離率(%)']),
+                        use_container_width=True
+                    )
+                else:
+                    st.info("現在、入力された銘柄の中で条件（上昇トレンド ＋ 乖離率±3%以内）を満たす銘柄はありませんでした。無理なエントリーは控えましょう。")
 
-                    latest = df.iloc[-1]
-                    current_price = latest['Close']
-                    current_sma5 = latest['SMA5']
-                    current_dev = latest['乖離率(%)']
-                    current_tv = latest['売買代金(億円)']
-                    current_rsi = latest['RSI(14)']
+                st.markdown("---")
+                st.subheader(f"📊 入力銘柄のテクニカルデータ一覧 ({len(all_data_list)}件)")
+                if all_data_list:
+                    all_df = pd.DataFrame(all_data_list)
+                    st.dataframe(
+                        all_df.style.map(color_kairi, subset=['SMA5乖離率(%)']) if hasattr(all_df.style, 'map') else all_df.style.applymap(color_kairi, subset=['SMA5乖離率(%)']),
+                        use_container_width=True
+                    )
+
+                st.markdown("""
+                ---
+                ### 💡 次のステップ（資金管理とエグジット）
+                    * **[9:30-10:00の確認]** 寄り付きのノイズが消えた後、上記銘柄の乖離率と板・歩み値（大口の資金流入）を確認します。
+                    * **[打診買い]** ストライクゾーン内で、まずは **資金の半分** をエントリー。
+                    * **[ピラミッディング]** その後、浅い押し目からの反発を確認して **残りの資金** を投入します。
+                    * **[命綱の設定]** 約定後、必ず **買値の-8%** または直近サポートに逆指値を設定してください。
+                    """)
+                else:
+                    st.info("現在、すべての条件（売買代金トップ50 ＋ 上昇トレンド ＋ 乖離率±3%以内）を満たす銘柄はありません。無理なエントリーは控え、キャッシュポジションを維持してください。")
                     
-                    prev_price = df['Close'].iloc[-2] if len(df) > 1 else current_price
-                    price_change = current_price - prev_price
-                    price_change_pct = (price_change / prev_price) * 100
+            except Exception as e:
+                st.error(f"エラーが発生しました: {e}")
 
-                    # ジャッジメント
-                    if current_price < current_sma5:
-                        status = "⚠️ 5日線割れ"
-                        status_color = "error"
-                        action = "エントリー不可 / 保有中の場合は即時撤退"
-                    elif current_dev >= 5.0:
-                        status = "🔴 過熱警戒 (+5%超)"
-                        status_color = "error"
-                        action = f"高値掴みリスク大（新規見送り）。保有中の場合は逆指値を {int(current_sma5)}円付近へ引き上げ推奨。"
-                    elif current_dev <= 3.0:
-                        status = "🟢 順張り継続 (ストライクゾーン)"
-                        status_color = "success"
-                        action = "トレンドフォローの最適圏内。売買代金を確認して一点突破を検討。"
-                    else:
-                        status = "🟡 警戒圏内 (+3%〜5%)"
-                        status_color = "warning"
-                        action = "新規買いは慎重に。保有中の場合は逆指値を維持。"
-
-                    if entry_price > 0:
-                        stop_loss_line = entry_price * 0.92
-                        pnl_pct = ((current_price - entry_price) / entry_price) * 100
-                    else:
-                        stop_loss_line = current_price * 0.92
-                        pnl_pct = 0
-
-                    # UI表示
-                    st.subheader(f"■ {stock_name} の現在ステータス")
-                    
-                    col1, col2, col3, col4, col5 = st.columns(5)
-                    col1.metric("現在値", f"{int(current_price):,}円", f"{int(price_change):,}円 ({price_change_pct:.2f}%)")
-                    col2.metric("5日線", f"{int(current_sma5):,}円")
-                    col3.metric("5日線 乖離率", f"{current_dev:.2f}%")
-                    col4.metric("RSI (14日)", f"{current_rsi:.1f}")
-                    col5.metric("直近 売買代金", f"{current_tv:,.0f} 億円")
-
-                    st.markdown("---")
-                    
-                    if status_color == "success":
-                        st.success(f"**システム判定:** {status} \n\n **推奨アクション:** {action}")
-                    elif status_color == "warning":
-                        st.warning(f"**システム判定:** {status} \n\n **推奨アクション:** {action}")
-                    else:
-                        st.error(f"**システム判定:** {status} \n\n **推奨アクション:** {action}")
-
-                    col_sl, col_pnl = st.columns(2)
-                    with col_sl:
-                        st.info(f"🛡️ **絶対防衛線 (-8%逆指値):** {int(stop_loss_line):,}円 に設定")
-                    with col_pnl:
-                        if entry_price > 0:
-                            st.info(f"💰 **現在の損益:** {pnl_pct:.2f}%")
-
-                    st.markdown("---")
-
-                    # チャート
-                    st.subheader("📊 チャート・売買代金・RSI")
-                    fig = make_subplots(rows=3, cols=1, shared_xaxes=True, 
-                                        vertical_spacing=0.05, row_heights=[0.5, 0.25, 0.25])
-
-                    fig.add_trace(go.Candlestick(x=df.index, open=df['Open'], high=df['High'], 
-                                                low=df['Low'], close=df['Close'], name="価格"), row=1, col=1)
-                    fig.add_trace(go.Scatter(x=df.index, y=df['SMA5'], mode='lines', 
-                                            line=dict(color='magenta', width=2), name="5日線"), row=1, col=1)
-
-                    if entry_price > 0:
-                        fig.add_hline(y=entry_price, line_dash="dash", line_color="blue", annotation_text="買値", row=1, col=1)
-                        fig.add_hline(y=stop_loss_line, line_dash="dash", line_color="red", annotation_text="損切り(-8%)", row=1, col=1)
-
-                    fig.add_trace(go.Bar(x=df.index, y=df['売買代金(億円)'], marker_color='orange', name="売買代金"), row=2, col=1)
-                    fig.add_trace(go.Scatter(x=df.index, y=df['RSI(14)'], mode='lines',
-                                            line=dict(color='purple', width=1.5), name="RSI(14)"), row=3, col=1)
-                    fig.add_hline(y=70, line_dash="dash", line_color="red", line_width=1, row=3, col=1)
-                    fig.add_hline(y=30, line_dash="dash", line_color="blue", line_width=1, row=3, col=1)
-
-                    fig.update_layout(height=800, xaxis_rangeslider_visible=False, margin=dict(l=0, r=0, t=30, b=0), hovermode='x unified')
-                    fig.update_yaxes(range=[0, 100], row=3, col=1)
-                    st.plotly_chart(fig, use_container_width=True)
-
-                    # データ収集
-                    display_df = df[['Close', 'SMA5', '乖離率(%)', 'RSI(14)', 'Volume', '売買代金(億円)']].tail(10).iloc[::-1]
-                    display_df.index = display_df.index.strftime('%Y-%m-%d')
-                    
-                    export_df = display_df.copy()
-                    export_df.insert(0, '日付', display_df.index)
-                    export_df.insert(1, '銘柄コード', ticker_code)
-                    export_df.insert(2, '銘柄名', stock_name)
-                    all_details_list.append(export_df)
-
-                except Exception as e:
-                    st.error(f"エラーが発生しました ({ticker_code}): {e}")
-
-        # 【修正】CSVでのダウンロード機能
-        if all_details_list:
-            combined_df = pd.concat(all_details_list)
-            st.sidebar.markdown("---")
-            st.sidebar.subheader("データのエクスポート")
-            
-            if st.sidebar.button("💾 フォルダに直接保存 (CSV形式)"):
-                try:
-                    combined_df.to_csv("momentum_analysis_data.csv", index=False, encoding="utf-8-sig")
-                    st.sidebar.success("✅ 保存しました！")
-                except Exception:
-                    st.sidebar.error("PCへの直接保存はローカル環境専用です。")
-            
-            # utf-8-sig はExcelで文字化けさせないためのBOM付きUTF-8
-            csv_data = combined_df.to_csv(index=False).encode('utf-8-sig')
-
-            st.sidebar.download_button(
-                label="📊 ブラウザからダウンロード (CSV)",
-                data=csv_data,
-                file_name="momentum_analysis_data.csv",
-                mime="text/csv",
-                key="dl_all_csv"
-            )
-    else:
-        st.info("👈 サイドバーに4桁の銘柄コードを入力してください。")
-
-
-# ==========================================
-# モード②: 東証 売買代金ランキング
-# ==========================================
-elif app_mode == "🏆 東証 売買代金ランキング":
-    st.subheader("🔥 東証 売買代金ランキング (トップ50)")
-    st.write("「市場の資金が今どこに最も集中しているか」を可視化します。この上位銘柄をアナライザーにかけて一点突破を狙います。")
-    
-    with st.spinner("最新のランキングを取得中... (アクセス制限対策のため少し時間がかかります)"):
-        ranking_df = fetch_trading_value_ranking()
-        
-    if not ranking_df.empty:
-        ranking_df.index = range(1, len(ranking_df) + 1)
-        
-        target_cols = [col for col in ranking_df.columns if any(x in str(col) for x in ['コード', '銘柄', '名称', 'name', 'code'])]
-        codes_list = []
-        
-        if target_cols:
-            for col in target_cols:
-                for val in ranking_df[col]:
-                    match = re.search(r'\b([1-9]\d{3})\b', str(val))
-                    if match:
-                        code = match.group(1)
-                        if code not in codes_list and 1300 <= int(code) <= 9999:
-                            codes_list.append(code)
-                if codes_list:
-                    break
-        
-        if not codes_list:
-            raw_text = ranking_df.to_string()
-            matches = re.findall(r'\b([1-9]\d{3})\b', raw_text)
-            for match in matches:
-                if match not in codes_list and 1300 <= int(match) <= 9999:
-                    codes_list.append(match)
-
-        # ランキング表の表示
-        st.dataframe(ranking_df, use_container_width=True, height=600)
-        
-        # 【追加】ランキング表自体のCSVダウンロード
-        ranking_csv = ranking_df.to_csv(index=False).encode('utf-8-sig')
-        st.download_button(
-            label="📥 このランキング一覧をCSVでダウンロード",
-            data=ranking_csv,
-            file_name="trading_value_ranking_top50.csv",
-            mime="text/csv"
-        )
-                    
-        if codes_list:
-            st.markdown("### 🎯 アナライザー用 ワンタッチ入力コード")
-            st.info("以下のコードをコピーして、左側のメニューから「📊 個別銘柄アナライザー」に戻り、銘柄コード欄に貼り付けるだけで一括分析が可能です。")
-            
-            top10 = ", ".join(codes_list[:10])
-            top20 = ", ".join(codes_list[:20])
-            top50 = ", ".join(codes_list[:50])
-            
-            st.text_input("🏆 トップ10銘柄", value=top10)
-            st.text_input("🔥 トップ20銘柄", value=top20)
-            with st.expander("全50銘柄のコード"):
-                st.code(top50)
-    else:
-        st.error("ランキングデータの自動取得に失敗しました。クラウド環境からのアクセスが完全にブロックされています。")
-        st.markdown("### 💡 代替手段（こちらをお使いください）")
-        st.info("以下のリンクからスマホやPCのブラウザでランキングを確認し、気になった銘柄のコードを左側のメニューに直接入力してください。")
-        st.markdown("- [🔗 みんかぶ - 売買代金ランキング](https://minkabu.jp/ranking/trade_value)")
-        st.markdown("- [🔗 Yahoo!ファイナンス - 売買代金ランキング](https://finance.yahoo.co.jp/ranking/tradingValue)")
+st.markdown("---")
+st.caption("※本データはYahoo Financeを利用しており、実際の相場データ（特に寄り付き直後）とはタイムラグや差異が生じる場合があります。最終的な執行判断は証券会社のリアルタイムツールにて売買代金と乖離率をご確認ください。")
