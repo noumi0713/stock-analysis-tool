@@ -14,7 +14,7 @@ from app.yahoo.ingestion import YahooPaths
 
 
 class YahooPatternAnalyzer:
-    """+5%到達前の値動き・出来高を記述し、最新日の候補をルール順位化する。"""
+    """+5%到達前の値動きを記述し、上昇前の仕込み候補をルール順位化する。"""
 
     def __init__(self, settings: Settings) -> None:
         self.paths = YahooPaths(settings.data_dir / "yahoo")
@@ -112,6 +112,27 @@ class YahooPatternAnalyzer:
         frame["breakout_20d"] = frame["adjusted_close"] / prior_high20 - 1
         frame["intraday_return"] = frame["close"] / frame["open"] - 1
         frame["range_rate"] = frame["high"] / frame["low"] - 1
+        frame["volatility_10d"] = frame.groupby("ticker", sort=False)["return_1d"].transform(
+            lambda x: x.rolling(10, min_periods=10).std()
+        )
+        frame["volatility_20d"] = frame.groupby("ticker", sort=False)["return_1d"].transform(
+            lambda x: x.rolling(20, min_periods=20).std()
+        )
+        close_high10 = group["adjusted_close"].transform(
+            lambda x: x.rolling(10, min_periods=10).max()
+        )
+        close_low10 = group["adjusted_close"].transform(
+            lambda x: x.rolling(10, min_periods=10).min()
+        )
+        frame["range_width_10d"] = (close_high10 - close_low10) / frame["adjusted_close"]
+        up_volume = frame["volume"].where(frame["return_1d"] > 0, 0.0)
+        rolling_up_volume = up_volume.groupby(frame["ticker"], sort=False).transform(
+            lambda x: x.rolling(10, min_periods=10).sum()
+        )
+        rolling_total_volume = frame.groupby("ticker", sort=False)["volume"].transform(
+            lambda x: x.rolling(10, min_periods=10).sum()
+        )
+        frame["up_volume_share_10d"] = rolling_up_volume / rolling_total_volume
 
         adjustment_ratio = frame["adjusted_close"] / frame["close"]
         adjusted_high = frame["high"] * adjustment_ratio
@@ -126,26 +147,31 @@ class YahooPatternAnalyzer:
             (frame["future_max_return"] >= 0.05) & frame["horizon_complete"]
         ).astype("int8")
 
-        rank_features = {
-            "return_5d_rank": "return_5d",
-            "return_20d_rank": "return_20d",
-            "volume_change_rank": "volume_change_1d",
-            "volume_ratio_rank": "volume_ratio_5_20",
-            "breakout_rank": "breakout_20d",
-            "ma20_rank": "close_to_ma20",
-            "range_rank": "range_rate",
-        }
-        for output, source in rank_features.items():
-            frame[output] = frame.groupby("date")[source].rank(pct=True)
-        frame["signal_score"] = (
-            0.10 * frame["return_5d_rank"]
-            + 0.15 * frame["return_20d_rank"]
-            + 0.15 * frame["volume_change_rank"]
-            + 0.25 * frame["volume_ratio_rank"]
-            + 0.15 * frame["ma20_rank"]
-            + 0.10 * (1.0 - frame["breakout_rank"])
-            + 0.10 * frame["range_rank"]
+        frame["setup_compression_score"] = 0.60 * (1.0 - frame["volatility_10d"] / 0.035).clip(
+            0.0, 1.0
+        ) + 0.40 * (1.0 - frame["range_width_10d"] / 0.12).clip(0.0, 1.0)
+        frame["setup_accumulation_score"] = ((frame["up_volume_share_10d"] - 0.42) / 0.25).clip(
+            0.0, 1.0
         )
+        frame["setup_quiet_volume_score"] = (
+            1.0 - (frame["volume_ratio_5_20"] - 1.0).abs() / 0.75
+        ).clip(0.0, 1.0)
+        frame["setup_position_score"] = (1.0 - (frame["breakout_20d"] + 0.04).abs() / 0.08).clip(
+            0.0, 1.0
+        )
+        frame["setup_calm_score"] = (1.0 - frame["return_5d"].abs() / 0.06).clip(0.0, 1.0)
+        frame["setup_trend_score"] = (1.0 - (frame["return_20d"] - 0.03).abs() / 0.15).clip(
+            0.0, 1.0
+        )
+        frame["setup_score"] = (
+            0.24 * frame["setup_compression_score"]
+            + 0.20 * frame["setup_accumulation_score"]
+            + 0.12 * frame["setup_quiet_volume_score"]
+            + 0.18 * frame["setup_position_score"]
+            + 0.14 * frame["setup_calm_score"]
+            + 0.12 * frame["setup_trend_score"]
+        )
+        frame["signal_score"] = frame["setup_score"]
         frame.replace([np.inf, -np.inf], np.nan, inplace=True)
         return frame
 
@@ -153,10 +179,17 @@ class YahooPatternAnalyzer:
     def _latest_candidates(features: pd.DataFrame, top_n: int) -> pd.DataFrame:
         latest = features.loc[features["date"] == features["date"].max()].copy()
         latest = latest.loc[
-            latest["signal_score"].notna()
-            & (latest["volume_ratio_5_20"] >= 1.0)
+            latest["setup_score"].notna()
+            & latest["return_1d"].between(-0.05, 0.025)
+            & latest["return_5d"].between(-0.05, 0.04)
+            & latest["return_20d"].between(-0.12, 0.15)
+            & latest["breakout_20d"].between(-0.12, 0.0)
+            & latest["close_to_ma20"].between(-0.06, 0.08)
+            & (latest["volatility_10d"] <= 0.035)
+            & latest["volume_ratio_5_20"].between(0.65, 1.80)
             & (latest["turnover_value"] >= 10_000_000)
-        ]
+        ].copy()
+        latest["setup_reasons"] = latest.apply(_setup_reasons, axis=1)
         columns = [
             "date",
             "ticker",
@@ -172,10 +205,19 @@ class YahooPatternAnalyzer:
             "volume_ratio_5_20",
             "close_to_ma20",
             "breakout_20d",
+            "volatility_10d",
+            "volatility_20d",
+            "range_width_10d",
+            "up_volume_share_10d",
+            "setup_compression_score",
+            "setup_accumulation_score",
+            "setup_position_score",
+            "setup_reasons",
+            "setup_score",
             "signal_score",
         ]
         return (
-            latest.sort_values("signal_score", ascending=False)[columns]
+            latest.sort_values("setup_score", ascending=False)[columns]
             .head(top_n)
             .reset_index(drop=True)
         )
@@ -192,6 +234,10 @@ class YahooPatternAnalyzer:
             "breakout_20d",
             "intraday_return",
             "range_rate",
+            "volatility_10d",
+            "range_width_10d",
+            "up_volume_share_10d",
+            "setup_score",
         ]
         result: dict[str, dict[str, float | None]] = {}
         positive = historical["target_5d"] == 1
@@ -209,3 +255,18 @@ class YahooPatternAnalyzer:
 def _finite_or_none(value: Any) -> float | None:
     number = float(value)
     return number if np.isfinite(number) else None
+
+
+def _setup_reasons(row: pd.Series) -> str:
+    reasons: list[str] = []
+    if row["volatility_10d"] <= 0.018 or row["range_width_10d"] <= 0.07:
+        reasons.append("値幅収縮")
+    if row["up_volume_share_10d"] >= 0.54:
+        reasons.append("上昇日の出来高優勢")
+    if 0.80 <= row["volume_ratio_5_20"] <= 1.20:
+        reasons.append("出来高急増前")
+    if -0.08 <= row["breakout_20d"] <= -0.01:
+        reasons.append("20日高値の手前")
+    if abs(row["return_5d"]) <= 0.02:
+        reasons.append("5日持ち合い")
+    return "・".join(reasons[:3]) or "急騰前の持ち合い"

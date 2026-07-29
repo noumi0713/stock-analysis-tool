@@ -117,6 +117,8 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     for ticker_number, ticker in enumerate(("1111.T", "2222.T"), start=1):
         for index, day in enumerate(dates):
             close = 100 + index * ticker_number * 0.5
+            if index == len(dates) - 1:
+                close *= 0.99
             volume = 1000 + index * 20 * ticker_number
             rows.append(
                 {
@@ -142,6 +144,58 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert 0 <= result["positive_rate"] <= 1
     assert len(candidates) <= 1
     assert "volume_change_1d" in result["patterns"]
+    assert "setup_score" in candidates.columns
+    assert "setup_reasons" in candidates.columns
+
+
+def test_setup_ranking_excludes_already_surging_stock() -> None:
+    latest_date = date(2026, 1, 9)
+    common = {
+        "date": latest_date,
+        "close": 100.0,
+        "adjusted_close": 100.0,
+        "volume": 100_000,
+        "turnover_value": 100_000_000,
+        "return_20d": 0.05,
+        "volume_change_1d": 0.10,
+        "volume_ratio_5_20": 1.0,
+        "close_to_ma20": 0.02,
+        "breakout_20d": -0.03,
+        "volatility_10d": 0.012,
+        "volatility_20d": 0.018,
+        "range_width_10d": 0.05,
+        "up_volume_share_10d": 0.58,
+        "setup_compression_score": 0.8,
+        "setup_accumulation_score": 0.7,
+        "setup_position_score": 0.9,
+    }
+    features = pd.DataFrame(
+        [
+            {
+                **common,
+                "ticker": "CALM.T",
+                "code": "11110",
+                "return_1d": 0.005,
+                "return_5d": 0.01,
+                "setup_score": 0.82,
+                "signal_score": 0.82,
+            },
+            {
+                **common,
+                "ticker": "HOT.T",
+                "code": "22220",
+                "return_1d": 0.08,
+                "return_5d": 0.28,
+                "setup_score": 0.95,
+                "signal_score": 0.95,
+            },
+        ]
+    )
+
+    candidates = YahooPatternAnalyzer._latest_candidates(features, top_n=20)
+
+    assert candidates["ticker"].tolist() == ["CALM.T"]
+    assert candidates.iloc[0]["setup_reasons"]
 
 
 def test_yahoo_quality_detects_ohlc_volume_return_split_and_missing_ticker(
@@ -220,11 +274,13 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
     assert result["candidate_count"] <= 1
-    assert payload["schema_version"] == 2
+    assert payload["schema_version"] == 3
     assert payload["personal_research_only"] is True
     assert "patterns" in payload
     assert "candidates" in payload
     assert "open" not in payload["candidates"][0]
+    assert "setup_score" in payload["candidates"][0]
+    assert "setup_reasons" in payload["candidates"][0]
     code = str(payload["candidates"][0]["code"])
     assert code in payload["charts"]
     assert 1 <= len(payload["charts"][code]) <= 60
