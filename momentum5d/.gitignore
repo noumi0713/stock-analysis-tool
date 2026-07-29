@@ -1,0 +1,25 @@
+# 認証情報
+.env
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+dist/
+build/
+*.egg-info/
+
+# 取得データ、状態、ログ
+data/
+logs/
+
+# Codexの作業用・成果物用ディレクトリ
+work/
+outputs/
+
