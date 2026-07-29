@@ -209,7 +209,7 @@ def test_yahoo_quality_detects_ohlc_volume_return_split_and_missing_ticker(
     assert issue_count == len(report.issues)
 
 
-def test_dashboard_export_contains_only_aggregates_and_candidates(
+def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     settings: Settings,
     tmp_path: Path,
 ) -> None:
@@ -220,8 +220,20 @@ def test_dashboard_export_contains_only_aggregates_and_candidates(
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
     assert result["candidate_count"] <= 1
-    assert payload["schema_version"] == 1
+    assert payload["schema_version"] == 2
     assert payload["personal_research_only"] is True
     assert "patterns" in payload
     assert "candidates" in payload
     assert "open" not in payload["candidates"][0]
+    code = str(payload["candidates"][0]["code"])
+    assert code in payload["charts"]
+    assert 1 <= len(payload["charts"][code]) <= 60
+    assert set(payload["charts"][code][0]) == {
+        "date",
+        "open",
+        "high",
+        "low",
+        "close",
+        "adjusted_close",
+        "volume",
+    }
