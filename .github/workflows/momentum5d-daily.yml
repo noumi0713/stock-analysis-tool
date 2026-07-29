@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   analyze:
@@ -59,17 +59,19 @@ jobs:
       - name: Analyze +5% price and volume patterns
         run: python -m app yahoo-analyze --top-n 20
 
-      - name: Export private dashboard payload
+      - name: Export dashboard payload
         run: python -m app yahoo-export-dashboard --output work/latest.json
 
-      - name: Send the result to the private dashboard
-        env:
-          DASHBOARD_UPDATE_TOKEN: ${{ secrets.DASHBOARD_UPDATE_TOKEN }}
+      - name: Publish aggregate result for the mobile dashboard
         run: |
-          test -n "$DASHBOARD_UPDATE_TOKEN"
-          curl --fail-with-body --silent --show-error \
-            --retry 3 --retry-all-errors \
-            -X POST "https://momentum-5d-prime.no31work.chatgpt.site/api/dashboard" \
-            -H "X-Dashboard-Token: $DASHBOARD_UPDATE_TOKEN" \
-            -H "Content-Type: application/json" \
-            --data-binary @work/latest.json
+          mkdir -p ../dashboard-data
+          cp work/latest.json ../dashboard-data/latest.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ../dashboard-data/latest.json
+          if git diff --cached --quiet; then
+            echo "Dashboard payload is unchanged."
+            exit 0
+          fi
+          git commit -m "Update Momentum 5D dashboard data"
+          git push
