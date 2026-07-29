@@ -268,6 +268,13 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     tmp_path: Path,
 ) -> None:
     test_yahoo_analysis_writes_candidates_and_pattern_summary(settings)
+    paths = YahooPaths(settings.data_dir / "yahoo")
+    pd.DataFrame(
+        {
+            "ticker": ["1111.T", "2222.T"],
+            "code": ["11110", "22220"],
+        }
+    ).to_parquet(paths.universe_path, index=False)
     output = tmp_path / "latest.json"
 
     result = DashboardExporter(settings).export(output)
@@ -281,6 +288,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert "open" not in payload["candidates"][0]
     assert "setup_score" in payload["candidates"][0]
     assert "setup_reasons" in payload["candidates"][0]
+    assert payload["candidates"][0]["company_name"] is None
     code = str(payload["candidates"][0]["code"])
     assert code in payload["charts"]
     assert 1 <= len(payload["charts"][code]) <= 60
