@@ -34,6 +34,15 @@ class DashboardExporter:
             json.loads(quality_path.read_text(encoding="utf-8")) if quality_path.exists() else {}
         )
         candidates = pd.read_parquet(candidates_path)
+        company_names: dict[str, str] = {}
+        if self.paths.universe_path.exists():
+            universe = pd.read_parquet(
+                self.paths.universe_path,
+                columns=["code", "company_name"],
+            )
+            company_names = {
+                str(row["code"]): str(row["company_name"]) for row in universe.to_dict("records")
+            }
         prices = pd.read_parquet(
             self.paths.prices_path,
             columns=[
@@ -57,13 +66,21 @@ class DashboardExporter:
             "return_20d",
             "volume_change_1d",
             "volume_ratio_5_20",
+            "breakout_20d",
+            "volatility_10d",
+            "range_width_10d",
+            "up_volume_share_10d",
+            "setup_reasons",
+            "setup_score",
             "signal_score",
         ]
         records: list[dict[str, Any]] = []
         for rank, row in enumerate(candidates[candidate_columns].to_dict("records"), start=1):
+            code = str(row["code"])
             records.append(
                 {
                     "rank": rank,
+                    "company_name": company_names.get(code),
                     **{key: _json_scalar(value) for key, value in row.items()},
                 }
             )
@@ -94,7 +111,7 @@ class DashboardExporter:
             charts[code] = chart_records
 
         payload = {
-            "schema_version": 2,
+            "schema_version": 3,
             "source": "yfinance",
             "personal_research_only": True,
             "generated_at": datetime.now(UTC).isoformat(),
