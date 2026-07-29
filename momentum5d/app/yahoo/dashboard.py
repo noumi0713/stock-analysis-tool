@@ -36,13 +36,12 @@ class DashboardExporter:
         candidates = pd.read_parquet(candidates_path)
         company_names: dict[str, str] = {}
         if self.paths.universe_path.exists():
-            universe = pd.read_parquet(
-                self.paths.universe_path,
-                columns=["code", "company_name"],
-            )
-            company_names = {
-                str(row["code"]): str(row["company_name"]) for row in universe.to_dict("records")
-            }
+            universe = pd.read_parquet(self.paths.universe_path)
+            if {"code", "company_name"}.issubset(universe.columns):
+                company_names = {
+                    str(row["code"]): str(row["company_name"])
+                    for row in universe[["code", "company_name"]].to_dict("records")
+                }
         prices = pd.read_parquet(
             self.paths.prices_path,
             columns=[
