@@ -9,6 +9,10 @@ import pandas as pd
 
 from app.config import Settings
 from app.yahoo.analysis import YahooPatternAnalyzer
+from app.yahoo.corporate_actions import (
+    detect_effective_split_factors,
+    normalize_split_adjusted_prices,
+)
 from app.yahoo.dashboard import DashboardExporter
 from app.yahoo.ingestion import YahooConfig, YahooFinanceIngestion, YahooPaths
 from app.yahoo.quality import YahooQualityValidator
@@ -114,11 +118,12 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     paths.ensure()
     dates = pd.date_range("2025-01-01", periods=80, freq="B")
     rows: list[dict[str, object]] = []
+    price_noise = (-0.01, 0.01, -0.005, 0.005, -0.01)
     for ticker_number, ticker in enumerate(("1111.T", "2222.T"), start=1):
         for index, day in enumerate(dates):
-            close = 100 + index * ticker_number * 0.5
-            if index == len(dates) - 1:
-                close *= 0.99
+            close = (100 + index * ticker_number * 0.5) * (
+                1 + price_noise[index % len(price_noise)]
+            )
             volume = 1000 + index * 20 * ticker_number
             rows.append(
                 {
@@ -144,8 +149,44 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert 0 <= result["positive_rate"] <= 1
     assert len(candidates) <= 1
     assert "volume_change_1d" in result["patterns"]
+    assert result["market_regime"]["favorable"] is True
     assert "setup_score" in candidates.columns
     assert "setup_reasons" in candidates.columns
+
+
+def test_effective_split_normalization_keeps_prices_and_volume_continuous() -> None:
+    prices = pd.DataFrame(
+        [
+            {
+                "date": date(2026, 7, 17),
+                "ticker": "1111.T",
+                "open": 1980.0,
+                "high": 2020.0,
+                "low": 1970.0,
+                "close": 2000.0,
+                "adjusted_close": 2000.0,
+                "volume": 1000.0,
+            },
+            {
+                "date": date(2026, 7, 21),
+                "ticker": "1111.T",
+                "open": 1000.0,
+                "high": 1020.0,
+                "low": 990.0,
+                "close": 1005.0,
+                "adjusted_close": 1005.0,
+                "volume": 2200.0,
+            },
+        ]
+    )
+
+    factors = detect_effective_split_factors(prices)
+    normalized = normalize_split_adjusted_prices(prices)
+
+    assert factors.tolist() == [1.0, 2.0]
+    assert normalized["close"].tolist() == [1000.0, 1005.0]
+    assert normalized["volume"].tolist() == [2000.0, 2200.0]
+    assert normalized["adjusted_close"].tolist() == [1000.0, 1005.0]
 
 
 def test_setup_ranking_excludes_already_surging_stock() -> None:
@@ -283,6 +324,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert result["candidate_count"] <= 1
     assert payload["schema_version"] == 3
     assert payload["personal_research_only"] is True
+    assert payload["market_regime"]["favorable"] is True
     assert "patterns" in payload
     assert "candidates" in payload
     assert "open" not in payload["candidates"][0]

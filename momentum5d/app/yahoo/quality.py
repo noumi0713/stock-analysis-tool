@@ -12,6 +12,7 @@ import pandas as pd
 
 from app.config import Settings
 from app.storage.parquet import ParquetStore
+from app.yahoo.corporate_actions import detect_effective_split_factors
 from app.yahoo.ingestion import YahooPaths
 
 ISSUE_COLUMNS = [
@@ -174,6 +175,15 @@ class YahooQualityValidator:
 
     def _check_returns_and_splits(self, frame: pd.DataFrame) -> None:
         ordered = frame.sort_values(["ticker", "date"]).copy()
+        effective_factors = detect_effective_split_factors(ordered)
+        effective_event = ~np.isclose(effective_factors, 1.0)
+        self._add_rows(
+            ordered.loc[effective_event],
+            "info",
+            "effective_stock_split",
+            "価格の不連続から実効分割日を検出しました",
+            effective_factors.loc[effective_event],
+        )
         adjusted_close = pd.to_numeric(ordered["adjusted_close"], errors="coerce")
         previous_adjusted = adjusted_close.groupby(ordered["ticker"]).shift()
         adjusted_return = adjusted_close / previous_adjusted - 1.0
@@ -215,6 +225,14 @@ class YahooQualityValidator:
             "stock_split_adjusted_price_jump",
             "分割・併合日に調整済み終値が大きく変動しています",
             adjusted_return.loc[split_event & abnormal],
+        )
+        delayed_or_missing = effective_event & ~split_event
+        self._add_rows(
+            ordered.loc[delayed_or_missing],
+            "warning",
+            "split_event_date_mismatch",
+            "価格の分割反映日とYahoo企業アクション記録日が一致しません",
+            effective_factors.loc[delayed_or_missing],
         )
 
     def _check_universe(self, prices: pd.DataFrame, universe: pd.DataFrame) -> None:

@@ -116,6 +116,7 @@ class DashboardExporter:
                 "excluded_rows": analysis.get("excluded_non_trading_or_invalid_rows", 0),
                 "quality_warnings": quality.get("severity_counts", {}).get("warning", 0),
             },
+            "market_regime": analysis.get("market_regime"),
             "patterns": analysis["patterns"],
             "candidates": records,
             "charts": charts,

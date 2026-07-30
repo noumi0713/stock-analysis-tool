@@ -10,6 +10,7 @@ import pandas as pd
 
 from app.config import Settings
 from app.storage.parquet import ParquetStore
+from app.yahoo.corporate_actions import normalize_split_adjusted_prices
 from app.yahoo.ingestion import YahooPaths
 
 
@@ -33,8 +34,10 @@ class YahooPatternAnalyzer:
             .gt(0)
             .all(axis=1)
         ].copy()
+        valid_prices = normalize_split_adjusted_prices(valid_prices)
         features = self._build_features(valid_prices)
         historical = features.loc[features["horizon_complete"]].copy()
+        market_regime = self._market_regime(features)
         candidates = self._latest_candidates(features, top_n)
         patterns = self._pattern_summary(historical)
 
@@ -60,6 +63,7 @@ class YahooPatternAnalyzer:
             "positive_5d_rows": int(historical["target_5d"].sum()),
             "positive_rate": float(historical["target_5d"].mean()),
             "candidate_count": len(candidates),
+            "market_regime": market_regime,
             "patterns": patterns,
             "candidate_path": str(candidate_path),
             "historical_path": str(feature_path),
@@ -163,13 +167,22 @@ class YahooPatternAnalyzer:
         frame["setup_trend_score"] = (1.0 - (frame["return_20d"] - 0.03).abs() / 0.15).clip(
             0.0, 1.0
         )
+        frame["setup_volume_onset_score"] = (
+            1.0 - (frame["volume_ratio_5_20"] - 1.30).abs() / 0.70
+        ).clip(0.0, 1.0)
+        frame["setup_active_volatility_score"] = (
+            1.0 - (frame["volatility_10d"] - 0.020).abs() / 0.020
+        ).clip(0.0, 1.0)
+        frame["setup_early_momentum_score"] = (
+            1.0 - (frame["return_5d"] - 0.015).abs() / 0.055
+        ).clip(0.0, 1.0)
         frame["setup_score"] = (
-            0.24 * frame["setup_compression_score"]
-            + 0.20 * frame["setup_accumulation_score"]
-            + 0.12 * frame["setup_quiet_volume_score"]
+            0.28 * frame["setup_volume_onset_score"]
+            + 0.18 * frame["setup_active_volatility_score"]
             + 0.18 * frame["setup_position_score"]
-            + 0.14 * frame["setup_calm_score"]
-            + 0.12 * frame["setup_trend_score"]
+            + 0.14 * frame["setup_accumulation_score"]
+            + 0.12 * frame["setup_early_momentum_score"]
+            + 0.10 * frame["setup_trend_score"]
         )
         frame["signal_score"] = frame["setup_score"]
         frame.replace([np.inf, -np.inf], np.nan, inplace=True)
@@ -178,15 +191,18 @@ class YahooPatternAnalyzer:
     @staticmethod
     def _latest_candidates(features: pd.DataFrame, top_n: int) -> pd.DataFrame:
         latest = features.loc[features["date"] == features["date"].max()].copy()
+        favorable_regime = YahooPatternAnalyzer._market_regime(features)["favorable"]
         latest = latest.loc[
-            latest["setup_score"].notna()
-            & latest["return_1d"].between(-0.05, 0.025)
-            & latest["return_5d"].between(-0.05, 0.04)
-            & latest["return_20d"].between(-0.12, 0.15)
-            & latest["breakout_20d"].between(-0.12, 0.0)
-            & latest["close_to_ma20"].between(-0.06, 0.08)
-            & (latest["volatility_10d"] <= 0.035)
-            & latest["volume_ratio_5_20"].between(0.65, 1.80)
+            favorable_regime
+            & latest["setup_score"].ge(0.55)
+            & latest["return_1d"].between(-0.03, 0.025)
+            & latest["return_5d"].between(-0.03, 0.04)
+            & latest["return_20d"].between(-0.08, 0.15)
+            & latest["breakout_20d"].between(-0.10, 0.0)
+            & latest["close_to_ma20"].between(-0.04, 0.08)
+            & latest["volatility_10d"].between(0.012, 0.035)
+            & latest["volume_ratio_5_20"].between(0.85, 1.65)
+            & latest["up_volume_share_10d"].ge(0.48)
             & (latest["turnover_value"] >= 10_000_000)
         ].copy()
         latest["setup_reasons"] = latest.apply(_setup_reasons, axis=1)
@@ -221,6 +237,21 @@ class YahooPatternAnalyzer:
             .head(top_n)
             .reset_index(drop=True)
         )
+
+    @staticmethod
+    def _market_regime(features: pd.DataFrame) -> dict[str, Any]:
+        latest_date = features["date"].max()
+        latest = features.loc[features["date"] == latest_date]
+        breadth_5d = float((latest["return_5d"] > 0).mean())
+        median_return_20d = float(latest["return_20d"].median())
+        favorable = breadth_5d > 0.50 and median_return_20d > 0.0
+        return {
+            "date": str(latest_date),
+            "favorable": favorable,
+            "breadth_5d": breadth_5d,
+            "median_return_20d": median_return_20d,
+            "rule": "5日上昇銘柄比率>50%かつ20日リターン中央値>0",
+        }
 
     @staticmethod
     def _pattern_summary(historical: pd.DataFrame) -> dict[str, dict[str, float | None]]:
@@ -259,14 +290,14 @@ def _finite_or_none(value: Any) -> float | None:
 
 def _setup_reasons(row: pd.Series) -> str:
     reasons: list[str] = []
-    if row["volatility_10d"] <= 0.018 or row["range_width_10d"] <= 0.07:
-        reasons.append("値幅収縮")
+    if 1.05 <= row["volume_ratio_5_20"] <= 1.55:
+        reasons.append("出来高立ち上がり")
+    if 0.015 <= row["volatility_10d"] <= 0.030:
+        reasons.append("初動の値動き")
     if row["up_volume_share_10d"] >= 0.54:
         reasons.append("上昇日の出来高優勢")
-    if 0.80 <= row["volume_ratio_5_20"] <= 1.20:
-        reasons.append("出来高急増前")
     if -0.08 <= row["breakout_20d"] <= -0.01:
         reasons.append("20日高値の手前")
-    if abs(row["return_5d"]) <= 0.02:
-        reasons.append("5日持ち合い")
-    return "・".join(reasons[:3]) or "急騰前の持ち合い"
+    if 0.0 <= row["return_5d"] <= 0.03:
+        reasons.append("緩やかな上向き")
+    return "・".join(reasons[:3]) or "出来高を伴う初動"
