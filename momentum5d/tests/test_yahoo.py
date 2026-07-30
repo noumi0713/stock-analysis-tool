@@ -301,3 +301,29 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
         "adjusted_close",
         "volume",
     }
+
+
+def test_dashboard_export_fills_company_name_from_bundled_master(
+    settings: Settings,
+    tmp_path: Path,
+) -> None:
+    test_yahoo_analysis_writes_candidates_and_pattern_summary(settings)
+    paths = YahooPaths(settings.data_dir / "yahoo")
+    pd.DataFrame(
+        {
+            "ticker": ["1111.T", "2222.T"],
+            "code": ["11110", "22220"],
+        }
+    ).to_parquet(paths.universe_path, index=False)
+    config_dir = settings.data_dir.parent / "config"
+    config_dir.mkdir()
+    (config_dir / "prime_names.csv").write_text(
+        "code,company_name\n11110,テスト工業\n22220,サンプル商事\n",
+        encoding="utf-8",
+    )
+    output = tmp_path / "latest.json"
+
+    DashboardExporter(settings).export(output)
+
+    payload = __import__("json").loads(output.read_text(encoding="utf-8"))
+    assert payload["candidates"][0]["company_name"] == "テスト工業"

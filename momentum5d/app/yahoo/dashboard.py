@@ -16,6 +16,7 @@ class DashboardExporter:
     """分析結果と候補銘柄の短期チャートを表示用JSONへ変換する。"""
 
     def __init__(self, settings: Settings) -> None:
+        self.settings = settings
         self.paths = YahooPaths(settings.data_dir / "yahoo")
 
     def export(self, output: Path) -> dict[str, Any]:
@@ -34,14 +35,7 @@ class DashboardExporter:
             json.loads(quality_path.read_text(encoding="utf-8")) if quality_path.exists() else {}
         )
         candidates = pd.read_parquet(candidates_path)
-        company_names: dict[str, str] = {}
-        if self.paths.universe_path.exists():
-            universe = pd.read_parquet(self.paths.universe_path)
-            if {"code", "company_name"}.issubset(universe.columns):
-                company_names = {
-                    str(row["code"]): str(row["company_name"])
-                    for row in universe[["code", "company_name"]].to_dict("records")
-                }
+        company_names = self._load_company_names()
         prices = pd.read_parquet(
             self.paths.prices_path,
             columns=[
@@ -139,6 +133,21 @@ class DashboardExporter:
             "candidate_count": len(records),
         }
 
+    def _load_company_names(self) -> dict[str, str]:
+        """銘柄一覧に名称がない場合も、リポジトリ同梱マスターで補完する。"""
+        names: dict[str, str] = {}
+        fallback_path = self.settings.data_dir.parent / "config" / "prime_names.csv"
+        if fallback_path.exists():
+            fallback = pd.read_csv(fallback_path, dtype={"code": "string"})
+            if {"code", "company_name"}.issubset(fallback.columns):
+                names.update(_company_name_map(fallback))
+
+        if self.paths.universe_path.exists():
+            universe = pd.read_parquet(self.paths.universe_path)
+            if {"code", "company_name"}.issubset(universe.columns):
+                names.update(_company_name_map(universe))
+        return names
+
 
 def _json_scalar(value: Any) -> Any:
     if pd.isna(value):
@@ -146,3 +155,12 @@ def _json_scalar(value: Any) -> Any:
     if hasattr(value, "item"):
         return value.item()
     return value
+
+
+def _company_name_map(frame: pd.DataFrame) -> dict[str, str]:
+    records = frame[["code", "company_name"]].dropna().to_dict("records")
+    return {
+        str(row["code"]).strip(): str(row["company_name"]).strip()
+        for row in records
+        if str(row["company_name"]).strip()
+    }

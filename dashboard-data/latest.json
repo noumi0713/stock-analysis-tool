@@ -81,7 +81,7 @@
   "candidates": [
     {
       "rank": 1,
-      "company_name": null,
+      "company_name": "ステップ",
       "ticker": "9795.T",
       "code": "97950",
       "close": 2259.0,
@@ -101,7 +101,7 @@
     },
     {
       "rank": 2,
-      "company_name": null,
+      "company_name": "Ａｎｄ　Ｄｏホールディングス",
       "ticker": "3457.T",
       "code": "34570",
       "close": 950.0,
@@ -121,7 +121,7 @@
     },
     {
       "rank": 3,
-      "company_name": null,
+      "company_name": "京阪神ビルディング",
       "ticker": "8818.T",
       "code": "88180",
       "close": 1121.0,
@@ -141,7 +141,7 @@
     },
     {
       "rank": 4,
-      "company_name": null,
+      "company_name": "三井倉庫ホールディングス",
       "ticker": "9302.T",
       "code": "93020",
       "close": 3650.0,
@@ -161,7 +161,7 @@
     },
     {
       "rank": 5,
-      "company_name": null,
+      "company_name": "三ツ星ベルト",
       "ticker": "5192.T",
       "code": "51920",
       "close": 4115.0,
@@ -181,7 +181,7 @@
     },
     {
       "rank": 6,
-      "company_name": null,
+      "company_name": "進和",
       "ticker": "7607.T",
       "code": "76070",
       "close": 3215.0,
@@ -201,7 +201,7 @@
     },
     {
       "rank": 7,
-      "company_name": null,
+      "company_name": "協和キリン",
       "ticker": "4151.T",
       "code": "41510",
       "close": 2650.0,
@@ -221,7 +221,7 @@
     },
     {
       "rank": 8,
-      "company_name": null,
+      "company_name": "扶桑薬品工業",
       "ticker": "4538.T",
       "code": "45380",
       "close": 2225.0,
@@ -241,7 +241,7 @@
     },
     {
       "rank": 9,
-      "company_name": null,
+      "company_name": "ジェイテクト",
       "ticker": "6473.T",
       "code": "64730",
       "close": 2101.0,
@@ -261,7 +261,7 @@
     },
     {
       "rank": 10,
-      "company_name": null,
+      "company_name": "日本ハウスホールディングス",
       "ticker": "1873.T",
       "code": "18730",
       "close": 315.0,
@@ -281,7 +281,7 @@
     },
     {
       "rank": 11,
-      "company_name": null,
+      "company_name": "日東工器",
       "ticker": "6151.T",
       "code": "61510",
       "close": 1719.0,
@@ -301,7 +301,7 @@
     },
     {
       "rank": 12,
-      "company_name": null,
+      "company_name": "日本パーカライジング",
       "ticker": "4095.T",
       "code": "40950",
       "close": 1660.0,
@@ -321,7 +321,7 @@
     },
     {
       "rank": 13,
-      "company_name": null,
+      "company_name": "マーキュリアホールディングス",
       "ticker": "7347.T",
       "code": "73470",
       "close": 779.0,
@@ -341,7 +341,7 @@
     },
     {
       "rank": 14,
-      "company_name": null,
+      "company_name": "魚力",
       "ticker": "7596.T",
       "code": "75960",
       "close": 2340.0,
@@ -361,7 +361,7 @@
     },
     {
       "rank": 15,
-      "company_name": null,
+      "company_name": "東京瓦斯",
       "ticker": "9531.T",
       "code": "95310",
       "close": 6263.0,
@@ -381,7 +381,7 @@
     },
     {
       "rank": 16,
-      "company_name": null,
+      "company_name": "中部飼料",
       "ticker": "2053.T",
       "code": "20530",
       "close": 1964.0,
@@ -401,7 +401,7 @@
     },
     {
       "rank": 17,
-      "company_name": null,
+      "company_name": "双葉電子工業",
       "ticker": "6986.T",
       "code": "69860",
       "close": 587.0,
@@ -421,7 +421,7 @@
     },
     {
       "rank": 18,
-      "company_name": null,
+      "company_name": "グルメ杵屋",
       "ticker": "9850.T",
       "code": "98500",
       "close": 988.0,
@@ -441,7 +441,7 @@
     },
     {
       "rank": 19,
-      "company_name": null,
+      "company_name": "柿安本店",
       "ticker": "2294.T",
       "code": "22940",
       "close": 2649.0,
@@ -461,7 +461,7 @@
     },
     {
       "rank": 20,
-      "company_name": null,
+      "company_name": "西部ガスホールディングス",
       "ticker": "9536.T",
       "code": "95360",
       "close": 2382.0,
