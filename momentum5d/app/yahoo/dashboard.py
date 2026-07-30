@@ -63,8 +63,18 @@ class DashboardExporter:
             "volatility_10d",
             "range_width_10d",
             "up_volume_share_10d",
+            "sector_17_code",
+            "sector_17_name",
+            "sector_33_code",
+            "sector_33_name",
+            "sector_17_median_return_5d",
+            "sector_17_median_return_20d",
+            "sector_17_breadth_5d",
+            "sector_17_trend_score",
+            "individual_trend_score",
             "setup_reasons",
             "setup_score",
+            "trend_ranking_score",
             "signal_score",
         ]
         records: list[dict[str, Any]] = []
@@ -104,7 +114,7 @@ class DashboardExporter:
             charts[code] = chart_records
 
         payload = {
-            "schema_version": 3,
+            "schema_version": 4,
             "source": "yfinance",
             "personal_research_only": True,
             "generated_at": datetime.now(UTC).isoformat(),
@@ -117,6 +127,7 @@ class DashboardExporter:
                 "quality_warnings": quality.get("severity_counts", {}).get("warning", 0),
             },
             "market_regime": analysis.get("market_regime"),
+            "industry_trends": analysis.get("industry_trends", {}),
             "patterns": analysis["patterns"],
             "candidates": records,
             "charts": charts,

@@ -16,6 +16,7 @@ from app.yahoo.corporate_actions import (
 from app.yahoo.dashboard import DashboardExporter
 from app.yahoo.ingestion import YahooConfig, YahooFinanceIngestion, YahooPaths
 from app.yahoo.quality import YahooQualityValidator
+from app.yahoo.trend import add_trend_features, load_sector_map
 
 
 def fake_download(
@@ -141,6 +142,14 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
                 }
             )
     pd.DataFrame(rows).to_parquet(paths.prices_path, index=False)
+    config_dir = settings.data_dir.parent / "config"
+    config_dir.mkdir(exist_ok=True)
+    (config_dir / "prime_sectors.csv").write_text(
+        "code,sector_17_code,sector_33_code\n"
+        "11110,9,3650\n"
+        "22220,10,5250\n",
+        encoding="utf-8",
+    )
 
     result = YahooPatternAnalyzer(settings).run(top_n=1)
 
@@ -150,7 +159,11 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert len(candidates) <= 1
     assert "volume_change_1d" in result["patterns"]
     assert result["market_regime"]["favorable"] is True
+    assert result["sector_map_coverage"] == 1.0
+    assert result["industry_trends"]["sector_17"]
     assert "setup_score" in candidates.columns
+    assert "trend_ranking_score" in candidates.columns
+    assert "sector_17_name" in candidates.columns
     assert "setup_reasons" in candidates.columns
 
 
@@ -187,6 +200,53 @@ def test_effective_split_normalization_keeps_prices_and_volume_continuous() -> N
     assert normalized["close"].tolist() == [1000.0, 1005.0]
     assert normalized["volume"].tolist() == [2000.0, 2200.0]
     assert normalized["adjusted_close"].tolist() == [1000.0, 1005.0]
+
+
+def test_trend_features_rank_stronger_industry_higher(tmp_path: Path) -> None:
+    dates = pd.date_range("2025-10-01", periods=70, freq="B")
+    rows: list[dict[str, object]] = []
+    for ticker, code, daily_gain in (
+        ("1111.T", "11110", 0.003),
+        ("2222.T", "22220", -0.001),
+    ):
+        close = 100.0
+        for day in dates:
+            close *= 1 + daily_gain
+            rows.append(
+                {
+                    "date": day.date(),
+                    "ticker": ticker,
+                    "code": code,
+                    "adjusted_close": close,
+                    "return_5d": np.nan,
+                    "return_20d": np.nan,
+                    "setup_score": 0.70,
+                }
+            )
+    features = pd.DataFrame(rows).sort_values(["ticker", "date"])
+    grouped = features.groupby("ticker", sort=False)
+    features["return_5d"] = (
+        features["adjusted_close"] / grouped["adjusted_close"].shift(5) - 1
+    )
+    features["return_20d"] = (
+        features["adjusted_close"] / grouped["adjusted_close"].shift(20) - 1
+    )
+    sector_path = tmp_path / "prime_sectors.csv"
+    sector_path.write_text(
+        "code,sector_17_code,sector_33_code\n"
+        "11110,9,3650\n"
+        "22220,10,5250\n",
+        encoding="utf-8",
+    )
+
+    trended = add_trend_features(features, load_sector_map(sector_path))
+    latest = trended.loc[trended["date"] == trended["date"].max()]
+    strong = latest.loc[latest["ticker"] == "1111.T"].iloc[0]
+    weak = latest.loc[latest["ticker"] == "2222.T"].iloc[0]
+
+    assert strong["sector_17_name"] == "電機・精密"
+    assert strong["sector_17_trend_score"] > weak["sector_17_trend_score"]
+    assert strong["trend_ranking_score"] > weak["trend_ranking_score"]
 
 
 def test_setup_ranking_excludes_already_surging_stock() -> None:
@@ -322,13 +382,15 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
     assert result["candidate_count"] <= 1
-    assert payload["schema_version"] == 3
+    assert payload["schema_version"] == 4
     assert payload["personal_research_only"] is True
     assert payload["market_regime"]["favorable"] is True
     assert "patterns" in payload
     assert "candidates" in payload
     assert "open" not in payload["candidates"][0]
     assert "setup_score" in payload["candidates"][0]
+    assert "trend_ranking_score" in payload["candidates"][0]
+    assert payload["candidates"][0]["sector_17_name"]
     assert "setup_reasons" in payload["candidates"][0]
     assert payload["candidates"][0]["company_name"] is None
     code = str(payload["candidates"][0]["code"])
@@ -358,7 +420,7 @@ def test_dashboard_export_fills_company_name_from_bundled_master(
         }
     ).to_parquet(paths.universe_path, index=False)
     config_dir = settings.data_dir.parent / "config"
-    config_dir.mkdir()
+    config_dir.mkdir(exist_ok=True)
     (config_dir / "prime_names.csv").write_text(
         "code,company_name\n11110,テスト工業\n22220,サンプル商事\n",
         encoding="utf-8",
@@ -368,4 +430,6 @@ def test_dashboard_export_fills_company_name_from_bundled_master(
     DashboardExporter(settings).export(output)
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
-    assert payload["candidates"][0]["company_name"] == "テスト工業"
+    expected_names = {"11110": "テスト工業", "22220": "サンプル商事"}
+    candidate = payload["candidates"][0]
+    assert candidate["company_name"] == expected_names[str(candidate["code"])]

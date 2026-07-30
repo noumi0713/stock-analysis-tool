@@ -12,12 +12,14 @@ from app.config import Settings
 from app.storage.parquet import ParquetStore
 from app.yahoo.corporate_actions import normalize_split_adjusted_prices
 from app.yahoo.ingestion import YahooPaths
+from app.yahoo.trend import add_trend_features, latest_sector_trends, load_sector_map
 
 
 class YahooPatternAnalyzer:
     """+5%到達前の値動きを記述し、上昇前の仕込み候補をルール順位化する。"""
 
     def __init__(self, settings: Settings) -> None:
+        self.settings = settings
         self.paths = YahooPaths(settings.data_dir / "yahoo")
         self.paths.ensure()
 
@@ -36,10 +38,18 @@ class YahooPatternAnalyzer:
         ].copy()
         valid_prices = normalize_split_adjusted_prices(valid_prices)
         features = self._build_features(valid_prices)
+        sectors = load_sector_map(
+            self.settings.data_dir.parent / "config" / "prime_sectors.csv"
+        )
+        features = add_trend_features(features, sectors)
         historical = features.loc[features["horizon_complete"]].copy()
         market_regime = self._market_regime(features)
         candidates = self._latest_candidates(features, top_n)
         patterns = self._pattern_summary(historical)
+        industry_trends = {
+            "sector_17": latest_sector_trends(features, level="17", top_n=10),
+            "sector_33": latest_sector_trends(features, level="33", top_n=10),
+        }
 
         analysis_dir = self.paths.processed_dir / "analysis"
         analysis_dir.mkdir(parents=True, exist_ok=True)
@@ -63,7 +73,9 @@ class YahooPatternAnalyzer:
             "positive_5d_rows": int(historical["target_5d"].sum()),
             "positive_rate": float(historical["target_5d"].mean()),
             "candidate_count": len(candidates),
+            "sector_map_coverage": float(features["sector_17_code"].notna().mean()),
             "market_regime": market_regime,
+            "industry_trends": industry_trends,
             "patterns": patterns,
             "candidate_path": str(candidate_path),
             "historical_path": str(feature_path),
@@ -191,6 +203,25 @@ class YahooPatternAnalyzer:
     @staticmethod
     def _latest_candidates(features: pd.DataFrame, top_n: int) -> pd.DataFrame:
         latest = features.loc[features["date"] == features["date"].max()].copy()
+        trend_defaults: dict[str, Any] = {
+            "sector_17_code": pd.NA,
+            "sector_17_name": pd.NA,
+            "sector_33_code": pd.NA,
+            "sector_33_name": pd.NA,
+            "sector_17_median_return_5d": np.nan,
+            "sector_17_median_return_20d": np.nan,
+            "sector_17_breadth_5d": np.nan,
+            "sector_17_trend_score": np.nan,
+            "individual_trend_score": np.nan,
+            "return_60d": np.nan,
+            "relative_return_20d": np.nan,
+        }
+        for column, default in trend_defaults.items():
+            if column not in latest:
+                latest[column] = default
+        if "trend_ranking_score" not in latest:
+            latest["trend_ranking_score"] = latest["setup_score"]
+        latest["signal_score"] = latest["trend_ranking_score"]
         favorable_regime = YahooPatternAnalyzer._market_regime(features)["favorable"]
         latest = latest.loc[
             favorable_regime
@@ -228,12 +259,24 @@ class YahooPatternAnalyzer:
             "setup_compression_score",
             "setup_accumulation_score",
             "setup_position_score",
+            "sector_17_code",
+            "sector_17_name",
+            "sector_33_code",
+            "sector_33_name",
+            "sector_17_median_return_5d",
+            "sector_17_median_return_20d",
+            "sector_17_breadth_5d",
+            "sector_17_trend_score",
+            "individual_trend_score",
+            "return_60d",
+            "relative_return_20d",
             "setup_reasons",
             "setup_score",
+            "trend_ranking_score",
             "signal_score",
         ]
         return (
-            latest.sort_values("setup_score", ascending=False)[columns]
+            latest.sort_values("trend_ranking_score", ascending=False)[columns]
             .head(top_n)
             .reset_index(drop=True)
         )
@@ -269,7 +312,12 @@ class YahooPatternAnalyzer:
             "range_width_10d",
             "up_volume_share_10d",
             "setup_score",
+            "individual_trend_score",
+            "sector_17_trend_score",
+            "sector_33_trend_score",
+            "trend_ranking_score",
         ]
+        metrics = [metric for metric in metrics if metric in historical]
         result: dict[str, dict[str, float | None]] = {}
         positive = historical["target_5d"] == 1
         for metric in metrics:
@@ -290,6 +338,14 @@ def _finite_or_none(value: Any) -> float | None:
 
 def _setup_reasons(row: pd.Series) -> str:
     reasons: list[str] = []
+    sector_name = row.get("sector_17_name")
+    sector_score = row.get("sector_17_trend_score")
+    if (
+        pd.notna(sector_name)
+        and pd.notna(sector_score)
+        and float(sector_score) >= 0.67
+    ):
+        reasons.append(f"{sector_name}トレンド")
     if 1.05 <= row["volume_ratio_5_20"] <= 1.55:
         reasons.append("出来高立ち上がり")
     if 0.015 <= row["volatility_10d"] <= 0.030:

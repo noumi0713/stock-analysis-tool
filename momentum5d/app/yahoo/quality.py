@@ -14,6 +14,7 @@ from app.config import Settings
 from app.storage.parquet import ParquetStore
 from app.yahoo.corporate_actions import detect_effective_split_factors
 from app.yahoo.ingestion import YahooPaths
+from app.yahoo.trend import load_sector_map
 
 ISSUE_COLUMNS = [
     "checked_at",
@@ -66,6 +67,7 @@ class YahooQualityValidator:
         self._check_volume(prices)
         self._check_returns_and_splits(prices)
         self._check_universe(prices, universe)
+        self._check_sector_map(universe)
 
         issues = pd.DataFrame(self._issues, columns=ISSUE_COLUMNS)
         if not issues.empty:
@@ -253,6 +255,39 @@ class YahooQualityValidator:
                     message="Prime銘柄一覧にありますがYahoo日足を取得できません",
                     ticker=ticker,
                     code=row.get("code"),
+                )
+            )
+
+    def _check_sector_map(self, universe: pd.DataFrame) -> None:
+        path = self.settings.data_dir.parent / "config" / "prime_sectors.csv"
+        if not path.exists():
+            self._add_dataset_issue(
+                "warning",
+                "sector_master_missing",
+                "業種トレンド用の銘柄・業種マスターがありません",
+            )
+            return
+        try:
+            sectors = load_sector_map(path)
+        except ValueError as exc:
+            self._add_dataset_issue(
+                "error",
+                "sector_master_invalid",
+                str(exc),
+            )
+            return
+        if universe.empty:
+            return
+        universe_codes = set(universe["code"].astype(str))
+        sector_codes = set(sectors["code"].astype(str))
+        missing = sorted(universe_codes - sector_codes)
+        if missing:
+            self._issues.append(
+                self._issue(
+                    severity="warning",
+                    check_name="sector_classification_missing",
+                    message=f"業種分類がないPrime銘柄が{len(missing)}件あります",
+                    observed_value=",".join(missing[:20]),
                 )
             )
 
