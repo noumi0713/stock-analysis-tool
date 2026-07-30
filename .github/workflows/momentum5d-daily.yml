@@ -3,8 +3,9 @@ name: Momentum 5D daily analysis
 on:
   workflow_dispatch:
   schedule:
-    # GitHub Actions cron is UTC. 09:10 UTC = 18:10 JST.
-    - cron: "10 9 * * 1-5"
+    # GitHub Actions cron is UTC. 02:50/06:50 UTC = 11:50/15:50 JST.
+    - cron: "50 2 * * 1-5"
+    - cron: "50 6 * * 1-5"
 
 concurrency:
   group: momentum5d-daily

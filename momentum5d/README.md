@@ -117,7 +117,7 @@ Yahoo側のDuckDBには `equities_daily`、`prime_universe`、`latest_candidates
 
 ### GitHub ActionsによるPC不要の更新
 
-`.github/workflows/momentum5d-daily.yml` は平日18:10（日本時間）にPython 3.12で次を実行します。
+`.github/workflows/momentum5d-daily.yml` は前場・後場の終値反映を待ち、平日11:50と15:50（日本時間）にPython 3.12で次を実行します。
 
 1. 単体テストと静的検査
 2. Prime銘柄の直近365日をyfinanceから取得
