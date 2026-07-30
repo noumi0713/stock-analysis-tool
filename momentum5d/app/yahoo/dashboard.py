@@ -23,6 +23,7 @@ class DashboardExporter:
         analysis_path = self.paths.metadata_dir / "analysis_latest.json"
         quality_path = self.paths.metadata_dir / "quality_latest.json"
         candidates_path = self.paths.processed_dir / "analysis" / "latest_candidates.parquet"
+        scores_path = self.paths.processed_dir / "analysis" / "latest_scores.parquet"
         if (
             not analysis_path.exists()
             or not candidates_path.exists()
@@ -35,6 +36,7 @@ class DashboardExporter:
             json.loads(quality_path.read_text(encoding="utf-8")) if quality_path.exists() else {}
         )
         candidates = pd.read_parquet(candidates_path)
+        scores = pd.read_parquet(scores_path) if scores_path.exists() else candidates.copy()
         company_names = self._load_company_names()
         prices = pd.read_parquet(
             self.paths.prices_path,
@@ -72,6 +74,9 @@ class DashboardExporter:
             "sector_17_breadth_5d",
             "sector_17_trend_score",
             "individual_trend_score",
+            "relative_return_20d",
+            "rsi_14",
+            "atr_14_pct",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -83,6 +88,50 @@ class DashboardExporter:
             records.append(
                 {
                     "rank": rank,
+                    "company_name": company_names.get(code),
+                    **{key: _json_scalar(value) for key, value in row.items()},
+                }
+            )
+
+        score_columns = [
+            "ticker",
+            "code",
+            "close",
+            "adjusted_close",
+            "return_1d",
+            "return_5d",
+            "return_20d",
+            "volume_change_1d",
+            "volume_ratio_5_20",
+            "breakout_20d",
+            "volatility_10d",
+            "range_width_10d",
+            "up_volume_share_10d",
+            "sector_17_code",
+            "sector_17_name",
+            "sector_33_code",
+            "sector_33_name",
+            "sector_17_trend_score",
+            "individual_trend_score",
+            "relative_return_20d",
+            "rsi_14",
+            "atr_14_pct",
+            "setup_reasons",
+            "setup_score",
+            "trend_ranking_score",
+            "signal_score",
+            "score_rank",
+            "score_percentile",
+            "is_ranked_candidate",
+        ]
+        available_score_columns = [
+            column for column in score_columns if column in scores.columns
+        ]
+        stock_records = []
+        for row in scores[available_score_columns].to_dict("records"):
+            code = str(row["code"])
+            stock_records.append(
+                {
                     "company_name": company_names.get(code),
                     **{key: _json_scalar(value) for key, value in row.items()},
                 }
@@ -114,7 +163,7 @@ class DashboardExporter:
             charts[code] = chart_records
 
         payload = {
-            "schema_version": 4,
+            "schema_version": 5,
             "source": "yfinance",
             "personal_research_only": True,
             "generated_at": datetime.now(UTC).isoformat(),
@@ -129,7 +178,28 @@ class DashboardExporter:
             "market_regime": analysis.get("market_regime"),
             "industry_trends": analysis.get("industry_trends", {}),
             "patterns": analysis["patterns"],
+            "indicator_notes": [
+                {
+                    "key": "rsi_14",
+                    "label": "RSI(14)",
+                    "reason": "直近の上昇速度を0〜100で測り、70超の高値追いリスクを確認する",
+                },
+                {
+                    "key": "atr_14_pct",
+                    "label": "ATR(14)%",
+                    "reason": "窓を含む14日平均値幅を株価比で示し、損失幅と資金配分を判断する",
+                },
+                {
+                    "key": "relative_return_20d",
+                    "label": "Prime相対強度20日",
+                    "reason": (
+                        "Prime全体の同日中央値を差し引き、"
+                        "市場全体ではなく銘柄固有の強さを測る"
+                    ),
+                },
+            ],
             "candidates": records,
+            "stocks": stock_records,
             "charts": charts,
         }
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -143,6 +213,7 @@ class DashboardExporter:
             "output": str(output.resolve()),
             "latest_date": payload["latest_date"],
             "candidate_count": len(records),
+            "stock_count": len(stock_records),
         }
 
     def _load_company_names(self) -> dict[str, str]:

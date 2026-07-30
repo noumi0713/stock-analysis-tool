@@ -45,6 +45,7 @@ class YahooPatternAnalyzer:
         historical = features.loc[features["horizon_complete"]].copy()
         market_regime = self._market_regime(features)
         candidates = self._latest_candidates(features, top_n)
+        latest_scores = self._latest_scores(features, candidates)
         patterns = self._pattern_summary(historical)
         industry_trends = {
             "sector_17": latest_sector_trends(features, level="17", top_n=10),
@@ -54,8 +55,10 @@ class YahooPatternAnalyzer:
         analysis_dir = self.paths.processed_dir / "analysis"
         analysis_dir.mkdir(parents=True, exist_ok=True)
         candidate_path = analysis_dir / "latest_candidates.parquet"
+        score_path = analysis_dir / "latest_scores.parquet"
         feature_path = analysis_dir / "historical_patterns.parquet"
         ParquetStore._atomic_parquet(candidates, candidate_path)
+        ParquetStore._atomic_parquet(latest_scores, score_path)
         ParquetStore._atomic_parquet(historical, feature_path)
         from app.yahoo.catalog import YahooDuckDBCatalog
 
@@ -78,6 +81,7 @@ class YahooPatternAnalyzer:
             "industry_trends": industry_trends,
             "patterns": patterns,
             "candidate_path": str(candidate_path),
+            "score_path": str(score_path),
             "historical_path": str(feature_path),
         }
         output = self.paths.metadata_dir / "analysis_latest.json"
@@ -150,8 +154,36 @@ class YahooPatternAnalyzer:
         )
         frame["up_volume_share_10d"] = rolling_up_volume / rolling_total_volume
 
+        delta = group["adjusted_close"].diff()
+        gains = delta.clip(lower=0.0)
+        losses = -delta.clip(upper=0.0)
+        average_gain = gains.groupby(frame["ticker"], sort=False).transform(
+            lambda x: x.ewm(alpha=1 / 14, adjust=False, min_periods=14).mean()
+        )
+        average_loss = losses.groupby(frame["ticker"], sort=False).transform(
+            lambda x: x.ewm(alpha=1 / 14, adjust=False, min_periods=14).mean()
+        )
+        relative_strength = average_gain / average_loss
+        frame["rsi_14"] = 100.0 - 100.0 / (1.0 + relative_strength)
+        frame.loc[(average_loss == 0) & (average_gain > 0), "rsi_14"] = 100.0
+        frame.loc[(average_loss == 0) & (average_gain == 0), "rsi_14"] = 50.0
+
         adjustment_ratio = frame["adjusted_close"] / frame["close"]
         adjusted_high = frame["high"] * adjustment_ratio
+        adjusted_low = frame["low"] * adjustment_ratio
+        previous_close = group["adjusted_close"].shift(1)
+        true_range = pd.concat(
+            [
+                adjusted_high - adjusted_low,
+                (adjusted_high - previous_close).abs(),
+                (adjusted_low - previous_close).abs(),
+            ],
+            axis=1,
+        ).max(axis=1)
+        frame["atr_14"] = true_range.groupby(frame["ticker"], sort=False).transform(
+            lambda x: x.ewm(alpha=1 / 14, adjust=False, min_periods=14).mean()
+        )
+        frame["atr_14_pct"] = frame["atr_14"] / frame["adjusted_close"]
         future_highs = [
             adjusted_high.groupby(frame["ticker"], sort=False).shift(-offset)
             for offset in range(1, 6)
@@ -215,6 +247,8 @@ class YahooPatternAnalyzer:
             "individual_trend_score": np.nan,
             "return_60d": np.nan,
             "relative_return_20d": np.nan,
+            "rsi_14": np.nan,
+            "atr_14_pct": np.nan,
         }
         for column, default in trend_defaults.items():
             if column not in latest:
@@ -270,6 +304,8 @@ class YahooPatternAnalyzer:
             "individual_trend_score",
             "return_60d",
             "relative_return_20d",
+            "rsi_14",
+            "atr_14_pct",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -280,6 +316,63 @@ class YahooPatternAnalyzer:
             .head(top_n)
             .reset_index(drop=True)
         )
+
+    @staticmethod
+    def _latest_scores(
+        features: pd.DataFrame,
+        candidates: pd.DataFrame,
+    ) -> pd.DataFrame:
+        latest = features.loc[features["date"] == features["date"].max()].copy()
+        latest["setup_reasons"] = latest.apply(_setup_reasons, axis=1)
+        latest["score_rank"] = (
+            latest["trend_ranking_score"].rank(method="min", ascending=False)
+        )
+        latest["score_percentile"] = latest["trend_ranking_score"].rank(
+            method="average",
+            pct=True,
+        )
+        candidate_codes = set(candidates["code"].astype(str))
+        latest["is_ranked_candidate"] = latest["code"].astype(str).isin(candidate_codes)
+        columns = [
+            "date",
+            "ticker",
+            "code",
+            "close",
+            "adjusted_close",
+            "volume",
+            "turnover_value",
+            "return_1d",
+            "return_5d",
+            "return_20d",
+            "return_60d",
+            "volume_change_1d",
+            "volume_ratio_5_20",
+            "close_to_ma20",
+            "breakout_20d",
+            "volatility_10d",
+            "range_width_10d",
+            "up_volume_share_10d",
+            "rsi_14",
+            "atr_14_pct",
+            "relative_return_20d",
+            "individual_trend_score",
+            "sector_17_code",
+            "sector_17_name",
+            "sector_33_code",
+            "sector_33_name",
+            "sector_17_trend_score",
+            "setup_reasons",
+            "setup_score",
+            "trend_ranking_score",
+            "signal_score",
+            "score_rank",
+            "score_percentile",
+            "is_ranked_candidate",
+        ]
+        return latest[columns].sort_values(
+            ["trend_ranking_score", "code"],
+            ascending=[False, True],
+        ).reset_index(drop=True)
 
     @staticmethod
     def _market_regime(features: pd.DataFrame) -> dict[str, Any]:

@@ -154,6 +154,7 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     result = YahooPatternAnalyzer(settings).run(top_n=1)
 
     candidates = pd.read_parquet(paths.processed_dir / "analysis" / "latest_candidates.parquet")
+    scores = pd.read_parquet(paths.processed_dir / "analysis" / "latest_scores.parquet")
     assert result["tickers"] == 2
     assert 0 <= result["positive_rate"] <= 1
     assert len(candidates) <= 1
@@ -165,6 +166,10 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert "trend_ranking_score" in candidates.columns
     assert "sector_17_name" in candidates.columns
     assert "setup_reasons" in candidates.columns
+    assert len(scores) == 2
+    assert scores["rsi_14"].between(0, 100).all()
+    assert scores["atr_14_pct"].gt(0).all()
+    assert scores["score_rank"].notna().all()
 
 
 def test_effective_split_normalization_keeps_prices_and_volume_continuous() -> None:
@@ -382,11 +387,15 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
     assert result["candidate_count"] <= 1
-    assert payload["schema_version"] == 4
+    assert payload["schema_version"] == 5
     assert payload["personal_research_only"] is True
     assert payload["market_regime"]["favorable"] is True
     assert "patterns" in payload
     assert "candidates" in payload
+    assert len(payload["stocks"]) == 2
+    assert "rsi_14" in payload["stocks"][0]
+    assert "atr_14_pct" in payload["stocks"][0]
+    assert len(payload["indicator_notes"]) == 3
     assert "open" not in payload["candidates"][0]
     assert "setup_score" in payload["candidates"][0]
     assert "trend_ranking_score" in payload["candidates"][0]
