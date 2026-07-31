@@ -79,7 +79,7 @@ jobs:
               session="close"
             fi
           fi
-          python3 -m app.yahoo.scheduling \
+          python3 app/yahoo/scheduling.py \
             --session "$session" \
             --dashboard ../dashboard-data/latest.json \
             --github-output "$GITHUB_OUTPUT"
