@@ -87,8 +87,12 @@ python -m app yahoo-status
 python -m app yahoo-ingest --tickers-file tickers.txt
 python -m app yahoo-ingest --as-of 2026-07-29
 python -m app yahoo-ingest --full-refresh
+python -m app yahoo-ingest --full-refresh --intraday-session morning
+python -m app yahoo-ingest --full-refresh --intraday-session close
 python -m app yahoo-analyze --top-n 20
 ```
+
+`--intraday-session morning` は当日の5分足を9:00〜11:30で集計し、`close` は9:00〜15:30で集計します。取得済みの日足に当日の途中値が含まれていても削除し、5分足から再構成したOHLC・出来高だけで当日行を置き換えます。全Prime銘柄の70%以上を取得できなければ成功扱いにせず、次のクラウド実行で再試行します。
 
 `yahoo-validate` は主キー重複、OHLC矛盾、欠損、出来高ゼロ、異常な調整済みリターン、調整済み／未調整価格比率から推定した株式分割前後、銘柄一覧にあるのに価格を取得できないティッカーを検査します。
 
@@ -99,6 +103,7 @@ python -m app yahoo-analyze --top-n 20
 ```text
 data/yahoo/
 ├─ raw/batch=.../                 # 取得バッチ
+├─ raw/intraday/batch=.../        # 当日5分足
 ├─ processed/equities_daily.parquet
 ├─ processed/analysis/latest_candidates.parquet
 ├─ processed/analysis/historical_patterns.parquet
@@ -117,16 +122,17 @@ Yahoo側のDuckDBには `equities_daily`、`prime_universe`、`latest_candidates
 
 ### GitHub ActionsによるPC不要の更新
 
-`.github/workflows/momentum5d-daily.yml` は前場・後場の終値反映を待ち、平日11:50と15:50（日本時間）にPython 3.12で次を実行します。
+`.github/workflows/momentum5d-daily.yml` は前場・後場の終値反映を待ち、平日11:50と15:50（日本時間）にPython 3.12で更新を開始します。GitHub側のスケジュール遅延・取りこぼしに備え、前場は12:10・12:30、後場は16:10・16:30にも再試行します。同じ日・同じセッションが完了済みなら、後続処理はデータ取得前に終了します。
 
 1. 単体テストと静的検査
-2. Prime銘柄の直近365日をyfinanceから取得
-3. 品質検査と+5%局面分析
-4. 全銘柄の日足をGitHubへ保存せず、ランキングと候補20銘柄の直近60営業日だけを表示用JSONへ保存
+2. Prime銘柄の直近365日の日足を取得
+3. 当日の5分足を前場11:30または大引け15:30まで集計し、当日の日足へ反映
+4. 品質検査と+5%局面分析
+5. 全銘柄の日足をGitHubへ保存せず、ランキングと候補20銘柄の直近60営業日だけを表示用JSONへ保存
 
 表示用JSONは公開リポジトリの `dashboard-data/latest.json` に保存されます。スマホ画面自体はChatGPTサインインとメールアドレス許可リストで保護します。
 
-ActionsのcronはUTCで評価され、スケジュール実行は既定ブランチの最新版を使用します。祝日判定は曜日から推測せず、Yahooから有効な日足が返らない日は保存済みの最新日が維持されます。
+ActionsのcronはUTCで評価され、スケジュール実行は既定ブランチの最新版を使用します。祝日などで当日5分足のカバレッジが不足した実行は失敗として記録されますが、公開済みの前営業日データは上書きしません。
 
 ### 従来のJ-Quantsコマンド
 
@@ -315,6 +321,7 @@ python -m ruff check app tests
 ## 既知の制約
 
 - `yfinance` は非公式クライアントで、YahooによるSLAや後方互換性はありません。失敗バッチはメタデータへ保存され、次回実行で再取得します。
+- GitHub Actionsの時刻指定は厳密な開始時刻を保証しません。本システムは各セッション後に3回の実行機会を設け、最初に成功した結果を採用します。
 - YahooのCSV・日足データには銘柄や地域によるライセンス制約があります。本システムは個人研究・非公開利用に限定します。
 - Yahooの日足には売買代金がないため、分析用 `turnover_value` は `close × volume` の近似値です。
 - 直近候補の `setup_score` は上昇前の持ち合い形状を評価するルール値であり、予測確率ではありません。急騰済み銘柄を避ける目的のフィルターで、売買推奨でもありません。

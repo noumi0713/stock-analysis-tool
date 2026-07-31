@@ -110,6 +110,12 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="既存の最終日を無視し、直近1年を全銘柄再取得",
     )
+    yahoo_ingest.add_argument(
+        "--intraday-session",
+        choices=["morning", "close"],
+        default=None,
+        help="当日の5分足を集計して前場引けまたは大引けの日足へ置換",
+    )
     yahoo_analyze = commands.add_parser(
         "yahoo-analyze",
         help="+5%到達前の値動き・出来高を集計し最新候補を生成",
@@ -179,6 +185,7 @@ def main(
                 as_of=args.as_of or datetime.now(ZoneInfo("Asia/Tokyo")).date(),
                 tickers_file=args.tickers_file,
                 full_refresh=args.full_refresh,
+                intraday_session=args.intraday_session,
             )
             _print_json(result)
         elif args.command == "yahoo-analyze":

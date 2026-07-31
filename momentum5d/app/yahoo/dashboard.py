@@ -35,6 +35,11 @@ class DashboardExporter:
         quality = (
             json.loads(quality_path.read_text(encoding="utf-8")) if quality_path.exists() else {}
         )
+        ingestion = (
+            json.loads(self.paths.status_path.read_text(encoding="utf-8"))
+            if self.paths.status_path.exists()
+            else {}
+        )
         candidates = pd.read_parquet(candidates_path)
         scores = pd.read_parquet(scores_path) if scores_path.exists() else candidates.copy()
         company_names = self._load_company_names()
@@ -162,12 +167,40 @@ class DashboardExporter:
                 )
             charts[code] = chart_records
 
+        generated_at = datetime.now(UTC).isoformat()
+        intraday = ingestion.get("intraday")
+        if isinstance(intraday, dict) and intraday.get("status") == "complete":
+            update = {
+                "status": "complete",
+                "session": intraday["session"],
+                "session_label": intraday["session_label"],
+                "market_date": intraday["market_date"],
+                "data_through": intraday["data_through"],
+                "interval": intraday["interval"],
+                "successful_tickers": intraday["successful_tickers"],
+                "coverage": intraday["coverage"],
+                "generated_at": generated_at,
+            }
+        else:
+            update = {
+                "status": "complete",
+                "session": "daily",
+                "session_label": "日足",
+                "market_date": analysis["latest_date"],
+                "data_through": None,
+                "interval": "1d",
+                "successful_tickers": analysis["tickers"],
+                "coverage": 1.0,
+                "generated_at": generated_at,
+            }
+
         payload = {
-            "schema_version": 5,
+            "schema_version": 6,
             "source": "yfinance",
             "personal_research_only": True,
-            "generated_at": datetime.now(UTC).isoformat(),
+            "generated_at": generated_at,
             "latest_date": analysis["latest_date"],
+            "update": update,
             "metrics": {
                 "rows": analysis["rows"],
                 "tickers": analysis["tickers"],

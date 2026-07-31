@@ -72,12 +72,21 @@ def test_ingest_can_limit_datasets() -> None:
 
 def test_yahoo_commands_are_parsed() -> None:
     ingest = build_parser().parse_args(
-        ["yahoo-ingest", "--as-of", "2026-07-29", "--tickers-file", "tickers.txt"]
+        [
+            "yahoo-ingest",
+            "--as-of",
+            "2026-07-29",
+            "--tickers-file",
+            "tickers.txt",
+            "--intraday-session",
+            "morning",
+        ]
     )
     analyze = build_parser().parse_args(["yahoo-analyze", "--top-n", "15"])
 
     assert ingest.command == "yahoo-ingest"
     assert ingest.as_of.isoformat() == "2026-07-29"
     assert str(ingest.tickers_file) == "tickers.txt"
+    assert ingest.intraday_session == "morning"
     assert analyze.command == "yahoo-analyze"
     assert analyze.top_n == 15

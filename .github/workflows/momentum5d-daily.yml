@@ -2,10 +2,30 @@ name: Momentum 5D daily analysis
 
 on:
   workflow_dispatch:
+    inputs:
+      session:
+        description: 更新する取引セッション
+        required: true
+        default: morning
+        type: choice
+        options:
+          - morning
+          - close
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/momentum5d-daily.yml"
+      - "momentum5d/**"
   schedule:
-    # GitHub Actions cron is UTC. 02:50/06:50 UTC = 11:50/15:50 JST.
+    # GitHubの遅延・取りこぼしに備え、完了するまで20分間隔で再試行する。
+    # 同一セッションが完了済みなら後続の実行は直ちに終了する。
     - cron: "50 2 * * 1-5"
+    - cron: "10 3 * * 1-5"
+    - cron: "30 3 * * 1-5"
     - cron: "50 6 * * 1-5"
+    - cron: "10 7 * * 1-5"
+    - cron: "30 7 * * 1-5"
 
 concurrency:
   group: momentum5d-daily
@@ -17,7 +37,7 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     defaults:
       run:
         working-directory: momentum5d
@@ -28,12 +48,44 @@ jobs:
       YAHOO_PAUSE_SECONDS: "2"
       YAHOO_MAX_RETRIES: "3"
       YAHOO_TIMEOUT_SECONDS: "30"
+      YAHOO_INTRADAY_MIN_COVERAGE: "0.70"
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
 
+      - name: Select session and skip completed retries
+        id: update
+        shell: bash
+        env:
+          REQUESTED_SESSION: ${{ inputs.session }}
+          SCHEDULE_EXPRESSION: ${{ github.event.schedule }}
+        run: |
+          set -euo pipefail
+          session="${REQUESTED_SESSION:-}"
+          case "${SCHEDULE_EXPRESSION:-}" in
+            "50 2 * * 1-5"|"10 3 * * 1-5"|"30 3 * * 1-5")
+              session="morning"
+              ;;
+            "50 6 * * 1-5"|"10 7 * * 1-5"|"30 7 * * 1-5")
+              session="close"
+              ;;
+          esac
+          if [ -z "$session" ]; then
+            jst_hour="$(TZ=Asia/Tokyo date +%H)"
+            if [ "$jst_hour" -lt 13 ]; then
+              session="morning"
+            else
+              session="close"
+            fi
+          fi
+          python3 -m app.yahoo.scheduling \
+            --session "$session" \
+            --dashboard ../dashboard-data/latest.json \
+            --github-output "$GITHUB_OUTPUT"
+
       - name: Set up Python 3.12
+        if: steps.update.outputs.should_run == 'true'
         uses: actions/setup-python@v6
         with:
           python-version: "3.12"
@@ -41,29 +93,38 @@ jobs:
           cache-dependency-path: momentum5d/pyproject.toml
 
       - name: Install application
+        if: steps.update.outputs.should_run == 'true'
         run: python -m pip install ".[dev]"
 
       - name: Run unit tests
+        if: steps.update.outputs.should_run == 'true'
         run: |
           python -m pytest -q
           python -m ruff check app tests
 
-      - name: Download the latest rolling year
+      - name: Download daily and five-minute session data
+        if: steps.update.outputs.should_run == 'true'
         run: >-
           python -m app yahoo-ingest
+          --as-of "${{ steps.update.outputs.market_date }}"
           --tickers-file config/prime_tickers.txt
           --full-refresh
+          --intraday-session "${{ steps.update.outputs.session }}"
 
       - name: Validate downloaded data
+        if: steps.update.outputs.should_run == 'true'
         run: python -m app yahoo-validate
 
       - name: Analyze +5% price and volume patterns
+        if: steps.update.outputs.should_run == 'true'
         run: python -m app yahoo-analyze --top-n 20
 
       - name: Export dashboard payload
+        if: steps.update.outputs.should_run == 'true'
         run: python -m app yahoo-export-dashboard --output work/latest.json
 
       - name: Publish aggregate result for the mobile dashboard
+        if: steps.update.outputs.should_run == 'true'
         run: |
           mkdir -p ../dashboard-data
           cp work/latest.json ../dashboard-data/latest.json

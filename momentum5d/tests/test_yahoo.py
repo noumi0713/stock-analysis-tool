@@ -40,6 +40,32 @@ def fake_download(
     return frame
 
 
+def fake_daily_and_intraday_download(
+    tickers: list[str],
+    **kwargs: object,
+) -> pd.DataFrame:
+    if kwargs.get("interval") != "5m":
+        return fake_download(tickers, **kwargs)
+    timestamps = pd.DatetimeIndex(
+        [
+            "2026-01-09 09:00:00+09:00",
+            "2026-01-09 11:30:00+09:00",
+            "2026-01-09 13:00:00+09:00",
+            "2026-01-09 15:30:00+09:00",
+        ],
+        name="Datetime",
+    )
+    data: dict[tuple[str, str], object] = {}
+    for ticker in tickers:
+        data[(ticker, "Open")] = [100.0, 104.0, 110.0, 111.0]
+        data[(ticker, "High")] = [105.0, 108.0, 112.0, 115.0]
+        data[(ticker, "Low")] = [99.0, 103.0, 109.0, 110.0]
+        data[(ticker, "Close")] = [104.0, 107.0, 111.0, 114.0]
+        data[(ticker, "Adj Close")] = [104.0, 107.0, 111.0, 114.0]
+        data[(ticker, "Volume")] = [1000, 2000, 3000, 4000]
+    return pd.DataFrame(data, index=timestamps)
+
+
 def test_yahoo_ingestion_normalizes_deduplicates_and_keeps_one_year(
     settings: Settings,
     tmp_path: Path,
@@ -72,6 +98,48 @@ def test_yahoo_ingestion_normalizes_deduplicates_and_keeps_one_year(
     assert set(saved["code"]) == {"72030", "67580"}
     assert set(saved["source"]) == {"yfinance"}
     assert {"dividends", "stock_splits"} <= set(saved.columns)
+
+
+def test_intraday_morning_session_replaces_partial_daily_bar(
+    settings: Settings,
+    tmp_path: Path,
+) -> None:
+    tickers = tmp_path / "tickers.txt"
+    tickers.write_text("7203.T\n6758.T\n", encoding="utf-8")
+    ingestion = YahooFinanceIngestion(
+        settings,
+        YahooConfig(
+            retention_days=365,
+            overlap_days=10,
+            batch_size=2,
+            pause_seconds=0,
+            max_retries=0,
+            timeout_seconds=1,
+            intraday_min_coverage=0.7,
+        ),
+        downloader=fake_daily_and_intraday_download,
+        sleeper=lambda _: None,
+    )
+
+    status = ingestion.ingest(
+        as_of=date(2026, 1, 9),
+        tickers_file=tickers,
+        intraday_session="morning",
+    )
+
+    saved = pd.read_parquet(ingestion.paths.prices_path)
+    latest = saved.loc[saved["date"] == date(2026, 1, 9)].sort_values("ticker")
+    assert len(latest) == 2
+    assert latest["open"].tolist() == [100.0, 100.0]
+    assert latest["high"].tolist() == [108.0, 108.0]
+    assert latest["low"].tolist() == [99.0, 99.0]
+    assert latest["close"].tolist() == [107.0, 107.0]
+    assert latest["volume"].tolist() == [3000, 3000]
+    assert set(latest["source"]) == {"yfinance_intraday_5m"}
+    assert status["intraday"]["session"] == "morning"
+    assert status["intraday"]["cutoff_time_jst"] == "11:30"
+    assert status["intraday"]["successful_tickers"] == 2
+    assert status["intraday"]["data_through"].endswith("+09:00")
 
 
 def test_new_ticker_gets_full_retention_window_during_update(
@@ -387,8 +455,10 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
     assert result["candidate_count"] <= 1
-    assert payload["schema_version"] == 5
+    assert payload["schema_version"] == 6
     assert payload["personal_research_only"] is True
+    assert payload["update"]["session"] == "daily"
+    assert payload["update"]["status"] == "complete"
     assert payload["market_regime"]["favorable"] is True
     assert "patterns" in payload
     assert "candidates" in payload
