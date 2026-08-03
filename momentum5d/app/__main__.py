@@ -138,6 +138,17 @@ def build_parser() -> argparse.ArgumentParser:
     yahoo_sakata_backtest.add_argument(
         "--output-dir", type=Path, default=Path("outputs/sakata_backtest")
     )
+    yahoo_retail_backtest = commands.add_parser(
+        "yahoo-backtest-retail",
+        help="個人投資家フロー、酒田五法、従来方式を同一条件で比較",
+    )
+    yahoo_retail_backtest.add_argument("--start", type=iso_date, default=date(2026, 4, 1))
+    yahoo_retail_backtest.add_argument("--end", type=iso_date, default=None)
+    yahoo_retail_backtest.add_argument("--initial-capital", type=float, default=1_000_000)
+    yahoo_retail_backtest.add_argument("--top-n", type=int, default=10)
+    yahoo_retail_backtest.add_argument(
+        "--output-dir", type=Path, default=Path("outputs/retail_flow_backtest")
+    )
     commands.add_parser("yahoo-validate", help="Yahoo Finance日足の品質を検査")
     commands.add_parser("yahoo-status", help="Yahoo Finance取得・分析状態を表示")
 
@@ -215,7 +226,7 @@ def main(
         elif args.command == "yahoo-export-dashboard":
             result = DashboardExporter(current_settings).export(args.output)
             _print_json(result)
-        elif args.command == "yahoo-backtest-sakata":
+        elif args.command in {"yahoo-backtest-sakata", "yahoo-backtest-retail"}:
             if args.initial_capital <= 0 or args.top_n < 1:
                 raise ValueError("--initial-capitalと--top-nは正数で指定してください")
             result = SakataBacktester(current_settings).run(

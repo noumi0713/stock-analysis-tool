@@ -13,6 +13,7 @@ from app.config import Settings
 from app.yahoo.analysis import YahooPatternAnalyzer
 from app.yahoo.corporate_actions import normalize_split_adjusted_prices
 from app.yahoo.ingestion import YahooPaths
+from app.yahoo.retail_flow import RETAIL_STAGE_COLUMNS, add_retail_flow_features
 from app.yahoo.trend import add_trend_features, load_sector_map
 
 
@@ -31,7 +32,7 @@ class SakataBacktestConfig:
 
 
 class SakataBacktester:
-    """酒田五法と従来仕込みスコアを同一条件で比較する。"""
+    """個人投資家フロー、酒田五法、従来方式を同一条件で比較する。"""
 
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
@@ -58,6 +59,7 @@ class SakataBacktester:
             self.settings.data_dir.parent / "config" / "prime_sectors.csv"
         )
         features = add_trend_features(features, sectors)
+        features = add_retail_flow_features(features)
         evaluated = _attach_outcomes(features, config)
         eligible_end = evaluated.loc[evaluated["trade_available"], "date"].max()
         if pd.isna(eligible_end):
@@ -74,7 +76,13 @@ class SakataBacktester:
         summaries: dict[str, Any] = {}
         all_trades: list[pd.DataFrame] = []
         all_equity: list[pd.DataFrame] = []
-        for strategy in ("legacy_setup", "sakata_five_methods"):
+        strategies = (
+            "legacy_setup",
+            "sakata_five_methods",
+            "retail_attention_flow",
+            "retail_attention_hybrid",
+        )
+        for strategy in strategies:
             selected = _select_candidates(
                 evaluated,
                 config=config,
@@ -90,9 +98,9 @@ class SakataBacktester:
             all_equity.append(equity)
 
         sakata_trades = all_trades[1]
-        pattern_analysis = _pattern_analysis(sakata_trades)
+        retail_trades = all_trades[3]
         summary = {
-            "technical_method": "sakata_five_methods_v1",
+            "technical_method": "retail_attention_hybrid_v1",
             "period": {"start": str(config.start), "end": str(end)},
             "rules": {
                 "entry": "シグナル翌営業日始値",
@@ -105,7 +113,8 @@ class SakataBacktester:
                 "capital_model": f"資金を{config.horizon_days}スリーブへ等分",
             },
             "strategies": summaries,
-            "sakata_pattern_analysis": pattern_analysis,
+            "sakata_pattern_analysis": _pattern_analysis(sakata_trades),
+            "retail_stage_analysis": _retail_stage_analysis(retail_trades),
         }
         _save_results(
             output_dir,
@@ -190,13 +199,14 @@ def _select_candidates(
     common = (
         frame["date"].between(start, end)
         & frame["trade_available"]
-        & _market_favorable(frame)
         & frame["entry_gap"].between(config.gap_down_limit, config.gap_up_limit)
         & frame["turnover_value"].ge(config.min_turnover)
     )
+    favorable_market = _market_favorable(frame)
     if strategy == "sakata_five_methods":
         mask = (
             common
+            & favorable_market
             & frame["sakata_buy_signal"]
             & ~frame["sakata_sell_signal"]
             & frame["sakata_score"].ge(0.65)
@@ -208,6 +218,7 @@ def _select_candidates(
     elif strategy == "legacy_setup":
         mask = (
             common
+            & favorable_market
             & frame["legacy_setup_score"].ge(0.55)
             & frame["return_1d"].between(-0.03, 0.025)
             & frame["return_5d"].between(-0.03, 0.04)
@@ -220,6 +231,48 @@ def _select_candidates(
         )
         sector_score = frame["sector_17_trend_score"].fillna(frame["legacy_setup_score"])
         score = 0.75 * frame["legacy_setup_score"] + 0.25 * sector_score
+    elif strategy == "retail_attention_flow":
+        local_rotation = (
+            frame["sector_17_trend_score"].ge(0.60)
+            & frame["sector_17_breadth_5d"].ge(0.50)
+        )
+        attention_breakout = (
+            frame["retail_discovery_score"].ge(0.82)
+            & frame["retail_action_score"].ge(0.72)
+        )
+        mask = (
+            common
+            & (favorable_market | local_rotation | attention_breakout)
+            & frame["retail_flow_score"].ge(0.72)
+            & frame["retail_discovery_score"].ge(0.72)
+            & frame["retail_attention_acceleration_score"].ge(0.55)
+            & frame["retail_understanding_proxy_score"].ge(0.45)
+            & frame["retail_expectation_score"].ge(0.55)
+            & frame["retail_safety_score"].ge(0.50)
+            & frame["retail_action_score"].ge(0.65)
+            & frame["retail_overheat_penalty"].le(0.35)
+            & frame["retail_loss_anxiety_penalty"].le(0.55)
+            & frame["return_1d"].between(-0.06, 0.06)
+            & frame["return_5d"].between(-0.10, 0.12)
+            & frame["return_20d"].between(-0.20, 0.30)
+            & frame["rsi_14"].le(85)
+        )
+        score = frame["retail_flow_score"]
+    elif strategy == "retail_attention_hybrid":
+        mask = (
+            common
+            & favorable_market
+            & frame["legacy_setup_score"].ge(0.55)
+            & frame["return_1d"].between(-0.03, 0.025)
+            & frame["return_5d"].between(-0.03, 0.04)
+            & frame["return_20d"].between(-0.08, 0.15)
+            & frame["breakout_20d"].between(-0.10, 0.0)
+            & frame["close_to_ma20"].between(-0.04, 0.08)
+            & frame["volatility_10d"].between(0.012, 0.035)
+            & frame["volume_ratio_5_20"].between(0.85, 1.65)
+            & frame["up_volume_share_10d"].ge(0.48)
+        )
+        score = frame["retail_attention_hybrid_score"]
     else:
         raise ValueError(f"未知の戦略です: {strategy}")
     selected = frame.loc[mask].copy()
@@ -231,6 +284,8 @@ def _select_candidates(
     columns = [
         "date", "entry_date", "exit_date", "ticker", "code", "rank",
         "ranking_score", "sakata_pattern", "sakata_score", "legacy_setup_score",
+        "retail_flow_score", *RETAIL_STAGE_COLUMNS, "retail_overheat_penalty",
+        "retail_loss_anxiety_penalty",
         "sector_17_name", "sector_17_trend_score", "entry_price", "exit_price",
         "entry_gap", "target_hit_day", "target_hit", "gross_return", "net_return",
         "trade_win", "max_favorable_excursion", "max_adverse_excursion",
@@ -305,6 +360,23 @@ def _pattern_analysis(trades: pd.DataFrame) -> list[dict[str, Any]]:
     return sorted(rows, key=lambda row: (-row["signals"], row["pattern"]))
 
 
+def _retail_stage_analysis(trades: pd.DataFrame) -> dict[str, Any]:
+    if trades.empty:
+        return {"signals": 0, "winning_trade_medians": {}, "losing_trade_medians": {}}
+    winners = trades["trade_win"]
+    return {
+        "signals": len(trades),
+        "winning_trade_medians": {
+            column: _median_or_none(trades.loc[winners], column)
+            for column in RETAIL_STAGE_COLUMNS
+        },
+        "losing_trade_medians": {
+            column: _median_or_none(trades.loc[~winners], column)
+            for column in RETAIL_STAGE_COLUMNS
+        },
+    }
+
+
 def _mean_or_none(frame: pd.DataFrame, column: str) -> float | None:
     return None if frame.empty else float(frame[column].mean())
 
@@ -320,25 +392,44 @@ def _save_results(
     equity: pd.DataFrame,
 ) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    summary_path = output_dir / "sakata_backtest_summary.json"
+    summary_path = output_dir / "retail_flow_backtest_summary.json"
     temporary = summary_path.with_suffix(".json.tmp")
     temporary.write_text(
         json.dumps(summary, ensure_ascii=False, indent=2, allow_nan=False),
         encoding="utf-8",
     )
     os.replace(temporary, summary_path)
-    trades.to_csv(output_dir / "sakata_backtest_trades.csv", index=False, encoding="utf-8-sig")
-    equity.to_csv(output_dir / "sakata_backtest_equity.csv", index=False, encoding="utf-8-sig")
+    serialized_summary = summary_path.read_text(encoding="utf-8")
+    (output_dir / "sakata_backtest_summary.json").write_text(
+        serialized_summary,
+        encoding="utf-8",
+    )
+    for prefix in ("retail_flow", "sakata"):
+        trades.to_csv(
+            output_dir / f"{prefix}_backtest_trades.csv",
+            index=False,
+            encoding="utf-8-sig",
+        )
+        equity.to_csv(
+            output_dir / f"{prefix}_backtest_equity.csv",
+            index=False,
+            encoding="utf-8-sig",
+        )
     strategies = summary["strategies"]
     report = [
-        "# 酒田五法バックテスト",
+        "# 個人投資家フロー比較バックテスト",
         "",
         f"期間: {summary['period']['start']}〜{summary['period']['end']}",
         "",
         "| 方式 | 最終資金 | 収益率 | 最大DD | シグナル | +5%到達率 | 勝率 |",
         "|---|---:|---:|---:|---:|---:|---:|",
     ]
-    for key in ("legacy_setup", "sakata_five_methods"):
+    for key in (
+        "legacy_setup",
+        "sakata_five_methods",
+        "retail_attention_flow",
+        "retail_attention_hybrid",
+    ):
         values = strategies[key]
         report.append(
             f"| {key} | ¥{values['ending_capital']:,.0f} | "
@@ -346,9 +437,12 @@ def _save_results(
             f"{values['selected_signals']} | {_percent(values['target_hit_rate'])} | "
             f"{_percent(values['win_rate'])} |"
         )
-    (output_dir / "sakata_backtest_report.md").write_text(
-        "\n".join(report) + "\n", encoding="utf-8"
-    )
+    report_text = "\n".join(report) + "\n"
+    for prefix in ("retail_flow", "sakata"):
+        (output_dir / f"{prefix}_backtest_report.md").write_text(
+            report_text,
+            encoding="utf-8",
+        )
 
 
 def _percent(value: float | None) -> str:

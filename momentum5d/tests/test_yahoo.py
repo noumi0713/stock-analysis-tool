@@ -285,7 +285,8 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert "trend_ranking_score" in candidates.columns
     assert "sector_17_name" in candidates.columns
     assert "setup_reasons" in candidates.columns
-    assert result["technical_method"] == "sakata_five_methods_v1"
+    assert result["technical_method"] == "retail_attention_hybrid_v1"
+    assert "retail_flow_score" in candidates.columns
     assert len(scores) == 2
     assert scores["rsi_14"].between(0, 100).all()
     assert scores["atr_14_pct"].gt(0).all()
@@ -374,7 +375,7 @@ def test_trend_features_rank_stronger_industry_higher(tmp_path: Path) -> None:
     assert strong["trend_ranking_score"] > weak["trend_ranking_score"]
 
 
-def test_sakata_ranking_excludes_already_surging_stock() -> None:
+def test_retail_flow_ranking_excludes_already_surging_stock() -> None:
     latest_date = date(2026, 1, 9)
     common = {
         "date": latest_date,
@@ -402,6 +403,22 @@ def test_sakata_ranking_excludes_already_surging_stock() -> None:
         "sakata_sell_signal": False,
         "sakata_bullish_count": 1,
         "sakata_bearish_count": 0,
+        "turnover_ratio_5_20": 1.4,
+        "retail_volume_attention_rank": 0.8,
+        "retail_return_attention_rank": 0.7,
+        "retail_turnover_rank": 0.8,
+        "retail_relative_strength_rank": 0.7,
+        "retail_attention_acceleration_score": 0.65,
+        "retail_discovery_score": 0.78,
+        "retail_understanding_proxy_score": 0.65,
+        "retail_expectation_score": 0.68,
+        "retail_safety_score": 0.70,
+        "retail_action_score": 0.72,
+        "retail_overheat_penalty": 0.10,
+        "retail_loss_anxiety_penalty": 0.05,
+        "retail_flow_score": 0.76,
+        "retail_attention_hybrid_score": 0.78,
+        "legacy_setup_score": 0.80,
     }
     features = pd.DataFrame(
         [
@@ -515,7 +532,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
     assert result["candidate_count"] <= 1
-    assert payload["schema_version"] == 7
+    assert payload["schema_version"] == 8
     assert payload["personal_research_only"] is True
     assert payload["update"]["session"] == "daily"
     assert payload["update"]["status"] == "complete"
@@ -525,14 +542,16 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert len(payload["stocks"]) == 2
     assert "rsi_14" in payload["stocks"][0]
     assert "atr_14_pct" in payload["stocks"][0]
-    assert len(payload["indicator_notes"]) == 3
-    assert payload["technical_method"]["label"] == "酒田五法"
+    assert len(payload["indicator_notes"]) == 4
+    assert payload["technical_method"]["label"] == "個人投資家フロー × 仕込み"
     assert "open" not in payload["candidates"][0]
     assert "setup_score" in payload["candidates"][0]
     assert "trend_ranking_score" in payload["candidates"][0]
     assert payload["candidates"][0]["sector_17_name"]
     assert "setup_reasons" in payload["candidates"][0]
-    assert "赤三兵" in payload["candidates"][0]["sakata_pattern"]
+    assert "retail_flow_score" in payload["candidates"][0]
+    assert "retail_attention_hybrid_score" in payload["candidates"][0]
+    assert "sakata_pattern" in payload["candidates"][0]
     assert payload["candidates"][0]["company_name"] is None
     code = str(payload["candidates"][0]["code"])
     assert code in payload["charts"]
