@@ -83,6 +83,9 @@ def test_yahoo_commands_are_parsed() -> None:
         ]
     )
     analyze = build_parser().parse_args(["yahoo-analyze", "--top-n", "15"])
+    sakata = build_parser().parse_args(
+        ["yahoo-backtest-sakata", "--start", "2026-04-01", "--top-n", "8"]
+    )
 
     assert ingest.command == "yahoo-ingest"
     assert ingest.as_of.isoformat() == "2026-07-29"
@@ -90,3 +93,6 @@ def test_yahoo_commands_are_parsed() -> None:
     assert ingest.intraday_session == "morning"
     assert analyze.command == "yahoo-analyze"
     assert analyze.top_n == 15
+    assert sakata.command == "yahoo-backtest-sakata"
+    assert sakata.start.isoformat() == "2026-04-01"
+    assert sakata.top_n == 8

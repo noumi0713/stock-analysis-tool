@@ -12,11 +12,12 @@ from app.config import Settings
 from app.storage.parquet import ParquetStore
 from app.yahoo.corporate_actions import normalize_split_adjusted_prices
 from app.yahoo.ingestion import YahooPaths
+from app.yahoo.sakata import PATTERN_COLUMNS, add_sakata_features
 from app.yahoo.trend import add_trend_features, latest_sector_trends, load_sector_map
 
 
 class YahooPatternAnalyzer:
-    """+5%到達前の値動きを記述し、上昇前の仕込み候補をルール順位化する。"""
+    """+5%到達前を集計し、酒田五法と業種トレンドで候補を順位化する。"""
 
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
@@ -42,6 +43,7 @@ class YahooPatternAnalyzer:
             self.settings.data_dir.parent / "config" / "prime_sectors.csv"
         )
         features = add_trend_features(features, sectors)
+        features["signal_score"] = features["trend_ranking_score"]
         historical = features.loc[features["horizon_complete"]].copy()
         market_regime = self._market_regime(features)
         candidates = self._latest_candidates(features, top_n)
@@ -67,6 +69,8 @@ class YahooPatternAnalyzer:
         summary = {
             "source": "yfinance",
             "personal_research_only": True,
+            "technical_method": "sakata_five_methods_v1",
+            "technical_method_label": "酒田五法",
             "analyzed_at": datetime.now(UTC).isoformat(),
             "rows": len(features),
             "excluded_non_trading_or_invalid_rows": len(prices) - len(valid_prices),
@@ -220,7 +224,7 @@ class YahooPatternAnalyzer:
         frame["setup_early_momentum_score"] = (
             1.0 - (frame["return_5d"] - 0.015).abs() / 0.055
         ).clip(0.0, 1.0)
-        frame["setup_score"] = (
+        frame["legacy_setup_score"] = (
             0.28 * frame["setup_volume_onset_score"]
             + 0.18 * frame["setup_active_volatility_score"]
             + 0.18 * frame["setup_position_score"]
@@ -228,7 +232,10 @@ class YahooPatternAnalyzer:
             + 0.12 * frame["setup_early_momentum_score"]
             + 0.10 * frame["setup_trend_score"]
         )
-        frame["signal_score"] = frame["setup_score"]
+        frame = add_sakata_features(frame)
+        # 既存JSONとの互換性を保ちつつ、中身を酒田五法スコアへ切り替える。
+        frame["setup_score"] = frame["sakata_score"]
+        frame["signal_score"] = frame["sakata_score"]
         frame.replace([np.inf, -np.inf], np.nan, inplace=True)
         return frame
 
@@ -249,6 +256,12 @@ class YahooPatternAnalyzer:
             "relative_return_20d": np.nan,
             "rsi_14": np.nan,
             "atr_14_pct": np.nan,
+            "sakata_pattern": "該当なし",
+            "sakata_score": 0.0,
+            "sakata_buy_signal": False,
+            "sakata_sell_signal": False,
+            "sakata_bullish_count": 0,
+            "sakata_bearish_count": 0,
         }
         for column, default in trend_defaults.items():
             if column not in latest:
@@ -259,18 +272,16 @@ class YahooPatternAnalyzer:
         favorable_regime = YahooPatternAnalyzer._market_regime(features)["favorable"]
         latest = latest.loc[
             favorable_regime
-            & latest["setup_score"].ge(0.55)
-            & latest["return_1d"].between(-0.03, 0.025)
-            & latest["return_5d"].between(-0.03, 0.04)
-            & latest["return_20d"].between(-0.08, 0.15)
-            & latest["breakout_20d"].between(-0.10, 0.0)
-            & latest["close_to_ma20"].between(-0.04, 0.08)
-            & latest["volatility_10d"].between(0.012, 0.035)
-            & latest["volume_ratio_5_20"].between(0.85, 1.65)
-            & latest["up_volume_share_10d"].ge(0.48)
+            & latest["sakata_buy_signal"].fillna(False)
+            & ~latest["sakata_sell_signal"].fillna(False)
+            & latest["sakata_score"].ge(0.65)
+            & latest["return_5d"].between(-0.30, 0.15)
+            & latest["return_20d"].between(-0.35, 0.30)
+            & latest["rsi_14"].le(80)
             & (latest["turnover_value"] >= 10_000_000)
         ].copy()
-        latest["setup_reasons"] = latest.apply(_setup_reasons, axis=1)
+        latest["sakata_reasons"] = latest.apply(_sakata_reasons, axis=1)
+        latest["setup_reasons"] = latest["sakata_reasons"]
         columns = [
             "date",
             "ticker",
@@ -306,6 +317,13 @@ class YahooPatternAnalyzer:
             "relative_return_20d",
             "rsi_14",
             "atr_14_pct",
+            "sakata_pattern",
+            "sakata_reasons",
+            "sakata_score",
+            "sakata_buy_signal",
+            "sakata_sell_signal",
+            "sakata_bullish_count",
+            "sakata_bearish_count",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -323,7 +341,8 @@ class YahooPatternAnalyzer:
         candidates: pd.DataFrame,
     ) -> pd.DataFrame:
         latest = features.loc[features["date"] == features["date"].max()].copy()
-        latest["setup_reasons"] = latest.apply(_setup_reasons, axis=1)
+        latest["sakata_reasons"] = latest.apply(_sakata_reasons, axis=1)
+        latest["setup_reasons"] = latest["sakata_reasons"]
         latest["score_rank"] = (
             latest["trend_ranking_score"].rank(method="min", ascending=False)
         )
@@ -361,6 +380,13 @@ class YahooPatternAnalyzer:
             "sector_33_code",
             "sector_33_name",
             "sector_17_trend_score",
+            "sakata_pattern",
+            "sakata_reasons",
+            "sakata_score",
+            "sakata_buy_signal",
+            "sakata_sell_signal",
+            "sakata_bullish_count",
+            "sakata_bearish_count",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -404,11 +430,14 @@ class YahooPatternAnalyzer:
             "volatility_10d",
             "range_width_10d",
             "up_volume_share_10d",
-            "setup_score",
+            "sakata_score",
+            "sakata_bullish_count",
+            "sakata_bearish_count",
             "individual_trend_score",
             "sector_17_trend_score",
             "sector_33_trend_score",
             "trend_ranking_score",
+            *PATTERN_COLUMNS,
         ]
         metrics = [metric for metric in metrics if metric in historical]
         result: dict[str, dict[str, float | None]] = {}
@@ -429,8 +458,11 @@ def _finite_or_none(value: Any) -> float | None:
     return number if np.isfinite(number) else None
 
 
-def _setup_reasons(row: pd.Series) -> str:
+def _sakata_reasons(row: pd.Series) -> str:
     reasons: list[str] = []
+    pattern = str(row.get("sakata_pattern", "該当なし"))
+    if pattern != "該当なし":
+        reasons.append(pattern)
     sector_name = row.get("sector_17_name")
     sector_score = row.get("sector_17_trend_score")
     if (
@@ -439,14 +471,8 @@ def _setup_reasons(row: pd.Series) -> str:
         and float(sector_score) >= 0.67
     ):
         reasons.append(f"{sector_name}トレンド")
-    if 1.05 <= row["volume_ratio_5_20"] <= 1.55:
-        reasons.append("出来高立ち上がり")
-    if 0.015 <= row["volatility_10d"] <= 0.030:
-        reasons.append("初動の値動き")
-    if row["up_volume_share_10d"] >= 0.54:
-        reasons.append("上昇日の出来高優勢")
-    if -0.08 <= row["breakout_20d"] <= -0.01:
-        reasons.append("20日高値の手前")
-    if 0.0 <= row["return_5d"] <= 0.03:
-        reasons.append("緩やかな上向き")
-    return "・".join(reasons[:3]) or "出来高を伴う初動"
+    if row.get("sakata_bullish_count", 0) >= 2:
+        reasons.append("買い型が複数一致")
+    if pd.notna(row.get("rsi_14")) and float(row["rsi_14"]) <= 70:
+        reasons.append("過熱圏未満")
+    return "・".join(reasons[:3]) or "酒田五法の明確な型なし"

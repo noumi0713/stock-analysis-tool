@@ -82,6 +82,13 @@ class DashboardExporter:
             "relative_return_20d",
             "rsi_14",
             "atr_14_pct",
+            "sakata_pattern",
+            "sakata_reasons",
+            "sakata_score",
+            "sakata_buy_signal",
+            "sakata_sell_signal",
+            "sakata_bullish_count",
+            "sakata_bearish_count",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -121,6 +128,13 @@ class DashboardExporter:
             "relative_return_20d",
             "rsi_14",
             "atr_14_pct",
+            "sakata_pattern",
+            "sakata_reasons",
+            "sakata_score",
+            "sakata_buy_signal",
+            "sakata_sell_signal",
+            "sakata_bullish_count",
+            "sakata_bearish_count",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -195,7 +209,7 @@ class DashboardExporter:
             }
 
         payload = {
-            "schema_version": 6,
+            "schema_version": 7,
             "source": "yfinance",
             "personal_research_only": True,
             "generated_at": generated_at,
@@ -210,8 +224,34 @@ class DashboardExporter:
             },
             "market_regime": analysis.get("market_regime"),
             "industry_trends": analysis.get("industry_trends", {}),
+            "technical_method": {
+                "key": "sakata_five_methods_v1",
+                "label": "酒田五法",
+                "technical_weight": 0.75,
+                "sector_trend_weight": 0.25,
+                "buy_patterns": [
+                    "逆三山",
+                    "三川明けの明星",
+                    "三空叩き込み",
+                    "赤三兵",
+                    "上げ三法",
+                ],
+                "sell_patterns": [
+                    "三山",
+                    "三川宵の明星",
+                    "三空踏み上げ",
+                    "黒三兵",
+                    "下げ三法",
+                ],
+                "note": "伝統的な定義を、当日までのOHLCだけで再現可能な数値条件へ定量化",
+            },
             "patterns": analysis["patterns"],
             "indicator_notes": [
+                {
+                    "key": "sakata_score",
+                    "label": "酒田五法スコア",
+                    "reason": "買い型と売り型をOHLCで検出し、売り型が同時に出た銘柄を除外する",
+                },
                 {
                     "key": "rsi_14",
                     "label": "RSI(14)",
@@ -221,14 +261,6 @@ class DashboardExporter:
                     "key": "atr_14_pct",
                     "label": "ATR(14)%",
                     "reason": "窓を含む14日平均値幅を株価比で示し、損失幅と資金配分を判断する",
-                },
-                {
-                    "key": "relative_return_20d",
-                    "label": "Prime相対強度20日",
-                    "reason": (
-                        "Prime全体の同日中央値を差し引き、"
-                        "市場全体ではなく銘柄固有の強さを測る"
-                    ),
                 },
             ],
             "candidates": records,

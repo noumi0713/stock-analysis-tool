@@ -27,6 +27,7 @@ from app.yahoo.analysis import YahooPatternAnalyzer
 from app.yahoo.dashboard import DashboardExporter
 from app.yahoo.ingestion import YahooFinanceIngestion, YahooPaths
 from app.yahoo.quality import YahooQualityValidator
+from app.yahoo.sakata_backtest import SakataBacktestConfig, SakataBacktester
 
 LOGGER = logging.getLogger(__name__)
 
@@ -126,6 +127,17 @@ def build_parser() -> argparse.ArgumentParser:
         help="スマホ画面へ送る集計済みJSONを生成",
     )
     yahoo_export.add_argument("--output", type=Path, default=Path("work/latest.json"))
+    yahoo_sakata_backtest = commands.add_parser(
+        "yahoo-backtest-sakata",
+        help="酒田五法と従来仕込みスコアを同一条件で比較",
+    )
+    yahoo_sakata_backtest.add_argument("--start", type=iso_date, default=date(2026, 4, 1))
+    yahoo_sakata_backtest.add_argument("--end", type=iso_date, default=None)
+    yahoo_sakata_backtest.add_argument("--initial-capital", type=float, default=1_000_000)
+    yahoo_sakata_backtest.add_argument("--top-n", type=int, default=10)
+    yahoo_sakata_backtest.add_argument(
+        "--output-dir", type=Path, default=Path("outputs/sakata_backtest")
+    )
     commands.add_parser("yahoo-validate", help="Yahoo Finance日足の品質を検査")
     commands.add_parser("yahoo-status", help="Yahoo Finance取得・分析状態を表示")
 
@@ -202,6 +214,19 @@ def main(
                 return 2
         elif args.command == "yahoo-export-dashboard":
             result = DashboardExporter(current_settings).export(args.output)
+            _print_json(result)
+        elif args.command == "yahoo-backtest-sakata":
+            if args.initial_capital <= 0 or args.top_n < 1:
+                raise ValueError("--initial-capitalと--top-nは正数で指定してください")
+            result = SakataBacktester(current_settings).run(
+                SakataBacktestConfig(
+                    start=args.start,
+                    end=args.end,
+                    initial_capital=args.initial_capital,
+                    top_n=args.top_n,
+                ),
+                output_dir=args.output_dir,
+            )
             _print_json(result)
         elif args.command == "yahoo-status":
             _print_yahoo_status(current_settings)

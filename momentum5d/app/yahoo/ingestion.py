@@ -266,6 +266,16 @@ class YahooFinanceIngestion:
                 f"{successful_tickers}/{len(tickers)} ({coverage:.1%})"
             )
 
+        latest_timestamp = pd.to_datetime(bars["timestamp"]).max()
+        required_timestamp = pd.Timestamp(
+            datetime.combine(as_of, cutoff, tzinfo=JST) - timedelta(minutes=10)
+        )
+        if latest_timestamp < required_timestamp:
+            raise RuntimeError(
+                f"{SESSION_LABELS[session]}の終了時刻に達していません: "
+                f"latest={latest_timestamp.isoformat()} required>={required_timestamp.isoformat()}"
+            )
+
         aggregated = self._aggregate_intraday_bars(bars, as_of=as_of)
         aggregated = self._apply_daily_adjustments(aggregated, prices, as_of=as_of)
         previous_days = prices.loc[pd.to_datetime(prices["date"]).dt.date != as_of].copy()
@@ -275,7 +285,6 @@ class YahooFinanceIngestion:
             retention_start,
             as_of,
         )
-        latest_timestamp = pd.to_datetime(bars["timestamp"]).max()
         status = {
             "status": "complete",
             "session": session,

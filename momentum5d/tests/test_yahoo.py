@@ -6,6 +6,7 @@ from pathlib import Path
 import duckdb
 import numpy as np
 import pandas as pd
+import pytest
 
 from app.config import Settings
 from app.yahoo.analysis import YahooPatternAnalyzer
@@ -142,6 +143,34 @@ def test_intraday_morning_session_replaces_partial_daily_bar(
     assert status["intraday"]["data_through"].endswith("+09:00")
 
 
+def test_intraday_close_is_not_marked_complete_before_session_end(
+    settings: Settings,
+    tmp_path: Path,
+) -> None:
+    tickers = tmp_path / "tickers.txt"
+    tickers.write_text("7203.T\n6758.T\n", encoding="utf-8")
+
+    def early_close_download(tickers: list[str], **kwargs: object) -> pd.DataFrame:
+        downloaded = fake_daily_and_intraday_download(tickers, **kwargs)
+        if kwargs.get("interval") == "5m":
+            return downloaded.iloc[:-1]
+        return downloaded
+
+    ingestion = YahooFinanceIngestion(
+        settings,
+        YahooConfig(batch_size=2, pause_seconds=0, max_retries=0),
+        downloader=early_close_download,
+        sleeper=lambda _: None,
+    )
+
+    with pytest.raises(RuntimeError, match="終了時刻に達していません"):
+        ingestion.ingest(
+            as_of=date(2026, 1, 9),
+            tickers_file=tickers,
+            intraday_session="close",
+        )
+
+
 def test_new_ticker_gets_full_retention_window_during_update(
     settings: Settings,
     tmp_path: Path,
@@ -209,7 +238,29 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
                     "source": "yfinance",
                 }
             )
-    pd.DataFrame(rows).to_parquet(paths.prices_path, index=False)
+    price_frame = pd.DataFrame(rows)
+    pattern_rows = price_frame.loc[price_frame["ticker"] == "1111.T"].tail(9).index
+    pattern_candles = [
+        (139.0, 140.0, 138.0, 139.0),
+        (138.5, 139.0, 137.0, 138.0),
+        (137.5, 138.0, 136.0, 137.0),
+        (136.5, 137.0, 135.0, 136.0),
+        (135.5, 136.0, 134.0, 135.0),
+        (135.0, 136.0, 134.0, 135.5),
+        (135.2, 137.8, 135.0, 137.5),
+        (137.0, 139.8, 136.8, 139.5),
+        (139.0, 141.8, 138.8, 141.5),
+    ]
+    for row_index, (open_, high, low, close) in zip(
+        pattern_rows, pattern_candles, strict=True
+    ):
+        price_frame.loc[row_index, ["open", "high", "low", "close", "adjusted_close"]] = [
+            open_, high, low, close, close
+        ]
+        price_frame.loc[row_index, "turnover_value"] = (
+            close * price_frame.loc[row_index, "volume"] * 100
+        )
+    price_frame.to_parquet(paths.prices_path, index=False)
     config_dir = settings.data_dir.parent / "config"
     config_dir.mkdir(exist_ok=True)
     (config_dir / "prime_sectors.csv").write_text(
@@ -234,6 +285,7 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert "trend_ranking_score" in candidates.columns
     assert "sector_17_name" in candidates.columns
     assert "setup_reasons" in candidates.columns
+    assert result["technical_method"] == "sakata_five_methods_v1"
     assert len(scores) == 2
     assert scores["rsi_14"].between(0, 100).all()
     assert scores["atr_14_pct"].gt(0).all()
@@ -322,7 +374,7 @@ def test_trend_features_rank_stronger_industry_higher(tmp_path: Path) -> None:
     assert strong["trend_ranking_score"] > weak["trend_ranking_score"]
 
 
-def test_setup_ranking_excludes_already_surging_stock() -> None:
+def test_sakata_ranking_excludes_already_surging_stock() -> None:
     latest_date = date(2026, 1, 9)
     common = {
         "date": latest_date,
@@ -342,6 +394,14 @@ def test_setup_ranking_excludes_already_surging_stock() -> None:
         "setup_compression_score": 0.8,
         "setup_accumulation_score": 0.7,
         "setup_position_score": 0.9,
+        "rsi_14": 62.0,
+        "sakata_pattern": "赤三兵",
+        "sakata_reasons": "赤三兵",
+        "sakata_score": 0.90,
+        "sakata_buy_signal": True,
+        "sakata_sell_signal": False,
+        "sakata_bullish_count": 1,
+        "sakata_bearish_count": 0,
     }
     features = pd.DataFrame(
         [
@@ -455,7 +515,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
     assert result["candidate_count"] <= 1
-    assert payload["schema_version"] == 6
+    assert payload["schema_version"] == 7
     assert payload["personal_research_only"] is True
     assert payload["update"]["session"] == "daily"
     assert payload["update"]["status"] == "complete"
@@ -466,11 +526,13 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert "rsi_14" in payload["stocks"][0]
     assert "atr_14_pct" in payload["stocks"][0]
     assert len(payload["indicator_notes"]) == 3
+    assert payload["technical_method"]["label"] == "酒田五法"
     assert "open" not in payload["candidates"][0]
     assert "setup_score" in payload["candidates"][0]
     assert "trend_ranking_score" in payload["candidates"][0]
     assert payload["candidates"][0]["sector_17_name"]
     assert "setup_reasons" in payload["candidates"][0]
+    assert "赤三兵" in payload["candidates"][0]["sakata_pattern"]
     assert payload["candidates"][0]["company_name"] is None
     code = str(payload["candidates"][0]["code"])
     assert code in payload["charts"]

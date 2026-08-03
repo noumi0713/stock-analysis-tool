@@ -72,8 +72,8 @@ jobs:
               ;;
           esac
           if [ -z "$session" ]; then
-            jst_hour="$(TZ=Asia/Tokyo date +%H)"
-            if [ "$jst_hour" -lt 13 ]; then
+            jst_hhmm="$(TZ=Asia/Tokyo date +%H%M)"
+            if [ "$jst_hhmm" -lt 1540 ]; then
               session="morning"
             else
               session="close"
