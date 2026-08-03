@@ -29,7 +29,8 @@ on:
 
 concurrency:
   group: momentum5d-daily
-  cancel-in-progress: false
+  # コード更新は古い実装の実行を置き換える。定時更新同士は順番を守る。
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 permissions:
   contents: write
