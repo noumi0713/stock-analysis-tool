@@ -9,6 +9,7 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 JST = ZoneInfo("Asia/Tokyo")
+DASHBOARD_SCHEMA_VERSION = 8
 
 
 def update_is_complete(
@@ -38,6 +39,8 @@ def should_run(
     try:
         payload = json.loads(dashboard_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
+        return True
+    if int(payload.get("schema_version", 0)) < DASHBOARD_SCHEMA_VERSION:
         return True
     return not update_is_complete(payload, session=session, market_date=market_date)
 
