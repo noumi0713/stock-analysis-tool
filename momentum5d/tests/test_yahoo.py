@@ -260,6 +260,11 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
         price_frame.loc[row_index, "turnover_value"] = (
             close * price_frame.loc[row_index, "volume"] * 100
         )
+    last_pattern_row = pattern_rows[-1]
+    price_frame.loc[last_pattern_row, "volume"] = 20_000
+    price_frame.loc[last_pattern_row, "turnover_value"] = (
+        price_frame.loc[last_pattern_row, "close"] * 20_000 * 100
+    )
     price_frame.to_parquet(paths.prices_path, index=False)
     config_dir = settings.data_dir.parent / "config"
     config_dir.mkdir(exist_ok=True)
@@ -285,8 +290,9 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert "trend_ranking_score" in candidates.columns
     assert "sector_17_name" in candidates.columns
     assert "setup_reasons" in candidates.columns
-    assert result["technical_method"] == "retail_attention_hybrid_v1"
+    assert result["technical_method"] == "observed_inflow_v1"
     assert "retail_flow_score" in candidates.columns
+    assert "observed_inflow_score" in candidates.columns
     assert len(scores) == 2
     assert scores["rsi_14"].between(0, 100).all()
     assert scores["atr_14_pct"].gt(0).all()
@@ -375,7 +381,7 @@ def test_trend_features_rank_stronger_industry_higher(tmp_path: Path) -> None:
     assert strong["trend_ranking_score"] > weak["trend_ranking_score"]
 
 
-def test_retail_flow_ranking_excludes_already_surging_stock() -> None:
+def test_candidate_ranking_requires_observed_inflow() -> None:
     latest_date = date(2026, 1, 9)
     common = {
         "date": latest_date,
@@ -384,6 +390,7 @@ def test_retail_flow_ranking_excludes_already_surging_stock() -> None:
         "volume": 100_000,
         "turnover_value": 100_000_000,
         "return_20d": 0.05,
+        "intraday_return": 0.01,
         "volume_change_1d": 0.10,
         "volume_ratio_5_20": 1.0,
         "close_to_ma20": 0.02,
@@ -418,13 +425,22 @@ def test_retail_flow_ranking_excludes_already_surging_stock() -> None:
         "retail_loss_anxiety_penalty": 0.05,
         "retail_flow_score": 0.76,
         "retail_attention_hybrid_score": 0.78,
+        "volume_ratio_1_20": 1.60,
+        "turnover_ratio_1_20": 1.65,
+        "observed_volume_ratio_rank": 0.90,
+        "observed_turnover_ratio_rank": 0.92,
+        "observed_volume_intensity_score": 0.75,
+        "observed_turnover_intensity_score": 0.78,
+        "observed_price_confirmation_score": 0.70,
+        "observed_inflow_score": 0.79,
+        "observed_inflow_confirmed": True,
         "legacy_setup_score": 0.80,
     }
     features = pd.DataFrame(
         [
             {
                 **common,
-                "ticker": "CALM.T",
+                "ticker": "INFLOW.T",
                 "code": "11110",
                 "return_1d": 0.005,
                 "return_5d": 0.01,
@@ -433,10 +449,12 @@ def test_retail_flow_ranking_excludes_already_surging_stock() -> None:
             },
             {
                 **common,
-                "ticker": "HOT.T",
+                "ticker": "QUIET.T",
                 "code": "22220",
-                "return_1d": 0.08,
-                "return_5d": 0.28,
+                "return_1d": 0.01,
+                "return_5d": 0.02,
+                "observed_inflow_score": 0.90,
+                "observed_inflow_confirmed": False,
                 "setup_score": 0.95,
                 "signal_score": 0.95,
             },
@@ -445,7 +463,7 @@ def test_retail_flow_ranking_excludes_already_surging_stock() -> None:
 
     candidates = YahooPatternAnalyzer._latest_candidates(features, top_n=20)
 
-    assert candidates["ticker"].tolist() == ["CALM.T"]
+    assert candidates["ticker"].tolist() == ["INFLOW.T"]
     assert candidates.iloc[0]["setup_reasons"]
 
 
@@ -532,7 +550,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
     assert result["candidate_count"] <= 1
-    assert payload["schema_version"] == 8
+    assert payload["schema_version"] == 9
     assert payload["personal_research_only"] is True
     assert payload["update"]["session"] == "daily"
     assert payload["update"]["status"] == "complete"
@@ -542,8 +560,8 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert len(payload["stocks"]) == 2
     assert "rsi_14" in payload["stocks"][0]
     assert "atr_14_pct" in payload["stocks"][0]
-    assert len(payload["indicator_notes"]) == 4
-    assert payload["technical_method"]["label"] == "個人投資家フロー × 仕込み"
+    assert len(payload["indicator_notes"]) == 5
+    assert payload["technical_method"]["label"] == "資金流入観測"
     assert "open" not in payload["candidates"][0]
     assert "setup_score" in payload["candidates"][0]
     assert "trend_ranking_score" in payload["candidates"][0]
@@ -551,6 +569,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert "setup_reasons" in payload["candidates"][0]
     assert "retail_flow_score" in payload["candidates"][0]
     assert "retail_attention_hybrid_score" in payload["candidates"][0]
+    assert "observed_inflow_score" in payload["candidates"][0]
     assert "sakata_pattern" in payload["candidates"][0]
     assert payload["candidates"][0]["company_name"] is None
     code = str(payload["candidates"][0]["code"])

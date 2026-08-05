@@ -64,8 +64,10 @@ class DashboardExporter:
             "return_1d",
             "return_5d",
             "return_20d",
+            "intraday_return",
             "volume_change_1d",
             "volume_ratio_5_20",
+            "volume_ratio_1_20",
             "breakout_20d",
             "volatility_10d",
             "range_width_10d",
@@ -83,6 +85,14 @@ class DashboardExporter:
             "rsi_14",
             "atr_14_pct",
             "turnover_ratio_5_20",
+            "turnover_ratio_1_20",
+            "observed_volume_ratio_rank",
+            "observed_turnover_ratio_rank",
+            "observed_volume_intensity_score",
+            "observed_turnover_intensity_score",
+            "observed_price_confirmation_score",
+            "observed_inflow_score",
+            "observed_inflow_confirmed",
             "retail_volume_attention_rank",
             "retail_return_attention_rank",
             "retail_turnover_rank",
@@ -98,6 +108,7 @@ class DashboardExporter:
             "retail_flow_score",
             "retail_attention_hybrid_score",
             "retail_flow_reasons",
+            "observed_inflow_reasons",
             "sakata_pattern",
             "sakata_reasons",
             "sakata_score",
@@ -129,8 +140,10 @@ class DashboardExporter:
             "return_1d",
             "return_5d",
             "return_20d",
+            "intraday_return",
             "volume_change_1d",
             "volume_ratio_5_20",
+            "volume_ratio_1_20",
             "breakout_20d",
             "volatility_10d",
             "range_width_10d",
@@ -145,6 +158,14 @@ class DashboardExporter:
             "rsi_14",
             "atr_14_pct",
             "turnover_ratio_5_20",
+            "turnover_ratio_1_20",
+            "observed_volume_ratio_rank",
+            "observed_turnover_ratio_rank",
+            "observed_volume_intensity_score",
+            "observed_turnover_intensity_score",
+            "observed_price_confirmation_score",
+            "observed_inflow_score",
+            "observed_inflow_confirmed",
             "retail_volume_attention_rank",
             "retail_return_attention_rank",
             "retail_turnover_rank",
@@ -160,6 +181,7 @@ class DashboardExporter:
             "retail_flow_score",
             "retail_attention_hybrid_score",
             "retail_flow_reasons",
+            "observed_inflow_reasons",
             "sakata_pattern",
             "sakata_reasons",
             "sakata_score",
@@ -241,7 +263,7 @@ class DashboardExporter:
             }
 
         payload = {
-            "schema_version": 8,
+            "schema_version": 9,
             "source": "yfinance",
             "personal_research_only": True,
             "generated_at": generated_at,
@@ -257,8 +279,8 @@ class DashboardExporter:
             "market_regime": analysis.get("market_regime"),
             "industry_trends": analysis.get("industry_trends", {}),
             "technical_method": {
-                "key": "retail_attention_hybrid_v1",
-                "label": "個人投資家フロー × 仕込み",
+                "key": "observed_inflow_v1",
+                "label": "資金流入観測",
                 "stages": [
                     "発見",
                     "理解（業種連動の代理）",
@@ -279,24 +301,32 @@ class DashboardExporter:
                     "信用残",
                 ],
                 "note": (
-                    "従来の仕込み条件60%に、取得済みデータで測る"
-                    "注意・期待・追随行動40%を組み合わせた代理スコア"
+                    "当日の出来高・売買代金を各銘柄の過去20日平均と"
+                    "Prime内順位で比較し、株価上昇と陽線の一致を確認する代理スコア"
                 ),
             },
             "patterns": analysis["patterns"],
             "indicator_notes": [
                 {
-                    "key": "retail_flow_score",
-                    "label": "個人投資家フロー",
-                    "reason": "発見・理解・期待・安心・行動の5段階が同時に強まる銘柄を評価する",
+                    "key": "observed_inflow_score",
+                    "label": "資金流入観測スコア",
+                    "reason": (
+                        "当日出来高・売買代金の増加と株価上昇が"
+                        "同時に確認できた銘柄を評価する"
+                    ),
                 },
                 {
-                    "key": "retail_attention_hybrid_score",
-                    "label": "総合ランキング",
+                    "key": "volume_ratio_1_20",
+                    "label": "当日出来高倍率",
                     "reason": (
-                        "仕込み条件60%と個人投資家フロー40%を、"
-                        "独立した過去期間でも確認した固定比率で統合する"
+                        "当日の出来高を直前20営業日の平均と比較し、"
+                        "通常時を上回る参加を確認する"
                     ),
+                },
+                {
+                    "key": "turnover_ratio_1_20",
+                    "label": "当日売買代金倍率",
+                    "reason": "株価水準の違いを含めた実際の取引金額の増加を確認する",
                 },
                 {
                     "key": "retail_overheat_penalty",

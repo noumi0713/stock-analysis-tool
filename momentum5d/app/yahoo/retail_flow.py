@@ -15,6 +15,15 @@ RETAIL_STAGE_COLUMNS = (
 
 RETAIL_DETAIL_COLUMNS = (
     "turnover_ratio_5_20",
+    "volume_ratio_1_20",
+    "turnover_ratio_1_20",
+    "observed_volume_ratio_rank",
+    "observed_turnover_ratio_rank",
+    "observed_volume_intensity_score",
+    "observed_turnover_intensity_score",
+    "observed_price_confirmation_score",
+    "observed_inflow_score",
+    "observed_inflow_confirmed",
     "retail_volume_attention_rank",
     "retail_return_attention_rank",
     "retail_turnover_rank",
@@ -41,6 +50,7 @@ def add_retail_flow_features(features: pd.DataFrame) -> pd.DataFrame:
     required = {
         "date",
         "ticker",
+        "volume",
         "adjusted_close",
         "turnover_value",
         "return_1d",
@@ -72,6 +82,14 @@ def add_retail_flow_features(features: pd.DataFrame) -> pd.DataFrame:
         lambda values: values.rolling(20, min_periods=20).mean()
     )
     frame["turnover_ratio_5_20"] = turnover_ma5 / turnover_ma20
+    prior_volume_ma20 = ticker_group["volume"].transform(
+        lambda values: values.shift(1).rolling(20, min_periods=20).mean()
+    )
+    prior_turnover_ma20 = ticker_group["turnover_value"].transform(
+        lambda values: values.shift(1).rolling(20, min_periods=20).mean()
+    )
+    frame["volume_ratio_1_20"] = frame["volume"] / prior_volume_ma20
+    frame["turnover_ratio_1_20"] = frame["turnover_value"] / prior_turnover_ma20
     frame["downside_return_10d"] = ticker_group["return_1d"].transform(
         lambda values: values.rolling(10, min_periods=10).min()
     )
@@ -93,6 +111,12 @@ def add_retail_flow_features(features: pd.DataFrame) -> pd.DataFrame:
     )
     frame["retail_sector_momentum_rank"] = date_group[
         "sector_17_median_return_5d"
+    ].rank(pct=True)
+    frame["observed_volume_ratio_rank"] = date_group["volume_ratio_1_20"].rank(
+        pct=True
+    )
+    frame["observed_turnover_ratio_rank"] = date_group[
+        "turnover_ratio_1_20"
     ].rank(pct=True)
     volume_attention_change = (
         frame["volume_ratio_5_20"]
@@ -195,6 +219,43 @@ def add_retail_flow_features(features: pd.DataFrame) -> pd.DataFrame:
         - 0.20 * frame["retail_overheat_penalty"]
         - 0.12 * frame["retail_loss_anxiety_penalty"]
     ).clip(0.0, 1.0)
+
+    # 売買主体別の純買越は取得できないため、当日の価格・出来高・売買代金が
+    # 同時に強まった事実を「観測できた資金流入」の代理値として扱う。
+    # クロスセクション順位を主にすることで、前場の半日出来高でも比較可能にする。
+    frame["observed_volume_intensity_score"] = (
+        (frame["volume_ratio_1_20"] - 0.40) / 1.60
+    ).clip(0.0, 1.0)
+    frame["observed_turnover_intensity_score"] = (
+        (frame["turnover_ratio_1_20"] - 0.40) / 1.60
+    ).clip(0.0, 1.0)
+    positive_return = (frame["return_1d"] / 0.06).clip(0.0, 1.0)
+    positive_candle = (frame["intraday_return"] / 0.05).clip(0.0, 1.0)
+    frame["observed_price_confirmation_score"] = (
+        0.65 * positive_return + 0.35 * positive_candle
+    )
+    observed_up_volume = ((frame["up_volume_share_10d"] - 0.45) / 0.35).clip(
+        0.0, 1.0
+    )
+    frame["observed_inflow_score"] = (
+        0.25 * frame["observed_volume_ratio_rank"]
+        + 0.25 * frame["observed_turnover_ratio_rank"]
+        + 0.15 * frame["observed_volume_intensity_score"]
+        + 0.15 * frame["observed_turnover_intensity_score"]
+        + 0.10 * frame["observed_price_confirmation_score"]
+        + 0.10 * observed_up_volume
+        - 0.10 * frame["retail_overheat_penalty"]
+    ).clip(0.0, 1.0)
+    frame["observed_inflow_confirmed"] = (
+        frame["observed_inflow_score"].ge(0.55)
+        & frame["observed_volume_ratio_rank"].ge(0.70)
+        & frame["observed_turnover_ratio_rank"].ge(0.70)
+        & frame["volume_ratio_1_20"].ge(0.45)
+        & frame["turnover_ratio_1_20"].ge(0.45)
+        & frame["return_1d"].gt(0.002)
+        & frame["intraday_return"].ge(0.0)
+        & frame["up_volume_share_10d"].ge(0.48)
+    )
     # 価格の仕込み条件を土台にし、投資家の注意・追随行動を順位の補助に使う。
     # 40%は独立した過去期間と評価期間の双方で検証した固定比率。
     sector_setup = frame["sector_17_trend_score"].fillna(frame["legacy_setup_score"])
@@ -236,3 +297,32 @@ def retail_flow_reasons(row: pd.Series, *, limit: int = 3) -> str:
     ):
         reasons.append(f"{sector_name}へ資金回転")
     return "・".join(reasons[:limit]) or "注意・期待・行動の一致待ち"
+
+
+def observed_inflow_reasons(row: pd.Series, *, limit: int = 3) -> str:
+    """観測済みの価格・出来高条件を、強い順に短く説明する。"""
+    reasons: list[tuple[float, str]] = []
+    volume_ratio = row.get("volume_ratio_1_20")
+    if pd.notna(volume_ratio):
+        reasons.append(
+            (float(row.get("observed_volume_ratio_rank", 0.0)),
+             f"当日出来高が20日平均の{float(volume_ratio):.2f}倍")
+        )
+    turnover_ratio = row.get("turnover_ratio_1_20")
+    if pd.notna(turnover_ratio):
+        reasons.append(
+            (float(row.get("observed_turnover_ratio_rank", 0.0)),
+             f"当日売買代金が20日平均の{float(turnover_ratio):.2f}倍")
+        )
+    return_1d = row.get("return_1d")
+    intraday_return = row.get("intraday_return")
+    if pd.notna(return_1d) and pd.notna(intraday_return):
+        reasons.append(
+            (float(row.get("observed_price_confirmation_score", 0.0)),
+             f"株価{float(return_1d):+.1%}・陽線{float(intraday_return):+.1%}")
+        )
+    up_volume = row.get("up_volume_share_10d")
+    if pd.notna(up_volume) and float(up_volume) >= 0.55:
+        reasons.append((float(up_volume), "上昇日に出来高が集中"))
+    reasons.sort(key=lambda item: item[0], reverse=True)
+    return "・".join(label for _, label in reasons[:limit]) or "資金流入の確認待ち"

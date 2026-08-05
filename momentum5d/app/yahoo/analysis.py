@@ -15,6 +15,7 @@ from app.yahoo.ingestion import YahooPaths
 from app.yahoo.retail_flow import (
     RETAIL_DETAIL_COLUMNS,
     add_retail_flow_features,
+    observed_inflow_reasons,
     retail_flow_reasons,
 )
 from app.yahoo.sakata import PATTERN_COLUMNS, add_sakata_features
@@ -49,9 +50,9 @@ class YahooPatternAnalyzer:
         )
         features = add_trend_features(features, sectors)
         features = add_retail_flow_features(features)
-        features["setup_score"] = features["retail_attention_hybrid_score"]
-        features["trend_ranking_score"] = features["retail_attention_hybrid_score"]
-        features["signal_score"] = features["retail_attention_hybrid_score"]
+        features["setup_score"] = features["observed_inflow_score"]
+        features["trend_ranking_score"] = features["observed_inflow_score"]
+        features["signal_score"] = features["observed_inflow_score"]
         historical = features.loc[features["horizon_complete"]].copy()
         market_regime = self._market_regime(features)
         candidates = self._latest_candidates(features, top_n)
@@ -77,8 +78,8 @@ class YahooPatternAnalyzer:
         summary = {
             "source": "yfinance",
             "personal_research_only": True,
-            "technical_method": "retail_attention_hybrid_v1",
-            "technical_method_label": "個人投資家フロー × 仕込み",
+            "technical_method": "observed_inflow_v1",
+            "technical_method_label": "資金流入観測",
             "analyzed_at": datetime.now(UTC).isoformat(),
             "rows": len(features),
             "excluded_non_trading_or_invalid_rows": len(prices) - len(valid_prices),
@@ -287,26 +288,22 @@ class YahooPatternAnalyzer:
                 latest[column] = default
         if "trend_ranking_score" not in latest:
             latest["trend_ranking_score"] = latest["setup_score"]
-        latest["trend_ranking_score"] = latest["retail_attention_hybrid_score"]
-        latest["setup_score"] = latest["retail_attention_hybrid_score"]
-        latest["signal_score"] = latest["retail_attention_hybrid_score"]
-        favorable_regime = YahooPatternAnalyzer._market_regime(features)["favorable"]
+        latest["trend_ranking_score"] = latest["observed_inflow_score"]
+        latest["setup_score"] = latest["observed_inflow_score"]
+        latest["signal_score"] = latest["observed_inflow_score"]
         latest = latest.loc[
-            favorable_regime
-            & latest["legacy_setup_score"].ge(0.55)
-            & latest["return_1d"].between(-0.03, 0.025)
-            & latest["return_5d"].between(-0.03, 0.04)
-            & latest["return_20d"].between(-0.08, 0.15)
-            & latest["breakout_20d"].between(-0.10, 0.0)
-            & latest["close_to_ma20"].between(-0.04, 0.08)
-            & latest["volatility_10d"].between(0.012, 0.035)
-            & latest["volume_ratio_5_20"].between(0.85, 1.65)
-            & latest["up_volume_share_10d"].ge(0.48)
+            latest["observed_inflow_confirmed"].fillna(False).astype(bool)
+            & latest["return_1d"].between(0.002, 0.10)
+            & latest["return_5d"].between(-0.05, 0.18)
+            & latest["rsi_14"].le(82.0)
             & (latest["turnover_value"] >= 10_000_000)
         ].copy()
         latest["sakata_reasons"] = latest.apply(_sakata_reasons, axis=1)
         latest["retail_flow_reasons"] = latest.apply(retail_flow_reasons, axis=1)
-        latest["setup_reasons"] = latest["retail_flow_reasons"]
+        latest["observed_inflow_reasons"] = latest.apply(
+            observed_inflow_reasons, axis=1
+        )
+        latest["setup_reasons"] = latest["observed_inflow_reasons"]
         columns = [
             "date",
             "ticker",
@@ -318,6 +315,7 @@ class YahooPatternAnalyzer:
             "return_1d",
             "return_5d",
             "return_20d",
+            "intraday_return",
             "volume_change_1d",
             "volume_ratio_5_20",
             "close_to_ma20",
@@ -344,6 +342,7 @@ class YahooPatternAnalyzer:
             "atr_14_pct",
             *RETAIL_DETAIL_COLUMNS,
             "retail_flow_reasons",
+            "observed_inflow_reasons",
             "sakata_pattern",
             "sakata_reasons",
             "sakata_score",
@@ -357,7 +356,7 @@ class YahooPatternAnalyzer:
             "signal_score",
         ]
         return (
-            latest.sort_values("retail_attention_hybrid_score", ascending=False)[columns]
+            latest.sort_values("observed_inflow_score", ascending=False)[columns]
             .head(top_n)
             .reset_index(drop=True)
         )
@@ -370,7 +369,10 @@ class YahooPatternAnalyzer:
         latest = features.loc[features["date"] == features["date"].max()].copy()
         latest["sakata_reasons"] = latest.apply(_sakata_reasons, axis=1)
         latest["retail_flow_reasons"] = latest.apply(retail_flow_reasons, axis=1)
-        latest["setup_reasons"] = latest["retail_flow_reasons"]
+        latest["observed_inflow_reasons"] = latest.apply(
+            observed_inflow_reasons, axis=1
+        )
+        latest["setup_reasons"] = latest["observed_inflow_reasons"]
         latest["score_rank"] = (
             latest["trend_ranking_score"].rank(method="min", ascending=False)
         )
@@ -392,6 +394,7 @@ class YahooPatternAnalyzer:
             "return_5d",
             "return_20d",
             "return_60d",
+            "intraday_return",
             "volume_change_1d",
             "volume_ratio_5_20",
             "close_to_ma20",
@@ -410,6 +413,7 @@ class YahooPatternAnalyzer:
             "sector_17_trend_score",
             *RETAIL_DETAIL_COLUMNS,
             "retail_flow_reasons",
+            "observed_inflow_reasons",
             "sakata_pattern",
             "sakata_reasons",
             "sakata_score",

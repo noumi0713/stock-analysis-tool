@@ -18,6 +18,7 @@ def _retail_features(days: int = 30) -> pd.DataFrame:
                     "date": start + timedelta(days=index),
                     "ticker": ticker,
                     "adjusted_close": 100 + index,
+                    "volume": 800_000 if strong and recent else 200_000,
                     "turnover_value": (
                         80_000_000 if strong and recent else 20_000_000
                     ),
@@ -58,6 +59,9 @@ def test_retail_flow_rewards_attention_expectation_and_action_alignment() -> Non
         latest.loc["STRONG.T", "retail_attention_hybrid_score"]
         > latest.loc["WEAK.T", "retail_attention_hybrid_score"]
     )
+    assert latest.loc["STRONG.T", "observed_inflow_score"] > 0.55
+    assert bool(latest.loc["STRONG.T", "observed_inflow_confirmed"])
+    assert not bool(latest.loc["WEAK.T", "observed_inflow_confirmed"])
     expected_hybrid = (
         0.60 * (0.75 * 0.72 + 0.25 * 0.82)
         + 0.40 * latest.loc["STRONG.T", "retail_flow_score"]
