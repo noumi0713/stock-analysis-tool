@@ -140,7 +140,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     yahoo_retail_backtest = commands.add_parser(
         "yahoo-backtest-retail",
-        help="個人投資家フロー、酒田五法、従来方式を同一条件で比較",
+        help="資金流入観測、個人投資家フロー、酒田五法、従来方式を比較",
     )
     yahoo_retail_backtest.add_argument("--start", type=iso_date, default=date(2026, 4, 1))
     yahoo_retail_backtest.add_argument("--end", type=iso_date, default=None)

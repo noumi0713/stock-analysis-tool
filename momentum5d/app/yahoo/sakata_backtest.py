@@ -32,7 +32,7 @@ class SakataBacktestConfig:
 
 
 class SakataBacktester:
-    """個人投資家フロー、酒田五法、従来方式を同一条件で比較する。"""
+    """資金流入観測、個人投資家フロー、酒田五法、従来方式を比較する。"""
 
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
@@ -77,6 +77,7 @@ class SakataBacktester:
         all_trades: list[pd.DataFrame] = []
         all_equity: list[pd.DataFrame] = []
         strategies = (
+            "observed_inflow",
             "legacy_setup",
             "sakata_five_methods",
             "retail_attention_flow",
@@ -97,10 +98,14 @@ class SakataBacktester:
             all_trades.append(selected)
             all_equity.append(equity)
 
-        sakata_trades = all_trades[1]
-        retail_trades = all_trades[3]
+        trades_by_strategy = {
+            strategy: trades for strategy, trades in zip(strategies, all_trades, strict=True)
+        }
+        sakata_trades = trades_by_strategy["sakata_five_methods"]
+        retail_trades = trades_by_strategy["retail_attention_hybrid"]
+        observed_trades = trades_by_strategy["observed_inflow"]
         summary = {
-            "technical_method": "retail_attention_hybrid_v1",
+            "technical_method": "observed_inflow_v1",
             "period": {"start": str(config.start), "end": str(end)},
             "rules": {
                 "entry": "シグナル翌営業日始値",
@@ -115,6 +120,7 @@ class SakataBacktester:
             "strategies": summaries,
             "sakata_pattern_analysis": _pattern_analysis(sakata_trades),
             "retail_stage_analysis": _retail_stage_analysis(retail_trades),
+            "observed_inflow_analysis": _observed_inflow_analysis(observed_trades),
         }
         _save_results(
             output_dir,
@@ -203,7 +209,16 @@ def _select_candidates(
         & frame["turnover_value"].ge(config.min_turnover)
     )
     favorable_market = _market_favorable(frame)
-    if strategy == "sakata_five_methods":
+    if strategy == "observed_inflow":
+        mask = (
+            common
+            & frame["observed_inflow_confirmed"].fillna(False).astype(bool)
+            & frame["return_1d"].between(0.002, 0.10)
+            & frame["return_5d"].between(-0.05, 0.18)
+            & frame["rsi_14"].le(82.0)
+        )
+        score = frame["observed_inflow_score"]
+    elif strategy == "sakata_five_methods":
         mask = (
             common
             & favorable_market
@@ -284,8 +299,14 @@ def _select_candidates(
     columns = [
         "date", "entry_date", "exit_date", "ticker", "code", "rank",
         "ranking_score", "sakata_pattern", "sakata_score", "legacy_setup_score",
+        "return_1d", "return_5d", "return_20d", "intraday_return", "rsi_14",
+        "volume_ratio_5_20", "up_volume_share_10d",
         "retail_flow_score", *RETAIL_STAGE_COLUMNS, "retail_overheat_penalty",
         "retail_loss_anxiety_penalty",
+        "volume_ratio_1_20", "turnover_ratio_1_20",
+        "observed_volume_ratio_rank", "observed_turnover_ratio_rank",
+        "observed_price_confirmation_score", "observed_inflow_score",
+        "observed_inflow_confirmed",
         "sector_17_name", "sector_17_trend_score", "entry_price", "exit_price",
         "entry_gap", "target_hit_day", "target_hit", "gross_return", "net_return",
         "trade_win", "max_favorable_excursion", "max_adverse_excursion",
@@ -377,6 +398,27 @@ def _retail_stage_analysis(trades: pd.DataFrame) -> dict[str, Any]:
     }
 
 
+def _observed_inflow_analysis(trades: pd.DataFrame) -> dict[str, Any]:
+    columns = (
+        "volume_ratio_1_20",
+        "turnover_ratio_1_20",
+        "observed_price_confirmation_score",
+        "observed_inflow_score",
+    )
+    if trades.empty:
+        return {"signals": 0, "winning_trade_medians": {}, "losing_trade_medians": {}}
+    winners = trades["trade_win"]
+    return {
+        "signals": len(trades),
+        "winning_trade_medians": {
+            column: _median_or_none(trades.loc[winners], column) for column in columns
+        },
+        "losing_trade_medians": {
+            column: _median_or_none(trades.loc[~winners], column) for column in columns
+        },
+    }
+
+
 def _mean_or_none(frame: pd.DataFrame, column: str) -> float | None:
     return None if frame.empty else float(frame[column].mean())
 
@@ -417,7 +459,7 @@ def _save_results(
         )
     strategies = summary["strategies"]
     report = [
-        "# 個人投資家フロー比較バックテスト",
+        "# 資金流入観測方式 比較バックテスト",
         "",
         f"期間: {summary['period']['start']}〜{summary['period']['end']}",
         "",
@@ -425,6 +467,7 @@ def _save_results(
         "|---|---:|---:|---:|---:|---:|---:|",
     ]
     for key in (
+        "observed_inflow",
         "legacy_setup",
         "sakata_five_methods",
         "retail_attention_flow",
