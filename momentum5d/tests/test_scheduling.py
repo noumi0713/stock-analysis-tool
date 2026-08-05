@@ -45,7 +45,7 @@ def test_old_schema_is_rebuilt_even_when_session_is_complete(tmp_path: Path) -> 
         "market_date": "2026-07-31",
     }
     dashboard.write_text(
-        json.dumps({"schema_version": 7, "update": update}),
+        json.dumps({"schema_version": 8, "update": update}),
         encoding="utf-8",
     )
     assert should_run(
@@ -55,7 +55,7 @@ def test_old_schema_is_rebuilt_even_when_session_is_complete(tmp_path: Path) -> 
     )
 
     dashboard.write_text(
-        json.dumps({"schema_version": 8, "update": update}),
+        json.dumps({"schema_version": 9, "update": update}),
         encoding="utf-8",
     )
     assert not should_run(
