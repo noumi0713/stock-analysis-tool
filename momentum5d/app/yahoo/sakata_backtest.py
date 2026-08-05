@@ -7,6 +7,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import pandas as pd
 
 from app.config import Settings
@@ -29,6 +30,23 @@ class SakataBacktestConfig:
     gap_down_limit: float = -0.03
     gap_up_limit: float = 0.015
     transaction_cost_bps: float = 20.0
+    support_atr_buffer: float = 0.5
+
+
+SUPPORT_METHODS: tuple[tuple[str, str], ...] = (
+    ("breakout_20d", "ブレイクアウト前20日高値"),
+    ("inflow_day_low", "資金流入日の安値"),
+    ("confirmed_swing_low", "直近の確定押し安値"),
+    ("anchored_vwap", "資金流入日からのアンカーVWAP"),
+    ("ma_5", "5日移動平均線"),
+    ("ma_10", "10日移動平均線"),
+    ("ma_25", "25日移動平均線"),
+    ("trendline", "安値同士を結んだ上昇トレンドライン"),
+    ("nearest_valid", "最も近い有効サポート"),
+)
+SUPPORT_BASE_METHODS = tuple(
+    method for method, _label in SUPPORT_METHODS if method != "nearest_valid"
+)
 
 
 class SakataBacktester:
@@ -60,6 +78,7 @@ class SakataBacktester:
         )
         features = add_trend_features(features, sectors)
         features = add_retail_flow_features(features)
+        features = _add_support_features(features)
         evaluated = _attach_outcomes(features, config)
         eligible_end = evaluated.loc[evaluated["trade_available"], "date"].max()
         if pd.isna(eligible_end):
@@ -104,20 +123,57 @@ class SakataBacktester:
         sakata_trades = trades_by_strategy["sakata_five_methods"]
         retail_trades = trades_by_strategy["retail_attention_hybrid"]
         observed_trades = trades_by_strategy["observed_inflow"]
+        support_summaries: dict[str, Any] = {}
+        for support_method, label in SUPPORT_METHODS:
+            selected = _apply_support_stop(
+                observed_trades,
+                evaluated,
+                support_method=support_method,
+                config=config,
+            )
+            equity = _portfolio(selected, trading_dates, config)
+            values = _summarize(selected, equity, config)
+            values.update(
+                {
+                    "label": label,
+                    "support_coverage": len(selected) / len(observed_trades)
+                    if len(observed_trades)
+                    else None,
+                    "stop_hit_rate": _mean_or_none(selected, "stop_hit"),
+                    "ambiguous_both_hit_rate": _mean_or_none(
+                        selected, "ambiguous_both_hit"
+                    ),
+                    "median_initial_stop_risk": _median_or_none(
+                        selected, "initial_stop_risk"
+                    ),
+                }
+            )
+            support_summaries[support_method] = values
+            selected["strategy"] = f"observed_inflow_support_{support_method}"
+            equity["strategy"] = f"observed_inflow_support_{support_method}"
+            all_trades.append(selected)
+            all_equity.append(equity)
         summary = {
-            "technical_method": "observed_inflow_v1",
+            "technical_method": "observed_inflow_support_stop_v1",
             "period": {"start": str(config.start), "end": str(end)},
             "rules": {
                 "entry": "シグナル翌営業日始値",
                 "take_profit": config.take_profit,
                 "time_exit": f"{config.horizon_days}営業日目終値",
-                "stop_loss": None,
+                "stop_loss": {
+                    "support_methods": [method for method, _label in SUPPORT_METHODS],
+                    "atr_buffer": config.support_atr_buffer,
+                    "same_day_target_and_stop": "stop_first",
+                    "gap_below_stop": "exit_at_open",
+                    "missing_or_above_entry_support": "skip_trade",
+                },
                 "gap_filter": [config.gap_down_limit, config.gap_up_limit],
                 "transaction_cost_bps": config.transaction_cost_bps,
                 "top_n_per_day": config.top_n,
                 "capital_model": f"資金を{config.horizon_days}スリーブへ等分",
             },
             "strategies": summaries,
+            "support_stop_comparison": support_summaries,
             "sakata_pattern_analysis": _pattern_analysis(sakata_trades),
             "retail_stage_analysis": _retail_stage_analysis(retail_trades),
             "observed_inflow_analysis": _observed_inflow_analysis(observed_trades),
@@ -129,6 +185,75 @@ class SakataBacktester:
             pd.concat(all_equity, ignore_index=True),
         )
         return summary
+
+
+def _add_support_features(frame: pd.DataFrame) -> pd.DataFrame:
+    """シグナル日までに確定した情報だけでサポート候補を作る。"""
+    result = frame.sort_values(["ticker", "date"]).reset_index(drop=True).copy()
+    group = result.groupby("ticker", sort=False)
+    low = pd.to_numeric(result["low"], errors="coerce")
+    high = pd.to_numeric(result["high"], errors="coerce")
+    close = pd.to_numeric(result["close"], errors="coerce")
+
+    prior_high20 = group["high"].transform(
+        lambda values: values.shift(1).rolling(20, min_periods=20).max()
+    )
+    result["support_breakout_20d"] = prior_high20.where(close.ge(prior_high20))
+    result["support_inflow_day_low"] = low
+    for window in (5, 10, 25):
+        result[f"support_ma_{window}"] = group["close"].transform(
+            lambda values, period=window: values.rolling(
+                period, min_periods=period
+            ).mean()
+        )
+
+    previous_low_1 = group["low"].shift(1)
+    previous_low_2 = group["low"].shift(2)
+    following_low_1 = group["low"].shift(-1)
+    following_low_2 = group["low"].shift(-2)
+    pivot = (
+        low.lt(previous_low_1)
+        & low.le(previous_low_2)
+        & low.lt(following_low_1)
+        & low.le(following_low_2)
+    )
+    local_position = group.cumcount().astype("float64")
+    pivot_value = low.where(pivot)
+    pivot_position = local_position.where(pivot)
+    confirmed_value_event = pivot_value.groupby(result["ticker"], sort=False).shift(2)
+    confirmed_position_event = pivot_position.groupby(
+        result["ticker"], sort=False
+    ).shift(2)
+    latest_value = confirmed_value_event.groupby(
+        result["ticker"], sort=False
+    ).ffill()
+    latest_position = confirmed_position_event.groupby(
+        result["ticker"], sort=False
+    ).ffill()
+    previous_value_event = latest_value.groupby(
+        result["ticker"], sort=False
+    ).shift(1).where(confirmed_value_event.notna())
+    previous_position_event = latest_position.groupby(
+        result["ticker"], sort=False
+    ).shift(1).where(confirmed_position_event.notna())
+    previous_value = previous_value_event.groupby(
+        result["ticker"], sort=False
+    ).ffill()
+    previous_position = previous_position_event.groupby(
+        result["ticker"], sort=False
+    ).ffill()
+
+    result["support_confirmed_swing_low"] = latest_value
+    position_distance = latest_position - previous_position
+    trendline_slope = (latest_value - previous_value) / position_distance
+    rising_trendline = trendline_slope.gt(0) & position_distance.gt(0)
+    result["support_trendline_slope"] = trendline_slope.where(rising_trendline)
+    result["support_trendline"] = (
+        latest_value + trendline_slope * (local_position - latest_position)
+    ).where(rising_trendline)
+    result["typical_price"] = (high + low + close) / 3.0
+    result["typical_price_volume"] = result["typical_price"] * result["volume"]
+    return result
 
 
 def _attach_outcomes(frame: pd.DataFrame, config: SakataBacktestConfig) -> pd.DataFrame:
@@ -143,12 +268,39 @@ def _attach_outcomes(frame: pd.DataFrame, config: SakataBacktestConfig) -> pd.Da
     complete = result["entry_price"].gt(0)
     for offset in range(1, config.horizon_days + 1):
         result[f"future_date_{offset}"] = group["date"].shift(-offset)
+        result[f"future_open_{offset}"] = group["open"].shift(-offset)
         result[f"future_high_{offset}"] = group["high"].shift(-offset)
         result[f"future_low_{offset}"] = group["low"].shift(-offset)
         result[f"future_close_{offset}"] = group["close"].shift(-offset)
         future_position = group["calendar_position"].shift(-offset)
         complete &= future_position.eq(result["calendar_position"] + offset)
         complete &= result[f"future_high_{offset}"].notna()
+        complete &= result[f"future_open_{offset}"].notna()
+
+    anchored_value = result["typical_price_volume"].copy()
+    anchored_volume = pd.to_numeric(result["volume"], errors="coerce").copy()
+    for offset in range(1, config.horizon_days + 1):
+        if offset > 1:
+            lag = offset - 1
+            anchored_value += group["typical_price_volume"].shift(-lag)
+            anchored_volume += group["volume"].shift(-lag)
+        result[f"support_anchored_vwap_{offset}"] = (
+            anchored_value / anchored_volume
+        )
+        for method in (
+            "breakout_20d",
+            "inflow_day_low",
+            "confirmed_swing_low",
+        ):
+            result[f"support_{method}_{offset}"] = result[f"support_{method}"]
+        for window in (5, 10, 25):
+            result[f"support_ma_{window}_{offset}"] = group[
+                f"support_ma_{window}"
+            ].shift(-(offset - 1))
+        result[f"support_trendline_{offset}"] = (
+            result["support_trendline"]
+            + result["support_trendline_slope"] * offset
+        )
     result["trade_available"] = complete
 
     target_price = result["entry_price"] * (1 + config.take_profit)
@@ -312,6 +464,166 @@ def _select_candidates(
         "trade_win", "max_favorable_excursion", "max_adverse_excursion",
     ]
     return selected[columns].sort_values(["date", "rank"]).reset_index(drop=True)
+
+
+def _apply_support_stop(
+    trades: pd.DataFrame,
+    evaluated: pd.DataFrame,
+    *,
+    support_method: str,
+    config: SakataBacktestConfig,
+) -> pd.DataFrame:
+    """選択済み取引へサポート割れの損切りを適用する。"""
+    if support_method not in dict(SUPPORT_METHODS):
+        raise ValueError(f"未知のサポート方式です: {support_method}")
+    base_columns = list(trades.columns)
+    support_columns = [
+        f"support_{method}_{offset}"
+        for method in SUPPORT_BASE_METHODS
+        for offset in range(1, config.horizon_days + 1)
+    ]
+    future_columns = [
+        f"future_{field}_{offset}"
+        for offset in range(1, config.horizon_days + 1)
+        for field in ("date", "open", "high", "low", "close")
+    ]
+    source_columns = [
+        "date",
+        "ticker",
+        "atr_14",
+        *support_columns,
+        *future_columns,
+    ]
+    source = evaluated[source_columns]
+    result = trades.merge(
+        source,
+        on=["date", "ticker"],
+        how="left",
+        validate="one_to_one",
+    )
+
+    initial_supports = pd.DataFrame(
+        {
+            method: result[f"support_{method}_1"]
+            for method in SUPPORT_BASE_METHODS
+        },
+        index=result.index,
+    )
+    valid_initial = initial_supports.where(
+        initial_supports.gt(0)
+        & initial_supports.lt(result["entry_price"], axis=0)
+    )
+    if support_method == "nearest_valid":
+        chosen_method = valid_initial.idxmax(axis=1)
+        initial_support = valid_initial.max(axis=1)
+    else:
+        chosen_method = pd.Series(support_method, index=result.index, dtype="object")
+        initial_support = valid_initial[support_method]
+
+    initial_stop = initial_support - config.support_atr_buffer * result["atr_14"]
+    valid_trade = (
+        initial_support.notna()
+        & initial_stop.gt(0)
+        & initial_stop.lt(result["entry_price"])
+    )
+    result = result.loc[valid_trade].copy()
+    chosen_method = chosen_method.loc[valid_trade]
+    initial_support = initial_support.loc[valid_trade]
+    initial_stop = initial_stop.loc[valid_trade]
+    if result.empty:
+        return pd.DataFrame(
+            columns=[
+                *base_columns,
+                "support_method",
+                "initial_support_price",
+                "initial_stop_price",
+                "initial_stop_risk",
+                "stop_hit_day",
+                "stop_hit",
+                "ambiguous_both_hit",
+            ]
+        )
+
+    result["support_method"] = chosen_method
+    result["initial_support_price"] = initial_support
+    result["initial_stop_price"] = initial_stop
+    result["initial_stop_risk"] = (
+        result["entry_price"] - initial_stop
+    ) / result["entry_price"]
+    target_price = result["entry_price"] * (1 + config.take_profit)
+    exit_price = result[f"future_close_{config.horizon_days}"].copy()
+    exit_date = result[f"future_date_{config.horizon_days}"].copy()
+    target_hit_day = pd.Series(pd.NA, index=result.index, dtype="Int8")
+    stop_hit_day = pd.Series(pd.NA, index=result.index, dtype="Int8")
+    ambiguous_both_hit = pd.Series(False, index=result.index, dtype="bool")
+
+    for offset in range(1, config.horizon_days + 1):
+        support_by_method = {
+            method: result[f"support_{method}_{offset}"]
+            for method in SUPPORT_BASE_METHODS
+        }
+        support = pd.Series(np.nan, index=result.index, dtype="float64")
+        for method, values in support_by_method.items():
+            support.loc[result["support_method"].eq(method)] = values
+        stop_price = support - config.support_atr_buffer * result["atr_14"]
+        active = target_hit_day.isna() & stop_hit_day.isna()
+        open_price = result[f"future_open_{offset}"]
+        high_price = result[f"future_high_{offset}"]
+        low_price = result[f"future_low_{offset}"]
+        valid_stop = stop_price.gt(0)
+
+        gap_stop = active & valid_stop & open_price.le(stop_price)
+        exit_price.loc[gap_stop] = open_price.loc[gap_stop]
+        exit_date.loc[gap_stop] = result.loc[gap_stop, f"future_date_{offset}"]
+        stop_hit_day.loc[gap_stop] = offset
+
+        active = target_hit_day.isna() & stop_hit_day.isna()
+        gap_target = active & open_price.ge(target_price)
+        exit_price.loc[gap_target] = target_price.loc[gap_target]
+        exit_date.loc[gap_target] = result.loc[gap_target, f"future_date_{offset}"]
+        target_hit_day.loc[gap_target] = offset
+
+        active = target_hit_day.isna() & stop_hit_day.isna()
+        intraday_stop = active & valid_stop & low_price.le(stop_price)
+        intraday_target = active & high_price.ge(target_price)
+        both = intraday_stop & intraday_target
+        ambiguous_both_hit.loc[both] = True
+        exit_price.loc[intraday_stop] = stop_price.loc[intraday_stop]
+        exit_date.loc[intraday_stop] = result.loc[
+            intraday_stop, f"future_date_{offset}"
+        ]
+        stop_hit_day.loc[intraday_stop] = offset
+
+        active = target_hit_day.isna() & stop_hit_day.isna()
+        intraday_target = active & high_price.ge(target_price)
+        exit_price.loc[intraday_target] = target_price.loc[intraday_target]
+        exit_date.loc[intraday_target] = result.loc[
+            intraday_target, f"future_date_{offset}"
+        ]
+        target_hit_day.loc[intraday_target] = offset
+
+    result["target_hit_day"] = target_hit_day
+    result["target_hit"] = target_hit_day.notna()
+    result["stop_hit_day"] = stop_hit_day
+    result["stop_hit"] = stop_hit_day.notna()
+    result["ambiguous_both_hit"] = ambiguous_both_hit
+    result["exit_price"] = exit_price
+    result["exit_date"] = exit_date
+    result["gross_return"] = result["exit_price"] / result["entry_price"] - 1
+    result["net_return"] = (
+        result["gross_return"] - config.transaction_cost_bps / 10_000
+    )
+    result["trade_win"] = result["net_return"] > 0
+    added_columns = [
+        "support_method",
+        "initial_support_price",
+        "initial_stop_price",
+        "initial_stop_risk",
+        "stop_hit_day",
+        "stop_hit",
+        "ambiguous_both_hit",
+    ]
+    return result[[*base_columns, *added_columns]].reset_index(drop=True)
 
 
 def _portfolio(
@@ -479,6 +791,22 @@ def _save_results(
             f"{values['total_return']:.2%} | {values['max_drawdown']:.2%} | "
             f"{values['selected_signals']} | {_percent(values['target_hit_rate'])} | "
             f"{_percent(values['win_rate'])} |"
+        )
+    report.extend(
+        [
+            "",
+            "## 資金流入観測方式のサポート損切り比較",
+            "",
+            "| サポート | 最終資金 | 収益率 | 最大DD | 取引数 | 適用率 | 損切率 | 勝率 |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for _method, values in summary["support_stop_comparison"].items():
+        report.append(
+            f"| {values['label']} | ¥{values['ending_capital']:,.0f} | "
+            f"{values['total_return']:.2%} | {values['max_drawdown']:.2%} | "
+            f"{values['selected_signals']} | {_percent(values['support_coverage'])} | "
+            f"{_percent(values['stop_hit_rate'])} | {_percent(values['win_rate'])} |"
         )
     report_text = "\n".join(report) + "\n"
     for prefix in ("retail_flow", "sakata"):
