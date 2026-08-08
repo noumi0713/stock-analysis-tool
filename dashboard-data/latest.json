@@ -2,7 +2,7 @@
   "schema_version": 9,
   "source": "yfinance",
   "personal_research_only": true,
-  "generated_at": "2026-08-08T08:59:32.425378+00:00",
+  "generated_at": "2026-08-08T09:26:42.183194+00:00",
   "latest_date": "2026-08-07",
   "update": {
     "status": "complete",
@@ -13,7 +13,7 @@
     "interval": "5m",
     "successful_tickers": 999,
     "coverage": 0.9842364532019704,
-    "generated_at": "2026-08-08T08:59:32.425378+00:00"
+    "generated_at": "2026-08-08T09:26:42.183194+00:00"
   },
   "metrics": {
     "rows": 242346,
@@ -442,8 +442,8 @@
     },
     "retail_flow_score": {
       "positive_median": 0.48927481102233017,
-      "other_median": 0.5048294665319522,
-      "difference": -0.015554655509621984
+      "other_median": 0.5048294665319523,
+      "difference": -0.015554655509622095
     },
     "retail_attention_hybrid_score": {
       "positive_median": 0.4624077413780263,
@@ -551,6 +551,164 @@
         "median_max_return_5d": 0.11951219512195133,
         "median_days_to_5pct": 1.0,
         "reliable_sample": true,
+        "feature_comparison": [
+          {
+            "feature": "volume_ratio_5_20",
+            "label": "出来高比(5日/20日)",
+            "success_median": 0.9536634015452174,
+            "failure_median": 1.2331183140012556,
+            "median_gap": -0.27945491245603815,
+            "effect_score_iqr": -0.6328951238632928,
+            "success_side": "low",
+            "difference_rank": 1
+          },
+          {
+            "feature": "volatility_10d",
+            "label": "10日ボラ",
+            "success_median": 0.03698119069700227,
+            "failure_median": 0.023104464696969123,
+            "median_gap": 0.01387672600003315,
+            "effect_score_iqr": 0.5821236365746902,
+            "success_side": "high",
+            "difference_rank": 2
+          },
+          {
+            "feature": "range_width_10d",
+            "label": "10日値幅",
+            "success_median": 0.16793571037459337,
+            "failure_median": 0.1070110701107011,
+            "median_gap": 0.06092464026389227,
+            "effect_score_iqr": 0.5508564258138505,
+            "success_side": "high",
+            "difference_rank": 3
+          },
+          {
+            "feature": "return_5d",
+            "label": "5日騰落",
+            "success_median": -0.09722222222222221,
+            "failure_median": -0.07491289198606277,
+            "median_gap": -0.02230933023615944,
+            "effect_score_iqr": -0.39347343634739207,
+            "success_side": "low",
+            "difference_rank": 4
+          },
+          {
+            "feature": "return_20d",
+            "label": "20日騰落",
+            "success_median": -0.10109414363437991,
+            "failure_median": -0.08699999734497077,
+            "median_gap": -0.014094146289409137,
+            "effect_score_iqr": -0.07051292293980731,
+            "success_side": "low",
+            "difference_rank": 5
+          }
+        ],
+        "subtypes": [
+          {
+            "samples": 808,
+            "successes": 801,
+            "failures": 7,
+            "success_rate": 0.9913366336633663,
+            "smoothed_success_rate": 0.9898539240680769,
+            "wilson_95_low": 0.982225996979455,
+            "wilson_95_high": 0.995797302146877,
+            "lift_vs_parent": 1.0660078661240358,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volume_ratio_5_20",
+                "label": "出来高比(5日/20日)",
+                "side": "low",
+                "threshold": 0.9669550162609934
+              },
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "high",
+                "threshold": 0.03560356318615036
+              }
+            ],
+            "rank": 1
+          },
+          {
+            "samples": 770,
+            "successes": 752,
+            "failures": 18,
+            "success_rate": 0.9766233766233766,
+            "smoothed_success_rate": 0.975441834339706,
+            "wilson_95_low": 0.9633515420408661,
+            "wilson_95_high": 0.9851629859969132,
+            "lift_vs_parent": 1.0501863507998477,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volume_ratio_5_20",
+                "label": "出来高比(5日/20日)",
+                "side": "high",
+                "threshold": 0.9669550162609934
+              },
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "high",
+                "threshold": 0.03560356318615036
+              }
+            ],
+            "rank": 2
+          },
+          {
+            "samples": 769,
+            "successes": 705,
+            "failures": 64,
+            "success_rate": 0.9167750325097529,
+            "smoothed_success_rate": 0.9171090609991986,
+            "wilson_95_low": 0.8951188461382422,
+            "wilson_95_high": 0.9342878524659737,
+            "lift_vs_parent": 0.9858300025795059,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volume_ratio_5_20",
+                "label": "出来高比(5日/20日)",
+                "side": "low",
+                "threshold": 0.9669550162609934
+              },
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "low",
+                "threshold": 0.03560356318615036
+              }
+            ],
+            "rank": 3
+          },
+          {
+            "samples": 808,
+            "successes": 676,
+            "failures": 132,
+            "success_rate": 0.8366336633663366,
+            "smoothed_success_rate": 0.8388877404931977,
+            "wilson_95_low": 0.8095595402725972,
+            "wilson_95_high": 0.8605219140406579,
+            "lift_vs_parent": 0.8996520817725944,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volume_ratio_5_20",
+                "label": "出来高比(5日/20日)",
+                "side": "high",
+                "threshold": 0.9669550162609934
+              },
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "low",
+                "threshold": 0.03560356318615036
+              }
+            ],
+            "rank": 4
+          }
+        ],
         "success_examples": [
           {
             "date": "2026-01-08",
@@ -757,6 +915,164 @@
         "median_max_return_5d": 0.10917030567685582,
         "median_days_to_5pct": 1.0,
         "reliable_sample": true,
+        "feature_comparison": [
+          {
+            "feature": "range_width_10d",
+            "label": "10日値幅",
+            "success_median": 0.17321143333366407,
+            "failure_median": 0.11981566820276497,
+            "median_gap": 0.053395765130899095,
+            "effect_score_iqr": 0.4623334672387199,
+            "success_side": "high",
+            "difference_rank": 1
+          },
+          {
+            "feature": "return_20d",
+            "label": "20日騰落",
+            "success_median": -0.1568938830770999,
+            "failure_median": -0.11815561959654175,
+            "median_gap": -0.038738263480558144,
+            "effect_score_iqr": -0.42215576715436215,
+            "success_side": "low",
+            "difference_rank": 2
+          },
+          {
+            "feature": "return_5d",
+            "label": "5日騰落",
+            "success_median": -0.0992015098429408,
+            "failure_median": -0.06747638326585692,
+            "median_gap": -0.03172512657708387,
+            "effect_score_iqr": -0.38983924949708637,
+            "success_side": "low",
+            "difference_rank": 3
+          },
+          {
+            "feature": "volatility_10d",
+            "label": "10日ボラ",
+            "success_median": 0.03614008098340734,
+            "failure_median": 0.02602768191091001,
+            "median_gap": 0.010112399072497329,
+            "effect_score_iqr": 0.3892250496751453,
+            "success_side": "high",
+            "difference_rank": 4
+          },
+          {
+            "feature": "volume_ratio_5_20",
+            "label": "出来高比(5日/20日)",
+            "success_median": 1.562502027699549,
+            "failure_median": 1.6513751435288972,
+            "median_gap": -0.08887311582934831,
+            "effect_score_iqr": -0.14307085312862208,
+            "success_side": "low",
+            "difference_rank": 5
+          }
+        ],
+        "subtypes": [
+          {
+            "samples": 94,
+            "successes": 93,
+            "failures": 1,
+            "success_rate": 0.9893617021276596,
+            "smoothed_success_rate": 0.9815885868517448,
+            "wilson_95_low": 0.9421756818388973,
+            "wilson_95_high": 0.9981196526609477,
+            "lift_vs_parent": 1.0468827313211282,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "high",
+                "threshold": 0.16751918158567775
+              },
+              {
+                "feature": "return_20d",
+                "label": "20日騰落",
+                "side": "low",
+                "threshold": -0.15433403805496826
+              }
+            ],
+            "rank": 1
+          },
+          {
+            "samples": 42,
+            "successes": 41,
+            "failures": 1,
+            "success_rate": 0.9761904761904762,
+            "smoothed_success_rate": 0.9661467564693372,
+            "wilson_95_low": 0.8767851883475174,
+            "wilson_95_high": 0.9957847045008997,
+            "lift_vs_parent": 1.0329457364341086,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "low",
+                "threshold": 0.16751918158567775
+              },
+              {
+                "feature": "return_20d",
+                "label": "20日騰落",
+                "side": "low",
+                "threshold": -0.15433403805496826
+              }
+            ],
+            "rank": 2
+          },
+          {
+            "samples": 43,
+            "successes": 41,
+            "failures": 2,
+            "success_rate": 0.9534883720930233,
+            "smoothed_success_rate": 0.9508110936682366,
+            "wilson_95_low": 0.8454422407613695,
+            "wilson_95_high": 0.9871510096826803,
+            "lift_vs_parent": 1.008923742563548,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "high",
+                "threshold": 0.16751918158567775
+              },
+              {
+                "feature": "return_20d",
+                "label": "20日騰落",
+                "side": "high",
+                "threshold": -0.15433403805496826
+              }
+            ],
+            "rank": 3
+          },
+          {
+            "samples": 94,
+            "successes": 83,
+            "failures": 11,
+            "success_rate": 0.8829787234042553,
+            "smoothed_success_rate": 0.8938692886061308,
+            "wilson_95_low": 0.8024962481102732,
+            "wilson_95_high": 0.9333870571504749,
+            "lift_vs_parent": 0.9343146956952004,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "low",
+                "threshold": 0.16751918158567775
+              },
+              {
+                "feature": "return_20d",
+                "label": "20日騰落",
+                "side": "high",
+                "threshold": -0.15433403805496826
+              }
+            ],
+            "rank": 4
+          }
+        ],
         "success_examples": [
           {
             "date": "2026-03-09",
@@ -963,6 +1279,164 @@
         "median_max_return_5d": 0.09620605764986401,
         "median_days_to_5pct": 1.0,
         "reliable_sample": true,
+        "feature_comparison": [
+          {
+            "feature": "volatility_10d",
+            "label": "10日ボラ",
+            "success_median": 0.03126144690828334,
+            "failure_median": 0.02555825376968093,
+            "median_gap": 0.005703193138602413,
+            "effect_score_iqr": 0.3265799113028855,
+            "success_side": "high",
+            "difference_rank": 1
+          },
+          {
+            "feature": "range_width_10d",
+            "label": "10日値幅",
+            "success_median": 0.10467791411042945,
+            "failure_median": 0.08657728961395575,
+            "median_gap": 0.018100624496473705,
+            "effect_score_iqr": 0.3253204923353406,
+            "success_side": "high",
+            "difference_rank": 2
+          },
+          {
+            "feature": "volume_ratio_5_20",
+            "label": "出来高比(5日/20日)",
+            "success_median": 0.8680125754472061,
+            "failure_median": 0.8132387706855791,
+            "median_gap": 0.054773804761626965,
+            "effect_score_iqr": 0.1557091795189987,
+            "success_side": "high",
+            "difference_rank": 3
+          },
+          {
+            "feature": "return_5d",
+            "label": "5日騰落",
+            "success_median": -0.006168608636052064,
+            "failure_median": -0.009393680614859123,
+            "median_gap": 0.003225071978807059,
+            "effect_score_iqr": 0.08947037717008267,
+            "success_side": "high",
+            "difference_rank": 4
+          },
+          {
+            "feature": "return_20d",
+            "label": "20日騰落",
+            "success_median": -0.10598413842826249,
+            "failure_median": -0.09949531362653208,
+            "median_gap": -0.006488824801730408,
+            "effect_score_iqr": -0.07599389408895649,
+            "success_side": "low",
+            "difference_rank": 5
+          }
+        ],
+        "subtypes": [
+          {
+            "samples": 153,
+            "successes": 148,
+            "failures": 5,
+            "success_rate": 0.9673202614379085,
+            "smoothed_success_rate": 0.958608069247974,
+            "wilson_95_low": 0.9257857310783825,
+            "wilson_95_high": 0.9859621725390252,
+            "lift_vs_parent": 1.0844886311332045,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "high",
+                "threshold": 0.03031862819707634
+              },
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "high",
+                "threshold": 0.10144102434292512
+              }
+            ],
+            "rank": 1
+          },
+          {
+            "samples": 46,
+            "successes": 41,
+            "failures": 5,
+            "success_rate": 0.8913043478260869,
+            "smoothed_success_rate": 0.8915029693924167,
+            "wilson_95_low": 0.7696189698736853,
+            "wilson_95_high": 0.9526692391725731,
+            "lift_vs_parent": 0.9992651561543171,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "high",
+                "threshold": 0.03031862819707634
+              },
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "low",
+                "threshold": 0.10144102434292512
+              }
+            ],
+            "rank": 2
+          },
+          {
+            "samples": 153,
+            "successes": 127,
+            "failures": 26,
+            "success_rate": 0.8300653594771242,
+            "smoothed_success_rate": 0.8372207860109798,
+            "wilson_95_low": 0.7626484933130309,
+            "wilson_95_high": 0.881313312738425,
+            "lift_vs_parent": 0.930608487526466,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "low",
+                "threshold": 0.03031862819707634
+              },
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "low",
+                "threshold": 0.10144102434292512
+              }
+            ],
+            "rank": 3
+          },
+          {
+            "samples": 46,
+            "successes": 39,
+            "failures": 7,
+            "success_rate": 0.8478260869565217,
+            "smoothed_success_rate": 0.8611999390893864,
+            "wilson_95_low": 0.7177558259368491,
+            "wilson_95_high": 0.9242781376598252,
+            "lift_vs_parent": 0.950520514390692,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "low",
+                "threshold": 0.03031862819707634
+              },
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "high",
+                "threshold": 0.10144102434292512
+              }
+            ],
+            "rank": 4
+          }
+        ],
         "success_examples": [
           {
             "date": "2026-05-27",
@@ -1169,6 +1643,164 @@
         "median_max_return_5d": 0.09492385786802027,
         "median_days_to_5pct": 1.0,
         "reliable_sample": true,
+        "feature_comparison": [
+          {
+            "feature": "volatility_10d",
+            "label": "10日ボラ",
+            "success_median": 0.02818788065135533,
+            "failure_median": 0.022132194108156394,
+            "median_gap": 0.006055686543198935,
+            "effect_score_iqr": 0.3976170324307193,
+            "success_side": "high",
+            "difference_rank": 1
+          },
+          {
+            "feature": "range_width_10d",
+            "label": "10日値幅",
+            "success_median": 0.10219675262655205,
+            "failure_median": 0.08426846679858728,
+            "median_gap": 0.01792828582796477,
+            "effect_score_iqr": 0.2947061225427683,
+            "success_side": "high",
+            "difference_rank": 2
+          },
+          {
+            "feature": "return_20d",
+            "label": "20日騰落",
+            "success_median": 0.06573069559668165,
+            "failure_median": 0.03398556632545213,
+            "median_gap": 0.03174512927122952,
+            "effect_score_iqr": 0.2153937306898904,
+            "success_side": "high",
+            "difference_rank": 3
+          },
+          {
+            "feature": "volume_ratio_5_20",
+            "label": "出来高比(5日/20日)",
+            "success_median": 0.9854286682480515,
+            "failure_median": 0.9549746569451103,
+            "median_gap": 0.03045401130294123,
+            "effect_score_iqr": 0.06546733426113462,
+            "success_side": "high",
+            "difference_rank": 4
+          },
+          {
+            "feature": "return_5d",
+            "label": "5日騰落",
+            "success_median": -0.01225490196078427,
+            "failure_median": -0.015141050193427319,
+            "median_gap": 0.0028861482326430488,
+            "effect_score_iqr": 0.04596033703774068,
+            "success_side": "high",
+            "difference_rank": 5
+          }
+        ],
+        "subtypes": [
+          {
+            "samples": 1479,
+            "successes": 1399,
+            "failures": 80,
+            "success_rate": 0.9459093982420554,
+            "smoothed_success_rate": 0.9447573114753104,
+            "wilson_95_low": 0.9331832131068079,
+            "wilson_95_high": 0.9563251470578922,
+            "lift_vs_parent": 1.1004570401528937,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "high",
+                "threshold": 0.026995546433748924
+              },
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "high",
+                "threshold": 0.09810198948090555
+              }
+            ],
+            "rank": 1
+          },
+          {
+            "samples": 501,
+            "successes": 439,
+            "failures": 62,
+            "success_rate": 0.8762475049900199,
+            "smoothed_success_rate": 0.8756069287936473,
+            "wilson_95_low": 0.8445165315015931,
+            "wilson_95_high": 0.9022523560068846,
+            "lift_vs_parent": 1.0194134211741077,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "high",
+                "threshold": 0.026995546433748924
+              },
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "low",
+                "threshold": 0.09810198948090555
+              }
+            ],
+            "rank": 2
+          },
+          {
+            "samples": 501,
+            "successes": 411,
+            "failures": 90,
+            "success_rate": 0.8203592814371258,
+            "smoothed_success_rate": 0.8218641264903843,
+            "wilson_95_low": 0.7843453719300746,
+            "wilson_95_high": 0.8514976330837754,
+            "lift_vs_parent": 0.9543938863384016,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "low",
+                "threshold": 0.026995546433748924
+              },
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "high",
+                "threshold": 0.09810198948090555
+              }
+            ],
+            "rank": 3
+          },
+          {
+            "samples": 1478,
+            "successes": 1154,
+            "failures": 324,
+            "success_rate": 0.7807848443843031,
+            "smoothed_success_rate": 0.781836588719286,
+            "wilson_95_low": 0.7589796078316134,
+            "wilson_95_high": 0.8011342396943298,
+            "lift_vs_parent": 0.9083535700609626,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "low",
+                "threshold": 0.026995546433748924
+              },
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "low",
+                "threshold": 0.09810198948090555
+              }
+            ],
+            "rank": 4
+          }
+        ],
         "success_examples": [
           {
             "date": "2026-06-10",
@@ -1375,6 +2007,164 @@
         "median_max_return_5d": 0.0660377358490567,
         "median_days_to_5pct": 2.0,
         "reliable_sample": true,
+        "feature_comparison": [
+          {
+            "feature": "volatility_10d",
+            "label": "10日ボラ",
+            "success_median": 0.020194537952184885,
+            "failure_median": 0.012948536528847322,
+            "median_gap": 0.007246001423337563,
+            "effect_score_iqr": 0.5603199189777297,
+            "success_side": "high",
+            "difference_rank": 1
+          },
+          {
+            "feature": "range_width_10d",
+            "label": "10日値幅",
+            "success_median": 0.06837160751565761,
+            "failure_median": 0.0447613116833889,
+            "median_gap": 0.023610295832268716,
+            "effect_score_iqr": 0.5244408828592185,
+            "success_side": "high",
+            "difference_rank": 2
+          },
+          {
+            "feature": "return_5d",
+            "label": "5日騰落",
+            "success_median": -0.030761472516389277,
+            "failure_median": -0.020635744417132895,
+            "median_gap": -0.010125728099256381,
+            "effect_score_iqr": -0.28466428011387523,
+            "success_side": "low",
+            "difference_rank": 3
+          },
+          {
+            "feature": "return_20d",
+            "label": "20日騰落",
+            "success_median": -0.04108584005869409,
+            "failure_median": -0.03308254311503306,
+            "median_gap": -0.008003296943661031,
+            "effect_score_iqr": -0.11529008793399045,
+            "success_side": "low",
+            "difference_rank": 4
+          },
+          {
+            "feature": "volume_ratio_5_20",
+            "label": "出来高比(5日/20日)",
+            "success_median": 0.9301800115697417,
+            "failure_median": 0.9408947537004708,
+            "median_gap": -0.010714742130729094,
+            "effect_score_iqr": -0.02899611317001872,
+            "success_side": "low",
+            "difference_rank": 5
+          }
+        ],
+        "subtypes": [
+          {
+            "samples": 2422,
+            "successes": 2104,
+            "failures": 318,
+            "success_rate": 0.8687035507844756,
+            "smoothed_success_rate": 0.8671851182214306,
+            "wilson_95_low": 0.8546673640450496,
+            "wilson_95_high": 0.8815719683169644,
+            "lift_vs_parent": 1.271330044838916,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "high",
+                "threshold": 0.01732753050904849
+              },
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "high",
+                "threshold": 0.059488692232055065
+              }
+            ],
+            "rank": 1
+          },
+          {
+            "samples": 594,
+            "successes": 433,
+            "failures": 161,
+            "success_rate": 0.7289562289562289,
+            "smoothed_success_rate": 0.7274691509718788,
+            "wilson_95_low": 0.6918231996315553,
+            "wilson_95_high": 0.7631468124920574,
+            "lift_vs_parent": 1.0668126709136172,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "high",
+                "threshold": 0.01732753050904849
+              },
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "low",
+                "threshold": 0.059488692232055065
+              }
+            ],
+            "rank": 2
+          },
+          {
+            "samples": 594,
+            "successes": 397,
+            "failures": 197,
+            "success_rate": 0.6683501683501684,
+            "smoothed_success_rate": 0.6688372291477745,
+            "wilson_95_low": 0.6295126225635481,
+            "wilson_95_high": 0.7050241510567554,
+            "lift_vs_parent": 0.9781169292210302,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "low",
+                "threshold": 0.01732753050904849
+              },
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "high",
+                "threshold": 0.059488692232055065
+              }
+            ],
+            "rank": 3
+          },
+          {
+            "samples": 2421,
+            "successes": 1187,
+            "failures": 1234,
+            "success_rate": 0.4902932672449401,
+            "smoothed_success_rate": 0.49187466558653564,
+            "wilson_95_low": 0.4704109551548036,
+            "wilson_95_high": 0.5102063354756441,
+            "lift_vs_parent": 0.7175342622553346,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "low",
+                "threshold": 0.01732753050904849
+              },
+              {
+                "feature": "range_width_10d",
+                "label": "10日値幅",
+                "side": "low",
+                "threshold": 0.059488692232055065
+              }
+            ],
+            "rank": 4
+          }
+        ],
         "success_examples": [
           {
             "date": "2025-10-29",
@@ -1581,6 +2371,164 @@
         "median_max_return_5d": 0.0608974358974359,
         "median_days_to_5pct": 2.0,
         "reliable_sample": true,
+        "feature_comparison": [
+          {
+            "feature": "volatility_10d",
+            "label": "10日ボラ",
+            "success_median": 0.014841834659616554,
+            "failure_median": 0.013432304862066733,
+            "median_gap": 0.001409529797549821,
+            "effect_score_iqr": 0.2879342809983696,
+            "success_side": "high",
+            "difference_rank": 1
+          },
+          {
+            "feature": "return_20d",
+            "label": "20日騰落",
+            "success_median": 0.0316114109483423,
+            "failure_median": 0.017612210373374237,
+            "median_gap": 0.013999200574968063,
+            "effect_score_iqr": 0.1519065717105712,
+            "success_side": "high",
+            "difference_rank": 2
+          },
+          {
+            "feature": "volume_ratio_5_20",
+            "label": "出来高比(5日/20日)",
+            "success_median": 0.9288753665061382,
+            "failure_median": 0.8897730060188551,
+            "median_gap": 0.039102360487283105,
+            "effect_score_iqr": 0.11089347586421965,
+            "success_side": "high",
+            "difference_rank": 3
+          },
+          {
+            "feature": "range_width_10d",
+            "label": "10日値幅",
+            "success_median": 0.04943609022556391,
+            "failure_median": 0.04712394371492758,
+            "median_gap": 0.002312146510636333,
+            "effect_score_iqr": 0.10882131782534692,
+            "success_side": "high",
+            "difference_rank": 4
+          },
+          {
+            "feature": "return_5d",
+            "label": "5日騰落",
+            "success_median": -0.01538461538461533,
+            "failure_median": -0.01776322735249769,
+            "median_gap": 0.0023786119678823603,
+            "effect_score_iqr": 0.0764840842849653,
+            "success_side": "high",
+            "difference_rank": 5
+          }
+        ],
+        "subtypes": [
+          {
+            "samples": 557,
+            "successes": 408,
+            "failures": 149,
+            "success_rate": 0.7324955116696589,
+            "smoothed_success_rate": 0.7291031050793737,
+            "wilson_95_low": 0.6942327323355458,
+            "wilson_95_high": 0.7675732392614255,
+            "lift_vs_parent": 1.1542186246429966,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "high",
+                "threshold": 0.0144260048372429
+              },
+              {
+                "feature": "return_20d",
+                "label": "20日騰落",
+                "side": "high",
+                "threshold": 0.02657807308970095
+              }
+            ],
+            "rank": 1
+          },
+          {
+            "samples": 489,
+            "successes": 331,
+            "failures": 158,
+            "success_rate": 0.6768916155419223,
+            "smoothed_success_rate": 0.6752308283512743,
+            "wilson_95_low": 0.6342006025733573,
+            "wilson_95_high": 0.716824960203811,
+            "lift_vs_parent": 1.0666016338343327,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "high",
+                "threshold": 0.0144260048372429
+              },
+              {
+                "feature": "return_20d",
+                "label": "20日騰落",
+                "side": "low",
+                "threshold": 0.02657807308970095
+              }
+            ],
+            "rank": 2
+          },
+          {
+            "samples": 489,
+            "successes": 300,
+            "failures": 189,
+            "success_rate": 0.6134969325153374,
+            "smoothed_success_rate": 0.6143270955418442,
+            "wilson_95_low": 0.5696114015143284,
+            "wilson_95_high": 0.6556130925218894,
+            "lift_vs_parent": 0.9667084294570991,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "low",
+                "threshold": 0.0144260048372429
+              },
+              {
+                "feature": "return_20d",
+                "label": "20日騰落",
+                "side": "high",
+                "threshold": 0.02657807308970095
+              }
+            ],
+            "rank": 3
+          },
+          {
+            "samples": 556,
+            "successes": 288,
+            "failures": 268,
+            "success_rate": 0.5179856115107914,
+            "smoothed_success_rate": 0.5220355757479144,
+            "wilson_95_low": 0.47647039958685805,
+            "wilson_95_high": 0.5592539910264868,
+            "lift_vs_parent": 0.8162079228855047,
+            "reliable_sample": true,
+            "conditions": [
+              {
+                "feature": "volatility_10d",
+                "label": "10日ボラ",
+                "side": "low",
+                "threshold": 0.0144260048372429
+              },
+              {
+                "feature": "return_20d",
+                "label": "20日騰落",
+                "side": "low",
+                "threshold": 0.02657807308970095
+              }
+            ],
+            "rank": 4
+          }
+        ],
         "success_examples": [
           {
             "date": "2026-07-21",
@@ -1854,7 +2802,7 @@
       "retail_action_score": 0.5869632634470543,
       "retail_overheat_penalty": 0.03767209011264103,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.6598273481950876,
+      "retail_flow_score": 0.6598273481950877,
       "retail_attention_hybrid_score": 0.5115026326594223,
       "retail_flow_reasons": "発見が増加・流動性と下値安定・買い行動を確認",
       "observed_inflow_reasons": "当日出来高が20日平均の29.31倍・当日売買代金が20日平均の32.31倍・株価+5.5%・陽線+5.5%",
@@ -2122,8 +3070,8 @@
       "retail_action_score": 0.8142713929226406,
       "retail_overheat_penalty": 0.14236983842010784,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.7406926801648328,
-      "retail_attention_hybrid_score": 0.7152122725465008,
+      "retail_flow_score": 0.7406926801648329,
+      "retail_attention_hybrid_score": 0.7152122725465009,
       "retail_flow_reasons": "業種の物語が明瞭・上昇期待が初動・買い行動を確認",
       "observed_inflow_reasons": "当日出来高が20日平均の2.87倍・当日売買代金が20日平均の3.03倍・株価+9.7%・陽線+3.4%",
       "sakata_pattern": "逆三山",
@@ -3192,7 +4140,7 @@
       "retail_action_score": 0.5869632634470543,
       "retail_overheat_penalty": 0.03767209011264103,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.6598273481950876,
+      "retail_flow_score": 0.6598273481950877,
       "retail_attention_hybrid_score": 0.5115026326594223,
       "retail_flow_reasons": "発見が増加・流動性と下値安定・買い行動を確認",
       "observed_inflow_reasons": "当日出来高が20日平均の29.31倍・当日売買代金が20日平均の32.31倍・株価+5.5%・陽線+5.5%",
@@ -3786,8 +4734,8 @@
       "retail_action_score": 0.6055164620954094,
       "retail_overheat_penalty": 0.7528910901727257,
       "retail_loss_anxiety_penalty": 0.25,
-      "retail_flow_score": 0.4492948021653371,
-      "retail_attention_hybrid_score": 0.2637179208661349,
+      "retail_flow_score": 0.44929480216533724,
+      "retail_attention_hybrid_score": 0.26371792086613494,
       "retail_flow_reasons": "発見が増加・買い行動を確認",
       "observed_inflow_reasons": "株価+19.2%・陽線+12.7%・当日売買代金が20日平均の32.68倍・当日出来高が20日平均の21.61倍",
       "sakata_pattern": "該当なし",
@@ -3918,8 +4866,8 @@
       "retail_action_score": 0.8142713929226406,
       "retail_overheat_penalty": 0.14236983842010784,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.7406926801648328,
-      "retail_attention_hybrid_score": 0.7152122725465008,
+      "retail_flow_score": 0.7406926801648329,
+      "retail_attention_hybrid_score": 0.7152122725465009,
       "retail_flow_reasons": "業種の物語が明瞭・上昇期待が初動・買い行動を確認",
       "observed_inflow_reasons": "当日出来高が20日平均の2.87倍・当日売買代金が20日平均の3.03倍・株価+9.7%・陽線+3.4%",
       "sakata_pattern": "逆三山",
@@ -6360,7 +7308,7 @@
       "retail_action_score": 0.5312042604879164,
       "retail_overheat_penalty": 0.5469128956712441,
       "retail_loss_anxiety_penalty": 0.17442468782323836,
-      "retail_flow_score": 0.4976322415815228,
+      "retail_flow_score": 0.4976322415815229,
       "retail_attention_hybrid_score": 0.4487666984090979,
       "retail_flow_reasons": "業種の物語が明瞭・発見が増加・上昇期待が初動",
       "observed_inflow_reasons": "当日売買代金が20日平均の2.71倍・当日出来高が20日平均の2.27倍・上昇日に出来高が集中",
@@ -6888,8 +7836,8 @@
       "retail_action_score": 0.28431744719049346,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.21724586387859593,
-      "retail_flow_score": 0.39462664540258907,
-      "retail_attention_hybrid_score": 0.2128682020206848,
+      "retail_flow_score": 0.3946266454025892,
+      "retail_attention_hybrid_score": 0.21286820202068485,
       "retail_flow_reasons": "発見が増加",
       "observed_inflow_reasons": "当日出来高が20日平均の18.80倍・当日売買代金が20日平均の16.41倍・株価-12.1%・陽線+0.0%",
       "sakata_pattern": "該当なし",
@@ -8010,7 +8958,7 @@
       "retail_action_score": 0.573882088753544,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.015251963716888433,
-      "retail_flow_score": 0.623916004763756,
+      "retail_flow_score": 0.6239160047637561,
       "retail_attention_hybrid_score": 0.5820473751383632,
       "retail_flow_reasons": "発見が増加・上昇期待が初動・買い行動を確認",
       "observed_inflow_reasons": "当日出来高が20日平均の2.38倍・当日売買代金が20日平均の2.48倍・株価-2.8%・陽線-2.1%",
@@ -8076,8 +9024,8 @@
       "retail_action_score": 0.5203557604521329,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5365883269330123,
-      "retail_attention_hybrid_score": 0.5148064569580638,
+      "retail_flow_score": 0.5365883269330124,
+      "retail_attention_hybrid_score": 0.5148064569580639,
       "retail_flow_reasons": "発見が増加",
       "observed_inflow_reasons": "当日出来高が20日平均の2.20倍・当日売買代金が20日平均の2.23倍・株価-0.3%・陽線-0.1%",
       "sakata_pattern": "該当なし",
@@ -8208,7 +9156,7 @@
       "retail_action_score": 0.8372421669884059,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.6838205931053788,
+      "retail_flow_score": 0.6838205931053789,
       "retail_attention_hybrid_score": 0.7422898039751122,
       "retail_flow_reasons": "買い行動を確認・発見が増加・流動性と下値安定",
       "observed_inflow_reasons": "当日出来高が20日平均の1.58倍・当日売買代金が20日平均の1.61倍・上昇日に出来高が集中",
@@ -8340,7 +9288,7 @@
       "retail_action_score": 0.5011826715164034,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.40033112324984976,
-      "retail_flow_score": 0.3708831474566043,
+      "retail_flow_score": 0.37088314745660433,
       "retail_attention_hybrid_score": 0.3150835468186922,
       "retail_flow_reasons": "発見が増加",
       "observed_inflow_reasons": "当日出来高が20日平均の2.62倍・当日売買代金が20日平均の2.38倍・株価-14.6%・陽線-1.7%",
@@ -8934,8 +9882,8 @@
       "retail_action_score": 0.6156782413307588,
       "retail_overheat_penalty": 0.19873875849967054,
       "retail_loss_anxiety_penalty": 0.0686416220201069,
-      "retail_flow_score": 0.49680786337430755,
-      "retail_attention_hybrid_score": 0.2852269505259745,
+      "retail_flow_score": 0.49680786337430777,
+      "retail_attention_hybrid_score": 0.28522695052597463,
       "retail_flow_reasons": "買い行動を確認・発見が増加",
       "observed_inflow_reasons": "当日出来高が20日平均の1.56倍・当日売買代金が20日平均の1.43倍・株価+8.2%・陽線+2.4%",
       "sakata_pattern": "該当なし",
@@ -9132,7 +10080,7 @@
       "retail_action_score": 0.5624841086108517,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.3863546969656566,
-      "retail_flow_score": 0.4353187450267427,
+      "retail_flow_score": 0.43531874502674284,
       "retail_attention_hybrid_score": 0.3163042663630684,
       "retail_flow_reasons": "発見が増加・買い行動を確認",
       "observed_inflow_reasons": "当日出来高が20日平均の2.04倍・当日売買代金が20日平均の1.89倍・株価-6.0%・陽線-7.5%",
@@ -9858,7 +10806,7 @@
       "retail_action_score": 0.7764218406363569,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.7761460908340926,
+      "retail_flow_score": 0.7761460908340927,
       "retail_attention_hybrid_score": 0.6952751947285978,
       "retail_flow_reasons": "業種の物語が明瞭・上昇期待が初動・買い行動を確認",
       "observed_inflow_reasons": "当日売買代金が20日平均の1.38倍・当日出来高が20日平均の1.30倍・上昇日に出来高が集中",
@@ -10980,8 +11928,8 @@
       "retail_action_score": 0.5983780540316596,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.46820275044158455,
-      "retail_flow_score": 0.4885625310714148,
-      "retail_attention_hybrid_score": 0.49314147215140963,
+      "retail_flow_score": 0.4885625310714149,
+      "retail_attention_hybrid_score": 0.4931414721514097,
       "retail_flow_reasons": "買い行動を確認・発見が増加",
       "observed_inflow_reasons": "当日出来高が20日平均の1.84倍・当日売買代金が20日平均の1.63倍・株価+0.0%・陽線-1.7%",
       "sakata_pattern": "該当なし",
@@ -11046,8 +11994,8 @@
       "retail_action_score": 0.4954411878730054,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.003698486004010861,
-      "retail_flow_score": 0.5523551136036114,
-      "retail_attention_hybrid_score": 0.47625841813007436,
+      "retail_flow_score": 0.5523551136036113,
+      "retail_attention_hybrid_score": 0.4762584181300743,
       "retail_flow_reasons": "発見が増加",
       "observed_inflow_reasons": "当日出来高が20日平均の1.77倍・当日売買代金が20日平均の1.68倍・株価-3.1%・陽線-3.1%",
       "sakata_pattern": "三山",
@@ -11112,8 +12060,8 @@
       "retail_action_score": 0.5765416339704821,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5240981862333196,
-      "retail_attention_hybrid_score": 0.594998678461951,
+      "retail_flow_score": 0.5240981862333197,
+      "retail_attention_hybrid_score": 0.5949986784619511,
       "retail_flow_reasons": "流動性と下値安定・買い行動を確認",
       "observed_inflow_reasons": "当日売買代金が20日平均の1.32倍・当日出来高が20日平均の1.27倍・株価+3.9%・陽線+3.9%",
       "sakata_pattern": "該当なし",
@@ -13092,8 +14040,8 @@
       "retail_action_score": 0.46881807268135206,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 1.298926220985163e-05,
-      "retail_flow_score": 0.630452152316499,
-      "retail_attention_hybrid_score": 0.621038873308374,
+      "retail_flow_score": 0.6304521523164992,
+      "retail_attention_hybrid_score": 0.6210388733083743,
       "retail_flow_reasons": "流動性と下値安定・発見が増加・業種の物語が明瞭",
       "observed_inflow_reasons": "当日売買代金が20日平均の1.53倍・当日出来高が20日平均の1.49倍・株価-3.4%・陽線-4.0%",
       "sakata_pattern": "該当なし",
@@ -14544,7 +15492,7 @@
       "retail_action_score": 0.6481515203796365,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.6378180332617375,
+      "retail_flow_score": 0.6378180332617376,
       "retail_attention_hybrid_score": 0.6525368364314994,
       "retail_flow_reasons": "流動性と下値安定・買い行動を確認・上昇期待が初動",
       "observed_inflow_reasons": "当日売買代金が20日平均の1.10倍・当日出来高が20日平均の1.06倍・上昇日に出来高が集中",
@@ -15534,8 +16482,8 @@
       "retail_action_score": 0.5832740272124234,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5832485508068781,
-      "retail_attention_hybrid_score": 0.5618325764781867,
+      "retail_flow_score": 0.5832485508068782,
+      "retail_attention_hybrid_score": 0.5618325764781869,
       "retail_flow_reasons": "流動性と下値安定・発見が増加・上昇期待が初動",
       "observed_inflow_reasons": "当日出来高が20日平均の1.23倍・当日売買代金が20日平均の1.26倍・株価+0.9%・陽線+0.9%",
       "sakata_pattern": "該当なし",
@@ -15732,7 +16680,7 @@
       "retail_action_score": 0.566693311316162,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5425602609716512,
+      "retail_flow_score": 0.5425602609716513,
       "retail_attention_hybrid_score": 0.6395541832825586,
       "retail_flow_reasons": "発見が増加・買い行動を確認",
       "observed_inflow_reasons": "当日売買代金が20日平均の1.22倍・当日出来高が20日平均の1.18倍・上昇日に出来高が集中",
@@ -16920,7 +17868,7 @@
       "retail_action_score": 0.4268739796819979,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.4838944418259224,
+      "retail_flow_score": 0.48389444182592245,
       "retail_attention_hybrid_score": 0.5090027427445019,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "当日出来高が20日平均の1.30倍・当日売買代金が20日平均の1.26倍・株価-0.3%・陽線-0.3%",
@@ -18108,7 +19056,7 @@
       "retail_action_score": 0.5225000035950778,
       "retail_overheat_penalty": 0.07603846862987025,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.48351849082509296,
+      "retail_flow_score": 0.48351849082509313,
       "retail_attention_hybrid_score": 0.5298954055205398,
       "retail_flow_reasons": "注意・期待・行動の一致待ち",
       "observed_inflow_reasons": "当日売買代金が20日平均の1.11倍・当日出来高が20日平均の1.04倍・上昇日に出来高が集中",
@@ -18438,7 +19386,7 @@
       "retail_action_score": 0.4902160643794967,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.49190734098912187,
+      "retail_flow_score": 0.4919073409891218,
       "retail_attention_hybrid_score": 0.4816364833161454,
       "retail_flow_reasons": "流動性と下値安定・発見が増加",
       "observed_inflow_reasons": "当日出来高が20日平均の1.23倍・当日売買代金が20日平均の1.19倍・株価-0.7%・陽線-0.7%",
@@ -18570,7 +19518,7 @@
       "retail_action_score": 0.4937524526559506,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5500033300873778,
+      "retail_flow_score": 0.5500033300873779,
       "retail_attention_hybrid_score": 0.5411429102102465,
       "retail_flow_reasons": "流動性と下値安定・発見が増加",
       "observed_inflow_reasons": "当日出来高が20日平均の1.20倍・当日売買代金が20日平均の1.20倍・株価-2.4%・陽線-1.6%",
@@ -18768,7 +19716,7 @@
       "retail_action_score": 0.5095329775053371,
       "retail_overheat_penalty": 0.06332338669075817,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5149104942248958,
+      "retail_flow_score": 0.5149104942248959,
       "retail_attention_hybrid_score": 0.5010188703872085,
       "retail_flow_reasons": "発見が増加",
       "observed_inflow_reasons": "当日売買代金が20日平均の1.10倍・当日出来高が20日平均の1.06倍・上昇日に出来高が集中",
@@ -19560,7 +20508,7 @@
       "retail_action_score": 0.6540950081510163,
       "retail_overheat_penalty": 0.031093164229095863,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.6882939097793598,
+      "retail_flow_score": 0.6882939097793599,
       "retail_attention_hybrid_score": 0.7384750734963295,
       "retail_flow_reasons": "業種の物語が明瞭・上昇期待が初動・買い行動を確認",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.98倍・当日出来高が20日平均の0.90倍",
@@ -19824,7 +20772,7 @@
       "retail_action_score": 0.6767615069561281,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.6386652826895609,
+      "retail_flow_score": 0.638665282689561,
       "retail_attention_hybrid_score": 0.7111186541940108,
       "retail_flow_reasons": "発見が増加・買い行動を確認・流動性と下値安定",
       "observed_inflow_reasons": "当日出来高が20日平均の1.13倍・当日売買代金が20日平均の1.13倍・株価-0.8%・陽線-0.8%",
@@ -20946,7 +21894,7 @@
       "retail_action_score": 0.5228915749593304,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.08736699017436417,
-      "retail_flow_score": 0.48861070727237016,
+      "retail_flow_score": 0.48861070727237027,
       "retail_attention_hybrid_score": 0.4488027879072861,
       "retail_flow_reasons": "発見が増加",
       "observed_inflow_reasons": "当日売買代金が20日平均の1.06倍・当日出来高が20日平均の0.97倍・上昇日に出来高が集中",
@@ -21012,8 +21960,8 @@
       "retail_action_score": 0.5985566695651536,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.6813667342801062,
-      "retail_attention_hybrid_score": 0.6719178958176992,
+      "retail_flow_score": 0.6813667342801063,
+      "retail_attention_hybrid_score": 0.6719178958176993,
       "retail_flow_reasons": "上昇期待が初動・流動性と下値安定・業種の物語が明瞭",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.96倍・当日出来高が20日平均の0.90倍・上昇日に出来高が集中",
       "sakata_pattern": "該当なし",
@@ -23982,7 +24930,7 @@
       "retail_action_score": 0.6344444564842079,
       "retail_overheat_penalty": 0.18627450980392163,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5645669378376681,
+      "retail_flow_score": 0.5645669378376682,
       "retail_attention_hybrid_score": 0.4356925394718475,
       "retail_flow_reasons": "発見が増加・買い行動を確認",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.78倍・当日出来高が20日平均の0.70倍",
@@ -24906,7 +25854,7 @@
       "retail_action_score": 0.4395063393268828,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.6400163213334013,
+      "retail_flow_score": 0.6400163213334014,
       "retail_attention_hybrid_score": 0.7012770792769615,
       "retail_flow_reasons": "業種の物語が明瞭・流動性と下値安定・上昇期待が初動",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.96倍・当日出来高が20日平均の0.93倍・株価-1.1%・陽線-1.1%",
@@ -25632,7 +26580,7 @@
       "retail_action_score": 0.3790939815994169,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.010823280201469988,
-      "retail_flow_score": 0.4290452647186654,
+      "retail_flow_score": 0.42904526471866544,
       "retail_attention_hybrid_score": 0.37627372846923446,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "当日出来高が20日平均の0.90倍・当日売買代金が20日平均の0.90倍・株価-2.5%・陽線-4.2%",
@@ -25698,7 +26646,7 @@
       "retail_action_score": 0.5245550256329048,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5713668479206347,
+      "retail_flow_score": 0.5713668479206349,
       "retail_attention_hybrid_score": 0.6268935070600923,
       "retail_flow_reasons": "発見が増加・流動性と下値安定",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.90倍・当日出来高が20日平均の0.87倍・株価-2.2%・陽線-2.2%",
@@ -26226,7 +27174,7 @@
       "retail_action_score": 0.47335409996207223,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.49767712244488266,
+      "retail_flow_score": 0.4976771224448827,
       "retail_attention_hybrid_score": 0.6492213246299099,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "当日出来高が20日平均の0.82倍・当日売買代金が20日平均の0.82倍・上昇日に出来高が集中",
@@ -26688,8 +27636,8 @@
       "retail_action_score": 0.37434354380082674,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.2677261764469169,
-      "retail_flow_score": 0.391240728169337,
-      "retail_attention_hybrid_score": 0.32531275343105304,
+      "retail_flow_score": 0.3912407281693371,
+      "retail_attention_hybrid_score": 0.3253127534310531,
       "retail_flow_reasons": "注意・期待・行動の一致待ち",
       "observed_inflow_reasons": "当日出来高が20日平均の0.94倍・当日売買代金が20日平均の0.86倍・株価-3.7%・陽線-1.7%",
       "sakata_pattern": "該当なし",
@@ -27282,8 +28230,8 @@
       "retail_action_score": 0.5476398099844015,
       "retail_overheat_penalty": 0.2155567394778903,
       "retail_loss_anxiety_penalty": 0.25,
-      "retail_flow_score": 0.4367240143952398,
-      "retail_attention_hybrid_score": 0.40035938390839176,
+      "retail_flow_score": 0.4367240143952399,
+      "retail_attention_hybrid_score": 0.4003593839083918,
       "retail_flow_reasons": "発見が増加",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.90倍・当日出来高が20日平均の0.86倍・株価-1.8%・陽線-1.8%",
       "sakata_pattern": "該当なし",
@@ -27348,8 +28296,8 @@
       "retail_action_score": 0.40678624464431373,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.44579965986698195,
-      "retail_attention_hybrid_score": 0.4663199247062603,
+      "retail_flow_score": 0.445799659866982,
+      "retail_attention_hybrid_score": 0.4663199247062604,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "当日出来高が20日平均の0.88倍・当日売買代金が20日平均の0.88倍・株価+0.1%・陽線+0.4%",
       "sakata_pattern": "該当なし",
@@ -28998,8 +29946,8 @@
       "retail_action_score": 0.5941559700705152,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5614509124921718,
-      "retail_attention_hybrid_score": 0.6347832247953138,
+      "retail_flow_score": 0.5614509124921719,
+      "retail_attention_hybrid_score": 0.6347832247953139,
       "retail_flow_reasons": "流動性と下値安定・買い行動を確認・発見が増加",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.77倍・当日出来高が20日平均の0.75倍",
       "sakata_pattern": "該当なし",
@@ -29988,8 +30936,8 @@
       "retail_action_score": 0.3757947938948362,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.28902027027027033,
-      "retail_flow_score": 0.4148846574146713,
-      "retail_attention_hybrid_score": 0.24792957385453254,
+      "retail_flow_score": 0.4148846574146714,
+      "retail_attention_hybrid_score": 0.24792957385453257,
       "retail_flow_reasons": "注意・期待・行動の一致待ち",
       "observed_inflow_reasons": "当日出来高が20日平均の0.79倍・当日売買代金が20日平均の0.78倍・株価-6.1%・陽線-6.1%",
       "sakata_pattern": "該当なし",
@@ -30780,8 +31728,8 @@
       "retail_action_score": 0.3794946873277924,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.7798638346399831,
-      "retail_flow_score": 0.30206861062261503,
-      "retail_attention_hybrid_score": 0.2683641163157518,
+      "retail_flow_score": 0.3020686106226151,
+      "retail_attention_hybrid_score": 0.26836411631575185,
       "retail_flow_reasons": "注意・期待・行動の一致待ち",
       "observed_inflow_reasons": "当日出来高が20日平均の0.86倍・当日売買代金が20日平均の0.74倍・株価-3.8%・陽線-7.9%",
       "sakata_pattern": "該当なし",
@@ -31506,8 +32454,8 @@
       "retail_action_score": 0.3732573958312626,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5181880136342997,
-      "retail_attention_hybrid_score": 0.5130358660685516,
+      "retail_flow_score": 0.5181880136342998,
+      "retail_attention_hybrid_score": 0.5130358660685517,
       "retail_flow_reasons": "業種の物語が明瞭・上昇期待が初動・流動性と下値安定",
       "observed_inflow_reasons": "当日出来高が20日平均の0.77倍・当日売買代金が20日平均の0.78倍・株価-2.0%・陽線-2.3%",
       "sakata_pattern": "該当なし",
@@ -32892,7 +33840,7 @@
       "retail_action_score": 0.52308107234544,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5916774663708153,
+      "retail_flow_score": 0.5916774663708154,
       "retail_attention_hybrid_score": 0.5220377684828141,
       "retail_flow_reasons": "上昇期待が初動・流動性と下値安定・発見が増加",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.71倍・当日出来高が20日平均の0.69倍・株価+0.7%・陽線+0.3%",
@@ -33288,7 +34236,7 @@
       "retail_action_score": 0.5155321451828503,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5202940179355489,
+      "retail_flow_score": 0.520294017935549,
       "retail_attention_hybrid_score": 0.5192289112397945,
       "retail_flow_reasons": "上昇期待が初動",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.65倍・当日出来高が20日平均の0.60倍",
@@ -33354,7 +34302,7 @@
       "retail_action_score": 0.46924777029647247,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.51702429587445,
+      "retail_flow_score": 0.5170242958744501,
       "retail_attention_hybrid_score": 0.46006293027765577,
       "retail_flow_reasons": "流動性と下値安定・発見が増加",
       "observed_inflow_reasons": "当日出来高が20日平均の0.72倍・当日売買代金が20日平均の0.73倍・株価-2.0%・陽線-1.7%",
@@ -33486,7 +34434,7 @@
       "retail_action_score": 0.6750726815102986,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.772238576758295,
+      "retail_flow_score": 0.7722385767582951,
       "retail_attention_hybrid_score": 0.7578020754385526,
       "retail_flow_reasons": "流動性と下値安定・業種の物語が明瞭・上昇期待が初動",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.66倍・当日出来高が20日平均の0.64倍・株価+3.1%・陽線+0.9%",
@@ -33816,8 +34764,8 @@
       "retail_action_score": 0.5305712773488458,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5784894559982049,
-      "retail_attention_hybrid_score": 0.6302135175082229,
+      "retail_flow_score": 0.578489455998205,
+      "retail_attention_hybrid_score": 0.630213517508223,
       "retail_flow_reasons": "上昇期待が初動・流動性と下値安定",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.67倍・当日出来高が20日平均の0.65倍",
       "sakata_pattern": "該当なし",
@@ -34410,7 +35358,7 @@
       "retail_action_score": 0.49169280261433,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5723100347764088,
+      "retail_flow_score": 0.572310034776409,
       "retail_attention_hybrid_score": 0.6050100397546894,
       "retail_flow_reasons": "流動性と下値安定・上昇期待が初動",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.66倍・当日出来高が20日平均の0.65倍・株価+2.4%・陽線+2.1%",
@@ -34476,8 +35424,8 @@
       "retail_action_score": 0.420778413353706,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.3721054387656122,
-      "retail_attention_hybrid_score": 0.3179868689911854,
+      "retail_flow_score": 0.3721054387656123,
+      "retail_attention_hybrid_score": 0.31798686899118545,
       "retail_flow_reasons": "注意・期待・行動の一致待ち",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日出来高が20日平均の0.60倍・当日売買代金が20日平均の0.58倍",
       "sakata_pattern": "該当なし",
@@ -34542,7 +35490,7 @@
       "retail_action_score": 0.4091611361324315,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.48782728540280446,
+      "retail_flow_score": 0.4878272854028045,
       "retail_attention_hybrid_score": 0.3875633811551986,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "当日出来高が20日平均の0.72倍・当日売買代金が20日平均の0.73倍・株価+0.0%・陽線+0.0%",
@@ -35466,8 +36414,8 @@
       "retail_action_score": 0.5407441727313169,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5362253391537919,
-      "retail_attention_hybrid_score": 0.5795372906942852,
+      "retail_flow_score": 0.536225339153792,
+      "retail_attention_hybrid_score": 0.5795372906942853,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.66倍・当日出来高が20日平均の0.64倍",
       "sakata_pattern": "該当なし",
@@ -35796,7 +36744,7 @@
       "retail_action_score": 0.47945782374399565,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5540057837445775,
+      "retail_flow_score": 0.5540057837445777,
       "retail_attention_hybrid_score": 0.6330730991696787,
       "retail_flow_reasons": "流動性と下値安定・上昇期待が初動",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日出来高が20日平均の0.64倍・当日売買代金が20日平均の0.64倍",
@@ -36126,8 +37074,8 @@
       "retail_action_score": 0.3491879383653065,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.38125922461658623,
-      "retail_attention_hybrid_score": 0.4678282369035006,
+      "retail_flow_score": 0.38125922461658635,
+      "retail_attention_hybrid_score": 0.46782823690350067,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.64倍・当日出来高が20日平均の0.63倍",
       "sakata_pattern": "該当なし",
@@ -37710,8 +38658,8 @@
       "retail_action_score": 0.46926917386007344,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.025540540540540595,
-      "retail_flow_score": 0.4821523449446206,
-      "retail_attention_hybrid_score": 0.49850225909719303,
+      "retail_flow_score": 0.4821523449446207,
+      "retail_attention_hybrid_score": 0.4985022590971931,
       "retail_flow_reasons": "業種の物語が明瞭・素材・化学へ資金回転",
       "observed_inflow_reasons": "当日出来高が20日平均の0.66倍・当日売買代金が20日平均の0.64倍・株価-1.5%・陽線-1.3%",
       "sakata_pattern": "該当なし",
@@ -37908,8 +38856,8 @@
       "retail_action_score": 0.5392462827655953,
       "retail_overheat_penalty": 0.08393152797716354,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5829932129517106,
-      "retail_attention_hybrid_score": 0.5769059489868184,
+      "retail_flow_score": 0.5829932129517108,
+      "retail_attention_hybrid_score": 0.5769059489868185,
       "retail_flow_reasons": "上昇期待が初動・流動性と下値安定",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.62倍・当日出来高が20日平均の0.59倍",
       "sakata_pattern": "該当なし",
@@ -39690,8 +40638,8 @@
       "retail_action_score": 0.5258321389478433,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.06922787745010256,
-      "retail_flow_score": 0.5326819194411533,
-      "retail_attention_hybrid_score": 0.5524370761114807,
+      "retail_flow_score": 0.5326819194411534,
+      "retail_attention_hybrid_score": 0.5524370761114809,
       "retail_flow_reasons": "上昇期待が初動",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.61倍・当日出来高が20日平均の0.59倍",
       "sakata_pattern": "該当なし",
@@ -39756,7 +40704,7 @@
       "retail_action_score": 0.6591390074325659,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.6183445251165017,
+      "retail_flow_score": 0.6183445251165018,
       "retail_attention_hybrid_score": 0.5488936530100396,
       "retail_flow_reasons": "業種の物語が明瞭・流動性と下値安定・発見が増加",
       "observed_inflow_reasons": "当日出来高が20日平均の0.62倍・当日売買代金が20日平均の0.61倍・株価+1.7%・陽線+1.3%",
@@ -40482,8 +41430,8 @@
       "retail_action_score": 0.49614554045346604,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5070255840864315,
-      "retail_attention_hybrid_score": 0.6203266597795085,
+      "retail_flow_score": 0.5070255840864316,
+      "retail_attention_hybrid_score": 0.6203266597795086,
       "retail_flow_reasons": "流動性と下値安定・上昇期待が初動",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日出来高が20日平均の0.54倍・当日売買代金が20日平均の0.54倍",
       "sakata_pattern": "該当なし",
@@ -40614,8 +41562,8 @@
       "retail_action_score": 0.5615433961203007,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.577668251013022,
-      "retail_attention_hybrid_score": 0.6112320182930885,
+      "retail_flow_score": 0.5776682510130221,
+      "retail_attention_hybrid_score": 0.6112320182930886,
       "retail_flow_reasons": "流動性と下値安定・上昇期待が初動・買い行動を確認",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.58倍・当日出来高が20日平均の0.57倍",
       "sakata_pattern": "該当なし",
@@ -41472,8 +42420,8 @@
       "retail_action_score": 0.5334459780831939,
       "retail_overheat_penalty": 0.2442508710801396,
       "retail_loss_anxiety_penalty": 0.08615639885670624,
-      "retail_flow_score": 0.42101703809813307,
-      "retail_attention_hybrid_score": 0.374086354827499,
+      "retail_flow_score": 0.4210170380981331,
+      "retail_attention_hybrid_score": 0.3740863548274991,
       "retail_flow_reasons": "発見が増加",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.63倍・当日出来高が20日平均の0.55倍",
       "sakata_pattern": "該当なし",
@@ -42264,7 +43212,7 @@
       "retail_action_score": 0.4414396784145092,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.48529538067434047,
+      "retail_flow_score": 0.4852953806743405,
       "retail_attention_hybrid_score": 0.4935626049477696,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "当日出来高が20日平均の0.62倍・当日売買代金が20日平均の0.61倍・株価-1.4%・陽線-2.3%",
@@ -42924,7 +43872,7 @@
       "retail_action_score": 0.5223077290257157,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.6290734974063356,
+      "retail_flow_score": 0.6290734974063357,
       "retail_attention_hybrid_score": 0.5875392155083499,
       "retail_flow_reasons": "上昇期待が初動・業種の物語が明瞭・流動性と下値安定",
       "observed_inflow_reasons": "株価+3.3%・陽線+1.5%・当日売買代金が20日平均の0.55倍・当日出来高が20日平均の0.53倍",
@@ -43188,7 +44136,7 @@
       "retail_action_score": 0.48343220606479054,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5401779534851835,
+      "retail_flow_score": 0.5401779534851836,
       "retail_attention_hybrid_score": 0.5363781770964382,
       "retail_flow_reasons": "流動性と下値安定・上昇期待が初動",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.56倍・当日出来高が20日平均の0.54倍・株価+2.2%・陽線+1.1%",
@@ -43386,8 +44334,8 @@
       "retail_action_score": 0.3282806566086501,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.1595498180378315,
-      "retail_flow_score": 0.3820932834957495,
-      "retail_attention_hybrid_score": 0.33687903504680455,
+      "retail_flow_score": 0.38209328349574956,
+      "retail_attention_hybrid_score": 0.3368790350468046,
       "retail_flow_reasons": "業種の物語が明瞭・素材・化学へ資金回転",
       "observed_inflow_reasons": "当日出来高が20日平均の0.61倍・当日売買代金が20日平均の0.59倍・株価-2.1%・陽線-2.1%",
       "sakata_pattern": "該当なし",
@@ -43584,8 +44532,8 @@
       "retail_action_score": 0.403508972223384,
       "retail_overheat_penalty": 0.04430955993930192,
       "retail_loss_anxiety_penalty": 0.20899209226513407,
-      "retail_flow_score": 0.4477574056360767,
-      "retail_attention_hybrid_score": 0.4798049252219551,
+      "retail_flow_score": 0.44775740563607674,
+      "retail_attention_hybrid_score": 0.47980492522195517,
       "retail_flow_reasons": "業種の物語が明瞭・上昇期待が初動・商社・卸売へ資金回転",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.59倍・当日出来高が20日平均の0.54倍",
       "sakata_pattern": "該当なし",
@@ -43782,8 +44730,8 @@
       "retail_action_score": 0.6334383403093568,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5900215498148301,
-      "retail_attention_hybrid_score": 0.5869254862131317,
+      "retail_flow_score": 0.5900215498148302,
+      "retail_attention_hybrid_score": 0.5869254862131318,
       "retail_flow_reasons": "発見が増加・買い行動を確認",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.52倍・当日出来高が20日平均の0.50倍",
       "sakata_pattern": "逆三山",
@@ -45102,8 +46050,8 @@
       "retail_action_score": 0.6439219774488489,
       "retail_overheat_penalty": 0.047981545559400325,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5749577469117173,
-      "retail_attention_hybrid_score": 0.43663188322306545,
+      "retail_flow_score": 0.5749577469117175,
+      "retail_attention_hybrid_score": 0.43663188322306556,
       "retail_flow_reasons": "発見が増加・買い行動を確認",
       "observed_inflow_reasons": "株価+3.4%・陽線+3.4%・当日売買代金が20日平均の0.51倍・当日出来高が20日平均の0.47倍",
       "sakata_pattern": "逆三山",
@@ -45564,7 +46512,7 @@
       "retail_action_score": 0.5682743191539839,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.49963157161923205,
-      "retail_flow_score": 0.3884099424103954,
+      "retail_flow_score": 0.38840994241039545,
       "retail_attention_hybrid_score": 0.3639997698532721,
       "retail_flow_reasons": "業種の物語が明瞭・発見が増加・買い行動を確認",
       "observed_inflow_reasons": "当日出来高が20日平均の0.61倍・当日売買代金が20日平均の0.54倍・株価-1.2%・陽線-2.9%",
@@ -47148,7 +48096,7 @@
       "retail_action_score": 0.3667092703197224,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.47613227317231127,
+      "retail_flow_score": 0.4761322731723113,
       "retail_attention_hybrid_score": 0.5315189124432976,
       "retail_flow_reasons": "流動性と下値安定・上昇期待が初動",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.46倍・当日出来高が20日平均の0.44倍",
@@ -47412,8 +48360,8 @@
       "retail_action_score": 0.5189294265573801,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5290544304962309,
-      "retail_attention_hybrid_score": 0.537923102467799,
+      "retail_flow_score": 0.529054430496231,
+      "retail_attention_hybrid_score": 0.5379231024677991,
       "retail_flow_reasons": "発見が増加",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.46倍・当日出来高が20日平均の0.44倍",
       "sakata_pattern": "該当なし",
@@ -49128,8 +50076,8 @@
       "retail_action_score": 0.46435222533550086,
       "retail_overheat_penalty": 0.18079470198675468,
       "retail_loss_anxiety_penalty": 0.016616406012225776,
-      "retail_flow_score": 0.46119553836579563,
-      "retail_attention_hybrid_score": 0.3713499420544545,
+      "retail_flow_score": 0.46119553836579574,
+      "retail_attention_hybrid_score": 0.3713499420544546,
       "retail_flow_reasons": "発見が増加",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.55倍・当日出来高が20日平均の0.54倍・株価-1.1%・陽線-2.2%",
       "sakata_pattern": "該当なし",
@@ -50382,7 +51330,7 @@
       "retail_action_score": 0.3558159162464857,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.42266451516446635,
+      "retail_flow_score": 0.4226645151644664,
       "retail_attention_hybrid_score": 0.4186459688197788,
       "retail_flow_reasons": "注意・期待・行動の一致待ち",
       "observed_inflow_reasons": "当日出来高が20日平均の0.52倍・当日売買代金が20日平均の0.52倍・株価+0.0%・陽線+0.0%",
@@ -50514,7 +51462,7 @@
       "retail_action_score": 0.638394684783588,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.6383853154319465,
+      "retail_flow_score": 0.6383853154319468,
       "retail_attention_hybrid_score": 0.6880143117500046,
       "retail_flow_reasons": "流動性と下値安定・上昇期待が初動・買い行動を確認",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.41倍・当日出来高が20日平均の0.40倍",
@@ -50778,7 +51726,7 @@
       "retail_action_score": 0.3521964053450223,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.12328560798008184,
-      "retail_flow_score": 0.3681872997852369,
+      "retail_flow_score": 0.36818729978523695,
       "retail_attention_hybrid_score": 0.36182340465295004,
       "retail_flow_reasons": "業種の物語が明瞭・素材・化学へ資金回転",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日出来高が20日平均の0.48倍・当日売買代金が20日平均の0.45倍",
@@ -52626,8 +53574,8 @@
       "retail_action_score": 0.45897664626635437,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5460893379363692,
-      "retail_attention_hybrid_score": 0.5934597979600651,
+      "retail_flow_score": 0.5460893379363693,
+      "retail_attention_hybrid_score": 0.5934597979600652,
       "retail_flow_reasons": "業種の物語が明瞭・流動性と下値安定・上昇期待が初動",
       "observed_inflow_reasons": "当日出来高が20日平均の0.47倍・当日売買代金が20日平均の0.47倍・株価+0.5%・陽線+0.5%",
       "sakata_pattern": "該当なし",
@@ -53154,8 +54102,8 @@
       "retail_action_score": 0.41738230322676373,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.4758277976951397,
-      "retail_attention_hybrid_score": 0.46998783597788235,
+      "retail_flow_score": 0.47582779769513983,
+      "retail_attention_hybrid_score": 0.4699878359778824,
       "retail_flow_reasons": "上昇期待が初動・流動性と下値安定",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.39倍・株価+1.0%・陽線+1.0%",
       "sakata_pattern": "該当なし",
@@ -53946,7 +54894,7 @@
       "retail_action_score": 0.37798106499232387,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.46269001544721955,
+      "retail_flow_score": 0.46269001544721966,
       "retail_attention_hybrid_score": 0.4140258986859954,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "当日出来高が20日平均の0.46倍・当日売買代金が20日平均の0.45倍・株価+0.3%・陽線+0.6%",
@@ -54738,7 +55686,7 @@
       "retail_action_score": 0.4151771357019561,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.4959479329304593,
+      "retail_flow_score": 0.49594793293045936,
       "retail_attention_hybrid_score": 0.5262730366736205,
       "retail_flow_reasons": "流動性と下値安定・業種の物語が明瞭・上昇期待が初動",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.46倍・当日出来高が20日平均の0.46倍・株価-0.3%・陽線-0.3%",
@@ -55200,8 +56148,8 @@
       "retail_action_score": 0.4384383890903137,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.06025133057362503,
-      "retail_flow_score": 0.429854856723049,
-      "retail_attention_hybrid_score": 0.3817516887636795,
+      "retail_flow_score": 0.42985485672304913,
+      "retail_attention_hybrid_score": 0.3817516887636796,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "当日出来高が20日平均の0.46倍・当日売買代金が20日平均の0.45倍・株価-0.6%・陽線-1.5%",
       "sakata_pattern": "該当なし",
@@ -55926,8 +56874,8 @@
       "retail_action_score": 0.48709709315633365,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.04340226211736451,
-      "retail_flow_score": 0.5283383467326859,
-      "retail_attention_hybrid_score": 0.5913123622947681,
+      "retail_flow_score": 0.528338346732686,
+      "retail_attention_hybrid_score": 0.5913123622947682,
       "retail_flow_reasons": "業種の物語が明瞭・上昇期待が初動・素材・化学へ資金回転",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.39倍・当日出来高が20日平均の0.37倍",
       "sakata_pattern": "該当なし",
@@ -56256,7 +57204,7 @@
       "retail_action_score": 0.4238078010584549,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5190010524937124,
+      "retail_flow_score": 0.5190010524937125,
       "retail_attention_hybrid_score": 0.6432580929172121,
       "retail_flow_reasons": "流動性と下値安定・上昇期待が初動・業種の物語が明瞭",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.33倍・当日出来高が20日平均の0.32倍",
@@ -56586,8 +57534,8 @@
       "retail_action_score": 0.2831690116020569,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.4259439769158023,
-      "retail_attention_hybrid_score": 0.45049951583713055,
+      "retail_flow_score": 0.4259439769158024,
+      "retail_attention_hybrid_score": 0.4504995158371306,
       "retail_flow_reasons": "流動性と下値安定・上昇期待が初動",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.44倍・当日出来高が20日平均の0.43倍・株価+0.0%・陽線+0.0%",
       "sakata_pattern": "該当なし",
@@ -57708,8 +58656,8 @@
       "retail_action_score": 0.4958149482836909,
       "retail_overheat_penalty": 0.3,
       "retail_loss_anxiety_penalty": 0.2591836734693877,
-      "retail_flow_score": 0.3758679365549347,
-      "retail_attention_hybrid_score": 0.3694437982011842,
+      "retail_flow_score": 0.3758679365549348,
+      "retail_attention_hybrid_score": 0.3694437982011843,
       "retail_flow_reasons": "注意・期待・行動の一致待ち",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.41倍・当日出来高が20日平均の0.39倍",
       "sakata_pattern": "該当なし",
@@ -58566,8 +59514,8 @@
       "retail_action_score": 0.2723250013238954,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.27167492394327825,
-      "retail_flow_score": 0.33694235672079415,
-      "retail_attention_hybrid_score": 0.35463553423680994,
+      "retail_flow_score": 0.33694235672079426,
+      "retail_attention_hybrid_score": 0.35463553423681,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日出来高が20日平均の0.37倍・当日売買代金が20日平均の0.34倍",
       "sakata_pattern": "該当なし",
@@ -59160,7 +60108,7 @@
       "retail_action_score": 0.305895112135698,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.3928810515956158,
+      "retail_flow_score": 0.39288105159561587,
       "retail_attention_hybrid_score": 0.3715348292708397,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.32倍・株価+0.9%・陽線+0.3%・当日出来高が20日平均の0.31倍",
@@ -59556,7 +60504,7 @@
       "retail_action_score": 0.36207981032963626,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.4375423898991921,
+      "retail_flow_score": 0.43754238989919214,
       "retail_attention_hybrid_score": 0.49540737071674135,
       "retail_flow_reasons": "流動性と下値安定・上昇期待が初動",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.36倍・当日出来高が20日平均の0.35倍・株価+0.0%・陽線-0.5%",
@@ -59952,7 +60900,7 @@
       "retail_action_score": 0.379940447777853,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.02580282829820362,
-      "retail_flow_score": 0.3712936647648503,
+      "retail_flow_score": 0.3712936647648504,
       "retail_attention_hybrid_score": 0.3858166723915819,
       "retail_flow_reasons": "業種の物語が明瞭・自動車・輸送機へ資金回転",
       "observed_inflow_reasons": "当日出来高が20日平均の0.37倍・当日売買代金が20日平均の0.35倍・株価+0.3%・陽線+0.2%",
@@ -60942,8 +61890,8 @@
       "retail_action_score": 0.4672767818898688,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5160067719561665,
-      "retail_attention_hybrid_score": 0.4644474099910263,
+      "retail_flow_score": 0.5160067719561666,
+      "retail_attention_hybrid_score": 0.4644474099910264,
       "retail_flow_reasons": "流動性と下値安定・発見が増加",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.35倍・当日出来高が20日平均の0.35倍・株価-0.2%・陽線+1.3%",
       "sakata_pattern": "該当なし",
@@ -61140,7 +62088,7 @@
       "retail_action_score": 0.3981423925649403,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.49076061007874405,
+      "retail_flow_score": 0.4907606100787441,
       "retail_attention_hybrid_score": 0.5560285742902468,
       "retail_flow_reasons": "業種の物語が明瞭・流動性と下値安定・上昇期待が初動",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.26倍・当日出来高が20日平均の0.26倍・株価+0.2%・陽線+0.9%",
@@ -61734,8 +62682,8 @@
       "retail_action_score": 0.42875341452367627,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.4538751977755996,
-      "retail_attention_hybrid_score": 0.4830449788504051,
+      "retail_flow_score": 0.4538751977755997,
+      "retail_attention_hybrid_score": 0.48304497885040515,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.32倍・当日出来高が20日平均の0.31倍・株価+0.0%・陽線+0.0%",
       "sakata_pattern": "該当なし",
@@ -62064,8 +63012,8 @@
       "retail_action_score": 0.6354656932826915,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.6161866873286637,
-      "retail_attention_hybrid_score": 0.6090735780948346,
+      "retail_flow_score": 0.6161866873286639,
+      "retail_attention_hybrid_score": 0.6090735780948348,
       "retail_flow_reasons": "発見が増加・買い行動を確認",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.32倍・当日出来高が20日平均の0.31倍・株価+0.8%・陽線+0.0%",
       "sakata_pattern": "該当なし",
@@ -62130,7 +63078,7 @@
       "retail_action_score": 0.2652124266931243,
       "retail_overheat_penalty": 0.024645293107531715,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.43384716686318514,
+      "retail_flow_score": 0.4338471668631852,
       "retail_attention_hybrid_score": 0.4261789152988928,
       "retail_flow_reasons": "上昇期待が初動・業種の物語が明瞭・素材・化学へ資金回転",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.35倍・当日出来高が20日平均の0.33倍・株価+0.2%・陽線+0.2%",
@@ -62526,8 +63474,8 @@
       "retail_action_score": 0.5120650759347747,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5128239523834773,
-      "retail_attention_hybrid_score": 0.43665491970477155,
+      "retail_flow_score": 0.5128239523834774,
+      "retail_attention_hybrid_score": 0.4366549197047716,
       "retail_flow_reasons": "発見が増加",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日出来高が20日平均の0.06倍・当日売買代金が20日平均の0.06倍",
       "sakata_pattern": "該当なし",
@@ -62856,7 +63804,7 @@
       "retail_action_score": 0.3076769087094301,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.8263869642680393,
-      "retail_flow_score": 0.26410658177160556,
+      "retail_flow_score": 0.2641065817716056,
       "retail_attention_hybrid_score": 0.1268108649146426,
       "retail_flow_reasons": "注意・期待・行動の一致待ち",
       "observed_inflow_reasons": "当日出来高が20日平均の0.36倍・当日売買代金が20日平均の0.30倍・株価-14.1%・陽線-3.4%",
@@ -62988,8 +63936,8 @@
       "retail_action_score": 0.5515222103992522,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.5399308367578974,
-      "retail_attention_hybrid_score": 0.5446543526180702,
+      "retail_flow_score": 0.5399308367578975,
+      "retail_attention_hybrid_score": 0.5446543526180703,
       "retail_flow_reasons": "発見が増加・買い行動を確認",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日売買代金が20日平均の0.22倍・当日出来高が20日平均の0.22倍",
       "sakata_pattern": "該当なし",
@@ -63384,7 +64332,7 @@
       "retail_action_score": 0.4567719814239987,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.45897474252199066,
+      "retail_flow_score": 0.4589747425219908,
       "retail_attention_hybrid_score": 0.5887782100716369,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "株価+0.7%・陽線+1.8%・当日売買代金が20日平均の0.21倍・当日出来高が20日平均の0.21倍",
@@ -63516,8 +64464,8 @@
       "retail_action_score": 0.3365594563384447,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.4489612684863772,
-      "retail_attention_hybrid_score": 0.48417116642689856,
+      "retail_flow_score": 0.4489612684863773,
+      "retail_attention_hybrid_score": 0.4841711664268986,
       "retail_flow_reasons": "流動性と下値安定・上昇期待が初動",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.30倍・当日出来高が20日平均の0.31倍・株価-0.1%・陽線-0.1%",
       "sakata_pattern": "該当なし",
@@ -63912,7 +64860,7 @@
       "retail_action_score": 0.3561287867403426,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.39135780143299853,
+      "retail_flow_score": 0.3913578014329986,
       "retail_attention_hybrid_score": 0.4236522894460314,
       "retail_flow_reasons": "注意・期待・行動の一致待ち",
       "observed_inflow_reasons": "上昇日に出来高が集中・当日出来高が20日平均の0.18倍・当日売買代金が20日平均の0.17倍",
@@ -66090,7 +67038,7 @@
       "retail_action_score": 0.18181181782569883,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.17348425196850395,
-      "retail_flow_score": 0.23428774292537996,
+      "retail_flow_score": 0.23428774292538002,
       "retail_attention_hybrid_score": 0.24111141818423948,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "当日出来高が20日平均の0.22倍・当日売買代金が20日平均の0.22倍・株価+0.0%・陽線-0.2%",
@@ -67278,7 +68226,7 @@
       "retail_action_score": 0.2590013228374054,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.04382352941176462,
-      "retail_flow_score": 0.2831547828133909,
+      "retail_flow_score": 0.28315478281339096,
       "retail_attention_hybrid_score": 0.2335015665060997,
       "retail_flow_reasons": "注意・期待・行動の一致待ち",
       "observed_inflow_reasons": "株価+1.4%・陽線+0.0%・当日出来高が20日平均の0.03倍・当日売買代金が20日平均の0.03倍",
@@ -67740,7 +68688,7 @@
       "retail_action_score": 0.17595160113880193,
       "retail_overheat_penalty": 0.0,
       "retail_loss_anxiety_penalty": 0.0,
-      "retail_flow_score": 0.24946463922299567,
+      "retail_flow_score": 0.24946463922299572,
       "retail_attention_hybrid_score": 0.3329664060105634,
       "retail_flow_reasons": "流動性と下値安定",
       "observed_inflow_reasons": "当日売買代金が20日平均の0.12倍・当日出来高が20日平均の0.12倍・株価+0.0%・陽線+0.0%",
