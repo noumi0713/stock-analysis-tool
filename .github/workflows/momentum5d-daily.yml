@@ -75,9 +75,10 @@ jobs:
           market_date=""
           if [ -z "$session" ]; then
             jst_hhmm="$(TZ=Asia/Tokyo date +%H%M)"
-            if [ "$jst_hhmm" -lt 1140 ]; then
+            jst_weekday="$(TZ=Asia/Tokyo date +%u)"
+            if [ "$jst_weekday" -ge 6 ] || [ "$jst_hhmm" -lt 1140 ]; then
               # 市場開始前のコード更新では、存在しない当日5分足を要求せず、
-              # 公開済みの直近営業日を新しい分析ロジックで再生成する。
+              # 休日を含め公開済みの直近営業日を新しい分析ロジックで再生成する。
               session="close"
               market_date="$(python3 - <<'PY'
           import json
@@ -102,6 +103,10 @@ jobs:
           )
           if [ -n "$market_date" ]; then
             scheduling_args+=(--market-date "$market_date")
+          fi
+          if [ "${GITHUB_EVENT_NAME:-}" = "push" ]; then
+            # 対象銘柄や分析ロジックの変更は完了済みセッションでも再生成する。
+            scheduling_args+=(--force)
           fi
           python3 "${scheduling_args[@]}"
 
