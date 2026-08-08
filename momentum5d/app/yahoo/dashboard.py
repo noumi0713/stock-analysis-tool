@@ -43,6 +43,12 @@ class DashboardExporter:
         candidates = pd.read_parquet(candidates_path)
         scores = pd.read_parquet(scores_path) if scores_path.exists() else candidates.copy()
         company_names = self._load_company_names()
+        bottom_pattern_study = analysis.get("bottom_pattern_study")
+        if isinstance(bottom_pattern_study, dict):
+            for ranking in bottom_pattern_study.get("rankings", []):
+                for example_key in ("success_examples", "failure_examples"):
+                    for example in ranking.get(example_key, []):
+                        example["company_name"] = company_names.get(str(example.get("code")))
         prices = pd.read_parquet(
             self.paths.prices_path,
             columns=[
@@ -306,6 +312,7 @@ class DashboardExporter:
                 ),
             },
             "patterns": analysis["patterns"],
+            "bottom_pattern_study": bottom_pattern_study,
             "indicator_notes": [
                 {
                     "key": "observed_inflow_score",
