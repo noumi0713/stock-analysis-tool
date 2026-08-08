@@ -18,6 +18,8 @@ class RisePatternConfig:
     test_days: int = 60
     top_n: int = 20
     transaction_cost_bps: float = 20.0
+    fixed_stop_pct: float = 0.03
+    atr_stop_multiplier: float = 2.0
 
 
 def add_latest_rise_pattern_signals(
@@ -153,9 +155,50 @@ def backtest_rise_pattern_signals(
         strategy_rows["combined"].append(combined)
 
     summaries: dict[str, Any] = {}
+    strategy_trades: dict[str, pd.DataFrame] = {}
     for name, rows in strategy_rows.items():
         trades = pd.concat(rows, ignore_index=True) if rows else pd.DataFrame()
+        strategy_trades[name] = trades
         summaries[name] = _strategy_summary(trades, test_dates, config)
+
+    pattern_trades = strategy_trades["rise_pattern"]
+    risk_management = {
+        "assumptions": {
+            "take_profit_pct": 0.05,
+            "holding_days": config.horizon_days,
+            "transaction_cost_bps": config.transaction_cost_bps,
+            "same_day_stop_and_target": "stop_first",
+            "gap_through_stop": "exit_at_open",
+            "atr_period": 14,
+        },
+        "no_stop": _risk_summary(
+            pattern_trades,
+            test_dates,
+            config,
+            return_column="rise_trade_net_return",
+            target_column="rise_trade_target_hit",
+        ),
+        "fixed_3pct": _risk_summary(
+            pattern_trades,
+            test_dates,
+            config,
+            return_column="rise_trade_fixed3_net_return",
+            target_column="rise_trade_fixed3_target_hit",
+            stop_column="rise_trade_fixed3_stop_hit",
+            ambiguous_column="rise_trade_fixed3_ambiguous_both_hit",
+            stop_distance_column="rise_trade_fixed3_stop_pct",
+        ),
+        "atr_2x": _risk_summary(
+            pattern_trades,
+            test_dates,
+            config,
+            return_column="rise_trade_atr2_net_return",
+            target_column="rise_trade_atr2_target_hit",
+            stop_column="rise_trade_atr2_stop_hit",
+            ambiguous_column="rise_trade_atr2_ambiguous_both_hit",
+            stop_distance_column="rise_trade_atr2_stop_pct",
+        ),
+    }
 
     return {
         "method": "walk_forward_rise_pattern_v1",
@@ -168,6 +211,7 @@ def backtest_rise_pattern_signals(
         "test_end": test_dates[-1].isoformat(),
         "test_days": len(test_dates),
         "strategies": summaries,
+        "rise_pattern_risk_management": risk_management,
     }
 
 
@@ -340,22 +384,39 @@ def _attach_trade_outcomes(
     ratio = frame["adjusted_close"] / frame["close"]
     adjusted_open = frame["open"] * ratio
     adjusted_high = frame["high"] * ratio
+    adjusted_low = frame["low"] * ratio
     group_key = frame["ticker"]
     entry = adjusted_open.groupby(group_key, sort=False).shift(-1)
+    future_opens = [
+        adjusted_open.groupby(group_key, sort=False).shift(-offset)
+        for offset in range(1, config.horizon_days + 1)
+    ]
     future_highs = [
         adjusted_high.groupby(group_key, sort=False).shift(-offset)
         for offset in range(1, config.horizon_days + 1)
     ]
-    future = pd.concat(future_highs, axis=1)
+    future_lows = [
+        adjusted_low.groupby(group_key, sort=False).shift(-offset)
+        for offset in range(1, config.horizon_days + 1)
+    ]
+    future_open = pd.concat(future_opens, axis=1)
+    future_high = pd.concat(future_highs, axis=1)
+    future_low = pd.concat(future_lows, axis=1)
     exit_close = frame["adjusted_close"].groupby(group_key, sort=False).shift(
         -config.horizon_days
     )
-    complete = entry.notna() & exit_close.notna() & future.notna().all(axis=1)
+    complete = (
+        entry.notna()
+        & exit_close.notna()
+        & future_open.notna().all(axis=1)
+        & future_high.notna().all(axis=1)
+        & future_low.notna().all(axis=1)
+    )
     target = entry * 1.05
-    hit = future.ge(target, axis=0).any(axis=1) & complete
+    hit = future_high.ge(target, axis=0).any(axis=1) & complete
     frame["trade_outcome_available"] = complete
     frame["rise_trade_target_hit"] = hit
-    frame["rise_trade_future_max_return"] = future.max(axis=1) / entry - 1
+    frame["rise_trade_future_max_return"] = future_high.max(axis=1) / entry - 1
     frame["rise_trade_gross_return"] = np.where(
         hit,
         0.05,
@@ -364,7 +425,98 @@ def _attach_trade_outcomes(
     frame["rise_trade_net_return"] = (
         frame["rise_trade_gross_return"] - config.transaction_cost_bps / 10_000.0
     )
+
+    fixed_stop_return = pd.Series(-config.fixed_stop_pct, index=frame.index)
+    fixed = _stopped_trade_outcome(
+        entry,
+        future_open,
+        future_high,
+        future_low,
+        exit_close,
+        complete,
+        fixed_stop_return,
+    )
+    frame["rise_trade_fixed3_stop_pct"] = config.fixed_stop_pct
+    _assign_stop_outcome(frame, "rise_trade_fixed3", fixed, config)
+
+    atr_stop_return = -(config.atr_stop_multiplier * frame["atr_14"] / entry)
+    atr = _stopped_trade_outcome(
+        entry,
+        future_open,
+        future_high,
+        future_low,
+        exit_close,
+        complete & atr_stop_return.notna(),
+        atr_stop_return,
+    )
+    frame["rise_trade_atr2_stop_pct"] = -atr_stop_return
+    _assign_stop_outcome(frame, "rise_trade_atr2", atr, config)
     return frame
+
+
+def _stopped_trade_outcome(
+    entry: pd.Series,
+    future_open: pd.DataFrame,
+    future_high: pd.DataFrame,
+    future_low: pd.DataFrame,
+    exit_close: pd.Series,
+    complete: pd.Series,
+    stop_return: pd.Series,
+) -> dict[str, pd.Series]:
+    """Resolve target/stop order conservatively from daily OHLC bars."""
+    valid = complete & stop_return.notna() & stop_return.lt(0)
+    gross_return = pd.Series(np.nan, index=entry.index, dtype=float)
+    target_hit = pd.Series(False, index=entry.index, dtype=bool)
+    stop_hit = pd.Series(False, index=entry.index, dtype=bool)
+    ambiguous_both_hit = pd.Series(False, index=entry.index, dtype=bool)
+    unresolved = valid.copy()
+    target_price = entry * 1.05
+    stop_price = entry * (1.0 + stop_return)
+
+    for day in range(future_high.shape[1]):
+        day_open = future_open.iloc[:, day]
+        day_high = future_high.iloc[:, day]
+        day_low = future_low.iloc[:, day]
+        touches_stop = day_low.le(stop_price)
+        touches_target = day_high.ge(target_price)
+        both = unresolved & touches_stop & touches_target
+        ambiguous_both_hit.loc[both] = True
+
+        gap_stop = unresolved & day_open.le(stop_price)
+        intraday_stop = unresolved & ~gap_stop & touches_stop
+        target = unresolved & ~gap_stop & ~intraday_stop & touches_target
+
+        gross_return.loc[gap_stop] = day_open.loc[gap_stop] / entry.loc[gap_stop] - 1
+        gross_return.loc[intraday_stop] = stop_return.loc[intraday_stop]
+        gross_return.loc[target] = 0.05
+        stop_hit.loc[gap_stop | intraday_stop] = True
+        target_hit.loc[target] = True
+        unresolved &= ~(gap_stop | intraday_stop | target)
+
+    gross_return.loc[unresolved] = (
+        exit_close.loc[unresolved] / entry.loc[unresolved] - 1
+    )
+    return {
+        "gross_return": gross_return,
+        "target_hit": target_hit,
+        "stop_hit": stop_hit,
+        "ambiguous_both_hit": ambiguous_both_hit,
+    }
+
+
+def _assign_stop_outcome(
+    frame: pd.DataFrame,
+    prefix: str,
+    outcome: dict[str, pd.Series],
+    config: RisePatternConfig,
+) -> None:
+    frame[f"{prefix}_gross_return"] = outcome["gross_return"]
+    frame[f"{prefix}_net_return"] = (
+        outcome["gross_return"] - config.transaction_cost_bps / 10_000.0
+    )
+    frame[f"{prefix}_target_hit"] = outcome["target_hit"]
+    frame[f"{prefix}_stop_hit"] = outcome["stop_hit"]
+    frame[f"{prefix}_ambiguous_both_hit"] = outcome["ambiguous_both_hit"]
 
 
 def _select_top(frame: pd.DataFrame, score_column: str, top_n: int) -> pd.DataFrame:
@@ -405,3 +557,65 @@ def _strategy_summary(
         "ending_equity": float(daily["equity"].iloc[-1]),
         "max_drawdown": float(daily["drawdown"].min()),
     }
+
+
+def _risk_summary(
+    trades: pd.DataFrame,
+    test_dates: list[Any],
+    config: RisePatternConfig,
+    *,
+    return_column: str,
+    target_column: str,
+    stop_column: str | None = None,
+    ambiguous_column: str | None = None,
+    stop_distance_column: str | None = None,
+) -> dict[str, Any]:
+    if trades.empty or return_column not in trades:
+        return {
+            "selected_signals": 0,
+            "target_hit_rate": None,
+            "stop_hit_rate": None,
+            "mean_trade_net_return": None,
+            "median_trade_net_return": None,
+            "trade_win_rate": None,
+            "ending_equity": 1.0,
+            "max_drawdown": 0.0,
+        }
+
+    valid = trades.loc[trades[return_column].notna()].copy()
+    if valid.empty:
+        return {
+            "selected_signals": 0,
+            "target_hit_rate": None,
+            "stop_hit_rate": None,
+            "mean_trade_net_return": None,
+            "median_trade_net_return": None,
+            "trade_win_rate": None,
+            "ending_equity": 1.0,
+            "max_drawdown": 0.0,
+        }
+
+    daily = valid.groupby("date", as_index=False)[return_column].mean()
+    daily = daily.set_index("date").reindex(test_dates, fill_value=0.0).reset_index()
+    daily["portfolio_return"] = daily[return_column] / config.horizon_days
+    daily["equity"] = (1 + daily["portfolio_return"]).cumprod()
+    daily["drawdown"] = daily["equity"] / daily["equity"].cummax() - 1
+    result: dict[str, Any] = {
+        "selected_signals": int(len(valid)),
+        "active_days": int(valid["date"].nunique()),
+        "target_hit_rate": float(valid[target_column].mean()),
+        "stop_hit_rate": (
+            float(valid[stop_column].mean()) if stop_column is not None else 0.0
+        ),
+        "mean_trade_net_return": float(valid[return_column].mean()),
+        "median_trade_net_return": float(valid[return_column].median()),
+        "trade_win_rate": float((valid[return_column] > 0).mean()),
+        "ending_equity": float(daily["equity"].iloc[-1]),
+        "max_drawdown": float(daily["drawdown"].min()),
+    }
+    if ambiguous_column is not None:
+        result["ambiguous_both_hit_rate"] = float(valid[ambiguous_column].mean())
+    if stop_distance_column is not None:
+        result["mean_stop_distance_pct"] = float(valid[stop_distance_column].mean())
+        result["median_stop_distance_pct"] = float(valid[stop_distance_column].median())
+    return result
