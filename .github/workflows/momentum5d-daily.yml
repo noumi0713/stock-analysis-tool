@@ -38,15 +38,15 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90
     defaults:
       run:
         working-directory: momentum5d
     env:
       YAHOO_RETENTION_DAYS: "365"
       YAHOO_OVERLAP_DAYS: "10"
-      YAHOO_BATCH_SIZE: "40"
-      YAHOO_PAUSE_SECONDS: "2"
+      YAHOO_BATCH_SIZE: "60"
+      YAHOO_PAUSE_SECONDS: "1.5"
       YAHOO_MAX_RETRIES: "3"
       YAHOO_TIMEOUT_SECONDS: "30"
       YAHOO_INTRADAY_MIN_COVERAGE: "0.70"
@@ -54,6 +54,14 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+
+      - name: Restore rolling Yahoo history
+        uses: actions/cache@v4
+        with:
+          path: momentum5d/data/yahoo
+          key: momentum5d-yahoo-${{ github.run_id }}
+          restore-keys: |
+            momentum5d-yahoo-
 
       - name: Select session and skip completed retries
         id: update
@@ -128,13 +136,16 @@ jobs:
           python -m pytest -q
           python -m ruff check app tests
 
+      - name: Refresh TSE stock universe from JPX
+        if: steps.update.outputs.should_run == 'true'
+        run: python app/yahoo/universe.py --config-dir config
+
       - name: Download daily and five-minute session data
         if: steps.update.outputs.should_run == 'true'
         run: >-
           python -m app yahoo-ingest
           --as-of "${{ steps.update.outputs.market_date }}"
           --tickers-file config/prime_tickers.txt
-          --full-refresh
           --intraday-session "${{ steps.update.outputs.session }}"
 
       - name: Validate downloaded data

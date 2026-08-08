@@ -15,7 +15,7 @@ dependencies = [
   "python-dotenv>=1.0,<2",
   "requests>=2.32,<3",
   "scikit-learn>=1.5,<2",
-  "yfinance>=1.5.1,<2",
+  "xlrd>=2.0,<3",\n  "yfinance>=1.5.1,<2",
 ]
 
 [project.optional-dependencies]
