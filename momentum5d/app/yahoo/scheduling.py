@@ -51,13 +51,18 @@ def main() -> int:
     parser.add_argument("--dashboard", type=Path, required=True)
     parser.add_argument("--market-date", type=date.fromisoformat, default=None)
     parser.add_argument(
+        "--force",
+        action="store_true",
+        help="完了済みセッションでも再取得・再分析する",
+    )
+    parser.add_argument(
         "--github-output",
         type=Path,
         default=Path(os.environ["GITHUB_OUTPUT"]) if os.getenv("GITHUB_OUTPUT") else None,
     )
     args = parser.parse_args()
     market_date = args.market_date or datetime.now(JST).date()
-    run = should_run(
+    run = args.force or should_run(
         args.dashboard,
         session=args.session,
         market_date=market_date,
