@@ -29,7 +29,9 @@ def build_tse_universe(frame: pd.DataFrame) -> pd.DataFrame:
 
     work = frame.copy()
     market = work["市場・商品区分"].astype("string").fillna("")
-    target = market.str.contains("内国株式", regex=False) & market.str.startswith(\n        TARGET_MARKETS\n    )
+    target = market.str.contains("内国株式", regex=False) & market.str.startswith(
+        TARGET_MARKETS
+    )
     work = work.loc[target, list(required)].copy()
 
     work["exchange_code"] = work["コード"].astype("string").str.strip().str.upper()
@@ -42,7 +44,11 @@ def build_tse_universe(frame: pd.DataFrame) -> pd.DataFrame:
     )
     work["sector_17_code"] = work["sector_17_code"].str.lstrip("0").replace("", pd.NA)
     work["sector_33_code"] = (
-        work["33業種コード"].astype("string").str.replace(r"\.0$", "", regex=True).str.strip().str.zfill(4)
+        work["33業種コード"]
+        .astype("string")
+        .str.replace(r"\\.0$", "", regex=True)
+        .str.strip()
+        .str.zfill(4)
     )
     return (
         work[
