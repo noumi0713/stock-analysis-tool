@@ -18,8 +18,8 @@ class RisePatternConfig:
     test_days: int = 60
     top_n: int = 20
     transaction_cost_bps: float = 20.0
-    fixed_stop_pct: float = 0.03
-    atr_stop_multiplier: float = 2.0
+    fixed_stop_pcts: tuple[float, ...] = (0.03, 0.04, 0.05)
+    atr_stop_multipliers: tuple[float, ...] = (0.5, 1.0, 1.5, 2.0)
 
 
 def add_latest_rise_pattern_signals(
@@ -178,27 +178,33 @@ def backtest_rise_pattern_signals(
             return_column="rise_trade_net_return",
             target_column="rise_trade_target_hit",
         ),
-        "fixed_3pct": _risk_summary(
-            pattern_trades,
-            test_dates,
-            config,
-            return_column="rise_trade_fixed3_net_return",
-            target_column="rise_trade_fixed3_target_hit",
-            stop_column="rise_trade_fixed3_stop_hit",
-            ambiguous_column="rise_trade_fixed3_ambiguous_both_hit",
-            stop_distance_column="rise_trade_fixed3_stop_pct",
-        ),
-        "atr_2x": _risk_summary(
-            pattern_trades,
-            test_dates,
-            config,
-            return_column="rise_trade_atr2_net_return",
-            target_column="rise_trade_atr2_target_hit",
-            stop_column="rise_trade_atr2_stop_hit",
-            ambiguous_column="rise_trade_atr2_ambiguous_both_hit",
-            stop_distance_column="rise_trade_atr2_stop_pct",
-        ),
     }
+    for stop_pct in config.fixed_stop_pcts:
+        key = _fixed_stop_key(stop_pct)
+        prefix = f"rise_trade_{key}"
+        risk_management[key] = _risk_summary(
+            pattern_trades,
+            test_dates,
+            config,
+            return_column=f"{prefix}_net_return",
+            target_column=f"{prefix}_target_hit",
+            stop_column=f"{prefix}_stop_hit",
+            ambiguous_column=f"{prefix}_ambiguous_both_hit",
+            stop_distance_column=f"{prefix}_stop_pct",
+        )
+    for multiplier in config.atr_stop_multipliers:
+        key = _atr_stop_key(multiplier)
+        prefix = f"rise_trade_{key}"
+        risk_management[key] = _risk_summary(
+            pattern_trades,
+            test_dates,
+            config,
+            return_column=f"{prefix}_net_return",
+            target_column=f"{prefix}_target_hit",
+            stop_column=f"{prefix}_stop_hit",
+            ambiguous_column=f"{prefix}_ambiguous_both_hit",
+            stop_distance_column=f"{prefix}_stop_pct",
+        )
 
     return {
         "method": "walk_forward_rise_pattern_v1",
@@ -426,32 +432,46 @@ def _attach_trade_outcomes(
         frame["rise_trade_gross_return"] - config.transaction_cost_bps / 10_000.0
     )
 
-    fixed_stop_return = pd.Series(-config.fixed_stop_pct, index=frame.index)
-    fixed = _stopped_trade_outcome(
-        entry,
-        future_open,
-        future_high,
-        future_low,
-        exit_close,
-        complete,
-        fixed_stop_return,
-    )
-    frame["rise_trade_fixed3_stop_pct"] = config.fixed_stop_pct
-    _assign_stop_outcome(frame, "rise_trade_fixed3", fixed, config)
+    for stop_pct in config.fixed_stop_pcts:
+        key = _fixed_stop_key(stop_pct)
+        prefix = f"rise_trade_{key}"
+        fixed_stop_return = pd.Series(-stop_pct, index=frame.index)
+        fixed = _stopped_trade_outcome(
+            entry,
+            future_open,
+            future_high,
+            future_low,
+            exit_close,
+            complete,
+            fixed_stop_return,
+        )
+        frame[f"{prefix}_stop_pct"] = stop_pct
+        _assign_stop_outcome(frame, prefix, fixed, config)
 
-    atr_stop_return = -(config.atr_stop_multiplier * frame["atr_14"] / entry)
-    atr = _stopped_trade_outcome(
-        entry,
-        future_open,
-        future_high,
-        future_low,
-        exit_close,
-        complete & atr_stop_return.notna(),
-        atr_stop_return,
-    )
-    frame["rise_trade_atr2_stop_pct"] = -atr_stop_return
-    _assign_stop_outcome(frame, "rise_trade_atr2", atr, config)
+    for multiplier in config.atr_stop_multipliers:
+        key = _atr_stop_key(multiplier)
+        prefix = f"rise_trade_{key}"
+        atr_stop_return = -(multiplier * frame["atr_14"] / entry)
+        atr = _stopped_trade_outcome(
+            entry,
+            future_open,
+            future_high,
+            future_low,
+            exit_close,
+            complete & atr_stop_return.notna(),
+            atr_stop_return,
+        )
+        frame[f"{prefix}_stop_pct"] = -atr_stop_return
+        _assign_stop_outcome(frame, prefix, atr, config)
     return frame
+
+
+def _fixed_stop_key(stop_pct: float) -> str:
+    return f"fixed_{stop_pct * 100:g}pct".replace(".", "_")
+
+
+def _atr_stop_key(multiplier: float) -> str:
+    return f"atr_{multiplier:g}x".replace(".", "_")
 
 
 def _stopped_trade_outcome(
