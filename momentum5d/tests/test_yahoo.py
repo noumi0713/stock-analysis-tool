@@ -291,6 +291,8 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert "sector_17_name" in candidates.columns
     assert "setup_reasons" in candidates.columns
     assert result["technical_method"] == "observed_inflow_v1"
+    assert "bottom_pattern_study" in result
+    assert result["bottom_pattern_study"]["horizon_days"] == 5
     assert "retail_flow_score" in candidates.columns
     assert "observed_inflow_score" in candidates.columns
     assert len(scores) == 2
@@ -556,6 +558,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert payload["update"]["status"] == "complete"
     assert payload["market_regime"]["favorable"] is True
     assert "patterns" in payload
+    assert "bottom_pattern_study" in payload
     assert "candidates" in payload
     assert len(payload["stocks"]) == 2
     assert "rsi_14" in payload["stocks"][0]
