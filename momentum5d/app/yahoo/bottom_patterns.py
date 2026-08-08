@@ -7,7 +7,6 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-
 SHAPE_LABELS = {
     "double_bottom": "二番底",
     "capitulation_reversal": "投げ売り反転",
