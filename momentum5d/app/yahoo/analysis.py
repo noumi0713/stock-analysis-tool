@@ -19,6 +19,10 @@ from app.yahoo.retail_flow import (
     observed_inflow_reasons,
     retail_flow_reasons,
 )
+from app.yahoo.rise_pattern import (
+    add_latest_rise_pattern_signals,
+    backtest_rise_pattern_signals,
+)
 from app.yahoo.sakata import PATTERN_COLUMNS, add_sakata_features
 from app.yahoo.trend import add_trend_features, latest_sector_trends, load_sector_map
 
@@ -56,6 +60,13 @@ class YahooPatternAnalyzer:
         features["signal_score"] = features["observed_inflow_score"]
         historical = features.loc[features["horizon_complete"]].copy()
         bottom_pattern_study, bottom_events = analyze_bottom_patterns(features)
+        rise_pattern_backtest = backtest_rise_pattern_signals(features, bottom_events)
+        features = add_latest_rise_pattern_signals(features, bottom_events)
+        features["signal_score"] = features[
+            ["observed_inflow_score", "rise_pattern_probability"]
+        ].max(axis=1)
+        features["setup_score"] = features["signal_score"]
+        features["trend_ranking_score"] = features["signal_score"]
         market_regime = self._market_regime(features)
         candidates = self._latest_candidates(features, top_n)
         latest_scores = self._latest_scores(features, candidates)
@@ -82,8 +93,8 @@ class YahooPatternAnalyzer:
         summary = {
             "source": "yfinance",
             "personal_research_only": True,
-            "technical_method": "observed_inflow_v1",
-            "technical_method_label": "資金流入観測",
+            "technical_method": "observed_inflow_plus_rise_pattern_v1",
+            "technical_method_label": "資金流入観測＋上昇パターン",
             "analyzed_at": datetime.now(UTC).isoformat(),
             "rows": len(features),
             "excluded_non_trading_or_invalid_rows": len(prices) - len(valid_prices),
@@ -98,6 +109,7 @@ class YahooPatternAnalyzer:
             "industry_trends": industry_trends,
             "patterns": patterns,
             "bottom_pattern_study": bottom_pattern_study,
+            "rise_pattern_backtest": rise_pattern_backtest,
             "candidate_path": str(candidate_path),
             "score_path": str(score_path),
             "historical_path": str(feature_path),
@@ -286,21 +298,42 @@ class YahooPatternAnalyzer:
             "sakata_sell_signal": False,
             "sakata_bullish_count": 0,
             "sakata_bearish_count": 0,
+            "rise_pattern_probability": 0.0,
+            "rise_pattern_samples": 0,
+            "rise_pattern_signal": False,
+            "rise_pattern_shape": pd.NA,
+            "rise_pattern_reason": "",
         }
         for column in RETAIL_DETAIL_COLUMNS:
             trend_defaults.setdefault(column, 0.0)
         for column, default in trend_defaults.items():
             if column not in latest:
                 latest[column] = default
+        latest["rise_pattern_probability"] = pd.to_numeric(
+            latest["rise_pattern_probability"], errors="coerce"
+        ).fillna(0.0)
+        latest["rise_pattern_samples"] = pd.to_numeric(
+            latest["rise_pattern_samples"], errors="coerce"
+        ).fillna(0)
+        latest["rise_pattern_signal"] = latest["rise_pattern_signal"].map(
+            lambda value: bool(value) if pd.notna(value) else False
+        )
+        latest["rise_pattern_reason"] = latest["rise_pattern_reason"].fillna("")
         if "trend_ranking_score" not in latest:
             latest["trend_ranking_score"] = latest["setup_score"]
-        latest["trend_ranking_score"] = latest["observed_inflow_score"]
-        latest["setup_score"] = latest["observed_inflow_score"]
-        latest["signal_score"] = latest["observed_inflow_score"]
-        latest = latest.loc[
+        latest["signal_score"] = latest[
+            ["observed_inflow_score", "rise_pattern_probability"]
+        ].max(axis=1)
+        latest["trend_ranking_score"] = latest["signal_score"]
+        latest["setup_score"] = latest["signal_score"]
+        observed_signal = (
             latest["observed_inflow_confirmed"].fillna(False).astype(bool)
             & latest["return_1d"].between(0.002, 0.10)
             & latest["return_5d"].between(-0.05, 0.18)
+        )
+        rise_signal = latest["rise_pattern_signal"].fillna(False).astype(bool)
+        latest = latest.loc[
+            (observed_signal | rise_signal)
             & latest["rsi_14"].le(82.0)
             & (latest["turnover_value"] >= 10_000_000)
         ].copy()
@@ -309,7 +342,7 @@ class YahooPatternAnalyzer:
         latest["observed_inflow_reasons"] = latest.apply(
             observed_inflow_reasons, axis=1
         )
-        latest["setup_reasons"] = latest["observed_inflow_reasons"]
+        latest["setup_reasons"] = latest.apply(_combined_signal_reasons, axis=1)
         columns = [
             "date",
             "ticker",
@@ -356,13 +389,18 @@ class YahooPatternAnalyzer:
             "sakata_sell_signal",
             "sakata_bullish_count",
             "sakata_bearish_count",
+            "rise_pattern_probability",
+            "rise_pattern_samples",
+            "rise_pattern_signal",
+            "rise_pattern_shape",
+            "rise_pattern_reason",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
             "signal_score",
         ]
         return (
-            latest.sort_values("observed_inflow_score", ascending=False)[columns]
+            latest.sort_values("signal_score", ascending=False)[columns]
             .head(top_n)
             .reset_index(drop=True)
         )
@@ -378,7 +416,7 @@ class YahooPatternAnalyzer:
         latest["observed_inflow_reasons"] = latest.apply(
             observed_inflow_reasons, axis=1
         )
-        latest["setup_reasons"] = latest["observed_inflow_reasons"]
+        latest["setup_reasons"] = latest.apply(_combined_signal_reasons, axis=1)
         latest["score_rank"] = (
             latest["trend_ranking_score"].rank(method="min", ascending=False)
         )
@@ -427,6 +465,11 @@ class YahooPatternAnalyzer:
             "sakata_sell_signal",
             "sakata_bullish_count",
             "sakata_bearish_count",
+            "rise_pattern_probability",
+            "rise_pattern_samples",
+            "rise_pattern_signal",
+            "rise_pattern_shape",
+            "rise_pattern_reason",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -517,3 +560,16 @@ def _sakata_reasons(row: pd.Series) -> str:
     if pd.notna(row.get("rsi_14")) and float(row["rsi_14"]) <= 70:
         reasons.append("過熱圏未満")
     return "・".join(reasons[:3]) or "酒田五法の明確な型なし"
+
+
+def _combined_signal_reasons(row: pd.Series) -> str:
+    reasons: list[str] = []
+    rise_signal = row.get("rise_pattern_signal", False)
+    if pd.notna(rise_signal) and bool(rise_signal) and row.get("rise_pattern_reason"):
+        reasons.append(str(row["rise_pattern_reason"]))
+    observed_signal = row.get("observed_inflow_confirmed", False)
+    if pd.notna(observed_signal) and bool(observed_signal):
+        observed = str(row.get("observed_inflow_reasons", "")).strip()
+        if observed:
+            reasons.append(observed)
+    return "・".join(reasons) or str(row.get("observed_inflow_reasons", ""))
