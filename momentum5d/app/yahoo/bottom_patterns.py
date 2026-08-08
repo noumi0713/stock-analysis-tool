@@ -16,6 +16,14 @@ SHAPE_LABELS = {
     "other_swing_low": "その他スイング安値",
 }
 
+FEATURE_SPECS = {
+    "return_5d": "5日騰落",
+    "return_20d": "20日騰落",
+    "volume_ratio_5_20": "出来高比(5日/20日)",
+    "volatility_10d": "10日ボラ",
+    "range_width_10d": "10日値幅",
+}
+
 
 @dataclass(frozen=True)
 class BottomPatternConfig:
@@ -236,6 +244,8 @@ def _shape_rankings(
                 "median_max_return_5d": float(values["max_return_5d"].median()),
                 "median_days_to_5pct": float(reached.median()) if not reached.empty else None,
                 "reliable_sample": samples >= config.min_rank_samples,
+                "feature_comparison": _feature_comparison(values),
+                "subtypes": _shape_subtypes(values, success_rate, config),
                 "success_examples": _examples(values.loc[values["target_5pct"]], True),
                 "failure_examples": _examples(values.loc[~values["target_5pct"]], False),
             }
@@ -251,6 +261,113 @@ def _shape_rankings(
     for rank, item in enumerate(rankings, start=1):
         item["rank"] = rank
     return rankings
+
+
+def _feature_comparison(values: pd.DataFrame) -> list[dict[str, Any]]:
+    comparisons: list[dict[str, Any]] = []
+    hits = values.loc[values["target_5pct"]]
+    misses = values.loc[~values["target_5pct"]]
+    for feature, label in FEATURE_SPECS.items():
+        all_values = pd.to_numeric(values[feature], errors="coerce").dropna()
+        hit_values = pd.to_numeric(hits[feature], errors="coerce").dropna()
+        miss_values = pd.to_numeric(misses[feature], errors="coerce").dropna()
+        if all_values.empty or hit_values.empty or miss_values.empty:
+            continue
+        hit_median = float(hit_values.median())
+        miss_median = float(miss_values.median())
+        q25, q75 = all_values.quantile([0.25, 0.75])
+        iqr = float(q75 - q25)
+        raw_gap = hit_median - miss_median
+        effect_score = raw_gap / iqr if iqr > 0 else 0.0
+        comparisons.append(
+            {
+                "feature": feature,
+                "label": label,
+                "success_median": hit_median,
+                "failure_median": miss_median,
+                "median_gap": raw_gap,
+                "effect_score_iqr": float(effect_score),
+                "success_side": "high" if raw_gap >= 0 else "low",
+            }
+        )
+    comparisons.sort(key=lambda item: -abs(item["effect_score_iqr"]))
+    for rank, item in enumerate(comparisons, start=1):
+        item["difference_rank"] = rank
+    return comparisons
+
+
+def _shape_subtypes(
+    values: pd.DataFrame,
+    parent_rate: float,
+    config: BottomPatternConfig,
+) -> list[dict[str, Any]]:
+    comparisons = _feature_comparison(values)
+    if len(comparisons) < 2:
+        return []
+    selected = comparisons[:2]
+    first, second = selected[0]["feature"], selected[1]["feature"]
+    work = values.dropna(subset=[first, second]).copy()
+    if work.empty:
+        return []
+    thresholds = {
+        first: float(pd.to_numeric(work[first], errors="coerce").median()),
+        second: float(pd.to_numeric(work[second], errors="coerce").median()),
+    }
+    work["_subtype"] = work.apply(
+        lambda row: (
+            ("high" if float(row[first]) >= thresholds[first] else "low"),
+            ("high" if float(row[second]) >= thresholds[second] else "low"),
+        ),
+        axis=1,
+    )
+
+    subtypes: list[dict[str, Any]] = []
+    for (first_side, second_side), group in work.groupby("_subtype", sort=False):
+        samples = int(len(group))
+        successes = int(group["target_5pct"].sum())
+        rate = successes / samples
+        lower, upper = _wilson_interval(successes, samples)
+        smoothed = (
+            successes + parent_rate * config.prior_strength
+        ) / (samples + config.prior_strength)
+        subtypes.append(
+            {
+                "samples": samples,
+                "successes": successes,
+                "failures": samples - successes,
+                "success_rate": rate,
+                "smoothed_success_rate": float(smoothed),
+                "wilson_95_low": lower,
+                "wilson_95_high": upper,
+                "lift_vs_parent": rate / parent_rate if parent_rate > 0 else None,
+                "reliable_sample": samples >= config.min_rank_samples,
+                "conditions": [
+                    {
+                        "feature": first,
+                        "label": FEATURE_SPECS[first],
+                        "side": first_side,
+                        "threshold": thresholds[first],
+                    },
+                    {
+                        "feature": second,
+                        "label": FEATURE_SPECS[second],
+                        "side": second_side,
+                        "threshold": thresholds[second],
+                    },
+                ],
+            }
+        )
+    subtypes.sort(
+        key=lambda item: (
+            not item["reliable_sample"],
+            -item["wilson_95_low"],
+            -item["smoothed_success_rate"],
+            -item["samples"],
+        )
+    )
+    for rank, item in enumerate(subtypes, start=1):
+        item["rank"] = rank
+    return subtypes
 
 
 def _examples(values: pd.DataFrame, success: bool) -> list[dict[str, Any]]:
