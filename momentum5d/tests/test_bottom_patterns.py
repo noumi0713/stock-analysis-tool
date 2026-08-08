@@ -65,3 +65,7 @@ def test_bottom_pattern_study_counts_successes_and_similar_failures() -> None:
     assert ranking["success_examples"]
     assert ranking["failure_examples"]
     assert len(ranking["success_examples"][0]["pre_shape"]) == 20
+    assert len(ranking["feature_comparison"]) == 5
+    assert ranking["feature_comparison"][0]["difference_rank"] == 1
+    assert ranking["subtypes"]
+    assert sum(row["samples"] for row in ranking["subtypes"]) == ranking["samples"]
