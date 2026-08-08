@@ -29,7 +29,7 @@ def build_tse_universe(frame: pd.DataFrame) -> pd.DataFrame:
 
     work = frame.copy()
     market = work["市場・商品区分"].astype("string").fillna("")
-    target = market.str.contains("内国株式", regex=False) & market.str.startswith(TARGET_MARKETS)
+    target = market.str.contains("内国株式", regex=False) & market.str.startswith(\n        TARGET_MARKETS\n    )
     work = work.loc[target, list(required)].copy()
 
     work["exchange_code"] = work["コード"].astype("string").str.strip().str.upper()
