@@ -95,6 +95,8 @@ def backtest_rise_pattern_signals(
     strategy_rows: dict[str, list[pd.DataFrame]] = {
         "observed_inflow": [],
         "rise_pattern": [],
+        "rise_pattern_reversal": [],
+        "rise_pattern_with_inflow": [],
         "combined": [],
     }
     for test_date in test_dates:
@@ -119,11 +121,25 @@ def backtest_rise_pattern_signals(
             & eligible["return_5d"].between(-0.05, 0.18)
         )
         pattern_mask = eligible["rise_pattern_signal"].fillna(False).astype(bool)
+        reversal_mask = pattern_mask & eligible["rise_pattern_reversal_confirmed"].fillna(
+            False
+        ).astype(bool)
+        pattern_with_inflow_mask = pattern_mask & eligible[
+            "observed_inflow_confirmed"
+        ].fillna(False).astype(bool)
         old = _select_top(
             eligible.loc[old_mask], "observed_inflow_score", config.top_n
         )
         pattern = _select_top(
             eligible.loc[pattern_mask], "rise_pattern_probability", config.top_n
+        )
+        reversal = _select_top(
+            eligible.loc[reversal_mask], "rise_pattern_probability", config.top_n
+        )
+        pattern_with_inflow = _select_top(
+            eligible.loc[pattern_with_inflow_mask],
+            "rise_pattern_probability",
+            config.top_n,
         )
         combined = eligible.loc[old_mask | pattern_mask].copy()
         combined["_combined_score"] = combined[
@@ -132,6 +148,8 @@ def backtest_rise_pattern_signals(
         combined = _select_top(combined, "_combined_score", config.top_n)
         strategy_rows["observed_inflow"].append(old)
         strategy_rows["rise_pattern"].append(pattern)
+        strategy_rows["rise_pattern_reversal"].append(reversal)
+        strategy_rows["rise_pattern_with_inflow"].append(pattern_with_inflow)
         strategy_rows["combined"].append(combined)
 
     summaries: dict[str, Any] = {}
@@ -180,6 +198,7 @@ def _add_live_bottom_features(features: pd.DataFrame) -> pd.DataFrame:
     )
     candle_span = frame["high"] - frame["low"]
     close_location = (frame["close"] - frame["low"]).div(candle_span.where(candle_span > 0))
+    frame["rise_pattern_reversal_confirmed"] = close_location.fillna(0.5).ge(0.55)
     capitulation = (
         frame["return_20d"].le(-0.10)
         & frame["volume_ratio_5_20"].ge(1.20)
@@ -386,4 +405,3 @@ def _strategy_summary(
         "ending_equity": float(daily["equity"].iloc[-1]),
         "max_drawdown": float(daily["drawdown"].min()),
     }
-
