@@ -55,6 +55,14 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
+      - name: Restore rolling Yahoo history
+        uses: actions/cache@v4
+        with:
+          path: momentum5d/data/yahoo
+          key: momentum5d-yahoo-${{ github.run_id }}
+          restore-keys: |
+            momentum5d-yahoo-
+
       - name: Select session and skip completed retries
         id: update
         shell: bash
