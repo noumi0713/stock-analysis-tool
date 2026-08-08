@@ -122,6 +122,11 @@ class DashboardExporter:
             "sakata_sell_signal",
             "sakata_bullish_count",
             "sakata_bearish_count",
+            "rise_pattern_probability",
+            "rise_pattern_samples",
+            "rise_pattern_signal",
+            "rise_pattern_shape",
+            "rise_pattern_reason",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -195,6 +200,11 @@ class DashboardExporter:
             "sakata_sell_signal",
             "sakata_bullish_count",
             "sakata_bearish_count",
+            "rise_pattern_probability",
+            "rise_pattern_samples",
+            "rise_pattern_signal",
+            "rise_pattern_shape",
+            "rise_pattern_reason",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -285,8 +295,8 @@ class DashboardExporter:
             "market_regime": analysis.get("market_regime"),
             "industry_trends": analysis.get("industry_trends", {}),
             "technical_method": {
-                "key": "observed_inflow_v1",
-                "label": "資金流入観測",
+                "key": "observed_inflow_plus_rise_pattern_v1",
+                "label": "資金流入観測＋上昇パターン",
                 "stages": [
                     "発見",
                     "理解（業種連動の代理）",
@@ -299,6 +309,9 @@ class DashboardExporter:
                     "出来高",
                     "売買代金",
                     "17業種トレンド",
+                    "底値候補",
+                    "ボラティリティ",
+                    "10日値幅",
                 ],
                 "unavailable_inputs": [
                     "ニュース件数",
@@ -308,11 +321,13 @@ class DashboardExporter:
                 ],
                 "note": (
                     "当日の出来高・売買代金を各銘柄の過去20日平均と"
-                    "Prime内順位で比較し、株価上昇と陽線の一致を確認する代理スコア"
+                    "対象内順位で比較する資金流入観測に、過去の+5%上昇パターンを"
+                    "未来データなしで検知するスコアを統合"
                 ),
             },
             "patterns": analysis["patterns"],
             "bottom_pattern_study": bottom_pattern_study,
+            "rise_pattern_backtest": analysis.get("rise_pattern_backtest"),
             "indicator_notes": [
                 {
                     "key": "observed_inflow_score",
