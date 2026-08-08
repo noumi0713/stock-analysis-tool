@@ -10,6 +10,7 @@ import pandas as pd
 
 from app.config import Settings
 from app.storage.parquet import ParquetStore
+from app.yahoo.bottom_patterns import analyze_bottom_patterns
 from app.yahoo.corporate_actions import normalize_split_adjusted_prices
 from app.yahoo.ingestion import YahooPaths
 from app.yahoo.retail_flow import (
@@ -54,6 +55,7 @@ class YahooPatternAnalyzer:
         features["trend_ranking_score"] = features["observed_inflow_score"]
         features["signal_score"] = features["observed_inflow_score"]
         historical = features.loc[features["horizon_complete"]].copy()
+        bottom_pattern_study, bottom_events = analyze_bottom_patterns(features)
         market_regime = self._market_regime(features)
         candidates = self._latest_candidates(features, top_n)
         latest_scores = self._latest_scores(features, candidates)
@@ -68,9 +70,11 @@ class YahooPatternAnalyzer:
         candidate_path = analysis_dir / "latest_candidates.parquet"
         score_path = analysis_dir / "latest_scores.parquet"
         feature_path = analysis_dir / "historical_patterns.parquet"
+        bottom_event_path = analysis_dir / "bottom_pattern_events.parquet"
         ParquetStore._atomic_parquet(candidates, candidate_path)
         ParquetStore._atomic_parquet(latest_scores, score_path)
         ParquetStore._atomic_parquet(historical, feature_path)
+        ParquetStore._atomic_parquet(bottom_events, bottom_event_path)
         from app.yahoo.catalog import YahooDuckDBCatalog
 
         YahooDuckDBCatalog(self.paths).refresh()
@@ -93,9 +97,11 @@ class YahooPatternAnalyzer:
             "market_regime": market_regime,
             "industry_trends": industry_trends,
             "patterns": patterns,
+            "bottom_pattern_study": bottom_pattern_study,
             "candidate_path": str(candidate_path),
             "score_path": str(score_path),
             "historical_path": str(feature_path),
+            "bottom_event_path": str(bottom_event_path),
         }
         output = self.paths.metadata_dir / "analysis_latest.json"
         temporary = output.with_suffix(".json.tmp")
