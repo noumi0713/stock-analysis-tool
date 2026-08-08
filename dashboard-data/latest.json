@@ -2,7 +2,7 @@
   "schema_version": 9,
   "source": "yfinance",
   "personal_research_only": true,
-  "generated_at": "2026-08-08T11:18:57.551567+00:00",
+  "generated_at": "2026-08-08T11:26:31.486317+00:00",
   "latest_date": "2026-08-07",
   "update": {
     "status": "complete",
@@ -13,7 +13,7 @@
     "interval": "5m",
     "successful_tickers": 999,
     "coverage": 0.9842364532019704,
-    "generated_at": "2026-08-08T11:18:57.551567+00:00"
+    "generated_at": "2026-08-08T11:26:31.486317+00:00"
   },
   "metrics": {
     "rows": 242346,
@@ -2766,6 +2766,30 @@
         "trade_win_rate": 0.5733333333333334,
         "ending_equity": 0.9436043120175197,
         "max_drawdown": -0.08042374964971333
+      },
+      "rise_pattern_reversal": {
+        "selected_signals": 1076,
+        "active_days": 60,
+        "average_signals_per_test_day": 17.933333333333334,
+        "target_hit_rate": 0.47769516728624534,
+        "mean_future_max_return": 0.07316194245017275,
+        "mean_trade_net_return": -0.007296870427176501,
+        "median_trade_net_return": 0.020913374304945886,
+        "trade_win_rate": 0.5520446096654275,
+        "ending_equity": 0.9156377676399623,
+        "max_drawdown": -0.10007031107959485
+      },
+      "rise_pattern_with_inflow": {
+        "selected_signals": 236,
+        "active_days": 54,
+        "average_signals_per_test_day": 3.933333333333333,
+        "target_hit_rate": 0.461864406779661,
+        "mean_future_max_return": 0.07719015090856193,
+        "mean_trade_net_return": -0.006776646879767647,
+        "median_trade_net_return": 0.017012556979279725,
+        "trade_win_rate": 0.5635593220338984,
+        "ending_equity": 0.9443610866155198,
+        "max_drawdown": -0.10564682564593875
       },
       "combined": {
         "selected_signals": 1200,
