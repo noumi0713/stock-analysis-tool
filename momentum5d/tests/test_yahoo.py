@@ -290,9 +290,10 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert "trend_ranking_score" in candidates.columns
     assert "sector_17_name" in candidates.columns
     assert "setup_reasons" in candidates.columns
-    assert result["technical_method"] == "observed_inflow_v1"
+    assert result["technical_method"] == "observed_inflow_plus_rise_pattern_v1"
     assert "bottom_pattern_study" in result
     assert result["bottom_pattern_study"]["horizon_days"] == 5
+    assert "rise_pattern_backtest" in result
     assert "retail_flow_score" in candidates.columns
     assert "observed_inflow_score" in candidates.columns
     assert len(scores) == 2
@@ -460,12 +461,30 @@ def test_candidate_ranking_requires_observed_inflow() -> None:
                 "setup_score": 0.95,
                 "signal_score": 0.95,
             },
+            {
+                **common,
+                "ticker": "PATTERN.T",
+                "code": "33330",
+                "return_1d": -0.03,
+                "return_5d": -0.08,
+                "observed_inflow_score": 0.30,
+                "observed_inflow_confirmed": False,
+                "rise_pattern_probability": 0.95,
+                "rise_pattern_samples": 120,
+                "rise_pattern_signal": True,
+                "rise_pattern_shape": "sharp_selloff",
+                "rise_pattern_reason": "急落継続・過去類似120件・補正+5%率95%",
+                "setup_score": 0.95,
+                "signal_score": 0.95,
+            },
         ]
     )
 
     candidates = YahooPatternAnalyzer._latest_candidates(features, top_n=20)
 
-    assert candidates["ticker"].tolist() == ["INFLOW.T"]
+    assert candidates["ticker"].tolist() == ["PATTERN.T", "INFLOW.T"]
+    assert candidates.iloc[0]["rise_pattern_signal"]
+    assert "急落継続" in candidates.iloc[0]["setup_reasons"]
     assert candidates.iloc[0]["setup_reasons"]
 
 
@@ -559,12 +578,13 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert payload["market_regime"]["favorable"] is True
     assert "patterns" in payload
     assert "bottom_pattern_study" in payload
+    assert "rise_pattern_backtest" in payload
     assert "candidates" in payload
     assert len(payload["stocks"]) == 2
     assert "rsi_14" in payload["stocks"][0]
     assert "atr_14_pct" in payload["stocks"][0]
     assert len(payload["indicator_notes"]) == 5
-    assert payload["technical_method"]["label"] == "資金流入観測"
+    assert payload["technical_method"]["label"] == "資金流入観測＋上昇パターン"
     assert "open" not in payload["candidates"][0]
     assert "setup_score" in payload["candidates"][0]
     assert "trend_ranking_score" in payload["candidates"][0]
