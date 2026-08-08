@@ -46,7 +46,7 @@ def build_tse_universe(frame: pd.DataFrame) -> pd.DataFrame:
     work["sector_33_code"] = (
         work["33業種コード"]
         .astype("string")
-        .str.replace(r"\\.0$", "", regex=True)
+        .str.replace(r"\.0$", "", regex=True)
         .str.strip()
         .str.zfill(4)
     )
