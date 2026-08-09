@@ -5,6 +5,7 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+
 from app.yahoo.bottom_patterns import FEATURE_SPECS, SHAPE_LABELS
 
 STRONG_SHAPES = frozenset(
