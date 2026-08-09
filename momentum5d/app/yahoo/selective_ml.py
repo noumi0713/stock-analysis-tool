@@ -250,6 +250,30 @@ def tune_and_select_ml_strategy(
         validation_dates,
         parameters,
     )
+    sharp_candidate_parameters = {
+        **parameters,
+        "shape_profile": "sharp_selloff_confirmation",
+        "allowed_shapes": ["sharp_selloff"],
+    }
+    sharp_development_trades = _select_with_parameters(
+        development,
+        sharp_candidate_parameters,
+    )
+    sharp_validation_trades = _select_with_parameters(
+        validation,
+        sharp_candidate_parameters,
+    )
+    confirmation_dates = validation_dates[(len(validation_dates) * 2) // 3 :]
+    sharp_confirmation_trades = _select_with_parameters(
+        validation.loc[validation["date"].isin(confirmation_dates)],
+        sharp_candidate_parameters,
+    )
+    sharp_combined_trades = pd.concat(
+        [sharp_development_trades, sharp_validation_trades],
+        ignore_index=True,
+    )
+    sharp_validation_summary = _compact_summary(sharp_validation_trades)
+    sharp_confirmation_summary = _compact_summary(sharp_confirmation_trades)
     diagnostics = {
         "status": "completed",
         "selection_rule": (
@@ -267,6 +291,28 @@ def tune_and_select_ml_strategy(
         "validation": validation_summary,
         "validation_folds": validation_folds,
         "validation_by_shape": _summaries_by_shape(validation_trades),
+        "sharp_selloff_candidate": {
+            "status": "exploratory_post_selection_candidate",
+            "parameters": sharp_candidate_parameters,
+            "development": _compact_summary(sharp_development_trades),
+            "validation": sharp_validation_summary,
+            "confirmation_start": (str(confirmation_dates[0]) if confirmation_dates else None),
+            "confirmation_end": (str(confirmation_dates[-1]) if confirmation_dates else None),
+            "latest_period_confirmation": sharp_confirmation_summary,
+            "combined": _compact_summary(sharp_combined_trades),
+            "historical_60pct_candidate_met": bool(
+                sharp_validation_summary["selected_signals"] >= 30
+                and (sharp_validation_summary["target_hit_rate"] or 0.0) >= 0.60
+                and (sharp_validation_summary["mean_trade_net_return"] or -1.0) > 0.0
+                and sharp_confirmation_summary["selected_signals"] >= 15
+                and (sharp_confirmation_summary["target_hit_rate"] or 0.0) >= 0.60
+                and (sharp_confirmation_summary["mean_trade_net_return"] or -1.0) > 0.0
+            ),
+            "caveat": (
+                "shape restriction was identified during validation analysis; freeze it "
+                "before collecting new dates for a fully untouched confirmation"
+            ),
+        },
         "combined": combined_summary,
         "validation_goal_met": bool(
             validation_summary["selected_signals"] >= 30
