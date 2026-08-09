@@ -2,7 +2,7 @@
   "schema_version": 9,
   "source": "yfinance",
   "personal_research_only": true,
-  "generated_at": "2026-08-09T06:12:05.770604+00:00",
+  "generated_at": "2026-08-09T07:24:26.425297+00:00",
   "latest_date": "2026-08-07",
   "update": {
     "status": "complete",
@@ -13,7 +13,7 @@
     "interval": "5m",
     "successful_tickers": 3673,
     "coverage": 0.9910955207771182,
-    "generated_at": "2026-08-09T06:12:05.770604+00:00"
+    "generated_at": "2026-08-09T07:24:26.425297+00:00"
   },
   "metrics": {
     "rows": 892003,
@@ -3226,7 +3226,23 @@
           2,
           0.02
         ]
-      ]
+      ],
+      "selective_test_days": 120,
+      "selective_top_n": 3,
+      "selective_probability_threshold": 0.7,
+      "selective_probability_grid": [
+        0.6,
+        0.65,
+        0.7,
+        0.75
+      ],
+      "selective_min_samples": 40,
+      "selective_prior_strength": 50.0,
+      "selective_max_gap_up": 0.02,
+      "selective_max_down_5pct_probability": 0.18,
+      "selective_max_down_8pct_probability": 0.1,
+      "selective_min_expected_net_return": 0.0,
+      "selective_validation_samples": 300
     },
     "test_start": "2026-05-08",
     "test_end": "2026-07-31",
@@ -3315,6 +3331,15 @@
         "trade_win_rate": 0.57,
         "ending_equity": 0.9265150760265999,
         "max_drawdown": -0.09270713689111443
+      },
+      "selective_70": {
+        "selected_signals": 0,
+        "target_hit_rate": null,
+        "mean_trade_net_return": null,
+        "median_trade_net_return": null,
+        "trade_win_rate": null,
+        "ending_equity": 1.0,
+        "max_drawdown": 0.0
       }
     },
     "strong_shape_200m_definition": {
@@ -3328,6 +3353,229 @@
       "top_n_per_day": 20,
       "raw_ranking": "walk-forward subtype probability, fallback observed inflow score",
       "signal_overlay": "existing walk-forward probability >= 80% and samples >= 30"
+    },
+    "selective_70_definition": {
+      "shapes": [
+        "capitulation_reversal",
+        "rounded_base",
+        "sharp_selloff"
+      ],
+      "min_turnover": 200000000,
+      "entry": "next_trading_day_open_if_gap_up_is_within_limit",
+      "max_gap_up": 0.02,
+      "top_n_per_day": 3,
+      "allows_zero_trades": true,
+      "probability_threshold": 0.7,
+      "min_expected_net_return": 0.0,
+      "max_down_5pct_probability": 0.18,
+      "max_down_8pct_probability": 0.1,
+      "training_population": "prior live-detectable strong-shape signals with completed next-open five-day outcomes",
+      "shape_model": "separate empirical Bayes model for each strong shape",
+      "features": {
+        "market_regime": "market breadth 5d > 50% and median return 20d > 0",
+        "theme_flow_proxy": "TSE-33/TSE-17 sector trend score >= 60% and breadth >= 50%",
+        "volume_continuation": "5d/20d volume and turnover ratios are both >= 1",
+        "candlestick_reversal": "close location >= 55% of daily range",
+        "observed_inflow": "confirmed or observed inflow score >= 50%"
+      },
+      "note": "The repository has no historical Kabutan-theme membership series, so leakage-safe sector flow is used as the theme-flow proxy."
+    },
+    "selective_70_validation": {
+      "test_start": "2026-02-04",
+      "test_end": "2026-07-31",
+      "test_days": 120,
+      "minimum_required_signals": 300,
+      "sample_requirement_met": false,
+      "target_rate_requirement": 0.7,
+      "target_rate_requirement_met": false,
+      "positive_expectancy_requirement_met": false,
+      "by_shape": {
+        "capitulation_reversal": {
+          "selected_signals": 0,
+          "target_hit_rate": null,
+          "mean_trade_net_return": null,
+          "median_trade_net_return": null,
+          "trade_win_rate": null,
+          "ending_equity": 1.0,
+          "max_drawdown": 0.0
+        },
+        "rounded_base": {
+          "selected_signals": 0,
+          "target_hit_rate": null,
+          "mean_trade_net_return": null,
+          "median_trade_net_return": null,
+          "trade_win_rate": null,
+          "ending_equity": 1.0,
+          "max_drawdown": 0.0
+        },
+        "sharp_selloff": {
+          "selected_signals": 0,
+          "target_hit_rate": null,
+          "mean_trade_net_return": null,
+          "median_trade_net_return": null,
+          "trade_win_rate": null,
+          "ending_equity": 1.0,
+          "max_drawdown": 0.0
+        }
+      },
+      "threshold_grid": {
+        "p60_top1": {
+          "selected_signals": 10,
+          "active_days": 10,
+          "average_signals_per_test_day": 0.08333333333333333,
+          "target_hit_rate": 0.4,
+          "mean_future_max_return": 0.10211802030354493,
+          "mean_trade_net_return": 0.00487430138603083,
+          "median_trade_net_return": 0.006681749447699671,
+          "trade_win_rate": 0.5,
+          "ending_equity": 1.0094418043237552,
+          "max_drawdown": -0.019307471609394167,
+          "mean_predicted_target_rate": 0.6330037532332552,
+          "prediction_calibration_gap": -0.23300375323325517,
+          "realized_down_5pct_rate": 0.3,
+          "realized_down_8pct_rate": 0.2,
+          "mean_entry_gap_return": -0.003866404393680378,
+          "probability_threshold": 0.6,
+          "top_n_per_day": 1
+        },
+        "p60_top2": {
+          "selected_signals": 13,
+          "active_days": 10,
+          "average_signals_per_test_day": 0.10833333333333334,
+          "target_hit_rate": 0.38461538461538464,
+          "mean_future_max_return": 0.08886732844661793,
+          "mean_trade_net_return": 0.0022033943047443157,
+          "median_trade_net_return": -0.0042026431718061846,
+          "trade_win_rate": 0.46153846153846156,
+          "ending_equity": 1.0100382164418058,
+          "max_drawdown": -0.012946404922198562,
+          "mean_predicted_target_rate": 0.6325938202896848,
+          "prediction_calibration_gap": -0.24797843567430017,
+          "realized_down_5pct_rate": 0.3076923076923077,
+          "realized_down_8pct_rate": 0.15384615384615385,
+          "mean_entry_gap_return": -0.0020930755630132426,
+          "probability_threshold": 0.6,
+          "top_n_per_day": 2
+        },
+        "p60_top3": {
+          "selected_signals": 13,
+          "active_days": 10,
+          "average_signals_per_test_day": 0.10833333333333334,
+          "target_hit_rate": 0.38461538461538464,
+          "mean_future_max_return": 0.08886732844661793,
+          "mean_trade_net_return": 0.0022033943047443157,
+          "median_trade_net_return": -0.0042026431718061846,
+          "trade_win_rate": 0.46153846153846156,
+          "ending_equity": 1.0100382164418058,
+          "max_drawdown": -0.012946404922198562,
+          "mean_predicted_target_rate": 0.6325938202896848,
+          "prediction_calibration_gap": -0.24797843567430017,
+          "realized_down_5pct_rate": 0.3076923076923077,
+          "realized_down_8pct_rate": 0.15384615384615385,
+          "mean_entry_gap_return": -0.0020930755630132426,
+          "probability_threshold": 0.6,
+          "top_n_per_day": 3
+        },
+        "p65_top1": {
+          "selected_signals": 0,
+          "target_hit_rate": null,
+          "mean_trade_net_return": null,
+          "median_trade_net_return": null,
+          "trade_win_rate": null,
+          "ending_equity": 1.0,
+          "max_drawdown": 0.0,
+          "probability_threshold": 0.65,
+          "top_n_per_day": 1
+        },
+        "p65_top2": {
+          "selected_signals": 0,
+          "target_hit_rate": null,
+          "mean_trade_net_return": null,
+          "median_trade_net_return": null,
+          "trade_win_rate": null,
+          "ending_equity": 1.0,
+          "max_drawdown": 0.0,
+          "probability_threshold": 0.65,
+          "top_n_per_day": 2
+        },
+        "p65_top3": {
+          "selected_signals": 0,
+          "target_hit_rate": null,
+          "mean_trade_net_return": null,
+          "median_trade_net_return": null,
+          "trade_win_rate": null,
+          "ending_equity": 1.0,
+          "max_drawdown": 0.0,
+          "probability_threshold": 0.65,
+          "top_n_per_day": 3
+        },
+        "p70_top1": {
+          "selected_signals": 0,
+          "target_hit_rate": null,
+          "mean_trade_net_return": null,
+          "median_trade_net_return": null,
+          "trade_win_rate": null,
+          "ending_equity": 1.0,
+          "max_drawdown": 0.0,
+          "probability_threshold": 0.7,
+          "top_n_per_day": 1
+        },
+        "p70_top2": {
+          "selected_signals": 0,
+          "target_hit_rate": null,
+          "mean_trade_net_return": null,
+          "median_trade_net_return": null,
+          "trade_win_rate": null,
+          "ending_equity": 1.0,
+          "max_drawdown": 0.0,
+          "probability_threshold": 0.7,
+          "top_n_per_day": 2
+        },
+        "p70_top3": {
+          "selected_signals": 0,
+          "target_hit_rate": null,
+          "mean_trade_net_return": null,
+          "median_trade_net_return": null,
+          "trade_win_rate": null,
+          "ending_equity": 1.0,
+          "max_drawdown": 0.0,
+          "probability_threshold": 0.7,
+          "top_n_per_day": 3
+        },
+        "p75_top1": {
+          "selected_signals": 0,
+          "target_hit_rate": null,
+          "mean_trade_net_return": null,
+          "median_trade_net_return": null,
+          "trade_win_rate": null,
+          "ending_equity": 1.0,
+          "max_drawdown": 0.0,
+          "probability_threshold": 0.75,
+          "top_n_per_day": 1
+        },
+        "p75_top2": {
+          "selected_signals": 0,
+          "target_hit_rate": null,
+          "mean_trade_net_return": null,
+          "median_trade_net_return": null,
+          "trade_win_rate": null,
+          "ending_equity": 1.0,
+          "max_drawdown": 0.0,
+          "probability_threshold": 0.75,
+          "top_n_per_day": 2
+        },
+        "p75_top3": {
+          "selected_signals": 0,
+          "target_hit_rate": null,
+          "mean_trade_net_return": null,
+          "median_trade_net_return": null,
+          "trade_win_rate": null,
+          "ending_equity": 1.0,
+          "max_drawdown": 0.0,
+          "probability_threshold": 0.75,
+          "top_n_per_day": 3
+        }
+      }
     },
     "rise_pattern_risk_management": {
       "assumptions": {
