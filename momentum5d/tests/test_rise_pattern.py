@@ -7,6 +7,8 @@ from app.yahoo.rise_pattern import (
     RisePatternConfig,
     _attach_trade_outcomes,
     _exit_trade_outcome,
+    _score_selective_day,
+    _select_selective_trades,
     _stopped_trade_outcome,
 )
 
@@ -110,6 +112,10 @@ def test_trade_outcomes_include_full_stop_grid() -> None:
         assert f"rise_trade_{key}_net_return" in result
     for key in ("atr_0_5x", "atr_1x", "atr_1_5x", "atr_2x"):
         assert f"rise_trade_{key}_net_return" in result
+    assert "rise_trade_entry_gap_return" in result
+    assert "rise_trade_future_min_return" in result
+    assert "rise_trade_down_5pct" in result
+    assert "rise_trade_down_8pct" in result
 
 
 def test_time_exit_uses_requested_day_close() -> None:
@@ -173,3 +179,68 @@ def test_trade_outcomes_include_exit_grid() -> None:
         "day2_min_2pct",
     ):
         assert f"rise_trade_exit_{key}_net_return" in result
+
+
+def test_selective_model_uses_prior_live_outcomes_by_shape() -> None:
+    samples = 50
+    training = pd.DataFrame(
+        {
+            "trade_outcome_available": [True] * samples,
+            "rise_trade_entry_gap_return": [0.0] * samples,
+            "_rise_shape": ["sharp_selloff"] * samples,
+            "_rise_feature_signature": ["11111"] * samples,
+            "_rise_quality_score": [5] * samples,
+            "rise_trade_target_hit": [True] * 40 + [False] * 10,
+            "rise_trade_down_5pct": [False] * 47 + [True] * 3,
+            "rise_trade_down_8pct": [False] * 49 + [True],
+            "rise_trade_net_return": [0.048] * 40 + [-0.02] * 10,
+        }
+    )
+    day = training.iloc[:1].drop(
+        columns=[
+            "trade_outcome_available",
+            "rise_trade_entry_gap_return",
+            "rise_trade_target_hit",
+            "rise_trade_down_5pct",
+            "rise_trade_down_8pct",
+            "rise_trade_net_return",
+        ]
+    )
+    config = RisePatternConfig(
+        selective_min_samples=40,
+        selective_prior_strength=10.0,
+    )
+
+    result = _score_selective_day(day, training, config)
+
+    assert result["selective_70_probability"].iloc[0] == pytest.approx(0.80)
+    assert result["selective_70_down_5pct_probability"].iloc[0] == pytest.approx(
+        0.06
+    )
+    assert result["selective_70_expected_net_return"].iloc[0] > 0
+    assert result["selective_70_samples"].iloc[0] == samples
+
+
+def test_selective_selection_allows_zero_to_three_trades_per_day() -> None:
+    scored = pd.DataFrame(
+        {
+            "date": ["2026-08-01"] * 5 + ["2026-08-02"],
+            "rise_trade_entry_gap_return": [0.0] * 6,
+            "selective_70_probability": [0.80, 0.78, 0.76, 0.74, 0.72, 0.60],
+            "selective_70_down_5pct_probability": [0.10] * 6,
+            "selective_70_down_8pct_probability": [0.05] * 6,
+            "selective_70_expected_net_return": [0.02, 0.018, 0.016, 0.014, 0.012, 0.01],
+            "selective_70_samples": [100] * 6,
+        }
+    )
+    config = RisePatternConfig(selective_top_n=3)
+
+    result = _select_selective_trades(
+        scored,
+        config,
+        probability_threshold=0.70,
+        top_n=3,
+    )
+
+    assert len(result) == 3
+    assert result["date"].nunique() == 1
