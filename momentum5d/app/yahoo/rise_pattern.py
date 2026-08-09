@@ -12,6 +12,13 @@ STRONG_SHAPES = frozenset(
     {"sharp_selloff", "capitulation_reversal", "rounded_base"}
 )
 STRONG_SHAPE_MIN_TURNOVER = 200_000_000.0
+SELECTIVE_SHAPE_FEATURES = (
+    "_rise_market_favorable",
+    "_rise_theme_flow",
+    "_rise_volume_continuation",
+    "rise_pattern_reversal_confirmed",
+    "_rise_observed_inflow",
+)
 
 
 @dataclass(frozen=True)
@@ -35,6 +42,17 @@ class RisePatternConfig:
         (2, 0.01),
         (2, 0.02),
     )
+    selective_test_days: int = 120
+    selective_top_n: int = 3
+    selective_probability_threshold: float = 0.70
+    selective_probability_grid: tuple[float, ...] = (0.60, 0.65, 0.70, 0.75)
+    selective_min_samples: int = 40
+    selective_prior_strength: float = 50.0
+    selective_max_gap_up: float = 0.02
+    selective_max_down_5pct_probability: float = 0.18
+    selective_max_down_8pct_probability: float = 0.10
+    selective_min_expected_net_return: float = 0.0
+    selective_validation_samples: int = 300
 
 
 def add_latest_rise_pattern_signals(
@@ -194,12 +212,73 @@ def backtest_rise_pattern_signals(
         strategy_rows["strong_shape_200m_signal"].append(strong_shape_signal)
         strategy_rows["combined"].append(combined)
 
+    selective_dates = complete_dates[-config.selective_test_days :]
+    selective_pool = frame.loc[_selective_candidate_mask(frame)].copy()
+    selective_pool["_date_position"] = selective_pool["date"].map(date_position)
+    selective_scored_rows: list[pd.DataFrame] = []
+    for test_date in selective_dates:
+        position = date_position[test_date]
+        training = selective_pool.loc[
+            selective_pool["_date_position"] <= position - config.horizon_days
+        ]
+        day = selective_pool.loc[
+            (selective_pool["date"] == test_date)
+            & selective_pool["trade_outcome_available"].fillna(False).astype(bool)
+        ]
+        if day.empty:
+            continue
+        selective_scored_rows.append(_score_selective_day(day, training, config))
+    selective_scored = (
+        pd.concat(selective_scored_rows, ignore_index=True)
+        if selective_scored_rows
+        else pd.DataFrame()
+    )
+    selective_trades = _select_selective_trades(
+        selective_scored,
+        config,
+        probability_threshold=config.selective_probability_threshold,
+        top_n=config.selective_top_n,
+    )
+
     summaries: dict[str, Any] = {}
     strategy_trades: dict[str, pd.DataFrame] = {}
     for name, rows in strategy_rows.items():
         trades = pd.concat(rows, ignore_index=True) if rows else pd.DataFrame()
         strategy_trades[name] = trades
         summaries[name] = _strategy_summary(trades, test_dates, config)
+    strategy_trades["selective_70"] = selective_trades
+    summaries["selective_70"] = _strategy_summary(
+        selective_trades,
+        selective_dates,
+        config,
+    )
+
+    selective_threshold_grid: dict[str, Any] = {}
+    for probability_threshold in config.selective_probability_grid:
+        for top_n in range(1, config.selective_top_n + 1):
+            key = f"p{int(round(probability_threshold * 100))}_top{top_n}"
+            grid_trades = _select_selective_trades(
+                selective_scored,
+                config,
+                probability_threshold=probability_threshold,
+                top_n=top_n,
+            )
+            summary = _strategy_summary(grid_trades, selective_dates, config)
+            summary["probability_threshold"] = probability_threshold
+            summary["top_n_per_day"] = top_n
+            selective_threshold_grid[key] = summary
+
+    selective_by_shape = {
+        shape: _strategy_summary(
+            selective_trades.loc[selective_trades["_rise_shape"] == shape],
+            selective_dates,
+            config,
+        )
+        for shape in sorted(STRONG_SHAPES)
+    } if not selective_trades.empty else {
+        shape: _strategy_summary(pd.DataFrame(), selective_dates, config)
+        for shape in sorted(STRONG_SHAPES)
+    }
 
     pattern_trades = strategy_trades["rise_pattern"]
     risk_management = {
@@ -365,6 +444,62 @@ def backtest_rise_pattern_signals(
             "raw_ranking": "walk-forward subtype probability, fallback observed inflow score",
             "signal_overlay": "existing walk-forward probability >= 80% and samples >= 30",
         },
+        "selective_70_definition": {
+            "shapes": sorted(STRONG_SHAPES),
+            "min_turnover": int(STRONG_SHAPE_MIN_TURNOVER),
+            "entry": "next_trading_day_open_if_gap_up_is_within_limit",
+            "max_gap_up": config.selective_max_gap_up,
+            "top_n_per_day": config.selective_top_n,
+            "allows_zero_trades": True,
+            "probability_threshold": config.selective_probability_threshold,
+            "min_expected_net_return": config.selective_min_expected_net_return,
+            "max_down_5pct_probability": (
+                config.selective_max_down_5pct_probability
+            ),
+            "max_down_8pct_probability": (
+                config.selective_max_down_8pct_probability
+            ),
+            "training_population": (
+                "prior live-detectable strong-shape signals with completed "
+                "next-open five-day outcomes"
+            ),
+            "shape_model": "separate empirical Bayes model for each strong shape",
+            "features": {
+                "market_regime": "market breadth 5d > 50% and median return 20d > 0",
+                "theme_flow_proxy": (
+                    "TSE-33/TSE-17 sector trend score >= 60% and breadth >= 50%"
+                ),
+                "volume_continuation": (
+                    "5d/20d volume and turnover ratios are both >= 1"
+                ),
+                "candlestick_reversal": "close location >= 55% of daily range",
+                "observed_inflow": "confirmed or observed inflow score >= 50%",
+            },
+            "note": (
+                "The repository has no historical Kabutan-theme membership series, "
+                "so leakage-safe sector flow is used as the theme-flow proxy."
+            ),
+        },
+        "selective_70_validation": {
+            "test_start": selective_dates[0].isoformat(),
+            "test_end": selective_dates[-1].isoformat(),
+            "test_days": len(selective_dates),
+            "minimum_required_signals": config.selective_validation_samples,
+            "sample_requirement_met": (
+                len(selective_trades) >= config.selective_validation_samples
+            ),
+            "target_rate_requirement": 0.70,
+            "target_rate_requirement_met": (
+                not selective_trades.empty
+                and float(selective_trades["rise_trade_target_hit"].mean()) >= 0.70
+            ),
+            "positive_expectancy_requirement_met": (
+                not selective_trades.empty
+                and float(selective_trades["rise_trade_net_return"].mean()) > 0.0
+            ),
+            "by_shape": selective_by_shape,
+            "threshold_grid": selective_threshold_grid,
+        },
         "rise_pattern_risk_management": risk_management,
         "strong_shape_200m_risk_management": strong_shape_risk_management,
         "strong_shape_200m_exit_management": strong_shape_exit_management,
@@ -418,7 +553,67 @@ def _add_live_bottom_features(features: pd.DataFrame) -> pd.DataFrame:
         ],
         default="other_swing_low",
     )
+
+    date_group = frame.groupby("date", sort=False)
+    market_breadth = date_group["return_5d"].transform(
+        lambda values: float((values > 0).mean())
+    )
+    market_median_return = date_group["return_20d"].transform("median")
+    frame["_rise_market_favorable"] = market_breadth.gt(0.50) & market_median_return.gt(
+        0.0
+    )
+
+    sector_score = _first_numeric_column(
+        frame,
+        ("sector_33_trend_score", "sector_17_trend_score"),
+    )
+    sector_breadth = _first_numeric_column(
+        frame,
+        ("sector_33_breadth_5d", "sector_17_breadth_5d"),
+    )
+    frame["_rise_theme_flow"] = sector_score.ge(0.60) & sector_breadth.ge(0.50)
+    volume_ratio = _numeric_column(frame, "volume_ratio_5_20")
+    turnover_ratio = _numeric_column(frame, "turnover_ratio_5_20")
+    frame["_rise_volume_continuation"] = volume_ratio.ge(1.0) & turnover_ratio.ge(
+        1.0
+    )
+    observed_score = _numeric_column(frame, "observed_inflow_score", default=0.0)
+    observed_confirmed = frame.get(
+        "observed_inflow_confirmed",
+        pd.Series(False, index=frame.index),
+    ).fillna(False).astype(bool)
+    frame["_rise_observed_inflow"] = observed_confirmed | observed_score.ge(0.50)
+    frame["_rise_quality_score"] = sum(
+        frame[column].fillna(False).astype("int8")
+        for column in SELECTIVE_SHAPE_FEATURES
+    )
+    frame["_rise_feature_signature"] = frame[list(SELECTIVE_SHAPE_FEATURES)].apply(
+        lambda row: "".join("1" if bool(value) else "0" for value in row),
+        axis=1,
+    )
     return frame
+
+
+def _numeric_column(
+    frame: pd.DataFrame,
+    column: str,
+    *,
+    default: float = np.nan,
+) -> pd.Series:
+    if column not in frame:
+        return pd.Series(default, index=frame.index, dtype=float)
+    return pd.to_numeric(frame[column], errors="coerce")
+
+
+def _first_numeric_column(
+    frame: pd.DataFrame,
+    columns: tuple[str, ...],
+) -> pd.Series:
+    result = pd.Series(np.nan, index=frame.index, dtype=float)
+    for column in columns:
+        values = _numeric_column(frame, column)
+        result = result.fillna(values)
+    return result
 
 
 def _calibrate_profiles(
@@ -577,8 +772,16 @@ def _attach_trade_outcomes(
     target = entry * 1.05
     hit = future_high.ge(target, axis=0).any(axis=1) & complete
     frame["trade_outcome_available"] = complete
+    frame["rise_trade_entry_gap_return"] = entry / frame["adjusted_close"] - 1
     frame["rise_trade_target_hit"] = hit
     frame["rise_trade_future_max_return"] = future_high.max(axis=1) / entry - 1
+    frame["rise_trade_future_min_return"] = future_low.min(axis=1) / entry - 1
+    frame["rise_trade_down_5pct"] = (
+        frame["rise_trade_future_min_return"].le(-0.05) & complete
+    )
+    frame["rise_trade_down_8pct"] = (
+        frame["rise_trade_future_min_return"].le(-0.08) & complete
+    )
     frame["rise_trade_gross_return"] = np.where(
         hit,
         0.05,
@@ -813,6 +1016,186 @@ def _select_top(frame: pd.DataFrame, score_column: str, top_n: int) -> pd.DataFr
     return frame.sort_values(score_column, ascending=False).head(top_n).copy()
 
 
+def _selective_candidate_mask(frame: pd.DataFrame) -> pd.Series:
+    return (
+        frame["rise_pattern_live_bottom"].fillna(False).astype(bool)
+        & frame["_rise_shape"].isin(STRONG_SHAPES)
+        & _numeric_column(frame, "turnover_value", default=0.0).ge(
+            STRONG_SHAPE_MIN_TURNOVER
+        )
+        & _numeric_column(frame, "rsi_14", default=100.0).le(82.0)
+    )
+
+
+def _score_selective_day(
+    day: pd.DataFrame,
+    training: pd.DataFrame,
+    config: RisePatternConfig,
+) -> pd.DataFrame:
+    """Estimate live-entry outcomes from prior live signals of the same shape."""
+    result = day.copy()
+    defaults: dict[str, Any] = {
+        "selective_70_probability": 0.0,
+        "selective_70_down_5pct_probability": 1.0,
+        "selective_70_down_8pct_probability": 1.0,
+        "selective_70_expected_net_return": -1.0,
+        "selective_70_samples": 0,
+        "selective_70_probability_lower_95": 0.0,
+        "selective_70_peer_level": "none",
+    }
+    for column, default in defaults.items():
+        result[column] = default
+    if result.empty or training.empty:
+        return result
+
+    valid_training = training.loc[
+        training["trade_outcome_available"].fillna(False).astype(bool)
+        & training["rise_trade_entry_gap_return"].le(config.selective_max_gap_up)
+    ].copy()
+    if valid_training.empty:
+        return result
+
+    for index, row in result.iterrows():
+        shape = str(row["_rise_shape"])
+        shape_training = valid_training.loc[valid_training["_rise_shape"] == shape]
+        if len(shape_training) < config.selective_min_samples:
+            continue
+
+        signature_training = shape_training.loc[
+            shape_training["_rise_feature_signature"]
+            == str(row["_rise_feature_signature"])
+        ]
+        peers = signature_training
+        peer_level = "shape_signature"
+        if len(peers) < config.selective_min_samples:
+            quality = int(row["_rise_quality_score"])
+            peers = shape_training.loc[
+                shape_training["_rise_quality_score"].sub(quality).abs().le(1)
+            ]
+            peer_level = "shape_quality_band"
+        if len(peers) < config.selective_min_samples:
+            peers = shape_training
+            peer_level = "shape"
+
+        sample_count = int(len(peers))
+        target_probability = _shrunk_binary_rate(
+            peers["rise_trade_target_hit"],
+            shape_training["rise_trade_target_hit"],
+            config.selective_prior_strength,
+        )
+        down_5_probability = _shrunk_binary_rate(
+            peers["rise_trade_down_5pct"],
+            shape_training["rise_trade_down_5pct"],
+            config.selective_prior_strength,
+        )
+        down_8_probability = _shrunk_binary_rate(
+            peers["rise_trade_down_8pct"],
+            shape_training["rise_trade_down_8pct"],
+            config.selective_prior_strength,
+        )
+        expected_return = _shrunk_mean(
+            peers["rise_trade_net_return"],
+            shape_training["rise_trade_net_return"],
+            config.selective_prior_strength,
+        )
+        successes = int(peers["rise_trade_target_hit"].sum())
+        result.at[index, "selective_70_probability"] = target_probability
+        result.at[index, "selective_70_down_5pct_probability"] = down_5_probability
+        result.at[index, "selective_70_down_8pct_probability"] = down_8_probability
+        result.at[index, "selective_70_expected_net_return"] = expected_return
+        result.at[index, "selective_70_samples"] = sample_count
+        result.at[index, "selective_70_probability_lower_95"] = _wilson_lower_bound(
+            successes,
+            sample_count,
+        )
+        result.at[index, "selective_70_peer_level"] = peer_level
+    return result
+
+
+def _shrunk_binary_rate(
+    values: pd.Series,
+    prior_values: pd.Series,
+    prior_strength: float,
+) -> float:
+    numeric = pd.to_numeric(values, errors="coerce").dropna()
+    prior = pd.to_numeric(prior_values, errors="coerce").dropna()
+    if numeric.empty or prior.empty:
+        return 0.0
+    return float(
+        (numeric.sum() + prior.mean() * prior_strength)
+        / (len(numeric) + prior_strength)
+    )
+
+
+def _shrunk_mean(
+    values: pd.Series,
+    prior_values: pd.Series,
+    prior_strength: float,
+) -> float:
+    numeric = pd.to_numeric(values, errors="coerce").dropna()
+    prior = pd.to_numeric(prior_values, errors="coerce").dropna()
+    if numeric.empty or prior.empty:
+        return -1.0
+    return float(
+        (numeric.sum() + prior.mean() * prior_strength)
+        / (len(numeric) + prior_strength)
+    )
+
+
+def _wilson_lower_bound(successes: int, samples: int, z: float = 1.96) -> float:
+    if samples <= 0:
+        return 0.0
+    rate = successes / samples
+    denominator = 1.0 + z**2 / samples
+    center = rate + z**2 / (2.0 * samples)
+    margin = z * np.sqrt(
+        rate * (1.0 - rate) / samples + z**2 / (4.0 * samples**2)
+    )
+    return float((center - margin) / denominator)
+
+
+def _select_selective_trades(
+    scored: pd.DataFrame,
+    config: RisePatternConfig,
+    *,
+    probability_threshold: float,
+    top_n: int,
+) -> pd.DataFrame:
+    if scored.empty:
+        return scored.copy()
+    eligible = scored.loc[
+        scored["rise_trade_entry_gap_return"].le(config.selective_max_gap_up)
+        & scored["selective_70_probability"].ge(probability_threshold)
+        & scored["selective_70_down_5pct_probability"].le(
+            config.selective_max_down_5pct_probability
+        )
+        & scored["selective_70_down_8pct_probability"].le(
+            config.selective_max_down_8pct_probability
+        )
+        & scored["selective_70_expected_net_return"].gt(
+            config.selective_min_expected_net_return
+        )
+        & scored["selective_70_samples"].ge(config.selective_min_samples)
+    ].copy()
+    if eligible.empty:
+        return eligible
+    eligible["_selective_rank_score"] = (
+        eligible["selective_70_expected_net_return"]
+        + 0.05 * eligible["selective_70_probability"]
+        - 0.05 * eligible["selective_70_down_5pct_probability"]
+        - 0.08 * eligible["selective_70_down_8pct_probability"]
+    )
+    return (
+        eligible.sort_values(
+            ["date", "_selective_rank_score"],
+            ascending=[True, False],
+        )
+        .groupby("date", sort=False, as_index=False)
+        .head(top_n)
+        .copy()
+    )
+
+
 def _strategy_summary(
     trades: pd.DataFrame,
     test_dates: list[Any],
@@ -833,7 +1216,7 @@ def _strategy_summary(
     daily["portfolio_return"] = daily["rise_trade_net_return"] / config.horizon_days
     daily["equity"] = (1 + daily["portfolio_return"]).cumprod()
     daily["drawdown"] = daily["equity"] / daily["equity"].cummax() - 1
-    return {
+    result = {
         "selected_signals": int(len(trades)),
         "active_days": int(trades["date"].nunique()),
         "average_signals_per_test_day": float(len(trades) / len(test_dates)),
@@ -845,6 +1228,28 @@ def _strategy_summary(
         "ending_equity": float(daily["equity"].iloc[-1]),
         "max_drawdown": float(daily["drawdown"].min()),
     }
+    if "selective_70_probability" in trades:
+        result.update(
+            {
+                "mean_predicted_target_rate": float(
+                    trades["selective_70_probability"].mean()
+                ),
+                "prediction_calibration_gap": float(
+                    trades["rise_trade_target_hit"].mean()
+                    - trades["selective_70_probability"].mean()
+                ),
+                "realized_down_5pct_rate": float(
+                    trades["rise_trade_down_5pct"].mean()
+                ),
+                "realized_down_8pct_rate": float(
+                    trades["rise_trade_down_8pct"].mean()
+                ),
+                "mean_entry_gap_return": float(
+                    trades["rise_trade_entry_gap_return"].mean()
+                ),
+            }
+        )
+    return result
 
 
 def _risk_summary(
