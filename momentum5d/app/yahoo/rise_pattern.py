@@ -7,6 +7,10 @@ import numpy as np
 import pandas as pd
 
 from app.yahoo.bottom_patterns import FEATURE_SPECS, SHAPE_LABELS
+from app.yahoo.selective_ml import (
+    tune_and_select_ml_strategy,
+    walk_forward_ml_scores,
+)
 
 STRONG_SHAPES = frozenset(
     {"sharp_selloff", "capitulation_reversal", "rounded_base"}
@@ -53,6 +57,10 @@ class RisePatternConfig:
     selective_max_down_8pct_probability: float = 0.10
     selective_min_expected_net_return: float = 0.0
     selective_validation_samples: int = 300
+    ml_test_days: int = 180
+    ml_refit_days: int = 30
+    ml_minimum_shape_samples: int = 180
+    ml_minimum_development_signals: int = 40
 
 
 def add_latest_rise_pattern_signals(
@@ -280,6 +288,28 @@ def backtest_rise_pattern_signals(
         for shape in sorted(STRONG_SHAPES)
     }
 
+    ml_dates = complete_dates[-config.ml_test_days :]
+    ml_scored = walk_forward_ml_scores(
+        selective_pool,
+        ml_dates,
+        date_position,
+        horizon_days=config.horizon_days,
+        refit_days=config.ml_refit_days,
+        minimum_shape_samples=config.ml_minimum_shape_samples,
+    )
+    ml_validation_trades, ml_diagnostics = tune_and_select_ml_strategy(
+        ml_scored,
+        ml_dates,
+        minimum_development_signals=config.ml_minimum_development_signals,
+    )
+    ml_validation_dates = ml_dates[len(ml_dates) // 2 :]
+    strategy_trades["ml_selective_60"] = ml_validation_trades
+    summaries["ml_selective_60"] = _strategy_summary(
+        ml_validation_trades,
+        ml_validation_dates,
+        config,
+    )
+
     pattern_trades = strategy_trades["rise_pattern"]
     risk_management = {
         "assumptions": {
@@ -500,6 +530,26 @@ def backtest_rise_pattern_signals(
             "by_shape": selective_by_shape,
             "threshold_grid": selective_threshold_grid,
         },
+        "ml_selective_60_study": {
+            "goal": {
+                "validation_target_hit_rate": 0.60,
+                "validation_minimum_signals": 30,
+                "combined_minimum_signals": 100,
+                "mean_trade_net_return_must_be_positive": True,
+            },
+            "leakage_control": (
+                "shape-specific models are refit in chronological blocks using only "
+                "outcomes completed before each block; configuration is tuned on the "
+                "first half and frozen for the final half"
+            ),
+            "models": ["logistic", "hist_gradient_boosting"],
+            "features": (
+                "price, volume, turnover, volatility, RSI, ATR, candle close location, "
+                "market breadth, TSE-17/TSE-33 flow proxies, observed inflow, retail flow, "
+                "Sakata score, and next-open gap known at order time"
+            ),
+            **ml_diagnostics,
+        },
         "rise_pattern_risk_management": risk_management,
         "strong_shape_200m_risk_management": strong_shape_risk_management,
         "strong_shape_200m_exit_management": strong_shape_exit_management,
@@ -559,6 +609,9 @@ def _add_live_bottom_features(features: pd.DataFrame) -> pd.DataFrame:
         lambda values: float((values > 0).mean())
     )
     market_median_return = date_group["return_20d"].transform("median")
+    frame["_rise_close_location"] = close_location.fillna(0.5)
+    frame["_rise_market_breadth_5d"] = market_breadth
+    frame["_rise_market_median_return_20d"] = market_median_return
     frame["_rise_market_favorable"] = market_breadth.gt(0.50) & market_median_return.gt(
         0.0
     )
