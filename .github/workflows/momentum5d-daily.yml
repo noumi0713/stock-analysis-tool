@@ -56,6 +56,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Restore rolling Yahoo history
+        id: yahoo-cache
         uses: actions/cache@v4
         with:
           path: momentum5d/data/yahoo
@@ -136,12 +137,20 @@ jobs:
           python -m pytest -q
           python -m ruff check app tests
 
+      # 定時・手動実行では最新データを取得する。
+      # コード変更時は復元済みキャッシュを使って分析だけ再実行し、
+      # 全銘柄の再ダウンロードによるタイムアウトを避ける。
+      # キャッシュが無い初回だけ、pushでも通常の取得処理へフォールバックする。
       - name: Refresh TSE stock universe from JPX
-        if: steps.update.outputs.should_run == 'true'
+        if: >-
+          steps.update.outputs.should_run == 'true' &&
+          (github.event_name != 'push' || steps.yahoo-cache.outputs.cache-hit != 'true')
         run: python app/yahoo/universe.py --config-dir config
 
       - name: Download daily and five-minute session data
-        if: steps.update.outputs.should_run == 'true'
+        if: >-
+          steps.update.outputs.should_run == 'true' &&
+          (github.event_name != 'push' || steps.yahoo-cache.outputs.cache-hit != 'true')
         run: >-
           python -m app yahoo-ingest
           --as-of "${{ steps.update.outputs.market_date }}"
@@ -149,8 +158,20 @@ jobs:
           --intraday-session "${{ steps.update.outputs.session }}"
 
       - name: Validate downloaded data
-        if: steps.update.outputs.should_run == 'true'
+        if: >-
+          steps.update.outputs.should_run == 'true' &&
+          (github.event_name != 'push' || steps.yahoo-cache.outputs.cache-hit != 'true')
         run: python -m app yahoo-validate
+
+      - name: Confirm cached data for code-only analysis
+        if: >-
+          steps.update.outputs.should_run == 'true' &&
+          github.event_name == 'push' &&
+          steps.yahoo-cache.outputs.cache-hit == 'true'
+        run: |
+          test -d data/yahoo
+          test -n "$(find data/yahoo -type f -print -quit)"
+          echo "Using restored Yahoo history; skipping market-data refresh."
 
       - name: Analyze +5% price and volume patterns
         if: steps.update.outputs.should_run == 'true'
