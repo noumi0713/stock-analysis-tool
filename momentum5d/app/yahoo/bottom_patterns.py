@@ -51,6 +51,7 @@ def analyze_bottom_patterns(
         "low",
         "close",
         "adjusted_close",
+        "turnover_value",
         "return_5d",
         "return_20d",
         "volume_ratio_5_20",
@@ -95,6 +96,7 @@ def analyze_bottom_patterns(
         "failures": int((~events["target_5pct"]).sum()),
         "overall_success_rate": overall_rate,
         "rankings": rankings,
+        "liquidity_shape_cross": _liquidity_shape_cross(events),
     }
     return summary, events
 
@@ -152,12 +154,19 @@ def _event_row(
     if len(future) < config.horizon_days:
         return None
     future_highs = future["_adjusted_high"].to_numpy(dtype="float64")
-    if not np.isfinite(future_highs).all() or current_low <= 0:
+    future_lows = future["_adjusted_low"].to_numpy(dtype="float64")
+    if (
+        not np.isfinite(future_highs).all()
+        or not np.isfinite(future_lows).all()
+        or current_low <= 0
+    ):
         return None
 
     target_price = current_low * 1.05
     hits = np.flatnonzero(future_highs >= target_price)
     max_return = float(np.max(future_highs) / current_low - 1)
+    min_return = float(np.min(future_lows) / current_low - 1)
+    turnover_value = _number_or_none(row["turnover_value"])
     previous = values.iloc[position - config.lookback_days + 1 : position + 1]
     normalized_shape = (
         previous["adjusted_close"] / float(previous["adjusted_close"].iloc[0]) * 100
@@ -171,6 +180,11 @@ def _event_row(
         "shape_label": SHAPE_LABELS[shape_key],
         "bottom_price": current_low,
         "max_return_5d": max_return,
+        "min_return_5d": min_return,
+        "turnover_value": turnover_value,
+        "broke_bottom_5d": min_return < 0,
+        "continued_down_3pct": min_return <= -0.03,
+        "continued_down_5pct": min_return <= -0.05,
         "target_5pct": bool(hits.size),
         "days_to_5pct": int(hits[0] + 1) if hits.size else None,
         "return_5d": _number_or_none(row["return_5d"]),
@@ -261,6 +275,69 @@ def _shape_rankings(
     for rank, item in enumerate(rankings, start=1):
         item["rank"] = rank
     return rankings
+
+
+
+def _liquidity_shape_cross(events: pd.DataFrame) -> list[dict[str, Any]]:
+    """Cross-tab chart shapes by absolute turnover and post-bottom downside."""
+    thresholds = (50_000_000.0, 100_000_000.0, 200_000_000.0)
+    pullback_shapes = {"double_bottom", "compression_base"}
+    groups: list[tuple[str, str, pd.DataFrame]] = [
+        (shape, SHAPE_LABELS[shape], values)
+        for shape, values in events.groupby("shape", sort=False)
+    ]
+    groups.append(
+        (
+            "pullback_candidate",
+            "押し目候補（二番底＋底値圏収束）",
+            events.loc[events["shape"].isin(pullback_shapes)],
+        )
+    )
+
+    rows: list[dict[str, Any]] = []
+    for threshold in thresholds:
+        for shape, shape_label, values in groups:
+            turnover = pd.to_numeric(values["turnover_value"], errors="coerce")
+            liquid = values.loc[turnover >= threshold]
+            samples = int(len(liquid))
+            if samples == 0:
+                continue
+            successes = int(liquid["target_5pct"].sum())
+            failures = samples - successes
+            broke_bottom = int(liquid["broke_bottom_5d"].sum())
+            down_3pct = int(liquid["continued_down_3pct"].sum())
+            down_5pct = int(liquid["continued_down_5pct"].sum())
+            misses = liquid.loc[~liquid["target_5pct"]]
+            miss_down_3pct = int(misses["continued_down_3pct"].sum())
+            miss_down_5pct = int(misses["continued_down_5pct"].sum())
+            rows.append(
+                {
+                    "turnover_threshold": int(threshold),
+                    "shape": shape,
+                    "shape_label": shape_label,
+                    "samples": samples,
+                    "successes": successes,
+                    "failures": failures,
+                    "success_rate": successes / samples,
+                    "failure_rate": failures / samples,
+                    "broke_bottom_5d": broke_bottom,
+                    "broke_bottom_rate": broke_bottom / samples,
+                    "continued_down_3pct": down_3pct,
+                    "continued_down_3pct_rate": down_3pct / samples,
+                    "continued_down_5pct": down_5pct,
+                    "continued_down_5pct_rate": down_5pct / samples,
+                    "failure_and_down_3pct": miss_down_3pct,
+                    "failure_and_down_3pct_rate": (
+                        miss_down_3pct / failures if failures else 0.0
+                    ),
+                    "failure_and_down_5pct": miss_down_5pct,
+                    "failure_and_down_5pct_rate": (
+                        miss_down_5pct / failures if failures else 0.0
+                    ),
+                    "median_min_return_5d": float(liquid["min_return_5d"].median()),
+                }
+            )
+    return rows
 
 
 def _feature_comparison(values: pd.DataFrame) -> list[dict[str, Any]]:
@@ -426,4 +503,5 @@ def _empty_summary(config: BottomPatternConfig) -> dict[str, Any]:
         "failures": 0,
         "overall_success_rate": None,
         "rankings": [],
+        "liquidity_shape_cross": [],
     }
