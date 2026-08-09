@@ -150,45 +150,71 @@ def tune_and_select_ml_strategy(
         ("balanced", 0.35, 0.20, 0.00),
         ("strict", 0.25, 0.12, 0.003),
     )
-    for model_name in ("logistic", "hist_gradient_boosting"):
-        probability_column = f"ml_{model_name}_target_probability"
-        if probability_column not in development:
-            continue
-        for probability_threshold in (0.40, 0.45, 0.50, 0.55, 0.60, 0.65):
-            for gap_limit in (0.00, 0.01, 0.02, 0.03):
-                for risk_name, down_5_limit, down_8_limit, expected_return_min in risk_profiles:
-                    for top_n in (1, 2, 3):
-                        parameters = {
-                            "model": model_name,
-                            "probability_threshold": probability_threshold,
-                            "max_gap_up": gap_limit,
-                            "risk_profile": risk_name,
-                            "max_down_5pct_probability": down_5_limit,
-                            "max_down_8pct_probability": down_8_limit,
-                            "min_expected_net_return": expected_return_min,
-                            "top_n_per_day": top_n,
-                        }
-                        trades = _select_with_parameters(development, parameters)
-                        summary = _compact_summary(trades)
-                        fold_summaries = _chronological_fold_summaries(
-                            development,
-                            development_dates,
-                            parameters,
-                        )
-                        objective = _development_objective(
-                            summary,
-                            fold_summaries,
-                            minimum_development_signals,
-                            model_name=model_name,
-                        )
-                        experiments.append(
-                            {
-                                **parameters,
-                                **summary,
-                                "development_folds": fold_summaries,
-                                "objective": objective,
-                            }
-                        )
+    shape_profiles = (
+        ("all_strong_shapes", ()),
+        ("sharp_selloff", ("sharp_selloff",)),
+        ("capitulation_reversal", ("capitulation_reversal",)),
+        ("rounded_base", ("rounded_base",)),
+    )
+    regime_profiles = (
+        ("all_regimes", None, None),
+        ("supportive_breadth", 0.50, -0.02),
+        ("positive_market_trend", 0.50, 0.00),
+    )
+    for shape_profile, allowed_shapes in shape_profiles:
+        for regime_profile, minimum_breadth, minimum_market_return in regime_profiles:
+            for model_name in ("logistic", "hist_gradient_boosting"):
+                probability_column = f"ml_{model_name}_target_probability"
+                if probability_column not in development:
+                    continue
+                for probability_threshold in (0.40, 0.45, 0.50, 0.55, 0.60, 0.65):
+                    for gap_limit in (0.00, 0.01, 0.02, 0.03):
+                        for (
+                            risk_name,
+                            down_5_limit,
+                            down_8_limit,
+                            expected_return_min,
+                        ) in risk_profiles:
+                            for top_n in (1, 2, 3):
+                                parameters = {
+                                    "shape_profile": shape_profile,
+                                    "allowed_shapes": list(allowed_shapes),
+                                    "regime_profile": regime_profile,
+                                    "min_market_breadth_5d": minimum_breadth,
+                                    "min_market_median_return_20d": (minimum_market_return),
+                                    "model": model_name,
+                                    "probability_threshold": probability_threshold,
+                                    "max_gap_up": gap_limit,
+                                    "risk_profile": risk_name,
+                                    "max_down_5pct_probability": down_5_limit,
+                                    "max_down_8pct_probability": down_8_limit,
+                                    "min_expected_net_return": expected_return_min,
+                                    "top_n_per_day": top_n,
+                                }
+                                trades = _select_with_parameters(
+                                    development,
+                                    parameters,
+                                )
+                                summary = _compact_summary(trades)
+                                fold_summaries = _chronological_fold_summaries(
+                                    development,
+                                    development_dates,
+                                    parameters,
+                                )
+                                objective = _development_objective(
+                                    summary,
+                                    fold_summaries,
+                                    minimum_development_signals,
+                                    model_name=model_name,
+                                )
+                                experiments.append(
+                                    {
+                                        **parameters,
+                                        **summary,
+                                        "development_folds": fold_summaries,
+                                        "objective": objective,
+                                    }
+                                )
     if not experiments:
         return pd.DataFrame(), {"status": "no_model_predictions"}
     ranked = sorted(experiments, key=lambda item: item["objective"], reverse=True)
@@ -196,6 +222,11 @@ def tune_and_select_ml_strategy(
     parameters = {
         key: chosen[key]
         for key in (
+            "shape_profile",
+            "allowed_shapes",
+            "regime_profile",
+            "min_market_breadth_5d",
+            "min_market_median_return_20d",
             "model",
             "probability_threshold",
             "max_gap_up",
@@ -232,6 +263,7 @@ def tune_and_select_ml_strategy(
         "chosen_parameters": parameters,
         "development": _compact_summary(development_trades),
         "development_folds": chosen["development_folds"],
+        "development_by_shape": _summaries_by_shape(development_trades),
         "validation": validation_summary,
         "validation_folds": validation_folds,
         "validation_by_shape": _summaries_by_shape(validation_trades),
@@ -372,13 +404,29 @@ def _select_with_parameters(
     expected = f"ml_{model_name}_expected_net_return"
     if any(column not in scored for column in (target, down_5, down_8, expected)):
         return pd.DataFrame(columns=scored.columns)
-    eligible = scored.loc[
+    eligible_mask = (
         scored[target].ge(parameters["probability_threshold"])
         & scored[down_5].le(parameters["max_down_5pct_probability"])
         & scored[down_8].le(parameters["max_down_8pct_probability"])
         & scored[expected].gt(parameters["min_expected_net_return"])
         & scored["rise_trade_entry_gap_return"].le(parameters["max_gap_up"])
-    ].copy()
+    )
+    allowed_shapes = parameters.get("allowed_shapes") or []
+    if allowed_shapes:
+        if "_rise_shape" not in scored:
+            return pd.DataFrame(columns=scored.columns)
+        eligible_mask &= scored["_rise_shape"].isin(allowed_shapes)
+    minimum_breadth = parameters.get("min_market_breadth_5d")
+    if minimum_breadth is not None:
+        eligible_mask &= pd.to_numeric(scored["_rise_market_breadth_5d"], errors="coerce").ge(
+            float(minimum_breadth)
+        )
+    minimum_market_return = parameters.get("min_market_median_return_20d")
+    if minimum_market_return is not None:
+        eligible_mask &= pd.to_numeric(
+            scored["_rise_market_median_return_20d"], errors="coerce"
+        ).ge(float(minimum_market_return))
+    eligible = scored.loc[eligible_mask].copy()
     if eligible.empty:
         return eligible
     eligible["_ml_rank_score"] = (
