@@ -58,5 +58,11 @@ def test_tuning_freezes_development_rule_for_validation() -> None:
     assert len(diagnostics["development_folds"]) == 3
     assert all(fold["selected_signals"] >= 5 for fold in diagnostics["development_folds"])
     assert len(diagnostics["validation_folds"]) == 3
+    assert diagnostics["sharp_selloff_candidate"]["validation"]["selected_signals"] == 60
+    assert (
+        diagnostics["sharp_selloff_candidate"]["latest_period_confirmation"]["selected_signals"]
+        == 20
+    )
+    assert diagnostics["sharp_selloff_candidate"]["historical_60pct_candidate_met"]
     assert len(validation_trades) == 60
     assert validation_trades["rise_trade_target_hit"].mean() >= 0.60
