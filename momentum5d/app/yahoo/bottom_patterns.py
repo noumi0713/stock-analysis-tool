@@ -51,7 +51,6 @@ def analyze_bottom_patterns(
         "low",
         "close",
         "adjusted_close",
-        "turnover_value",
         "return_5d",
         "return_20d",
         "volume_ratio_5_20",
@@ -63,6 +62,8 @@ def analyze_bottom_patterns(
         raise ValueError(f"底値パターン分析の必須列がありません: {sorted(missing)}")
 
     frame = features.copy().sort_values(["ticker", "date"]).reset_index(drop=True)
+    if "turnover_value" not in frame.columns:
+        frame["turnover_value"] = np.nan
     adjustment_ratio = frame["adjusted_close"] / frame["close"]
     frame["_adjusted_high"] = frame["high"] * adjustment_ratio
     frame["_adjusted_low"] = frame["low"] * adjustment_ratio
