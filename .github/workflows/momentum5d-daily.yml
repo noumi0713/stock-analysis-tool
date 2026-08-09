@@ -64,6 +64,18 @@ jobs:
           restore-keys: |
             momentum5d-yahoo-
 
+      - name: Detect restored Yahoo history
+        id: yahoo-history
+        shell: bash
+        run: |
+          if [ -d data/yahoo ] && [ -n "$(find data/yahoo -type f -print -quit)" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+            echo "Restored Yahoo history is available."
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "No restored Yahoo history was found."
+          fi
+
       - name: Select session and skip completed retries
         id: update
         shell: bash
@@ -144,13 +156,13 @@ jobs:
       - name: Refresh TSE stock universe from JPX
         if: >-
           steps.update.outputs.should_run == 'true' &&
-          (github.event_name != 'push' || steps.yahoo-cache.outputs.cache-hit != 'true')
+          (github.event_name != 'push' || steps.yahoo-history.outputs.available != 'true')
         run: python app/yahoo/universe.py --config-dir config
 
       - name: Download daily and five-minute session data
         if: >-
           steps.update.outputs.should_run == 'true' &&
-          (github.event_name != 'push' || steps.yahoo-cache.outputs.cache-hit != 'true')
+          (github.event_name != 'push' || steps.yahoo-history.outputs.available != 'true')
         run: >-
           python -m app yahoo-ingest
           --as-of "${{ steps.update.outputs.market_date }}"
@@ -160,14 +172,14 @@ jobs:
       - name: Validate downloaded data
         if: >-
           steps.update.outputs.should_run == 'true' &&
-          (github.event_name != 'push' || steps.yahoo-cache.outputs.cache-hit != 'true')
+          (github.event_name != 'push' || steps.yahoo-history.outputs.available != 'true')
         run: python -m app yahoo-validate
 
       - name: Confirm cached data for code-only analysis
         if: >-
           steps.update.outputs.should_run == 'true' &&
           github.event_name == 'push' &&
-          steps.yahoo-cache.outputs.cache-hit == 'true'
+          steps.yahoo-history.outputs.available == 'true'
         run: |
           test -d data/yahoo
           test -n "$(find data/yahoo -type f -print -quit)"
