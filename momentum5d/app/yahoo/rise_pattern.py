@@ -5,9 +5,7 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-
 from app.yahoo.bottom_patterns import FEATURE_SPECS, SHAPE_LABELS
-
 
 STRONG_SHAPES = frozenset(
     {"sharp_selloff", "capitulation_reversal", "rounded_base"}
@@ -717,3 +715,4 @@ def _risk_summary(
         result["mean_stop_distance_pct"] = float(valid[stop_distance_column].mean())
         result["median_stop_distance_pct"] = float(valid[stop_distance_column].median())
     return result
+
