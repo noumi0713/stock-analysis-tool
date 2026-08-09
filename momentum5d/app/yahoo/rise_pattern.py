@@ -9,6 +9,12 @@ import pandas as pd
 from app.yahoo.bottom_patterns import FEATURE_SPECS, SHAPE_LABELS
 
 
+STRONG_SHAPES = frozenset(
+    {"sharp_selloff", "capitulation_reversal", "rounded_base"}
+)
+STRONG_SHAPE_MIN_TURNOVER = 200_000_000.0
+
+
 @dataclass(frozen=True)
 class RisePatternConfig:
     min_signal_rate: float = 0.80
@@ -99,6 +105,8 @@ def backtest_rise_pattern_signals(
         "rise_pattern": [],
         "rise_pattern_reversal": [],
         "rise_pattern_with_inflow": [],
+        "strong_shape_200m": [],
+        "strong_shape_200m_signal": [],
         "combined": [],
     }
     for test_date in test_dates:
@@ -129,6 +137,12 @@ def backtest_rise_pattern_signals(
         pattern_with_inflow_mask = pattern_mask & eligible[
             "observed_inflow_confirmed"
         ].fillna(False).astype(bool)
+        strong_shape_mask = (
+            eligible["rise_pattern_live_bottom"].fillna(False).astype(bool)
+            & eligible["_rise_shape"].isin(STRONG_SHAPES)
+            & eligible["turnover_value"].fillna(0).ge(STRONG_SHAPE_MIN_TURNOVER)
+        )
+        strong_shape_signal_mask = strong_shape_mask & pattern_mask
         old = _select_top(
             eligible.loc[old_mask], "observed_inflow_score", config.top_n
         )
@@ -143,6 +157,21 @@ def backtest_rise_pattern_signals(
             "rise_pattern_probability",
             config.top_n,
         )
+        strong_shape = eligible.loc[strong_shape_mask].copy()
+        strong_shape["_strong_shape_score"] = strong_shape[
+            "rise_pattern_probability"
+        ].where(
+            strong_shape["rise_pattern_probability"].gt(0),
+            strong_shape["observed_inflow_score"].fillna(0),
+        )
+        strong_shape = _select_top(
+            strong_shape, "_strong_shape_score", config.top_n
+        )
+        strong_shape_signal = _select_top(
+            eligible.loc[strong_shape_signal_mask],
+            "rise_pattern_probability",
+            config.top_n,
+        )
         combined = eligible.loc[old_mask | pattern_mask].copy()
         combined["_combined_score"] = combined[
             ["observed_inflow_score", "rise_pattern_probability"]
@@ -152,6 +181,8 @@ def backtest_rise_pattern_signals(
         strategy_rows["rise_pattern"].append(pattern)
         strategy_rows["rise_pattern_reversal"].append(reversal)
         strategy_rows["rise_pattern_with_inflow"].append(pattern_with_inflow)
+        strategy_rows["strong_shape_200m"].append(strong_shape)
+        strategy_rows["strong_shape_200m_signal"].append(strong_shape_signal)
         strategy_rows["combined"].append(combined)
 
     summaries: dict[str, Any] = {}
@@ -206,6 +237,44 @@ def backtest_rise_pattern_signals(
             stop_distance_column=f"{prefix}_stop_pct",
         )
 
+    strong_shape_trades = strategy_trades["strong_shape_200m"]
+    strong_shape_risk_management = {
+        "assumptions": risk_management["assumptions"],
+        "no_stop": _risk_summary(
+            strong_shape_trades,
+            test_dates,
+            config,
+            return_column="rise_trade_net_return",
+            target_column="rise_trade_target_hit",
+        ),
+    }
+    for stop_pct in config.fixed_stop_pcts:
+        key = _fixed_stop_key(stop_pct)
+        prefix = f"rise_trade_{key}"
+        strong_shape_risk_management[key] = _risk_summary(
+            strong_shape_trades,
+            test_dates,
+            config,
+            return_column=f"{prefix}_net_return",
+            target_column=f"{prefix}_target_hit",
+            stop_column=f"{prefix}_stop_hit",
+            ambiguous_column=f"{prefix}_ambiguous_both_hit",
+            stop_distance_column=f"{prefix}_stop_pct",
+        )
+    for multiplier in config.atr_stop_multipliers:
+        key = _atr_stop_key(multiplier)
+        prefix = f"rise_trade_{key}"
+        strong_shape_risk_management[key] = _risk_summary(
+            strong_shape_trades,
+            test_dates,
+            config,
+            return_column=f"{prefix}_net_return",
+            target_column=f"{prefix}_target_hit",
+            stop_column=f"{prefix}_stop_hit",
+            ambiguous_column=f"{prefix}_ambiguous_both_hit",
+            stop_distance_column=f"{prefix}_stop_pct",
+        )
+
     return {
         "method": "walk_forward_rise_pattern_v1",
         "signal_timing": "当日引けで検知し翌営業日始値でエントリー",
@@ -217,7 +286,16 @@ def backtest_rise_pattern_signals(
         "test_end": test_dates[-1].isoformat(),
         "test_days": len(test_dates),
         "strategies": summaries,
+        "strong_shape_200m_definition": {
+            "shapes": sorted(STRONG_SHAPES),
+            "min_turnover": int(STRONG_SHAPE_MIN_TURNOVER),
+            "entry": "next_trading_day_open",
+            "top_n_per_day": config.top_n,
+            "raw_ranking": "walk-forward subtype probability, fallback observed inflow score",
+            "signal_overlay": "existing walk-forward probability >= 80% and samples >= 30",
+        },
         "rise_pattern_risk_management": risk_management,
+        "strong_shape_200m_risk_management": strong_shape_risk_management,
     }
 
 
