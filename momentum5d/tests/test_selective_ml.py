@@ -18,6 +18,9 @@ def test_tuning_freezes_development_rule_for_validation() -> None:
             rows.append(
                 {
                     "date": value,
+                    "_rise_shape": "sharp_selloff" if favorable else "rounded_base",
+                    "_rise_market_breadth_5d": 0.62,
+                    "_rise_market_median_return_20d": 0.01,
                     "rise_trade_entry_gap_return": 0.0,
                     "rise_trade_target_hit": target_hit,
                     "rise_trade_net_return": net_return,
@@ -48,6 +51,10 @@ def test_tuning_freezes_development_rule_for_validation() -> None:
     assert diagnostics["status"] == "completed"
     assert diagnostics["validation_goal_met"]
     assert diagnostics["chosen_parameters"]["top_n_per_day"] >= 1
+    assert diagnostics["chosen_parameters"]["shape_profile"] in {
+        "all_strong_shapes",
+        "sharp_selloff",
+    }
     assert len(diagnostics["development_folds"]) == 3
     assert all(fold["selected_signals"] >= 5 for fold in diagnostics["development_folds"])
     assert len(diagnostics["validation_folds"]) == 3
