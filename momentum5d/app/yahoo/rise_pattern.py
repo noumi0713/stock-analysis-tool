@@ -25,6 +25,16 @@ class RisePatternConfig:
     transaction_cost_bps: float = 20.0
     fixed_stop_pcts: tuple[float, ...] = (0.03, 0.04, 0.05)
     atr_stop_multipliers: tuple[float, ...] = (0.5, 1.0, 1.5, 2.0)
+    exit_target_pcts: tuple[float, ...] = (0.03, 0.04)
+    exit_holding_days: tuple[int, ...] = (2, 3, 4)
+    follow_through_checks: tuple[tuple[int, float], ...] = (
+        (1, 0.00),
+        (1, 0.01),
+        (1, 0.02),
+        (2, 0.00),
+        (2, 0.01),
+        (2, 0.02),
+    )
 
 
 def add_latest_rise_pattern_signals(
@@ -260,6 +270,68 @@ def backtest_rise_pattern_signals(
             ambiguous_column=f"{prefix}_ambiguous_both_hit",
             stop_distance_column=f"{prefix}_stop_pct",
         )
+
+    strong_shape_exit_management = {
+        "assumptions": {
+            "entry": "next_trading_day_open",
+            "transaction_cost_bps": config.transaction_cost_bps,
+            "intraday_target_and_close_exit": "target_first",
+            "baseline_target_pct": 0.05,
+            "baseline_holding_days": config.horizon_days,
+        },
+        "baseline_5d_target_5pct": _exit_summary(
+            strong_shape_trades,
+            test_dates,
+            config,
+            return_column="rise_trade_net_return",
+            target_column="rise_trade_target_hit",
+        ),
+    }
+    for target_pct in config.exit_target_pcts:
+        key = f"target_{int(round(target_pct * 100))}pct"
+        prefix = f"rise_trade_exit_{key}"
+        summary = _exit_summary(
+            strong_shape_trades,
+            test_dates,
+            config,
+            return_column=f"{prefix}_net_return",
+            target_column=f"{prefix}_target_hit",
+            early_exit_column=f"{prefix}_early_exit",
+        )
+        summary["target_pct"] = target_pct
+        summary["holding_days"] = config.horizon_days
+        strong_shape_exit_management[key] = summary
+    for holding_days in config.exit_holding_days:
+        key = f"time_{holding_days}d"
+        prefix = f"rise_trade_exit_{key}"
+        summary = _exit_summary(
+            strong_shape_trades,
+            test_dates,
+            config,
+            return_column=f"{prefix}_net_return",
+            target_column=f"{prefix}_target_hit",
+            early_exit_column=f"{prefix}_early_exit",
+        )
+        summary["target_pct"] = 0.05
+        summary["holding_days"] = holding_days
+        strong_shape_exit_management[key] = summary
+    for check_day, minimum_return in config.follow_through_checks:
+        threshold = int(round(minimum_return * 100))
+        key = f"day{check_day}_min_{threshold}pct"
+        prefix = f"rise_trade_exit_{key}"
+        summary = _exit_summary(
+            strong_shape_trades,
+            test_dates,
+            config,
+            return_column=f"{prefix}_net_return",
+            target_column=f"{prefix}_target_hit",
+            early_exit_column=f"{prefix}_early_exit",
+        )
+        summary["target_pct"] = 0.05
+        summary["holding_days"] = config.horizon_days
+        summary["follow_through_check_day"] = check_day
+        summary["minimum_close_return"] = minimum_return
+        strong_shape_exit_management[key] = summary
     for multiplier in config.atr_stop_multipliers:
         key = _atr_stop_key(multiplier)
         prefix = f"rise_trade_{key}"
@@ -295,6 +367,7 @@ def backtest_rise_pattern_signals(
         },
         "rise_pattern_risk_management": risk_management,
         "strong_shape_200m_risk_management": strong_shape_risk_management,
+        "strong_shape_200m_exit_management": strong_shape_exit_management,
     }
 
 
@@ -482,9 +555,14 @@ def _attach_trade_outcomes(
         adjusted_low.groupby(group_key, sort=False).shift(-offset)
         for offset in range(1, config.horizon_days + 1)
     ]
+    future_closes = [
+        frame["adjusted_close"].groupby(group_key, sort=False).shift(-offset)
+        for offset in range(1, config.horizon_days + 1)
+    ]
     future_open = pd.concat(future_opens, axis=1)
     future_high = pd.concat(future_highs, axis=1)
     future_low = pd.concat(future_lows, axis=1)
+    future_close = pd.concat(future_closes, axis=1)
     exit_close = frame["adjusted_close"].groupby(group_key, sort=False).shift(
         -config.horizon_days
     )
@@ -494,6 +572,7 @@ def _attach_trade_outcomes(
         & future_open.notna().all(axis=1)
         & future_high.notna().all(axis=1)
         & future_low.notna().all(axis=1)
+        & future_close.notna().all(axis=1)
     )
     target = entry * 1.05
     hit = future_high.ge(target, axis=0).any(axis=1) & complete
@@ -540,7 +619,119 @@ def _attach_trade_outcomes(
         )
         frame[f"{prefix}_stop_pct"] = -atr_stop_return
         _assign_stop_outcome(frame, prefix, atr, config)
+
+    for target_pct in config.exit_target_pcts:
+        key = f"target_{int(round(target_pct * 100))}pct"
+        prefix = f"rise_trade_exit_{key}"
+        outcome = _exit_trade_outcome(
+            entry,
+            future_high,
+            future_close,
+            complete,
+            target_return=target_pct,
+            exit_day=config.horizon_days,
+        )
+        _assign_exit_outcome(frame, prefix, outcome, config)
+
+    for holding_days in config.exit_holding_days:
+        if holding_days >= config.horizon_days:
+            continue
+        key = f"time_{holding_days}d"
+        prefix = f"rise_trade_exit_{key}"
+        outcome = _exit_trade_outcome(
+            entry,
+            future_high,
+            future_close,
+            complete,
+            target_return=0.05,
+            exit_day=holding_days,
+        )
+        _assign_exit_outcome(frame, prefix, outcome, config)
+
+    for check_day, minimum_return in config.follow_through_checks:
+        if check_day > config.horizon_days:
+            continue
+        threshold = int(round(minimum_return * 100))
+        key = f"day{check_day}_min_{threshold}pct"
+        prefix = f"rise_trade_exit_{key}"
+        outcome = _exit_trade_outcome(
+            entry,
+            future_high,
+            future_close,
+            complete,
+            target_return=0.05,
+            exit_day=config.horizon_days,
+            follow_through_day=check_day,
+            minimum_close_return=minimum_return,
+        )
+        _assign_exit_outcome(frame, prefix, outcome, config)
     return frame
+
+
+def _exit_trade_outcome(
+    entry: pd.Series,
+    future_high: pd.DataFrame,
+    future_close: pd.DataFrame,
+    complete: pd.Series,
+    *,
+    target_return: float,
+    exit_day: int,
+    follow_through_day: int | None = None,
+    minimum_close_return: float | None = None,
+) -> dict[str, pd.Series]:
+    """Resolve target, time exit, and close-confirmed follow-through exits."""
+    valid = complete & entry.notna()
+    gross_return = pd.Series(np.nan, index=entry.index, dtype=float)
+    target_hit = pd.Series(False, index=entry.index, dtype=bool)
+    early_exit = pd.Series(False, index=entry.index, dtype=bool)
+    unresolved = valid.copy()
+    target_price = entry * (1.0 + target_return)
+
+    for day in range(exit_day):
+        day_high = future_high.iloc[:, day]
+        day_close = future_close.iloc[:, day]
+        target = unresolved & day_high.ge(target_price)
+        gross_return.loc[target] = target_return
+        target_hit.loc[target] = True
+        unresolved &= ~target
+
+        day_number = day + 1
+        if (
+            follow_through_day == day_number
+            and minimum_close_return is not None
+        ):
+            close_return = day_close / entry - 1
+            weak = unresolved & close_return.lt(minimum_close_return)
+            gross_return.loc[weak] = close_return.loc[weak]
+            early_exit.loc[weak] = True
+            unresolved &= ~weak
+
+        if day_number == exit_day:
+            gross_return.loc[unresolved] = (
+                day_close.loc[unresolved] / entry.loc[unresolved] - 1
+            )
+            early_exit.loc[unresolved] = exit_day < future_high.shape[1]
+            unresolved.loc[:] = False
+
+    return {
+        "gross_return": gross_return,
+        "target_hit": target_hit,
+        "early_exit": early_exit,
+    }
+
+
+def _assign_exit_outcome(
+    frame: pd.DataFrame,
+    prefix: str,
+    outcome: dict[str, pd.Series],
+    config: RisePatternConfig,
+) -> None:
+    frame[f"{prefix}_gross_return"] = outcome["gross_return"]
+    frame[f"{prefix}_net_return"] = (
+        outcome["gross_return"] - config.transaction_cost_bps / 10_000.0
+    )
+    frame[f"{prefix}_target_hit"] = outcome["target_hit"]
+    frame[f"{prefix}_early_exit"] = outcome["early_exit"]
 
 
 def _fixed_stop_key(stop_pct: float) -> str:
@@ -717,3 +908,28 @@ def _risk_summary(
         result["median_stop_distance_pct"] = float(valid[stop_distance_column].median())
     return result
 
+
+def _exit_summary(
+    trades: pd.DataFrame,
+    test_dates: list[Any],
+    config: RisePatternConfig,
+    *,
+    return_column: str,
+    target_column: str,
+    early_exit_column: str | None = None,
+) -> dict[str, Any]:
+    result = _risk_summary(
+        trades,
+        test_dates,
+        config,
+        return_column=return_column,
+        target_column=target_column,
+    )
+    if early_exit_column is not None and not trades.empty:
+        valid = trades.loc[trades[return_column].notna()]
+        result["early_exit_rate"] = (
+            float(valid[early_exit_column].mean()) if not valid.empty else None
+        )
+    else:
+        result["early_exit_rate"] = 0.0
+    return result
