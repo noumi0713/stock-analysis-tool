@@ -112,8 +112,8 @@ def walk_forward_ml_scores(
                 bundle = _fit_bundle(shape_training, model_name)
                 feature_values = _feature_frame(shape_block)
                 indexes = shape_block.index
-                block.loc[indexes, f"ml_{model_name}_target_probability"] = (
-                    bundle.target.predict(feature_values)
+                block.loc[indexes, f"ml_{model_name}_target_probability"] = bundle.target.predict(
+                    feature_values
                 )
                 block.loc[indexes, f"ml_{model_name}_down_5pct_probability"] = (
                     bundle.down_5pct.predict(feature_values)
@@ -156,9 +156,7 @@ def tune_and_select_ml_strategy(
             continue
         for probability_threshold in (0.40, 0.45, 0.50, 0.55, 0.60, 0.65):
             for gap_limit in (0.00, 0.01, 0.02, 0.03):
-                for risk_name, down_5_limit, down_8_limit, expected_return_min in (
-                    risk_profiles
-                ):
+                for risk_name, down_5_limit, down_8_limit, expected_return_min in risk_profiles:
                     for top_n in (1, 2, 3):
                         parameters = {
                             "model": model_name,
@@ -172,14 +170,22 @@ def tune_and_select_ml_strategy(
                         }
                         trades = _select_with_parameters(development, parameters)
                         summary = _compact_summary(trades)
+                        fold_summaries = _chronological_fold_summaries(
+                            development,
+                            development_dates,
+                            parameters,
+                        )
                         objective = _development_objective(
                             summary,
+                            fold_summaries,
                             minimum_development_signals,
+                            model_name=model_name,
                         )
                         experiments.append(
                             {
                                 **parameters,
                                 **summary,
+                                "development_folds": fold_summaries,
                                 "objective": objective,
                             }
                         )
@@ -208,10 +214,16 @@ def tune_and_select_ml_strategy(
     )
     validation_summary = _compact_summary(validation_trades)
     combined_summary = _compact_summary(combined_trades)
+    validation_folds = _chronological_fold_summaries(
+        validation,
+        validation_dates,
+        parameters,
+    )
     diagnostics = {
         "status": "completed",
         "selection_rule": (
-            "configuration chosen only on development half; validation half was untouched"
+            "configuration chosen only from three chronological development folds; "
+            "validation half was untouched"
         ),
         "development_start": str(development_dates[0]),
         "development_end": str(development_dates[-1]),
@@ -219,7 +231,10 @@ def tune_and_select_ml_strategy(
         "validation_end": str(validation_dates[-1]),
         "chosen_parameters": parameters,
         "development": _compact_summary(development_trades),
+        "development_folds": chosen["development_folds"],
         "validation": validation_summary,
+        "validation_folds": validation_folds,
+        "validation_by_shape": _summaries_by_shape(validation_trades),
         "combined": combined_summary,
         "validation_goal_met": bool(
             validation_summary["selected_signals"] >= 30
@@ -341,9 +356,7 @@ def _feature_frame(values: pd.DataFrame) -> pd.DataFrame:
     result = pd.DataFrame(index=values.index)
     for column in ML_FEATURES:
         result[column] = (
-            pd.to_numeric(values[column], errors="coerce")
-            if column in values
-            else np.nan
+            pd.to_numeric(values[column], errors="coerce") if column in values else np.nan
         )
     return result.replace([np.inf, -np.inf], np.nan)
 
@@ -404,16 +417,94 @@ def _compact_summary(trades: pd.DataFrame) -> dict[str, Any]:
     }
 
 
-def _development_objective(summary: dict[str, Any], minimum_signals: int) -> float:
+def _chronological_fold_summaries(
+    scored: pd.DataFrame,
+    dates: list[Any],
+    parameters: dict[str, Any],
+    *,
+    fold_count: int = 3,
+) -> list[dict[str, Any]]:
+    if not dates:
+        return []
+    summaries: list[dict[str, Any]] = []
+    for fold_number, fold_dates in enumerate(
+        np.array_split(np.asarray(dates, dtype=object), fold_count),
+        start=1,
+    ):
+        date_values = fold_dates.tolist()
+        fold_trades = _select_with_parameters(
+            scored.loc[scored["date"].isin(date_values)],
+            parameters,
+        )
+        summaries.append(
+            {
+                "fold": fold_number,
+                "start": str(date_values[0]) if date_values else None,
+                "end": str(date_values[-1]) if date_values else None,
+                **_compact_summary(fold_trades),
+            }
+        )
+    return summaries
+
+
+def _summaries_by_shape(trades: pd.DataFrame) -> dict[str, dict[str, Any]]:
+    if trades.empty or "_rise_shape" not in trades:
+        return {}
+    return {
+        str(shape): _compact_summary(shape_trades)
+        for shape, shape_trades in trades.groupby("_rise_shape", sort=True)
+    }
+
+
+def _development_objective(
+    summary: dict[str, Any],
+    fold_summaries: list[dict[str, Any]],
+    minimum_signals: int,
+    *,
+    model_name: str,
+) -> float:
     samples = int(summary["selected_signals"])
     target_rate = float(summary["target_hit_rate"] or 0.0)
     expected_return = float(summary["mean_trade_net_return"] or -1.0)
     lower_bound = float(summary["target_rate_lower_95"] or 0.0)
-    if samples < minimum_signals or expected_return <= 0:
-        return -10.0 + samples / max(minimum_signals, 1) + expected_return
-    goal_bonus = 10.0 if target_rate >= 0.60 else 0.0
-    sample_bonus = min(samples, 100) / 1000.0
-    return goal_bonus + lower_bound + 2.0 * expected_return + sample_bonus
+    fold_counts = [int(item["selected_signals"]) for item in fold_summaries]
+    fold_hit_rates = [float(item["target_hit_rate"] or 0.0) for item in fold_summaries]
+    fold_returns = [float(item["mean_trade_net_return"] or -1.0) for item in fold_summaries]
+    minimum_fold_signals = max(5, minimum_signals // 6)
+    if (
+        samples < minimum_signals
+        or expected_return <= 0
+        or not fold_counts
+        or min(fold_counts) < minimum_fold_signals
+    ):
+        return (
+            -10.0
+            + samples / max(minimum_signals, 1)
+            + expected_return
+            + (min(fold_counts) if fold_counts else 0) / minimum_fold_signals
+        )
+
+    minimum_fold_hit_rate = min(fold_hit_rates)
+    minimum_fold_return = min(fold_returns)
+    positive_return_folds = sum(value > 0 for value in fold_returns)
+    target_stability = float(np.std(fold_hit_rates))
+    goal_bonus = 4.0 if target_rate >= 0.60 else 0.0
+    fold_floor_bonus = 2.0 if minimum_fold_hit_rate >= 0.50 else 0.0
+    expectancy_bonus = 1.0 if positive_return_folds == len(fold_returns) else 0.0
+    sample_bonus = min(samples, 120) / 500.0
+    complexity_penalty = 0.03 if model_name == "hist_gradient_boosting" else 0.0
+    return (
+        goal_bonus
+        + fold_floor_bonus
+        + expectancy_bonus
+        + 1.5 * minimum_fold_hit_rate
+        + lower_bound
+        + 2.0 * minimum_fold_return
+        + 2.0 * expected_return
+        + sample_bonus
+        - target_stability
+        - complexity_penalty
+    )
 
 
 def _wilson_lower_bound(successes: int, samples: int, z: float = 1.96) -> float:
@@ -422,7 +513,5 @@ def _wilson_lower_bound(successes: int, samples: int, z: float = 1.96) -> float:
     rate = successes / samples
     denominator = 1.0 + z**2 / samples
     center = rate + z**2 / (2.0 * samples)
-    margin = z * np.sqrt(
-        rate * (1.0 - rate) / samples + z**2 / (4.0 * samples**2)
-    )
+    margin = z * np.sqrt(rate * (1.0 - rate) / samples + z**2 / (4.0 * samples**2))
     return float((center - margin) / denominator)

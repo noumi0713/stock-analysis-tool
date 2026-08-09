@@ -25,9 +25,7 @@ def test_tuning_freezes_development_rule_for_validation() -> None:
                     "ml_logistic_down_5pct_probability": 0.10 if favorable else 0.40,
                     "ml_logistic_down_8pct_probability": 0.05 if favorable else 0.20,
                     "ml_logistic_expected_net_return": 0.02 if favorable else -0.01,
-                    "ml_hist_gradient_boosting_target_probability": (
-                        0.70 if favorable else 0.40
-                    ),
+                    "ml_hist_gradient_boosting_target_probability": (0.70 if favorable else 0.40),
                     "ml_hist_gradient_boosting_down_5pct_probability": (
                         0.12 if favorable else 0.42
                     ),
@@ -50,5 +48,8 @@ def test_tuning_freezes_development_rule_for_validation() -> None:
     assert diagnostics["status"] == "completed"
     assert diagnostics["validation_goal_met"]
     assert diagnostics["chosen_parameters"]["top_n_per_day"] >= 1
+    assert len(diagnostics["development_folds"]) == 3
+    assert all(fold["selected_signals"] >= 5 for fold in diagnostics["development_folds"])
+    assert len(diagnostics["validation_folds"]) == 3
     assert len(validation_trades) == 60
     assert validation_trades["rise_trade_target_hit"].mean() >= 0.60
