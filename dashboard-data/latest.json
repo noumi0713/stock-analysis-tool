@@ -2,7 +2,7 @@
   "schema_version": 9,
   "source": "yfinance",
   "personal_research_only": true,
-  "generated_at": "2026-08-09T08:26:14.175357+00:00",
+  "generated_at": "2026-08-09T08:39:04.336357+00:00",
   "latest_date": "2026-08-07",
   "update": {
     "status": "complete",
@@ -13,7 +13,7 @@
     "interval": "5m",
     "successful_tickers": 3673,
     "coverage": 0.9910955207771182,
-    "generated_at": "2026-08-09T08:26:14.175357+00:00"
+    "generated_at": "2026-08-09T08:39:04.336357+00:00"
   },
   "metrics": {
     "rows": 892003,
@@ -3764,6 +3764,62 @@
           "trade_win_rate": 0.7142857142857143,
           "target_rate_lower_95": 0.4926681138688987
         }
+      },
+      "sharp_selloff_candidate": {
+        "status": "exploratory_post_selection_candidate",
+        "parameters": {
+          "shape_profile": "sharp_selloff_confirmation",
+          "allowed_shapes": [
+            "sharp_selloff"
+          ],
+          "regime_profile": "all_regimes",
+          "min_market_breadth_5d": null,
+          "min_market_median_return_20d": null,
+          "model": "logistic",
+          "probability_threshold": 0.4,
+          "max_gap_up": 0.0,
+          "risk_profile": "loose",
+          "max_down_5pct_probability": 0.5,
+          "max_down_8pct_probability": 0.3,
+          "min_expected_net_return": -0.01,
+          "top_n_per_day": 1
+        },
+        "development": {
+          "selected_signals": 48,
+          "active_days": 48,
+          "target_hit_rate": 0.5833333333333334,
+          "mean_trade_net_return": 0.011002743893117062,
+          "trade_win_rate": 0.6666666666666666,
+          "target_rate_lower_95": 0.4428108221536465
+        },
+        "validation": {
+          "selected_signals": 77,
+          "active_days": 77,
+          "target_hit_rate": 0.6363636363636364,
+          "mean_trade_net_return": 0.01115234721407132,
+          "trade_win_rate": 0.7142857142857143,
+          "target_rate_lower_95": 0.5248199544762014
+        },
+        "confirmation_start": "2026-06-19",
+        "confirmation_end": "2026-07-31",
+        "latest_period_confirmation": {
+          "selected_signals": 25,
+          "active_days": 25,
+          "target_hit_rate": 0.64,
+          "mean_trade_net_return": 0.024294140499769603,
+          "trade_win_rate": 0.8,
+          "target_rate_lower_95": 0.44518154601046633
+        },
+        "combined": {
+          "selected_signals": 125,
+          "active_days": 125,
+          "target_hit_rate": 0.616,
+          "mean_trade_net_return": 0.01109489953882488,
+          "trade_win_rate": 0.696,
+          "target_rate_lower_95": 0.5284885300554436
+        },
+        "historical_60pct_candidate_met": true,
+        "caveat": "shape restriction was identified during validation analysis; freeze it before collecting new dates for a fully untouched confirmation"
       },
       "combined": {
         "selected_signals": 129,
