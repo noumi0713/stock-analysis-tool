@@ -30,7 +30,7 @@ class DemandSupplyConfig:
     minimum_one_day_volume_ratio: float = 1.20
     minimum_one_day_turnover_ratio: float = 1.20
     minimum_up_volume_share: float = 0.55
-    minimum_demand_supply_balance: float = 0.20
+    minimum_demand_supply_balance: float = 0.05
 
 
 def add_supply_pressure_features(features: pd.DataFrame) -> pd.DataFrame:
