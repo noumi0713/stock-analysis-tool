@@ -251,11 +251,13 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
         (137.0, 139.8, 136.8, 139.5),
         (139.0, 141.8, 138.8, 141.5),
     ]
-    for row_index, (open_, high, low, close) in zip(
-        pattern_rows, pattern_candles, strict=True
-    ):
+    for row_index, (open_, high, low, close) in zip(pattern_rows, pattern_candles, strict=True):
         price_frame.loc[row_index, ["open", "high", "low", "close", "adjusted_close"]] = [
-            open_, high, low, close, close
+            open_,
+            high,
+            low,
+            close,
+            close,
         ]
         price_frame.loc[row_index, "turnover_value"] = (
             close * price_frame.loc[row_index, "volume"] * 100
@@ -269,9 +271,7 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     config_dir = settings.data_dir.parent / "config"
     config_dir.mkdir(exist_ok=True)
     (config_dir / "prime_sectors.csv").write_text(
-        "code,sector_17_code,sector_33_code\n"
-        "11110,9,3650\n"
-        "22220,10,5250\n",
+        "code,sector_17_code,sector_33_code\n11110,9,3650\n22220,10,5250\n",
         encoding="utf-8",
     )
 
@@ -290,7 +290,7 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert "trend_ranking_score" in candidates.columns
     assert "sector_17_name" in candidates.columns
     assert "setup_reasons" in candidates.columns
-    assert result["technical_method"] == "observed_inflow_plus_rise_pattern_v1"
+    assert result["technical_method"] == "observed_inflow_plus_sharp_selloff_ml_v2"
     assert "bottom_pattern_study" in result
     assert result["bottom_pattern_study"]["horizon_days"] == 5
     assert "rise_pattern_backtest" in result
@@ -360,17 +360,11 @@ def test_trend_features_rank_stronger_industry_higher(tmp_path: Path) -> None:
             )
     features = pd.DataFrame(rows).sort_values(["ticker", "date"])
     grouped = features.groupby("ticker", sort=False)
-    features["return_5d"] = (
-        features["adjusted_close"] / grouped["adjusted_close"].shift(5) - 1
-    )
-    features["return_20d"] = (
-        features["adjusted_close"] / grouped["adjusted_close"].shift(20) - 1
-    )
+    features["return_5d"] = features["adjusted_close"] / grouped["adjusted_close"].shift(5) - 1
+    features["return_20d"] = features["adjusted_close"] / grouped["adjusted_close"].shift(20) - 1
     sector_path = tmp_path / "prime_sectors.csv"
     sector_path.write_text(
-        "code,sector_17_code,sector_33_code\n"
-        "11110,9,3650\n"
-        "22220,10,5250\n",
+        "code,sector_17_code,sector_33_code\n11110,9,3650\n22220,10,5250\n",
         encoding="utf-8",
     )
 
@@ -571,7 +565,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
     assert result["candidate_count"] <= 1
-    assert payload["schema_version"] == 9
+    assert payload["schema_version"] == 10
     assert payload["personal_research_only"] is True
     assert payload["update"]["session"] == "daily"
     assert payload["update"]["status"] == "complete"
@@ -584,7 +578,9 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert "rsi_14" in payload["stocks"][0]
     assert "atr_14_pct" in payload["stocks"][0]
     assert len(payload["indicator_notes"]) == 5
-    assert payload["technical_method"]["label"] == "資金流入観測＋上昇パターン"
+    assert payload["technical_method"]["label"] == "資金流入観測＋急落継続ML"
+    assert payload["signal_model"]["historical_results"]["target_hit_rate"] == 0.616
+    assert payload["signal_model"]["conditions"]["minimum_turnover_yen"] == 200_000_000
     assert "open" not in payload["candidates"][0]
     assert "setup_score" in payload["candidates"][0]
     assert "trend_ranking_score" in payload["candidates"][0]
