@@ -14,6 +14,7 @@ on:
   push:
     branches:
       - main
+      - agent/demand-supply-study
     paths:
       - ".github/workflows/momentum5d-daily.yml"
       - "momentum5d/**"
