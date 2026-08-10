@@ -565,7 +565,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
     assert result["candidate_count"] <= 1
-    assert payload["schema_version"] == 10
+    assert payload["schema_version"] == 11
     assert payload["personal_research_only"] is True
     assert payload["update"]["session"] == "daily"
     assert payload["update"]["status"] == "complete"

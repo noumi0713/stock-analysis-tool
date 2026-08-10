@@ -11,6 +11,7 @@ import pandas as pd
 from app.config import Settings
 from app.storage.parquet import ParquetStore
 from app.yahoo.bottom_patterns import analyze_bottom_patterns
+from app.yahoo.candle_sequence import analyze_three_up_one_down
 from app.yahoo.corporate_actions import normalize_split_adjusted_prices
 from app.yahoo.ingestion import YahooPaths
 from app.yahoo.retail_flow import (
@@ -58,6 +59,7 @@ class YahooPatternAnalyzer:
         features["trend_ranking_score"] = features["observed_inflow_score"]
         features["signal_score"] = features["observed_inflow_score"]
         historical = features.loc[features["horizon_complete"]].copy()
+        three_up_one_down_study = analyze_three_up_one_down(valid_prices)
         bottom_pattern_study, bottom_events = analyze_bottom_patterns(features)
         rise_pattern_backtest = backtest_rise_pattern_signals(features, bottom_events)
         features = add_latest_rise_pattern_signals(features, bottom_events)
@@ -114,6 +116,7 @@ class YahooPatternAnalyzer:
             "patterns": patterns,
             "bottom_pattern_study": bottom_pattern_study,
             "rise_pattern_backtest": rise_pattern_backtest,
+            "three_up_one_down_study": three_up_one_down_study,
             "candidate_path": str(candidate_path),
             "score_path": str(score_path),
             "historical_path": str(feature_path),
