@@ -32,12 +32,16 @@ def test_three_up_one_down_uses_fourth_close_as_reference() -> None:
         opens=[100, 102, 104, 106, 105, 104, 108, 110, 111, 112, 113, 114, 115, 116],
     )
 
-    result = analyze_three_up_one_down(prices)
+    result = analyze_three_up_one_down(prices, target_timing_window_days=10)
 
     assert result["sample_count"] == 1
     assert result["by_horizon"]["1d"]["up_rate"] == pytest.approx(1.0)
     assert result["by_horizon"]["3d"]["down_rate"] == pytest.approx(0.0)
     assert result["liquidity"]["turnover_200m_plus"]["5d"]["samples"] == 1
+    timing = result["plus_5pct_timing"]["by_liquidity"]["all"]
+    assert timing["intraday_high_basis"]["hits_within_window"] == 1
+    assert timing["intraday_high_basis"]["mean_business_days_to_plus_5pct"] == pytest.approx(3.0)
+    assert timing["closing_price_basis"]["median_business_days_to_plus_5pct"] == pytest.approx(3.0)
 
 
 def test_three_up_one_down_requires_three_strict_bullish_bars() -> None:
