@@ -20,6 +20,7 @@ from app.yahoo.retail_flow import (
     retail_flow_reasons,
 )
 from app.yahoo.rise_pattern import (
+    add_latest_ml_sharp_selloff_signals,
     add_latest_rise_pattern_signals,
     backtest_rise_pattern_signals,
 )
@@ -50,9 +51,7 @@ class YahooPatternAnalyzer:
         ].copy()
         valid_prices = normalize_split_adjusted_prices(valid_prices)
         features = self._build_features(valid_prices)
-        sectors = load_sector_map(
-            self.settings.data_dir.parent / "config" / "prime_sectors.csv"
-        )
+        sectors = load_sector_map(self.settings.data_dir.parent / "config" / "prime_sectors.csv")
         features = add_trend_features(features, sectors)
         features = add_retail_flow_features(features)
         features["setup_score"] = features["observed_inflow_score"]
@@ -62,8 +61,13 @@ class YahooPatternAnalyzer:
         bottom_pattern_study, bottom_events = analyze_bottom_patterns(features)
         rise_pattern_backtest = backtest_rise_pattern_signals(features, bottom_events)
         features = add_latest_rise_pattern_signals(features, bottom_events)
+        features = add_latest_ml_sharp_selloff_signals(features)
         features["signal_score"] = features[
-            ["observed_inflow_score", "rise_pattern_probability"]
+            [
+                "observed_inflow_score",
+                "rise_pattern_probability",
+                "ml_sharp_probability",
+            ]
         ].max(axis=1)
         features["setup_score"] = features["signal_score"]
         features["trend_ranking_score"] = features["signal_score"]
@@ -93,8 +97,8 @@ class YahooPatternAnalyzer:
         summary = {
             "source": "yfinance",
             "personal_research_only": True,
-            "technical_method": "observed_inflow_plus_rise_pattern_v1",
-            "technical_method_label": "資金流入観測＋上昇パターン",
+            "technical_method": "observed_inflow_plus_sharp_selloff_ml_v2",
+            "technical_method_label": "資金流入観測＋急落継続ML",
             "analyzed_at": datetime.now(UTC).isoformat(),
             "rows": len(features),
             "excluded_non_trading_or_invalid_rows": len(prices) - len(valid_prices),
@@ -303,6 +307,15 @@ class YahooPatternAnalyzer:
             "rise_pattern_signal": False,
             "rise_pattern_shape": pd.NA,
             "rise_pattern_reason": "",
+            "ml_sharp_probability": 0.0,
+            "ml_sharp_down_5pct_probability": 1.0,
+            "ml_sharp_down_8pct_probability": 1.0,
+            "ml_sharp_expected_net_return": -1.0,
+            "ml_sharp_model_samples": 0,
+            "ml_sharp_signal": False,
+            "ml_sharp_rank": pd.NA,
+            "ml_sharp_reason": "",
+            "ml_sharp_entry_rule": "翌営業日寄付きが前日終値以下の場合のみ有効",
         }
         for column in RETAIL_DETAIL_COLUMNS:
             trend_defaults.setdefault(column, 0.0)
@@ -322,7 +335,11 @@ class YahooPatternAnalyzer:
         if "trend_ranking_score" not in latest:
             latest["trend_ranking_score"] = latest["setup_score"]
         latest["signal_score"] = latest[
-            ["observed_inflow_score", "rise_pattern_probability"]
+            [
+                "observed_inflow_score",
+                "rise_pattern_probability",
+                "ml_sharp_probability",
+            ]
         ].max(axis=1)
         latest["trend_ranking_score"] = latest["signal_score"]
         latest["setup_score"] = latest["signal_score"]
@@ -332,16 +349,15 @@ class YahooPatternAnalyzer:
             & latest["return_5d"].between(-0.05, 0.18)
         )
         rise_signal = latest["rise_pattern_signal"].fillna(False).astype(bool)
+        ml_sharp_signal = latest["ml_sharp_signal"].fillna(False).astype(bool)
         latest = latest.loc[
-            (observed_signal | rise_signal)
+            (observed_signal | rise_signal | ml_sharp_signal)
             & latest["rsi_14"].le(82.0)
             & (latest["turnover_value"] >= 10_000_000)
         ].copy()
         latest["sakata_reasons"] = latest.apply(_sakata_reasons, axis=1)
         latest["retail_flow_reasons"] = latest.apply(retail_flow_reasons, axis=1)
-        latest["observed_inflow_reasons"] = latest.apply(
-            observed_inflow_reasons, axis=1
-        )
+        latest["observed_inflow_reasons"] = latest.apply(observed_inflow_reasons, axis=1)
         latest["setup_reasons"] = latest.apply(_combined_signal_reasons, axis=1)
         columns = [
             "date",
@@ -394,13 +410,25 @@ class YahooPatternAnalyzer:
             "rise_pattern_signal",
             "rise_pattern_shape",
             "rise_pattern_reason",
+            "ml_sharp_probability",
+            "ml_sharp_down_5pct_probability",
+            "ml_sharp_down_8pct_probability",
+            "ml_sharp_expected_net_return",
+            "ml_sharp_model_samples",
+            "ml_sharp_signal",
+            "ml_sharp_rank",
+            "ml_sharp_reason",
+            "ml_sharp_entry_rule",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
             "signal_score",
         ]
         return (
-            latest.sort_values("signal_score", ascending=False)[columns]
+            latest.sort_values(
+                ["ml_sharp_signal", "signal_score", "code"],
+                ascending=[False, False, True],
+            )[columns]
             .head(top_n)
             .reset_index(drop=True)
         )
@@ -413,13 +441,9 @@ class YahooPatternAnalyzer:
         latest = features.loc[features["date"] == features["date"].max()].copy()
         latest["sakata_reasons"] = latest.apply(_sakata_reasons, axis=1)
         latest["retail_flow_reasons"] = latest.apply(retail_flow_reasons, axis=1)
-        latest["observed_inflow_reasons"] = latest.apply(
-            observed_inflow_reasons, axis=1
-        )
+        latest["observed_inflow_reasons"] = latest.apply(observed_inflow_reasons, axis=1)
         latest["setup_reasons"] = latest.apply(_combined_signal_reasons, axis=1)
-        latest["score_rank"] = (
-            latest["trend_ranking_score"].rank(method="min", ascending=False)
-        )
+        latest["score_rank"] = latest["trend_ranking_score"].rank(method="min", ascending=False)
         latest["score_percentile"] = latest["trend_ranking_score"].rank(
             method="average",
             pct=True,
@@ -470,6 +494,15 @@ class YahooPatternAnalyzer:
             "rise_pattern_signal",
             "rise_pattern_shape",
             "rise_pattern_reason",
+            "ml_sharp_probability",
+            "ml_sharp_down_5pct_probability",
+            "ml_sharp_down_8pct_probability",
+            "ml_sharp_expected_net_return",
+            "ml_sharp_model_samples",
+            "ml_sharp_signal",
+            "ml_sharp_rank",
+            "ml_sharp_reason",
+            "ml_sharp_entry_rule",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -478,10 +511,14 @@ class YahooPatternAnalyzer:
             "score_percentile",
             "is_ranked_candidate",
         ]
-        return latest[columns].sort_values(
-            ["trend_ranking_score", "code"],
-            ascending=[False, True],
-        ).reset_index(drop=True)
+        return (
+            latest[columns]
+            .sort_values(
+                ["trend_ranking_score", "code"],
+                ascending=[False, True],
+            )
+            .reset_index(drop=True)
+        )
 
     @staticmethod
     def _market_regime(features: pd.DataFrame) -> dict[str, Any]:
@@ -549,11 +586,7 @@ def _sakata_reasons(row: pd.Series) -> str:
         reasons.append(pattern)
     sector_name = row.get("sector_17_name")
     sector_score = row.get("sector_17_trend_score")
-    if (
-        pd.notna(sector_name)
-        and pd.notna(sector_score)
-        and float(sector_score) >= 0.67
-    ):
+    if pd.notna(sector_name) and pd.notna(sector_score) and float(sector_score) >= 0.67:
         reasons.append(f"{sector_name}トレンド")
     if row.get("sakata_bullish_count", 0) >= 2:
         reasons.append("買い型が複数一致")
@@ -564,6 +597,9 @@ def _sakata_reasons(row: pd.Series) -> str:
 
 def _combined_signal_reasons(row: pd.Series) -> str:
     reasons: list[str] = []
+    ml_signal = row.get("ml_sharp_signal", False)
+    if pd.notna(ml_signal) and bool(ml_signal) and row.get("ml_sharp_reason"):
+        reasons.append(str(row["ml_sharp_reason"]))
     rise_signal = row.get("rise_pattern_signal", False)
     if pd.notna(rise_signal) and bool(rise_signal) and row.get("rise_pattern_reason"):
         reasons.append(str(row["rise_pattern_reason"]))
