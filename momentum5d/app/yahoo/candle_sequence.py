@@ -8,6 +8,7 @@ import pandas as pd
 
 DEFAULT_HORIZONS = (1, 3, 5, 10)
 TURNOVER_THRESHOLDS = (0, 50_000_000, 100_000_000, 200_000_000)
+TARGET_TIMING_WINDOW_DAYS = 60
 
 
 def _wilson_interval(successes: int, samples: int) -> list[float | None]:
@@ -64,9 +65,27 @@ def _outcome_summary(frame: pd.DataFrame, horizon: int) -> dict[str, Any]:
     }
 
 
+def _target_timing_summary(frame: pd.DataFrame, hit_day_column: str) -> dict[str, Any]:
+    complete = frame.loc[frame["target_timing_complete"]].copy()
+    hit_days = pd.to_numeric(complete[hit_day_column], errors="coerce").dropna()
+    samples = len(complete)
+    hits = len(hit_days)
+    return {
+        "samples_with_full_window": samples,
+        "hits_within_window": hits,
+        "hit_rate_within_window": float(hits / samples) if samples else None,
+        "mean_business_days_to_plus_5pct": float(hit_days.mean()) if hits else None,
+        "median_business_days_to_plus_5pct": float(hit_days.median()) if hits else None,
+        "p25_business_days": float(hit_days.quantile(0.25)) if hits else None,
+        "p75_business_days": float(hit_days.quantile(0.75)) if hits else None,
+    }
+
+
 def _prepare_sequence_frame(
     prices: pd.DataFrame,
     horizons: tuple[int, ...],
+    *,
+    target_timing_window_days: int,
 ) -> pd.DataFrame:
     required = {"date", "ticker", "open", "high", "low", "close", "volume"}
     missing = sorted(required - set(prices.columns))
@@ -112,6 +131,18 @@ def _prepare_sequence_frame(
         frame[f"future_min_return_{horizon}d"] = np.where(
             complete, future_min / frame["close"] - 1, np.nan
         )
+
+    target_price = frame["close"] * 1.05
+    frame["target_timing_complete"] = grouped["close"].shift(-target_timing_window_days).notna()
+    frame["first_plus_5pct_high_day"] = np.nan
+    frame["first_plus_5pct_close_day"] = np.nan
+    for day in range(1, target_timing_window_days + 1):
+        future_high = grouped["high"].shift(-day)
+        future_close = grouped["close"].shift(-day)
+        high_hit = frame["first_plus_5pct_high_day"].isna() & future_high.ge(target_price)
+        close_hit = frame["first_plus_5pct_close_day"].isna() & future_close.ge(target_price)
+        frame.loc[high_hit, "first_plus_5pct_high_day"] = day
+        frame.loc[close_hit, "first_plus_5pct_close_day"] = day
     return frame
 
 
@@ -119,14 +150,21 @@ def analyze_three_up_one_down(
     prices: pd.DataFrame,
     *,
     horizons: tuple[int, ...] = DEFAULT_HORIZONS,
+    target_timing_window_days: int = TARGET_TIMING_WINDOW_DAYS,
 ) -> dict[str, Any]:
     """3日連続陽線の後の陰線を、4日目終値基準で将来リターン集計する。"""
     if prices.empty:
         return {"pattern": "three_up_one_down", "sample_count": 0}
     if not horizons or min(horizons) <= 0:
         raise ValueError("検証日数は1以上で指定してください")
+    if target_timing_window_days < max(horizons):
+        raise ValueError("+5%到達日数の確認期間は最大の検証日数以上にしてください")
 
-    frame = _prepare_sequence_frame(prices, horizons)
+    frame = _prepare_sequence_frame(
+        prices,
+        horizons,
+        target_timing_window_days=target_timing_window_days,
+    )
     pattern = frame.loc[frame["three_up_one_down"]].copy()
     bearish_baseline = frame.loc[frame["close"].lt(frame["open"])].copy()
 
@@ -175,6 +213,39 @@ def analyze_three_up_one_down(
         ),
     }
 
+    timing_by_liquidity: dict[str, Any] = {}
+    for threshold in TURNOVER_THRESHOLDS:
+        label = "all" if threshold == 0 else f"turnover_{threshold // 1_000_000}m_plus"
+        selected = pattern.loc[pattern["turnover_value"].ge(threshold)]
+        timing_by_liquidity[label] = {
+            "minimum_turnover_yen": threshold,
+            "intraday_high_basis": _target_timing_summary(selected, "first_plus_5pct_high_day"),
+            "closing_price_basis": _target_timing_summary(selected, "first_plus_5pct_close_day"),
+        }
+
+    timing_subgroups = {
+        "prior_3d_gain_5pct_or_more": {
+            "intraday_high_basis": _target_timing_summary(
+                liquid_pattern.loc[liquid_pattern["prior_3d_gain"].ge(0.05)],
+                "first_plus_5pct_high_day",
+            ),
+            "closing_price_basis": _target_timing_summary(
+                liquid_pattern.loc[liquid_pattern["prior_3d_gain"].ge(0.05)],
+                "first_plus_5pct_close_day",
+            ),
+        },
+        "prior_3d_gain_under_5pct": {
+            "intraday_high_basis": _target_timing_summary(
+                liquid_pattern.loc[liquid_pattern["prior_3d_gain"].lt(0.05)],
+                "first_plus_5pct_high_day",
+            ),
+            "closing_price_basis": _target_timing_summary(
+                liquid_pattern.loc[liquid_pattern["prior_3d_gain"].lt(0.05)],
+                "first_plus_5pct_close_day",
+            ),
+        },
+    }
+
     return {
         "pattern": "three_up_one_down",
         "label": "3日連続陽線→4日目陰線",
@@ -187,9 +258,19 @@ def analyze_three_up_one_down(
         "bearish_day_baseline": baseline_by_horizon,
         "liquidity": liquidity,
         "turnover_200m_subgroups_5d": subgroups,
+        "plus_5pct_timing": {
+            "maximum_observation_business_days": target_timing_window_days,
+            "definition": (
+                "4日目終値の1.05倍へ初めて到達した営業日。"
+                "平均・中央値は60営業日以内に到達した事例のみ"
+            ),
+            "by_liquidity": timing_by_liquidity,
+            "turnover_200m_subgroups": timing_subgroups,
+        },
         "notes": [
             "陽線は終値>始値、陰線は終値<始値の厳密条件。寄引同値は除外",
             "+5%、-3%、-5%は4日目終値から判定期間中の高値・安値で判定",
             "同一銘柄の重複しない営業日系列で計算し、株式分割調整後価格を使用",
+            "到達日数は右打ち切りを避けるため60営業日先まで確認できる事例だけを使用",
         ],
     }
