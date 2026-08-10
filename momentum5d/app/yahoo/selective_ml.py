@@ -50,6 +50,18 @@ ML_FEATURES = (
     "rise_trade_entry_gap_return",
 )
 
+LIVE_SHARP_SIGNAL_COLUMNS = (
+    "ml_sharp_probability",
+    "ml_sharp_down_5pct_probability",
+    "ml_sharp_down_8pct_probability",
+    "ml_sharp_expected_net_return",
+    "ml_sharp_model_samples",
+    "ml_sharp_signal",
+    "ml_sharp_rank",
+    "ml_sharp_reason",
+    "ml_sharp_entry_rule",
+)
+
 
 @dataclass
 class _BinaryPredictor:
@@ -72,6 +84,87 @@ class _ModelBundle:
     down_5pct: _BinaryPredictor
     down_8pct: _BinaryPredictor
     expected_return: Any
+
+
+def score_latest_sharp_selloff_candidates(
+    frame: pd.DataFrame,
+    *,
+    minimum_shape_samples: int = 180,
+    minimum_turnover: float = 200_000_000.0,
+) -> pd.DataFrame:
+    """Score the latest sharp-selloff setup with the frozen 60% candidate rule.
+
+    The next open is not known at the close, so the model is evaluated at a
+    neutral 0% gap. Execution remains conditional on the actual next open being
+    no higher than the signal-day close.
+    """
+    if frame.empty:
+        return pd.DataFrame(columns=[*frame.columns, *LIVE_SHARP_SIGNAL_COLUMNS])
+    work = frame.copy()
+    latest_date = work["date"].max()
+    latest = work.loc[work["date"] == latest_date].copy()
+    latest["ml_sharp_probability"] = 0.0
+    latest["ml_sharp_down_5pct_probability"] = 1.0
+    latest["ml_sharp_down_8pct_probability"] = 1.0
+    latest["ml_sharp_expected_net_return"] = -1.0
+    latest["ml_sharp_model_samples"] = 0
+    latest["ml_sharp_signal"] = False
+    latest["ml_sharp_rank"] = pd.Series(pd.NA, index=latest.index, dtype="Int64")
+    latest["ml_sharp_reason"] = ""
+    latest["ml_sharp_entry_rule"] = "翌営業日寄付きが前日終値以下の場合のみ有効"
+
+    training = work.loc[
+        work["trade_outcome_available"].fillna(False).astype(bool)
+        & work["_rise_shape"].eq("sharp_selloff")
+        & work["rise_pattern_live_bottom"].fillna(False).astype(bool)
+        & pd.to_numeric(work["turnover_value"], errors="coerce").ge(minimum_turnover)
+        & pd.to_numeric(work["rsi_14"], errors="coerce").le(82.0)
+        & pd.to_numeric(work["rise_trade_entry_gap_return"], errors="coerce").between(-0.10, 0.04)
+    ].sort_values(["date", "ticker"])
+    if len(training) < minimum_shape_samples:
+        return latest
+
+    eligible = latest.loc[
+        latest["_rise_shape"].eq("sharp_selloff")
+        & latest["rise_pattern_live_bottom"].fillna(False).astype(bool)
+        & pd.to_numeric(latest["turnover_value"], errors="coerce").ge(minimum_turnover)
+        & pd.to_numeric(latest["rsi_14"], errors="coerce").le(82.0)
+    ].copy()
+    if eligible.empty:
+        return latest
+
+    eligible["rise_trade_entry_gap_return"] = 0.0
+    bundle = _fit_bundle(training, "logistic")
+    feature_values = _feature_frame(eligible)
+    eligible["ml_sharp_probability"] = bundle.target.predict(feature_values)
+    eligible["ml_sharp_down_5pct_probability"] = bundle.down_5pct.predict(feature_values)
+    eligible["ml_sharp_down_8pct_probability"] = bundle.down_8pct.predict(feature_values)
+    eligible["ml_sharp_expected_net_return"] = bundle.expected_return.predict(feature_values)
+    eligible["ml_sharp_model_samples"] = len(training)
+    eligible["_ml_sharp_rank_score"] = (
+        eligible["ml_sharp_probability"]
+        + 4.0 * eligible["ml_sharp_expected_net_return"]
+        - 0.10 * eligible["ml_sharp_down_5pct_probability"]
+        - 0.15 * eligible["ml_sharp_down_8pct_probability"]
+    )
+    candidates = eligible.loc[
+        eligible["ml_sharp_probability"].ge(0.40)
+        & eligible["ml_sharp_down_5pct_probability"].le(0.50)
+        & eligible["ml_sharp_down_8pct_probability"].le(0.30)
+        & eligible["ml_sharp_expected_net_return"].gt(-0.01)
+    ].sort_values("_ml_sharp_rank_score", ascending=False)
+    if not candidates.empty:
+        winner_index = candidates.index[0]
+        eligible.at[winner_index, "ml_sharp_signal"] = True
+        eligible.at[winner_index, "ml_sharp_rank"] = 1
+        probability = float(eligible.at[winner_index, "ml_sharp_probability"])
+        eligible.at[winner_index, "ml_sharp_reason"] = (
+            f"急落継続型・売買代金2億円以上・ML参考率{probability:.0%}・翌日寄付き条件待ち"
+        )
+
+    for column in LIVE_SHARP_SIGNAL_COLUMNS:
+        latest.loc[eligible.index, column] = eligible[column]
+    return latest
 
 
 def walk_forward_ml_scores(
