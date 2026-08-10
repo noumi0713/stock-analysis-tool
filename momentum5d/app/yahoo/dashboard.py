@@ -67,6 +67,7 @@ class DashboardExporter:
             "code",
             "close",
             "adjusted_close",
+            "turnover_value",
             "return_1d",
             "return_5d",
             "return_20d",
@@ -127,13 +128,28 @@ class DashboardExporter:
             "rise_pattern_signal",
             "rise_pattern_shape",
             "rise_pattern_reason",
+            "ml_sharp_probability",
+            "ml_sharp_down_5pct_probability",
+            "ml_sharp_down_8pct_probability",
+            "ml_sharp_expected_net_return",
+            "ml_sharp_model_samples",
+            "ml_sharp_signal",
+            "ml_sharp_rank",
+            "ml_sharp_reason",
+            "ml_sharp_entry_rule",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
             "signal_score",
         ]
+        available_candidate_columns = [
+            column for column in candidate_columns if column in candidates.columns
+        ]
         records: list[dict[str, Any]] = []
-        for rank, row in enumerate(candidates[candidate_columns].to_dict("records"), start=1):
+        for rank, row in enumerate(
+            candidates[available_candidate_columns].to_dict("records"),
+            start=1,
+        ):
             code = str(row["code"])
             records.append(
                 {
@@ -148,6 +164,7 @@ class DashboardExporter:
             "code",
             "close",
             "adjusted_close",
+            "turnover_value",
             "return_1d",
             "return_5d",
             "return_20d",
@@ -205,6 +222,15 @@ class DashboardExporter:
             "rise_pattern_signal",
             "rise_pattern_shape",
             "rise_pattern_reason",
+            "ml_sharp_probability",
+            "ml_sharp_down_5pct_probability",
+            "ml_sharp_down_8pct_probability",
+            "ml_sharp_expected_net_return",
+            "ml_sharp_model_samples",
+            "ml_sharp_signal",
+            "ml_sharp_rank",
+            "ml_sharp_reason",
+            "ml_sharp_entry_rule",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -213,9 +239,7 @@ class DashboardExporter:
             "score_percentile",
             "is_ranked_candidate",
         ]
-        available_score_columns = [
-            column for column in score_columns if column in scores.columns
-        ]
+        available_score_columns = [column for column in score_columns if column in scores.columns]
         stock_records = []
         for row in scores[available_score_columns].to_dict("records"):
             code = str(row["code"])
@@ -279,7 +303,7 @@ class DashboardExporter:
             }
 
         payload = {
-            "schema_version": 9,
+            "schema_version": 10,
             "source": "yfinance",
             "personal_research_only": True,
             "generated_at": generated_at,
@@ -295,8 +319,8 @@ class DashboardExporter:
             "market_regime": analysis.get("market_regime"),
             "industry_trends": analysis.get("industry_trends", {}),
             "technical_method": {
-                "key": "observed_inflow_plus_rise_pattern_v1",
-                "label": "資金流入観測＋上昇パターン",
+                "key": "observed_inflow_plus_sharp_selloff_ml_v2",
+                "label": "資金流入観測＋急落継続ML",
                 "stages": [
                     "発見",
                     "理解（業種連動の代理）",
@@ -312,6 +336,8 @@ class DashboardExporter:
                     "底値候補",
                     "ボラティリティ",
                     "10日値幅",
+                    "急落継続形状",
+                    "Logistic +5%参考率",
                 ],
                 "unavailable_inputs": [
                     "ニュース件数",
@@ -322,7 +348,35 @@ class DashboardExporter:
                 "note": (
                     "当日の出来高・売買代金を各銘柄の過去20日平均と"
                     "対象内順位で比較する資金流入観測に、過去の+5%上昇パターンを"
-                    "未来データなしで検知するスコアを統合"
+                    "未来データなしで検知するスコアを統合。急落継続MLは"
+                    "売買代金2億円以上から1日最大1銘柄を候補化し、"
+                    "実際の買いは翌日寄付きが前日終値以下の場合だけ有効"
+                ),
+            },
+            "signal_model": {
+                "key": "sharp_selloff_logistic_60_candidate_v1",
+                "label": "急落継続型 60%候補",
+                "historical_results": {
+                    "signals": 125,
+                    "target_hit_rate": 0.616,
+                    "mean_trade_net_return": 0.01109489953882488,
+                    "trade_win_rate": 0.696,
+                    "latest_period_signals": 25,
+                    "latest_period_target_hit_rate": 0.64,
+                },
+                "conditions": {
+                    "shape": "sharp_selloff",
+                    "minimum_turnover_yen": 200_000_000,
+                    "minimum_probability": 0.40,
+                    "maximum_down_5pct_probability": 0.50,
+                    "maximum_down_8pct_probability": 0.30,
+                    "maximum_candidates_per_day": 1,
+                    "entry_rule": "翌営業日寄付きが前日終値以下の場合のみ有効",
+                },
+                "live_signal_count": sum(bool(record.get("ml_sharp_signal")) for record in records),
+                "note": (
+                    "検証途中で発見した候補条件のため、新規データで継続検証する。"
+                    "表示率は将来の上昇を保証しない"
                 ),
             },
             "patterns": analysis["patterns"],
@@ -333,16 +387,14 @@ class DashboardExporter:
                     "key": "observed_inflow_score",
                     "label": "資金流入観測スコア",
                     "reason": (
-                        "当日出来高・売買代金の増加と株価上昇が"
-                        "同時に確認できた銘柄を評価する"
+                        "当日出来高・売買代金の増加と株価上昇が同時に確認できた銘柄を評価する"
                     ),
                 },
                 {
                     "key": "volume_ratio_1_20",
                     "label": "当日出来高倍率",
                     "reason": (
-                        "当日の出来高を直前20営業日の平均と比較し、"
-                        "通常時を上回る参加を確認する"
+                        "当日の出来高を直前20営業日の平均と比較し、通常時を上回る参加を確認する"
                     ),
                 },
                 {
