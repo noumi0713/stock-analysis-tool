@@ -382,6 +382,7 @@ class DashboardExporter:
             "patterns": analysis["patterns"],
             "bottom_pattern_study": bottom_pattern_study,
             "rise_pattern_backtest": analysis.get("rise_pattern_backtest"),
+            "demand_supply_study": analysis.get("demand_supply_study"),
             "three_up_one_down_study": analysis.get("three_up_one_down_study"),
             "indicator_notes": [
                 {

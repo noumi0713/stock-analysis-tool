@@ -13,6 +13,7 @@ from app.storage.parquet import ParquetStore
 from app.yahoo.bottom_patterns import analyze_bottom_patterns
 from app.yahoo.candle_sequence import analyze_three_up_one_down
 from app.yahoo.corporate_actions import normalize_split_adjusted_prices
+from app.yahoo.demand_supply import analyze_demand_supply_timing
 from app.yahoo.ingestion import YahooPaths
 from app.yahoo.retail_flow import (
     RETAIL_DETAIL_COLUMNS,
@@ -62,6 +63,7 @@ class YahooPatternAnalyzer:
         three_up_one_down_study = analyze_three_up_one_down(valid_prices)
         bottom_pattern_study, bottom_events = analyze_bottom_patterns(features)
         rise_pattern_backtest = backtest_rise_pattern_signals(features, bottom_events)
+        demand_supply_study = analyze_demand_supply_timing(features)
         features = add_latest_rise_pattern_signals(features, bottom_events)
         features = add_latest_ml_sharp_selloff_signals(features)
         features["signal_score"] = features[
@@ -116,6 +118,7 @@ class YahooPatternAnalyzer:
             "patterns": patterns,
             "bottom_pattern_study": bottom_pattern_study,
             "rise_pattern_backtest": rise_pattern_backtest,
+            "demand_supply_study": demand_supply_study,
             "three_up_one_down_study": three_up_one_down_study,
             "candidate_path": str(candidate_path),
             "score_path": str(score_path),
