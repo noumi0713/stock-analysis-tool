@@ -19,7 +19,7 @@ class DemandSupplyConfig:
     maximum_gap_up: float = 0.0
     minimum_gap_down: float = -0.10
     maximum_candidates_per_day: int = 1
-    demand_thresholds: tuple[float, ...] = (0.55, 0.65, 0.75)
+    demand_thresholds: tuple[float, ...] = (0.65, 0.75, 0.85, 0.90)
     supply_thresholds: tuple[float, ...] = (0.55, 0.65, 0.75)
     minimum_turnovers: tuple[float, ...] = (
         50_000_000.0,
@@ -27,6 +27,10 @@ class DemandSupplyConfig:
         200_000_000.0,
     )
     minimum_development_trades: int = 20
+    minimum_one_day_volume_ratio: float = 1.20
+    minimum_one_day_turnover_ratio: float = 1.20
+    minimum_up_volume_share: float = 0.55
+    minimum_demand_supply_balance: float = 0.20
 
 
 def add_supply_pressure_features(features: pd.DataFrame) -> pd.DataFrame:
@@ -71,18 +75,31 @@ def analyze_demand_supply_timing(
 
     frame = add_supply_pressure_features(features)
     frame["date"] = pd.to_datetime(frame["date"]).dt.date
-    outcomes = {
-        None: _simulate_outcomes(frame, config, supply_threshold=None),
-        **{
-            threshold: _simulate_outcomes(
-                frame,
-                config,
-                supply_threshold=threshold,
-            )
-            for threshold in config.supply_thresholds
-        },
+    fixed_outcomes = _simulate_outcomes(
+        frame,
+        config,
+        supply_threshold=None,
+        use_fixed_stop=True,
+    )
+    supply_outcomes = {
+        threshold: _simulate_outcomes(
+            frame,
+            config,
+            supply_threshold=threshold,
+            use_fixed_stop=False,
+        )
+        for threshold in config.supply_thresholds
     }
-    complete = outcomes[None]["trade_available"]
+    hybrid_outcomes = {
+        threshold: _simulate_outcomes(
+            frame,
+            config,
+            supply_threshold=threshold,
+            use_fixed_stop=True,
+        )
+        for threshold in config.supply_thresholds
+    }
+    complete = fixed_outcomes["trade_available"]
     available_dates = sorted(frame.loc[complete, "date"].drop_duplicates())
     test_dates = available_dates[-config.test_days :]
     midpoint = len(test_dates) // 2
@@ -97,7 +114,7 @@ def analyze_demand_supply_timing(
             for minimum_turnover in config.minimum_turnovers:
                 selected = _select_buys(
                     frame,
-                    outcomes[None],
+                    fixed_outcomes,
                     dates=development_dates,
                     demand_threshold=demand_threshold,
                     minimum_turnover=minimum_turnover,
@@ -105,7 +122,7 @@ def analyze_demand_supply_timing(
                 )
                 summary = _summary(
                     selected,
-                    outcomes[supply_threshold],
+                    supply_outcomes[supply_threshold],
                     development_dates,
                     config,
                 )
@@ -140,7 +157,7 @@ def analyze_demand_supply_timing(
 
     development_buys = _select_buys(
         frame,
-        outcomes[None],
+        fixed_outcomes,
         dates=development_dates,
         demand_threshold=float(best["demand_threshold"]),
         minimum_turnover=float(best["minimum_turnover_yen"]),
@@ -148,7 +165,7 @@ def analyze_demand_supply_timing(
     )
     validation_buys = _select_buys(
         frame,
-        outcomes[None],
+        fixed_outcomes,
         dates=validation_dates,
         demand_threshold=float(best["demand_threshold"]),
         minimum_turnover=float(best["minimum_turnover_yen"]),
@@ -158,13 +175,19 @@ def analyze_demand_supply_timing(
     development = {
         "fixed_exit": _summary(
             development_buys,
-            outcomes[None],
+            fixed_outcomes,
             development_dates,
             config,
         ),
         "supply_exit": _summary(
             development_buys,
-            outcomes[supply_threshold],
+            supply_outcomes[supply_threshold],
+            development_dates,
+            config,
+        ),
+        "hybrid_exit": _summary(
+            development_buys,
+            hybrid_outcomes[supply_threshold],
             development_dates,
             config,
         ),
@@ -172,13 +195,19 @@ def analyze_demand_supply_timing(
     validation = {
         "fixed_exit": _summary(
             validation_buys,
-            outcomes[None],
+            fixed_outcomes,
             validation_dates,
             config,
         ),
         "supply_exit": _summary(
             validation_buys,
-            outcomes[supply_threshold],
+            supply_outcomes[supply_threshold],
+            validation_dates,
+            config,
+        ),
+        "hybrid_exit": _summary(
+            validation_buys,
+            hybrid_outcomes[supply_threshold],
             validation_dates,
             config,
         ),
@@ -201,7 +230,10 @@ def analyze_demand_supply_timing(
         "assumptions": {
             **asdict(config),
             "entry": "signal_close_then_next_open_only_if_open_not_above_signal_close",
-            "supply_exit": "supply_detected_at_close_then_exit_next_open",
+            "supply_exit": (
+                "no_fixed_stop; supply_detected_at_close_then_exit_next_open"
+            ),
+            "hybrid_exit": "fixed_3pct_stop_plus_supply_exit",
             "same_day_stop_and_target": "stop_first",
             "gap_through_stop_or_target": "exit_at_open",
             "selection": "development_first_half_then_frozen_validation_second_half",
@@ -239,12 +271,20 @@ def _select_buys(
         )
         & _numeric(frame, "turnover_value").ge(minimum_turnover)
         & demand.ge(demand_threshold)
-        & balance.ge(0.15)
+        & balance.ge(config.minimum_demand_supply_balance)
         & _numeric(frame, "observed_volume_ratio_rank").ge(0.70)
         & _numeric(frame, "observed_turnover_ratio_rank").ge(0.70)
+        & _numeric(frame, "volume_ratio_1_20").ge(
+            config.minimum_one_day_volume_ratio
+        )
+        & _numeric(frame, "turnover_ratio_1_20").ge(
+            config.minimum_one_day_turnover_ratio
+        )
         & _numeric(frame, "return_1d").gt(0.002)
         & _numeric(frame, "intraday_return").ge(0.0)
-        & _numeric(frame, "up_volume_share_10d").ge(0.48)
+        & _numeric(frame, "up_volume_share_10d").ge(
+            config.minimum_up_volume_share
+        )
         & _numeric(frame, "rsi_14", default=100.0).le(82.0)
     )
     selected = frame.loc[mask, ["date"]].copy()
@@ -262,6 +302,7 @@ def _simulate_outcomes(
     config: DemandSupplyConfig,
     *,
     supply_threshold: float | None,
+    use_fixed_stop: bool = True,
 ) -> pd.DataFrame:
     ticker = frame["ticker"]
     ratio = _numeric(frame, "adjusted_close") / _numeric(frame, "close")
@@ -311,7 +352,11 @@ def _simulate_outcomes(
     )
     future_supply = pd.concat(
         [
-            supply.groupby(ticker, sort=False).shift(-offset).fillna(False)
+            supply.groupby(ticker, sort=False)
+            .shift(-offset)
+            .astype("boolean")
+            .fillna(False)
+            .astype(bool)
             for offset in range(1, config.horizon_days)
         ],
         axis=1,
@@ -325,6 +370,7 @@ def _simulate_outcomes(
     supply_exit = pd.Series(False, index=frame.index)
     holding_days = pd.Series(np.nan, index=frame.index, dtype="float64")
     unresolved = complete.copy()
+    never = pd.Series(False, index=frame.index)
 
     for day in range(config.horizon_days):
         day_open = future_open.iloc[:, day]
@@ -339,9 +385,9 @@ def _simulate_outcomes(
             holding_days.loc[exit_on_supply] = float(day)
             unresolved &= ~exit_on_supply
 
-        gap_stop = unresolved & day_open.le(stop_price)
+        gap_stop = unresolved & day_open.le(stop_price) if use_fixed_stop else never
         gap_target = unresolved & ~gap_stop & day_open.ge(target_price)
-        touches_stop = day_low.le(stop_price)
+        touches_stop = day_low.le(stop_price) if use_fixed_stop else never
         touches_target = day_high.ge(target_price)
         intraday_stop = unresolved & ~gap_stop & ~gap_target & touches_stop
         intraday_target = (

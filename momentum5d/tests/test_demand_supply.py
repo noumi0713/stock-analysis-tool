@@ -57,7 +57,12 @@ def test_supply_signal_exits_at_next_open_without_lookahead() -> None:
     config = DemandSupplyConfig()
 
     fixed = _simulate_outcomes(frame, config, supply_threshold=None)
-    supply = _simulate_outcomes(frame, config, supply_threshold=0.55)
+    supply = _simulate_outcomes(
+        frame,
+        config,
+        supply_threshold=0.55,
+        use_fixed_stop=False,
+    )
 
     assert np.isclose(fixed.loc[0, "net_return"], 0.038)
     assert bool(fixed.loc[0, "target_hit"])
