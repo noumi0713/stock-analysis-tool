@@ -303,7 +303,7 @@ class DashboardExporter:
             }
 
         payload = {
-            "schema_version": 10,
+            "schema_version": 11,
             "source": "yfinance",
             "personal_research_only": True,
             "generated_at": generated_at,
@@ -382,6 +382,7 @@ class DashboardExporter:
             "patterns": analysis["patterns"],
             "bottom_pattern_study": bottom_pattern_study,
             "rise_pattern_backtest": analysis.get("rise_pattern_backtest"),
+            "three_up_one_down_study": analysis.get("three_up_one_down_study"),
             "indicator_notes": [
                 {
                     "key": "observed_inflow_score",
