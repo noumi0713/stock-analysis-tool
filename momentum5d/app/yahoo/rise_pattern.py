@@ -8,13 +8,13 @@ import pandas as pd
 
 from app.yahoo.bottom_patterns import FEATURE_SPECS, SHAPE_LABELS
 from app.yahoo.selective_ml import (
+    LIVE_SHARP_SIGNAL_COLUMNS,
+    score_latest_sharp_selloff_candidates,
     tune_and_select_ml_strategy,
     walk_forward_ml_scores,
 )
 
-STRONG_SHAPES = frozenset(
-    {"sharp_selloff", "capitulation_reversal", "rounded_base"}
-)
+STRONG_SHAPES = frozenset({"sharp_selloff", "capitulation_reversal", "rounded_base"})
 STRONG_SHAPE_MIN_TURNOVER = 200_000_000.0
 SELECTIVE_SHAPE_FEATURES = (
     "_rise_market_favorable",
@@ -106,6 +106,42 @@ def add_latest_rise_pattern_signals(
     return frame
 
 
+def add_latest_ml_sharp_selloff_signals(
+    features: pd.DataFrame,
+    *,
+    config: RisePatternConfig | None = None,
+) -> pd.DataFrame:
+    """Attach the frozen sharp-selloff ML candidate to the latest date."""
+    config = config or RisePatternConfig()
+    frame = features.copy()
+    defaults: dict[str, Any] = {
+        "ml_sharp_probability": 0.0,
+        "ml_sharp_down_5pct_probability": 1.0,
+        "ml_sharp_down_8pct_probability": 1.0,
+        "ml_sharp_expected_net_return": -1.0,
+        "ml_sharp_model_samples": 0,
+        "ml_sharp_signal": False,
+        "ml_sharp_rank": pd.NA,
+        "ml_sharp_reason": "",
+        "ml_sharp_entry_rule": "翌営業日寄付きが前日終値以下の場合のみ有効",
+    }
+    for column, default in defaults.items():
+        frame[column] = default
+    frame["ml_sharp_rank"] = frame["ml_sharp_rank"].astype("Int64")
+    if frame.empty:
+        return frame
+
+    outcome_frame = _attach_trade_outcomes(frame, config)
+    latest_scores = score_latest_sharp_selloff_candidates(
+        outcome_frame,
+        minimum_shape_samples=config.ml_minimum_shape_samples,
+        minimum_turnover=STRONG_SHAPE_MIN_TURNOVER,
+    )
+    for column in LIVE_SHARP_SIGNAL_COLUMNS:
+        frame.loc[latest_scores.index, column] = latest_scores[column]
+    return frame
+
+
 def backtest_rise_pattern_signals(
     features: pd.DataFrame,
     bottom_events: pd.DataFrame,
@@ -146,9 +182,7 @@ def backtest_rise_pattern_signals(
     }
     for test_date in test_dates:
         position = date_position[test_date]
-        training = events.loc[
-            events["_date_position"] <= position - config.horizon_days
-        ]
+        training = events.loc[events["_date_position"] <= position - config.horizon_days]
         profiles = _calibrate_profiles(training, config)
         day = frame.loc[frame["date"] == test_date].copy()
         day = _score_day_patterns(day, profiles, config)
@@ -169,21 +203,17 @@ def backtest_rise_pattern_signals(
         reversal_mask = pattern_mask & eligible["rise_pattern_reversal_confirmed"].fillna(
             False
         ).astype(bool)
-        pattern_with_inflow_mask = pattern_mask & eligible[
-            "observed_inflow_confirmed"
-        ].fillna(False).astype(bool)
+        pattern_with_inflow_mask = pattern_mask & eligible["observed_inflow_confirmed"].fillna(
+            False
+        ).astype(bool)
         strong_shape_mask = (
             eligible["rise_pattern_live_bottom"].fillna(False).astype(bool)
             & eligible["_rise_shape"].isin(STRONG_SHAPES)
             & eligible["turnover_value"].fillna(0).ge(STRONG_SHAPE_MIN_TURNOVER)
         )
         strong_shape_signal_mask = strong_shape_mask & pattern_mask
-        old = _select_top(
-            eligible.loc[old_mask], "observed_inflow_score", config.top_n
-        )
-        pattern = _select_top(
-            eligible.loc[pattern_mask], "rise_pattern_probability", config.top_n
-        )
+        old = _select_top(eligible.loc[old_mask], "observed_inflow_score", config.top_n)
+        pattern = _select_top(eligible.loc[pattern_mask], "rise_pattern_probability", config.top_n)
         reversal = _select_top(
             eligible.loc[reversal_mask], "rise_pattern_probability", config.top_n
         )
@@ -193,15 +223,11 @@ def backtest_rise_pattern_signals(
             config.top_n,
         )
         strong_shape = eligible.loc[strong_shape_mask].copy()
-        strong_shape["_strong_shape_score"] = strong_shape[
-            "rise_pattern_probability"
-        ].where(
+        strong_shape["_strong_shape_score"] = strong_shape["rise_pattern_probability"].where(
             strong_shape["rise_pattern_probability"].gt(0),
             strong_shape["observed_inflow_score"].fillna(0),
         )
-        strong_shape = _select_top(
-            strong_shape, "_strong_shape_score", config.top_n
-        )
+        strong_shape = _select_top(strong_shape, "_strong_shape_score", config.top_n)
         strong_shape_signal = _select_top(
             eligible.loc[strong_shape_signal_mask],
             "rise_pattern_probability",
@@ -276,17 +302,21 @@ def backtest_rise_pattern_signals(
             summary["top_n_per_day"] = top_n
             selective_threshold_grid[key] = summary
 
-    selective_by_shape = {
-        shape: _strategy_summary(
-            selective_trades.loc[selective_trades["_rise_shape"] == shape],
-            selective_dates,
-            config,
-        )
-        for shape in sorted(STRONG_SHAPES)
-    } if not selective_trades.empty else {
-        shape: _strategy_summary(pd.DataFrame(), selective_dates, config)
-        for shape in sorted(STRONG_SHAPES)
-    }
+    selective_by_shape = (
+        {
+            shape: _strategy_summary(
+                selective_trades.loc[selective_trades["_rise_shape"] == shape],
+                selective_dates,
+                config,
+            )
+            for shape in sorted(STRONG_SHAPES)
+        }
+        if not selective_trades.empty
+        else {
+            shape: _strategy_summary(pd.DataFrame(), selective_dates, config)
+            for shape in sorted(STRONG_SHAPES)
+        }
+    )
 
     ml_dates = complete_dates[-config.ml_test_days :]
     ml_scored = walk_forward_ml_scores(
@@ -483,12 +513,8 @@ def backtest_rise_pattern_signals(
             "allows_zero_trades": True,
             "probability_threshold": config.selective_probability_threshold,
             "min_expected_net_return": config.selective_min_expected_net_return,
-            "max_down_5pct_probability": (
-                config.selective_max_down_5pct_probability
-            ),
-            "max_down_8pct_probability": (
-                config.selective_max_down_8pct_probability
-            ),
+            "max_down_5pct_probability": (config.selective_max_down_5pct_probability),
+            "max_down_8pct_probability": (config.selective_max_down_8pct_probability),
             "training_population": (
                 "prior live-detectable strong-shape signals with completed "
                 "next-open five-day outcomes"
@@ -496,12 +522,8 @@ def backtest_rise_pattern_signals(
             "shape_model": "separate empirical Bayes model for each strong shape",
             "features": {
                 "market_regime": "market breadth 5d > 50% and median return 20d > 0",
-                "theme_flow_proxy": (
-                    "TSE-33/TSE-17 sector trend score >= 60% and breadth >= 50%"
-                ),
-                "volume_continuation": (
-                    "5d/20d volume and turnover ratios are both >= 1"
-                ),
+                "theme_flow_proxy": ("TSE-33/TSE-17 sector trend score >= 60% and breadth >= 50%"),
+                "volume_continuation": ("5d/20d volume and turnover ratios are both >= 1"),
                 "candlestick_reversal": "close location >= 55% of daily range",
                 "observed_inflow": "confirmed or observed inflow score >= 50%",
             },
@@ -572,15 +594,11 @@ def _add_live_bottom_features(features: pd.DataFrame) -> pd.DataFrame:
         lambda values: values.shift(4).rolling(17, min_periods=17).min()
     )
     current_low = frame["_rise_adjusted_low"]
-    frame["rise_pattern_live_bottom"] = (
-        current_low.lt(pd.concat([prior_low_1, prior_low_2], axis=1).min(axis=1))
-        & current_low.div(prior_high_20).sub(1).le(-0.04)
-    )
+    frame["rise_pattern_live_bottom"] = current_low.lt(
+        pd.concat([prior_low_1, prior_low_2], axis=1).min(axis=1)
+    ) & current_low.div(prior_high_20).sub(1).le(-0.04)
 
-    double_bottom = (
-        prior_bottom.gt(0)
-        & current_low.div(prior_bottom).sub(1).abs().le(0.03)
-    )
+    double_bottom = prior_bottom.gt(0) & current_low.div(prior_bottom).sub(1).abs().le(0.03)
     candle_span = frame["high"] - frame["low"]
     close_location = (frame["close"] - frame["low"]).div(candle_span.where(candle_span > 0))
     frame["rise_pattern_reversal_confirmed"] = close_location.fillna(0.5).ge(0.55)
@@ -605,16 +623,12 @@ def _add_live_bottom_features(features: pd.DataFrame) -> pd.DataFrame:
     )
 
     date_group = frame.groupby("date", sort=False)
-    market_breadth = date_group["return_5d"].transform(
-        lambda values: float((values > 0).mean())
-    )
+    market_breadth = date_group["return_5d"].transform(lambda values: float((values > 0).mean()))
     market_median_return = date_group["return_20d"].transform("median")
     frame["_rise_close_location"] = close_location.fillna(0.5)
     frame["_rise_market_breadth_5d"] = market_breadth
     frame["_rise_market_median_return_20d"] = market_median_return
-    frame["_rise_market_favorable"] = market_breadth.gt(0.50) & market_median_return.gt(
-        0.0
-    )
+    frame["_rise_market_favorable"] = market_breadth.gt(0.50) & market_median_return.gt(0.0)
 
     sector_score = _first_numeric_column(
         frame,
@@ -627,18 +641,19 @@ def _add_live_bottom_features(features: pd.DataFrame) -> pd.DataFrame:
     frame["_rise_theme_flow"] = sector_score.ge(0.60) & sector_breadth.ge(0.50)
     volume_ratio = _numeric_column(frame, "volume_ratio_5_20")
     turnover_ratio = _numeric_column(frame, "turnover_ratio_5_20")
-    frame["_rise_volume_continuation"] = volume_ratio.ge(1.0) & turnover_ratio.ge(
-        1.0
-    )
+    frame["_rise_volume_continuation"] = volume_ratio.ge(1.0) & turnover_ratio.ge(1.0)
     observed_score = _numeric_column(frame, "observed_inflow_score", default=0.0)
-    observed_confirmed = frame.get(
-        "observed_inflow_confirmed",
-        pd.Series(False, index=frame.index),
-    ).fillna(False).astype(bool)
+    observed_confirmed = (
+        frame.get(
+            "observed_inflow_confirmed",
+            pd.Series(False, index=frame.index),
+        )
+        .fillna(False)
+        .astype(bool)
+    )
     frame["_rise_observed_inflow"] = observed_confirmed | observed_score.ge(0.50)
     frame["_rise_quality_score"] = sum(
-        frame[column].fillna(False).astype("int8")
-        for column in SELECTIVE_SHAPE_FEATURES
+        frame[column].fillna(False).astype("int8") for column in SELECTIVE_SHAPE_FEATURES
     )
     frame["_rise_feature_signature"] = frame[list(SELECTIVE_SHAPE_FEATURES)].apply(
         lambda row: "".join("1" if bool(value) else "0" for value in row),
@@ -695,9 +710,9 @@ def _calibrate_profiles(
             samples = int(len(group))
             successes = int(group["target_5pct"].sum())
             rate = successes / samples
-            smoothed = (
-                successes + parent_rate * config.prior_strength
-            ) / (samples + config.prior_strength)
+            smoothed = (successes + parent_rate * config.prior_strength) / (
+                samples + config.prior_strength
+            )
             subtypes[(str(sides[0]), str(sides[1]))] = {
                 "samples": samples,
                 "successes": successes,
@@ -726,9 +741,7 @@ def _feature_comparison(values: pd.DataFrame) -> list[dict[str, Any]]:
         q25, q75 = all_values.quantile([0.25, 0.75])
         iqr = float(q75 - q25)
         gap = float(hit_values.median() - miss_values.median())
-        comparisons.append(
-            {"feature": feature, "effect": gap / iqr if iqr > 0 else 0.0}
-        )
+        comparisons.append({"feature": feature, "effect": gap / iqr if iqr > 0 else 0.0})
     return sorted(comparisons, key=lambda item: -abs(item["effect"]))
 
 
@@ -811,9 +824,7 @@ def _attach_trade_outcomes(
     future_high = pd.concat(future_highs, axis=1)
     future_low = pd.concat(future_lows, axis=1)
     future_close = pd.concat(future_closes, axis=1)
-    exit_close = frame["adjusted_close"].groupby(group_key, sort=False).shift(
-        -config.horizon_days
-    )
+    exit_close = frame["adjusted_close"].groupby(group_key, sort=False).shift(-config.horizon_days)
     complete = (
         entry.notna()
         & exit_close.notna()
@@ -829,12 +840,8 @@ def _attach_trade_outcomes(
     frame["rise_trade_target_hit"] = hit
     frame["rise_trade_future_max_return"] = future_high.max(axis=1) / entry - 1
     frame["rise_trade_future_min_return"] = future_low.min(axis=1) / entry - 1
-    frame["rise_trade_down_5pct"] = (
-        frame["rise_trade_future_min_return"].le(-0.05) & complete
-    )
-    frame["rise_trade_down_8pct"] = (
-        frame["rise_trade_future_min_return"].le(-0.08) & complete
-    )
+    frame["rise_trade_down_5pct"] = frame["rise_trade_future_min_return"].le(-0.05) & complete
+    frame["rise_trade_down_8pct"] = frame["rise_trade_future_min_return"].le(-0.08) & complete
     frame["rise_trade_gross_return"] = np.where(
         hit,
         0.05,
@@ -952,10 +959,7 @@ def _exit_trade_outcome(
         unresolved &= ~target
 
         day_number = day + 1
-        if (
-            follow_through_day == day_number
-            and minimum_close_return is not None
-        ):
+        if follow_through_day == day_number and minimum_close_return is not None:
             close_return = day_close / entry - 1
             weak = unresolved & close_return.lt(minimum_close_return)
             gross_return.loc[weak] = close_return.loc[weak]
@@ -963,9 +967,7 @@ def _exit_trade_outcome(
             unresolved &= ~weak
 
         if day_number == exit_day:
-            gross_return.loc[unresolved] = (
-                day_close.loc[unresolved] / entry.loc[unresolved] - 1
-            )
+            gross_return.loc[unresolved] = day_close.loc[unresolved] / entry.loc[unresolved] - 1
             early_exit.loc[unresolved] = exit_day < future_high.shape[1]
             unresolved.loc[:] = False
 
@@ -983,9 +985,7 @@ def _assign_exit_outcome(
     config: RisePatternConfig,
 ) -> None:
     frame[f"{prefix}_gross_return"] = outcome["gross_return"]
-    frame[f"{prefix}_net_return"] = (
-        outcome["gross_return"] - config.transaction_cost_bps / 10_000.0
-    )
+    frame[f"{prefix}_net_return"] = outcome["gross_return"] - config.transaction_cost_bps / 10_000.0
     frame[f"{prefix}_target_hit"] = outcome["target_hit"]
     frame[f"{prefix}_early_exit"] = outcome["early_exit"]
 
@@ -1037,9 +1037,7 @@ def _stopped_trade_outcome(
         target_hit.loc[target] = True
         unresolved &= ~(gap_stop | intraday_stop | target)
 
-    gross_return.loc[unresolved] = (
-        exit_close.loc[unresolved] / entry.loc[unresolved] - 1
-    )
+    gross_return.loc[unresolved] = exit_close.loc[unresolved] / entry.loc[unresolved] - 1
     return {
         "gross_return": gross_return,
         "target_hit": target_hit,
@@ -1055,9 +1053,7 @@ def _assign_stop_outcome(
     config: RisePatternConfig,
 ) -> None:
     frame[f"{prefix}_gross_return"] = outcome["gross_return"]
-    frame[f"{prefix}_net_return"] = (
-        outcome["gross_return"] - config.transaction_cost_bps / 10_000.0
-    )
+    frame[f"{prefix}_net_return"] = outcome["gross_return"] - config.transaction_cost_bps / 10_000.0
     frame[f"{prefix}_target_hit"] = outcome["target_hit"]
     frame[f"{prefix}_stop_hit"] = outcome["stop_hit"]
     frame[f"{prefix}_ambiguous_both_hit"] = outcome["ambiguous_both_hit"]
@@ -1073,9 +1069,7 @@ def _selective_candidate_mask(frame: pd.DataFrame) -> pd.Series:
     return (
         frame["rise_pattern_live_bottom"].fillna(False).astype(bool)
         & frame["_rise_shape"].isin(STRONG_SHAPES)
-        & _numeric_column(frame, "turnover_value", default=0.0).ge(
-            STRONG_SHAPE_MIN_TURNOVER
-        )
+        & _numeric_column(frame, "turnover_value", default=0.0).ge(STRONG_SHAPE_MIN_TURNOVER)
         & _numeric_column(frame, "rsi_14", default=100.0).le(82.0)
     )
 
@@ -1115,8 +1109,7 @@ def _score_selective_day(
             continue
 
         signature_training = shape_training.loc[
-            shape_training["_rise_feature_signature"]
-            == str(row["_rise_feature_signature"])
+            shape_training["_rise_feature_signature"] == str(row["_rise_feature_signature"])
         ]
         peers = signature_training
         peer_level = "shape_signature"
@@ -1174,10 +1167,7 @@ def _shrunk_binary_rate(
     prior = pd.to_numeric(prior_values, errors="coerce").dropna()
     if numeric.empty or prior.empty:
         return 0.0
-    return float(
-        (numeric.sum() + prior.mean() * prior_strength)
-        / (len(numeric) + prior_strength)
-    )
+    return float((numeric.sum() + prior.mean() * prior_strength) / (len(numeric) + prior_strength))
 
 
 def _shrunk_mean(
@@ -1189,10 +1179,7 @@ def _shrunk_mean(
     prior = pd.to_numeric(prior_values, errors="coerce").dropna()
     if numeric.empty or prior.empty:
         return -1.0
-    return float(
-        (numeric.sum() + prior.mean() * prior_strength)
-        / (len(numeric) + prior_strength)
-    )
+    return float((numeric.sum() + prior.mean() * prior_strength) / (len(numeric) + prior_strength))
 
 
 def _wilson_lower_bound(successes: int, samples: int, z: float = 1.96) -> float:
@@ -1201,9 +1188,7 @@ def _wilson_lower_bound(successes: int, samples: int, z: float = 1.96) -> float:
     rate = successes / samples
     denominator = 1.0 + z**2 / samples
     center = rate + z**2 / (2.0 * samples)
-    margin = z * np.sqrt(
-        rate * (1.0 - rate) / samples + z**2 / (4.0 * samples**2)
-    )
+    margin = z * np.sqrt(rate * (1.0 - rate) / samples + z**2 / (4.0 * samples**2))
     return float((center - margin) / denominator)
 
 
@@ -1225,9 +1210,7 @@ def _select_selective_trades(
         & scored["selective_70_down_8pct_probability"].le(
             config.selective_max_down_8pct_probability
         )
-        & scored["selective_70_expected_net_return"].gt(
-            config.selective_min_expected_net_return
-        )
+        & scored["selective_70_expected_net_return"].gt(config.selective_min_expected_net_return)
         & scored["selective_70_samples"].ge(config.selective_min_samples)
     ].copy()
     if eligible.empty:
@@ -1284,22 +1267,14 @@ def _strategy_summary(
     if "selective_70_probability" in trades:
         result.update(
             {
-                "mean_predicted_target_rate": float(
-                    trades["selective_70_probability"].mean()
-                ),
+                "mean_predicted_target_rate": float(trades["selective_70_probability"].mean()),
                 "prediction_calibration_gap": float(
                     trades["rise_trade_target_hit"].mean()
                     - trades["selective_70_probability"].mean()
                 ),
-                "realized_down_5pct_rate": float(
-                    trades["rise_trade_down_5pct"].mean()
-                ),
-                "realized_down_8pct_rate": float(
-                    trades["rise_trade_down_8pct"].mean()
-                ),
-                "mean_entry_gap_return": float(
-                    trades["rise_trade_entry_gap_return"].mean()
-                ),
+                "realized_down_5pct_rate": float(trades["rise_trade_down_5pct"].mean()),
+                "realized_down_8pct_rate": float(trades["rise_trade_down_8pct"].mean()),
+                "mean_entry_gap_return": float(trades["rise_trade_entry_gap_return"].mean()),
             }
         )
     return result
@@ -1350,9 +1325,7 @@ def _risk_summary(
         "selected_signals": int(len(valid)),
         "active_days": int(valid["date"].nunique()),
         "target_hit_rate": float(valid[target_column].mean()),
-        "stop_hit_rate": (
-            float(valid[stop_column].mean()) if stop_column is not None else 0.0
-        ),
+        "stop_hit_rate": (float(valid[stop_column].mean()) if stop_column is not None else 0.0),
         "mean_trade_net_return": float(valid[return_column].mean()),
         "median_trade_net_return": float(valid[return_column].median()),
         "trade_win_rate": float((valid[return_column] > 0).mean()),
