@@ -574,6 +574,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert "bottom_pattern_study" in payload
     assert "rise_pattern_backtest" in payload
     assert "golden_cross_volume_study" in payload
+    assert "perfect_order_pullback_study" in payload
     assert "candidates" in payload
     assert len(payload["stocks"]) == 2
     assert "rsi_14" in payload["stocks"][0]

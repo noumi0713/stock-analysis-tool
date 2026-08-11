@@ -421,9 +421,8 @@ class DashboardExporter:
             "bottom_pattern_study": bottom_pattern_study,
             "rise_pattern_backtest": analysis.get("rise_pattern_backtest"),
             "demand_supply_study": analysis.get("demand_supply_study"),
-            "golden_cross_volume_study": analysis.get(
-                "golden_cross_volume_study"
-            ),
+            "golden_cross_volume_study": analysis.get("golden_cross_volume_study"),
+            "perfect_order_pullback_study": analysis.get("perfect_order_pullback_study"),
             "three_up_one_down_study": analysis.get("three_up_one_down_study"),
             "event_risk_summary": analysis.get("event_risk_summary"),
             "indicator_notes": [

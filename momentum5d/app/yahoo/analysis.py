@@ -17,6 +17,7 @@ from app.yahoo.demand_supply import analyze_demand_supply_timing
 from app.yahoo.events import add_event_risk_controls, load_event_calendars
 from app.yahoo.golden_cross import backtest_golden_cross_volume
 from app.yahoo.ingestion import YahooPaths
+from app.yahoo.perfect_order import backtest_perfect_order_pullbacks
 from app.yahoo.retail_flow import (
     RETAIL_DETAIL_COLUMNS,
     add_retail_flow_features,
@@ -67,6 +68,7 @@ class YahooPatternAnalyzer:
         rise_pattern_backtest = backtest_rise_pattern_signals(features, bottom_events)
         demand_supply_study = analyze_demand_supply_timing(features)
         golden_cross_volume_study = backtest_golden_cross_volume(features)
+        perfect_order_pullback_study = backtest_perfect_order_pullbacks(features)
         features = add_latest_rise_pattern_signals(features, bottom_events)
         features = add_latest_ml_sharp_selloff_signals(features)
         earnings_calendar, important_events = load_event_calendars(self.settings)
@@ -129,6 +131,7 @@ class YahooPatternAnalyzer:
             "rise_pattern_backtest": rise_pattern_backtest,
             "demand_supply_study": demand_supply_study,
             "golden_cross_volume_study": golden_cross_volume_study,
+            "perfect_order_pullback_study": perfect_order_pullback_study,
             "three_up_one_down_study": three_up_one_down_study,
             "event_risk_summary": event_risk_summary,
             "candidate_path": str(candidate_path),
