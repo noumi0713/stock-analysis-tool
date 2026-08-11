@@ -6,6 +6,8 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from app.yahoo.pullback_failure import analyze_pullback_failures
+
 
 @dataclass(frozen=True, slots=True)
 class PerfectOrderBacktestConfig:
@@ -64,12 +66,14 @@ def backtest_perfect_order_pullbacks(
 
     strategies: dict[str, dict[str, Any]] = {}
     trades_by_strategy: dict[str, pd.DataFrame] = {}
+    candidates_by_rule: dict[str, pd.DataFrame] = {}
     for pullback_key, pullback_label in PULLBACK_RULES:
         candidates = _select_candidates(
             evaluated,
             pullback_rule=pullback_key,
             config=settings,
         )
+        candidates_by_rule[pullback_key] = candidates
         for exit_key, exit_label in OVERHEAT_RULES:
             key = f"{pullback_key}__{exit_key}"
             trades = _simulate_exits(
@@ -137,6 +141,12 @@ def backtest_perfect_order_pullbacks(
         "selected_trade_examples": _trade_examples(
             trades_by_strategy.get(selected_key, pd.DataFrame())
         ),
+        "failure_analysis": analyze_pullback_failures(
+            candidates_by_rule,
+            validation_start=validation_start,
+            horizon_days=settings.maximum_holding_days,
+            stop_loss=settings.stop_loss,
+        ),
         "limitations": [
             "過去時点の決算予定履歴がないため決算跨ぎ除外は未反映",
             "日足内で損切りと反発が同時に起きた場合は損切りを先に処理",
@@ -153,6 +163,7 @@ def _attach_signal_features(
     ticker = frame["ticker"]
     close = pd.to_numeric(frame["adjusted_close"], errors="coerce")
     low = _adjusted_price(frame, "low")
+    high = _adjusted_price(frame, "high")
     open_ = _adjusted_price(frame, "open")
     group_close = close.groupby(ticker, sort=False)
     short_window, middle_window, long_window = config.moving_average_windows
@@ -181,7 +192,27 @@ def _attach_signal_features(
         pd.to_numeric(frame.get("return_1d"), errors="coerce").groupby(ticker, sort=False).shift(1)
     )
     frame["po_ma25_deviation"] = close / middle - 1.0
+    frame["po_ma5_deviation"] = close / short - 1.0
+    frame["po_ma75_deviation"] = close / long - 1.0
     frame["po_order_spread"] = short / long - 1.0
+    frame["po_spread_change_5d"] = frame["po_order_spread"] - frame["po_order_spread"].groupby(
+        ticker, sort=False
+    ).shift(5)
+    volume = pd.to_numeric(frame["volume"], errors="coerce")
+    frame["po_volume_change_3d"] = volume / volume.groupby(ticker, sort=False).shift(3) - 1.0
+    candle_range = high - low
+    frame["po_candle_body_return"] = close / open_ - 1.0
+    frame["po_close_location"] = (close - low).div(candle_range.where(candle_range > 0))
+    frame["po_upper_wick_ratio"] = (high - pd.concat([open_, close], axis=1).max(axis=1)).div(
+        candle_range.where(candle_range > 0)
+    )
+    frame["po_lower_wick_ratio"] = (pd.concat([open_, close], axis=1).min(axis=1) - low).div(
+        candle_range.where(candle_range > 0)
+    )
+    perfect_order_start = (~frame["po_perfect_order"]).groupby(ticker).cumsum()
+    frame["po_perfect_order_age"] = (
+        frame["po_perfect_order"].groupby([ticker, perfect_order_start]).cumsum()
+    )
     frame["po_pullback_score"] = (
         0.55 * (1.0 - frame["po_ma25_deviation"].abs() / 0.08).clip(0, 1)
         + 0.25 * (frame["po_order_spread"] / 0.15).clip(0, 1)
