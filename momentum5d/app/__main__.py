@@ -25,6 +25,7 @@ from app.storage.checkpoints import CheckpointStore
 from app.storage.parquet import ParquetStore
 from app.yahoo.analysis import YahooPatternAnalyzer
 from app.yahoo.dashboard import DashboardExporter
+from app.yahoo.events import EarningsCalendarUpdater
 from app.yahoo.ingestion import YahooFinanceIngestion, YahooPaths
 from app.yahoo.quality import YahooQualityValidator
 from app.yahoo.sakata_backtest import SakataBacktestConfig, SakataBacktester
@@ -122,6 +123,22 @@ def build_parser() -> argparse.ArgumentParser:
         help="+5%到達前の値動き・出来高を集計し最新候補を生成",
     )
     yahoo_analyze.add_argument("--top-n", type=int, default=20)
+    yahoo_earnings = commands.add_parser(
+        "yahoo-update-earnings",
+        help="現在のランキング候補について決算予定を更新",
+    )
+    yahoo_earnings.add_argument(
+        "--as-of",
+        type=iso_date,
+        default=None,
+        help="基準日（既定: 日本時間の当日）",
+    )
+    yahoo_earnings.add_argument(
+        "--candidate-limit",
+        type=int,
+        default=100,
+        help="決算予定を確認するランキング上位数（既定: 100）",
+    )
     yahoo_export = commands.add_parser(
         "yahoo-export-dashboard",
         help="スマホ画面へ送る集計済みJSONを生成",
@@ -215,6 +232,14 @@ def main(
             if args.top_n < 1:
                 raise ValueError("--top-nは1以上で指定してください")
             result = YahooPatternAnalyzer(current_settings).run(top_n=args.top_n)
+            _print_json(result)
+        elif args.command == "yahoo-update-earnings":
+            if args.candidate_limit < 1:
+                raise ValueError("--candidate-limitは1以上で指定してください")
+            result = EarningsCalendarUpdater(current_settings).update(
+                as_of=args.as_of or datetime.now(ZoneInfo("Asia/Tokyo")).date(),
+                candidate_limit=args.candidate_limit,
+            )
             _print_json(result)
         elif args.command == "yahoo-validate":
             report = YahooQualityValidator(current_settings).run()

@@ -565,7 +565,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
     assert result["candidate_count"] <= 1
-    assert payload["schema_version"] == 11
+    assert payload["schema_version"] == 12
     assert payload["personal_research_only"] is True
     assert payload["update"]["session"] == "daily"
     assert payload["update"]["status"] == "complete"
@@ -573,6 +573,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert "patterns" in payload
     assert "bottom_pattern_study" in payload
     assert "rise_pattern_backtest" in payload
+    assert "golden_cross_volume_study" in payload
     assert "candidates" in payload
     assert len(payload["stocks"]) == 2
     assert "rsi_14" in payload["stocks"][0]
@@ -590,6 +591,9 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert "retail_attention_hybrid_score" in payload["candidates"][0]
     assert "observed_inflow_score" in payload["candidates"][0]
     assert "sakata_pattern" in payload["candidates"][0]
+    assert "event_entry_allowed" in payload["candidates"][0]
+    assert "event_trade_action" in payload["candidates"][0]
+    assert "event_risk_summary" in payload
     assert payload["candidates"][0]["company_name"] is None
     code = str(payload["candidates"][0]["code"])
     assert code in payload["charts"]

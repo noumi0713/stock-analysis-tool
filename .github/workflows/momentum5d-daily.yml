@@ -186,7 +186,18 @@ jobs:
           test -n "$(find data/yahoo -type f -print -quit)"
           echo "Using restored Yahoo history; skipping market-data refresh."
 
-      - name: Analyze +5% price and volume patterns
+      - name: Build provisional ranking for earnings lookup
+        if: steps.update.outputs.should_run == 'true'
+        run: python -m app yahoo-analyze --top-n 100
+
+      - name: Refresh earnings dates for ranking candidates
+        if: steps.update.outputs.should_run == 'true'
+        run: >-
+          python -m app yahoo-update-earnings
+          --as-of "${{ steps.update.outputs.market_date }}"
+          --candidate-limit 100
+
+      - name: Rebuild final ranking with event controls
         if: steps.update.outputs.should_run == 'true'
         run: python -m app yahoo-analyze --top-n 20
 

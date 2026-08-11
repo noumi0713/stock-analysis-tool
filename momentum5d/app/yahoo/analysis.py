@@ -14,6 +14,8 @@ from app.yahoo.bottom_patterns import analyze_bottom_patterns
 from app.yahoo.candle_sequence import analyze_three_up_one_down
 from app.yahoo.corporate_actions import normalize_split_adjusted_prices
 from app.yahoo.demand_supply import analyze_demand_supply_timing
+from app.yahoo.events import add_event_risk_controls, load_event_calendars
+from app.yahoo.golden_cross import backtest_golden_cross_volume
 from app.yahoo.ingestion import YahooPaths
 from app.yahoo.retail_flow import (
     RETAIL_DETAIL_COLUMNS,
@@ -64,8 +66,15 @@ class YahooPatternAnalyzer:
         bottom_pattern_study, bottom_events = analyze_bottom_patterns(features)
         rise_pattern_backtest = backtest_rise_pattern_signals(features, bottom_events)
         demand_supply_study = analyze_demand_supply_timing(features)
+        golden_cross_volume_study = backtest_golden_cross_volume(features)
         features = add_latest_rise_pattern_signals(features, bottom_events)
         features = add_latest_ml_sharp_selloff_signals(features)
+        earnings_calendar, important_events = load_event_calendars(self.settings)
+        features, event_risk_summary = add_event_risk_controls(
+            features,
+            earnings_calendar,
+            important_events,
+        )
         features["signal_score"] = features[
             [
                 "observed_inflow_score",
@@ -119,7 +128,9 @@ class YahooPatternAnalyzer:
             "bottom_pattern_study": bottom_pattern_study,
             "rise_pattern_backtest": rise_pattern_backtest,
             "demand_supply_study": demand_supply_study,
+            "golden_cross_volume_study": golden_cross_volume_study,
             "three_up_one_down_study": three_up_one_down_study,
+            "event_risk_summary": event_risk_summary,
             "candidate_path": str(candidate_path),
             "score_path": str(score_path),
             "historical_path": str(feature_path),
@@ -322,6 +333,23 @@ class YahooPatternAnalyzer:
             "ml_sharp_rank": pd.NA,
             "ml_sharp_reason": "",
             "ml_sharp_entry_rule": "翌営業日寄付きが前日終値以下の場合のみ有効",
+            "earnings_calendar_covered": False,
+            "next_earnings_date": pd.NaT,
+            "earnings_days_ahead": pd.NA,
+            "earnings_crossing_risk": False,
+            "earnings_exit_date": pd.NaT,
+            "important_event_nearby": False,
+            "important_event_name": "",
+            "event_position_scale": 1.0,
+            "event_entry_allowed": False,
+            "event_trade_action": "CHECK_EARNINGS_CALENDAR",
+            "event_risk_reason": "決算予定未取得のため新規買い不可",
+            "earnings_gap_down": np.nan,
+            "earnings_gd_reversal_signal": False,
+            "earnings_gd_entry_price": np.nan,
+            "earnings_gd_stop_price": np.nan,
+            "earnings_gd_take_profit": np.nan,
+            "earnings_gd_reason": "",
         }
         for column in RETAIL_DETAIL_COLUMNS:
             trend_defaults.setdefault(column, 0.0)
@@ -356,8 +384,9 @@ class YahooPatternAnalyzer:
         )
         rise_signal = latest["rise_pattern_signal"].fillna(False).astype(bool)
         ml_sharp_signal = latest["ml_sharp_signal"].fillna(False).astype(bool)
+        earnings_gd_signal = latest["earnings_gd_reversal_signal"].fillna(False).astype(bool)
         latest = latest.loc[
-            (observed_signal | rise_signal | ml_sharp_signal)
+            (observed_signal | rise_signal | ml_sharp_signal | earnings_gd_signal)
             & latest["rsi_14"].le(82.0)
             & (latest["turnover_value"] >= 10_000_000)
         ].copy()
@@ -425,6 +454,23 @@ class YahooPatternAnalyzer:
             "ml_sharp_rank",
             "ml_sharp_reason",
             "ml_sharp_entry_rule",
+            "earnings_calendar_covered",
+            "next_earnings_date",
+            "earnings_days_ahead",
+            "earnings_crossing_risk",
+            "earnings_exit_date",
+            "important_event_nearby",
+            "important_event_name",
+            "event_position_scale",
+            "event_entry_allowed",
+            "event_trade_action",
+            "event_risk_reason",
+            "earnings_gap_down",
+            "earnings_gd_reversal_signal",
+            "earnings_gd_entry_price",
+            "earnings_gd_stop_price",
+            "earnings_gd_take_profit",
+            "earnings_gd_reason",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -432,8 +478,14 @@ class YahooPatternAnalyzer:
         ]
         return (
             latest.sort_values(
-                ["ml_sharp_signal", "signal_score", "code"],
-                ascending=[False, False, True],
+                [
+                    "earnings_gd_reversal_signal",
+                    "event_entry_allowed",
+                    "ml_sharp_signal",
+                    "signal_score",
+                    "code",
+                ],
+                ascending=[False, False, False, False, True],
             )[columns]
             .head(top_n)
             .reset_index(drop=True)
@@ -509,6 +561,23 @@ class YahooPatternAnalyzer:
             "ml_sharp_rank",
             "ml_sharp_reason",
             "ml_sharp_entry_rule",
+            "earnings_calendar_covered",
+            "next_earnings_date",
+            "earnings_days_ahead",
+            "earnings_crossing_risk",
+            "earnings_exit_date",
+            "important_event_nearby",
+            "important_event_name",
+            "event_position_scale",
+            "event_entry_allowed",
+            "event_trade_action",
+            "event_risk_reason",
+            "earnings_gap_down",
+            "earnings_gd_reversal_signal",
+            "earnings_gd_entry_price",
+            "earnings_gd_stop_price",
+            "earnings_gd_take_profit",
+            "earnings_gd_reason",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -603,6 +672,12 @@ def _sakata_reasons(row: pd.Series) -> str:
 
 def _combined_signal_reasons(row: pd.Series) -> str:
     reasons: list[str] = []
+    gd_signal = row.get("earnings_gd_reversal_signal", False)
+    if pd.notna(gd_signal) and bool(gd_signal) and row.get("earnings_gd_reason"):
+        reasons.append(str(row["earnings_gd_reason"]))
+    event_reason = str(row.get("event_risk_reason", "")).strip()
+    if event_reason and event_reason != "イベント制約なし":
+        reasons.append(event_reason)
     ml_signal = row.get("ml_sharp_signal", False)
     if pd.notna(ml_signal) and bool(ml_signal) and row.get("ml_sharp_reason"):
         reasons.append(str(row["ml_sharp_reason"]))

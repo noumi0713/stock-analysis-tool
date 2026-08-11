@@ -1,0 +1,16 @@
+event_date,event_name,event_type,severity,position_scale,block_new_entries,source
+2026-08-12,米国CPI,us_cpi,high,0.5,false,https://www.bls.gov/schedule/2026/home.htm
+2026-09-04,米国雇用統計,us_jobs,high,0.5,false,https://www.bls.gov/schedule/2026/home.htm
+2026-09-11,米国CPI,us_cpi,high,0.5,false,https://www.bls.gov/schedule/2026/home.htm
+2026-09-16,FOMC結果,fomc,high,0.5,true,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm
+2026-09-18,日銀金融政策決定会合結果,boj,high,0.5,true,https://www.boj.or.jp/mopo/mpmsche_minu/index.htm
+2026-10-02,米国雇用統計,us_jobs,high,0.5,false,https://www.bls.gov/schedule/2026/home.htm
+2026-10-14,米国CPI,us_cpi,high,0.5,false,https://www.bls.gov/schedule/2026/home.htm
+2026-10-28,FOMC結果,fomc,high,0.5,true,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm
+2026-10-30,日銀金融政策決定会合結果,boj,high,0.5,true,https://www.boj.or.jp/mopo/mpmsche_minu/index.htm
+2026-11-06,米国雇用統計,us_jobs,high,0.5,false,https://www.bls.gov/schedule/2026/home.htm
+2026-11-10,米国CPI,us_cpi,high,0.5,false,https://www.bls.gov/schedule/2026/home.htm
+2026-12-04,米国雇用統計,us_jobs,high,0.5,false,https://www.bls.gov/schedule/2026/home.htm
+2026-12-09,FOMC結果,fomc,high,0.5,true,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm
+2026-12-10,米国CPI,us_cpi,high,0.5,false,https://www.bls.gov/schedule/2026/home.htm
+2026-12-18,日銀金融政策決定会合結果,boj,high,0.5,true,https://www.boj.or.jp/mopo/mpmsche_minu/index.htm

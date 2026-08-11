@@ -89,6 +89,15 @@ def test_yahoo_commands_are_parsed() -> None:
     retail = build_parser().parse_args(
         ["yahoo-backtest-retail", "--start", "2026-04-01", "--top-n", "7"]
     )
+    earnings = build_parser().parse_args(
+        [
+            "yahoo-update-earnings",
+            "--as-of",
+            "2026-08-11",
+            "--candidate-limit",
+            "80",
+        ]
+    )
 
     assert ingest.command == "yahoo-ingest"
     assert ingest.as_of.isoformat() == "2026-07-29"
@@ -101,3 +110,6 @@ def test_yahoo_commands_are_parsed() -> None:
     assert sakata.top_n == 8
     assert retail.command == "yahoo-backtest-retail"
     assert retail.top_n == 7
+    assert earnings.command == "yahoo-update-earnings"
+    assert earnings.as_of.isoformat() == "2026-08-11"
+    assert earnings.candidate_limit == 80

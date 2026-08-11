@@ -9,7 +9,7 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 JST = ZoneInfo("Asia/Tokyo")
-DASHBOARD_SCHEMA_VERSION = 9
+DASHBOARD_SCHEMA_VERSION = 12
 
 
 def update_is_complete(

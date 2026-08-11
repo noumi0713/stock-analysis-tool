@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -137,6 +137,23 @@ class DashboardExporter:
             "ml_sharp_rank",
             "ml_sharp_reason",
             "ml_sharp_entry_rule",
+            "earnings_calendar_covered",
+            "next_earnings_date",
+            "earnings_days_ahead",
+            "earnings_crossing_risk",
+            "earnings_exit_date",
+            "important_event_nearby",
+            "important_event_name",
+            "event_position_scale",
+            "event_entry_allowed",
+            "event_trade_action",
+            "event_risk_reason",
+            "earnings_gap_down",
+            "earnings_gd_reversal_signal",
+            "earnings_gd_entry_price",
+            "earnings_gd_stop_price",
+            "earnings_gd_take_profit",
+            "earnings_gd_reason",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -231,6 +248,23 @@ class DashboardExporter:
             "ml_sharp_rank",
             "ml_sharp_reason",
             "ml_sharp_entry_rule",
+            "earnings_calendar_covered",
+            "next_earnings_date",
+            "earnings_days_ahead",
+            "earnings_crossing_risk",
+            "earnings_exit_date",
+            "important_event_nearby",
+            "important_event_name",
+            "event_position_scale",
+            "event_entry_allowed",
+            "event_trade_action",
+            "event_risk_reason",
+            "earnings_gap_down",
+            "earnings_gd_reversal_signal",
+            "earnings_gd_entry_price",
+            "earnings_gd_stop_price",
+            "earnings_gd_take_profit",
+            "earnings_gd_reason",
             "setup_reasons",
             "setup_score",
             "trend_ranking_score",
@@ -303,7 +337,7 @@ class DashboardExporter:
             }
 
         payload = {
-            "schema_version": 11,
+            "schema_version": 12,
             "source": "yfinance",
             "personal_research_only": True,
             "generated_at": generated_at,
@@ -338,11 +372,13 @@ class DashboardExporter:
                     "10日値幅",
                     "急落継続形状",
                     "Logistic +5%参考率",
+                    "ランキング候補の決算予定",
+                    "重要指標カレンダー",
                 ],
                 "unavailable_inputs": [
                     "ニュース件数",
                     "SNS言及数",
-                    "決算・上方修正",
+                    "上方修正",
                     "信用残",
                 ],
                 "note": (
@@ -350,7 +386,9 @@ class DashboardExporter:
                     "対象内順位で比較する資金流入観測に、過去の+5%上昇パターンを"
                     "未来データなしで検知するスコアを統合。急落継続MLは"
                     "売買代金2億円以上から1日最大1銘柄を候補化し、"
-                    "実際の買いは翌日寄付きが前日終値以下の場合だけ有効"
+                    "実際の買いは翌日寄付きが前日終値以下の場合だけ有効。"
+                    "決算は7営業日以内なら新規買いを停止し、重要指標前は保有量を"
+                    "半減する。決算GDは当日反転を確認後、翌日の高値超えだけを候補化"
                 ),
             },
             "signal_model": {
@@ -383,7 +421,11 @@ class DashboardExporter:
             "bottom_pattern_study": bottom_pattern_study,
             "rise_pattern_backtest": analysis.get("rise_pattern_backtest"),
             "demand_supply_study": analysis.get("demand_supply_study"),
+            "golden_cross_volume_study": analysis.get(
+                "golden_cross_volume_study"
+            ),
             "three_up_one_down_study": analysis.get("three_up_one_down_study"),
+            "event_risk_summary": analysis.get("event_risk_summary"),
             "indicator_notes": [
                 {
                     "key": "observed_inflow_score",
@@ -452,6 +494,8 @@ class DashboardExporter:
 def _json_scalar(value: Any) -> Any:
     if pd.isna(value):
         return None
+    if isinstance(value, (date, datetime, pd.Timestamp)):
+        return value.isoformat()
     if hasattr(value, "item"):
         return value.item()
     return value

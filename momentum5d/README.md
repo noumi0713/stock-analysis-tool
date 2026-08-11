@@ -76,7 +76,9 @@ UNIVERSE_MARKET_CODES=0111
 ```bash
 python -m app yahoo-ingest
 python -m app yahoo-validate
-python -m app yahoo-analyze
+python -m app yahoo-analyze --top-n 100
+python -m app yahoo-update-earnings
+python -m app yahoo-analyze --top-n 20
 python -m app yahoo-export-dashboard --output work/latest.json
 python -m app yahoo-status
 ```
@@ -90,6 +92,7 @@ python -m app yahoo-ingest --full-refresh
 python -m app yahoo-ingest --full-refresh --intraday-session morning
 python -m app yahoo-ingest --full-refresh --intraday-session close
 python -m app yahoo-analyze --top-n 20
+python -m app yahoo-update-earnings --as-of 2026-08-11 --candidate-limit 100
 python -m app yahoo-backtest-sakata --start 2026-04-01 --initial-capital 1000000
 python -m app yahoo-backtest-retail --start 2026-04-01 --initial-capital 1000000
 ```
@@ -109,7 +112,11 @@ python -m app yahoo-backtest-retail --start 2026-04-01 --initial-capital 1000000
 - 行動: 出来高・売買代金の立ち上がり、上昇日の出来高比率、陽線
 - 減点: RSI・短期騰落・出来高の過熱と、下落トレンド・移動平均割れ・高ボラティリティ
 
-ニュース件数、SNS言及数、決算・上方修正、信用残は現在の取得データに含まれないため、スコアへ入れていません。「理解容易性」は同業種が同時に買われているかの代理であり、事業の説明しやすさを直接測ったものではありません。これらを取得していない状態で推測値を埋めることもしません。
+ニュース件数、SNS言及数、上方修正、信用残は現在の取得データに含まれないため、スコアへ入れていません。「理解容易性」は同業種が同時に買われているかの代理であり、事業の説明しやすさを直接測ったものではありません。これらを取得していない状態で推測値を埋めることもしません。
+
+決算予定は仮ランキング上位100銘柄だけをYahooから更新し、最終ランキングの売買可否へ利用します。保有予定7営業日以内に決算がある銘柄は新規買いを止め、既存ポジションは決算の前営業日までに解消します。決算予定を取得できない銘柄も安全側に倒し、自動買い不可・手動確認とします。重要指標は `config/important_events.csv` で管理し、1営業日前から保有量を50%へ縮小します。FOMC・日銀金融政策決定会合は新規買いも停止します。
+
+決算反応日の寄付きが前日終値比-3〜-12%のGDでも、寄付きでは買いません。売買代金2億円以上、出来高20日平均比1.5倍以上、陽線、終値位置、20日トレンド、3%以内の損切り幅を確認した場合だけ、翌営業日に決算日高値の0.2%上へ逆指値買い候補を出します。利確は+5%、損切りは決算日安値の0.5%下と-3%のうち狭い方です。
 
 注意を引く銘柄が個人投資家の選択集合に入りやすいという設計根拠には、異常出来高・極端な値動き・ニュースと個人投資家の買い行動を検証した [Barber and Odean (2008)](https://faculty.haas.berkeley.edu/odean/papers%20current%20versions/allthatglitters_rfs_2008.pdf) と、検索量を注意の直接指標として短期的な価格圧力と反転を検証した [Da, Engelberg and Gao (2011)](https://doi.org/10.1111/j.1540-6261.2011.01679.x) を参照しています。現在は予兆ではなく、出来高・売買代金・価格方向が同時に強まった観測事実を優先し、過熱ペナルティで極端な高値追いを抑えます。
 
