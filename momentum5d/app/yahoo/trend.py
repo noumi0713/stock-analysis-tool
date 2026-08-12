@@ -319,6 +319,275 @@ def weekly_sector_33_returns(
     return result
 
 
+def analyze_sector_volume_next_week_returns(
+    features: pd.DataFrame,
+    *,
+    start_date: str = SECTOR_WEEKLY_HISTORY_START,
+) -> dict[str, Any]:
+    """Measure whether sector volume changes lead the following week's return."""
+    required = {
+        "date",
+        "ticker",
+        "adjusted_close",
+        "volume",
+        "sector_33_code",
+        "sector_33_name",
+    }
+    missing = required.difference(features.columns)
+    if missing:
+        raise ValueError(f"業種出来高先行分析の必須列がありません: {sorted(missing)}")
+
+    requested_start = pd.Timestamp(start_date).normalize()
+    frame = features[list(required)].copy()
+    frame["date"] = pd.to_datetime(frame["date"], errors="coerce")
+    frame["adjusted_close"] = pd.to_numeric(frame["adjusted_close"], errors="coerce")
+    frame["volume"] = pd.to_numeric(frame["volume"], errors="coerce")
+    frame = frame.dropna(
+        subset=[
+            "date",
+            "ticker",
+            "adjusted_close",
+            "volume",
+            "sector_33_code",
+        ]
+    )
+    frame = frame.loc[frame["adjusted_close"].gt(0) & frame["volume"].gt(0)]
+    if frame.empty:
+        return _empty_sector_volume_lead_study(requested_start)
+
+    frame = frame.sort_values(["ticker", "date"])
+    frame["week"] = frame["date"].dt.to_period("W-FRI")
+    weekly_stock = (
+        frame.groupby(["ticker", "week"], as_index=False, observed=True)
+        .agg(
+            as_of=("date", "max"),
+            adjusted_close=("adjusted_close", "last"),
+            average_daily_volume=("volume", "mean"),
+            trading_days=("date", "nunique"),
+            sector_33_code=("sector_33_code", "last"),
+            sector_33_name=("sector_33_name", "last"),
+        )
+        .sort_values(["ticker", "week"])
+    )
+    ticker_group = weekly_stock.groupby("ticker", sort=False)
+    weekly_stock["previous_week"] = ticker_group["week"].shift(1)
+    weekly_stock["previous_average_daily_volume"] = ticker_group[
+        "average_daily_volume"
+    ].shift(1)
+    weekly_stock["next_week"] = ticker_group["week"].shift(-1)
+    weekly_stock["next_as_of"] = ticker_group["as_of"].shift(-1)
+    weekly_stock["next_adjusted_close"] = ticker_group["adjusted_close"].shift(-1)
+    weekly_stock["weekly_volume_change"] = (
+        weekly_stock["average_daily_volume"]
+        / weekly_stock["previous_average_daily_volume"]
+        - 1
+    )
+    weekly_stock["next_week_return"] = (
+        weekly_stock["next_adjusted_close"] / weekly_stock["adjusted_close"] - 1
+    )
+    consecutive = (
+        weekly_stock["previous_week"].eq(weekly_stock["week"] - 1)
+        & weekly_stock["next_week"].eq(weekly_stock["week"] + 1)
+    )
+    eligible = weekly_stock.loc[
+        consecutive
+        & weekly_stock["as_of"].ge(requested_start)
+        & weekly_stock["weekly_volume_change"].replace([np.inf, -np.inf], np.nan).notna()
+        & weekly_stock["next_week_return"].replace([np.inf, -np.inf], np.nan).notna()
+    ].copy()
+    if eligible.empty:
+        return _empty_sector_volume_lead_study(requested_start)
+
+    sector_week = (
+        eligible.groupby(["week", "sector_33_code"], as_index=False, observed=True)
+        .agg(
+            current_as_of=("as_of", "max"),
+            next_as_of=("next_as_of", "max"),
+            sector_33_name=("sector_33_name", "last"),
+            median_weekly_volume_change=("weekly_volume_change", "median"),
+            median_next_week_return=("next_week_return", "median"),
+            next_week_positive_rate=(
+                "next_week_return",
+                lambda values: float((values > 0).mean()),
+            ),
+            stock_count=("ticker", "nunique"),
+        )
+        .sort_values(["current_as_of", "sector_33_code"])
+    )
+    sector_week.replace([np.inf, -np.inf], np.nan, inplace=True)
+    sector_week.dropna(
+        subset=["median_weekly_volume_change", "median_next_week_return"],
+        inplace=True,
+    )
+    if sector_week.empty:
+        return _empty_sector_volume_lead_study(requested_start)
+
+    overall = _volume_lead_metrics(sector_week)
+    overall["pearson_correlation"] = _safe_correlation(
+        sector_week["median_weekly_volume_change"],
+        sector_week["median_next_week_return"],
+    )
+    overall["spearman_correlation"] = _safe_correlation(
+        sector_week["median_weekly_volume_change"],
+        sector_week["median_next_week_return"],
+        rank=True,
+    )
+
+    weekly_rank_correlations = []
+    for _, values in sector_week.groupby("current_as_of", observed=True):
+        correlation = _safe_correlation(
+            values["median_weekly_volume_change"],
+            values["median_next_week_return"],
+            rank=True,
+        )
+        if correlation is not None:
+            weekly_rank_correlations.append(correlation)
+    overall["average_weekly_cross_section_spearman"] = (
+        float(np.mean(weekly_rank_correlations)) if weekly_rank_correlations else None
+    )
+    overall["median_weekly_cross_section_spearman"] = (
+        float(np.median(weekly_rank_correlations)) if weekly_rank_correlations else None
+    )
+    overall["positive_weekly_correlation_rate"] = (
+        float(np.mean(np.asarray(weekly_rank_correlations) > 0))
+        if weekly_rank_correlations
+        else None
+    )
+
+    direction_groups = []
+    for key, label, mask in (
+        (
+            "volume_down_or_flat",
+            "出来高減少・横ばい",
+            sector_week["median_weekly_volume_change"].le(0),
+        ),
+        ("volume_up", "出来高増加", sector_week["median_weekly_volume_change"].gt(0)),
+    ):
+        values = sector_week.loc[mask]
+        metrics = _volume_lead_metrics(values)
+        metrics.update({"key": key, "label": label})
+        direction_groups.append(metrics)
+
+    ranked_volume = sector_week["median_weekly_volume_change"].rank(method="first")
+    sector_week["volume_quintile"] = pd.qcut(
+        ranked_volume,
+        5,
+        labels=["Q1", "Q2", "Q3", "Q4", "Q5"],
+    )
+    quintiles = []
+    quintile_labels = {
+        "Q1": "出来高変化率 下位20%",
+        "Q2": "下位20〜40%",
+        "Q3": "中位20%",
+        "Q4": "上位20〜40%",
+        "Q5": "出来高変化率 上位20%",
+    }
+    for key, values in sector_week.groupby("volume_quintile", observed=True):
+        metrics = _volume_lead_metrics(values)
+        metrics.update({"key": str(key), "label": quintile_labels[str(key)]})
+        quintiles.append(metrics)
+
+    by_sector = []
+    for code, values in sector_week.groupby("sector_33_code", observed=True):
+        volume_up = values.loc[values["median_weekly_volume_change"].gt(0)]
+        volume_down = values.loc[values["median_weekly_volume_change"].le(0)]
+        up_return = _series_mean(volume_up["median_next_week_return"])
+        down_return = _series_mean(volume_down["median_next_week_return"])
+        by_sector.append(
+            {
+                "sector_33_code": str(code),
+                "sector_33_name": str(values["sector_33_name"].iloc[-1]),
+                "sample_count": int(len(values)),
+                "pearson_correlation": _safe_correlation(
+                    values["median_weekly_volume_change"],
+                    values["median_next_week_return"],
+                ),
+                "spearman_correlation": _safe_correlation(
+                    values["median_weekly_volume_change"],
+                    values["median_next_week_return"],
+                    rank=True,
+                ),
+                "average_next_return_when_volume_up": up_return,
+                "average_next_return_when_volume_down_or_flat": down_return,
+                "volume_up_return_difference": (
+                    up_return - down_return
+                    if up_return is not None and down_return is not None
+                    else None
+                ),
+            }
+        )
+    by_sector.sort(
+        key=lambda row: (
+            row["spearman_correlation"] is None,
+            -(row["spearman_correlation"] or 0),
+        )
+    )
+
+    return {
+        "method": "sector_median_stock_weekly_volume_change_vs_next_week_return",
+        "method_label": "業種内銘柄の週間平均出来高前週比中央値と翌週騰落率中央値",
+        "requested_start_date": str(requested_start.date()),
+        "first_current_as_of": str(sector_week["current_as_of"].min().date()),
+        "last_current_as_of": str(sector_week["current_as_of"].max().date()),
+        "last_next_as_of": str(sector_week["next_as_of"].max().date()),
+        "period_count": int(sector_week["current_as_of"].nunique()),
+        "sector_week_observation_count": int(len(sector_week)),
+        "overall": overall,
+        "direction_groups": direction_groups,
+        "volume_change_quintiles": quintiles,
+        "by_sector": by_sector,
+    }
+
+
+def _volume_lead_metrics(values: pd.DataFrame) -> dict[str, Any]:
+    returns = values["median_next_week_return"].dropna()
+    volumes = values["median_weekly_volume_change"].dropna()
+    return {
+        "sample_count": int(len(values)),
+        "median_weekly_volume_change": _series_median(volumes),
+        "average_next_week_return": _series_mean(returns),
+        "median_next_week_return": _series_median(returns),
+        "positive_next_week_rate": float((returns > 0).mean()) if len(returns) else None,
+        "plus_5pct_next_week_rate": float((returns >= 0.05).mean()) if len(returns) else None,
+    }
+
+
+def _safe_correlation(
+    left: pd.Series,
+    right: pd.Series,
+    *,
+    rank: bool = False,
+) -> float | None:
+    values = pd.DataFrame({"left": left, "right": right}).dropna()
+    if len(values) < 3 or values["left"].nunique() < 2 or values["right"].nunique() < 2:
+        return None
+    if rank:
+        values = values.rank(method="average")
+    return float(np.corrcoef(values["left"], values["right"])[0, 1])
+
+
+def _series_mean(values: pd.Series) -> float | None:
+    return float(values.mean()) if len(values) else None
+
+
+def _series_median(values: pd.Series) -> float | None:
+    return float(values.median()) if len(values) else None
+
+
+def _empty_sector_volume_lead_study(start_date: pd.Timestamp) -> dict[str, Any]:
+    return {
+        "method": "sector_median_stock_weekly_volume_change_vs_next_week_return",
+        "method_label": "業種内銘柄の週間平均出来高前週比中央値と翌週騰落率中央値",
+        "requested_start_date": str(start_date.date()),
+        "period_count": 0,
+        "sector_week_observation_count": 0,
+        "overall": {},
+        "direction_groups": [],
+        "volume_change_quintiles": [],
+        "by_sector": [],
+    }
+
+
 def _empty_weekly_sector_history(start_date: pd.Timestamp) -> dict[str, Any]:
     return {
         "method": "constituent_return_5d_median",

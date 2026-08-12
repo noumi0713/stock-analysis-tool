@@ -17,7 +17,12 @@ from app.yahoo.corporate_actions import (
 from app.yahoo.dashboard import DashboardExporter
 from app.yahoo.ingestion import YahooConfig, YahooFinanceIngestion, YahooPaths
 from app.yahoo.quality import YahooQualityValidator
-from app.yahoo.trend import add_trend_features, load_sector_map, weekly_sector_33_returns
+from app.yahoo.trend import (
+    add_trend_features,
+    analyze_sector_volume_next_week_returns,
+    load_sector_map,
+    weekly_sector_33_returns,
+)
 
 
 def fake_download(
@@ -423,6 +428,46 @@ def test_weekly_sector_returns_start_on_requested_date_and_include_all_sectors()
     )
     assert missing["median_return_5d"] is None
     assert missing["stock_count"] == 0
+
+
+def test_sector_volume_change_is_compared_with_following_week_return() -> None:
+    dates = pd.date_range("2025-08-04", periods=40, freq="B")
+    rows: list[dict[str, object]] = []
+    for ticker_number, (ticker, sector_code, sector_name) in enumerate(
+        (
+            ("1111.T", "3650", "電気機器"),
+            ("2222.T", "3650", "電気機器"),
+            ("3333.T", "5250", "情報・通信業"),
+            ("4444.T", "5250", "情報・通信業"),
+        ),
+        start=1,
+    ):
+        close = 100.0
+        for index, day in enumerate(dates):
+            week_number = index // 5
+            volume_multiplier = 1 + 0.25 * ((week_number + ticker_number) % 4)
+            next_return_driver = 0.004 * ((week_number + ticker_number) % 4)
+            close *= 1 + next_return_driver
+            rows.append(
+                {
+                    "date": day.date(),
+                    "ticker": ticker,
+                    "adjusted_close": close,
+                    "volume": 100_000 * ticker_number * volume_multiplier,
+                    "sector_33_code": sector_code,
+                    "sector_33_name": sector_name,
+                }
+            )
+
+    study = analyze_sector_volume_next_week_returns(pd.DataFrame(rows))
+
+    assert study["requested_start_date"] == "2025-08-12"
+    assert study["period_count"] == 6
+    assert study["sector_week_observation_count"] == 12
+    assert study["overall"]["sample_count"] == 12
+    assert len(study["direction_groups"]) == 2
+    assert len(study["volume_change_quintiles"]) == 5
+    assert len(study["by_sector"]) == 2
 
 
 def test_candidate_ranking_requires_observed_inflow() -> None:
