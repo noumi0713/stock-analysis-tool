@@ -62,6 +62,8 @@ SECTOR_33_NAMES = {
     "9050": "サービス業",
 }
 
+SECTOR_WEEKLY_HISTORY_START = "2025-08-12"
+
 
 def load_sector_map(path: Path) -> pd.DataFrame:
     if not path.exists():
@@ -221,6 +223,114 @@ def latest_sector_trends(
         {key: _json_value(value) for key, value in row.items()}
         for row in ranked.to_dict("records")
     ]
+
+
+def weekly_sector_33_returns(
+    features: pd.DataFrame,
+    *,
+    start_date: str = SECTOR_WEEKLY_HISTORY_START,
+) -> dict[str, Any]:
+    """Return one 33-sector cross-section for each completed market week.
+
+    Each weekly value is the median constituent 5-trading-day return observed on
+    the final trading day in that calendar week. The requested start date limits
+    the published observations; the 5-day return itself remains the feature
+    computed from the available price history.
+    """
+    required = {
+        "date",
+        "ticker",
+        "return_5d",
+        "sector_33_code",
+        "sector_33_name",
+    }
+    missing = required.difference(features.columns)
+    if missing:
+        raise ValueError(f"週次業種騰落率の必須列がありません: {sorted(missing)}")
+
+    requested_start = pd.Timestamp(start_date).normalize()
+    frame = features[list(required)].copy()
+    frame["date"] = pd.to_datetime(frame["date"], errors="coerce")
+    frame["return_5d"] = pd.to_numeric(frame["return_5d"], errors="coerce")
+    frame = frame.loc[frame["date"].notna() & frame["date"].ge(requested_start)]
+    if frame.empty:
+        return _empty_weekly_sector_history(requested_start)
+
+    frame["week"] = frame["date"].dt.to_period("W-FRI")
+    weekly_dates = frame.groupby("week", observed=True)["date"].max()
+    weeks: list[dict[str, Any]] = []
+    for week, as_of in weekly_dates.items():
+        snapshot = frame.loc[frame["date"].eq(as_of)].copy()
+        valid = snapshot.dropna(subset=["sector_33_code", "return_5d"])
+        if valid.empty:
+            continue
+
+        grouped = (
+            valid.groupby("sector_33_code", observed=True)
+            .agg(
+                median_return_5d=("return_5d", "median"),
+                breadth_5d=("return_5d", lambda values: float((values > 0).mean())),
+                stock_count=("ticker", "nunique"),
+            )
+            .reindex(SECTOR_33_NAMES)
+        )
+        available = grouped["median_return_5d"].dropna().sort_values(ascending=False)
+        ranks = pd.Series(
+            range(1, len(available) + 1),
+            index=available.index,
+            dtype="Int64",
+        )
+        sectors = []
+        for code, name in SECTOR_33_NAMES.items():
+            values = grouped.loc[code]
+            sectors.append(
+                {
+                    "rank": _json_value(ranks.get(code, pd.NA)),
+                    "sector_33_code": code,
+                    "sector_33_name": name,
+                    "median_return_5d": _json_value(values["median_return_5d"]),
+                    "breadth_5d": _json_value(values["breadth_5d"]),
+                    "stock_count": int(values["stock_count"])
+                    if pd.notna(values["stock_count"])
+                    else 0,
+                }
+            )
+        sectors.sort(
+            key=lambda row: (
+                row["rank"] is None,
+                row["rank"] if row["rank"] is not None else 10_000,
+            )
+        )
+        weeks.append(
+            {
+                "week_start": str(max(week.start_time.normalize(), requested_start).date()),
+                "week_end": str(week.end_time.normalize().date()),
+                "as_of": str(as_of.date()),
+                "sector_count": int(len(available)),
+                "sectors": sectors,
+            }
+        )
+
+    result = _empty_weekly_sector_history(requested_start)
+    result["weeks"] = weeks
+    result["week_count"] = len(weeks)
+    result["first_as_of"] = weeks[0]["as_of"] if weeks else None
+    result["last_as_of"] = weeks[-1]["as_of"] if weeks else None
+    return result
+
+
+def _empty_weekly_sector_history(start_date: pd.Timestamp) -> dict[str, Any]:
+    return {
+        "method": "constituent_return_5d_median",
+        "method_label": "構成銘柄の5営業日騰落率中央値",
+        "requested_start_date": str(start_date.date()),
+        "return_unit": "decimal",
+        "expected_sector_count": len(SECTOR_33_NAMES),
+        "week_count": 0,
+        "first_as_of": None,
+        "last_as_of": None,
+        "weeks": [],
+    }
 
 
 def _add_sector_trend(frame: pd.DataFrame, level: str) -> pd.DataFrame:

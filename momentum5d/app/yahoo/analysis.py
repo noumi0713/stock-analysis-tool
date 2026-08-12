@@ -30,7 +30,12 @@ from app.yahoo.rise_pattern import (
     backtest_rise_pattern_signals,
 )
 from app.yahoo.sakata import PATTERN_COLUMNS, add_sakata_features
-from app.yahoo.trend import add_trend_features, latest_sector_trends, load_sector_map
+from app.yahoo.trend import (
+    add_trend_features,
+    latest_sector_trends,
+    load_sector_map,
+    weekly_sector_33_returns,
+)
 
 
 class YahooPatternAnalyzer:
@@ -93,6 +98,7 @@ class YahooPatternAnalyzer:
         industry_trends = {
             "sector_17": latest_sector_trends(features, level="17", top_n=10),
             "sector_33": latest_sector_trends(features, level="33", top_n=10),
+            "sector_33_weekly": weekly_sector_33_returns(features),
         }
 
         analysis_dir = self.paths.processed_dir / "analysis"

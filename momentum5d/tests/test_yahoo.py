@@ -17,7 +17,7 @@ from app.yahoo.corporate_actions import (
 from app.yahoo.dashboard import DashboardExporter
 from app.yahoo.ingestion import YahooConfig, YahooFinanceIngestion, YahooPaths
 from app.yahoo.quality import YahooQualityValidator
-from app.yahoo.trend import add_trend_features, load_sector_map
+from app.yahoo.trend import add_trend_features, load_sector_map, weekly_sector_33_returns
 
 
 def fake_download(
@@ -286,6 +286,9 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert result["market_regime"]["favorable"] is True
     assert result["sector_map_coverage"] == 1.0
     assert result["industry_trends"]["sector_17"]
+    assert result["industry_trends"]["sector_33_weekly"]["requested_start_date"] == (
+        "2025-08-12"
+    )
     assert "setup_score" in candidates.columns
     assert "trend_ranking_score" in candidates.columns
     assert "sector_17_name" in candidates.columns
@@ -376,6 +379,50 @@ def test_trend_features_rank_stronger_industry_higher(tmp_path: Path) -> None:
     assert strong["sector_17_name"] == "電機・精密"
     assert strong["sector_17_trend_score"] > weak["sector_17_trend_score"]
     assert strong["trend_ranking_score"] > weak["trend_ranking_score"]
+
+
+def test_weekly_sector_returns_start_on_requested_date_and_include_all_sectors() -> None:
+    dates = pd.date_range("2025-08-12", periods=12, freq="B")
+    rows: list[dict[str, object]] = []
+    for ticker, code, sector_code, sector_name, daily_gain in (
+        ("1111.T", "11110", "3650", "電気機器", 0.01),
+        ("2222.T", "22220", "5250", "情報・通信業", -0.005),
+    ):
+        close = 100.0
+        ticker_rows: list[dict[str, object]] = []
+        for day in dates:
+            close *= 1 + daily_gain
+            ticker_rows.append(
+                {
+                    "date": day.date(),
+                    "ticker": ticker,
+                    "return_5d": np.nan,
+                    "sector_33_code": sector_code,
+                    "sector_33_name": sector_name,
+                    "adjusted_close": close,
+                }
+            )
+        ticker_frame = pd.DataFrame(ticker_rows)
+        ticker_frame["return_5d"] = (
+            ticker_frame["adjusted_close"] / ticker_frame["adjusted_close"].shift(5) - 1
+        )
+        rows.extend(ticker_frame.to_dict("records"))
+
+    history = weekly_sector_33_returns(pd.DataFrame(rows))
+
+    assert history["requested_start_date"] == "2025-08-12"
+    assert history["first_as_of"] == "2025-08-22"
+    assert history["week_count"] == 2
+    assert all(len(week["sectors"]) == 33 for week in history["weeks"])
+    first_week = history["weeks"][0]
+    assert first_week["sector_count"] == 2
+    assert first_week["sectors"][0]["sector_33_name"] == "電気機器"
+    assert first_week["sectors"][0]["rank"] == 1
+    missing = next(
+        row for row in first_week["sectors"] if row["sector_33_name"] == "水産・農林業"
+    )
+    assert missing["median_return_5d"] is None
+    assert missing["stock_count"] == 0
 
 
 def test_candidate_ranking_requires_observed_inflow() -> None:
