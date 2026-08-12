@@ -384,9 +384,9 @@ def test_trend_features_rank_stronger_industry_higher(tmp_path: Path) -> None:
 def test_weekly_sector_returns_start_on_requested_date_and_include_all_sectors() -> None:
     dates = pd.date_range("2025-08-12", periods=12, freq="B")
     rows: list[dict[str, object]] = []
-    for ticker, code, sector_code, sector_name, daily_gain in (
-        ("1111.T", "11110", "3650", "電気機器", 0.01),
-        ("2222.T", "22220", "5250", "情報・通信業", -0.005),
+    for ticker, sector_code, sector_name, daily_gain in (
+        ("1111.T", "3650", "電気機器", 0.01),
+        ("2222.T", "5250", "情報・通信業", -0.005),
     ):
         close = 100.0
         ticker_rows: list[dict[str, object]] = []
