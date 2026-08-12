@@ -2,7 +2,7 @@
   "schema_version": 12,
   "source": "yfinance",
   "personal_research_only": true,
-  "generated_at": "2026-08-12T10:17:37.436492+00:00",
+  "generated_at": "2026-08-12T14:32:29.096280+00:00",
   "latest_date": "2026-08-10",
   "update": {
     "status": "complete",
@@ -13,7 +13,7 @@
     "interval": "5m",
     "successful_tickers": 3673,
     "coverage": 0.9910955207771182,
-    "generated_at": "2026-08-12T10:17:37.436492+00:00"
+    "generated_at": "2026-08-12T14:32:29.096280+00:00"
   },
   "metrics": {
     "rows": 888455,
@@ -14387,6 +14387,435 @@
               "stock_count": 22
             }
           ]
+        }
+      ]
+    },
+    "sector_33_volume_lead": {
+      "method": "sector_median_stock_weekly_volume_change_vs_next_week_return",
+      "method_label": "業種内銘柄の週間平均出来高前週比中央値と翌週騰落率中央値",
+      "requested_start_date": "2025-08-12",
+      "first_current_as_of": "2025-08-22",
+      "last_current_as_of": "2026-08-07",
+      "last_next_as_of": "2026-08-10",
+      "period_count": 51,
+      "sector_week_observation_count": 1683,
+      "overall": {
+        "sample_count": 1683,
+        "median_weekly_volume_change": -0.022362078200321323,
+        "average_next_week_return": 0.0028843911491493305,
+        "median_next_week_return": 0.0029527559055118058,
+        "positive_next_week_rate": 0.5632798573975044,
+        "plus_5pct_next_week_rate": 0.03208556149732621,
+        "pearson_correlation": 0.046398466046013394,
+        "spearman_correlation": 0.06346253044310748,
+        "average_weekly_cross_section_spearman": 0.04893774743758609,
+        "median_weekly_cross_section_spearman": 0.06517379679144385,
+        "positive_weekly_correlation_rate": 0.6274509803921569
+      },
+      "direction_groups": [
+        {
+          "sample_count": 956,
+          "median_weekly_volume_change": -0.09649176253120373,
+          "average_next_week_return": 0.0015144691891830373,
+          "median_next_week_return": 0.0015295803923978113,
+          "positive_next_week_rate": 0.5355648535564853,
+          "plus_5pct_next_week_rate": 0.02615062761506276,
+          "key": "volume_down_or_flat",
+          "label": "出来高減少・横ばい"
+        },
+        {
+          "sample_count": 727,
+          "median_weekly_volume_change": 0.12223295151480673,
+          "average_next_week_return": 0.004685829104758376,
+          "median_next_week_return": 0.005162738496071739,
+          "positive_next_week_rate": 0.5997248968363136,
+          "plus_5pct_next_week_rate": 0.039889958734525444,
+          "key": "volume_up",
+          "label": "出来高増加"
+        }
+      ],
+      "volume_change_quintiles": [
+        {
+          "sample_count": 337,
+          "median_weekly_volume_change": -0.1962675053273616,
+          "average_next_week_return": 0.002363005024632249,
+          "median_next_week_return": 0.00046288603157501607,
+          "positive_next_week_rate": 0.5103857566765578,
+          "plus_5pct_next_week_rate": 0.026706231454005934,
+          "key": "Q1",
+          "label": "出来高変化率 下位20%"
+        },
+        {
+          "sample_count": 336,
+          "median_weekly_volume_change": -0.0877948355272303,
+          "average_next_week_return": 0.0018605155829107822,
+          "median_next_week_return": 0.0019796079535102096,
+          "positive_next_week_rate": 0.5446428571428571,
+          "plus_5pct_next_week_rate": 0.026785714285714284,
+          "key": "Q2",
+          "label": "下位20〜40%"
+        },
+        {
+          "sample_count": 337,
+          "median_weekly_volume_change": -0.022362078200321323,
+          "average_next_week_return": 0.0009656596001545755,
+          "median_next_week_return": 0.002196836555360182,
+          "positive_next_week_rate": 0.5519287833827893,
+          "plus_5pct_next_week_rate": 0.020771513353115726,
+          "key": "Q3",
+          "label": "中位20%"
+        },
+        {
+          "sample_count": 336,
+          "median_weekly_volume_change": 0.06136861652420256,
+          "average_next_week_return": 0.004380267214379781,
+          "median_next_week_return": 0.005465739237808798,
+          "positive_next_week_rate": 0.6160714285714286,
+          "plus_5pct_next_week_rate": 0.03273809523809524,
+          "key": "Q4",
+          "label": "上位20〜40%"
+        },
+        {
+          "sample_count": 337,
+          "median_weekly_volume_change": 0.24353804797353185,
+          "average_next_week_return": 0.004853908918621761,
+          "median_next_week_return": 0.005301531163600104,
+          "positive_next_week_rate": 0.5934718100890207,
+          "plus_5pct_next_week_rate": 0.05341246290801187,
+          "key": "Q5",
+          "label": "出来高変化率 上位20%"
+        }
+      ],
+      "by_sector": [
+        {
+          "sector_33_code": "4050",
+          "sector_33_name": "電気・ガス業",
+          "sample_count": 51,
+          "pearson_correlation": 0.2813958481204197,
+          "spearman_correlation": 0.3628054298642534,
+          "average_next_return_when_volume_up": 0.009619876188758461,
+          "average_next_return_when_volume_down_or_flat": -0.0035607490590382307,
+          "volume_up_return_difference": 0.013180625247796693
+        },
+        {
+          "sector_33_code": "1050",
+          "sector_33_name": "鉱業",
+          "sample_count": 51,
+          "pearson_correlation": 0.4082664528031005,
+          "spearman_correlation": 0.30524886877828056,
+          "average_next_return_when_volume_up": 0.025190823020296137,
+          "average_next_return_when_volume_down_or_flat": -0.003861234046039235,
+          "volume_up_return_difference": 0.029052057066335374
+        },
+        {
+          "sector_33_code": "3350",
+          "sector_33_name": "ゴム製品",
+          "sample_count": 51,
+          "pearson_correlation": 0.21303096477516717,
+          "spearman_correlation": 0.265158371040724,
+          "average_next_return_when_volume_up": 0.012668760141329448,
+          "average_next_return_when_volume_down_or_flat": -0.0023220033745376995,
+          "volume_up_return_difference": 0.014990763515867147
+        },
+        {
+          "sector_33_code": "3650",
+          "sector_33_name": "電気機器",
+          "sample_count": 51,
+          "pearson_correlation": 0.13649850273633948,
+          "spearman_correlation": 0.1908597285067873,
+          "average_next_return_when_volume_up": 0.009991450707222484,
+          "average_next_return_when_volume_down_or_flat": 0.0026500076105931735,
+          "volume_up_return_difference": 0.007341443096629311
+        },
+        {
+          "sector_33_code": "3750",
+          "sector_33_name": "精密機器",
+          "sample_count": 51,
+          "pearson_correlation": 0.20304293354802289,
+          "spearman_correlation": 0.17918552036199092,
+          "average_next_return_when_volume_up": 0.008440655373093063,
+          "average_next_return_when_volume_down_or_flat": 0.002478676002523747,
+          "volume_up_return_difference": 0.005961979370569317
+        },
+        {
+          "sector_33_code": "3400",
+          "sector_33_name": "ガラス・土石製品",
+          "sample_count": 51,
+          "pearson_correlation": 0.1007849013889505,
+          "spearman_correlation": 0.16081447963800904,
+          "average_next_return_when_volume_up": 0.006558825823061075,
+          "average_next_return_when_volume_down_or_flat": 0.0025593321335517813,
+          "volume_up_return_difference": 0.003999493689509293
+        },
+        {
+          "sector_33_code": "3200",
+          "sector_33_name": "化学",
+          "sample_count": 51,
+          "pearson_correlation": 0.13477511375620538,
+          "spearman_correlation": 0.1523076923076923,
+          "average_next_return_when_volume_up": 0.008022923394975106,
+          "average_next_return_when_volume_down_or_flat": 0.0005436308228245184,
+          "volume_up_return_difference": 0.0074792925721505876
+        },
+        {
+          "sector_33_code": "7200",
+          "sector_33_name": "その他金融業",
+          "sample_count": 51,
+          "pearson_correlation": 0.06473050310353869,
+          "spearman_correlation": 0.1487917464687544,
+          "average_next_return_when_volume_up": 0.0026783348265921447,
+          "average_next_return_when_volume_down_or_flat": -0.0009668535481760539,
+          "volume_up_return_difference": 0.0036451883747681984
+        },
+        {
+          "sector_33_code": "0050",
+          "sector_33_name": "水産・農林業",
+          "sample_count": 51,
+          "pearson_correlation": 0.11867661337303714,
+          "spearman_correlation": 0.12425339366515838,
+          "average_next_return_when_volume_up": 0.0024394572362431677,
+          "average_next_return_when_volume_down_or_flat": -0.0010406682155518659,
+          "volume_up_return_difference": 0.0034801254517950334
+        },
+        {
+          "sector_33_code": "3600",
+          "sector_33_name": "機械",
+          "sample_count": 51,
+          "pearson_correlation": 0.15532137680818192,
+          "spearman_correlation": 0.11981900452488686,
+          "average_next_return_when_volume_up": 0.003150031403503942,
+          "average_next_return_when_volume_down_or_flat": 0.002513975368568303,
+          "volume_up_return_difference": 0.0006360560349356389
+        },
+        {
+          "sector_33_code": "6050",
+          "sector_33_name": "卸売業",
+          "sample_count": 51,
+          "pearson_correlation": -0.016244492690711897,
+          "spearman_correlation": 0.09457227541505117,
+          "average_next_return_when_volume_up": 0.004858716349230418,
+          "average_next_return_when_volume_down_or_flat": 0.0005060878123102408,
+          "volume_up_return_difference": 0.0043526285369201775
+        },
+        {
+          "sector_33_code": "6100",
+          "sector_33_name": "小売業",
+          "sample_count": 51,
+          "pearson_correlation": 0.03463677684765255,
+          "spearman_correlation": 0.08597285067873303,
+          "average_next_return_when_volume_up": 0.000259056168076654,
+          "average_next_return_when_volume_down_or_flat": 0.0003983614863832252,
+          "volume_up_return_difference": -0.0001393053183065712
+        },
+        {
+          "sector_33_code": "5100",
+          "sector_33_name": "海運業",
+          "sample_count": 51,
+          "pearson_correlation": 0.015341418094026,
+          "spearman_correlation": 0.07538461538461538,
+          "average_next_return_when_volume_up": 0.011705300362560164,
+          "average_next_return_when_volume_down_or_flat": 0.001735602181860106,
+          "volume_up_return_difference": 0.009969698180700058
+        },
+        {
+          "sector_33_code": "3300",
+          "sector_33_name": "石油・石炭製品",
+          "sample_count": 51,
+          "pearson_correlation": 0.06248387347795632,
+          "spearman_correlation": 0.06633484162895927,
+          "average_next_return_when_volume_up": 0.004738378102794481,
+          "average_next_return_when_volume_down_or_flat": 0.003698019672414334,
+          "volume_up_return_difference": 0.0010403584303801468
+        },
+        {
+          "sector_33_code": "2050",
+          "sector_33_name": "建設業",
+          "sample_count": 51,
+          "pearson_correlation": -0.021163977612698424,
+          "spearman_correlation": 0.049683257918552035,
+          "average_next_return_when_volume_up": 0.0007647761701706956,
+          "average_next_return_when_volume_down_or_flat": 0.0012636831137962656,
+          "volume_up_return_difference": -0.0004989069436255701
+        },
+        {
+          "sector_33_code": "3500",
+          "sector_33_name": "非鉄金属",
+          "sample_count": 51,
+          "pearson_correlation": -0.09394155693510056,
+          "spearman_correlation": 0.044524886877828046,
+          "average_next_return_when_volume_up": 0.010520122949650277,
+          "average_next_return_when_volume_down_or_flat": 0.0054611915503701165,
+          "volume_up_return_difference": 0.00505893139928016
+        },
+        {
+          "sector_33_code": "3250",
+          "sector_33_name": "医薬品",
+          "sample_count": 51,
+          "pearson_correlation": 0.020692356243307668,
+          "spearman_correlation": 0.037918552036199094,
+          "average_next_return_when_volume_up": 0.004391195886197645,
+          "average_next_return_when_volume_down_or_flat": -0.004195204782335715,
+          "volume_up_return_difference": 0.008586400668533362
+        },
+        {
+          "sector_33_code": "3550",
+          "sector_33_name": "金属製品",
+          "sample_count": 51,
+          "pearson_correlation": 0.027370771062319624,
+          "spearman_correlation": 0.03710407239819004,
+          "average_next_return_when_volume_up": 0.0003512406336598048,
+          "average_next_return_when_volume_down_or_flat": 0.003236591621219531,
+          "volume_up_return_difference": -0.0028853509875597263
+        },
+        {
+          "sector_33_code": "9050",
+          "sector_33_name": "サービス業",
+          "sample_count": 51,
+          "pearson_correlation": 0.0047263619874805055,
+          "spearman_correlation": 0.036470588235294116,
+          "average_next_return_when_volume_up": 0.00031743522133774585,
+          "average_next_return_when_volume_down_or_flat": -0.0020921762815744125,
+          "volume_up_return_difference": 0.0024096115029121584
+        },
+        {
+          "sector_33_code": "3800",
+          "sector_33_name": "その他製品",
+          "sample_count": 51,
+          "pearson_correlation": 0.006417570532620488,
+          "spearman_correlation": 0.0269683257918552,
+          "average_next_return_when_volume_up": 0.0021723192714724385,
+          "average_next_return_when_volume_down_or_flat": 0.0007871407607661997,
+          "volume_up_return_difference": 0.001385178510706239
+        },
+        {
+          "sector_33_code": "3100",
+          "sector_33_name": "繊維製品",
+          "sample_count": 51,
+          "pearson_correlation": -0.042076815320450676,
+          "spearman_correlation": 0.013170400880335262,
+          "average_next_return_when_volume_up": 0.005367140801283351,
+          "average_next_return_when_volume_down_or_flat": 0.003687978391143664,
+          "volume_up_return_difference": 0.0016791624101396866
+        },
+        {
+          "sector_33_code": "7150",
+          "sector_33_name": "保険業",
+          "sample_count": 51,
+          "pearson_correlation": -0.001154555095560952,
+          "spearman_correlation": 0.0058823529411764705,
+          "average_next_return_when_volume_up": 0.0003180706238396618,
+          "average_next_return_when_volume_down_or_flat": 0.008436347871109966,
+          "volume_up_return_difference": -0.008118277247270303
+        },
+        {
+          "sector_33_code": "5050",
+          "sector_33_name": "陸運業",
+          "sample_count": 51,
+          "pearson_correlation": -0.08412125268066982,
+          "spearman_correlation": -0.0027149321266968325,
+          "average_next_return_when_volume_up": 9.033580708978588e-05,
+          "average_next_return_when_volume_down_or_flat": 0.00019897847166132018,
+          "volume_up_return_difference": -0.0001086426645715343
+        },
+        {
+          "sector_33_code": "5150",
+          "sector_33_name": "空運業",
+          "sample_count": 51,
+          "pearson_correlation": -0.04208406481428887,
+          "spearman_correlation": -0.007873303167420815,
+          "average_next_return_when_volume_up": -0.001004840977860325,
+          "average_next_return_when_volume_down_or_flat": 0.0021917794815610532,
+          "volume_up_return_difference": -0.0031966204594213784
+        },
+        {
+          "sector_33_code": "3050",
+          "sector_33_name": "食料品",
+          "sample_count": 51,
+          "pearson_correlation": 0.02890870848294819,
+          "spearman_correlation": -0.0216289592760181,
+          "average_next_return_when_volume_up": 0.0018571695448461442,
+          "average_next_return_when_volume_down_or_flat": 0.000164218196206752,
+          "volume_up_return_difference": 0.0016929513486393921
+        },
+        {
+          "sector_33_code": "7050",
+          "sector_33_name": "銀行業",
+          "sample_count": 51,
+          "pearson_correlation": -0.022925987487441738,
+          "spearman_correlation": -0.042986425339366516,
+          "average_next_return_when_volume_up": 0.013288918558715605,
+          "average_next_return_when_volume_down_or_flat": 0.009736486461716362,
+          "volume_up_return_difference": 0.003552432096999243
+        },
+        {
+          "sector_33_code": "3150",
+          "sector_33_name": "パルプ・紙",
+          "sample_count": 51,
+          "pearson_correlation": -0.015210770483444606,
+          "spearman_correlation": -0.04742081447963801,
+          "average_next_return_when_volume_up": 0.005578229564959324,
+          "average_next_return_when_volume_down_or_flat": 0.0028688314505332956,
+          "volume_up_return_difference": 0.002709398114426028
+        },
+        {
+          "sector_33_code": "5200",
+          "sector_33_name": "倉庫・運輸関連業",
+          "sample_count": 51,
+          "pearson_correlation": -0.08563155113874886,
+          "spearman_correlation": -0.05891402714932126,
+          "average_next_return_when_volume_up": 0.004220092059625108,
+          "average_next_return_when_volume_down_or_flat": 0.003990449247274759,
+          "volume_up_return_difference": 0.00022964281235034883
+        },
+        {
+          "sector_33_code": "5250",
+          "sector_33_name": "情報・通信業",
+          "sample_count": 51,
+          "pearson_correlation": -0.09094023336383122,
+          "spearman_correlation": -0.07475113122171945,
+          "average_next_return_when_volume_up": -0.002453266016150797,
+          "average_next_return_when_volume_down_or_flat": -0.0022792295103720647,
+          "volume_up_return_difference": -0.00017403650577873207
+        },
+        {
+          "sector_33_code": "3700",
+          "sector_33_name": "輸送用機器",
+          "sample_count": 51,
+          "pearson_correlation": -0.03746745059479744,
+          "spearman_correlation": -0.08226244343891402,
+          "average_next_return_when_volume_up": 0.0011821618727625518,
+          "average_next_return_when_volume_down_or_flat": 0.0018641568922140932,
+          "volume_up_return_difference": -0.0006819950194515414
+        },
+        {
+          "sector_33_code": "8050",
+          "sector_33_name": "不動産業",
+          "sample_count": 51,
+          "pearson_correlation": -0.15147142713366676,
+          "spearman_correlation": -0.10317675850023116,
+          "average_next_return_when_volume_up": -3.08427700677738e-05,
+          "average_next_return_when_volume_down_or_flat": 0.0010942469123196691,
+          "volume_up_return_difference": -0.001125089682387443
+        },
+        {
+          "sector_33_code": "3450",
+          "sector_33_name": "鉄鋼",
+          "sample_count": 51,
+          "pearson_correlation": -0.07068440797514604,
+          "spearman_correlation": -0.11004524886877828,
+          "average_next_return_when_volume_up": -0.0025931576336403533,
+          "average_next_return_when_volume_down_or_flat": 0.005434335899175706,
+          "volume_up_return_difference": -0.008027493532816059
+        },
+        {
+          "sector_33_code": "7100",
+          "sector_33_name": "証券・商品先物取引業",
+          "sample_count": 51,
+          "pearson_correlation": -0.17014695545542347,
+          "spearman_correlation": -0.22330821970013276,
+          "average_next_return_when_volume_up": 0.0034284692397764205,
+          "average_next_return_when_volume_down_or_flat": 0.005259465371962689,
+          "volume_up_return_difference": -0.001830996132186268
         }
       ]
     }
