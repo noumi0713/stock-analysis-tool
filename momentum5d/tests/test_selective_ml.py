@@ -5,21 +5,22 @@ from datetime import date, timedelta
 import pandas as pd
 
 from app.yahoo.selective_ml import (
-    score_latest_sharp_selloff_candidates,
+    score_latest_strong_shape_candidates,
     tune_and_select_ml_strategy,
 )
 
 
-def test_latest_sharp_selloff_signal_uses_frozen_rule_and_top_one() -> None:
-    dates = [date(2025, 1, 1) + timedelta(days=offset) for offset in range(242)]
+def test_latest_strong_shape_signal_uses_frozen_rule_and_top_one() -> None:
+    dates = [date(2024, 1, 1) + timedelta(days=offset) for offset in range(542)]
+    shapes = ("sharp_selloff", "capitulation_reversal", "rounded_base")
     rows = []
-    for index, value in enumerate(dates[:240]):
+    for index, value in enumerate(dates[:540]):
         target_hit = index % 4 != 0
         rows.append(
             {
                 "date": value,
                 "ticker": f"{1000 + index}.T",
-                "_rise_shape": "sharp_selloff",
+                "_rise_shape": shapes[index % len(shapes)],
                 "rise_pattern_live_bottom": True,
                 "turnover_value": 300_000_000.0,
                 "rsi_14": 45.0,
@@ -37,7 +38,7 @@ def test_latest_sharp_selloff_signal_uses_frozen_rule_and_top_one() -> None:
             {
                 "date": dates[-1],
                 "ticker": f"900{rank}.T",
-                "_rise_shape": "sharp_selloff",
+                "_rise_shape": ("rounded_base", "sharp_selloff")[rank],
                 "rise_pattern_live_bottom": True,
                 "turnover_value": 400_000_000.0 - rank * 50_000_000,
                 "rsi_14": 40.0,
@@ -51,14 +52,14 @@ def test_latest_sharp_selloff_signal_uses_frozen_rule_and_top_one() -> None:
             }
         )
 
-    result = score_latest_sharp_selloff_candidates(pd.DataFrame(rows))
+    result = score_latest_strong_shape_candidates(pd.DataFrame(rows))
 
     assert len(result) == 2
     assert int(result["ml_sharp_signal"].sum()) == 1
     assert result.loc[result["ml_sharp_signal"], "ml_sharp_rank"].iloc[0] == 1
-    assert result["ml_sharp_model_samples"].max() == 240
-    assert result.loc[result["ml_sharp_signal"], "ml_sharp_probability"].iloc[0] >= 0.40
-    assert result["ml_sharp_entry_rule"].str.contains("寄付き").all()
+    assert result["ml_sharp_model_samples"].max() == 180
+    assert result.loc[result["ml_sharp_signal"], "ml_sharp_probability"].iloc[0] >= 0.55
+    assert result["ml_sharp_entry_rule"].str.contains(r"\+3%").all()
 
 
 def test_tuning_freezes_development_rule_for_validation() -> None:

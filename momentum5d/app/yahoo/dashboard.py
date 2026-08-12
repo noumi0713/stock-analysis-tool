@@ -353,8 +353,8 @@ class DashboardExporter:
             "market_regime": analysis.get("market_regime"),
             "industry_trends": analysis.get("industry_trends", {}),
             "technical_method": {
-                "key": "observed_inflow_plus_sharp_selloff_ml_v2",
-                "label": "資金流入観測＋急落継続ML",
+                "key": "strong_shape_hgb_selective_v3",
+                "label": "強形状3種ML厳選",
                 "stages": [
                     "発見",
                     "理解（業種連動の代理）",
@@ -370,8 +370,8 @@ class DashboardExporter:
                     "底値候補",
                     "ボラティリティ",
                     "10日値幅",
-                    "急落継続形状",
-                    "Logistic +5%参考率",
+                    "急落継続・投げ売り反転・緩やかな底固め",
+                    "HistGradientBoosting +5%参考率",
                     "ランキング候補の決算予定",
                     "重要指標カレンダー",
                 ],
@@ -384,37 +384,43 @@ class DashboardExporter:
                 "note": (
                     "当日の出来高・売買代金を各銘柄の過去20日平均と"
                     "対象内順位で比較する資金流入観測に、過去の+5%上昇パターンを"
-                    "未来データなしで検知するスコアを統合。急落継続MLは"
-                    "売買代金2億円以上から1日最大1銘柄を候補化し、"
-                    "実際の買いは翌日寄付きが前日終値以下の場合だけ有効。"
+                    "未来データなしで検知するスコアを統合。強形状3種を形状別モデルで"
+                    "評価し、売買代金2億円以上から1日最大1銘柄だけを候補化する。"
+                    "実際の買いは翌日寄付きが前日終値比+3%以下の場合だけ有効。"
                     "決算は7営業日以内なら新規買いを停止し、重要指標前は保有量を"
                     "半減する。決算GDは当日反転を確認後、翌日の高値超えだけを候補化"
                 ),
             },
             "signal_model": {
-                "key": "sharp_selloff_logistic_60_candidate_v1",
-                "label": "急落継続型 60%候補",
+                "key": "strong_shape_hgb_selective_v1",
+                "label": "強形状3種 ML厳選候補",
                 "historical_results": {
-                    "signals": 125,
-                    "target_hit_rate": 0.616,
-                    "mean_trade_net_return": 0.01109489953882488,
-                    "trade_win_rate": 0.696,
-                    "latest_period_signals": 25,
-                    "latest_period_target_hit_rate": 0.64,
+                    "signals": 46,
+                    "target_hit_rate": 0.5869565217391305,
+                    "mean_trade_net_return": 0.008150115161333326,
+                    "trade_win_rate": 0.6304347826086957,
+                    "latest_period_signals": 16,
+                    "latest_period_target_hit_rate": 0.375,
                 },
                 "conditions": {
-                    "shape": "sharp_selloff",
+                    "shapes": [
+                        "capitulation_reversal",
+                        "rounded_base",
+                        "sharp_selloff",
+                    ],
                     "minimum_turnover_yen": 200_000_000,
-                    "minimum_probability": 0.40,
+                    "model": "hist_gradient_boosting",
+                    "minimum_probability": 0.55,
                     "maximum_down_5pct_probability": 0.50,
                     "maximum_down_8pct_probability": 0.30,
                     "maximum_candidates_per_day": 1,
-                    "entry_rule": "翌営業日寄付きが前日終値以下の場合のみ有効",
+                    "maximum_next_open_gap": 0.03,
+                    "entry_rule": "翌営業日寄付きが前日終値比+3%以下の場合のみ有効",
                 },
                 "live_signal_count": sum(bool(record.get("ml_sharp_signal")) for record in records),
                 "note": (
-                    "検証途中で発見した候補条件のため、新規データで継続検証する。"
-                    "表示率は将来の上昇を保証しない"
+                    "前半で条件を固定し後半46件で検証した暫定候補。直近区間では成績が"
+                    "弱まっているため、新規データで継続検証する。表示率は将来の上昇を保証しない"
                 ),
             },
             "patterns": analysis["patterns"],

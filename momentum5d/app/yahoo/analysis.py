@@ -120,8 +120,8 @@ class YahooPatternAnalyzer:
         summary = {
             "source": "yfinance",
             "personal_research_only": True,
-            "technical_method": "observed_inflow_plus_sharp_selloff_ml_v2",
-            "technical_method_label": "資金流入観測＋急落継続ML",
+            "technical_method": "strong_shape_hgb_selective_v3",
+            "technical_method_label": "強形状3種ML厳選",
             "analyzed_at": datetime.now(UTC).isoformat(),
             "rows": len(features),
             "excluded_non_trading_or_invalid_rows": len(prices) - len(valid_prices),
@@ -343,7 +343,7 @@ class YahooPatternAnalyzer:
             "ml_sharp_signal": False,
             "ml_sharp_rank": pd.NA,
             "ml_sharp_reason": "",
-            "ml_sharp_entry_rule": "翌営業日寄付きが前日終値以下の場合のみ有効",
+            "ml_sharp_entry_rule": "翌営業日寄付きが前日終値比+3%以下の場合のみ有効",
             "earnings_calendar_covered": False,
             "next_earnings_date": pd.NaT,
             "earnings_days_ahead": pd.NA,
@@ -388,18 +388,14 @@ class YahooPatternAnalyzer:
         ].max(axis=1)
         latest["trend_ranking_score"] = latest["signal_score"]
         latest["setup_score"] = latest["signal_score"]
-        observed_signal = (
-            latest["observed_inflow_confirmed"].fillna(False).astype(bool)
-            & latest["return_1d"].between(0.002, 0.10)
-            & latest["return_5d"].between(-0.05, 0.18)
-        )
-        rise_signal = latest["rise_pattern_signal"].fillna(False).astype(bool)
         ml_sharp_signal = latest["ml_sharp_signal"].fillna(False).astype(bool)
-        earnings_gd_signal = latest["earnings_gd_reversal_signal"].fillna(False).astype(bool)
         latest = latest.loc[
-            (observed_signal | rise_signal | ml_sharp_signal | earnings_gd_signal)
+            ml_sharp_signal
+            & latest["rise_pattern_shape"].isin(
+                ["capitulation_reversal", "rounded_base", "sharp_selloff"]
+            )
             & latest["rsi_14"].le(82.0)
-            & (latest["turnover_value"] >= 10_000_000)
+            & (latest["turnover_value"] >= 200_000_000)
         ].copy()
         latest["sakata_reasons"] = latest.apply(_sakata_reasons, axis=1)
         latest["retail_flow_reasons"] = latest.apply(retail_flow_reasons, axis=1)

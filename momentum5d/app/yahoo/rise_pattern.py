@@ -8,8 +8,8 @@ import pandas as pd
 
 from app.yahoo.bottom_patterns import FEATURE_SPECS, SHAPE_LABELS
 from app.yahoo.selective_ml import (
-    LIVE_SHARP_SIGNAL_COLUMNS,
-    score_latest_sharp_selloff_candidates,
+    LIVE_STRONG_SIGNAL_COLUMNS,
+    score_latest_strong_shape_candidates,
     tune_and_select_ml_strategy,
     walk_forward_ml_scores,
 )
@@ -111,7 +111,7 @@ def add_latest_ml_sharp_selloff_signals(
     *,
     config: RisePatternConfig | None = None,
 ) -> pd.DataFrame:
-    """Attach the frozen sharp-selloff ML candidate to the latest date."""
+    """Attach the frozen three-strong-shape ML candidate to the latest date."""
     config = config or RisePatternConfig()
     frame = features.copy()
     defaults: dict[str, Any] = {
@@ -123,7 +123,7 @@ def add_latest_ml_sharp_selloff_signals(
         "ml_sharp_signal": False,
         "ml_sharp_rank": pd.NA,
         "ml_sharp_reason": "",
-        "ml_sharp_entry_rule": "翌営業日寄付きが前日終値以下の場合のみ有効",
+        "ml_sharp_entry_rule": "翌営業日寄付きが前日終値比+3%以下の場合のみ有効",
     }
     for column, default in defaults.items():
         frame[column] = default
@@ -132,12 +132,12 @@ def add_latest_ml_sharp_selloff_signals(
         return frame
 
     outcome_frame = _attach_trade_outcomes(frame, config)
-    latest_scores = score_latest_sharp_selloff_candidates(
+    latest_scores = score_latest_strong_shape_candidates(
         outcome_frame,
         minimum_shape_samples=config.ml_minimum_shape_samples,
         minimum_turnover=STRONG_SHAPE_MIN_TURNOVER,
     )
-    for column in LIVE_SHARP_SIGNAL_COLUMNS:
+    for column in LIVE_STRONG_SIGNAL_COLUMNS:
         frame.loc[latest_scores.index, column] = latest_scores[column]
     return frame
 

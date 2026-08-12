@@ -298,7 +298,7 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert "trend_ranking_score" in candidates.columns
     assert "sector_17_name" in candidates.columns
     assert "setup_reasons" in candidates.columns
-    assert result["technical_method"] == "observed_inflow_plus_sharp_selloff_ml_v2"
+    assert result["technical_method"] == "strong_shape_hgb_selective_v3"
     assert "bottom_pattern_study" in result
     assert result["bottom_pattern_study"]["horizon_days"] == 5
     assert "rise_pattern_backtest" in result
@@ -492,14 +492,14 @@ def test_sector_volume_study_excludes_incomplete_one_day_target_week() -> None:
     assert study["last_next_as_of"] == "2025-08-22"
 
 
-def test_candidate_ranking_requires_observed_inflow() -> None:
+def test_candidate_ranking_requires_strong_shape_ml_and_returns_at_most_one() -> None:
     latest_date = date(2026, 1, 9)
     common = {
         "date": latest_date,
         "close": 100.0,
         "adjusted_close": 100.0,
         "volume": 100_000,
-        "turnover_value": 100_000_000,
+        "turnover_value": 300_000_000,
         "return_20d": 0.05,
         "intraday_return": 0.01,
         "volume_change_1d": 0.10,
@@ -546,6 +546,15 @@ def test_candidate_ranking_requires_observed_inflow() -> None:
         "observed_inflow_score": 0.79,
         "observed_inflow_confirmed": True,
         "legacy_setup_score": 0.80,
+        "ml_sharp_probability": 0.0,
+        "ml_sharp_down_5pct_probability": 1.0,
+        "ml_sharp_down_8pct_probability": 1.0,
+        "ml_sharp_expected_net_return": -1.0,
+        "ml_sharp_model_samples": 0,
+        "ml_sharp_signal": False,
+        "ml_sharp_rank": pd.NA,
+        "ml_sharp_reason": "",
+        "ml_sharp_entry_rule": "翌営業日寄付きが前日終値比+3%以下の場合のみ有効",
     }
     features = pd.DataFrame(
         [
@@ -582,6 +591,14 @@ def test_candidate_ranking_requires_observed_inflow() -> None:
                 "rise_pattern_signal": True,
                 "rise_pattern_shape": "sharp_selloff",
                 "rise_pattern_reason": "急落継続・過去類似120件・補正+5%率95%",
+                "ml_sharp_probability": 0.62,
+                "ml_sharp_down_5pct_probability": 0.30,
+                "ml_sharp_down_8pct_probability": 0.15,
+                "ml_sharp_expected_net_return": 0.01,
+                "ml_sharp_model_samples": 500,
+                "ml_sharp_signal": True,
+                "ml_sharp_rank": 1,
+                "ml_sharp_reason": "急落継続・売買代金2億円以上・強形状ML参考率62%",
                 "setup_score": 0.95,
                 "signal_score": 0.95,
             },
@@ -590,8 +607,8 @@ def test_candidate_ranking_requires_observed_inflow() -> None:
 
     candidates = YahooPatternAnalyzer._latest_candidates(features, top_n=20)
 
-    assert candidates["ticker"].tolist() == ["PATTERN.T", "INFLOW.T"]
-    assert candidates.iloc[0]["rise_pattern_signal"]
+    assert candidates["ticker"].tolist() == ["PATTERN.T"]
+    assert candidates.iloc[0]["ml_sharp_signal"]
     assert "急落継続" in candidates.iloc[0]["setup_reasons"]
     assert candidates.iloc[0]["setup_reasons"]
 
@@ -673,6 +690,10 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
             "code": ["11110", "22220"],
         }
     ).to_parquet(paths.universe_path, index=False)
+    scores_path = paths.processed_dir / "analysis" / "latest_scores.parquet"
+    candidate_path = paths.processed_dir / "analysis" / "latest_candidates.parquet"
+    candidate = pd.read_parquet(scores_path).loc[lambda frame: frame["code"] == "11110"].head(1)
+    candidate.to_parquet(candidate_path, index=False)
     output = tmp_path / "latest.json"
 
     result = DashboardExporter(settings).export(output)
@@ -694,9 +715,13 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert "rsi_14" in payload["stocks"][0]
     assert "atr_14_pct" in payload["stocks"][0]
     assert len(payload["indicator_notes"]) == 5
-    assert payload["technical_method"]["label"] == "資金流入観測＋急落継続ML"
-    assert payload["signal_model"]["historical_results"]["target_hit_rate"] == 0.616
+    assert payload["technical_method"]["label"] == "強形状3種ML厳選"
+    assert payload["signal_model"]["historical_results"]["target_hit_rate"] == (
+        0.5869565217391305
+    )
     assert payload["signal_model"]["conditions"]["minimum_turnover_yen"] == 200_000_000
+    assert payload["signal_model"]["conditions"]["minimum_probability"] == 0.55
+    assert payload["signal_model"]["conditions"]["maximum_next_open_gap"] == 0.03
     assert "open" not in payload["candidates"][0]
     assert "setup_score" in payload["candidates"][0]
     assert "trend_ranking_score" in payload["candidates"][0]
@@ -736,6 +761,10 @@ def test_dashboard_export_fills_company_name_from_bundled_master(
             "code": ["11110", "22220"],
         }
     ).to_parquet(paths.universe_path, index=False)
+    scores_path = paths.processed_dir / "analysis" / "latest_scores.parquet"
+    candidate_path = paths.processed_dir / "analysis" / "latest_candidates.parquet"
+    candidate = pd.read_parquet(scores_path).loc[lambda frame: frame["code"] == "11110"].head(1)
+    candidate.to_parquet(candidate_path, index=False)
     config_dir = settings.data_dir.parent / "config"
     config_dir.mkdir(exist_ok=True)
     (config_dir / "prime_names.csv").write_text(
