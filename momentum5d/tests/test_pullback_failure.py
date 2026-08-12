@@ -5,7 +5,10 @@ from datetime import date, timedelta
 import pandas as pd
 import pytest
 
-from app.yahoo.pullback_failure import analyze_pullback_failures
+from app.yahoo.pullback_failure import (
+    add_pullback_risk_flags,
+    analyze_pullback_failures,
+)
 
 
 def _event(
@@ -102,3 +105,23 @@ def test_same_day_target_and_stop_is_not_rebound_success() -> None:
     assert result["rebound_success_count"] == 0
     assert result["stop_first_failure_count"] == 1
     assert result["persistent_decline_count"] == 0
+
+
+def test_two_or_more_frozen_risk_flags_are_counted_for_exclusion() -> None:
+    frame = pd.DataFrame(
+        {
+            "atr_14_pct": [0.04, 0.02],
+            "range_rate": [0.05, 0.02],
+            "breakout_20d": [-0.02, -0.02],
+            "return_20d": [0.03, 0.03],
+            "volume_ratio_1_20": [1.0, 1.0],
+            "po_return_3d": [-0.01, -0.01],
+            "po_ma25_deviation": [0.01, 0.01],
+        }
+    )
+
+    result = add_pullback_risk_flags(frame)
+
+    assert result["po_risk_flag_count"].tolist() == [2, 0]
+    assert result["po_risk_atr_14_pct"].tolist() == [True, False]
+    assert result["po_risk_range_rate"].tolist() == [True, False]

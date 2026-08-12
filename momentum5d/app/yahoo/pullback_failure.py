@@ -35,6 +35,49 @@ FEATURES: tuple[tuple[str, str], ...] = (
     ("relative_return_20d", "市場比20日騰落"),
 )
 
+# 前半70%で定め、前回の診断で後半30%でも下落リスク上昇を確認した閾値。
+# 今回の組み合わせ検証では値を再調整しない。
+RISK_FILTER_CONDITIONS: tuple[tuple[str, str, float, str], ...] = (
+    ("atr_14_pct", "ge", 0.03668878515943066, "ATR14が3.67%以上"),
+    ("range_rate", "ge", 0.04180776741158599, "当日値幅が4.18%以上"),
+    ("breakout_20d", "le", -0.052954887743841404, "直近20日高値から5.30%以上下落"),
+    ("return_20d", "ge", 0.059182923435743634, "20日騰落率が+5.92%以上"),
+    ("volume_ratio_1_20", "le", 0.8628594517064053, "出来高が20日平均の0.863倍以下"),
+    ("po_return_3d", "le", -0.029820445234026247, "3日騰落率が-2.98%以下"),
+    ("po_ma25_deviation", "ge", 0.024264560098151797, "25日線から+2.43%以上乖離"),
+)
+
+
+def add_pullback_risk_flags(frame: pd.DataFrame) -> pd.DataFrame:
+    """Attach the seven frozen pullback-failure risk flags."""
+    result = frame.copy()
+    flag_columns: list[str] = []
+    for feature, operator, threshold, _ in RISK_FILTER_CONDITIONS:
+        column = f"po_risk_{feature}"
+        source = result.get(feature, pd.Series(np.nan, index=result.index))
+        values = pd.to_numeric(source, errors="coerce")
+        result[column] = _threshold_mask(values, operator, threshold).fillna(False)
+        flag_columns.append(column)
+    result["po_risk_flag_count"] = result[flag_columns].sum(axis=1).astype("int8")
+    return result
+
+
+def risk_filter_definition() -> dict[str, Any]:
+    return {
+        "maximum_allowed_flags": 1,
+        "exclude_when": "7条件中2個以上に該当",
+        "conditions": [
+            {
+                "feature": feature,
+                "operator": operator,
+                "threshold": threshold,
+                "label": label,
+            }
+            for feature, operator, threshold, label in RISK_FILTER_CONDITIONS
+        ],
+        "threshold_policy": "前回の前半70%分析で固定し、今回再調整なし",
+    }
+
 
 def analyze_pullback_failures(
     candidates_by_rule: dict[str, pd.DataFrame],

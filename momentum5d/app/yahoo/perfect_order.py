@@ -6,7 +6,11 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from app.yahoo.pullback_failure import analyze_pullback_failures
+from app.yahoo.pullback_failure import (
+    add_pullback_risk_flags,
+    analyze_pullback_failures,
+    risk_filter_definition,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -65,7 +69,9 @@ def backtest_perfect_order_pullbacks(
     validation_start = dates[split_index]
 
     strategies: dict[str, dict[str, Any]] = {}
+    risk_filtered_strategies: dict[str, dict[str, Any]] = {}
     trades_by_strategy: dict[str, pd.DataFrame] = {}
+    risk_filtered_trades_by_strategy: dict[str, pd.DataFrame] = {}
     candidates_by_rule: dict[str, pd.DataFrame] = {}
     for pullback_key, pullback_label in PULLBACK_RULES:
         candidates = _select_candidates(
@@ -73,6 +79,7 @@ def backtest_perfect_order_pullbacks(
             pullback_rule=pullback_key,
             config=settings,
         )
+        candidates = add_pullback_risk_flags(candidates)
         candidates_by_rule[pullback_key] = candidates
         for exit_key, exit_label in OVERHEAT_RULES:
             key = f"{pullback_key}__{exit_key}"
@@ -90,6 +97,24 @@ def backtest_perfect_order_pullbacks(
                 "calibration": _summarize(trades.loc[trades["date"] < validation_start]),
                 "validation": _summarize(trades.loc[trades["date"] >= validation_start]),
             }
+            filtered_trades = _simulate_exits(
+                candidates.loc[candidates["po_risk_flag_count"].le(1)],
+                exit_rule=exit_key,
+                config=settings,
+            )
+            risk_filtered_trades_by_strategy[key] = filtered_trades
+            risk_filtered_strategies[key] = {
+                "label": f"{pullback_label}→{exit_label}",
+                "pullback_rule": pullback_key,
+                "overheat_exit_rule": exit_key,
+                "all": _summarize(filtered_trades),
+                "calibration": _summarize(
+                    filtered_trades.loc[filtered_trades["date"] < validation_start]
+                ),
+                "validation": _summarize(
+                    filtered_trades.loc[filtered_trades["date"] >= validation_start]
+                ),
+            }
 
     eligible = [
         (key, result)
@@ -105,6 +130,22 @@ def backtest_perfect_order_pullbacks(
             ),
         )[0]
         if eligible
+        else None
+    )
+    filtered_eligible = [
+        (key, result)
+        for key, result in risk_filtered_strategies.items()
+        if result["calibration"]["trades"] >= settings.minimum_calibration_trades
+    ]
+    filtered_selected_key = (
+        max(
+            filtered_eligible,
+            key=lambda item: (
+                item[1]["calibration"]["mean_net_return"] or -1.0,
+                item[1]["calibration"]["win_rate"] or -1.0,
+            ),
+        )[0]
+        if filtered_eligible
         else None
     )
     return {
@@ -146,6 +187,15 @@ def backtest_perfect_order_pullbacks(
             validation_start=validation_start,
             horizon_days=settings.maximum_holding_days,
             stop_loss=settings.stop_loss,
+        ),
+        "risk_filter_backtest": _risk_filter_report(
+            strategies,
+            risk_filtered_strategies,
+            baseline_selected_key=selected_key,
+            filtered_selected_key=filtered_selected_key,
+            baseline_trades=trades_by_strategy,
+            filtered_trades=risk_filtered_trades_by_strategy,
+            validation_start=validation_start,
         ),
         "limitations": [
             "過去時点の決算予定履歴がないため決算跨ぎ除外は未反映",
@@ -423,6 +473,87 @@ def _summarize(trades: pd.DataFrame) -> dict[str, Any]:
         "mean_holding_days": float(pd.to_numeric(trades["exit_day"]).mean()),
         "profit_factor": float(gains / losses) if losses > 0 else None,
     }
+
+
+def _risk_filter_report(
+    baseline: dict[str, dict[str, Any]],
+    filtered: dict[str, dict[str, Any]],
+    *,
+    baseline_selected_key: str | None,
+    filtered_selected_key: str | None,
+    baseline_trades: dict[str, pd.DataFrame],
+    filtered_trades: dict[str, pd.DataFrame],
+    validation_start: object,
+) -> dict[str, Any]:
+    comparisons: dict[str, dict[str, Any]] = {}
+    for key, baseline_result in baseline.items():
+        filtered_result = filtered[key]
+        comparisons[key] = {
+            "label": baseline_result["label"],
+            "baseline": baseline_result,
+            "filtered": filtered_result,
+            "validation_delta": _summary_delta(
+                baseline_result["validation"],
+                filtered_result["validation"],
+            ),
+        }
+    return {
+        "method": "exclude_two_or_more_frozen_risk_flags_v1",
+        "filter": risk_filter_definition(),
+        "selection_policy": "前半70%の平均損益、次いで勝率で条件選択",
+        "validation_start": str(validation_start),
+        "baseline_selected_strategy": baseline_selected_key,
+        "filtered_selected_strategy": filtered_selected_key,
+        "baseline_selected_validation": (
+            baseline[baseline_selected_key]["validation"] if baseline_selected_key else None
+        ),
+        "filtered_selected_validation": (
+            filtered[filtered_selected_key]["validation"] if filtered_selected_key else None
+        ),
+        "same_strategy_comparison": (
+            comparisons[baseline_selected_key] if baseline_selected_key else None
+        ),
+        "strategies": comparisons,
+        "baseline_selected_examples": _trade_examples(
+            baseline_trades.get(baseline_selected_key, pd.DataFrame())
+        ),
+        "filtered_selected_examples": _trade_examples(
+            filtered_trades.get(filtered_selected_key, pd.DataFrame())
+        ),
+        "caveat": (
+            "7つの特徴選択には前回の後半期間の再現確認を使用済み。"
+            "今回は同期間での組み合わせ確認であり、完全な新規未使用検証ではない"
+        ),
+    }
+
+
+def _summary_delta(
+    baseline: dict[str, Any],
+    filtered: dict[str, Any],
+) -> dict[str, Any]:
+    result: dict[str, Any] = {
+        "trades": filtered["trades"] - baseline["trades"],
+        "removed_trades": baseline["trades"] - filtered["trades"],
+        "retained_rate": (filtered["trades"] / baseline["trades"] if baseline["trades"] else None),
+    }
+    for key in (
+        "win_rate",
+        "five_pct_reach_rate",
+        "mean_net_return",
+        "median_net_return",
+        "stop_hit_rate",
+        "overheat_exit_rate",
+        "mean_holding_days",
+        "profit_factor",
+    ):
+        base_value = baseline.get(key)
+        filtered_value = filtered.get(key)
+        result[key] = (
+            filtered_value - base_value
+            if base_value is not None and filtered_value is not None
+            else None
+        )
+    return result
 
 
 def _trade_examples(trades: pd.DataFrame) -> list[dict[str, Any]]:

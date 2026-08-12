@@ -78,6 +78,10 @@ def test_three_day_pullback_exits_next_open_after_overheat() -> None:
     example = next(item for item in report["selected_trade_examples"] if item["ticker"] == "1111.T")
     assert example["exit_day"] >= 3
     assert report["selected_strategy"] is not None
+    risk_filter = report["risk_filter_backtest"]
+    assert risk_filter["filter"]["maximum_allowed_flags"] == 1
+    assert len(risk_filter["filter"]["conditions"]) == 7
+    assert risk_filter["filtered_selected_strategy"] is not None
 
 
 def test_entry_day_stop_takes_priority_over_later_overheat() -> None:
