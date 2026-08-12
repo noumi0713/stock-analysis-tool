@@ -470,6 +470,28 @@ def test_sector_volume_change_is_compared_with_following_week_return() -> None:
     assert len(study["by_sector"]) == 2
 
 
+def test_sector_volume_study_excludes_incomplete_one_day_target_week() -> None:
+    dates = list(pd.date_range("2025-08-04", periods=15, freq="B"))
+    dates.append(pd.Timestamp("2025-08-25"))
+    rows = []
+    for index, day in enumerate(dates):
+        rows.append(
+            {
+                "date": day.date(),
+                "ticker": "1111.T",
+                "adjusted_close": 100.0 + index,
+                "volume": 100_000 + index * 1_000,
+                "sector_33_code": "3650",
+                "sector_33_name": "電気機器",
+            }
+        )
+
+    study = analyze_sector_volume_next_week_returns(pd.DataFrame(rows))
+
+    assert study["period_count"] == 1
+    assert study["last_next_as_of"] == "2025-08-22"
+
+
 def test_candidate_ranking_requires_observed_inflow() -> None:
     latest_date = date(2026, 1, 9)
     common = {

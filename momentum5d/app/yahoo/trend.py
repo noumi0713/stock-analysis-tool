@@ -377,6 +377,7 @@ def analyze_sector_volume_next_week_returns(
     weekly_stock["next_week"] = ticker_group["week"].shift(-1)
     weekly_stock["next_as_of"] = ticker_group["as_of"].shift(-1)
     weekly_stock["next_adjusted_close"] = ticker_group["adjusted_close"].shift(-1)
+    weekly_stock["next_trading_days"] = ticker_group["trading_days"].shift(-1)
     weekly_stock["weekly_volume_change"] = (
         weekly_stock["average_daily_volume"]
         / weekly_stock["previous_average_daily_volume"]
@@ -392,6 +393,7 @@ def analyze_sector_volume_next_week_returns(
     eligible = weekly_stock.loc[
         consecutive
         & weekly_stock["as_of"].ge(requested_start)
+        & weekly_stock["next_trading_days"].ge(3)
         & weekly_stock["weekly_volume_change"].replace([np.inf, -np.inf], np.nan).notna()
         & weekly_stock["next_week_return"].replace([np.inf, -np.inf], np.nan).notna()
     ].copy()
@@ -468,24 +470,25 @@ def analyze_sector_volume_next_week_returns(
         metrics.update({"key": key, "label": label})
         direction_groups.append(metrics)
 
-    ranked_volume = sector_week["median_weekly_volume_change"].rank(method="first")
-    sector_week["volume_quintile"] = pd.qcut(
-        ranked_volume,
-        5,
-        labels=["Q1", "Q2", "Q3", "Q4", "Q5"],
-    )
     quintiles = []
-    quintile_labels = {
-        "Q1": "出来高変化率 下位20%",
-        "Q2": "下位20〜40%",
-        "Q3": "中位20%",
-        "Q4": "上位20〜40%",
-        "Q5": "出来高変化率 上位20%",
-    }
-    for key, values in sector_week.groupby("volume_quintile", observed=True):
-        metrics = _volume_lead_metrics(values)
-        metrics.update({"key": str(key), "label": quintile_labels[str(key)]})
-        quintiles.append(metrics)
+    if len(sector_week) >= 5:
+        ranked_volume = sector_week["median_weekly_volume_change"].rank(method="first")
+        sector_week["volume_quintile"] = pd.qcut(
+            ranked_volume,
+            5,
+            labels=["Q1", "Q2", "Q3", "Q4", "Q5"],
+        )
+        quintile_labels = {
+            "Q1": "出来高変化率 下位20%",
+            "Q2": "下位20〜40%",
+            "Q3": "中位20%",
+            "Q4": "上位20〜40%",
+            "Q5": "出来高変化率 上位20%",
+        }
+        for key, values in sector_week.groupby("volume_quintile", observed=True):
+            metrics = _volume_lead_metrics(values)
+            metrics.update({"key": str(key), "label": quintile_labels[str(key)]})
+            quintiles.append(metrics)
 
     by_sector = []
     for code, values in sector_week.groupby("sector_33_code", observed=True):
