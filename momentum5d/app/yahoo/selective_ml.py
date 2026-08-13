@@ -79,6 +79,18 @@ LIVE_STRONG_SIGNAL_COLUMNS = (
 
 LIVE_SHARP_SIGNAL_COLUMNS = LIVE_STRONG_SIGNAL_COLUMNS
 
+LIVE_TEN_DAY_SIGNAL_COLUMNS = (
+    "ml_ten_day_probability",
+    "ml_ten_day_down_5pct_probability",
+    "ml_ten_day_down_8pct_probability",
+    "ml_ten_day_expected_net_return",
+    "ml_ten_day_model_samples",
+    "ml_ten_day_signal",
+    "ml_ten_day_rank",
+    "ml_ten_day_reason",
+    "ml_ten_day_entry_rule",
+)
+
 
 @dataclass
 class _BinaryPredictor:
@@ -217,6 +229,143 @@ def score_latest_sharp_selloff_candidates(
     )
 
 
+def score_latest_ten_day_candidates(
+    frame: pd.DataFrame,
+    parameters: dict[str, Any],
+    *,
+    minimum_shape_samples: int = 180,
+    minimum_turnover: float = 200_000_000.0,
+) -> pd.DataFrame:
+    """Score the latest strong-shape rows for a 10-day +5% target.
+
+    ``parameters`` must come from the development half of the walk-forward
+    study.  The actual next-open gap remains an execution-time condition; the
+    close-time score uses a neutral 0% gap.
+    """
+    if frame.empty:
+        return pd.DataFrame(columns=[*frame.columns, *LIVE_TEN_DAY_SIGNAL_COLUMNS])
+    work = frame.copy()
+    latest_date = work["date"].max()
+    latest = work.loc[work["date"] == latest_date].copy()
+    gap_limit = float(parameters.get("max_gap_up", 0.03))
+    gap_label = f"{gap_limit:+.0%}"
+    defaults: dict[str, Any] = {
+        "ml_ten_day_probability": 0.0,
+        "ml_ten_day_down_5pct_probability": 1.0,
+        "ml_ten_day_down_8pct_probability": 1.0,
+        "ml_ten_day_expected_net_return": -1.0,
+        "ml_ten_day_model_samples": 0,
+        "ml_ten_day_signal": False,
+        "ml_ten_day_rank": pd.NA,
+        "ml_ten_day_reason": "",
+        "ml_ten_day_entry_rule": (
+            f"翌営業日寄付きが前日終値比{gap_label}以下の場合のみ有効"
+        ),
+    }
+    for column, default in defaults.items():
+        latest[column] = default
+    latest["ml_ten_day_rank"] = latest["ml_ten_day_rank"].astype("Int64")
+
+    allowed_shapes = parameters.get("allowed_shapes") or list(STRONG_SHAPES)
+    training = work.loc[
+        work["trade_outcome_available"].fillna(False).astype(bool)
+        & work["_rise_shape"].isin(allowed_shapes)
+        & work["rise_pattern_live_bottom"].fillna(False).astype(bool)
+        & pd.to_numeric(work["turnover_value"], errors="coerce").ge(minimum_turnover)
+        & pd.to_numeric(work["rsi_14"], errors="coerce").le(82.0)
+        & pd.to_numeric(work["rise_trade_entry_gap_return"], errors="coerce").between(-0.10, 0.04)
+    ].sort_values(["date", "ticker"])
+    eligible = latest.loc[
+        latest["_rise_shape"].isin(allowed_shapes)
+        & latest["rise_pattern_live_bottom"].fillna(False).astype(bool)
+        & pd.to_numeric(latest["turnover_value"], errors="coerce").ge(minimum_turnover)
+        & pd.to_numeric(latest["rsi_14"], errors="coerce").le(82.0)
+    ].copy()
+    if training.empty or eligible.empty:
+        return latest
+
+    minimum_breadth = parameters.get("min_market_breadth_5d")
+    if minimum_breadth is not None:
+        eligible = eligible.loc[
+            pd.to_numeric(eligible["_rise_market_breadth_5d"], errors="coerce").ge(
+                float(minimum_breadth)
+            )
+        ]
+    minimum_market_return = parameters.get("min_market_median_return_20d")
+    if minimum_market_return is not None:
+        eligible = eligible.loc[
+            pd.to_numeric(
+                eligible["_rise_market_median_return_20d"], errors="coerce"
+            ).ge(float(minimum_market_return))
+        ]
+    if eligible.empty:
+        return latest
+
+    eligible["rise_trade_entry_gap_return"] = 0.0
+    model_name = str(parameters.get("model", "hist_gradient_boosting"))
+    scored_indexes: list[Any] = []
+    for shape, shape_eligible in eligible.groupby("_rise_shape", sort=False):
+        shape_training = training.loc[training["_rise_shape"].eq(shape)]
+        if len(shape_training) < minimum_shape_samples:
+            continue
+        bundle = _fit_bundle(shape_training, model_name)
+        feature_values = _feature_frame(shape_eligible)
+        indexes = shape_eligible.index
+        eligible.loc[indexes, "ml_ten_day_probability"] = bundle.target.predict(
+            feature_values
+        )
+        eligible.loc[indexes, "ml_ten_day_down_5pct_probability"] = (
+            bundle.down_5pct.predict(feature_values)
+        )
+        eligible.loc[indexes, "ml_ten_day_down_8pct_probability"] = (
+            bundle.down_8pct.predict(feature_values)
+        )
+        eligible.loc[indexes, "ml_ten_day_expected_net_return"] = (
+            bundle.expected_return.predict(feature_values)
+        )
+        eligible.loc[indexes, "ml_ten_day_model_samples"] = len(shape_training)
+        scored_indexes.extend(indexes.tolist())
+    if not scored_indexes:
+        return latest
+
+    scored = eligible.loc[scored_indexes].copy()
+    scored["_ml_ten_day_rank_score"] = (
+        scored["ml_ten_day_probability"]
+        + 4.0 * scored["ml_ten_day_expected_net_return"]
+        - 0.10 * scored["ml_ten_day_down_5pct_probability"]
+        - 0.15 * scored["ml_ten_day_down_8pct_probability"]
+    )
+    candidates = scored.loc[
+        scored["ml_ten_day_probability"].ge(
+            float(parameters.get("probability_threshold", 0.60))
+        )
+        & scored["ml_ten_day_down_5pct_probability"].le(
+            float(parameters.get("max_down_5pct_probability", 0.50))
+        )
+        & scored["ml_ten_day_down_8pct_probability"].le(
+            float(parameters.get("max_down_8pct_probability", 0.30))
+        )
+        & scored["ml_ten_day_expected_net_return"].gt(
+            float(parameters.get("min_expected_net_return", 0.0))
+        )
+    ].sort_values("_ml_ten_day_rank_score", ascending=False)
+    if not candidates.empty:
+        winner_index = candidates.index[0]
+        eligible.at[winner_index, "ml_ten_day_signal"] = True
+        eligible.at[winner_index, "ml_ten_day_rank"] = 1
+        probability = float(eligible.at[winner_index, "ml_ten_day_probability"])
+        shape = str(eligible.at[winner_index, "_rise_shape"])
+        shape_label = STRONG_SHAPE_LABELS.get(shape, shape)
+        eligible.at[winner_index, "ml_ten_day_reason"] = (
+            f"{shape_label}・売買代金2億円以上・10営業日+5%参考率"
+            f"{probability:.0%}・翌日寄付き条件待ち"
+        )
+
+    for column in LIVE_TEN_DAY_SIGNAL_COLUMNS:
+        latest.loc[eligible.index, column] = eligible[column]
+    return latest
+
+
 def walk_forward_ml_scores(
     pool: pd.DataFrame,
     evaluation_dates: list[Any],
@@ -278,6 +427,9 @@ def tune_and_select_ml_strategy(
     evaluation_dates: list[Any],
     *,
     minimum_development_signals: int = 40,
+    probability_thresholds: tuple[float, ...] = (0.40, 0.45, 0.50, 0.55, 0.60, 0.65),
+    gap_limits: tuple[float, ...] = (0.00, 0.01, 0.02, 0.03),
+    top_n_options: tuple[int, ...] = (1, 2, 3),
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Tune on the first half and evaluate the unchanged rule on the final half."""
     if scored.empty or len(evaluation_dates) < 2:
@@ -310,15 +462,15 @@ def tune_and_select_ml_strategy(
                 probability_column = f"ml_{model_name}_target_probability"
                 if probability_column not in development:
                     continue
-                for probability_threshold in (0.40, 0.45, 0.50, 0.55, 0.60, 0.65):
-                    for gap_limit in (0.00, 0.01, 0.02, 0.03):
+                for probability_threshold in probability_thresholds:
+                    for gap_limit in gap_limits:
                         for (
                             risk_name,
                             down_5_limit,
                             down_8_limit,
                             expected_return_min,
                         ) in risk_profiles:
-                            for top_n in (1, 2, 3):
+                            for top_n in top_n_options:
                                 parameters = {
                                     "shape_profile": shape_profile,
                                     "allowed_shapes": list(allowed_shapes),

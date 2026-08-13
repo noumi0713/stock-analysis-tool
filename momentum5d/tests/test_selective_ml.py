@@ -6,6 +6,7 @@ import pandas as pd
 
 from app.yahoo.selective_ml import (
     score_latest_strong_shape_candidates,
+    score_latest_ten_day_candidates,
     tune_and_select_ml_strategy,
 )
 
@@ -60,6 +61,72 @@ def test_latest_strong_shape_signal_uses_frozen_rule_and_top_one() -> None:
     assert result["ml_sharp_model_samples"].max() == 180
     assert result.loc[result["ml_sharp_signal"], "ml_sharp_probability"].iloc[0] >= 0.55
     assert result["ml_sharp_entry_rule"].str.contains(r"\+3%").all()
+
+
+def test_latest_ten_day_signal_uses_development_parameters_and_top_one() -> None:
+    dates = [date(2024, 1, 1) + timedelta(days=offset) for offset in range(542)]
+    shapes = ("sharp_selloff", "capitulation_reversal", "rounded_base")
+    rows = []
+    for index, value in enumerate(dates[:540]):
+        target_hit = index % 4 != 0
+        rows.append(
+            {
+                "date": value,
+                "ticker": f"{1000 + index}.T",
+                "_rise_shape": shapes[index % len(shapes)],
+                "rise_pattern_live_bottom": True,
+                "turnover_value": 300_000_000.0,
+                "rsi_14": 45.0,
+                "return_1d": 0.0,
+                "_rise_market_breadth_5d": 0.60,
+                "_rise_market_median_return_20d": 0.01,
+                "trade_outcome_available": True,
+                "rise_trade_entry_gap_return": 0.0,
+                "rise_trade_target_hit": target_hit,
+                "rise_trade_down_5pct": index % 10 == 0,
+                "rise_trade_down_8pct": index % 20 == 0,
+                "rise_trade_net_return": 0.048 if target_hit else -0.02,
+            }
+        )
+    for rank in range(2):
+        rows.append(
+            {
+                "date": dates[-1],
+                "ticker": f"900{rank}.T",
+                "_rise_shape": ("rounded_base", "sharp_selloff")[rank],
+                "rise_pattern_live_bottom": True,
+                "turnover_value": 400_000_000.0,
+                "rsi_14": 40.0,
+                "return_1d": 0.0,
+                "_rise_market_breadth_5d": 0.60,
+                "_rise_market_median_return_20d": 0.01,
+                "trade_outcome_available": False,
+                "rise_trade_entry_gap_return": float("nan"),
+                "rise_trade_target_hit": False,
+                "rise_trade_down_5pct": False,
+                "rise_trade_down_8pct": False,
+                "rise_trade_net_return": float("nan"),
+            }
+        )
+    parameters = {
+        "allowed_shapes": [],
+        "model": "hist_gradient_boosting",
+        "probability_threshold": 0.55,
+        "max_gap_up": 0.02,
+        "max_down_5pct_probability": 0.50,
+        "max_down_8pct_probability": 0.30,
+        "min_expected_net_return": -0.01,
+        "min_market_breadth_5d": None,
+        "min_market_median_return_20d": None,
+    }
+
+    result = score_latest_ten_day_candidates(pd.DataFrame(rows), parameters)
+
+    assert len(result) == 2
+    assert int(result["ml_ten_day_signal"].sum()) == 1
+    assert result.loc[result["ml_ten_day_signal"], "ml_ten_day_rank"].iloc[0] == 1
+    assert result.loc[result["ml_ten_day_signal"], "ml_ten_day_probability"].iloc[0] >= 0.55
+    assert result["ml_ten_day_entry_rule"].str.contains(r"\+2%").all()
 
 
 def test_tuning_freezes_development_rule_for_validation() -> None:

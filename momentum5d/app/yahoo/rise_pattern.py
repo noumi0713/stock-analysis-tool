@@ -9,7 +9,10 @@ import pandas as pd
 from app.yahoo.bottom_patterns import FEATURE_SPECS, SHAPE_LABELS
 from app.yahoo.selective_ml import (
     LIVE_STRONG_SIGNAL_COLUMNS,
+    LIVE_TEN_DAY_SIGNAL_COLUMNS,
+    ML_FEATURES,
     score_latest_strong_shape_candidates,
+    score_latest_ten_day_candidates,
     tune_and_select_ml_strategy,
     walk_forward_ml_scores,
 )
@@ -140,6 +143,198 @@ def add_latest_ml_sharp_selloff_signals(
     for column in LIVE_STRONG_SIGNAL_COLUMNS:
         frame.loc[latest_scores.index, column] = latest_scores[column]
     return frame
+
+
+def add_ten_day_signal_and_study(
+    features: pd.DataFrame,
+    *,
+    minimum_turnover: float = STRONG_SHAPE_MIN_TURNOVER,
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    """Attach and validate a separate +5% within 10 trading days signal.
+
+    Model and threshold selection use only the first half of the walk-forward
+    period.  The second half is reported as untouched validation.  At most one
+    live candidate is emitted.
+    """
+    frame = features.copy()
+    defaults: dict[str, Any] = {
+        "ml_ten_day_probability": 0.0,
+        "ml_ten_day_down_5pct_probability": 1.0,
+        "ml_ten_day_down_8pct_probability": 1.0,
+        "ml_ten_day_expected_net_return": -1.0,
+        "ml_ten_day_model_samples": 0,
+        "ml_ten_day_signal": False,
+        "ml_ten_day_rank": pd.NA,
+        "ml_ten_day_reason": "",
+        "ml_ten_day_entry_rule": (
+            "翌営業日寄付きが開発期間で選択したギャップ上限以下の場合のみ有効"
+        ),
+    }
+    for column, default in defaults.items():
+        frame[column] = default
+    frame["ml_ten_day_rank"] = frame["ml_ten_day_rank"].astype("Int64")
+    if frame.empty:
+        return frame, {"status": "no_features"}
+
+    config = RisePatternConfig(
+        horizon_days=10,
+        ml_test_days=240,
+        ml_refit_days=30,
+        ml_minimum_shape_samples=180,
+        ml_minimum_development_signals=40,
+    )
+    outcome_frame = _attach_trade_outcomes(_add_live_bottom_features(features), config)
+    outcome_frame["date"] = pd.to_datetime(outcome_frame["date"]).dt.date
+    all_dates = sorted(outcome_frame["date"].drop_duplicates())
+    date_position = {value: position for position, value in enumerate(all_dates)}
+    complete_dates = [
+        value
+        for value in all_dates
+        if outcome_frame.loc[
+            outcome_frame["date"].eq(value), "trade_outcome_available"
+        ].any()
+    ]
+    evaluation_dates = complete_dates[-config.ml_test_days :]
+    pool = outcome_frame.loc[
+        outcome_frame["rise_pattern_live_bottom"].fillna(False).astype(bool)
+        & outcome_frame["_rise_shape"].isin(STRONG_SHAPES)
+        & pd.to_numeric(outcome_frame["turnover_value"], errors="coerce").ge(
+            minimum_turnover
+        )
+        & pd.to_numeric(outcome_frame["rsi_14"], errors="coerce").le(82.0)
+    ].copy()
+    if not evaluation_dates or pool.empty:
+        return frame, {"status": "no_completed_ten_day_pool"}
+
+    scored = walk_forward_ml_scores(
+        pool,
+        evaluation_dates,
+        date_position,
+        horizon_days=config.horizon_days,
+        refit_days=config.ml_refit_days,
+        minimum_shape_samples=config.ml_minimum_shape_samples,
+    )
+    validation_trades, diagnostics = tune_and_select_ml_strategy(
+        scored,
+        evaluation_dates,
+        minimum_development_signals=config.ml_minimum_development_signals,
+        probability_thresholds=(0.45, 0.50, 0.55, 0.60, 0.65, 0.70),
+        gap_limits=(0.00, 0.01, 0.02, 0.03),
+        top_n_options=(1,),
+    )
+    parameters = diagnostics.get("chosen_parameters")
+    if not parameters:
+        return frame, {
+            "status": diagnostics.get("status", "no_parameters"),
+            "diagnostics": diagnostics,
+        }
+
+    latest_scores = score_latest_ten_day_candidates(
+        outcome_frame,
+        parameters,
+        minimum_shape_samples=config.ml_minimum_shape_samples,
+        minimum_turnover=minimum_turnover,
+    )
+    for column in LIVE_TEN_DAY_SIGNAL_COLUMNS:
+        frame.loc[latest_scores.index, column] = latest_scores[column]
+
+    split = len(evaluation_dates) // 2
+    development_dates = evaluation_dates[:split]
+    development_scored = scored.loc[scored["date"].isin(development_dates)].copy()
+    validation_summary = diagnostics.get("validation", {})
+    study = {
+        "status": "completed",
+        "method": "walk_forward_strong_shape_10d_hgb_v1",
+        "target": "翌営業日始値から10営業日以内に日中高値+5%",
+        "entry": "翌営業日始値（ギャップ上限は注文時に確認）",
+        "holding_days": 10,
+        "minimum_turnover_yen": int(minimum_turnover),
+        "maximum_candidates_per_day": 1,
+        "development_start": diagnostics.get("development_start"),
+        "development_end": diagnostics.get("development_end"),
+        "validation_start": diagnostics.get("validation_start"),
+        "validation_end": diagnostics.get("validation_end"),
+        "chosen_parameters": parameters,
+        "development": diagnostics.get("development", {}),
+        "validation": validation_summary,
+        "validation_folds": diagnostics.get("validation_folds", []),
+        "validation_by_shape": diagnostics.get("validation_by_shape", {}),
+        "feature_lifts": _ten_day_feature_lifts(development_scored),
+        "live_signal_count": int(latest_scores["ml_ten_day_signal"].sum()),
+        "live_candidate": (
+            latest_scores.loc[
+                latest_scores["ml_ten_day_signal"],
+                [
+                    "ticker",
+                    "_rise_shape",
+                    "ml_ten_day_probability",
+                    "ml_ten_day_down_5pct_probability",
+                    "ml_ten_day_down_8pct_probability",
+                    "ml_ten_day_expected_net_return",
+                    "ml_ten_day_reason",
+                    "ml_ten_day_entry_rule",
+                ],
+            ].to_dict(orient="records")
+        ),
+        "leakage_control": (
+            "各評価ブロックの10営業日前までに結果が確定したデータだけで再学習。"
+            "条件選択は前半、成績評価は未使用の後半で実施"
+        ),
+        "caveat": (
+            "10営業日の新規シグナル。検証期間外の新規データで継続監視し、"
+            "決算跨ぎと重要指標前の既存制限を適用する"
+        ),
+    }
+    if not validation_trades.empty:
+        study["validation"]["median_trade_net_return"] = float(
+            validation_trades["rise_trade_net_return"].median()
+        )
+    return frame, study
+
+
+def _ten_day_feature_lifts(scored: pd.DataFrame) -> list[dict[str, Any]]:
+    """Rank technical feature quartiles by development-period +5% lift."""
+    if scored.empty:
+        return []
+    target = scored["rise_trade_target_hit"].fillna(False).astype(bool)
+    baseline = float(target.mean())
+    results: list[dict[str, Any]] = []
+    for feature in ML_FEATURES:
+        if feature not in scored:
+            continue
+        values = pd.to_numeric(scored[feature], errors="coerce")
+        valid = values.notna() & target.notna()
+        if int(valid.sum()) < 200:
+            continue
+        valid_values = values.loc[valid]
+        lower = float(valid_values.quantile(0.25))
+        upper = float(valid_values.quantile(0.75))
+        sides = (
+            ("low", valid & values.le(lower), lower),
+            ("high", valid & values.ge(upper), upper),
+        )
+        side_results: list[tuple[str, pd.Series, float, float]] = []
+        for direction, mask, threshold in sides:
+            samples = int(mask.sum())
+            if samples < 50:
+                continue
+            rate = float(target.loc[mask].mean())
+            side_results.append((direction, mask, threshold, rate))
+        if not side_results:
+            continue
+        direction, mask, threshold, rate = max(side_results, key=lambda item: item[3])
+        results.append(
+            {
+                "feature": feature,
+                "direction": direction,
+                "threshold": threshold,
+                "samples": int(mask.sum()),
+                "target_hit_rate": rate,
+                "baseline_hit_rate": baseline,
+                "lift": rate - baseline,
+            }
+        )
+    return sorted(results, key=lambda item: item["lift"], reverse=True)[:12]
 
 
 def backtest_rise_pattern_signals(

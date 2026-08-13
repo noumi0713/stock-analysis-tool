@@ -137,6 +137,15 @@ class DashboardExporter:
             "ml_sharp_rank",
             "ml_sharp_reason",
             "ml_sharp_entry_rule",
+            "ml_ten_day_probability",
+            "ml_ten_day_down_5pct_probability",
+            "ml_ten_day_down_8pct_probability",
+            "ml_ten_day_expected_net_return",
+            "ml_ten_day_model_samples",
+            "ml_ten_day_signal",
+            "ml_ten_day_rank",
+            "ml_ten_day_reason",
+            "ml_ten_day_entry_rule",
             "earnings_calendar_covered",
             "next_earnings_date",
             "earnings_days_ahead",
@@ -248,6 +257,15 @@ class DashboardExporter:
             "ml_sharp_rank",
             "ml_sharp_reason",
             "ml_sharp_entry_rule",
+            "ml_ten_day_probability",
+            "ml_ten_day_down_5pct_probability",
+            "ml_ten_day_down_8pct_probability",
+            "ml_ten_day_expected_net_return",
+            "ml_ten_day_model_samples",
+            "ml_ten_day_signal",
+            "ml_ten_day_rank",
+            "ml_ten_day_reason",
+            "ml_ten_day_entry_rule",
             "earnings_calendar_covered",
             "next_earnings_date",
             "earnings_days_ahead",
@@ -336,8 +354,11 @@ class DashboardExporter:
                 "generated_at": generated_at,
             }
 
+        ten_day_study = analysis.get("ten_day_signal_study") or {}
+        ten_day_validation = ten_day_study.get("validation") or {}
+        ten_day_parameters = ten_day_study.get("chosen_parameters") or {}
         payload = {
-            "schema_version": 12,
+            "schema_version": 13,
             "source": "yfinance",
             "personal_research_only": True,
             "generated_at": generated_at,
@@ -353,8 +374,8 @@ class DashboardExporter:
             "market_regime": analysis.get("market_regime"),
             "industry_trends": analysis.get("industry_trends", {}),
             "technical_method": {
-                "key": "strong_shape_hgb_selective_v3",
-                "label": "強形状3種ML厳選",
+                "key": "strong_shape_10d_ml_selective_v1",
+                "label": "10営業日+5% ML厳選",
                 "stages": [
                     "発見",
                     "理解（業種連動の代理）",
@@ -371,7 +392,7 @@ class DashboardExporter:
                     "ボラティリティ",
                     "10日値幅",
                     "急落継続・投げ売り反転・緩やかな底固め",
-                    "HistGradientBoosting +5%参考率",
+                    "形状別ML 10営業日+5%参考率",
                     "ランキング候補の決算予定",
                     "重要指標カレンダー",
                 ],
@@ -385,47 +406,66 @@ class DashboardExporter:
                     "当日の出来高・売買代金を各銘柄の過去20日平均と"
                     "対象内順位で比較する資金流入観測に、過去の+5%上昇パターンを"
                     "未来データなしで検知するスコアを統合。強形状3種を形状別モデルで"
-                    "評価し、売買代金2億円以上から1日最大1銘柄だけを候補化する。"
-                    "実際の買いは翌日寄付きが前日終値比+3%以下の場合だけ有効。"
+                    "評価し、10営業日以内の+5%到達を目的に、売買代金2億円以上から"
+                    "1日最大1銘柄だけを候補化する。実際の買いは開発期間で選んだ"
+                    "翌日寄付きギャップ上限を満たす場合だけ有効。"
                     "決算は7営業日以内なら新規買いを停止し、重要指標前は保有量を"
                     "半減する。決算GDは当日反転を確認後、翌日の高値超えだけを候補化"
                 ),
             },
             "signal_model": {
-                "key": "strong_shape_hgb_selective_v1",
-                "label": "強形状3種 ML厳選候補",
+                "key": "strong_shape_10d_ml_selective_v1",
+                "label": "10営業日+5% ML厳選候補",
                 "historical_results": {
-                    "signals": 46,
-                    "target_hit_rate": 0.5869565217391305,
-                    "mean_trade_net_return": 0.008150115161333326,
-                    "trade_win_rate": 0.6304347826086957,
-                    "latest_period_signals": 16,
-                    "latest_period_target_hit_rate": 0.375,
+                    "signals": ten_day_validation.get("selected_signals", 0),
+                    "target_hit_rate": ten_day_validation.get("target_hit_rate"),
+                    "mean_trade_net_return": ten_day_validation.get(
+                        "mean_trade_net_return"
+                    ),
+                    "median_trade_net_return": ten_day_validation.get(
+                        "median_trade_net_return"
+                    ),
+                    "trade_win_rate": ten_day_validation.get("trade_win_rate"),
+                    "target_rate_lower_95": ten_day_validation.get(
+                        "target_rate_lower_95"
+                    ),
                 },
                 "conditions": {
-                    "shapes": [
-                        "capitulation_reversal",
-                        "rounded_base",
-                        "sharp_selloff",
-                    ],
+                    "target_holding_days": 10,
+                    "target_return": 0.05,
+                    "shapes": ten_day_parameters.get("allowed_shapes")
+                    or ["capitulation_reversal", "rounded_base", "sharp_selloff"],
                     "minimum_turnover_yen": 200_000_000,
-                    "model": "hist_gradient_boosting",
-                    "minimum_probability": 0.55,
-                    "maximum_down_5pct_probability": 0.50,
-                    "maximum_down_8pct_probability": 0.30,
+                    "model": ten_day_parameters.get("model"),
+                    "minimum_probability": ten_day_parameters.get(
+                        "probability_threshold"
+                    ),
+                    "maximum_down_5pct_probability": ten_day_parameters.get(
+                        "max_down_5pct_probability"
+                    ),
+                    "maximum_down_8pct_probability": ten_day_parameters.get(
+                        "max_down_8pct_probability"
+                    ),
+                    "minimum_expected_net_return": ten_day_parameters.get(
+                        "min_expected_net_return"
+                    ),
                     "maximum_candidates_per_day": 1,
-                    "maximum_next_open_gap": 0.03,
-                    "entry_rule": "翌営業日寄付きが前日終値比+3%以下の場合のみ有効",
+                    "maximum_next_open_gap": ten_day_parameters.get("max_gap_up"),
+                    "entry_rule": "翌営業日寄付きが選択ギャップ上限以下の場合のみ有効",
                 },
-                "live_signal_count": sum(bool(record.get("ml_sharp_signal")) for record in records),
+                "feature_lifts": ten_day_study.get("feature_lifts", []),
+                "live_signal_count": sum(
+                    bool(record.get("ml_ten_day_signal")) for record in records
+                ),
                 "note": (
-                    "前半で条件を固定し後半46件で検証した暫定候補。直近区間では成績が"
-                    "弱まっているため、新規データで継続検証する。表示率は将来の上昇を保証しない"
+                    "前半でモデル・閾値を選択し、後半は条件を変えずに検証。"
+                    "表示率は履歴上の参考値で、将来の上昇を保証しない"
                 ),
             },
             "patterns": analysis["patterns"],
             "bottom_pattern_study": bottom_pattern_study,
             "rise_pattern_backtest": analysis.get("rise_pattern_backtest"),
+            "ten_day_signal_study": ten_day_study,
             "demand_supply_study": analysis.get("demand_supply_study"),
             "golden_cross_volume_study": analysis.get("golden_cross_volume_study"),
             "perfect_order_pullback_study": analysis.get("perfect_order_pullback_study"),

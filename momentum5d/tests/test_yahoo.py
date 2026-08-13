@@ -298,7 +298,7 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert "trend_ranking_score" in candidates.columns
     assert "sector_17_name" in candidates.columns
     assert "setup_reasons" in candidates.columns
-    assert result["technical_method"] == "strong_shape_hgb_selective_v3"
+    assert result["technical_method"] == "strong_shape_10d_ml_selective_v1"
     assert "bottom_pattern_study" in result
     assert result["bottom_pattern_study"]["horizon_days"] == 5
     assert "rise_pattern_backtest" in result
@@ -555,6 +555,15 @@ def test_candidate_ranking_requires_strong_shape_ml_and_returns_at_most_one() ->
         "ml_sharp_rank": pd.NA,
         "ml_sharp_reason": "",
         "ml_sharp_entry_rule": "翌営業日寄付きが前日終値比+3%以下の場合のみ有効",
+        "ml_ten_day_probability": 0.0,
+        "ml_ten_day_down_5pct_probability": 1.0,
+        "ml_ten_day_down_8pct_probability": 1.0,
+        "ml_ten_day_expected_net_return": -1.0,
+        "ml_ten_day_model_samples": 0,
+        "ml_ten_day_signal": False,
+        "ml_ten_day_rank": pd.NA,
+        "ml_ten_day_reason": "",
+        "ml_ten_day_entry_rule": "翌営業日寄付き条件待ち",
     }
     features = pd.DataFrame(
         [
@@ -599,6 +608,14 @@ def test_candidate_ranking_requires_strong_shape_ml_and_returns_at_most_one() ->
                 "ml_sharp_signal": True,
                 "ml_sharp_rank": 1,
                 "ml_sharp_reason": "急落継続・売買代金2億円以上・強形状ML参考率62%",
+                "ml_ten_day_probability": 0.68,
+                "ml_ten_day_down_5pct_probability": 0.25,
+                "ml_ten_day_down_8pct_probability": 0.10,
+                "ml_ten_day_expected_net_return": 0.02,
+                "ml_ten_day_model_samples": 500,
+                "ml_ten_day_signal": True,
+                "ml_ten_day_rank": 1,
+                "ml_ten_day_reason": "急落継続・10営業日+5%参考率68%",
                 "setup_score": 0.95,
                 "signal_score": 0.95,
             },
@@ -608,7 +625,7 @@ def test_candidate_ranking_requires_strong_shape_ml_and_returns_at_most_one() ->
     candidates = YahooPatternAnalyzer._latest_candidates(features, top_n=20)
 
     assert candidates["ticker"].tolist() == ["PATTERN.T"]
-    assert candidates.iloc[0]["ml_sharp_signal"]
+    assert candidates.iloc[0]["ml_ten_day_signal"]
     assert "急落継続" in candidates.iloc[0]["setup_reasons"]
     assert candidates.iloc[0]["setup_reasons"]
 
@@ -700,7 +717,7 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
 
     payload = __import__("json").loads(output.read_text(encoding="utf-8"))
     assert result["candidate_count"] <= 1
-    assert payload["schema_version"] == 12
+    assert payload["schema_version"] == 13
     assert payload["personal_research_only"] is True
     assert payload["update"]["session"] == "daily"
     assert payload["update"]["status"] == "complete"
@@ -715,13 +732,10 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     assert "rsi_14" in payload["stocks"][0]
     assert "atr_14_pct" in payload["stocks"][0]
     assert len(payload["indicator_notes"]) == 5
-    assert payload["technical_method"]["label"] == "強形状3種ML厳選"
-    assert payload["signal_model"]["historical_results"]["target_hit_rate"] == (
-        0.5869565217391305
-    )
+    assert payload["technical_method"]["label"] == "10営業日+5% ML厳選"
+    assert payload["signal_model"]["conditions"]["target_holding_days"] == 10
     assert payload["signal_model"]["conditions"]["minimum_turnover_yen"] == 200_000_000
-    assert payload["signal_model"]["conditions"]["minimum_probability"] == 0.55
-    assert payload["signal_model"]["conditions"]["maximum_next_open_gap"] == 0.03
+    assert "ten_day_signal_study" in payload
     assert "open" not in payload["candidates"][0]
     assert "setup_score" in payload["candidates"][0]
     assert "trend_ranking_score" in payload["candidates"][0]

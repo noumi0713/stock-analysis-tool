@@ -27,6 +27,7 @@ from app.yahoo.retail_flow import (
 from app.yahoo.rise_pattern import (
     add_latest_ml_sharp_selloff_signals,
     add_latest_rise_pattern_signals,
+    add_ten_day_signal_and_study,
     backtest_rise_pattern_signals,
 )
 from app.yahoo.sakata import PATTERN_COLUMNS, add_sakata_features
@@ -77,6 +78,7 @@ class YahooPatternAnalyzer:
         perfect_order_pullback_study = backtest_perfect_order_pullbacks(features)
         features = add_latest_rise_pattern_signals(features, bottom_events)
         features = add_latest_ml_sharp_selloff_signals(features)
+        features, ten_day_signal_study = add_ten_day_signal_and_study(features)
         earnings_calendar, important_events = load_event_calendars(self.settings)
         features, event_risk_summary = add_event_risk_controls(
             features,
@@ -88,6 +90,7 @@ class YahooPatternAnalyzer:
                 "observed_inflow_score",
                 "rise_pattern_probability",
                 "ml_sharp_probability",
+                "ml_ten_day_probability",
             ]
         ].max(axis=1)
         features["setup_score"] = features["signal_score"]
@@ -120,8 +123,8 @@ class YahooPatternAnalyzer:
         summary = {
             "source": "yfinance",
             "personal_research_only": True,
-            "technical_method": "strong_shape_hgb_selective_v3",
-            "technical_method_label": "強形状3種ML厳選",
+            "technical_method": "strong_shape_10d_ml_selective_v1",
+            "technical_method_label": "10営業日+5% ML厳選",
             "analyzed_at": datetime.now(UTC).isoformat(),
             "rows": len(features),
             "excluded_non_trading_or_invalid_rows": len(prices) - len(valid_prices),
@@ -137,6 +140,7 @@ class YahooPatternAnalyzer:
             "patterns": patterns,
             "bottom_pattern_study": bottom_pattern_study,
             "rise_pattern_backtest": rise_pattern_backtest,
+            "ten_day_signal_study": ten_day_signal_study,
             "demand_supply_study": demand_supply_study,
             "golden_cross_volume_study": golden_cross_volume_study,
             "perfect_order_pullback_study": perfect_order_pullback_study,
@@ -344,6 +348,15 @@ class YahooPatternAnalyzer:
             "ml_sharp_rank": pd.NA,
             "ml_sharp_reason": "",
             "ml_sharp_entry_rule": "翌営業日寄付きが前日終値比+3%以下の場合のみ有効",
+            "ml_ten_day_probability": 0.0,
+            "ml_ten_day_down_5pct_probability": 1.0,
+            "ml_ten_day_down_8pct_probability": 1.0,
+            "ml_ten_day_expected_net_return": -1.0,
+            "ml_ten_day_model_samples": 0,
+            "ml_ten_day_signal": False,
+            "ml_ten_day_rank": pd.NA,
+            "ml_ten_day_reason": "",
+            "ml_ten_day_entry_rule": "翌営業日寄付き条件待ち",
             "earnings_calendar_covered": False,
             "next_earnings_date": pd.NaT,
             "earnings_days_ahead": pd.NA,
@@ -384,13 +397,14 @@ class YahooPatternAnalyzer:
                 "observed_inflow_score",
                 "rise_pattern_probability",
                 "ml_sharp_probability",
+                "ml_ten_day_probability",
             ]
         ].max(axis=1)
         latest["trend_ranking_score"] = latest["signal_score"]
         latest["setup_score"] = latest["signal_score"]
-        ml_sharp_signal = latest["ml_sharp_signal"].fillna(False).astype(bool)
+        ml_ten_day_signal = latest["ml_ten_day_signal"].fillna(False).astype(bool)
         latest = latest.loc[
-            ml_sharp_signal
+            ml_ten_day_signal
             & latest["rise_pattern_shape"].isin(
                 ["capitulation_reversal", "rounded_base", "sharp_selloff"]
             )
@@ -461,6 +475,15 @@ class YahooPatternAnalyzer:
             "ml_sharp_rank",
             "ml_sharp_reason",
             "ml_sharp_entry_rule",
+            "ml_ten_day_probability",
+            "ml_ten_day_down_5pct_probability",
+            "ml_ten_day_down_8pct_probability",
+            "ml_ten_day_expected_net_return",
+            "ml_ten_day_model_samples",
+            "ml_ten_day_signal",
+            "ml_ten_day_rank",
+            "ml_ten_day_reason",
+            "ml_ten_day_entry_rule",
             "earnings_calendar_covered",
             "next_earnings_date",
             "earnings_days_ahead",
@@ -488,7 +511,7 @@ class YahooPatternAnalyzer:
                 [
                     "earnings_gd_reversal_signal",
                     "event_entry_allowed",
-                    "ml_sharp_signal",
+                    "ml_ten_day_signal",
                     "signal_score",
                     "code",
                 ],
@@ -568,6 +591,15 @@ class YahooPatternAnalyzer:
             "ml_sharp_rank",
             "ml_sharp_reason",
             "ml_sharp_entry_rule",
+            "ml_ten_day_probability",
+            "ml_ten_day_down_5pct_probability",
+            "ml_ten_day_down_8pct_probability",
+            "ml_ten_day_expected_net_return",
+            "ml_ten_day_model_samples",
+            "ml_ten_day_signal",
+            "ml_ten_day_rank",
+            "ml_ten_day_reason",
+            "ml_ten_day_entry_rule",
             "earnings_calendar_covered",
             "next_earnings_date",
             "earnings_days_ahead",
@@ -685,6 +717,13 @@ def _combined_signal_reasons(row: pd.Series) -> str:
     event_reason = str(row.get("event_risk_reason", "")).strip()
     if event_reason and event_reason != "イベント制約なし":
         reasons.append(event_reason)
+    ten_day_signal = row.get("ml_ten_day_signal", False)
+    if (
+        pd.notna(ten_day_signal)
+        and bool(ten_day_signal)
+        and row.get("ml_ten_day_reason")
+    ):
+        reasons.append(str(row["ml_ten_day_reason"]))
     ml_signal = row.get("ml_sharp_signal", False)
     if pd.notna(ml_signal) and bool(ml_signal) and row.get("ml_sharp_reason"):
         reasons.append(str(row["ml_sharp_reason"]))
