@@ -22,7 +22,6 @@ STRONG_SHAPES = frozenset({"sharp_selloff", "capitulation_reversal", "rounded_ba
 TEN_DAY_ADOPTED_SHAPE = "capitulation_reversal"
 TEN_DAY_ADOPTED_SHAPE_LABEL = "投げ売り反転"
 STRONG_SHAPE_MIN_TURNOVER = 200_000_000.0
-TEN_DAY_MIN_TURNOVER = 150_000_000.0
 SELECTIVE_SHAPE_FEATURES = (
     "_rise_market_favorable",
     "_rise_theme_flow",
@@ -152,7 +151,7 @@ def add_latest_ml_sharp_selloff_signals(
 def add_ten_day_signal_and_study(
     features: pd.DataFrame,
     *,
-    minimum_turnover: float = TEN_DAY_MIN_TURNOVER,
+    minimum_turnover: float = STRONG_SHAPE_MIN_TURNOVER,
     evaluation_days: int = 240,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Attach and validate a separate +5% within 10 trading days signal.
@@ -228,7 +227,7 @@ def add_ten_day_signal_and_study(
         minimum_development_signals=20,
         probability_thresholds=(0.45, 0.55, 0.65, 0.70),
         gap_limits=(0.00, 0.03),
-        top_n_options=(5,),
+        top_n_options=(1,),
         allowed_shape_profiles=(TEN_DAY_ADOPTED_SHAPE,),
         technical_profiles=(
             ("all_technical", {}),
@@ -281,6 +280,11 @@ def add_ten_day_signal_and_study(
         value for value in evaluation_dates if development_end and str(value) <= development_end
     ]
     development_scored = scored.loc[scored["date"].isin(development_dates)].copy()
+    limit_order_study = calculate_ten_day_limit_order_study(
+        outcome_frame,
+        validation_trades,
+        config,
+    )
     validation_start = diagnostics.get("validation_start")
     validation_end = diagnostics.get("validation_end")
     comparison_dates = [
@@ -292,9 +296,7 @@ def add_ten_day_signal_and_study(
     ]
     turnover_thresholds = (
         200_000_000.0,
-        170_000_000.0,
         150_000_000.0,
-        120_000_000.0,
         100_000_000.0,
         50_000_000.0,
     )
@@ -363,7 +365,7 @@ def add_ten_day_signal_and_study(
         "entry": "翌営業日始値（ギャップ上限は注文時に確認）",
         "holding_days": 10,
         "minimum_turnover_yen": int(minimum_turnover),
-        "maximum_candidates_per_day": 5,
+        "maximum_candidates_per_day": 1,
         "development_start": diagnostics.get("development_start"),
         "development_end": diagnostics.get("development_end"),
         "validation_start": diagnostics.get("validation_start"),
@@ -377,20 +379,18 @@ def add_ten_day_signal_and_study(
         "validation": validation_summary,
         "validation_folds": diagnostics.get("validation_folds", []),
         "validation_by_shape": diagnostics.get("validation_by_shape", {}),
+        "limit_order_study": limit_order_study,
         "turnover_sensitivity": {
             "comparison_mode": (
-                "frozen_adopted_rule_with_threshold_specific_walk_forward_refits"
+                "frozen_200m_rule_with_threshold_specific_walk_forward_refits"
             ),
             "validation_start": validation_start,
             "validation_end": validation_end,
-            "additional_thresholds_yen": [170_000_000, 120_000_000],
+            "threshold_step_yen": 50_000_000,
             "thresholds": turnover_sensitivity_rows,
-            "adopted_threshold_yen": int(minimum_turnover),
-            "deployed_threshold_changed": bool(
-                minimum_turnover != STRONG_SHAPE_MIN_TURNOVER
-            ),
+            "deployed_threshold_changed": False,
             "note": (
-                "投げ売り反転・予測閾値・損失確率条件・1日最大5銘柄を固定し、"
+                "投げ売り反転・予測閾値・損失確率条件・1日最大1銘柄を固定し、"
                 "最低売買代金だけを5000万円刻みで変更。各流動性母集団で"
                 "ウォークフォワードモデルを再学習し、同じ検証期間で比較"
             ),
@@ -430,6 +430,186 @@ def add_ten_day_signal_and_study(
             validation_trades["rise_trade_net_return"].median()
         )
     return frame, study
+
+
+def calculate_ten_day_limit_order_study(
+    outcome_frame: pd.DataFrame,
+    validation_trades: pd.DataFrame,
+    config: RisePatternConfig,
+) -> dict[str, Any]:
+    """Compare next-day-only limit orders for the frozen validation signals."""
+    offsets = tuple(-step / 200.0 for step in range(21))
+    minimum_robust_fills = min(15, int(len(validation_trades)))
+    base = {
+        "status": "completed",
+        "signal_count": int(len(validation_trades)),
+        "order_validity": "next_trading_day_only",
+        "unfilled_return": 0.0,
+        "transaction_cost_bps": config.transaction_cost_bps,
+        "target_return": 0.05,
+        "holding_days": config.horizon_days,
+        "intraday_ambiguity_rule": (
+            "when an intraday low first reaches the limit, day-one high is excluded "
+            "from target evaluation; gap-at-open fills may use day-one high"
+        ),
+        "efficiency_metric": (
+            "expected_net_return_per_signal = fill_rate * mean_filled_trade_net_return"
+        ),
+        "minimum_fills_for_recommendation": minimum_robust_fills,
+    }
+    if validation_trades.empty:
+        return {**base, "status": "no_validation_signals", "levels": []}
+
+    keys = validation_trades[["ticker", "date"]].drop_duplicates()
+    selected_tickers = keys["ticker"].dropna().unique().tolist()
+    prices = outcome_frame.loc[
+        outcome_frame["ticker"].isin(selected_tickers),
+        ["ticker", "date", "open", "high", "low", "close", "adjusted_close"],
+    ].copy()
+    prices = prices.sort_values(["ticker", "date"])
+    ratio = prices["adjusted_close"] / prices["close"]
+    adjusted_open = prices["open"] * ratio
+    adjusted_high = prices["high"] * ratio
+    adjusted_low = prices["low"] * ratio
+    group_key = prices["ticker"]
+    future_open = pd.concat(
+        [
+            adjusted_open.groupby(group_key, sort=False).shift(-offset)
+            for offset in range(1, config.horizon_days + 1)
+        ],
+        axis=1,
+    )
+    future_high = pd.concat(
+        [
+            adjusted_high.groupby(group_key, sort=False).shift(-offset)
+            for offset in range(1, config.horizon_days + 1)
+        ],
+        axis=1,
+    )
+    future_low = pd.concat(
+        [
+            adjusted_low.groupby(group_key, sort=False).shift(-offset)
+            for offset in range(1, config.horizon_days + 1)
+        ],
+        axis=1,
+    )
+    future_close = pd.concat(
+        [
+            prices["adjusted_close"].groupby(group_key, sort=False).shift(-offset)
+            for offset in range(1, config.horizon_days + 1)
+        ],
+        axis=1,
+    )
+    selected_mask = pd.MultiIndex.from_frame(prices[["ticker", "date"]]).isin(
+        pd.MultiIndex.from_frame(keys)
+    )
+    signal_close = prices.loc[selected_mask, "adjusted_close"]
+    next_opens = future_open.loc[selected_mask]
+    next_highs = future_high.loc[selected_mask]
+    next_lows = future_low.loc[selected_mask]
+    next_closes = future_close.loc[selected_mask]
+    complete = (
+        signal_close.notna()
+        & next_opens.notna().all(axis=1)
+        & next_highs.notna().all(axis=1)
+        & next_lows.notna().all(axis=1)
+        & next_closes.notna().all(axis=1)
+    )
+    signal_count = int(complete.sum())
+    levels: list[dict[str, Any]] = []
+    for limit_offset in offsets:
+        limit_price = signal_close * (1.0 + limit_offset)
+        open_fill = complete & next_opens.iloc[:, 0].le(limit_price)
+        intraday_fill = (
+            complete
+            & ~open_fill
+            & next_lows.iloc[:, 0].le(limit_price)
+        )
+        filled = open_fill | intraday_fill
+        entry = pd.Series(np.nan, index=signal_close.index, dtype=float)
+        entry.loc[open_fill] = next_opens.loc[open_fill].iloc[:, 0]
+        entry.loc[intraday_fill] = limit_price.loc[intraday_fill]
+        target_price = entry * 1.05
+        target_matrix = next_highs.ge(target_price, axis=0)
+        target_matrix.loc[intraday_fill, target_matrix.columns[0]] = False
+        target_hit = target_matrix.any(axis=1) & filled
+        gross_return = pd.Series(np.nan, index=signal_close.index, dtype=float)
+        gross_return.loc[target_hit] = 0.05
+        unresolved = filled & ~target_hit
+        gross_return.loc[unresolved] = (
+            next_closes.loc[unresolved].iloc[:, -1] / entry.loc[unresolved] - 1.0
+        )
+        net_return = gross_return.loc[filled] - config.transaction_cost_bps / 10_000.0
+        filled_count = int(filled.sum())
+        hits = int(target_hit.sum())
+        fill_rate = filled_count / signal_count if signal_count else 0.0
+        mean_net_return = float(net_return.mean()) if filled_count else None
+        expected_per_signal = (
+            float(net_return.sum() / signal_count) if signal_count else None
+        )
+        future_min_return = next_lows.loc[filled].min(axis=1) / entry.loc[filled] - 1.0
+        levels.append(
+            {
+                "limit_offset_from_previous_close": limit_offset,
+                "filled_orders": filled_count,
+                "fill_rate": fill_rate,
+                "open_fill_rate": (
+                    float(open_fill.sum() / signal_count) if signal_count else 0.0
+                ),
+                "target_hit_rate": hits / filled_count if filled_count else None,
+                "mean_filled_trade_net_return": mean_net_return,
+                "median_filled_trade_net_return": (
+                    float(net_return.median()) if filled_count else None
+                ),
+                "expected_net_return_per_signal": expected_per_signal,
+                "trade_win_rate": (
+                    float(net_return.gt(0.0).mean()) if filled_count else None
+                ),
+                "loss_5pct_rate": (
+                    float(future_min_return.le(-0.05).mean()) if filled_count else None
+                ),
+                "loss_8pct_rate": (
+                    float(future_min_return.le(-0.08).mean()) if filled_count else None
+                ),
+                "worst_trade_net_return": (
+                    float(net_return.min()) if filled_count else None
+                ),
+            }
+        )
+    eligible_levels = [
+        level for level in levels if level["filled_orders"] >= minimum_robust_fills
+    ]
+    best_raw = max(
+        levels,
+        key=lambda level: (
+            float(level["expected_net_return_per_signal"])
+            if level["expected_net_return_per_signal"] is not None
+            else float("-inf")
+        ),
+    )
+    best_recommended = (
+        max(
+            eligible_levels,
+            key=lambda level: (
+                float(level["expected_net_return_per_signal"])
+                if level["expected_net_return_per_signal"] is not None
+                else float("-inf")
+            ),
+        )
+        if eligible_levels
+        else best_raw
+    )
+    return {
+        **base,
+        "signal_count": signal_count,
+        "levels": levels,
+        "best_raw": best_raw,
+        "recommended": best_recommended,
+        "caveat": (
+            "The same frozen 200 million yen validation signals are reused. "
+            "This is a post-selection execution study, so forward confirmation is required."
+        ),
+    }
 
 
 def _ten_day_feature_lifts(scored: pd.DataFrame) -> list[dict[str, Any]]:

@@ -4,6 +4,10 @@ from datetime import date, timedelta
 
 import pandas as pd
 
+from app.yahoo.rise_pattern import (
+    RisePatternConfig,
+    calculate_ten_day_limit_order_study,
+)
 from app.yahoo.selective_ml import (
     evaluate_frozen_ml_strategy,
     score_latest_strong_shape_candidates,
@@ -121,20 +125,13 @@ def test_latest_ten_day_signal_uses_development_parameters_and_top_one() -> None
         "min_market_median_return_20d": None,
     }
 
-    result = score_latest_ten_day_candidates(
-        pd.DataFrame(rows),
-        parameters,
-        minimum_turnover=150_000_000.0,
-    )
+    result = score_latest_ten_day_candidates(pd.DataFrame(rows), parameters)
 
     assert len(result) == 2
     assert int(result["ml_ten_day_signal"].sum()) == 1
     assert result.loc[result["ml_ten_day_signal"], "ml_ten_day_rank"].iloc[0] == 1
     assert result.loc[result["ml_ten_day_signal"], "ml_ten_day_probability"].iloc[0] >= 0.55
     assert result["ml_ten_day_entry_rule"].str.contains(r"\+2%").all()
-    assert result.loc[result["ml_ten_day_signal"], "ml_ten_day_reason"].str.contains(
-        "売買代金1.5億円以上"
-    ).all()
 
 
 def test_tuning_freezes_development_rule_for_validation() -> None:
@@ -240,7 +237,7 @@ def test_tuning_can_lock_capitulation_reversal_only() -> None:
         minimum_development_signals=20,
         probability_thresholds=(0.60,),
         gap_limits=(0.03,),
-        top_n_options=(5,),
+        top_n_options=(1,),
         allowed_shape_profiles=("capitulation_reversal",),
     )
 
@@ -297,3 +294,34 @@ def test_frozen_strategy_evaluates_explicit_dates_without_retuning() -> None:
     assert set(trades["date"]) == set(dates[1:5])
     assert diagnostics["validation"]["target_hit_rate"] == 1.0
     assert len(diagnostics["validation_folds"]) == 3
+
+
+def test_limit_order_study_uses_conservative_intraday_fill_rule() -> None:
+    dates = [date(2026, 6, 1) + timedelta(days=offset) for offset in range(12)]
+    rows = []
+    closes = [100.0] * 12
+    for index, value in enumerate(dates):
+        rows.append(
+            {
+                "ticker": "1000.T",
+                "date": value,
+                "open": 101.0 if index == 1 else closes[index],
+                "high": 106.0 if index == 1 else closes[index],
+                "low": 99.0 if index == 1 else closes[index],
+                "close": closes[index],
+                "adjusted_close": closes[index],
+            }
+        )
+    validation = pd.DataFrame([{"ticker": "1000.T", "date": dates[0]}])
+
+    result = calculate_ten_day_limit_order_study(
+        pd.DataFrame(rows),
+        validation,
+        RisePatternConfig(horizon_days=10),
+    )
+
+    flat_limit = result["levels"][0]
+    assert flat_limit["filled_orders"] == 1
+    assert flat_limit["open_fill_rate"] == 0.0
+    assert flat_limit["target_hit_rate"] == 0.0
+    assert flat_limit["mean_filled_trade_net_return"] == -0.002
