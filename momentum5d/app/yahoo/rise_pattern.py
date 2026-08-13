@@ -280,11 +280,6 @@ def add_ten_day_signal_and_study(
         value for value in evaluation_dates if development_end and str(value) <= development_end
     ]
     development_scored = scored.loc[scored["date"].isin(development_dates)].copy()
-    limit_order_study = calculate_ten_day_limit_order_study(
-        outcome_frame,
-        validation_trades,
-        config,
-    )
     validation_start = diagnostics.get("validation_start")
     validation_end = diagnostics.get("validation_end")
     comparison_dates = [
@@ -301,6 +296,7 @@ def add_ten_day_signal_and_study(
         50_000_000.0,
     )
     turnover_sensitivity_rows: list[dict[str, Any]] = []
+    limit_order_validation_trades = validation_trades
     for threshold in turnover_thresholds:
         threshold_pool = outcome_frame.loc[
             outcome_frame["rise_pattern_live_bottom"].fillna(False).astype(bool)
@@ -322,11 +318,13 @@ def add_ten_day_signal_and_study(
                 minimum_shape_samples=config.ml_minimum_shape_samples,
             )
         )
-        _, threshold_evaluation = evaluate_frozen_ml_strategy(
+        threshold_trades, threshold_evaluation = evaluate_frozen_ml_strategy(
             threshold_scored,
             comparison_dates,
             parameters,
         )
+        if threshold == 150_000_000.0:
+            limit_order_validation_trades = threshold_trades
         turnover_sensitivity_rows.append(
             {
                 "minimum_turnover_yen": int(threshold),
@@ -339,6 +337,12 @@ def add_ten_day_signal_and_study(
                 "validation_folds": threshold_evaluation["validation_folds"],
             }
         )
+    limit_order_study = calculate_ten_day_limit_order_study(
+        outcome_frame,
+        limit_order_validation_trades,
+        config,
+        minimum_turnover=150_000_000.0,
+    )
     live_candidate_records = (
         latest_scores.loc[
             latest_scores["ml_ten_day_signal"],
@@ -436,6 +440,8 @@ def calculate_ten_day_limit_order_study(
     outcome_frame: pd.DataFrame,
     validation_trades: pd.DataFrame,
     config: RisePatternConfig,
+    *,
+    minimum_turnover: float,
 ) -> dict[str, Any]:
     """Compare next-day-only limit orders for the frozen validation signals."""
     offsets = tuple(-step / 200.0 for step in range(21))
@@ -443,6 +449,7 @@ def calculate_ten_day_limit_order_study(
     base = {
         "status": "completed",
         "signal_count": int(len(validation_trades)),
+        "minimum_turnover_yen": int(minimum_turnover),
         "order_validity": "next_trading_day_only",
         "unfilled_return": 0.0,
         "transaction_cost_bps": config.transaction_cost_bps,

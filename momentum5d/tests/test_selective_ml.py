@@ -318,6 +318,7 @@ def test_limit_order_study_uses_conservative_intraday_fill_rule() -> None:
         pd.DataFrame(rows),
         validation,
         RisePatternConfig(horizon_days=10),
+        minimum_turnover=150_000_000.0,
     )
 
     flat_limit = result["levels"][0]
