@@ -2,7 +2,7 @@
   "schema_version": 13,
   "source": "yfinance",
   "personal_research_only": true,
-  "generated_at": "2026-08-13T06:31:33.447720+00:00",
+  "generated_at": "2026-08-13T07:01:09.261675+00:00",
   "latest_date": "2026-08-13",
   "update": {
     "status": "complete",
@@ -13,7 +13,7 @@
     "interval": "5m",
     "successful_tickers": 3637,
     "coverage": 0.9813815434430653,
-    "generated_at": "2026-08-13T06:31:33.447720+00:00"
+    "generated_at": "2026-08-13T07:01:09.261675+00:00"
   },
   "metrics": {
     "rows": 1054783,
