@@ -7,6 +7,7 @@ import pandas as pd
 from app.yahoo.rise_pattern import (
     RisePatternConfig,
     calculate_ten_day_limit_order_study,
+    calculate_ten_day_portfolio_study,
 )
 from app.yahoo.selective_ml import (
     evaluate_frozen_ml_strategy,
@@ -333,3 +334,49 @@ def test_limit_order_study_uses_conservative_intraday_fill_rule() -> None:
     assert flat_limit["mean_filled_trade_net_return"] == -0.002
     assert len(positive_levels) == 6
     assert positive_levels[-1]["limit_offset_from_previous_close"] == 0.03
+
+
+def test_portfolio_study_can_use_all_cash_and_uses_standard_lots() -> None:
+    dates = [date(2026, 7, 1) + timedelta(days=offset) for offset in range(12)]
+    price_rows = []
+    candidate_rows = []
+    for ticker_number in range(4):
+        ticker = f"100{ticker_number}.T"
+        for index, value in enumerate(dates):
+            price_rows.append(
+                {
+                    "ticker": ticker,
+                    "date": value,
+                    "open": 100.0,
+                    "high": 106.0 if index == 2 else 100.0,
+                    "low": 99.0,
+                    "close": 100.0,
+                    "adjusted_close": 100.0,
+                }
+            )
+        candidate_rows.append(
+            {
+                "ticker": ticker,
+                "date": dates[0],
+                "_ml_rank_score": float(4 - ticker_number),
+            }
+        )
+
+    result = calculate_ten_day_portfolio_study(
+        pd.DataFrame(price_rows),
+        pd.DataFrame(candidate_rows),
+        dates,
+        RisePatternConfig(horizon_days=10),
+        initial_cash=1_000_000.0,
+        minimum_turnover=150_000_000.0,
+        limit_offset=0.015,
+        maximum_daily_buys=2,
+        maximum_positions=3,
+        lot_size=100,
+    )
+
+    assert result["completed_trades"] == 1
+    assert result["maximum_positions_used"] == 1
+    assert result["skipped_for_lot_cost"] == 3
+    assert result["days_without_positions"] == len(dates) - 1
+    assert result["ending_equity_yen"] > 1_000_000.0

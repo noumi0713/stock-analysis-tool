@@ -297,6 +297,7 @@ def add_ten_day_signal_and_study(
     )
     turnover_sensitivity_rows: list[dict[str, Any]] = []
     limit_order_validation_trades = validation_trades
+    portfolio_scored = scored
     for threshold in turnover_thresholds:
         threshold_pool = outcome_frame.loc[
             outcome_frame["rise_pattern_live_bottom"].fillna(False).astype(bool)
@@ -325,6 +326,7 @@ def add_ten_day_signal_and_study(
         )
         if threshold == 150_000_000.0:
             limit_order_validation_trades = threshold_trades
+            portfolio_scored = threshold_scored
         turnover_sensitivity_rows.append(
             {
                 "minimum_turnover_yen": int(threshold),
@@ -342,6 +344,24 @@ def add_ten_day_signal_and_study(
         limit_order_validation_trades,
         config,
         minimum_turnover=150_000_000.0,
+    )
+    portfolio_parameters = {**parameters, "top_n_per_day": 2}
+    portfolio_candidates, _ = evaluate_frozen_ml_strategy(
+        portfolio_scored,
+        evaluation_dates,
+        portfolio_parameters,
+    )
+    portfolio_study = calculate_ten_day_portfolio_study(
+        outcome_frame,
+        portfolio_candidates,
+        all_dates,
+        config,
+        initial_cash=1_000_000.0,
+        minimum_turnover=150_000_000.0,
+        limit_offset=0.015,
+        maximum_daily_buys=2,
+        maximum_positions=3,
+        lot_size=100,
     )
     live_candidate_records = (
         latest_scores.loc[
@@ -384,6 +404,7 @@ def add_ten_day_signal_and_study(
         "validation_folds": diagnostics.get("validation_folds", []),
         "validation_by_shape": diagnostics.get("validation_by_shape", {}),
         "limit_order_study": limit_order_study,
+        "portfolio_study": portfolio_study,
         "turnover_sensitivity": {
             "comparison_mode": (
                 "frozen_200m_rule_with_threshold_specific_walk_forward_refits"
@@ -618,6 +639,261 @@ def calculate_ten_day_limit_order_study(
             f"Frozen validation signals from the {int(minimum_turnover)} yen "
             "minimum-turnover universe are reused. "
             "This is a post-selection execution study, so forward confirmation is required."
+        ),
+    }
+
+
+def calculate_ten_day_portfolio_study(
+    outcome_frame: pd.DataFrame,
+    candidates: pd.DataFrame,
+    study_dates: list[Any],
+    config: RisePatternConfig,
+    *,
+    initial_cash: float,
+    minimum_turnover: float,
+    limit_offset: float,
+    maximum_daily_buys: int,
+    maximum_positions: int,
+    lot_size: int,
+) -> dict[str, Any]:
+    """Simulate overlapping positions with cash, lot, and capacity constraints."""
+    base = {
+        "status": "completed",
+        "initial_cash_yen": initial_cash,
+        "minimum_turnover_yen": int(minimum_turnover),
+        "limit_offset_from_previous_close": limit_offset,
+        "maximum_daily_buys": maximum_daily_buys,
+        "maximum_positions": maximum_positions,
+        "lot_size": lot_size,
+        "position_budget": "all available cash",
+        "exit_rule": "+5% target or tenth-trading-day close",
+        "same_day_sequence": "scheduled exits, then entries; entry-day targets exit after entry",
+        "transaction_cost_bps": config.transaction_cost_bps,
+    }
+    if not study_dates:
+        return {**base, "status": "no_study_dates"}
+
+    calendar = sorted(set(study_dates))
+    study_start = calendar[0]
+    study_end = calendar[-1]
+    if candidates.empty:
+        return {
+            **base,
+            "status": "no_candidates",
+            "study_start": str(study_start),
+            "study_end": str(study_end),
+            "trading_days": len(calendar),
+            "days_without_positions": len(calendar),
+        }
+
+    candidate_keys = candidates[["ticker", "date"]].drop_duplicates()
+    tickers = candidate_keys["ticker"].dropna().unique().tolist()
+    prices = outcome_frame.loc[
+        outcome_frame["ticker"].isin(tickers),
+        ["ticker", "date", "open", "high", "low", "close", "adjusted_close"],
+    ].copy()
+    prices = prices.sort_values(["ticker", "date"])
+    ratio = prices["adjusted_close"] / prices["close"]
+    prices["_open"] = prices["open"] * ratio
+    prices["_high"] = prices["high"] * ratio
+    prices["_low"] = prices["low"] * ratio
+    price_groups = {
+        str(ticker): values.reset_index(drop=True)
+        for ticker, values in prices.groupby("ticker", sort=False)
+    }
+    trade_plans: list[dict[str, Any]] = []
+    unfilled_orders = 0
+    incomplete_orders = 0
+    score_column = "_ml_rank_score"
+    for candidate in candidates.to_dict(orient="records"):
+        ticker = str(candidate["ticker"])
+        ticker_prices = price_groups.get(ticker)
+        if ticker_prices is None:
+            incomplete_orders += 1
+            continue
+        matches = ticker_prices.index[ticker_prices["date"].eq(candidate["date"])]
+        if len(matches) != 1:
+            incomplete_orders += 1
+            continue
+        signal_position = int(matches[0])
+        future = ticker_prices.iloc[
+            signal_position + 1 : signal_position + config.horizon_days + 1
+        ]
+        if len(future) < config.horizon_days:
+            incomplete_orders += 1
+            continue
+        signal_close = float(ticker_prices.at[signal_position, "adjusted_close"])
+        limit_price = signal_close * (1.0 + limit_offset)
+        first = future.iloc[0]
+        if float(first["_open"]) <= limit_price:
+            entry_price = float(first["_open"])
+            fill_mode = "open"
+        elif float(first["_low"]) <= limit_price:
+            entry_price = limit_price
+            fill_mode = "intraday"
+        else:
+            unfilled_orders += 1
+            continue
+        target_price = entry_price * 1.05
+        exit_date = future.iloc[-1]["date"]
+        exit_price = float(future.iloc[-1]["adjusted_close"])
+        target_hit = False
+        for holding_index, (_, day) in enumerate(future.iterrows()):
+            if holding_index == 0 and fill_mode == "intraday":
+                continue
+            if float(day["_high"]) >= target_price:
+                exit_date = day["date"]
+                exit_price = target_price
+                target_hit = True
+                break
+        trade_plans.append(
+            {
+                "ticker": ticker,
+                "signal_date": candidate["date"],
+                "entry_date": first["date"],
+                "entry_price": entry_price,
+                "exit_date": exit_date,
+                "exit_price": exit_price,
+                "target_hit": target_hit,
+                "rank_score": float(candidate.get(score_column, 0.0)),
+            }
+        )
+
+    plans_by_entry: dict[Any, list[dict[str, Any]]] = {}
+    for plan in trade_plans:
+        plans_by_entry.setdefault(plan["entry_date"], []).append(plan)
+    close_lookup = prices.set_index(["ticker", "date"])["adjusted_close"]
+    half_cost = config.transaction_cost_bps / 20_000.0
+    cash = float(initial_cash)
+    positions: list[dict[str, Any]] = []
+    completed: list[dict[str, Any]] = []
+    equity_curve: list[dict[str, Any]] = []
+    days_without_positions = 0
+    days_with_positions = 0
+    maximum_positions_used = 0
+    skipped_capacity = 0
+    skipped_lot_cost = 0
+
+    def marked_equity(value_date: Any) -> float:
+        market_value = 0.0
+        for position in positions:
+            key = (position["ticker"], value_date)
+            close_value = close_lookup.get(key, position["entry_price"])
+            market_value += position["shares"] * float(close_value)
+        return cash + market_value
+
+    for value_date in calendar:
+        exiting = [position for position in positions if position["exit_date"] == value_date]
+        for position in exiting:
+            proceeds = position["shares"] * position["exit_price"] * (1.0 - half_cost)
+            cash += proceeds
+            position["net_profit_yen"] = proceeds - position["entry_cost_yen"]
+            completed.append(position)
+            positions.remove(position)
+
+        daily_buys = 0
+        entry_plans = sorted(
+            plans_by_entry.get(value_date, []),
+            key=lambda plan: plan["rank_score"],
+            reverse=True,
+        )
+        for plan in entry_plans:
+            if daily_buys >= maximum_daily_buys or len(positions) >= maximum_positions:
+                skipped_capacity += 1
+                continue
+            if any(position["ticker"] == plan["ticker"] for position in positions):
+                skipped_capacity += 1
+                continue
+            budget = cash
+            lot_cost = plan["entry_price"] * lot_size * (1.0 + half_cost)
+            lots = int(budget // lot_cost)
+            if lots < 1:
+                skipped_lot_cost += 1
+                continue
+            shares = lots * lot_size
+            entry_cost = shares * plan["entry_price"] * (1.0 + half_cost)
+            cash -= entry_cost
+            position = {**plan, "shares": shares, "entry_cost_yen": entry_cost}
+            positions.append(position)
+            daily_buys += 1
+            maximum_positions_used = max(maximum_positions_used, len(positions))
+            if plan["exit_date"] == value_date:
+                proceeds = shares * plan["exit_price"] * (1.0 - half_cost)
+                cash += proceeds
+                position["net_profit_yen"] = proceeds - entry_cost
+                completed.append(position)
+                positions.remove(position)
+
+        equity = marked_equity(value_date)
+        equity_curve.append(
+            {"date": value_date, "equity": equity, "positions": len(positions)}
+        )
+        if positions:
+            days_with_positions += 1
+        else:
+            days_without_positions += 1
+
+    curve = pd.DataFrame(equity_curve)
+    curve["peak"] = curve["equity"].cummax()
+    curve["drawdown"] = curve["equity"] / curve["peak"] - 1.0
+    ending_equity = float(curve.iloc[-1]["equity"])
+    trade_profits = pd.Series(
+        [trade["net_profit_yen"] for trade in completed],
+        dtype=float,
+    )
+    first_entry_date = min(
+        (trade["entry_date"] for trade in completed),
+        default=None,
+    )
+    last_exit_date = max(
+        (trade["exit_date"] for trade in completed),
+        default=None,
+    )
+    active_window = (
+        curve.loc[curve["date"].between(first_entry_date, last_exit_date)]
+        if first_entry_date is not None and last_exit_date is not None
+        else pd.DataFrame()
+    )
+    return {
+        **base,
+        "study_start": str(study_start),
+        "study_end": str(study_end),
+        "trading_days": len(calendar),
+        "candidate_signals": int(len(candidates)),
+        "fillable_orders": len(trade_plans),
+        "unfilled_orders": unfilled_orders,
+        "incomplete_orders": incomplete_orders,
+        "completed_trades": len(completed),
+        "target_hit_rate": (
+            float(np.mean([trade["target_hit"] for trade in completed]))
+            if completed
+            else None
+        ),
+        "trade_win_rate": (
+            float(trade_profits.gt(0.0).mean()) if not trade_profits.empty else None
+        ),
+        "ending_equity_yen": ending_equity,
+        "total_return": ending_equity / initial_cash - 1.0,
+        "annualized_return": (ending_equity / initial_cash) ** (252 / len(calendar)) - 1.0,
+        "maximum_drawdown": float(curve["drawdown"].min()),
+        "first_entry_date": str(first_entry_date) if first_entry_date else None,
+        "last_exit_date": str(last_exit_date) if last_exit_date else None,
+        "days_without_positions": days_without_positions,
+        "days_without_positions_during_active_window": (
+            int(active_window["positions"].eq(0).sum())
+            if not active_window.empty
+            else len(calendar)
+        ),
+        "active_window_trading_days": int(len(active_window)),
+        "days_with_positions": days_with_positions,
+        "position_day_rate": days_with_positions / len(calendar),
+        "maximum_positions_used": maximum_positions_used,
+        "skipped_for_capacity": skipped_capacity,
+        "skipped_for_lot_cost": skipped_lot_cost,
+        "open_positions_at_end": len(positions),
+        "caveat": (
+            "Walk-forward model scores avoid future-outcome leakage, but the frozen signal "
+            "parameters were selected using part of this same three-year history."
         ),
     }
 
