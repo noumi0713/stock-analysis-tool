@@ -861,6 +861,15 @@ def test_dashboard_export_contains_candidates_and_recent_candidate_charts(
     }
 
 
+def test_ten_day_study_accepts_three_year_evaluation_window() -> None:
+    import inspect
+
+    from app.yahoo.rise_pattern import add_ten_day_signal_and_study
+
+    signature = inspect.signature(add_ten_day_signal_and_study)
+    assert signature.parameters["evaluation_days"].default == 240
+
+
 def test_dashboard_export_fills_company_name_from_bundled_master(
     settings: Settings,
     tmp_path: Path,

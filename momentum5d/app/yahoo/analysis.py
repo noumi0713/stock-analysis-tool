@@ -185,7 +185,12 @@ class YahooPatternAnalyzer:
         sectors = load_sector_map(self.settings.data_dir.parent / "config" / "prime_sectors.csv")
         features = add_trend_features(features, sectors)
         features = add_retail_flow_features(features)
-        features, study = add_ten_day_signal_and_study(features)
+        features, study = add_ten_day_signal_and_study(features, evaluation_days=720)
+        study["source_history_start"] = str(valid_prices["date"].min())
+        study["source_history_end"] = str(valid_prices["date"].max())
+        study["source_history_rows"] = len(valid_prices)
+        study["source_tickers"] = int(valid_prices["ticker"].nunique())
+        study["requested_evaluation_days"] = 720
 
         latest = features.loc[features["date"].eq(features["date"].max())].copy()
         live_columns = [

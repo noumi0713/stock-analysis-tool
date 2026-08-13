@@ -149,6 +149,7 @@ def add_ten_day_signal_and_study(
     features: pd.DataFrame,
     *,
     minimum_turnover: float = STRONG_SHAPE_MIN_TURNOVER,
+    evaluation_days: int = 240,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Attach and validate a separate +5% within 10 trading days signal.
 
@@ -178,7 +179,7 @@ def add_ten_day_signal_and_study(
 
     config = RisePatternConfig(
         horizon_days=10,
-        ml_test_days=240,
+        ml_test_days=evaluation_days,
         ml_refit_days=30,
         ml_minimum_shape_samples=180,
         ml_minimum_development_signals=40,
