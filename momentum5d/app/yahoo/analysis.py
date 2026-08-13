@@ -25,7 +25,6 @@ from app.yahoo.retail_flow import (
     retail_flow_reasons,
 )
 from app.yahoo.rise_pattern import (
-    add_latest_ml_sharp_selloff_signals,
     add_latest_rise_pattern_signals,
     add_ten_day_signal_and_study,
     backtest_rise_pattern_signals,
@@ -83,7 +82,6 @@ class YahooPatternAnalyzer:
         golden_cross_volume_study = backtest_golden_cross_volume(features)
         perfect_order_pullback_study = backtest_perfect_order_pullbacks(features)
         features = add_latest_rise_pattern_signals(features, bottom_events)
-        features = add_latest_ml_sharp_selloff_signals(features)
         features, ten_day_signal_study = self._attach_three_year_ten_day_signal(features)
         earnings_calendar, important_events = load_event_calendars(self.settings)
         features, event_risk_summary = add_event_risk_controls(
@@ -95,7 +93,6 @@ class YahooPatternAnalyzer:
             [
                 "observed_inflow_score",
                 "rise_pattern_probability",
-                "ml_sharp_probability",
                 "ml_ten_day_probability",
             ]
         ].max(axis=1)
@@ -129,7 +126,7 @@ class YahooPatternAnalyzer:
         summary = {
             "source": "yfinance",
             "personal_research_only": True,
-            "technical_method": "capitulation_reversal_10d_ml_selective_v2",
+            "technical_method": "capitulation_reversal_10d_ml_selective_v3",
             "technical_method_label": "投げ売り反転・10営業日+5% ML厳選",
             "analyzed_at": datetime.now(UTC).isoformat(),
             "rows": len(features),
@@ -500,7 +497,6 @@ class YahooPatternAnalyzer:
             [
                 "observed_inflow_score",
                 "rise_pattern_probability",
-                "ml_sharp_probability",
                 "ml_ten_day_probability",
             ]
         ].max(axis=1)
@@ -509,11 +505,9 @@ class YahooPatternAnalyzer:
         ml_ten_day_signal = latest["ml_ten_day_signal"].fillna(False).astype(bool)
         latest = latest.loc[
             ml_ten_day_signal
-            & latest["rise_pattern_shape"].isin(
-                ["capitulation_reversal", "rounded_base", "sharp_selloff"]
-            )
+            & latest["rise_pattern_shape"].eq("capitulation_reversal")
             & latest["rsi_14"].le(82.0)
-            & (latest["turnover_value"] >= 200_000_000)
+            & (latest["turnover_value"] >= 150_000_000)
         ].copy()
         latest["sakata_reasons"] = latest.apply(_sakata_reasons, axis=1)
         latest["retail_flow_reasons"] = latest.apply(retail_flow_reasons, axis=1)
@@ -828,9 +822,6 @@ def _combined_signal_reasons(row: pd.Series) -> str:
         and row.get("ml_ten_day_reason")
     ):
         reasons.append(str(row["ml_ten_day_reason"]))
-    ml_signal = row.get("ml_sharp_signal", False)
-    if pd.notna(ml_signal) and bool(ml_signal) and row.get("ml_sharp_reason"):
-        reasons.append(str(row["ml_sharp_reason"]))
     rise_signal = row.get("rise_pattern_signal", False)
     if pd.notna(rise_signal) and bool(rise_signal) and row.get("rise_pattern_reason"):
         reasons.append(str(row["rise_pattern_reason"]))

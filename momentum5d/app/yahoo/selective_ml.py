@@ -357,8 +357,9 @@ def score_latest_ten_day_candidates(
         probability = float(eligible.at[winner_index, "ml_ten_day_probability"])
         shape = str(eligible.at[winner_index, "_rise_shape"])
         shape_label = STRONG_SHAPE_LABELS.get(shape, shape)
+        turnover_label = f"{minimum_turnover / 100_000_000:g}億円以上"
         eligible.at[winner_index, "ml_ten_day_reason"] = (
-            f"{shape_label}・売買代金2億円以上・10営業日+5%参考率"
+            f"{shape_label}・売買代金{turnover_label}・10営業日+5%参考率"
             f"{probability:.0%}・翌日寄付き条件待ち"
         )
 

@@ -121,13 +121,20 @@ def test_latest_ten_day_signal_uses_development_parameters_and_top_one() -> None
         "min_market_median_return_20d": None,
     }
 
-    result = score_latest_ten_day_candidates(pd.DataFrame(rows), parameters)
+    result = score_latest_ten_day_candidates(
+        pd.DataFrame(rows),
+        parameters,
+        minimum_turnover=150_000_000.0,
+    )
 
     assert len(result) == 2
     assert int(result["ml_ten_day_signal"].sum()) == 1
     assert result.loc[result["ml_ten_day_signal"], "ml_ten_day_rank"].iloc[0] == 1
     assert result.loc[result["ml_ten_day_signal"], "ml_ten_day_probability"].iloc[0] >= 0.55
     assert result["ml_ten_day_entry_rule"].str.contains(r"\+2%").all()
+    assert result.loc[result["ml_ten_day_signal"], "ml_ten_day_reason"].str.contains(
+        "売買代金1.5億円以上"
+    ).all()
 
 
 def test_tuning_freezes_development_rule_for_validation() -> None:

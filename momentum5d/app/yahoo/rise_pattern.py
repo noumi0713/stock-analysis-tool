@@ -22,6 +22,7 @@ STRONG_SHAPES = frozenset({"sharp_selloff", "capitulation_reversal", "rounded_ba
 TEN_DAY_ADOPTED_SHAPE = "capitulation_reversal"
 TEN_DAY_ADOPTED_SHAPE_LABEL = "投げ売り反転"
 STRONG_SHAPE_MIN_TURNOVER = 200_000_000.0
+TEN_DAY_MIN_TURNOVER = 150_000_000.0
 SELECTIVE_SHAPE_FEATURES = (
     "_rise_market_favorable",
     "_rise_theme_flow",
@@ -151,7 +152,7 @@ def add_latest_ml_sharp_selloff_signals(
 def add_ten_day_signal_and_study(
     features: pd.DataFrame,
     *,
-    minimum_turnover: float = STRONG_SHAPE_MIN_TURNOVER,
+    minimum_turnover: float = TEN_DAY_MIN_TURNOVER,
     evaluation_days: int = 240,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Attach and validate a separate +5% within 10 trading days signal.
@@ -355,7 +356,7 @@ def add_ten_day_signal_and_study(
     )
     study = {
         "status": "completed",
-        "method": "walk_forward_capitulation_reversal_10d_ml_v2",
+        "method": "walk_forward_capitulation_reversal_10d_ml_v3",
         "adopted_shape": TEN_DAY_ADOPTED_SHAPE,
         "adopted_shape_label": TEN_DAY_ADOPTED_SHAPE_LABEL,
         "target": "翌営業日始値から10営業日以内に日中高値+5%",
@@ -378,13 +379,16 @@ def add_ten_day_signal_and_study(
         "validation_by_shape": diagnostics.get("validation_by_shape", {}),
         "turnover_sensitivity": {
             "comparison_mode": (
-                "frozen_200m_rule_with_threshold_specific_walk_forward_refits"
+                "frozen_adopted_rule_with_threshold_specific_walk_forward_refits"
             ),
             "validation_start": validation_start,
             "validation_end": validation_end,
             "additional_thresholds_yen": [170_000_000, 120_000_000],
             "thresholds": turnover_sensitivity_rows,
-            "deployed_threshold_changed": False,
+            "adopted_threshold_yen": int(minimum_turnover),
+            "deployed_threshold_changed": bool(
+                minimum_turnover != STRONG_SHAPE_MIN_TURNOVER
+            ),
             "note": (
                 "投げ売り反転・予測閾値・損失確率条件・1日最大1銘柄を固定し、"
                 "最低売買代金だけを5000万円刻みで変更。各流動性母集団で"
