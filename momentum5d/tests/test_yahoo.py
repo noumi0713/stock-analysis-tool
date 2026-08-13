@@ -214,6 +214,54 @@ def test_new_ticker_gets_full_retention_window_during_update(
     assert starts["6758.T"] == "2025-01-10"
 
 
+def test_expanding_retention_backfills_missing_history(
+    settings: Settings,
+    tmp_path: Path,
+) -> None:
+    calls: list[str] = []
+
+    def recording_download(tickers: list[str], **kwargs: object) -> pd.DataFrame:
+        calls.append(str(kwargs["start"]))
+        return fake_download(tickers, **kwargs)
+
+    tickers = tmp_path / "tickers.txt"
+    tickers.write_text("7203.T\n", encoding="utf-8")
+    one_year = YahooFinanceIngestion(
+        settings,
+        YahooConfig(
+            retention_days=365,
+            overlap_days=10,
+            batch_size=1,
+            pause_seconds=0,
+            max_retries=0,
+            timeout_seconds=1,
+        ),
+        downloader=recording_download,
+        sleeper=lambda _: None,
+    )
+    one_year.ingest(as_of=date(2026, 1, 10), tickers_file=tickers)
+    calls.clear()
+
+    three_years = YahooFinanceIngestion(
+        settings,
+        YahooConfig(
+            retention_days=1096,
+            overlap_days=10,
+            batch_size=1,
+            pause_seconds=0,
+            max_retries=0,
+            timeout_seconds=1,
+        ),
+        downloader=recording_download,
+        sleeper=lambda _: None,
+    )
+    status = three_years.ingest(as_of=date(2026, 1, 10), tickers_file=tickers)
+
+    assert calls == ["2023-01-10"]
+    assert status["request_start"] == "2023-01-10"
+    assert status["history_expansion_required"] is True
+
+
 def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     settings: Settings,
 ) -> None:

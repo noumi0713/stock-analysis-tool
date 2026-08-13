@@ -93,7 +93,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     yahoo_ingest = commands.add_parser(
         "yahoo-ingest",
-        help="yfinanceからPrime銘柄の直近1年を取得・差分更新",
+        help="yfinanceから東証銘柄の直近3年を取得・差分更新",
     )
     yahoo_ingest.add_argument(
         "--as-of",
@@ -110,7 +110,7 @@ def build_parser() -> argparse.ArgumentParser:
     yahoo_ingest.add_argument(
         "--full-refresh",
         action="store_true",
-        help="既存の最終日を無視し、直近1年を全銘柄再取得",
+        help="既存の最終日を無視し、直近3年を全銘柄再取得",
     )
     yahoo_ingest.add_argument(
         "--intraday-session",

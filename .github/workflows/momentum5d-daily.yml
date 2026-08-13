@@ -39,12 +39,12 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 180
     defaults:
       run:
         working-directory: momentum5d
     env:
-      YAHOO_RETENTION_DAYS: "365"
+      YAHOO_RETENTION_DAYS: "1096"
       YAHOO_OVERLAP_DAYS: "10"
       YAHOO_BATCH_SIZE: "60"
       YAHOO_PAUSE_SECONDS: "1.5"
@@ -72,8 +72,31 @@ jobs:
           if [ -d data/yahoo ] && [ -n "$(find data/yahoo -type f -print -quit)" ]; then
             echo "available=true" >> "$GITHUB_OUTPUT"
             echo "Restored Yahoo history is available."
+            needs_backfill="$(python3 - <<'PY'
+          import json
+          import os
+          from datetime import date, timedelta
+          from pathlib import Path
+
+          status_path = Path("data/yahoo/metadata/ingestion_status.json")
+          if not status_path.exists():
+              print("true")
+          else:
+              status = json.loads(status_path.read_text())
+              as_of = date.fromisoformat(status["as_of"])
+              expected_start = as_of - timedelta(
+                  days=int(os.environ["YAHOO_RETENTION_DAYS"])
+              )
+              actual_start = date.fromisoformat(status["min_date"])
+              tolerance = timedelta(days=int(os.environ["YAHOO_OVERLAP_DAYS"]))
+              print(str(actual_start > expected_start + tolerance).lower())
+          PY
+            )"
+            echo "needs_backfill=$needs_backfill" >> "$GITHUB_OUTPUT"
+            echo "Three-year history backfill required: $needs_backfill"
           else
             echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "needs_backfill=true" >> "$GITHUB_OUTPUT"
             echo "No restored Yahoo history was found."
           fi
 
@@ -151,19 +174,23 @@ jobs:
           python -m ruff check app tests
 
       # 定時・手動実行では最新データを取得する。
-      # コード変更時は復元済みキャッシュを使って分析だけ再実行し、
-      # 全銘柄の再ダウンロードによるタイムアウトを避ける。
-      # キャッシュが無い初回だけ、pushでも通常の取得処理へフォールバックする。
+      # コード変更時は復元済みキャッシュを使って分析だけ再実行する。
+      # キャッシュが無い場合と、保存期間を3年へ拡張して履歴が不足する場合は、
+      # pushでも不足期間を取得してから分析する。
       - name: Refresh TSE stock universe from JPX
         if: >-
           steps.update.outputs.should_run == 'true' &&
-          (github.event_name != 'push' || steps.yahoo-history.outputs.available != 'true')
+          (github.event_name != 'push' ||
+          steps.yahoo-history.outputs.available != 'true' ||
+          steps.yahoo-history.outputs.needs_backfill == 'true')
         run: python app/yahoo/universe.py --config-dir config
 
       - name: Download daily and five-minute session data
         if: >-
           steps.update.outputs.should_run == 'true' &&
-          (github.event_name != 'push' || steps.yahoo-history.outputs.available != 'true')
+          (github.event_name != 'push' ||
+          steps.yahoo-history.outputs.available != 'true' ||
+          steps.yahoo-history.outputs.needs_backfill == 'true')
         run: >-
           python -m app yahoo-ingest
           --as-of "${{ steps.update.outputs.market_date }}"
@@ -173,14 +200,17 @@ jobs:
       - name: Validate downloaded data
         if: >-
           steps.update.outputs.should_run == 'true' &&
-          (github.event_name != 'push' || steps.yahoo-history.outputs.available != 'true')
+          (github.event_name != 'push' ||
+          steps.yahoo-history.outputs.available != 'true' ||
+          steps.yahoo-history.outputs.needs_backfill == 'true')
         run: python -m app yahoo-validate
 
       - name: Confirm cached data for code-only analysis
         if: >-
           steps.update.outputs.should_run == 'true' &&
           github.event_name == 'push' &&
-          steps.yahoo-history.outputs.available == 'true'
+          steps.yahoo-history.outputs.available == 'true' &&
+          steps.yahoo-history.outputs.needs_backfill != 'true'
         run: |
           test -d data/yahoo
           test -n "$(find data/yahoo -type f -print -quit)"

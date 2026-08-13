@@ -35,7 +35,7 @@ SESSION_LABELS: dict[IntradaySession, str] = {
 
 @dataclass(frozen=True, slots=True)
 class YahooConfig:
-    retention_days: int = 365
+    retention_days: int = 1096
     overlap_days: int = 10
     batch_size: int = 40
     pause_seconds: float = 2.0
@@ -46,7 +46,7 @@ class YahooConfig:
     @classmethod
     def load(cls) -> YahooConfig:
         return cls(
-            retention_days=int(os.getenv("YAHOO_RETENTION_DAYS", "365")),
+            retention_days=int(os.getenv("YAHOO_RETENTION_DAYS", "1096")),
             overlap_days=int(os.getenv("YAHOO_OVERLAP_DAYS", "10")),
             batch_size=int(os.getenv("YAHOO_BATCH_SIZE", "40")),
             pause_seconds=float(os.getenv("YAHOO_PAUSE_SECONDS", "2")),
@@ -90,7 +90,7 @@ class YahooPaths:
 
 
 class YahooFinanceIngestion:
-    """yfinanceの日足を分割取得し、直近1年のPrimeデータだけを保持する。"""
+    """yfinanceの日足を分割取得し、直近3年の東証データを保持する。"""
 
     def __init__(
         self,
@@ -127,7 +127,14 @@ class YahooFinanceIngestion:
             else (set(existing["ticker"].astype(str).unique()) if not existing.empty else set())
         )
         retention_start = as_of - timedelta(days=self.config.retention_days)
-        if existing.empty or full_refresh:
+        history_start = (
+            pd.to_datetime(existing["date"]).min().date() if not existing.empty else None
+        )
+        history_expansion_required = bool(
+            history_start is not None
+            and history_start > retention_start + timedelta(days=self.config.overlap_days)
+        )
+        if existing.empty or full_refresh or history_expansion_required:
             request_start = retention_start
         else:
             latest = pd.to_datetime(existing["date"]).max().date()
@@ -197,6 +204,7 @@ class YahooFinanceIngestion:
             "request_end_exclusive": request_end.isoformat(),
             "retention_start": retention_start.isoformat(),
             "full_refresh": full_refresh,
+            "history_expansion_required": history_expansion_required,
             "tickers": len(tickers),
             "successful_tickers": int(combined["ticker"].nunique()),
             "missing_tickers": missing_tickers,
