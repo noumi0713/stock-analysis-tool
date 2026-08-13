@@ -240,7 +240,7 @@ def test_tuning_can_lock_capitulation_reversal_only() -> None:
         minimum_development_signals=20,
         probability_thresholds=(0.60,),
         gap_limits=(0.03,),
-        top_n_options=(1,),
+        top_n_options=(5,),
         allowed_shape_profiles=("capitulation_reversal",),
     )
 

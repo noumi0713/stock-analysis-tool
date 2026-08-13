@@ -228,7 +228,7 @@ def add_ten_day_signal_and_study(
         minimum_development_signals=20,
         probability_thresholds=(0.45, 0.55, 0.65, 0.70),
         gap_limits=(0.00, 0.03),
-        top_n_options=(1,),
+        top_n_options=(5,),
         allowed_shape_profiles=(TEN_DAY_ADOPTED_SHAPE,),
         technical_profiles=(
             ("all_technical", {}),
@@ -363,7 +363,7 @@ def add_ten_day_signal_and_study(
         "entry": "翌営業日始値（ギャップ上限は注文時に確認）",
         "holding_days": 10,
         "minimum_turnover_yen": int(minimum_turnover),
-        "maximum_candidates_per_day": 1,
+        "maximum_candidates_per_day": 5,
         "development_start": diagnostics.get("development_start"),
         "development_end": diagnostics.get("development_end"),
         "validation_start": diagnostics.get("validation_start"),
@@ -390,7 +390,7 @@ def add_ten_day_signal_and_study(
                 minimum_turnover != STRONG_SHAPE_MIN_TURNOVER
             ),
             "note": (
-                "投げ売り反転・予測閾値・損失確率条件・1日最大1銘柄を固定し、"
+                "投げ売り反転・予測閾値・損失確率条件・1日最大5銘柄を固定し、"
                 "最低売買代金だけを5000万円刻みで変更。各流動性母集団で"
                 "ウォークフォワードモデルを再学習し、同じ検証期間で比較"
             ),
