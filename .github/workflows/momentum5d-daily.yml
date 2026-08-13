@@ -212,6 +212,10 @@ jobs:
           test -n "$(find data/yahoo -type f -print -quit)"
           echo "Using restored Yahoo history; skipping market-data refresh."
 
+      - name: Run three-year ten-day signal backtest
+        if: steps.update.outputs.should_run == 'true'
+        run: python -m app yahoo-backtest-ten-day
+
       - name: Build provisional ranking for earnings lookup
         if: steps.update.outputs.should_run == 'true'
         run: python -m app yahoo-analyze --top-n 100

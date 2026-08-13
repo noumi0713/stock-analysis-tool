@@ -183,7 +183,10 @@ def add_ten_day_signal_and_study(
         ml_minimum_shape_samples=180,
         ml_minimum_development_signals=40,
     )
-    outcome_frame = _attach_trade_outcomes(_add_live_bottom_features(features), config)
+    outcome_frame = _attach_ml_trade_outcomes(
+        _add_live_bottom_features(features, include_signature=False),
+        config,
+    )
     outcome_frame["date"] = pd.to_datetime(outcome_frame["date"]).dt.date
     all_dates = sorted(outcome_frame["date"].drop_duplicates())
     date_position = {value: position for position, value in enumerate(all_dates)}
@@ -814,7 +817,11 @@ def backtest_rise_pattern_signals(
     }
 
 
-def _add_live_bottom_features(features: pd.DataFrame) -> pd.DataFrame:
+def _add_live_bottom_features(
+    features: pd.DataFrame,
+    *,
+    include_signature: bool = True,
+) -> pd.DataFrame:
     frame = features.copy().sort_values(["ticker", "date"]).reset_index(drop=True)
     ratio = frame["adjusted_close"] / frame["close"]
     frame["_rise_adjusted_low"] = frame["low"] * ratio
@@ -891,10 +898,11 @@ def _add_live_bottom_features(features: pd.DataFrame) -> pd.DataFrame:
     frame["_rise_quality_score"] = sum(
         frame[column].fillna(False).astype("int8") for column in SELECTIVE_SHAPE_FEATURES
     )
-    frame["_rise_feature_signature"] = frame[list(SELECTIVE_SHAPE_FEATURES)].apply(
-        lambda row: "".join("1" if bool(value) else "0" for value in row),
-        axis=1,
-    )
+    if include_signature:
+        frame["_rise_feature_signature"] = frame[list(SELECTIVE_SHAPE_FEATURES)].apply(
+            lambda row: "".join("1" if bool(value) else "0" for value in row),
+            axis=1,
+        )
     return frame
 
 
@@ -1164,6 +1172,56 @@ def _attach_trade_outcomes(
             minimum_close_return=minimum_return,
         )
         _assign_exit_outcome(frame, prefix, outcome, config)
+    return frame
+
+
+def _attach_ml_trade_outcomes(
+    features: pd.DataFrame,
+    config: RisePatternConfig,
+) -> pd.DataFrame:
+    """Attach only the outcomes required by the selective ML study."""
+    frame = features.copy()
+    ratio = frame["adjusted_close"] / frame["close"]
+    adjusted_open = frame["open"] * ratio
+    adjusted_high = frame["high"] * ratio
+    adjusted_low = frame["low"] * ratio
+    group_key = frame["ticker"]
+    entry = adjusted_open.groupby(group_key, sort=False).shift(-1)
+    future_high = pd.concat(
+        [
+            adjusted_high.groupby(group_key, sort=False).shift(-offset)
+            for offset in range(1, config.horizon_days + 1)
+        ],
+        axis=1,
+    )
+    future_low = pd.concat(
+        [
+            adjusted_low.groupby(group_key, sort=False).shift(-offset)
+            for offset in range(1, config.horizon_days + 1)
+        ],
+        axis=1,
+    )
+    exit_close = frame["adjusted_close"].groupby(group_key, sort=False).shift(
+        -config.horizon_days
+    )
+    complete = (
+        entry.notna()
+        & exit_close.notna()
+        & future_high.notna().all(axis=1)
+        & future_low.notna().all(axis=1)
+    )
+    hit = future_high.ge(entry * 1.05, axis=0).any(axis=1) & complete
+    frame["trade_outcome_available"] = complete
+    frame["rise_trade_entry_gap_return"] = entry / frame["adjusted_close"] - 1
+    frame["rise_trade_target_hit"] = hit
+    frame["rise_trade_future_max_return"] = future_high.max(axis=1) / entry - 1
+    frame["rise_trade_future_min_return"] = future_low.min(axis=1) / entry - 1
+    frame["rise_trade_down_5pct"] = frame["rise_trade_future_min_return"].le(-0.05) & complete
+    frame["rise_trade_down_8pct"] = frame["rise_trade_future_min_return"].le(-0.08) & complete
+    frame["rise_trade_gross_return"] = np.where(hit, 0.05, exit_close / entry - 1)
+    frame["rise_trade_net_return"] = (
+        frame["rise_trade_gross_return"] - config.transaction_cost_bps / 10_000.0
+    )
     return frame
 
 

@@ -123,6 +123,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="+5%到達前の値動き・出来高を集計し最新候補を生成",
     )
     yahoo_analyze.add_argument("--top-n", type=int, default=20)
+    commands.add_parser(
+        "yahoo-backtest-ten-day",
+        help="保存済み3年日足で10営業日+5%シグナルだけを再検証",
+    )
     yahoo_earnings = commands.add_parser(
         "yahoo-update-earnings",
         help="現在のランキング候補について決算予定を更新",
@@ -232,6 +236,9 @@ def main(
             if args.top_n < 1:
                 raise ValueError("--top-nは1以上で指定してください")
             result = YahooPatternAnalyzer(current_settings).run(top_n=args.top_n)
+            _print_json(result)
+        elif args.command == "yahoo-backtest-ten-day":
+            result = YahooPatternAnalyzer(current_settings).run_ten_day_backtest()
             _print_json(result)
         elif args.command == "yahoo-update-earnings":
             if args.candidate_limit < 1:

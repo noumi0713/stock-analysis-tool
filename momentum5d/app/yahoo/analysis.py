@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 import numpy as np
@@ -31,6 +31,7 @@ from app.yahoo.rise_pattern import (
     backtest_rise_pattern_signals,
 )
 from app.yahoo.sakata import PATTERN_COLUMNS, add_sakata_features
+from app.yahoo.selective_ml import LIVE_TEN_DAY_SIGNAL_COLUMNS
 from app.yahoo.trend import (
     add_trend_features,
     analyze_sector_volume_next_week_returns,
@@ -54,6 +55,11 @@ class YahooPatternAnalyzer:
                 "Yahoo Finance日足がありません。先に yahoo-ingest を実行してください"
             )
         prices = pd.read_parquet(self.paths.prices_path)
+        latest_price_date = pd.to_datetime(prices["date"]).max()
+        analysis_start = latest_price_date - timedelta(
+            days=int(os.getenv("YAHOO_DASHBOARD_ANALYSIS_DAYS", "430"))
+        )
+        prices = prices.loc[pd.to_datetime(prices["date"]).ge(analysis_start)].copy()
         valid_prices = prices.loc[
             (pd.to_numeric(prices["volume"], errors="coerce") > 0)
             & prices[["open", "high", "low", "close", "adjusted_close"]]
@@ -78,7 +84,7 @@ class YahooPatternAnalyzer:
         perfect_order_pullback_study = backtest_perfect_order_pullbacks(features)
         features = add_latest_rise_pattern_signals(features, bottom_events)
         features = add_latest_ml_sharp_selloff_signals(features)
-        features, ten_day_signal_study = add_ten_day_signal_and_study(features)
+        features, ten_day_signal_study = self._attach_three_year_ten_day_signal(features)
         earnings_calendar, important_events = load_event_calendars(self.settings)
         features, event_risk_summary = add_event_risk_controls(
             features,
@@ -159,6 +165,99 @@ class YahooPatternAnalyzer:
         )
         os.replace(temporary, output)
         return summary
+
+    def run_ten_day_backtest(self) -> dict[str, Any]:
+        """Run only the three-year 10-day study and persist its live scores."""
+        if not self.paths.prices_path.exists():
+            raise RuntimeError(
+                "Yahoo Finance日足がありません。先に yahoo-ingest を実行してください"
+            )
+        prices = pd.read_parquet(self.paths.prices_path)
+        valid_prices = prices.loc[
+            (pd.to_numeric(prices["volume"], errors="coerce") > 0)
+            & prices[["open", "high", "low", "close", "adjusted_close"]]
+            .apply(pd.to_numeric, errors="coerce")
+            .gt(0)
+            .all(axis=1)
+        ].copy()
+        valid_prices = normalize_split_adjusted_prices(valid_prices)
+        features = self._build_features(valid_prices)
+        sectors = load_sector_map(self.settings.data_dir.parent / "config" / "prime_sectors.csv")
+        features = add_trend_features(features, sectors)
+        features = add_retail_flow_features(features)
+        features, study = add_ten_day_signal_and_study(features)
+
+        latest = features.loc[features["date"].eq(features["date"].max())].copy()
+        live_columns = [
+            "date",
+            "ticker",
+            "code",
+            *[column for column in LIVE_TEN_DAY_SIGNAL_COLUMNS if column in latest],
+        ]
+        analysis_dir = self.paths.processed_dir / "analysis"
+        analysis_dir.mkdir(parents=True, exist_ok=True)
+        live_path = analysis_dir / "ten_day_latest_scores.parquet"
+        ParquetStore._atomic_parquet(latest[live_columns], live_path)
+        summary = {
+            "source": "yfinance",
+            "personal_research_only": True,
+            "method": "three_year_ten_day_selective_ml_v1",
+            "analyzed_at": datetime.now(UTC).isoformat(),
+            "history_start": str(valid_prices["date"].min()),
+            "history_end": str(valid_prices["date"].max()),
+            "history_rows": len(valid_prices),
+            "tickers": int(valid_prices["ticker"].nunique()),
+            "ten_day_signal_study": study,
+            "latest_scores_path": str(live_path),
+        }
+        output = self.paths.metadata_dir / "ten_day_backtest_latest.json"
+        temporary = output.with_suffix(".json.tmp")
+        temporary.write_text(
+            json.dumps(summary, ensure_ascii=False, indent=2, default=str),
+            encoding="utf-8",
+        )
+        os.replace(temporary, output)
+        return summary
+
+    def _attach_three_year_ten_day_signal(
+        self,
+        features: pd.DataFrame,
+    ) -> tuple[pd.DataFrame, dict[str, Any]]:
+        summary_path = self.paths.metadata_dir / "ten_day_backtest_latest.json"
+        live_path = self.paths.processed_dir / "analysis" / "ten_day_latest_scores.parquet"
+        if not summary_path.exists() or not live_path.exists():
+            return add_ten_day_signal_and_study(features)
+
+        frame = features.copy()
+        defaults: dict[str, Any] = {
+            "ml_ten_day_probability": 0.0,
+            "ml_ten_day_down_5pct_probability": 1.0,
+            "ml_ten_day_down_8pct_probability": 1.0,
+            "ml_ten_day_expected_net_return": -1.0,
+            "ml_ten_day_model_samples": 0,
+            "ml_ten_day_signal": False,
+            "ml_ten_day_rank": pd.NA,
+            "ml_ten_day_reason": "",
+            "ml_ten_day_entry_rule": "翌営業日寄付き条件待ち",
+        }
+        for column, default in defaults.items():
+            frame[column] = default
+        live = pd.read_parquet(live_path)
+        live["date"] = pd.to_datetime(live["date"]).dt.date
+        frame["date"] = pd.to_datetime(frame["date"]).dt.date
+        indexed = live.set_index(["ticker", "date"])
+        keys = pd.MultiIndex.from_arrays([frame["ticker"], frame["date"]])
+        for column in LIVE_TEN_DAY_SIGNAL_COLUMNS:
+            if column in indexed:
+                values = indexed[column].reindex(keys)
+                available = values.notna().to_numpy()
+                if available.any():
+                    frame.loc[available, column] = values.loc[available].to_numpy()
+        frame["ml_ten_day_rank"] = pd.to_numeric(
+            frame["ml_ten_day_rank"], errors="coerce"
+        ).astype("Int64")
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        return frame, summary.get("ten_day_signal_study", {})
 
     @staticmethod
     def _build_features(prices: pd.DataFrame) -> pd.DataFrame:
