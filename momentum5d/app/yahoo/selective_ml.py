@@ -433,13 +433,21 @@ def tune_and_select_ml_strategy(
     top_n_options: tuple[int, ...] = (1, 2, 3),
     technical_profiles: tuple[tuple[str, dict[str, float]], ...] = (("all_technical", {}),),
     allowed_regime_profiles: tuple[str, ...] | None = None,
+    split_on_scored_dates: bool = False,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Tune on the first half and evaluate the unchanged rule on the final half."""
     if scored.empty or len(evaluation_dates) < 2:
         return pd.DataFrame(), {"status": "no_scored_candidates"}
-    split = len(evaluation_dates) // 2
-    development_dates = evaluation_dates[:split]
-    validation_dates = evaluation_dates[split:]
+    usable_dates = (
+        sorted(scored["date"].dropna().unique().tolist())
+        if split_on_scored_dates
+        else evaluation_dates
+    )
+    if len(usable_dates) < 2:
+        return pd.DataFrame(), {"status": "insufficient_scored_dates"}
+    split = len(usable_dates) // 2
+    development_dates = usable_dates[:split]
+    validation_dates = usable_dates[split:]
     development = scored.loc[scored["date"].isin(development_dates)]
     validation = scored.loc[scored["date"].isin(validation_dates)]
     experiments: list[dict[str, Any]] = []

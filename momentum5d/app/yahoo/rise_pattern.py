@@ -240,6 +240,7 @@ def add_ten_day_signal_and_study(
             ),
         ),
         allowed_regime_profiles=("all_regimes",),
+        split_on_scored_dates=True,
     )
     parameters = diagnostics.get("chosen_parameters")
     if not parameters:
@@ -247,20 +248,47 @@ def add_ten_day_signal_and_study(
             "status": diagnostics.get("status", "no_parameters"),
             "diagnostics": diagnostics,
         }
-
-    latest_scores = score_latest_ten_day_candidates(
-        outcome_frame,
-        parameters,
-        minimum_shape_samples=config.ml_minimum_shape_samples,
-        minimum_turnover=minimum_turnover,
-    )
-    for column in LIVE_TEN_DAY_SIGNAL_COLUMNS:
-        frame.loc[latest_scores.index, column] = latest_scores[column]
-
-    split = len(evaluation_dates) // 2
-    development_dates = evaluation_dates[:split]
-    development_scored = scored.loc[scored["date"].isin(development_dates)].copy()
     validation_summary = diagnostics.get("validation", {})
+    deployment_approved = bool(
+        int(validation_summary.get("selected_signals") or 0) >= 30
+        and float(validation_summary.get("target_hit_rate") or 0.0) >= 0.60
+        and float(validation_summary.get("mean_trade_net_return") or -1.0) > 0.0
+    )
+    latest_scores = outcome_frame.loc[
+        outcome_frame["date"].eq(outcome_frame["date"].max())
+    ].copy()
+    if deployment_approved:
+        latest_scores = score_latest_ten_day_candidates(
+            outcome_frame,
+            parameters,
+            minimum_shape_samples=config.ml_minimum_shape_samples,
+            minimum_turnover=minimum_turnover,
+        )
+        for column in LIVE_TEN_DAY_SIGNAL_COLUMNS:
+            frame.loc[latest_scores.index, column] = latest_scores[column]
+
+    development_end = diagnostics.get("development_end")
+    development_dates = [
+        value for value in evaluation_dates if development_end and str(value) <= development_end
+    ]
+    development_scored = scored.loc[scored["date"].isin(development_dates)].copy()
+    live_candidate_records = (
+        latest_scores.loc[
+            latest_scores["ml_ten_day_signal"],
+            [
+                "ticker",
+                "_rise_shape",
+                "ml_ten_day_probability",
+                "ml_ten_day_down_5pct_probability",
+                "ml_ten_day_down_8pct_probability",
+                "ml_ten_day_expected_net_return",
+                "ml_ten_day_reason",
+                "ml_ten_day_entry_rule",
+            ],
+        ].to_dict(orient="records")
+        if deployment_approved
+        else []
+    )
     study = {
         "status": "completed",
         "method": "walk_forward_strong_shape_10d_hgb_v1",
@@ -274,27 +302,21 @@ def add_ten_day_signal_and_study(
         "validation_start": diagnostics.get("validation_start"),
         "validation_end": diagnostics.get("validation_end"),
         "chosen_parameters": parameters,
+        "deployment_approved": deployment_approved,
+        "deployment_rule": (
+            "未使用後半30件以上・10営業日+5%達成率60%以上・平均損益プラス"
+        ),
         "development": diagnostics.get("development", {}),
         "validation": validation_summary,
         "validation_folds": diagnostics.get("validation_folds", []),
         "validation_by_shape": diagnostics.get("validation_by_shape", {}),
         "feature_lifts": _ten_day_feature_lifts(development_scored),
-        "live_signal_count": int(latest_scores["ml_ten_day_signal"].sum()),
-        "live_candidate": (
-            latest_scores.loc[
-                latest_scores["ml_ten_day_signal"],
-                [
-                    "ticker",
-                    "_rise_shape",
-                    "ml_ten_day_probability",
-                    "ml_ten_day_down_5pct_probability",
-                    "ml_ten_day_down_8pct_probability",
-                    "ml_ten_day_expected_net_return",
-                    "ml_ten_day_reason",
-                    "ml_ten_day_entry_rule",
-                ],
-            ].to_dict(orient="records")
+        "live_signal_count": (
+            int(latest_scores["ml_ten_day_signal"].sum())
+            if "ml_ten_day_signal" in latest_scores
+            else 0
         ),
+        "live_candidate": live_candidate_records,
         "leakage_control": (
             "各評価ブロックの10営業日前までに結果が確定したデータだけで再学習。"
             "条件選択は前半、成績評価は未使用の後半で実施"
