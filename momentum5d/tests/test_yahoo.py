@@ -381,7 +381,7 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert "trend_ranking_score" in candidates.columns
     assert "sector_17_name" in candidates.columns
     assert "setup_reasons" in candidates.columns
-    assert result["technical_method"] == "capitulation_reversal_10d_ml_selective_v2"
+    assert result["technical_method"] == "capitulation_reversal_10d_ml_selective_v3"
     assert "bottom_pattern_study" in result
     assert result["bottom_pattern_study"]["horizon_days"] == 5
     assert "rise_pattern_backtest" in result
@@ -575,7 +575,7 @@ def test_sector_volume_study_excludes_incomplete_one_day_target_week() -> None:
     assert study["last_next_as_of"] == "2025-08-22"
 
 
-def test_candidate_ranking_requires_strong_shape_ml_and_returns_at_most_one() -> None:
+def test_candidate_ranking_uses_ten_day_capitulation_signal() -> None:
     latest_date = date(2026, 1, 9)
     common = {
         "date": latest_date,
@@ -681,8 +681,8 @@ def test_candidate_ranking_requires_strong_shape_ml_and_returns_at_most_one() ->
                 "rise_pattern_probability": 0.95,
                 "rise_pattern_samples": 120,
                 "rise_pattern_signal": True,
-                "rise_pattern_shape": "sharp_selloff",
-                "rise_pattern_reason": "急落継続・過去類似120件・補正+5%率95%",
+                "rise_pattern_shape": "capitulation_reversal",
+                "rise_pattern_reason": "投げ売り反転・過去類似120件・補正+5%率95%",
                 "ml_sharp_probability": 0.62,
                 "ml_sharp_down_5pct_probability": 0.30,
                 "ml_sharp_down_8pct_probability": 0.15,
@@ -698,7 +698,7 @@ def test_candidate_ranking_requires_strong_shape_ml_and_returns_at_most_one() ->
                 "ml_ten_day_model_samples": 500,
                 "ml_ten_day_signal": True,
                 "ml_ten_day_rank": 1,
-                "ml_ten_day_reason": "急落継続・10営業日+5%参考率68%",
+                "ml_ten_day_reason": "投げ売り反転・売買代金1.5億円以上・10営業日+5%参考率68%",
                 "setup_score": 0.95,
                 "signal_score": 0.95,
             },
@@ -709,7 +709,7 @@ def test_candidate_ranking_requires_strong_shape_ml_and_returns_at_most_one() ->
 
     assert candidates["ticker"].tolist() == ["PATTERN.T"]
     assert candidates.iloc[0]["ml_ten_day_signal"]
-    assert "急落継続" in candidates.iloc[0]["setup_reasons"]
+    assert "投げ売り反転" in candidates.iloc[0]["setup_reasons"]
     assert candidates.iloc[0]["setup_reasons"]
 
 

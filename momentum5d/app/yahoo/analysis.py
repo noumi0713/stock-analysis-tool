@@ -83,6 +83,20 @@ class YahooPatternAnalyzer:
         perfect_order_pullback_study = backtest_perfect_order_pullbacks(features)
         features = add_latest_rise_pattern_signals(features, bottom_events)
         features, ten_day_signal_study = self._attach_three_year_ten_day_signal(features)
+        legacy_sharp_defaults: dict[str, Any] = {
+            "ml_sharp_probability": 0.0,
+            "ml_sharp_down_5pct_probability": 1.0,
+            "ml_sharp_down_8pct_probability": 1.0,
+            "ml_sharp_expected_net_return": -1.0,
+            "ml_sharp_model_samples": 0,
+            "ml_sharp_signal": False,
+            "ml_sharp_rank": pd.NA,
+            "ml_sharp_reason": "",
+            "ml_sharp_entry_rule": "5営業日シグナル廃止済み",
+        }
+        for column, default in legacy_sharp_defaults.items():
+            features[column] = default
+        features["ml_sharp_rank"] = features["ml_sharp_rank"].astype("Int64")
         earnings_calendar, important_events = load_event_calendars(self.settings)
         features, event_risk_summary = add_event_risk_controls(
             features,
