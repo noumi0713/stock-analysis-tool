@@ -133,7 +133,7 @@ def test_latest_ten_day_signal_uses_development_parameters_and_top_one() -> None
 def test_tuning_freezes_development_rule_for_validation() -> None:
     dates = [date(2026, 1, 1) + timedelta(days=offset) for offset in range(120)]
     rows = []
-    for day_index, value in enumerate(dates):
+    for value in dates:
         for rank in range(2):
             favorable = rank == 0
             target_hit = favorable and day_index % 10 < 7
