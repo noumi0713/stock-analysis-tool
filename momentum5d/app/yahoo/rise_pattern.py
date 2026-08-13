@@ -18,6 +18,8 @@ from app.yahoo.selective_ml import (
 )
 
 STRONG_SHAPES = frozenset({"sharp_selloff", "capitulation_reversal", "rounded_base"})
+TEN_DAY_ADOPTED_SHAPE = "capitulation_reversal"
+TEN_DAY_ADOPTED_SHAPE_LABEL = "投げ売り反転"
 STRONG_SHAPE_MIN_TURNOVER = 200_000_000.0
 SELECTIVE_SHAPE_FEATURES = (
     "_rise_market_favorable",
@@ -201,7 +203,7 @@ def add_ten_day_signal_and_study(
     evaluation_dates = complete_dates[-config.ml_test_days :]
     pool = outcome_frame.loc[
         outcome_frame["rise_pattern_live_bottom"].fillna(False).astype(bool)
-        & outcome_frame["_rise_shape"].isin(STRONG_SHAPES)
+        & outcome_frame["_rise_shape"].eq(TEN_DAY_ADOPTED_SHAPE)
         & pd.to_numeric(outcome_frame["turnover_value"], errors="coerce").ge(
             minimum_turnover
         )
@@ -225,6 +227,7 @@ def add_ten_day_signal_and_study(
         probability_thresholds=(0.45, 0.55, 0.65, 0.70),
         gap_limits=(0.00, 0.03),
         top_n_options=(1,),
+        allowed_shape_profiles=(TEN_DAY_ADOPTED_SHAPE,),
         technical_profiles=(
             ("all_technical", {}),
             ("high_atr", {"min_atr_14_pct": 0.05}),
@@ -295,7 +298,9 @@ def add_ten_day_signal_and_study(
     )
     study = {
         "status": "completed",
-        "method": "walk_forward_strong_shape_10d_hgb_v1",
+        "method": "walk_forward_capitulation_reversal_10d_ml_v2",
+        "adopted_shape": TEN_DAY_ADOPTED_SHAPE,
+        "adopted_shape_label": TEN_DAY_ADOPTED_SHAPE_LABEL,
         "target": "翌営業日始値から10営業日以内に日中高値+5%",
         "entry": "翌営業日始値（ギャップ上限は注文時に確認）",
         "holding_days": 10,
@@ -314,6 +319,18 @@ def add_ten_day_signal_and_study(
         "validation": validation_summary,
         "validation_folds": diagnostics.get("validation_folds", []),
         "validation_by_shape": diagnostics.get("validation_by_shape", {}),
+        "additional_validation": {
+            "type": "post_selection_chronological_robustness",
+            "shape_locked": True,
+            "shape": TEN_DAY_ADOPTED_SHAPE,
+            "shape_label": TEN_DAY_ADOPTED_SHAPE_LABEL,
+            "fully_untouched": False,
+            "forward_confirmation_required_signals": 30,
+            "note": (
+                "投げ売り反転は前回の検証結果を確認後に固定したため、"
+                "この再検証は頑健性確認。完全な未使用検証は今後のシグナルで行う"
+            ),
+        },
         "feature_lifts": _ten_day_feature_lifts(development_scored),
         "live_signal_count": (
             int(latest_scores["ml_ten_day_signal"].sum())
@@ -326,7 +343,9 @@ def add_ten_day_signal_and_study(
             "条件選択は前半、成績評価は未使用の後半で実施"
         ),
         "caveat": (
-            "10営業日の新規シグナル。検証期間外の新規データで継続監視し、"
+            "投げ売り反転だけを採用対象に固定した10営業日の新規シグナル。"
+            "過去3年の再検証は形状選択後の頑健性確認であり、"
+            "完全な未使用検証は今後30件の新規シグナルで継続する。"
             "決算跨ぎと重要指標前の既存制限を適用する"
         ),
     }

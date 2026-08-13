@@ -129,8 +129,8 @@ class YahooPatternAnalyzer:
         summary = {
             "source": "yfinance",
             "personal_research_only": True,
-            "technical_method": "strong_shape_10d_ml_selective_v1",
-            "technical_method_label": "10営業日+5% ML厳選",
+            "technical_method": "capitulation_reversal_10d_ml_selective_v2",
+            "technical_method_label": "投げ売り反転・10営業日+5% ML厳選",
             "analyzed_at": datetime.now(UTC).isoformat(),
             "rows": len(features),
             "excluded_non_trading_or_invalid_rows": len(prices) - len(valid_prices),
@@ -509,9 +509,7 @@ class YahooPatternAnalyzer:
         ml_ten_day_signal = latest["ml_ten_day_signal"].fillna(False).astype(bool)
         latest = latest.loc[
             ml_ten_day_signal
-            & latest["rise_pattern_shape"].isin(
-                ["capitulation_reversal", "rounded_base", "sharp_selloff"]
-            )
+            & latest["rise_pattern_shape"].eq("capitulation_reversal")
             & latest["rsi_14"].le(82.0)
             & (latest["turnover_value"] >= 200_000_000)
         ].copy()

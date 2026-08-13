@@ -188,3 +188,60 @@ def test_tuning_freezes_development_rule_for_validation() -> None:
     assert diagnostics["sharp_selloff_candidate"]["historical_60pct_candidate_met"]
     assert len(validation_trades) == 60
     assert validation_trades["rise_trade_target_hit"].mean() >= 0.60
+
+
+def test_tuning_can_lock_capitulation_reversal_only() -> None:
+    dates = [date(2026, 1, 1) + timedelta(days=offset) for offset in range(80)]
+    rows = []
+    for day_index, value in enumerate(dates):
+        for shape in ("capitulation_reversal", "sharp_selloff"):
+            favorable = shape == "capitulation_reversal"
+            target_hit = favorable and day_index % 10 < 7
+            net_return = 0.048 if target_hit else -0.02
+            rows.append(
+                {
+                    "date": value,
+                    "_rise_shape": shape,
+                    "_rise_market_breadth_5d": 0.62,
+                    "_rise_market_median_return_20d": 0.01,
+                    "rise_trade_entry_gap_return": 0.0,
+                    "rise_trade_target_hit": target_hit,
+                    "rise_trade_net_return": net_return,
+                    "ml_logistic_target_probability": 0.72 if favorable else 0.42,
+                    "ml_logistic_down_5pct_probability": 0.10 if favorable else 0.40,
+                    "ml_logistic_down_8pct_probability": 0.05 if favorable else 0.20,
+                    "ml_logistic_expected_net_return": 0.02 if favorable else -0.01,
+                    "ml_hist_gradient_boosting_target_probability": (
+                        0.70 if favorable else 0.40
+                    ),
+                    "ml_hist_gradient_boosting_down_5pct_probability": (
+                        0.12 if favorable else 0.42
+                    ),
+                    "ml_hist_gradient_boosting_down_8pct_probability": (
+                        0.06 if favorable else 0.22
+                    ),
+                    "ml_hist_gradient_boosting_expected_net_return": (
+                        0.018 if favorable else -0.012
+                    ),
+                }
+            )
+
+    validation_trades, diagnostics = tune_and_select_ml_strategy(
+        pd.DataFrame(rows),
+        dates,
+        minimum_development_signals=20,
+        probability_thresholds=(0.60,),
+        gap_limits=(0.03,),
+        top_n_options=(1,),
+        allowed_shape_profiles=("capitulation_reversal",),
+    )
+
+    assert diagnostics["status"] == "completed"
+    assert diagnostics["allowed_shape_profiles"] == ["capitulation_reversal"]
+    assert diagnostics["chosen_parameters"]["shape_profile"] == "capitulation_reversal"
+    assert diagnostics["chosen_parameters"]["allowed_shapes"] == [
+        "capitulation_reversal"
+    ]
+    assert set(validation_trades["_rise_shape"]) == {"capitulation_reversal"}
+    assert diagnostics["validation"]["median_trade_net_return"] is not None
+    assert diagnostics["validation"]["worst_trade_net_return"] is not None

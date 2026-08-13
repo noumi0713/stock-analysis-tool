@@ -432,6 +432,7 @@ def tune_and_select_ml_strategy(
     gap_limits: tuple[float, ...] = (0.00, 0.01, 0.02, 0.03),
     top_n_options: tuple[int, ...] = (1, 2, 3),
     technical_profiles: tuple[tuple[str, dict[str, float]], ...] = (("all_technical", {}),),
+    allowed_shape_profiles: tuple[str, ...] | None = None,
     allowed_regime_profiles: tuple[str, ...] | None = None,
     split_on_scored_dates: bool = False,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
@@ -468,6 +469,11 @@ def tune_and_select_ml_strategy(
         ("positive_market_trend", 0.50, 0.00),
     )
     for shape_profile, allowed_shapes in shape_profiles:
+        if (
+            allowed_shape_profiles is not None
+            and shape_profile not in allowed_shape_profiles
+        ):
+            continue
         for regime_profile, minimum_breadth, minimum_market_return in regime_profiles:
             if (
                 allowed_regime_profiles is not None
@@ -568,6 +574,11 @@ def tune_and_select_ml_strategy(
         "selection_rule": (
             "configuration chosen only from three chronological development folds; "
             "validation half was untouched"
+        ),
+        "allowed_shape_profiles": (
+            list(allowed_shape_profiles)
+            if allowed_shape_profiles is not None
+            else [profile for profile, _ in shape_profiles]
         ),
         "development_start": str(development_dates[0]),
         "development_end": str(development_dates[-1]),
@@ -873,17 +884,26 @@ def _compact_summary(trades: pd.DataFrame) -> dict[str, Any]:
             "active_days": 0,
             "target_hit_rate": None,
             "mean_trade_net_return": None,
+            "median_trade_net_return": None,
+            "worst_trade_net_return": None,
+            "loss_5pct_rate": None,
+            "loss_8pct_rate": None,
             "trade_win_rate": None,
             "target_rate_lower_95": None,
         }
     successes = int(trades["rise_trade_target_hit"].sum())
     samples = int(len(trades))
+    net_returns = pd.to_numeric(trades["rise_trade_net_return"], errors="coerce").dropna()
     return {
         "selected_signals": samples,
         "active_days": int(trades["date"].nunique()),
         "target_hit_rate": float(successes / samples),
-        "mean_trade_net_return": float(trades["rise_trade_net_return"].mean()),
-        "trade_win_rate": float((trades["rise_trade_net_return"] > 0).mean()),
+        "mean_trade_net_return": float(net_returns.mean()),
+        "median_trade_net_return": float(net_returns.median()),
+        "worst_trade_net_return": float(net_returns.min()),
+        "loss_5pct_rate": float(net_returns.le(-0.05).mean()),
+        "loss_8pct_rate": float(net_returns.le(-0.08).mean()),
+        "trade_win_rate": float(net_returns.gt(0).mean()),
         "target_rate_lower_95": _wilson_lower_bound(successes, samples),
     }
 
