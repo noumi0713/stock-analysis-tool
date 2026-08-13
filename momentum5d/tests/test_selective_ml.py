@@ -380,3 +380,8 @@ def test_portfolio_study_can_use_all_cash_and_uses_standard_lots() -> None:
     assert result["skipped_for_lot_cost"] == 3
     assert result["days_without_positions"] == len(dates) - 1
     assert result["ending_equity_yen"] > 1_000_000.0
+    assert len(result["trades"]) == 1
+    assert result["trades"][0]["ticker"] == "1000.T"
+    assert result["trades"][0]["shares"] % 100 == 0
+    assert result["trades"][0]["exit_reason"] == "take_profit_5pct"
+    assert abs(result["trades"][0]["gross_return"] - 0.05) < 1e-12

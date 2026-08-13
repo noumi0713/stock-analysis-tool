@@ -738,6 +738,7 @@ def calculate_ten_day_portfolio_study(
         exit_date = future.iloc[-1]["date"]
         exit_price = float(future.iloc[-1]["adjusted_close"])
         target_hit = False
+        holding_trading_days = config.horizon_days
         for holding_index, (_, day) in enumerate(future.iterrows()):
             if holding_index == 0 and fill_mode == "intraday":
                 continue
@@ -745,6 +746,7 @@ def calculate_ten_day_portfolio_study(
                 exit_date = day["date"]
                 exit_price = target_price
                 target_hit = True
+                holding_trading_days = holding_index + 1
                 break
         trade_plans.append(
             {
@@ -752,9 +754,11 @@ def calculate_ten_day_portfolio_study(
                 "signal_date": candidate["date"],
                 "entry_date": first["date"],
                 "entry_price": entry_price,
+                "entry_fill_mode": fill_mode,
                 "exit_date": exit_date,
                 "exit_price": exit_price,
                 "target_hit": target_hit,
+                "holding_trading_days": holding_trading_days,
                 "rank_score": float(candidate.get(score_column, 0.0)),
             }
         )
@@ -854,6 +858,44 @@ def calculate_ten_day_portfolio_study(
         if first_entry_date is not None and last_exit_date is not None
         else pd.DataFrame()
     )
+    trade_records: list[dict[str, Any]] = []
+    for sequence, trade in enumerate(
+        sorted(completed, key=lambda item: (item["entry_date"], item["ticker"])),
+        start=1,
+    ):
+        gross_return = trade["exit_price"] / trade["entry_price"] - 1.0
+        net_return = trade["net_profit_yen"] / trade["entry_cost_yen"]
+        if trade["target_hit"]:
+            exit_reason = "take_profit_5pct"
+            exit_reason_label = "+5%利確"
+        elif net_return > 0.0:
+            exit_reason = "time_exit_profit"
+            exit_reason_label = "10営業日目決済（利益）"
+        elif net_return < 0.0:
+            exit_reason = "time_exit_loss"
+            exit_reason_label = "10営業日目決済（損失）"
+        else:
+            exit_reason = "time_exit_flat"
+            exit_reason_label = "10営業日目決済（同値）"
+        trade_records.append(
+            {
+                "sequence": sequence,
+                "ticker": trade["ticker"],
+                "signal_date": str(trade["signal_date"]),
+                "entry_date": str(trade["entry_date"]),
+                "exit_date": str(trade["exit_date"]),
+                "holding_trading_days": int(trade["holding_trading_days"]),
+                "shares": int(trade["shares"]),
+                "entry_price": float(trade["entry_price"]),
+                "exit_price": float(trade["exit_price"]),
+                "entry_fill_mode": trade["entry_fill_mode"],
+                "exit_reason": exit_reason,
+                "exit_reason_label": exit_reason_label,
+                "gross_return": float(gross_return),
+                "net_return": float(net_return),
+                "net_profit_yen": float(trade["net_profit_yen"]),
+            }
+        )
     return {
         **base,
         "study_start": str(study_start),
@@ -891,6 +933,7 @@ def calculate_ten_day_portfolio_study(
         "skipped_for_capacity": skipped_capacity,
         "skipped_for_lot_cost": skipped_lot_cost,
         "open_positions_at_end": len(positions),
+        "trades": trade_records,
         "caveat": (
             "Walk-forward model scores avoid future-outcome leakage, but the frozen signal "
             "parameters were selected using part of this same three-year history."
