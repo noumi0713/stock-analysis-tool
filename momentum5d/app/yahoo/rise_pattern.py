@@ -291,7 +291,9 @@ def add_ten_day_signal_and_study(
     ]
     turnover_thresholds = (
         200_000_000.0,
+        170_000_000.0,
         150_000_000.0,
+        120_000_000.0,
         100_000_000.0,
         50_000_000.0,
     )
@@ -380,7 +382,7 @@ def add_ten_day_signal_and_study(
             ),
             "validation_start": validation_start,
             "validation_end": validation_end,
-            "threshold_step_yen": 50_000_000,
+            "additional_thresholds_yen": [170_000_000, 120_000_000],
             "thresholds": turnover_sensitivity_rows,
             "deployed_threshold_changed": False,
             "note": (
