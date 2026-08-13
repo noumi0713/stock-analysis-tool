@@ -629,6 +629,30 @@ def tune_and_select_ml_strategy(
     return validation_trades, diagnostics
 
 
+def evaluate_frozen_ml_strategy(
+    scored: pd.DataFrame,
+    evaluation_dates: list[Any],
+    parameters: dict[str, Any],
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    """Evaluate unchanged selection parameters on explicit dates."""
+    if scored.empty or not evaluation_dates:
+        empty = pd.DataFrame()
+        return empty, {
+            "validation": _compact_summary(empty),
+            "validation_folds": [],
+        }
+    evaluation = scored.loc[scored["date"].isin(evaluation_dates)].copy()
+    trades = _select_with_parameters(evaluation, parameters)
+    return trades, {
+        "validation": _compact_summary(trades),
+        "validation_folds": _chronological_fold_summaries(
+            evaluation,
+            evaluation_dates,
+            parameters,
+        ),
+    }
+
+
 def _append_ml_experiments(
     experiments: list[dict[str, Any]],
     development: pd.DataFrame,

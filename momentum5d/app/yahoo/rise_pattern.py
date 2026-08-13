@@ -11,6 +11,7 @@ from app.yahoo.selective_ml import (
     LIVE_STRONG_SIGNAL_COLUMNS,
     LIVE_TEN_DAY_SIGNAL_COLUMNS,
     ML_FEATURES,
+    evaluate_frozen_ml_strategy,
     score_latest_strong_shape_candidates,
     score_latest_ten_day_candidates,
     tune_and_select_ml_strategy,
@@ -279,6 +280,60 @@ def add_ten_day_signal_and_study(
         value for value in evaluation_dates if development_end and str(value) <= development_end
     ]
     development_scored = scored.loc[scored["date"].isin(development_dates)].copy()
+    validation_start = diagnostics.get("validation_start")
+    validation_end = diagnostics.get("validation_end")
+    comparison_dates = [
+        value
+        for value in evaluation_dates
+        if validation_start
+        and validation_end
+        and validation_start <= str(value) <= validation_end
+    ]
+    turnover_thresholds = (
+        200_000_000.0,
+        150_000_000.0,
+        100_000_000.0,
+        50_000_000.0,
+    )
+    turnover_sensitivity_rows: list[dict[str, Any]] = []
+    for threshold in turnover_thresholds:
+        threshold_pool = outcome_frame.loc[
+            outcome_frame["rise_pattern_live_bottom"].fillna(False).astype(bool)
+            & outcome_frame["_rise_shape"].eq(TEN_DAY_ADOPTED_SHAPE)
+            & pd.to_numeric(outcome_frame["turnover_value"], errors="coerce").ge(
+                threshold
+            )
+            & pd.to_numeric(outcome_frame["rsi_14"], errors="coerce").le(82.0)
+        ].copy()
+        threshold_scored = (
+            scored
+            if threshold == minimum_turnover
+            else walk_forward_ml_scores(
+                threshold_pool,
+                evaluation_dates,
+                date_position,
+                horizon_days=config.horizon_days,
+                refit_days=config.ml_refit_days,
+                minimum_shape_samples=config.ml_minimum_shape_samples,
+            )
+        )
+        _, threshold_evaluation = evaluate_frozen_ml_strategy(
+            threshold_scored,
+            comparison_dates,
+            parameters,
+        )
+        turnover_sensitivity_rows.append(
+            {
+                "minimum_turnover_yen": int(threshold),
+                "scored_candidates": int(
+                    threshold_scored["date"].isin(comparison_dates).sum()
+                )
+                if not threshold_scored.empty
+                else 0,
+                "validation": threshold_evaluation["validation"],
+                "validation_folds": threshold_evaluation["validation_folds"],
+            }
+        )
     live_candidate_records = (
         latest_scores.loc[
             latest_scores["ml_ten_day_signal"],
@@ -319,6 +374,21 @@ def add_ten_day_signal_and_study(
         "validation": validation_summary,
         "validation_folds": diagnostics.get("validation_folds", []),
         "validation_by_shape": diagnostics.get("validation_by_shape", {}),
+        "turnover_sensitivity": {
+            "comparison_mode": (
+                "frozen_200m_rule_with_threshold_specific_walk_forward_refits"
+            ),
+            "validation_start": validation_start,
+            "validation_end": validation_end,
+            "threshold_step_yen": 50_000_000,
+            "thresholds": turnover_sensitivity_rows,
+            "deployed_threshold_changed": False,
+            "note": (
+                "投げ売り反転・予測閾値・損失確率条件・1日最大1銘柄を固定し、"
+                "最低売買代金だけを5000万円刻みで変更。各流動性母集団で"
+                "ウォークフォワードモデルを再学習し、同じ検証期間で比較"
+            ),
+        },
         "additional_validation": {
             "type": "post_selection_chronological_robustness",
             "shape_locked": True,
