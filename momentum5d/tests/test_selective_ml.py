@@ -322,7 +322,14 @@ def test_limit_order_study_uses_conservative_intraday_fill_rule() -> None:
     )
 
     flat_limit = result["levels"][0]
+    positive_levels = [
+        level
+        for level in result["levels"]
+        if level["limit_offset_from_previous_close"] > 0.0
+    ]
     assert flat_limit["filled_orders"] == 1
     assert flat_limit["open_fill_rate"] == 0.0
     assert flat_limit["target_hit_rate"] == 0.0
     assert flat_limit["mean_filled_trade_net_return"] == -0.002
+    assert len(positive_levels) == 6
+    assert positive_levels[-1]["limit_offset_from_previous_close"] == 0.03

@@ -444,7 +444,9 @@ def calculate_ten_day_limit_order_study(
     minimum_turnover: float,
 ) -> dict[str, Any]:
     """Compare next-day-only limit orders for the frozen validation signals."""
-    offsets = tuple(-step / 200.0 for step in range(21))
+    offsets = tuple(-step / 200.0 for step in range(21)) + tuple(
+        step / 200.0 for step in range(1, 7)
+    )
     minimum_robust_fills = min(15, int(len(validation_trades)))
     base = {
         "status": "completed",
@@ -613,7 +615,8 @@ def calculate_ten_day_limit_order_study(
         "best_raw": best_raw,
         "recommended": best_recommended,
         "caveat": (
-            "The same frozen 200 million yen validation signals are reused. "
+            f"Frozen validation signals from the {int(minimum_turnover)} yen "
+            "minimum-turnover universe are reused. "
             "This is a post-selection execution study, so forward confirmation is required."
         ),
     }
