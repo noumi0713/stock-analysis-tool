@@ -217,10 +217,29 @@ def add_ten_day_signal_and_study(
     validation_trades, diagnostics = tune_and_select_ml_strategy(
         scored,
         evaluation_dates,
-        minimum_development_signals=config.ml_minimum_development_signals,
-        probability_thresholds=(0.45, 0.50, 0.55, 0.60, 0.65, 0.70),
-        gap_limits=(0.00, 0.01, 0.02, 0.03),
+        minimum_development_signals=20,
+        probability_thresholds=(0.45, 0.55, 0.65, 0.70),
+        gap_limits=(0.00, 0.03),
         top_n_options=(1,),
+        technical_profiles=(
+            ("all_technical", {}),
+            ("high_atr", {"min_atr_14_pct": 0.05}),
+            ("wide_range", {"min_range_width_10d": 0.18}),
+            ("trend_strength", {"min_individual_trend_score": 0.45}),
+            ("deep_pullback", {"max_return_5d": -0.08}),
+            (
+                "volatile_pullback",
+                {"min_atr_14_pct": 0.05, "max_return_5d": -0.08},
+            ),
+            (
+                "wide_trend",
+                {
+                    "min_range_width_10d": 0.18,
+                    "min_individual_trend_score": 0.45,
+                },
+            ),
+        ),
+        allowed_regime_profiles=("all_regimes",),
     )
     parameters = diagnostics.get("chosen_parameters")
     if not parameters:

@@ -298,6 +298,7 @@ def score_latest_ten_day_candidates(
                 eligible["_rise_market_median_return_20d"], errors="coerce"
             ).ge(float(minimum_market_return))
         ]
+    eligible = eligible.loc[_technical_parameter_mask(eligible, parameters)]
     if eligible.empty:
         return latest
 
@@ -430,6 +431,8 @@ def tune_and_select_ml_strategy(
     probability_thresholds: tuple[float, ...] = (0.40, 0.45, 0.50, 0.55, 0.60, 0.65),
     gap_limits: tuple[float, ...] = (0.00, 0.01, 0.02, 0.03),
     top_n_options: tuple[int, ...] = (1, 2, 3),
+    technical_profiles: tuple[tuple[str, dict[str, float]], ...] = (("all_technical", {}),),
+    allowed_regime_profiles: tuple[str, ...] | None = None,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Tune on the first half and evaluate the unchanged rule on the final half."""
     if scored.empty or len(evaluation_dates) < 2:
@@ -458,58 +461,36 @@ def tune_and_select_ml_strategy(
     )
     for shape_profile, allowed_shapes in shape_profiles:
         for regime_profile, minimum_breadth, minimum_market_return in regime_profiles:
+            if (
+                allowed_regime_profiles is not None
+                and regime_profile not in allowed_regime_profiles
+            ):
+                continue
             for model_name in ("logistic", "hist_gradient_boosting"):
                 probability_column = f"ml_{model_name}_target_probability"
                 if probability_column not in development:
                     continue
-                for probability_threshold in probability_thresholds:
-                    for gap_limit in gap_limits:
-                        for (
-                            risk_name,
-                            down_5_limit,
-                            down_8_limit,
-                            expected_return_min,
-                        ) in risk_profiles:
-                            for top_n in top_n_options:
-                                parameters = {
-                                    "shape_profile": shape_profile,
-                                    "allowed_shapes": list(allowed_shapes),
-                                    "regime_profile": regime_profile,
-                                    "min_market_breadth_5d": minimum_breadth,
-                                    "min_market_median_return_20d": (minimum_market_return),
-                                    "model": model_name,
-                                    "probability_threshold": probability_threshold,
-                                    "max_gap_up": gap_limit,
-                                    "risk_profile": risk_name,
-                                    "max_down_5pct_probability": down_5_limit,
-                                    "max_down_8pct_probability": down_8_limit,
-                                    "min_expected_net_return": expected_return_min,
-                                    "top_n_per_day": top_n,
-                                }
-                                trades = _select_with_parameters(
-                                    development,
-                                    parameters,
-                                )
-                                summary = _compact_summary(trades)
-                                fold_summaries = _chronological_fold_summaries(
-                                    development,
-                                    development_dates,
-                                    parameters,
-                                )
-                                objective = _development_objective(
-                                    summary,
-                                    fold_summaries,
-                                    minimum_development_signals,
-                                    model_name=model_name,
-                                )
-                                experiments.append(
-                                    {
-                                        **parameters,
-                                        **summary,
-                                        "development_folds": fold_summaries,
-                                        "objective": objective,
-                                    }
-                                )
+                for technical_profile, technical_limits in technical_profiles:
+                    for probability_threshold in probability_thresholds:
+                        for gap_limit in gap_limits:
+                            _append_ml_experiments(
+                                experiments,
+                                development,
+                                development_dates,
+                                minimum_development_signals,
+                                shape_profile=shape_profile,
+                                allowed_shapes=allowed_shapes,
+                                regime_profile=regime_profile,
+                                minimum_breadth=minimum_breadth,
+                                minimum_market_return=minimum_market_return,
+                                model_name=model_name,
+                                probability_threshold=probability_threshold,
+                                gap_limit=gap_limit,
+                                technical_profile=technical_profile,
+                                technical_limits=technical_limits,
+                                risk_profiles=risk_profiles,
+                                top_n_options=top_n_options,
+                            )
     if not experiments:
         return pd.DataFrame(), {"status": "no_model_predictions"}
     ranked = sorted(experiments, key=lambda item: item["objective"], reverse=True)
@@ -520,6 +501,11 @@ def tune_and_select_ml_strategy(
             "shape_profile",
             "allowed_shapes",
             "regime_profile",
+            "technical_profile",
+            "min_atr_14_pct",
+            "min_range_width_10d",
+            "min_individual_trend_score",
+            "max_return_5d",
             "min_market_breadth_5d",
             "min_market_median_return_20d",
             "model",
@@ -622,6 +608,72 @@ def tune_and_select_ml_strategy(
         "top_development_configurations": ranked[:20],
     }
     return validation_trades, diagnostics
+
+
+def _append_ml_experiments(
+    experiments: list[dict[str, Any]],
+    development: pd.DataFrame,
+    development_dates: list[Any],
+    minimum_development_signals: int,
+    *,
+    shape_profile: str,
+    allowed_shapes: tuple[str, ...],
+    regime_profile: str,
+    minimum_breadth: float | None,
+    minimum_market_return: float | None,
+    model_name: str,
+    probability_threshold: float,
+    gap_limit: float,
+    technical_profile: str,
+    technical_limits: dict[str, float],
+    risk_profiles: tuple[tuple[str, float, float, float], ...],
+    top_n_options: tuple[int, ...],
+) -> None:
+    for risk_name, down_5_limit, down_8_limit, expected_return_min in risk_profiles:
+        for top_n in top_n_options:
+            parameters = {
+                "shape_profile": shape_profile,
+                "allowed_shapes": list(allowed_shapes),
+                "regime_profile": regime_profile,
+                "min_market_breadth_5d": minimum_breadth,
+                "min_market_median_return_20d": minimum_market_return,
+                "technical_profile": technical_profile,
+                "min_atr_14_pct": technical_limits.get("min_atr_14_pct"),
+                "min_range_width_10d": technical_limits.get("min_range_width_10d"),
+                "min_individual_trend_score": technical_limits.get(
+                    "min_individual_trend_score"
+                ),
+                "max_return_5d": technical_limits.get("max_return_5d"),
+                "model": model_name,
+                "probability_threshold": probability_threshold,
+                "max_gap_up": gap_limit,
+                "risk_profile": risk_name,
+                "max_down_5pct_probability": down_5_limit,
+                "max_down_8pct_probability": down_8_limit,
+                "min_expected_net_return": expected_return_min,
+                "top_n_per_day": top_n,
+            }
+            trades = _select_with_parameters(development, parameters)
+            summary = _compact_summary(trades)
+            fold_summaries = _chronological_fold_summaries(
+                development,
+                development_dates,
+                parameters,
+            )
+            objective = _development_objective(
+                summary,
+                fold_summaries,
+                minimum_development_signals,
+                model_name=model_name,
+            )
+            experiments.append(
+                {
+                    **parameters,
+                    **summary,
+                    "development_folds": fold_summaries,
+                    "objective": objective,
+                }
+            )
 
 
 def _fit_bundle(training: pd.DataFrame, model_name: str) -> _ModelBundle:
@@ -767,6 +819,7 @@ def _select_with_parameters(
         eligible_mask &= pd.to_numeric(
             scored["_rise_market_median_return_20d"], errors="coerce"
         ).ge(float(minimum_market_return))
+    eligible_mask &= _technical_parameter_mask(scored, parameters)
     eligible = scored.loc[eligible_mask].copy()
     if eligible.empty:
         return eligible
@@ -782,6 +835,27 @@ def _select_with_parameters(
         .head(int(parameters["top_n_per_day"]))
         .copy()
     )
+
+
+def _technical_parameter_mask(
+    frame: pd.DataFrame,
+    parameters: dict[str, Any],
+) -> pd.Series:
+    mask = pd.Series(True, index=frame.index, dtype=bool)
+    lower_bounds = {
+        "atr_14_pct": parameters.get("min_atr_14_pct"),
+        "range_width_10d": parameters.get("min_range_width_10d"),
+        "individual_trend_score": parameters.get("min_individual_trend_score"),
+    }
+    for column, threshold in lower_bounds.items():
+        if threshold is not None:
+            mask &= pd.to_numeric(frame[column], errors="coerce").ge(float(threshold))
+    maximum_return_5d = parameters.get("max_return_5d")
+    if maximum_return_5d is not None:
+        mask &= pd.to_numeric(frame["return_5d"], errors="coerce").le(
+            float(maximum_return_5d)
+        )
+    return mask
 
 
 def _compact_summary(trades: pd.DataFrame) -> dict[str, Any]:
