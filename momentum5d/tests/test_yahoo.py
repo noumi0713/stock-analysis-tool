@@ -381,7 +381,7 @@ def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     assert "trend_ranking_score" in candidates.columns
     assert "sector_17_name" in candidates.columns
     assert "setup_reasons" in candidates.columns
-    assert result["technical_method"] == "strong_shape_10d_ml_selective_v1"
+    assert result["technical_method"] == "capitulation_reversal_10d_ml_selective_v2"
     assert "bottom_pattern_study" in result
     assert result["bottom_pattern_study"]["horizon_days"] == 5
     assert "rise_pattern_backtest" in result

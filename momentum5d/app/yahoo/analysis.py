@@ -509,7 +509,9 @@ class YahooPatternAnalyzer:
         ml_ten_day_signal = latest["ml_ten_day_signal"].fillna(False).astype(bool)
         latest = latest.loc[
             ml_ten_day_signal
-            & latest["rise_pattern_shape"].eq("capitulation_reversal")
+            & latest["rise_pattern_shape"].isin(
+                ["capitulation_reversal", "rounded_base", "sharp_selloff"]
+            )
             & latest["rsi_14"].le(82.0)
             & (latest["turnover_value"] >= 200_000_000)
         ].copy()
