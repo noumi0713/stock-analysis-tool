@@ -36,21 +36,27 @@ concurrency:
 permissions:
   contents: write
 
+env:
+  YAHOO_RETENTION_DAYS: "1096"
+  YAHOO_OVERLAP_DAYS: "10"
+  YAHOO_BATCH_SIZE: "60"
+  YAHOO_PAUSE_SECONDS: "1.5"
+  YAHOO_MAX_RETRIES: "3"
+  YAHOO_TIMEOUT_SECONDS: "30"
+  YAHOO_INTRADAY_MIN_COVERAGE: "0.70"
+
 jobs:
-  analyze:
+  prepare_data:
+    name: Prepare and validate market data
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 90
+    outputs:
+      should_run: ${{ steps.update.outputs.should_run }}
+      market_date: ${{ steps.update.outputs.market_date }}
+      session: ${{ steps.update.outputs.session }}
     defaults:
       run:
         working-directory: momentum5d
-    env:
-      YAHOO_RETENTION_DAYS: "1096"
-      YAHOO_OVERLAP_DAYS: "10"
-      YAHOO_BATCH_SIZE: "60"
-      YAHOO_PAUSE_SECONDS: "1.5"
-      YAHOO_MAX_RETRIES: "3"
-      YAHOO_TIMEOUT_SECONDS: "30"
-      YAHOO_INTRADAY_MIN_COVERAGE: "0.70"
 
     steps:
       - name: Check out repository
@@ -58,11 +64,14 @@ jobs:
 
       - name: Restore rolling Yahoo history
         id: yahoo-cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: momentum5d/data/yahoo
-          key: momentum5d-yahoo-${{ github.run_id }}
+          key: momentum5d-data-ready-${{ github.run_id }}
           restore-keys: |
+            momentum5d-final-
+            momentum5d-backtest-ready-
+            momentum5d-data-ready-
             momentum5d-yahoo-
 
       - name: Detect restored Yahoo history
@@ -212,31 +221,107 @@ jobs:
           test -n "$(find data/yahoo -type f -print -quit)"
           echo "Using restored Yahoo history; skipping market-data refresh."
 
-      - name: Run three-year ten-day signal backtest
+      - name: Save validated market-data checkpoint
         if: steps.update.outputs.should_run == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: momentum5d/data/yahoo
+          key: momentum5d-data-ready-${{ github.run_id }}
+
+  backtest:
+    name: Run three-year ten-day backtest
+    needs: prepare_data
+    if: needs.prepare_data.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: momentum5d
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Restore validated market-data checkpoint
+        uses: actions/cache/restore@v4
+        with:
+          path: momentum5d/data/yahoo
+          key: momentum5d-data-ready-${{ github.run_id }}
+          fail-on-cache-miss: true
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: momentum5d/pyproject.toml
+
+      - name: Install application
+        run: python -m pip install .
+
+      - name: Run three-year ten-day signal backtest
         run: python -m app yahoo-backtest-ten-day
 
+      - name: Save backtest checkpoint
+        uses: actions/cache/save@v4
+        with:
+          path: momentum5d/data/yahoo
+          key: momentum5d-backtest-ready-${{ github.run_id }}
+
+  publish_dashboard:
+    name: Build and publish dashboard
+    needs:
+      - prepare_data
+      - backtest
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: momentum5d
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Restore backtest checkpoint
+        uses: actions/cache/restore@v4
+        with:
+          path: momentum5d/data/yahoo
+          key: momentum5d-backtest-ready-${{ github.run_id }}
+          fail-on-cache-miss: true
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: momentum5d/pyproject.toml
+
+      - name: Install application
+        run: python -m pip install .
+
       - name: Build provisional ranking for earnings lookup
-        if: steps.update.outputs.should_run == 'true'
         run: python -m app yahoo-analyze --top-n 100
 
       - name: Refresh earnings dates for ranking candidates
-        if: steps.update.outputs.should_run == 'true'
         run: >-
           python -m app yahoo-update-earnings
-          --as-of "${{ steps.update.outputs.market_date }}"
+          --as-of "${{ needs.prepare_data.outputs.market_date }}"
           --candidate-limit 100
 
       - name: Rebuild final ranking with event controls
-        if: steps.update.outputs.should_run == 'true'
         run: python -m app yahoo-analyze --top-n 20
 
       - name: Export dashboard payload
-        if: steps.update.outputs.should_run == 'true'
         run: python -m app yahoo-export-dashboard --output work/latest.json
 
+      - name: Save final analysis checkpoint
+        uses: actions/cache/save@v4
+        with:
+          path: momentum5d/data/yahoo
+          key: momentum5d-final-${{ github.run_id }}
+
       - name: Publish aggregate result for the mobile dashboard
-        if: steps.update.outputs.should_run == 'true'
         run: |
           mkdir -p ../dashboard-data
           cp work/latest.json ../dashboard-data/latest.json
