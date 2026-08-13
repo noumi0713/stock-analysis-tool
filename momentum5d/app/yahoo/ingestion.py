@@ -176,6 +176,12 @@ class YahooFinanceIngestion:
 
         incoming = pd.concat(frames, ignore_index=True, sort=False) if frames else pd.DataFrame()
         combined = self._merge_and_prune(existing, incoming, retention_start, as_of)
+        combined, rejected_market_rows = self._split_valid_market_rows(combined)
+        if not rejected_market_rows.empty:
+            LOGGER.warning(
+                "Dropped invalid Yahoo market rows rows=%s",
+                len(rejected_market_rows),
+            )
         if combined.empty:
             raise RuntimeError("Yahoo Financeから有効な日足を取得できませんでした")
         intraday_status: dict[str, Any] | None = None
@@ -209,6 +215,7 @@ class YahooFinanceIngestion:
             "successful_tickers": int(combined["ticker"].nunique()),
             "missing_tickers": missing_tickers,
             "rows": len(combined),
+            "rejected_market_rows": len(rejected_market_rows),
             "min_date": str(combined["date"].min()),
             "max_date": str(combined["date"].max()),
             "failed_batches": failures,
@@ -643,6 +650,29 @@ class YahooFinanceIngestion:
         combined = combined.drop_duplicates(["ticker", "date"], keep="last")
         metadata_columns = [column for column in combined.columns if not column.startswith("__")]
         return combined[metadata_columns].sort_values(["ticker", "date"]).reset_index(drop=True)
+
+    @staticmethod
+    def _split_valid_market_rows(frame: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+        if frame.empty:
+            return frame.copy(), frame.copy()
+        ohlc = frame[["open", "high", "low", "close"]].apply(
+            pd.to_numeric,
+            errors="coerce",
+        )
+        volume = pd.to_numeric(frame["volume"], errors="coerce")
+        valid = (
+            frame["ticker"].notna()
+            & pd.to_datetime(frame["date"], errors="coerce").notna()
+            & ohlc.notna().all(axis=1)
+            & volume.notna()
+            & volume.ge(0)
+            & ohlc["high"].ge(ohlc[["open", "low", "close"]].max(axis=1))
+            & ohlc["low"].le(ohlc[["open", "high", "close"]].min(axis=1))
+        )
+        return (
+            frame.loc[valid].reset_index(drop=True),
+            frame.loc[~valid].reset_index(drop=True),
+        )
 
     @staticmethod
     def _atomic_json(value: dict[str, Any], path: Path) -> None:

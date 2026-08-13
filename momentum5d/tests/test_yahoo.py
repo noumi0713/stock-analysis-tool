@@ -262,6 +262,41 @@ def test_expanding_retention_backfills_missing_history(
     assert status["history_expansion_required"] is True
 
 
+def test_ingestion_rejects_inconsistent_market_rows(
+    settings: Settings,
+    tmp_path: Path,
+) -> None:
+    def inconsistent_download(tickers: list[str], **kwargs: object) -> pd.DataFrame:
+        frame = fake_download(tickers, **kwargs)
+        ticker = tickers[0]
+        frame.loc[frame.index[-2], (ticker, "High")] = 1.0
+        frame.loc[frame.index[-1], (ticker, "Volume")] = -1.0
+        return frame
+
+    tickers = tmp_path / "tickers.txt"
+    tickers.write_text("7203.T\n", encoding="utf-8")
+    ingestion = YahooFinanceIngestion(
+        settings,
+        YahooConfig(
+            retention_days=365,
+            overlap_days=10,
+            batch_size=1,
+            pause_seconds=0,
+            max_retries=0,
+            timeout_seconds=1,
+        ),
+        downloader=inconsistent_download,
+        sleeper=lambda _: None,
+    )
+
+    status = ingestion.ingest(as_of=date(2026, 1, 10), tickers_file=tickers)
+    report = YahooQualityValidator(settings).run()
+
+    assert status["rejected_market_rows"] == 2
+    assert report.has_errors is False
+    assert report.summary["rejected_market_rows"] == 0
+
+
 def test_yahoo_analysis_writes_candidates_and_pattern_summary(
     settings: Settings,
 ) -> None:
@@ -705,7 +740,7 @@ def test_yahoo_quality_detects_ohlc_volume_return_split_and_missing_ticker(
                 "ticker": "1111.T",
                 "code": "11110",
                 "open": 50.0,
-                "high": 45.0,
+                "high": 55.0,
                 "low": 40.0,
                 "close": 42.0,
                 "adjusted_close": 80.0,
@@ -713,6 +748,21 @@ def test_yahoo_quality_detects_ohlc_volume_return_split_and_missing_ticker(
                 "turnover_value": 0,
                 "dividends": 0.0,
                 "stock_splits": 2.0,
+                "source": "yfinance",
+            },
+            {
+                "date": date(2026, 1, 7),
+                "ticker": "1111.T",
+                "code": "11110",
+                "open": 50.0,
+                "high": 45.0,
+                "low": 40.0,
+                "close": 50.0,
+                "adjusted_close": 50.0,
+                "volume": 1000,
+                "turnover_value": 50_000,
+                "dividends": 0.0,
+                "stock_splits": 0.0,
                 "source": "yfinance",
             },
         ]
@@ -729,7 +779,7 @@ def test_yahoo_quality_detects_ohlc_volume_return_split_and_missing_ticker(
     report = YahooQualityValidator(settings).run()
 
     checks = set(report.issues["check_name"])
-    assert "ohlc_inconsistent" in checks
+    assert "invalid_market_row_removed" in checks
     assert "zero_volume" in checks
     assert "abnormal_adjusted_return" in checks
     assert "stock_split_event" in checks

@@ -13,7 +13,7 @@ import pandas as pd
 from app.config import Settings
 from app.storage.parquet import ParquetStore
 from app.yahoo.corporate_actions import detect_effective_split_factors
-from app.yahoo.ingestion import YahooPaths
+from app.yahoo.ingestion import YahooFinanceIngestion, YahooPaths
 from app.yahoo.trend import load_sector_map
 
 ISSUE_COLUMNS = [
@@ -56,6 +56,15 @@ class YahooQualityValidator:
         self._checked_at = datetime.now(UTC).isoformat()
         self._issues = []
         prices = pd.read_parquet(self.paths.prices_path)
+        prices, rejected_market_rows = YahooFinanceIngestion._split_valid_market_rows(prices)
+        if not rejected_market_rows.empty:
+            self._add_rows(
+                rejected_market_rows,
+                "warning",
+                "invalid_market_row_removed",
+                "OHLCまたは出来高が不整合なため分析対象から除外しました",
+            )
+            ParquetStore._atomic_parquet(prices, self.paths.prices_path)
         universe = (
             pd.read_parquet(self.paths.universe_path)
             if self.paths.universe_path.exists()
@@ -86,6 +95,7 @@ class YahooQualityValidator:
             "source": "yfinance",
             "checked_at": self._checked_at,
             "rows": len(prices),
+            "rejected_market_rows": len(rejected_market_rows),
             "tickers": int(prices["ticker"].nunique()),
             "issue_count": len(issues),
             "severity_counts": severity_counts,
