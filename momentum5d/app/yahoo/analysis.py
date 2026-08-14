@@ -191,6 +191,11 @@ class YahooPatternAnalyzer:
         valid_prices = all_valid_prices.loc[
             ~all_valid_prices["ticker"].astype(str).eq(TOPIX_ETF_TICKER)
         ].copy()
+        latest_stock_date = pd.to_datetime(valid_prices["date"]).max()
+        stock_history_start = latest_stock_date - timedelta(days=1096)
+        valid_prices = valid_prices.loc[
+            pd.to_datetime(valid_prices["date"]).ge(stock_history_start)
+        ].copy()
         features = self._build_features(valid_prices)
         sectors = load_sector_map(self.settings.data_dir.parent / "config" / "prime_sectors.csv")
         features = add_trend_features(features, sectors)
