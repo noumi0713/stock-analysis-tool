@@ -2,7 +2,7 @@
   "schema_version": 13,
   "source": "yfinance",
   "personal_research_only": true,
-  "generated_at": "2026-08-14T01:43:13.413132+00:00",
+  "generated_at": "2026-08-14T02:26:46.440711+00:00",
   "latest_date": "2026-08-13",
   "update": {
     "status": "complete",
@@ -13,7 +13,7 @@
     "interval": "5m",
     "successful_tickers": 3637,
     "coverage": 0.9813815434430653,
-    "generated_at": "2026-08-14T01:43:13.413132+00:00"
+    "generated_at": "2026-08-14T02:26:46.440711+00:00"
   },
   "metrics": {
     "rows": 1054783,
@@ -21448,8 +21448,9 @@
       "lot_size": 100,
       "position_budget": "all available cash",
       "take_profit_at_target": true,
+      "stop_loss_pct_from_entry": null,
       "exit_rule": "+5% target or tenth-trading-day close",
-      "same_day_sequence": "scheduled exits, then entries; entry-day targets exit after entry",
+      "same_day_sequence": "scheduled exits, then entries; same-day entry/exit proceeds are not reused for another entry; if stop and target touch on the same daily bar, stop is assumed first",
       "transaction_cost_bps": 20.0,
       "study_start": "2023-08-14",
       "study_end": "2026-08-13",
@@ -21458,23 +21459,24 @@
       "fillable_orders": 159,
       "unfilled_orders": 5,
       "incomplete_orders": 0,
-      "completed_trades": 58,
-      "target_hit_rate": 0.6724137931034483,
-      "trade_win_rate": 0.6896551724137931,
-      "ending_equity_yen": 1642234.1969077932,
-      "total_return": 0.6422341969077932,
-      "annualized_return": 0.18594622577305397,
-      "maximum_drawdown": -0.2248122161766869,
+      "completed_trades": 56,
+      "target_hit_rate": 0.7142857142857143,
+      "eventual_target_hit_rate_without_stop": 0.7142857142857143,
+      "trade_win_rate": 0.7321428571428571,
+      "ending_equity_yen": 1799243.7297653002,
+      "total_return": 0.7992437297653001,
+      "annualized_return": 0.2237650955914079,
+      "maximum_drawdown": -0.2249282796740404,
       "first_entry_date": "2023-11-15",
       "last_exit_date": "2026-07-06",
-      "days_without_positions": 476,
-      "days_without_positions_during_active_window": 386,
+      "days_without_positions": 483,
+      "days_without_positions_during_active_window": 393,
       "active_window_trading_days": 643,
-      "days_with_positions": 257,
-      "position_day_rate": 0.3506139154160982,
+      "days_with_positions": 250,
+      "position_day_rate": 0.34106412005457026,
       "maximum_positions_used": 3,
       "skipped_for_capacity": 3,
-      "skipped_for_lot_cost": 98,
+      "skipped_for_lot_cost": 100,
       "open_positions_at_end": 0,
       "trades": [
         {
@@ -21492,7 +21494,10 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209816,
-          "net_profit_yen": 34019.805750000174
+          "net_profit_yen": 34019.805750000174,
+          "day10_net_return_without_exit": 0.060619331618718686,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.019006744328632696
         },
         {
           "sequence": 2,
@@ -21509,7 +21514,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.047477744807121636,
           "net_return": -0.04938088617613829,
-          "net_profit_yen": -49973.99999999988
+          "net_profit_yen": -49973.99999999988,
+          "day10_net_return_without_exit": -0.04938088617613845,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.06528189910979232
         },
         {
           "sequence": 3,
@@ -21526,7 +21534,10 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209809,
-          "net_profit_yen": 42867.30000000016
+          "net_profit_yen": 42867.30000000016,
+          "day10_net_return_without_exit": 0.04377166457703385,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.01118568232662187
         },
         {
           "sequence": 4,
@@ -21543,7 +21554,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.009756097560975618,
           "net_return": -0.011734606856557866,
-          "net_profit_yen": -963.1999999999825
+          "net_profit_yen": -963.1999999999825,
+          "day10_net_return_without_exit": -0.011734606856558027,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.0536585365853659
         },
         {
           "sequence": 5,
@@ -21560,7 +21574,10 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209804,
-          "net_profit_yen": 41716.50000000012
+          "net_profit_yen": 41716.50000000012,
+          "day10_net_return_without_exit": 0.15687932756898304,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.04241379310344828
         },
         {
           "sequence": 6,
@@ -21577,67 +21594,59 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.047902097902098116,
-          "net_profit_yen": 7422.660000000033
+          "net_profit_yen": 7422.660000000033,
+          "day10_net_return_without_exit": -0.003932114397230624,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.0019379844961240345
         },
         {
           "sequence": 7,
-          "ticker": "8508.T",
-          "signal_date": "2024-02-16",
-          "entry_date": "2024-02-19",
-          "exit_date": "2024-03-04",
-          "holding_trading_days": 10,
-          "shares": 300,
-          "entry_price": 417.0,
-          "exit_price": 410.0,
-          "entry_fill_mode": "open",
-          "exit_reason": "time_exit_loss",
-          "exit_reason_label": "10営業日目決済（損失）",
-          "gross_return": -0.016786570743405282,
-          "net_return": -0.01875103313952228,
-          "net_profit_yen": -2348.0999999999913
-        },
-        {
-          "sequence": 8,
           "ticker": "3632.T",
           "signal_date": "2024-02-22",
           "entry_date": "2024-02-26",
           "exit_date": "2024-03-08",
           "holding_trading_days": 10,
-          "shares": 1900,
+          "shares": 2100,
           "entry_price": 489.0,
           "exit_price": 485.0,
           "entry_fill_mode": "open",
           "exit_reason": "time_exit_loss",
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.008179959100204526,
-          "net_return": -0.010161617523580566,
-          "net_profit_yen": -9450.59999999986
+          "net_return": -0.010161617523580625,
+          "net_profit_yen": -10445.399999999907,
+          "day10_net_return_without_exit": -0.01016161752358058,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.049079754601227044
         },
         {
-          "sequence": 9,
+          "sequence": 8,
           "ticker": "4689.T",
           "signal_date": "2024-03-05",
           "entry_date": "2024-03-06",
           "exit_date": "2024-03-19",
           "holding_trading_days": 10,
-          "shares": 300,
+          "shares": 100,
           "entry_price": 392.8999938964844,
           "exit_price": 395.6000061035156,
           "entry_fill_mode": "open",
           "exit_reason": "time_exit_profit",
           "exit_reason_label": "10営業日目決済（利益）",
           "gross_return": 0.00687200877825056,
-          "net_return": 0.004860276492979475,
-          "net_profit_yen": 573.4536621093866
+          "net_return": 0.004860276492979598,
+          "net_profit_yen": 191.15122070313373,
+          "day10_net_return_without_exit": 0.004860276492979487,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.05192159382384487
         },
         {
-          "sequence": 10,
+          "sequence": 9,
           "ticker": "8057.T",
           "signal_date": "2024-03-08",
           "entry_date": "2024-03-11",
           "exit_date": "2024-03-25",
           "holding_trading_days": 10,
-          "shares": 600,
+          "shares": 700,
           "entry_price": 1400.0,
           "exit_price": 1386.0,
           "entry_fill_mode": "open",
@@ -21645,10 +21654,13 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.010000000000000009,
           "net_return": -0.011978021978021813,
-          "net_profit_yen": -10071.59999999986
+          "net_profit_yen": -11750.199999999837,
+          "day10_net_return_without_exit": -0.011978021978021891,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.02857142857142858
         },
         {
-          "sequence": 11,
+          "sequence": 10,
           "ticker": "6264.T",
           "signal_date": "2024-04-03",
           "entry_date": "2024-04-04",
@@ -21662,10 +21674,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.047902097902097894,
-          "net_profit_yen": 48947.359999999986
+          "net_profit_yen": 48947.359999999986,
+          "day10_net_return_without_exit": 0.06091483947087406,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.0662715517241379
         },
         {
-          "sequence": 12,
+          "sequence": 11,
           "ticker": "3760.T",
           "signal_date": "2024-04-16",
           "entry_date": "2024-04-17",
@@ -21679,10 +21694,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.047902097902098005,
-          "net_profit_yen": 47628.7350000001
+          "net_profit_yen": 47628.7350000001,
+          "day10_net_return_without_exit": 0.08380625716777956,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.04510218463706839
         },
         {
-          "sequence": 13,
+          "sequence": 12,
           "ticker": "3994.T",
           "signal_date": "2024-04-18",
           "entry_date": "2024-04-19",
@@ -21696,10 +21714,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209786,
-          "net_profit_yen": 50635.19999999995
+          "net_profit_yen": 50635.19999999995,
+          "day10_net_return_without_exit": 0.13258105530832798,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.05681818181818177
         },
         {
-          "sequence": 14,
+          "sequence": 13,
           "ticker": "9984.T",
           "signal_date": "2024-04-19",
           "entry_date": "2024-04-22",
@@ -21713,10 +21734,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.047902097902097894,
-          "net_profit_yen": 53929.36499999999
+          "net_profit_yen": 53929.36499999999,
+          "day10_net_return_without_exit": 0.056966373184031305,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.013603627634035775
         },
         {
-          "sequence": 15,
+          "sequence": 14,
           "ticker": "2936.T",
           "signal_date": "2024-04-22",
           "entry_date": "2024-04-23",
@@ -21730,10 +21754,13 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.035411239780259396,
           "net_return": -0.037338490050428476,
-          "net_profit_yen": -1449.172999999988
+          "net_profit_yen": -1449.172999999988,
+          "day10_net_return_without_exit": -0.03733849005042866,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.11536378407654801
         },
         {
-          "sequence": 16,
+          "sequence": 15,
           "ticker": "7013.T",
           "signal_date": "2024-04-26",
           "entry_date": "2024-04-30",
@@ -21747,10 +21774,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.047902097902098,
-          "net_profit_yen": 56993.081811983604
+          "net_profit_yen": 56993.081811983604,
+          "day10_net_return_without_exit": 0.12423036036920543,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.005102968955359666
         },
         {
-          "sequence": 17,
+          "sequence": 16,
           "ticker": "2216.T",
           "signal_date": "2024-05-02",
           "entry_date": "2024-05-07",
@@ -21764,10 +21794,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.047902097902098165,
-          "net_profit_yen": 60839.805433363654
+          "net_profit_yen": 60839.805433363654,
+          "day10_net_return_without_exit": 0.05412231293298442,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.04425458638378732
         },
         {
-          "sequence": 18,
+          "sequence": 17,
           "ticker": "2820.T",
           "signal_date": "2024-05-16",
           "entry_date": "2024-05-17",
@@ -21781,10 +21814,13 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.0778461538461539,
           "net_return": -0.07968861907323432,
-          "net_profit_yen": -103698.79999999981
+          "net_profit_yen": -103698.79999999981,
+          "day10_net_return_without_exit": -0.07968861907323432,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.09261538461538465
         },
         {
-          "sequence": 19,
+          "sequence": 18,
           "ticker": "3475.T",
           "signal_date": "2024-05-30",
           "entry_date": "2024-05-31",
@@ -21798,10 +21834,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209803,
-          "net_profit_yen": 59582.67000000016
+          "net_profit_yen": 59582.67000000016,
+          "day10_net_return_without_exit": 0.05293788780027331,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.004587155963302725
         },
         {
-          "sequence": 20,
+          "sequence": 19,
           "ticker": "9629.T",
           "signal_date": "2024-07-25",
           "entry_date": "2024-07-26",
@@ -21815,10 +21854,13 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.15799086757990866,
           "net_return": -0.15967320350881972,
-          "net_profit_yen": -210020.39999999967
+          "net_profit_yen": -210020.39999999967,
+          "day10_net_return_without_exit": -0.15967320350881986,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.23652968036529676
         },
         {
-          "sequence": 21,
+          "sequence": 20,
           "ticker": "2802.T",
           "signal_date": "2024-08-07",
           "entry_date": "2024-08-08",
@@ -21832,10 +21874,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209816,
-          "net_profit_yen": 48151.39000000025
+          "net_profit_yen": 48151.39000000025,
+          "day10_net_return_without_exit": 0.09142182255107967,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.023302131049591668
         },
         {
-          "sequence": 22,
+          "sequence": 21,
           "ticker": "4674.T",
           "signal_date": "2024-08-07",
           "entry_date": "2024-08-08",
@@ -21849,10 +21894,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209804,
-          "net_profit_yen": 5274.500000000015
+          "net_profit_yen": 5274.500000000015,
+          "day10_net_return_without_exit": 0.09870947234583616,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.010909090909090868
         },
         {
-          "sequence": 23,
+          "sequence": 22,
           "ticker": "4151.T",
           "signal_date": "2024-09-30",
           "entry_date": "2024-10-01",
@@ -21866,10 +21914,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209803,
-          "net_profit_yen": 48563.760000000126
+          "net_profit_yen": 48563.760000000126,
+          "day10_net_return_without_exit": 0.04727144893021684,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.003949447077409185
         },
         {
-          "sequence": 24,
+          "sequence": 23,
           "ticker": "4413.T",
           "signal_date": "2024-10-21",
           "entry_date": "2024-10-22",
@@ -21883,10 +21934,13 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.10721649484536078,
           "net_return": -0.10900027807244285,
-          "net_profit_yen": -132294.99999999977
+          "net_profit_yen": -132294.99999999977,
+          "day10_net_return_without_exit": -0.10900027807244295,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.11134020618556706
         },
         {
-          "sequence": 25,
+          "sequence": 24,
           "ticker": "3836.T",
           "signal_date": "2024-11-06",
           "entry_date": "2024-11-07",
@@ -21900,10 +21954,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209789,
-          "net_profit_yen": 48158.22287499998
+          "net_profit_yen": 48158.22287499998,
+          "day10_net_return_without_exit": 0.04983022314510355,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.02871779298396704
         },
         {
-          "sequence": 26,
+          "sequence": 25,
           "ticker": "5889.T",
           "signal_date": "2024-12-19",
           "entry_date": "2024-12-20",
@@ -21917,10 +21974,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209799,
-          "net_profit_yen": 44056.46000000008
+          "net_profit_yen": 44056.46000000008,
+          "day10_net_return_without_exit": 0.09836702261604335,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.01784936874183718
         },
         {
-          "sequence": 27,
+          "sequence": 26,
           "ticker": "7779.T",
           "signal_date": "2024-12-23",
           "entry_date": "2024-12-24",
@@ -21934,10 +21994,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.047902097902098074,
-          "net_profit_yen": 9973.600000000035
+          "net_profit_yen": 9973.600000000035,
+          "day10_net_return_without_exit": 0.1289897602397605,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.018750000000000044
         },
         {
-          "sequence": 28,
+          "sequence": 27,
           "ticker": "3182.T",
           "signal_date": "2025-01-08",
           "entry_date": "2025-01-09",
@@ -21951,10 +22014,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.047902097902098234,
-          "net_profit_yen": 55972.03500000038
+          "net_profit_yen": 55972.03500000038,
+          "day10_net_return_without_exit": 0.06186797011777734,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.037008481110254454
         },
         {
-          "sequence": 29,
+          "sequence": 28,
           "ticker": "2501.T",
           "signal_date": "2025-01-16",
           "entry_date": "2025-01-17",
@@ -21968,10 +22034,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.047902097902098026,
-          "net_profit_yen": 58716.69194641127
+          "net_profit_yen": 58716.69194641127,
+          "day10_net_return_without_exit": 0.06313695885996728,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.018815210969640783
         },
         {
-          "sequence": 30,
+          "sequence": 29,
           "ticker": "2491.T",
           "signal_date": "2025-02-06",
           "entry_date": "2025-02-07",
@@ -21985,10 +22054,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.047902097902098,
-          "net_profit_yen": 60484.13000000012
+          "net_profit_yen": 60484.13000000012,
+          "day10_net_return_without_exit": 0.1244335179645153,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.020215633423180557
         },
         {
-          "sequence": 31,
+          "sequence": 30,
           "ticker": "4914.T",
           "signal_date": "2025-04-03",
           "entry_date": "2025-04-04",
@@ -22002,10 +22074,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209799,
-          "net_profit_yen": 62028.12000000011
+          "net_profit_yen": 62028.12000000011,
+          "day10_net_return_without_exit": 0.04382862035923263,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.10034013605442171
         },
         {
-          "sequence": 32,
+          "sequence": 31,
           "ticker": "6345.T",
           "signal_date": "2025-04-11",
           "entry_date": "2025-04-14",
@@ -22019,10 +22094,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209824,
-          "net_profit_yen": 65260.597325000446
+          "net_profit_yen": 65260.597325000446,
+          "day10_net_return_without_exit": 0.030842977524623283,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.044682510496773076
         },
         {
-          "sequence": 33,
+          "sequence": 32,
           "ticker": "1711.T",
           "signal_date": "2025-04-16",
           "entry_date": "2025-04-17",
@@ -22036,10 +22114,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209806,
-          "net_profit_yen": 2435.860000000008
+          "net_profit_yen": 2435.860000000008,
+          "day10_net_return_without_exit": -0.17488023787236373,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.08661417322834641
         },
         {
-          "sequence": 34,
+          "sequence": 33,
           "ticker": "6046.T",
           "signal_date": "2025-04-22",
           "entry_date": "2025-04-23",
@@ -22053,10 +22134,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209809,
-          "net_profit_yen": 2725.47800000001
+          "net_profit_yen": 2725.47800000001,
+          "day10_net_return_without_exit": 0.02714843214491358,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.04996481351161153
         },
         {
-          "sequence": 35,
+          "sequence": 34,
           "ticker": "6573.T",
           "signal_date": "2025-04-22",
           "entry_date": "2025-04-23",
@@ -22070,10 +22154,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209814,
-          "net_profit_yen": 350.0350000000017
+          "net_profit_yen": 350.0350000000017,
+          "day10_net_return_without_exit": -0.04301178273780992,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.0821917808219178
         },
         {
-          "sequence": 36,
+          "sequence": 35,
           "ticker": "4046.T",
           "signal_date": "2025-04-24",
           "entry_date": "2025-04-25",
@@ -22087,10 +22174,13 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.05242718446601946,
           "net_return": -0.0543204368447086,
-          "net_profit_yen": -75608.09999999986
+          "net_profit_yen": -75608.09999999986,
+          "day10_net_return_without_exit": -0.05432043684470855,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.06925566343042067
         },
         {
-          "sequence": 37,
+          "sequence": 36,
           "ticker": "190A.T",
           "signal_date": "2025-04-28",
           "entry_date": "2025-04-30",
@@ -22104,10 +22194,13 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.02608695652173909,
           "net_return": -0.028032836728488813,
-          "net_profit_yen": -645.3999999999978
+          "net_profit_yen": -645.3999999999978,
+          "day10_net_return_without_exit": -0.028032836728488664,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.047826086956521685
         },
         {
-          "sequence": 38,
+          "sequence": 37,
           "ticker": "2726.T",
           "signal_date": "2025-10-10",
           "entry_date": "2025-10-14",
@@ -22121,10 +22214,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209803,
-          "net_profit_yen": 67163.56500000018
+          "net_profit_yen": 67163.56500000018,
+          "day10_net_return_without_exit": 0.030420853509309564,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.06046976511744129
         },
         {
-          "sequence": 39,
+          "sequence": 38,
           "ticker": "146A.T",
           "signal_date": "2025-11-05",
           "entry_date": "2025-11-06",
@@ -22138,10 +22234,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209809,
-          "net_profit_yen": 63294.00000000023
+          "net_profit_yen": 63294.00000000023,
+          "day10_net_return_without_exit": -0.014094995913177755,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.018181818181818188
         },
         {
-          "sequence": 40,
+          "sequence": 39,
           "ticker": "7383.T",
           "signal_date": "2025-11-05",
           "entry_date": "2025-11-06",
@@ -22155,10 +22254,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209806,
-          "net_profit_yen": 7528.150000000023
+          "net_profit_yen": 7528.150000000023,
+          "day10_net_return_without_exit": -0.24990932634244734,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.03566878980891719
         },
         {
-          "sequence": 41,
+          "sequence": 40,
           "ticker": "5838.T",
           "signal_date": "2025-11-20",
           "entry_date": "2025-11-21",
@@ -22172,10 +22274,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.047902097902098054,
-          "net_profit_yen": 63102.200000000186
+          "net_profit_yen": 63102.200000000186,
+          "day10_net_return_without_exit": 0.14421384087037592,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.0036474164133738496
         },
         {
-          "sequence": 42,
+          "sequence": 41,
           "ticker": "4911.T",
           "signal_date": "2025-11-21",
           "entry_date": "2025-11-25",
@@ -22189,10 +22294,13 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.04790209790209794,
-          "net_profit_yen": 10606.540000000008
+          "net_profit_yen": 10606.540000000008,
+          "day10_net_return_without_exit": 0.05033844997678649,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.034810126582278444
         },
         {
-          "sequence": 43,
+          "sequence": 42,
           "ticker": "5254.T",
           "signal_date": "2025-11-21",
           "entry_date": "2025-11-25",
@@ -22206,10 +22314,13 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.19603658536585367,
           "net_return": -0.19764290587461308,
-          "net_profit_yen": -259566.7999999998
+          "net_profit_yen": -259566.7999999998,
+          "day10_net_return_without_exit": -0.1976429058746132,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.19603658536585367
         },
         {
-          "sequence": 44,
+          "sequence": 43,
           "ticker": "5532.T",
           "signal_date": "2025-12-11",
           "entry_date": "2025-12-12",
@@ -22223,44 +22334,33 @@
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
           "net_return": 0.047902097902097956,
-          "net_profit_yen": 63035.070000000065
+          "net_profit_yen": 63035.070000000065,
+          "day10_net_return_without_exit": 0.04719607184235208,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.00045641259698769865
         },
         {
-          "sequence": 45,
-          "ticker": "7974.T",
-          "signal_date": "2025-12-11",
-          "entry_date": "2025-12-12",
-          "exit_date": "2025-12-25",
-          "holding_trading_days": 10,
-          "shares": 100,
-          "entry_price": 11510.0,
-          "exit_price": 10550.0,
-          "entry_fill_mode": "open",
-          "exit_reason": "time_exit_loss",
-          "exit_reason_label": "10営業日目決済（損失）",
-          "gross_return": -0.08340573414422237,
-          "net_return": -0.08523709131875924,
-          "net_profit_yen": -98205.99999999977
-        },
-        {
-          "sequence": 46,
+          "sequence": 44,
           "ticker": "3856.T",
           "signal_date": "2025-12-22",
           "entry_date": "2025-12-23",
           "exit_date": "2025-12-24",
           "holding_trading_days": 2,
-          "shares": 700,
+          "shares": 3900,
           "entry_price": 364.385,
           "exit_price": 382.60425,
           "entry_fill_mode": "intraday",
           "exit_reason": "take_profit_5pct",
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
-          "net_return": 0.04790209790209781,
-          "net_profit_yen": 12230.582524999976
+          "net_return": 0.047902097902098026,
+          "net_profit_yen": 68141.81692500017,
+          "day10_net_return_without_exit": 0.03529167019705892,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.012033975053857837
         },
         {
-          "sequence": 47,
+          "sequence": 45,
           "ticker": "3626.T",
           "signal_date": "2026-02-17",
           "entry_date": "2026-02-18",
@@ -22274,27 +22374,33 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.023072060682680195,
           "net_return": -0.02502396465733995,
-          "net_profit_yen": -31701.999999999767
+          "net_profit_yen": -31701.999999999767,
+          "day10_net_return_without_exit": -0.025023964657340025,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.08580910240202277
         },
         {
-          "sequence": 48,
+          "sequence": 46,
           "ticker": "6952.T",
           "signal_date": "2026-03-06",
           "entry_date": "2026-03-09",
           "exit_date": "2026-03-11",
           "holding_trading_days": 3,
-          "shares": 900,
+          "shares": 1000,
           "entry_price": 1360.0,
           "exit_price": 1428.0,
           "entry_fill_mode": "open",
           "exit_reason": "take_profit_5pct",
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
-          "net_return": 0.04790209790209814,
-          "net_profit_yen": 58690.80000000028
+          "net_return": 0.04790209790209808,
+          "net_profit_yen": 65212.00000000023,
+          "day10_net_return_without_exit": 0.0321248604336839,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.014705882352941124
         },
         {
-          "sequence": 49,
+          "sequence": 47,
           "ticker": "6479.T",
           "signal_date": "2026-03-12",
           "entry_date": "2026-03-13",
@@ -22308,101 +22414,119 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.00892044420171123,
           "net_return": -0.010900623134375014,
-          "net_profit_yen": -14984.249999999767
+          "net_profit_yen": -14984.249999999767,
+          "day10_net_return_without_exit": -0.01090062313437512,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.08319679592208262
         },
         {
-          "sequence": 50,
+          "sequence": 48,
+          "ticker": "5301.T",
+          "signal_date": "2026-03-23",
+          "entry_date": "2026-03-24",
+          "exit_date": "2026-03-31",
+          "holding_trading_days": 6,
+          "shares": 100,
+          "entry_price": 922.6349999999999,
+          "exit_price": 968.7667499999999,
+          "entry_fill_mode": "intraday",
+          "exit_reason": "take_profit_5pct",
+          "exit_reason_label": "+5%利確",
+          "gross_return": 0.050000000000000044,
+          "net_return": 0.04790209790209802,
+          "net_profit_yen": 4424.03482500001,
+          "day10_net_return_without_exit": 0.07400673958983472,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.006215866063976949
+        },
+        {
+          "sequence": 49,
           "ticker": "5202.T",
           "signal_date": "2026-03-27",
           "entry_date": "2026-03-30",
           "exit_date": "2026-04-10",
           "holding_trading_days": 10,
-          "shares": 2800,
+          "shares": 2900,
           "entry_price": 484.0,
           "exit_price": 479.0,
           "entry_fill_mode": "open",
           "exit_reason": "time_exit_loss",
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.010330578512396715,
-          "net_return": -0.012307939993890338,
-          "net_profit_yen": -16696.399999999907
+          "net_return": -0.012307939993890375,
+          "net_profit_yen": -17292.699999999953,
+          "day10_net_return_without_exit": -0.012307939993890238,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.02066115702479343
         },
         {
-          "sequence": 51,
+          "sequence": 50,
           "ticker": "6745.T",
           "signal_date": "2026-04-23",
           "entry_date": "2026-04-24",
           "exit_date": "2026-05-07",
           "holding_trading_days": 6,
-          "shares": 600,
+          "shares": 700,
           "entry_price": 1955.0,
           "exit_price": 2052.75,
           "entry_fill_mode": "open",
           "exit_reason": "take_profit_5pct",
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
-          "net_return": 0.04790209790209819,
-          "net_profit_yen": 56245.350000000326
+          "net_return": 0.04790209790209805,
+          "net_profit_yen": 65619.57500000019,
+          "day10_net_return_without_exit": 0.003617354512495341,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.042966751918158574
         },
         {
-          "sequence": 52,
+          "sequence": 51,
           "ticker": "3415.T",
           "signal_date": "2026-05-13",
           "entry_date": "2026-05-14",
           "exit_date": "2026-05-19",
           "holding_trading_days": 4,
-          "shares": 4200,
+          "shares": 4700,
           "entry_price": 331.0,
           "exit_price": 347.55,
           "entry_fill_mode": "open",
           "exit_reason": "take_profit_5pct",
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
-          "net_return": 0.04790209790209796,
-          "net_profit_yen": 66660.09000000008
+          "net_return": 0.047902097902098026,
+          "net_profit_yen": 74595.81500000018,
+          "day10_net_return_without_exit": 0.11559135728320036,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.02114803625377648
         },
         {
-          "sequence": 53,
+          "sequence": 52,
           "ticker": "7173.T",
           "signal_date": "2026-05-18",
           "entry_date": "2026-05-19",
           "exit_date": "2026-05-21",
           "holding_trading_days": 3,
-          "shares": 1100,
+          "shares": 1200,
           "entry_price": 1325.8437499999998,
           "exit_price": 1392.1359374999997,
           "entry_fill_mode": "intraday",
           "exit_reason": "take_profit_5pct",
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
-          "net_return": 0.047902097902097956,
-          "net_profit_yen": 69931.62859375007
+          "net_return": 0.047902097902098026,
+          "net_profit_yen": 76289.04937500018,
+          "day10_net_return_without_exit": 0.04441248995424418,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.008178754095269358
         },
         {
-          "sequence": 54,
-          "ticker": "1871.T",
-          "signal_date": "2026-05-20",
-          "entry_date": "2026-05-21",
-          "exit_date": "2026-06-03",
-          "holding_trading_days": 10,
-          "shares": 300,
-          "entry_price": 2151.0,
-          "exit_price": 2073.0,
-          "entry_fill_mode": "open",
-          "exit_reason": "time_exit_loss",
-          "exit_reason_label": "10営業日目決済（損失）",
-          "gross_return": -0.036262203626220346,
-          "net_return": -0.03818775366892515,
-          "net_profit_yen": -24667.199999999953
-        },
-        {
-          "sequence": 55,
+          "sequence": 53,
           "ticker": "5631.T",
           "signal_date": "2026-05-20",
           "entry_date": "2026-05-21",
           "exit_date": "2026-06-03",
           "holding_trading_days": 10,
-          "shares": 100,
+          "shares": 200,
           "entry_price": 8085.0,
           "exit_price": 7328.0,
           "entry_fill_mode": "open",
@@ -22410,58 +22534,70 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.09363017934446505,
           "net_return": -0.09544110805706346,
-          "net_profit_yen": -77241.29999999993
+          "net_profit_yen": -154482.59999999986,
+          "day10_net_return_without_exit": -0.09544110805706352,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.11997526283240567
         },
         {
-          "sequence": 56,
+          "sequence": 54,
           "ticker": "7389.T",
           "signal_date": "2026-06-02",
           "entry_date": "2026-06-03",
           "exit_date": "2026-06-15",
           "holding_trading_days": 9,
-          "shares": 1000,
+          "shares": 1100,
           "entry_price": 1332.0,
           "exit_price": 1398.6000000000001,
           "entry_fill_mode": "open",
           "exit_reason": "take_profit_5pct",
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
-          "net_return": 0.04790209790209819,
-          "net_profit_yen": 63869.40000000037
+          "net_return": 0.047902097902098116,
+          "net_profit_yen": 70256.34000000032,
+          "day10_net_return_without_exit": 0.03096903096903114,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.03228228228228225
         },
         {
-          "sequence": 57,
+          "sequence": 55,
           "ticker": "4377.T",
           "signal_date": "2026-06-16",
           "entry_date": "2026-06-17",
           "exit_date": "2026-06-19",
           "holding_trading_days": 3,
-          "shares": 800,
+          "shares": 900,
           "entry_price": 1773.0,
           "exit_price": 1861.65,
           "entry_fill_mode": "open",
           "exit_reason": "take_profit_5pct",
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
-          "net_return": 0.04790209790209792,
-          "net_profit_yen": 68012.28000000003
+          "net_return": 0.04790209790209802,
+          "net_profit_yen": 76513.81500000018,
+          "day10_net_return_without_exit": 0.09932199779915529,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.007332205301748496
         },
         {
-          "sequence": 58,
+          "sequence": 56,
           "ticker": "7201.T",
           "signal_date": "2026-06-26",
           "entry_date": "2026-06-29",
           "exit_date": "2026-07-06",
           "holding_trading_days": 6,
-          "shares": 5100,
+          "shares": 5600,
           "entry_price": 303.20001220703125,
           "exit_price": 318.3600128173828,
           "entry_fill_mode": "open",
           "exit_reason": "take_profit_5pct",
           "exit_reason_label": "+5%利確",
           "gross_return": 0.050000000000000044,
-          "net_return": 0.04790209790209807,
-          "net_profit_yen": 74146.04698516871
+          "net_return": 0.04790209790209797,
+          "net_profit_yen": 81415.26727783214,
+          "day10_net_return_without_exit": 0.02203036907540823,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.023416905731084237
         }
       ],
       "caveat": "Walk-forward model scores avoid future-outcome leakage, but the frozen signal parameters were selected using part of this same three-year history."
@@ -22476,8 +22612,9 @@
       "lot_size": 100,
       "position_budget": "all available cash",
       "take_profit_at_target": false,
+      "stop_loss_pct_from_entry": null,
       "exit_rule": "hold every filled trade through tenth-trading-day close",
-      "same_day_sequence": "scheduled exits, then entries; entry-day targets exit after entry",
+      "same_day_sequence": "scheduled exits, then entries; same-day entry/exit proceeds are not reused for another entry; if stop and target touch on the same daily bar, stop is assumed first",
       "transaction_cost_bps": 20.0,
       "study_start": "2023-08-14",
       "study_end": "2026-08-13",
@@ -22488,6 +22625,7 @@
       "incomplete_orders": 0,
       "completed_trades": 52,
       "target_hit_rate": 0.6923076923076923,
+      "eventual_target_hit_rate_without_stop": 0.6923076923076923,
       "trade_win_rate": 0.6153846153846154,
       "ending_equity_yen": 1539879.4834680832,
       "total_return": 0.5398794834680831,
@@ -22520,7 +22658,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.06274269364398122,
           "net_return": 0.06061933161871869,
-          "net_profit_yen": 43051.51500000013
+          "net_profit_yen": 43051.51500000013,
+          "day10_net_return_without_exit": 0.060619331618718686,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.019006744328632696
         },
         {
           "sequence": 2,
@@ -22537,7 +22678,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.047477744807121636,
           "net_return": -0.04938088617613829,
-          "net_profit_yen": -49973.99999999988
+          "net_profit_yen": -49973.99999999988,
+          "day10_net_return_without_exit": -0.04938088617613845,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.06528189910979232
         },
         {
           "sequence": 3,
@@ -22554,7 +22698,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.045861297539149914,
           "net_return": 0.04377166457703384,
-          "net_profit_yen": 39171.00000000012
+          "net_profit_yen": 39171.00000000012,
+          "day10_net_return_without_exit": 0.04377166457703385,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.01118568232662187
         },
         {
           "sequence": 4,
@@ -22571,7 +22718,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.009756097560975618,
           "net_return": -0.011734606856557866,
-          "net_profit_yen": -963.1999999999825
+          "net_profit_yen": -963.1999999999825,
+          "day10_net_return_without_exit": -0.011734606856558027,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.0536585365853659
         },
         {
           "sequence": 5,
@@ -22588,7 +22738,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.15919540229885065,
           "net_return": 0.1568793275689829,
-          "net_profit_yen": 136621.50000000012
+          "net_profit_yen": 136621.50000000012,
+          "day10_net_return_without_exit": 0.15687932756898304,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.04241379310344828
         },
         {
           "sequence": 6,
@@ -22605,7 +22758,10 @@
           "exit_reason_label": "+5%到達後10日保有（損失）",
           "gross_return": -0.0019379844961240345,
           "net_return": -0.003932114397230601,
-          "net_profit_yen": -609.2999999999884
+          "net_profit_yen": -609.2999999999884,
+          "day10_net_return_without_exit": -0.003932114397230624,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.0019379844961240345
         },
         {
           "sequence": 7,
@@ -22622,7 +22778,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.06356234823596629,
           "net_return": -0.06543335253519507,
-          "net_profit_yen": -45855.69999999995
+          "net_profit_yen": -45855.69999999995,
+          "day10_net_return_without_exit": -0.065433352535195,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.07798885873446648
         },
         {
           "sequence": 8,
@@ -22639,7 +22798,10 @@
           "exit_reason_label": "10営業日目決済（利益）",
           "gross_return": 0.00687200877825056,
           "net_return": 0.00486027649297943,
-          "net_profit_yen": 2102.6634277343983
+          "net_profit_yen": 2102.6634277343983,
+          "day10_net_return_without_exit": 0.004860276492979487,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.05192159382384487
         },
         {
           "sequence": 9,
@@ -22656,7 +22818,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.0006491002692916581,
           "net_return": -0.002645805363658638,
-          "net_profit_yen": -1631.9756103515392
+          "net_profit_yen": -1631.9756103515392,
+          "day10_net_return_without_exit": -0.0026458053636584378,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.009899403127282103
         },
         {
           "sequence": 10,
@@ -22673,7 +22838,10 @@
           "exit_reason_label": "+5%到達後10日保有（損失）",
           "gross_return": -0.059225512528473856,
           "net_return": -0.061105181834111094,
-          "net_profit_yen": -26851.99999999994
+          "net_profit_yen": -26851.99999999994,
+          "day10_net_return_without_exit": -0.061105181834111066,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.007972665148063829
         },
         {
           "sequence": 11,
@@ -22690,7 +22858,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.06303879310344818,
           "net_return": 0.060914839470874116,
-          "net_profit_yen": 62244.05000000016
+          "net_profit_yen": 62244.05000000016,
+          "day10_net_return_without_exit": 0.06091483947087406,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.0662715517241379
         },
         {
           "sequence": 12,
@@ -22707,7 +22878,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.050000000000000044,
           "net_return": -0.0518981018981017,
-          "net_profit_yen": -3636.4999999999854
+          "net_profit_yen": -3636.4999999999854,
+          "day10_net_return_without_exit": -0.051898101898101734,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.06000000000000005
         },
         {
           "sequence": 13,
@@ -22724,7 +22898,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.08597603946441157,
           "net_return": 0.0838062571677795,
-          "net_profit_yen": 83328.00000000012
+          "net_profit_yen": 83328.00000000012,
+          "day10_net_return_without_exit": 0.08380625716777956,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.04510218463706839
         },
         {
           "sequence": 14,
@@ -22741,7 +22918,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.035411239780259396,
           "net_return": -0.037338490050428476,
-          "net_profit_yen": -5796.691999999952
+          "net_profit_yen": -5796.691999999952,
+          "day10_net_return_without_exit": -0.03733849005042866,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.11536378407654801
         },
         {
           "sequence": 15,
@@ -22758,7 +22938,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.09203480589022761,
           "net_return": -0.09384892216217511,
-          "net_profit_yen": -84210.29999999993
+          "net_profit_yen": -84210.29999999993,
+          "day10_net_return_without_exit": -0.09384892216217522,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.14759036144578308
         },
         {
           "sequence": 16,
@@ -22775,7 +22958,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.05623266791383097,
           "net_return": 0.054122312932984515,
-          "net_profit_yen": 8087.060735900945
+          "net_profit_yen": 8087.060735900945,
+          "day10_net_return_without_exit": 0.05412231293298442,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.04425458638378732
         },
         {
           "sequence": 17,
@@ -22792,7 +22978,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.10685483870967738,
           "net_return": -0.1086393445264412,
-          "net_profit_yen": -16181.699999999983
+          "net_profit_yen": -16181.699999999983,
+          "day10_net_return_without_exit": -0.1086393445264412,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.1216397849462365
         },
         {
           "sequence": 18,
@@ -22809,7 +22998,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.0778461538461539,
           "net_return": -0.07968861907323432,
-          "net_profit_yen": -51849.39999999991
+          "net_profit_yen": -51849.39999999991,
+          "day10_net_return_without_exit": -0.07968861907323432,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.09261538461538465
         },
         {
           "sequence": 19,
@@ -22826,7 +23018,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.05504587155963292,
           "net_return": 0.05293788780027321,
-          "net_profit_yen": 55449.60000000009
+          "net_profit_yen": 55449.60000000009,
+          "day10_net_return_without_exit": 0.05293788780027331,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.004587155963302725
         },
         {
           "sequence": 20,
@@ -22843,7 +23038,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.15799086757990866,
           "net_return": -0.15967320350881978,
-          "net_profit_yen": -175016.99999999977
+          "net_profit_yen": -175016.99999999977,
+          "day10_net_return_without_exit": -0.15967320350881986,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.23652968036529676
         },
         {
           "sequence": 21,
@@ -22860,7 +23058,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.09360685122485557,
           "net_return": 0.09142182255107978,
-          "net_profit_yen": 68923.20000000007
+          "net_profit_yen": 68923.20000000007,
+          "day10_net_return_without_exit": 0.09142182255107967,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.023302131049591668
         },
         {
           "sequence": 22,
@@ -22877,7 +23078,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.10090909090909084,
           "net_return": 0.09870947234583607,
-          "net_profit_yen": 10868.900000000009
+          "net_profit_yen": 10868.900000000009,
+          "day10_net_return_without_exit": 0.09870947234583616,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.010909090909090868
         },
         {
           "sequence": 23,
@@ -22894,7 +23098,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.049368088467614424,
           "net_return": 0.04727144893021673,
-          "net_profit_yen": 47924.40000000002
+          "net_profit_yen": 47924.40000000002,
+          "day10_net_return_without_exit": 0.04727144893021684,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.003949447077409185
         },
         {
           "sequence": 24,
@@ -22911,7 +23118,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.10721649484536078,
           "net_return": -0.10900027807244292,
-          "net_profit_yen": -105835.99999999988
+          "net_profit_yen": -105835.99999999988,
+          "day10_net_return_without_exit": -0.10900027807244295,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.11134020618556706
         },
         {
           "sequence": 25,
@@ -22928,7 +23138,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.08238534227152283,
           "net_return": 0.08022273419505643,
-          "net_profit_yen": 7765.295935058617
+          "net_profit_yen": 7765.295935058617,
+          "day10_net_return_without_exit": 0.08022273419505632,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.008617696988915458
         },
         {
           "sequence": 26,
@@ -22945,7 +23158,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.05193198535360222,
           "net_return": 0.04983022314510358,
-          "net_profit_yen": 40077.326000000234
+          "net_profit_yen": 40077.326000000234,
+          "day10_net_return_without_exit": 0.04983022314510355,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.02871779298396704
         },
         {
           "sequence": 27,
@@ -22962,7 +23178,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.1005659555942533,
           "net_return": 0.09836702261604321,
-          "net_profit_yen": 90470.00000000012
+          "net_profit_yen": 90470.00000000012,
+          "day10_net_return_without_exit": 0.09836702261604335,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.01784936874183718
         },
         {
           "sequence": 28,
@@ -22979,7 +23198,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.1312500000000001,
           "net_return": 0.12898976023976041,
-          "net_profit_yen": 14461.300000000017
+          "net_profit_yen": 14461.300000000017,
+          "day10_net_return_without_exit": 0.1289897602397605,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.018750000000000044
         },
         {
           "sequence": 29,
@@ -22996,7 +23218,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.063993831919815,
           "net_return": 0.06186797011777748,
-          "net_profit_yen": 56226.10000000009
+          "net_profit_yen": 56226.10000000009,
+          "day10_net_return_without_exit": 0.06186797011777734,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.037008481110254454
         },
         {
           "sequence": 30,
@@ -23013,7 +23238,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.06526536118000714,
           "net_return": 0.06313695885996731,
-          "net_profit_yen": 8599.00488281253
+          "net_profit_yen": 8599.00488281253,
+          "day10_net_return_without_exit": 0.06313695885996728,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.018815210969640783
         },
         {
           "sequence": 31,
@@ -23030,7 +23258,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.12668463611859848,
           "net_return": 0.12443351796451524,
-          "net_profit_yen": 147875.19999999995
+          "net_profit_yen": 147875.19999999995,
+          "day10_net_return_without_exit": 0.1244335179645153,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.020215633423180557
         },
         {
           "sequence": 32,
@@ -23047,7 +23278,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.04591836734693877,
           "net_return": 0.04382862035923272,
-          "net_profit_yen": 56753.40000000014
+          "net_profit_yen": 56753.40000000014,
+          "day10_net_return_without_exit": 0.04382862035923263,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.10034013605442171
         },
         {
           "sequence": 33,
@@ -23064,7 +23298,10 @@
           "exit_reason_label": "+5%到達後10日保有（損失）",
           "gross_return": -0.17322834645669294,
           "net_return": -0.17488023787236373,
-          "net_profit_yen": -244551.99999999977
+          "net_profit_yen": -244551.99999999977,
+          "day10_net_return_without_exit": -0.17488023787236373,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.08661417322834641
         },
         {
           "sequence": 34,
@@ -23081,7 +23318,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.029204785362420882,
           "net_return": 0.02714843214491356,
-          "net_profit_yen": 308.9320000000007
+          "net_profit_yen": 308.9320000000007,
+          "day10_net_return_without_exit": 0.02714843214491358,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.04996481351161153
         },
         {
           "sequence": 35,
@@ -23098,7 +23338,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.03248375812093962,
           "net_return": 0.0304208535093094,
-          "net_profit_yen": 30466.500000000116
+          "net_profit_yen": 30466.500000000116,
+          "day10_net_return_without_exit": 0.030420853509309564,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.06046976511744129
         },
         {
           "sequence": 36,
@@ -23115,7 +23358,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.06211180124223592,
           "net_return": 0.059989699741252726,
-          "net_profit_yen": 9668.00000000003
+          "net_profit_yen": 9668.00000000003,
+          "day10_net_return_without_exit": 0.05998969974125257,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.004968944099378869
         },
         {
           "sequence": 37,
@@ -23132,7 +23378,10 @@
           "exit_reason_label": "+5%到達後10日保有（損失）",
           "gross_return": -0.012121212121212088,
           "net_return": -0.014094995913177616,
-          "net_profit_yen": -13967.999999999884
+          "net_profit_yen": -13967.999999999884,
+          "day10_net_return_without_exit": -0.014094995913177755,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.018181818181818188
         },
         {
           "sequence": 38,
@@ -23149,7 +23398,10 @@
           "exit_reason_label": "+5%到達後10日保有（損失）",
           "gross_return": -0.24840764331210186,
           "net_return": -0.24990932634244722,
-          "net_profit_yen": -39274.99999999997
+          "net_profit_yen": -39274.99999999997,
+          "day10_net_return_without_exit": -0.24990932634244734,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.03566878980891719
         },
         {
           "sequence": 39,
@@ -23166,7 +23418,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.14650455927051675,
           "net_return": 0.144213840870376,
-          "net_profit_yen": 94987.6000000001
+          "net_profit_yen": 94987.6000000001,
+          "day10_net_return_without_exit": 0.14421384087037592,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.0036474164133738496
         },
         {
           "sequence": 40,
@@ -23183,7 +23438,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.19603658536585367,
           "net_return": -0.19764290587461308,
-          "net_profit_yen": -64891.69999999995
+          "net_profit_yen": -64891.69999999995,
+          "day10_net_return_without_exit": -0.1976429058746132,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.19603658536585367
         },
         {
           "sequence": 41,
@@ -23200,7 +23458,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.04929256047466901,
           "net_return": 0.047196071842352305,
-          "net_profit_yen": 51755.00000000023
+          "net_profit_yen": 51755.00000000023,
+          "day10_net_return_without_exit": 0.04719607184235208,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.00045641259698769865
         },
         {
           "sequence": 42,
@@ -23217,7 +23478,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.037364326193449315,
           "net_return": 0.03529167019705875,
-          "net_profit_yen": 2574.523000000001
+          "net_profit_yen": 2574.523000000001,
+          "day10_net_return_without_exit": 0.03529167019705892,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.012033975053857837
         },
         {
           "sequence": 43,
@@ -23234,7 +23498,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.023072060682680195,
           "net_return": -0.025023964657340133,
-          "net_profit_yen": -23776.5
+          "net_profit_yen": -23776.5,
+          "day10_net_return_without_exit": -0.025023964657340025,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.08580910240202277
         },
         {
           "sequence": 44,
@@ -23251,7 +23518,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.034191176470588225,
           "net_return": 0.032124860433684226,
-          "net_profit_yen": 34986.80000000028
+          "net_profit_yen": 34986.80000000028,
+          "day10_net_return_without_exit": 0.0321248604336839,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.014705882352941124
         },
         {
           "sequence": 45,
@@ -23268,7 +23538,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.07615690323265722,
           "net_return": 0.07400673958983478,
-          "net_profit_yen": 88854.33620654326
+          "net_profit_yen": 88854.33620654326,
+          "day10_net_return_without_exit": 0.07400673958983472,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.006215866063976949
         },
         {
           "sequence": 46,
@@ -23285,7 +23558,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.010330578512396715,
           "net_return": -0.012307939993890318,
-          "net_profit_yen": -596.2999999999956
+          "net_profit_yen": -596.2999999999956,
+          "day10_net_return_without_exit": -0.012307939993890238,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.02066115702479343
         },
         {
           "sequence": 47,
@@ -23302,7 +23578,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.005626598465473087,
           "net_return": 0.003617354512495297,
-          "net_profit_yen": 4247.40000000014
+          "net_profit_yen": 4247.40000000014,
+          "day10_net_return_without_exit": 0.003617354512495341,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.042966751918158574
         },
         {
           "sequence": 48,
@@ -23319,7 +23598,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.1178247734138973,
           "net_return": 0.11559135728320039,
-          "net_profit_yen": 153196.00000000023
+          "net_profit_yen": 153196.00000000023,
+          "day10_net_return_without_exit": 0.11559135728320036,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.02114803625377648
         },
         {
           "sequence": 49,
@@ -23336,7 +23618,10 @@
           "exit_reason_label": "10営業日目決済（損失）",
           "gross_return": -0.0636363636363636,
           "net_return": -0.06550722005267444,
-          "net_profit_yen": -86555.99999999977
+          "net_profit_yen": -86555.99999999977,
+          "day10_net_return_without_exit": -0.06550722005267451,
+          "eventual_target_hit_without_stop": false,
+          "maximum_adverse_excursion_before_target_or_day10": -0.13090909090909086
         },
         {
           "sequence": 50,
@@ -23353,7 +23638,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.033033033033033066,
           "net_return": 0.030969030969031062,
-          "net_profit_yen": 4129.200000000012
+          "net_profit_yen": 4129.200000000012,
+          "day10_net_return_without_exit": 0.03096903096903114,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.03228228228228225
         },
         {
           "sequence": 51,
@@ -23370,7 +23658,10 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.10152284263959399,
           "net_return": 0.09932199779915521,
-          "net_profit_yen": 123391.80000000005
+          "net_profit_yen": 123391.80000000005,
+          "day10_net_return_without_exit": 0.09932199779915529,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.007332205301748496
         },
         {
           "sequence": 52,
@@ -23387,10 +23678,1351 @@
           "exit_reason_label": "+5%到達後10日保有（利益）",
           "gross_return": 0.02407647592040396,
           "net_return": 0.022030369075408264,
-          "net_profit_yen": 3343.1438903808885
+          "net_profit_yen": 3343.1438903808885,
+          "day10_net_return_without_exit": 0.02203036907540823,
+          "eventual_target_hit_without_stop": true,
+          "maximum_adverse_excursion_before_target_or_day10": -0.023416905731084237
         }
       ],
       "caveat": "Walk-forward model scores avoid future-outcome leakage, but the frozen signal parameters were selected using part of this same three-year history."
+    },
+    "stop_loss_study": {
+      "status": "completed",
+      "comparison": "fixed stop from -1% through -20%, plus no stop",
+      "same_bar_assumption": "stop executes before +5% target on ambiguous daily bars",
+      "levels": [
+        {
+          "stop_loss_pct_from_entry": null,
+          "ending_equity_yen": 1799243.7297653002,
+          "total_return": 0.7992437297653001,
+          "annualized_return": 0.2237650955914079,
+          "maximum_drawdown": -0.2249282796740404,
+          "completed_trades": 56,
+          "trade_win_rate": 0.7321428571428571,
+          "days_without_positions": 483,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 100,
+          "stop_loss_executions": 0,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "declining_trades_cut_better_than_day10": 0,
+          "non_target_rebounds_cut_too_early": 0,
+          "false_stop_examples": []
+        },
+        {
+          "stop_loss_pct_from_entry": -0.01,
+          "ending_equity_yen": 1047574.3569239955,
+          "total_return": 0.047574356923995476,
+          "annualized_return": 0.016106912437483967,
+          "maximum_drawdown": -0.18075292344573934,
+          "completed_trades": 110,
+          "trade_win_rate": 0.21818181818181817,
+          "days_without_positions": 647,
+          "skipped_for_capacity": 0,
+          "skipped_for_lot_cost": 49,
+          "stop_loss_executions": 85,
+          "eventual_target_trades": 72,
+          "eventual_target_winners_stopped": 50,
+          "false_stop_rate_among_eventual_targets": 0.6944444444444444,
+          "declining_trades_cut_better_than_day10": 29,
+          "non_target_rebounds_cut_too_early": 6,
+          "false_stop_examples": [
+            {
+              "ticker": "6104.T",
+              "signal_date": "2023-11-14",
+              "stop_net_return": -0.011978021978021917
+            },
+            {
+              "ticker": "3926.T",
+              "signal_date": "2023-12-08",
+              "stop_net_return": -0.011978021978021863
+            },
+            {
+              "ticker": "3116.T",
+              "signal_date": "2023-12-18",
+              "stop_net_return": -0.011978021978021912
+            },
+            {
+              "ticker": "3769.T",
+              "signal_date": "2024-02-14",
+              "stop_net_return": -0.0119780219780219
+            },
+            {
+              "ticker": "6677.T",
+              "signal_date": "2024-02-15",
+              "stop_net_return": -0.011978021978022
+            },
+            {
+              "ticker": "4704.T",
+              "signal_date": "2024-02-19",
+              "stop_net_return": -0.011978021978021931
+            },
+            {
+              "ticker": "4478.T",
+              "signal_date": "2024-02-21",
+              "stop_net_return": -0.011978021978021785
+            },
+            {
+              "ticker": "7915.T",
+              "signal_date": "2024-03-11",
+              "stop_net_return": -0.011978021978021836
+            },
+            {
+              "ticker": "3962.T",
+              "signal_date": "2024-03-12",
+              "stop_net_return": -0.011978021978021901
+            },
+            {
+              "ticker": "6264.T",
+              "signal_date": "2024-04-03",
+              "stop_net_return": -0.01197802197802192
+            },
+            {
+              "ticker": "3760.T",
+              "signal_date": "2024-04-16",
+              "stop_net_return": -0.011978021978021936
+            },
+            {
+              "ticker": "3994.T",
+              "signal_date": "2024-04-18",
+              "stop_net_return": -0.011978021978021926
+            },
+            {
+              "ticker": "9984.T",
+              "signal_date": "2024-04-19",
+              "stop_net_return": -0.011978021978021919
+            },
+            {
+              "ticker": "5136.T",
+              "signal_date": "2024-04-24",
+              "stop_net_return": -0.011978021978021964
+            },
+            {
+              "ticker": "2216.T",
+              "signal_date": "2024-05-02",
+              "stop_net_return": -0.011978021978021777
+            },
+            {
+              "ticker": "2222.T",
+              "signal_date": "2024-08-02",
+              "stop_net_return": -0.011978021978021863
+            },
+            {
+              "ticker": "9304.T",
+              "signal_date": "2024-08-05",
+              "stop_net_return": -0.011978021978021988
+            },
+            {
+              "ticker": "2802.T",
+              "signal_date": "2024-08-07",
+              "stop_net_return": -0.011978021978021832
+            },
+            {
+              "ticker": "4674.T",
+              "signal_date": "2024-08-07",
+              "stop_net_return": -0.011978021978021794
+            },
+            {
+              "ticker": "3836.T",
+              "signal_date": "2024-11-06",
+              "stop_net_return": -0.011978021978021811
+            },
+            {
+              "ticker": "5889.T",
+              "signal_date": "2024-12-19",
+              "stop_net_return": -0.011978021978021738
+            },
+            {
+              "ticker": "7779.T",
+              "signal_date": "2024-12-23",
+              "stop_net_return": -0.01197802197802182
+            },
+            {
+              "ticker": "2998.T",
+              "signal_date": "2024-12-24",
+              "stop_net_return": -0.011978021978021816
+            },
+            {
+              "ticker": "3182.T",
+              "signal_date": "2025-01-08",
+              "stop_net_return": -0.011978021978021872
+            },
+            {
+              "ticker": "2501.T",
+              "signal_date": "2025-01-16",
+              "stop_net_return": -0.011978021978021872
+            },
+            {
+              "ticker": "2491.T",
+              "signal_date": "2025-02-06",
+              "stop_net_return": -0.011978021978021863
+            },
+            {
+              "ticker": "4914.T",
+              "signal_date": "2025-04-03",
+              "stop_net_return": -0.011978021978021896
+            },
+            {
+              "ticker": "1911.T",
+              "signal_date": "2025-04-04",
+              "stop_net_return": -0.011978021978021842
+            },
+            {
+              "ticker": "6345.T",
+              "signal_date": "2025-04-11",
+              "stop_net_return": -0.011978021978021818
+            },
+            {
+              "ticker": "6745.T",
+              "signal_date": "2025-04-11",
+              "stop_net_return": -0.011978021978021733
+            },
+            {
+              "ticker": "1711.T",
+              "signal_date": "2025-04-16",
+              "stop_net_return": -0.011978021978021934
+            },
+            {
+              "ticker": "6046.T",
+              "signal_date": "2025-04-22",
+              "stop_net_return": -0.011978021978022198
+            },
+            {
+              "ticker": "6573.T",
+              "signal_date": "2025-04-22",
+              "stop_net_return": -0.011978021978021862
+            },
+            {
+              "ticker": "3446.T",
+              "signal_date": "2025-04-25",
+              "stop_net_return": -0.011978021978021884
+            },
+            {
+              "ticker": "2726.T",
+              "signal_date": "2025-10-10",
+              "stop_net_return": -0.0119780219780218
+            },
+            {
+              "ticker": "2726.T",
+              "signal_date": "2025-10-15",
+              "stop_net_return": -0.011978021978021865
+            },
+            {
+              "ticker": "2726.T",
+              "signal_date": "2025-10-16",
+              "stop_net_return": -0.011978021978021945
+            },
+            {
+              "ticker": "4819.T",
+              "signal_date": "2025-10-17",
+              "stop_net_return": -0.011978021978021799
+            },
+            {
+              "ticker": "146A.T",
+              "signal_date": "2025-11-05",
+              "stop_net_return": -0.011978021978021839
+            },
+            {
+              "ticker": "7383.T",
+              "signal_date": "2025-11-05",
+              "stop_net_return": -0.01197802197802175
+            },
+            {
+              "ticker": "4784.T",
+              "signal_date": "2025-11-07",
+              "stop_net_return": -0.011978021978021908
+            },
+            {
+              "ticker": "3856.T",
+              "signal_date": "2025-12-22",
+              "stop_net_return": -0.01197802197802194
+            },
+            {
+              "ticker": "6952.T",
+              "signal_date": "2026-03-06",
+              "stop_net_return": -0.011978021978021716
+            },
+            {
+              "ticker": "5981.T",
+              "signal_date": "2026-03-30",
+              "stop_net_return": -0.011978021978021823
+            },
+            {
+              "ticker": "3778.T",
+              "signal_date": "2026-04-01",
+              "stop_net_return": -0.01197802197802191
+            },
+            {
+              "ticker": "6745.T",
+              "signal_date": "2026-04-23",
+              "stop_net_return": -0.011978021978021837
+            },
+            {
+              "ticker": "3415.T",
+              "signal_date": "2026-05-13",
+              "stop_net_return": -0.011978021978021811
+            },
+            {
+              "ticker": "3415.T",
+              "signal_date": "2026-05-14",
+              "stop_net_return": -0.011978021978021993
+            },
+            {
+              "ticker": "7389.T",
+              "signal_date": "2026-06-02",
+              "stop_net_return": -0.01197802197802188
+            },
+            {
+              "ticker": "7201.T",
+              "signal_date": "2026-06-26",
+              "stop_net_return": -0.011978021978021931
+            }
+          ]
+        },
+        {
+          "stop_loss_pct_from_entry": -0.02,
+          "ending_equity_yen": 1275820.7356137712,
+          "total_return": 0.2758207356137712,
+          "annualized_return": 0.08735086552752547,
+          "maximum_drawdown": -0.13118556247432622,
+          "completed_trades": 96,
+          "trade_win_rate": 0.3541666666666667,
+          "days_without_positions": 600,
+          "skipped_for_capacity": 0,
+          "skipped_for_lot_cost": 63,
+          "stop_loss_executions": 62,
+          "eventual_target_trades": 61,
+          "eventual_target_winners_stopped": 29,
+          "false_stop_rate_among_eventual_targets": 0.47540983606557374,
+          "declining_trades_cut_better_than_day10": 24,
+          "non_target_rebounds_cut_too_early": 9,
+          "false_stop_examples": [
+            {
+              "ticker": "3926.T",
+              "signal_date": "2023-12-08",
+              "stop_net_return": -0.021958041958041876
+            },
+            {
+              "ticker": "3769.T",
+              "signal_date": "2024-02-14",
+              "stop_net_return": -0.0219580419580418
+            },
+            {
+              "ticker": "4704.T",
+              "signal_date": "2024-02-19",
+              "stop_net_return": -0.021958041958041893
+            },
+            {
+              "ticker": "4478.T",
+              "signal_date": "2024-02-21",
+              "stop_net_return": -0.02195804195804179
+            },
+            {
+              "ticker": "6264.T",
+              "signal_date": "2024-04-03",
+              "stop_net_return": -0.0219580419580419
+            },
+            {
+              "ticker": "3760.T",
+              "signal_date": "2024-04-16",
+              "stop_net_return": -0.021958041958041956
+            },
+            {
+              "ticker": "3994.T",
+              "signal_date": "2024-04-18",
+              "stop_net_return": -0.021958041958042074
+            },
+            {
+              "ticker": "5136.T",
+              "signal_date": "2024-04-24",
+              "stop_net_return": -0.021958041958041814
+            },
+            {
+              "ticker": "2216.T",
+              "signal_date": "2024-05-02",
+              "stop_net_return": -0.021958041958041782
+            },
+            {
+              "ticker": "2222.T",
+              "signal_date": "2024-08-02",
+              "stop_net_return": -0.021958041958041876
+            },
+            {
+              "ticker": "9090.T",
+              "signal_date": "2024-08-06",
+              "stop_net_return": -0.021958041958041883
+            },
+            {
+              "ticker": "2802.T",
+              "signal_date": "2024-08-07",
+              "stop_net_return": -0.021958041958041838
+            },
+            {
+              "ticker": "3836.T",
+              "signal_date": "2024-11-06",
+              "stop_net_return": -0.021958041958041914
+            },
+            {
+              "ticker": "3182.T",
+              "signal_date": "2025-01-08",
+              "stop_net_return": -0.021958041958041824
+            },
+            {
+              "ticker": "2491.T",
+              "signal_date": "2025-02-06",
+              "stop_net_return": -0.02195804195804187
+            },
+            {
+              "ticker": "4914.T",
+              "signal_date": "2025-04-03",
+              "stop_net_return": -0.021958041958041834
+            },
+            {
+              "ticker": "1911.T",
+              "signal_date": "2025-04-04",
+              "stop_net_return": -0.02195804195804183
+            },
+            {
+              "ticker": "6345.T",
+              "signal_date": "2025-04-11",
+              "stop_net_return": -0.021958041958041814
+            },
+            {
+              "ticker": "1711.T",
+              "signal_date": "2025-04-16",
+              "stop_net_return": -0.02195804195804174
+            },
+            {
+              "ticker": "6046.T",
+              "signal_date": "2025-04-22",
+              "stop_net_return": -0.021958041958041852
+            },
+            {
+              "ticker": "3446.T",
+              "signal_date": "2025-04-25",
+              "stop_net_return": -0.021958041958042032
+            },
+            {
+              "ticker": "2726.T",
+              "signal_date": "2025-10-10",
+              "stop_net_return": -0.021958041958041834
+            },
+            {
+              "ticker": "2726.T",
+              "signal_date": "2025-10-15",
+              "stop_net_return": -0.02195804195804191
+            },
+            {
+              "ticker": "2726.T",
+              "signal_date": "2025-10-16",
+              "stop_net_return": -0.021958041958041893
+            },
+            {
+              "ticker": "3778.T",
+              "signal_date": "2026-04-01",
+              "stop_net_return": -0.021958041958041824
+            },
+            {
+              "ticker": "6745.T",
+              "signal_date": "2026-04-23",
+              "stop_net_return": -0.021958041958041796
+            },
+            {
+              "ticker": "3415.T",
+              "signal_date": "2026-05-13",
+              "stop_net_return": -0.02195804195804178
+            },
+            {
+              "ticker": "7389.T",
+              "signal_date": "2026-06-02",
+              "stop_net_return": -0.021958041958041824
+            },
+            {
+              "ticker": "7201.T",
+              "signal_date": "2026-06-26",
+              "stop_net_return": -0.021958041958041956
+            }
+          ]
+        },
+        {
+          "stop_loss_pct_from_entry": -0.03,
+          "ending_equity_yen": 1497147.9375305662,
+          "total_return": 0.4971479375305663,
+          "annualized_return": 0.14882722327161413,
+          "maximum_drawdown": -0.1843978759559246,
+          "completed_trades": 88,
+          "trade_win_rate": 0.45454545454545453,
+          "days_without_positions": 557,
+          "skipped_for_capacity": 2,
+          "skipped_for_lot_cost": 69,
+          "stop_loss_executions": 47,
+          "eventual_target_trades": 60,
+          "eventual_target_winners_stopped": 22,
+          "false_stop_rate_among_eventual_targets": 0.36666666666666664,
+          "declining_trades_cut_better_than_day10": 15,
+          "non_target_rebounds_cut_too_early": 10,
+          "false_stop_examples": [
+            {
+              "ticker": "3769.T",
+              "signal_date": "2024-02-14",
+              "stop_net_return": -0.03193806193806183
+            },
+            {
+              "ticker": "4704.T",
+              "signal_date": "2024-02-19",
+              "stop_net_return": -0.03193806193806186
+            },
+            {
+              "ticker": "6264.T",
+              "signal_date": "2024-04-03",
+              "stop_net_return": -0.031938061938061854
+            },
+            {
+              "ticker": "3760.T",
+              "signal_date": "2024-04-16",
+              "stop_net_return": -0.03193806193806184
+            },
+            {
+              "ticker": "3994.T",
+              "signal_date": "2024-04-18",
+              "stop_net_return": -0.031938061938062
+            },
+            {
+              "ticker": "5136.T",
+              "signal_date": "2024-04-24",
+              "stop_net_return": -0.03193806193806181
+            },
+            {
+              "ticker": "2216.T",
+              "signal_date": "2024-05-02",
+              "stop_net_return": -0.03193806193806182
+            },
+            {
+              "ticker": "2222.T",
+              "signal_date": "2024-08-02",
+              "stop_net_return": -0.03193806193806188
+            },
+            {
+              "ticker": "9304.T",
+              "signal_date": "2024-08-05",
+              "stop_net_return": -0.03193806193806189
+            },
+            {
+              "ticker": "3182.T",
+              "signal_date": "2025-01-08",
+              "stop_net_return": -0.031938061938061875
+            },
+            {
+              "ticker": "4914.T",
+              "signal_date": "2025-04-03",
+              "stop_net_return": -0.03193806193806172
+            },
+            {
+              "ticker": "6345.T",
+              "signal_date": "2025-04-11",
+              "stop_net_return": -0.03193806193806201
+            },
+            {
+              "ticker": "1711.T",
+              "signal_date": "2025-04-16",
+              "stop_net_return": -0.0319380619380619
+            },
+            {
+              "ticker": "6046.T",
+              "signal_date": "2025-04-22",
+              "stop_net_return": -0.031938061938061965
+            },
+            {
+              "ticker": "3446.T",
+              "signal_date": "2025-04-25",
+              "stop_net_return": -0.031938061938061965
+            },
+            {
+              "ticker": "2726.T",
+              "signal_date": "2025-10-10",
+              "stop_net_return": -0.03193806193806181
+            },
+            {
+              "ticker": "7383.T",
+              "signal_date": "2025-11-05",
+              "stop_net_return": -0.03193806193806181
+            },
+            {
+              "ticker": "4784.T",
+              "signal_date": "2025-11-07",
+              "stop_net_return": -0.03193806193806184
+            },
+            {
+              "ticker": "4911.T",
+              "signal_date": "2025-11-21",
+              "stop_net_return": -0.031938061938061924
+            },
+            {
+              "ticker": "3778.T",
+              "signal_date": "2026-04-01",
+              "stop_net_return": -0.031938061938061764
+            },
+            {
+              "ticker": "6745.T",
+              "signal_date": "2026-04-23",
+              "stop_net_return": -0.03193806193806182
+            },
+            {
+              "ticker": "7389.T",
+              "signal_date": "2026-06-02",
+              "stop_net_return": -0.0319380619380618
+            }
+          ]
+        },
+        {
+          "stop_loss_pct_from_entry": -0.04,
+          "ending_equity_yen": 1318211.9348991073,
+          "total_return": 0.31821193489910726,
+          "annualized_return": 0.09963876490249146,
+          "maximum_drawdown": -0.27992269705076034,
+          "completed_trades": 79,
+          "trade_win_rate": 0.5063291139240507,
+          "days_without_positions": 540,
+          "skipped_for_capacity": 2,
+          "skipped_for_lot_cost": 78,
+          "stop_loss_executions": 37,
+          "eventual_target_trades": 54,
+          "eventual_target_winners_stopped": 15,
+          "false_stop_rate_among_eventual_targets": 0.2777777777777778,
+          "declining_trades_cut_better_than_day10": 14,
+          "non_target_rebounds_cut_too_early": 8,
+          "false_stop_examples": [
+            {
+              "ticker": "3769.T",
+              "signal_date": "2024-02-14",
+              "stop_net_return": -0.04191808191808174
+            },
+            {
+              "ticker": "6264.T",
+              "signal_date": "2024-04-03",
+              "stop_net_return": -0.0419180819180818
+            },
+            {
+              "ticker": "3760.T",
+              "signal_date": "2024-04-16",
+              "stop_net_return": -0.04191808191808186
+            },
+            {
+              "ticker": "3994.T",
+              "signal_date": "2024-04-18",
+              "stop_net_return": -0.041918081918081926
+            },
+            {
+              "ticker": "2216.T",
+              "signal_date": "2024-05-02",
+              "stop_net_return": -0.041918081918081884
+            },
+            {
+              "ticker": "2222.T",
+              "signal_date": "2024-08-02",
+              "stop_net_return": -0.04191808191808175
+            },
+            {
+              "ticker": "9304.T",
+              "signal_date": "2024-08-05",
+              "stop_net_return": -0.04191808191808195
+            },
+            {
+              "ticker": "4914.T",
+              "signal_date": "2025-04-03",
+              "stop_net_return": -0.04191808191808185
+            },
+            {
+              "ticker": "6345.T",
+              "signal_date": "2025-04-11",
+              "stop_net_return": -0.041918081918081905
+            },
+            {
+              "ticker": "1711.T",
+              "signal_date": "2025-04-16",
+              "stop_net_return": -0.041918081918081704
+            },
+            {
+              "ticker": "6046.T",
+              "signal_date": "2025-04-22",
+              "stop_net_return": -0.04191808191808196
+            },
+            {
+              "ticker": "3446.T",
+              "signal_date": "2025-04-25",
+              "stop_net_return": -0.041918081918081884
+            },
+            {
+              "ticker": "2726.T",
+              "signal_date": "2025-10-10",
+              "stop_net_return": -0.04191808191808176
+            },
+            {
+              "ticker": "3778.T",
+              "signal_date": "2026-04-01",
+              "stop_net_return": -0.041918081918081766
+            },
+            {
+              "ticker": "6745.T",
+              "signal_date": "2026-04-23",
+              "stop_net_return": -0.041918081918081794
+            }
+          ]
+        },
+        {
+          "stop_loss_pct_from_entry": -0.05,
+          "ending_equity_yen": 2031682.8490232169,
+          "total_return": 1.031682849023217,
+          "annualized_return": 0.27596451125152544,
+          "maximum_drawdown": -0.1665701305925137,
+          "completed_trades": 69,
+          "trade_win_rate": 0.6086956521739131,
+          "days_without_positions": 535,
+          "skipped_for_capacity": 2,
+          "skipped_for_lot_cost": 88,
+          "stop_loss_executions": 22,
+          "eventual_target_trades": 48,
+          "eventual_target_winners_stopped": 6,
+          "false_stop_rate_among_eventual_targets": 0.125,
+          "declining_trades_cut_better_than_day10": 8,
+          "non_target_rebounds_cut_too_early": 8,
+          "false_stop_examples": [
+            {
+              "ticker": "6264.T",
+              "signal_date": "2024-04-03",
+              "stop_net_return": -0.051898101898101956
+            },
+            {
+              "ticker": "3994.T",
+              "signal_date": "2024-04-18",
+              "stop_net_return": -0.05189810189810185
+            },
+            {
+              "ticker": "2222.T",
+              "signal_date": "2024-08-02",
+              "stop_net_return": -0.05189810189810181
+            },
+            {
+              "ticker": "9090.T",
+              "signal_date": "2024-08-06",
+              "stop_net_return": -0.051898101898101706
+            },
+            {
+              "ticker": "4914.T",
+              "signal_date": "2025-04-03",
+              "stop_net_return": -0.05189810189810174
+            },
+            {
+              "ticker": "2726.T",
+              "signal_date": "2025-10-10",
+              "stop_net_return": -0.051898101898101845
+            }
+          ]
+        },
+        {
+          "stop_loss_pct_from_entry": -0.06,
+          "ending_equity_yen": 1667807.3938834767,
+          "total_return": 0.6678073938834768,
+          "annualized_return": 0.19226315260406945,
+          "maximum_drawdown": -0.1818359497651416,
+          "completed_trades": 64,
+          "trade_win_rate": 0.640625,
+          "days_without_positions": 519,
+          "skipped_for_capacity": 2,
+          "skipped_for_lot_cost": 93,
+          "stop_loss_executions": 18,
+          "eventual_target_trades": 45,
+          "eventual_target_winners_stopped": 5,
+          "false_stop_rate_among_eventual_targets": 0.1111111111111111,
+          "declining_trades_cut_better_than_day10": 6,
+          "non_target_rebounds_cut_too_early": 7,
+          "false_stop_examples": [
+            {
+              "ticker": "6264.T",
+              "signal_date": "2024-04-03",
+              "stop_net_return": -0.06187812187812195
+            },
+            {
+              "ticker": "2222.T",
+              "signal_date": "2024-08-02",
+              "stop_net_return": -0.06187812187812177
+            },
+            {
+              "ticker": "4914.T",
+              "signal_date": "2025-04-03",
+              "stop_net_return": -0.06187812187812191
+            },
+            {
+              "ticker": "1711.T",
+              "signal_date": "2025-04-16",
+              "stop_net_return": -0.061878121878121806
+            },
+            {
+              "ticker": "2726.T",
+              "signal_date": "2025-10-10",
+              "stop_net_return": -0.06187812187812178
+            }
+          ]
+        },
+        {
+          "stop_loss_pct_from_entry": -0.07,
+          "ending_equity_yen": 2063831.972179913,
+          "total_return": 1.063831972179913,
+          "annualized_return": 0.2828702047225711,
+          "maximum_drawdown": -0.16483290779701443,
+          "completed_trades": 60,
+          "trade_win_rate": 0.6833333333333333,
+          "days_without_positions": 512,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 96,
+          "stop_loss_executions": 11,
+          "eventual_target_trades": 41,
+          "eventual_target_winners_stopped": 2,
+          "false_stop_rate_among_eventual_targets": 0.04878048780487805,
+          "declining_trades_cut_better_than_day10": 5,
+          "non_target_rebounds_cut_too_early": 4,
+          "false_stop_examples": [
+            {
+              "ticker": "2222.T",
+              "signal_date": "2024-08-02",
+              "stop_net_return": -0.07185814185814181
+            },
+            {
+              "ticker": "4914.T",
+              "signal_date": "2025-04-03",
+              "stop_net_return": -0.07185814185814189
+            }
+          ]
+        },
+        {
+          "stop_loss_pct_from_entry": -0.08,
+          "ending_equity_yen": 1859502.2698524685,
+          "total_return": 0.8595022698524686,
+          "annualized_return": 0.23770346061424208,
+          "maximum_drawdown": -0.17992118682412317,
+          "completed_trades": 63,
+          "trade_win_rate": 0.6984126984126984,
+          "days_without_positions": 500,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 93,
+          "stop_loss_executions": 11,
+          "eventual_target_trades": 44,
+          "eventual_target_winners_stopped": 2,
+          "false_stop_rate_among_eventual_targets": 0.045454545454545456,
+          "declining_trades_cut_better_than_day10": 4,
+          "non_target_rebounds_cut_too_early": 5,
+          "false_stop_examples": [
+            {
+              "ticker": "2222.T",
+              "signal_date": "2024-08-02",
+              "stop_net_return": -0.08183816183816153
+            },
+            {
+              "ticker": "4914.T",
+              "signal_date": "2025-04-03",
+              "stop_net_return": -0.08183816183816175
+            }
+          ]
+        },
+        {
+          "stop_loss_pct_from_entry": -0.09,
+          "ending_equity_yen": 1740195.9842063438,
+          "total_return": 0.7401959842063437,
+          "annualized_return": 0.20980639446175497,
+          "maximum_drawdown": -0.19253741990528528,
+          "completed_trades": 60,
+          "trade_win_rate": 0.6833333333333333,
+          "days_without_positions": 493,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 96,
+          "stop_loss_executions": 9,
+          "eventual_target_trades": 42,
+          "eventual_target_winners_stopped": 2,
+          "false_stop_rate_among_eventual_targets": 0.047619047619047616,
+          "declining_trades_cut_better_than_day10": 4,
+          "non_target_rebounds_cut_too_early": 3,
+          "false_stop_examples": [
+            {
+              "ticker": "2222.T",
+              "signal_date": "2024-08-02",
+              "stop_net_return": -0.09181818181818166
+            },
+            {
+              "ticker": "4914.T",
+              "signal_date": "2025-04-03",
+              "stop_net_return": -0.09181818181818181
+            }
+          ]
+        },
+        {
+          "stop_loss_pct_from_entry": -0.1,
+          "ending_equity_yen": 1563565.8983016508,
+          "total_return": 0.5635658983016507,
+          "annualized_return": 0.1660997869545895,
+          "maximum_drawdown": -0.21354069377249185,
+          "completed_trades": 62,
+          "trade_win_rate": 0.6935483870967742,
+          "days_without_positions": 495,
+          "skipped_for_capacity": 6,
+          "skipped_for_lot_cost": 91,
+          "stop_loss_executions": 8,
+          "eventual_target_trades": 44,
+          "eventual_target_winners_stopped": 2,
+          "false_stop_rate_among_eventual_targets": 0.045454545454545456,
+          "declining_trades_cut_better_than_day10": 3,
+          "non_target_rebounds_cut_too_early": 3,
+          "false_stop_examples": [
+            {
+              "ticker": "2222.T",
+              "signal_date": "2024-08-02",
+              "stop_net_return": -0.10179820179820159
+            },
+            {
+              "ticker": "4914.T",
+              "signal_date": "2025-04-03",
+              "stop_net_return": -0.10179820179820182
+            }
+          ]
+        },
+        {
+          "stop_loss_pct_from_entry": -0.11,
+          "ending_equity_yen": 1611051.8121496073,
+          "total_return": 0.6110518121496074,
+          "annualized_return": 0.17815579292215,
+          "maximum_drawdown": -0.23138543166309788,
+          "completed_trades": 57,
+          "trade_win_rate": 0.6842105263157895,
+          "days_without_positions": 490,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 99,
+          "stop_loss_executions": 7,
+          "eventual_target_trades": 39,
+          "eventual_target_winners_stopped": 1,
+          "false_stop_rate_among_eventual_targets": 0.02564102564102564,
+          "declining_trades_cut_better_than_day10": 2,
+          "non_target_rebounds_cut_too_early": 4,
+          "false_stop_examples": [
+            {
+              "ticker": "2222.T",
+              "signal_date": "2024-08-02",
+              "stop_net_return": -0.11177822177822162
+            }
+          ]
+        },
+        {
+          "stop_loss_pct_from_entry": -0.12,
+          "ending_equity_yen": 2091995.3388267506,
+          "total_return": 1.0919953388267505,
+          "annualized_return": 0.28886197624462384,
+          "maximum_drawdown": -0.23718777717309936,
+          "completed_trades": 56,
+          "trade_win_rate": 0.7321428571428571,
+          "days_without_positions": 488,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 100,
+          "stop_loss_executions": 2,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "declining_trades_cut_better_than_day10": 2,
+          "non_target_rebounds_cut_too_early": 0,
+          "false_stop_examples": []
+        },
+        {
+          "stop_loss_pct_from_entry": -0.13,
+          "ending_equity_yen": 1973640.6472477466,
+          "total_return": 0.9736406472477466,
+          "annualized_return": 0.26331307489767175,
+          "maximum_drawdown": -0.24676516947398697,
+          "completed_trades": 55,
+          "trade_win_rate": 0.7272727272727273,
+          "days_without_positions": 490,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 101,
+          "stop_loss_executions": 2,
+          "eventual_target_trades": 39,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "declining_trades_cut_better_than_day10": 2,
+          "non_target_rebounds_cut_too_early": 0,
+          "false_stop_examples": []
+        },
+        {
+          "stop_loss_pct_from_entry": -0.14,
+          "ending_equity_yen": 1928670.5974556813,
+          "total_return": 0.9286705974556813,
+          "annualized_return": 0.25334207544528753,
+          "maximum_drawdown": -0.2563425617748747,
+          "completed_trades": 55,
+          "trade_win_rate": 0.7272727272727273,
+          "days_without_positions": 490,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 101,
+          "stop_loss_executions": 2,
+          "eventual_target_trades": 39,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "declining_trades_cut_better_than_day10": 2,
+          "non_target_rebounds_cut_too_early": 0,
+          "false_stop_examples": []
+        },
+        {
+          "stop_loss_pct_from_entry": -0.15,
+          "ending_equity_yen": 1883587.4209408984,
+          "total_return": 0.8835874209408983,
+          "annualized_return": 0.24319165388309782,
+          "maximum_drawdown": -0.2659199540757622,
+          "completed_trades": 53,
+          "trade_win_rate": 0.7169811320754716,
+          "days_without_positions": 481,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 103,
+          "stop_loss_executions": 2,
+          "eventual_target_trades": 36,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "declining_trades_cut_better_than_day10": 2,
+          "non_target_rebounds_cut_too_early": 0,
+          "false_stop_examples": []
+        },
+        {
+          "stop_loss_pct_from_entry": -0.16,
+          "ending_equity_yen": 1823378.3488505546,
+          "total_return": 0.8233783488505546,
+          "annualized_return": 0.22938389563381678,
+          "maximum_drawdown": -0.26290385683249806,
+          "completed_trades": 57,
+          "trade_win_rate": 0.7192982456140351,
+          "days_without_positions": 474,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 99,
+          "stop_loss_executions": 2,
+          "eventual_target_trades": 39,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "declining_trades_cut_better_than_day10": 1,
+          "non_target_rebounds_cut_too_early": 1,
+          "false_stop_examples": []
+        },
+        {
+          "stop_loss_pct_from_entry": -0.17,
+          "ending_equity_yen": 1790588.132342021,
+          "total_return": 0.790588132342021,
+          "annualized_return": 0.22173793360139005,
+          "maximum_drawdown": -0.2724812491333858,
+          "completed_trades": 55,
+          "trade_win_rate": 0.7272727272727273,
+          "days_without_positions": 480,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 101,
+          "stop_loss_executions": 2,
+          "eventual_target_trades": 39,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "declining_trades_cut_better_than_day10": 1,
+          "non_target_rebounds_cut_too_early": 1,
+          "false_stop_examples": []
+        },
+        {
+          "stop_loss_pct_from_entry": -0.18,
+          "ending_equity_yen": 1842923.3690943047,
+          "total_return": 0.8429233690943048,
+          "annualized_return": 0.23389852730806115,
+          "maximum_drawdown": -0.2820586414342734,
+          "completed_trades": 55,
+          "trade_win_rate": 0.7090909090909091,
+          "days_without_positions": 480,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 101,
+          "stop_loss_executions": 2,
+          "eventual_target_trades": 38,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "declining_trades_cut_better_than_day10": 1,
+          "non_target_rebounds_cut_too_early": 1,
+          "false_stop_examples": []
+        },
+        {
+          "stop_loss_pct_from_entry": -0.19,
+          "ending_equity_yen": 1811326.5164215504,
+          "total_return": 0.8113265164215504,
+          "annualized_return": 0.22658423990589127,
+          "maximum_drawdown": -0.2916360337351611,
+          "completed_trades": 56,
+          "trade_win_rate": 0.7321428571428571,
+          "days_without_positions": 480,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 100,
+          "stop_loss_executions": 2,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "declining_trades_cut_better_than_day10": 1,
+          "non_target_rebounds_cut_too_early": 1,
+          "false_stop_examples": []
+        },
+        {
+          "stop_loss_pct_from_entry": -0.2,
+          "ending_equity_yen": 1819038.8103443037,
+          "total_return": 0.8190388103443038,
+          "annualized_return": 0.2283772183257322,
+          "maximum_drawdown": -0.3012134260360486,
+          "completed_trades": 57,
+          "trade_win_rate": 0.7368421052631579,
+          "days_without_positions": 478,
+          "skipped_for_capacity": 3,
+          "skipped_for_lot_cost": 99,
+          "stop_loss_executions": 1,
+          "eventual_target_trades": 41,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "declining_trades_cut_better_than_day10": 0,
+          "non_target_rebounds_cut_too_early": 1,
+          "false_stop_examples": []
+        }
+      ],
+      "path_separation_baseline_trades": [
+        {
+          "stop_loss_pct_from_entry": -0.01,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 31,
+          "false_stop_rate_among_eventual_targets": 0.775,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 16,
+          "declining_trades_cut_better_than_day10": 11,
+          "non_target_rebounds_cut_too_early": 5
+        },
+        {
+          "stop_loss_pct_from_entry": -0.02,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 21,
+          "false_stop_rate_among_eventual_targets": 0.525,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 16,
+          "declining_trades_cut_better_than_day10": 10,
+          "non_target_rebounds_cut_too_early": 6
+        },
+        {
+          "stop_loss_pct_from_entry": -0.03,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 16,
+          "false_stop_rate_among_eventual_targets": 0.4,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 14,
+          "declining_trades_cut_better_than_day10": 8,
+          "non_target_rebounds_cut_too_early": 6
+        },
+        {
+          "stop_loss_pct_from_entry": -0.04,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 12,
+          "false_stop_rate_among_eventual_targets": 0.3,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 14,
+          "declining_trades_cut_better_than_day10": 7,
+          "non_target_rebounds_cut_too_early": 7
+        },
+        {
+          "stop_loss_pct_from_entry": -0.05,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 6,
+          "false_stop_rate_among_eventual_targets": 0.15,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 12,
+          "declining_trades_cut_better_than_day10": 6,
+          "non_target_rebounds_cut_too_early": 6
+        },
+        {
+          "stop_loss_pct_from_entry": -0.06,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 5,
+          "false_stop_rate_among_eventual_targets": 0.125,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 10,
+          "declining_trades_cut_better_than_day10": 5,
+          "non_target_rebounds_cut_too_early": 5
+        },
+        {
+          "stop_loss_pct_from_entry": -0.07,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 3,
+          "false_stop_rate_among_eventual_targets": 0.075,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 8,
+          "declining_trades_cut_better_than_day10": 5,
+          "non_target_rebounds_cut_too_early": 3
+        },
+        {
+          "stop_loss_pct_from_entry": -0.08,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 3,
+          "false_stop_rate_among_eventual_targets": 0.075,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 8,
+          "declining_trades_cut_better_than_day10": 4,
+          "non_target_rebounds_cut_too_early": 4
+        },
+        {
+          "stop_loss_pct_from_entry": -0.09,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 1,
+          "false_stop_rate_among_eventual_targets": 0.025,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 6,
+          "declining_trades_cut_better_than_day10": 4,
+          "non_target_rebounds_cut_too_early": 2
+        },
+        {
+          "stop_loss_pct_from_entry": -0.1,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 1,
+          "false_stop_rate_among_eventual_targets": 0.025,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 5,
+          "declining_trades_cut_better_than_day10": 3,
+          "non_target_rebounds_cut_too_early": 2
+        },
+        {
+          "stop_loss_pct_from_entry": -0.11,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 5,
+          "declining_trades_cut_better_than_day10": 2,
+          "non_target_rebounds_cut_too_early": 3
+        },
+        {
+          "stop_loss_pct_from_entry": -0.12,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 2,
+          "declining_trades_cut_better_than_day10": 2,
+          "non_target_rebounds_cut_too_early": 0
+        },
+        {
+          "stop_loss_pct_from_entry": -0.13,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 2,
+          "declining_trades_cut_better_than_day10": 2,
+          "non_target_rebounds_cut_too_early": 0
+        },
+        {
+          "stop_loss_pct_from_entry": -0.14,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 2,
+          "declining_trades_cut_better_than_day10": 2,
+          "non_target_rebounds_cut_too_early": 0
+        },
+        {
+          "stop_loss_pct_from_entry": -0.15,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 2,
+          "declining_trades_cut_better_than_day10": 2,
+          "non_target_rebounds_cut_too_early": 0
+        },
+        {
+          "stop_loss_pct_from_entry": -0.16,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 2,
+          "declining_trades_cut_better_than_day10": 1,
+          "non_target_rebounds_cut_too_early": 1
+        },
+        {
+          "stop_loss_pct_from_entry": -0.17,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 2,
+          "declining_trades_cut_better_than_day10": 1,
+          "non_target_rebounds_cut_too_early": 1
+        },
+        {
+          "stop_loss_pct_from_entry": -0.18,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 2,
+          "declining_trades_cut_better_than_day10": 1,
+          "non_target_rebounds_cut_too_early": 1
+        },
+        {
+          "stop_loss_pct_from_entry": -0.19,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 2,
+          "declining_trades_cut_better_than_day10": 1,
+          "non_target_rebounds_cut_too_early": 1
+        },
+        {
+          "stop_loss_pct_from_entry": -0.2,
+          "eventual_target_trades": 40,
+          "eventual_target_winners_stopped": 0,
+          "false_stop_rate_among_eventual_targets": 0.0,
+          "non_target_trades": 16,
+          "non_target_trades_stopped": 1,
+          "declining_trades_cut_better_than_day10": 0,
+          "non_target_rebounds_cut_too_early": 1
+        }
+      ],
+      "best_by_ending_equity": {
+        "stop_loss_pct_from_entry": -0.12,
+        "ending_equity_yen": 2091995.3388267506,
+        "total_return": 1.0919953388267505,
+        "annualized_return": 0.28886197624462384,
+        "maximum_drawdown": -0.23718777717309936,
+        "completed_trades": 56,
+        "trade_win_rate": 0.7321428571428571,
+        "days_without_positions": 488,
+        "skipped_for_capacity": 3,
+        "skipped_for_lot_cost": 100,
+        "stop_loss_executions": 2,
+        "eventual_target_trades": 40,
+        "eventual_target_winners_stopped": 0,
+        "false_stop_rate_among_eventual_targets": 0.0,
+        "declining_trades_cut_better_than_day10": 2,
+        "non_target_rebounds_cut_too_early": 0,
+        "false_stop_examples": []
+      },
+      "best_with_false_stop_rate_at_most_10pct": {
+        "stop_loss_pct_from_entry": -0.12,
+        "ending_equity_yen": 2091995.3388267506,
+        "total_return": 1.0919953388267505,
+        "annualized_return": 0.28886197624462384,
+        "maximum_drawdown": -0.23718777717309936,
+        "completed_trades": 56,
+        "trade_win_rate": 0.7321428571428571,
+        "days_without_positions": 488,
+        "skipped_for_capacity": 3,
+        "skipped_for_lot_cost": 100,
+        "stop_loss_executions": 2,
+        "eventual_target_trades": 40,
+        "eventual_target_winners_stopped": 0,
+        "false_stop_rate_among_eventual_targets": 0.0,
+        "declining_trades_cut_better_than_day10": 2,
+        "non_target_rebounds_cut_too_early": 0,
+        "false_stop_examples": []
+      },
+      "note": "An eventual-target false stop is a trade stopped before it later reaches +5% within the original ten-trading-day window."
     },
     "turnover_sensitivity": {
       "comparison_mode": "frozen_200m_rule_with_threshold_specific_walk_forward_refits",
