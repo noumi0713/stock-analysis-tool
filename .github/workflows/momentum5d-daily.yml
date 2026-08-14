@@ -69,9 +69,9 @@ jobs:
           path: momentum5d/data/yahoo
           key: momentum5d-data-ready-${{ github.run_id }}
           restore-keys: |
-            momentum5d-final-
-            momentum5d-backtest-ready-
             momentum5d-data-ready-
+            momentum5d-backtest-ready-
+            momentum5d-final-
             momentum5d-yahoo-
 
       - name: Detect restored Yahoo history
