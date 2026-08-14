@@ -12,6 +12,7 @@ JPX_LISTED_ISSUES_URL = (
     "tvdivq0000001vg2-att/data_j.xls"
 )
 TARGET_MARKETS = ("プライム", "スタンダード", "グロース")
+SUPPLEMENTAL_MARKET_TICKERS = ("1306.T",)
 
 
 def build_tse_universe(frame: pd.DataFrame) -> pd.DataFrame:
@@ -79,8 +80,9 @@ def download_tse_universe(url: str = JPX_LISTED_ISSUES_URL) -> pd.DataFrame:
 
 def write_universe(universe: pd.DataFrame, config_dir: Path) -> None:
     config_dir.mkdir(parents=True, exist_ok=True)
+    tickers = sorted(set(universe["ticker"]).union(SUPPLEMENTAL_MARKET_TICKERS))
     (config_dir / "prime_tickers.txt").write_text(
-        "\n".join(universe["ticker"]) + "\n",
+        "\n".join(tickers) + "\n",
         encoding="utf-8",
     )
     universe[["code", "company_name"]].to_csv(

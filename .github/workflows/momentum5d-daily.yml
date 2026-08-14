@@ -37,7 +37,7 @@ permissions:
   contents: write
 
 env:
-  YAHOO_RETENTION_DAYS: "1096"
+  YAHOO_RETENTION_DAYS: "1461"
   YAHOO_OVERLAP_DAYS: "10"
   YAHOO_BATCH_SIZE: "60"
   YAHOO_PAUSE_SECONDS: "1.5"
@@ -102,7 +102,7 @@ jobs:
           PY
             )"
             echo "needs_backfill=$needs_backfill" >> "$GITHUB_OUTPUT"
-            echo "Three-year history backfill required: $needs_backfill"
+            echo "Four-year history backfill required: $needs_backfill"
           else
             echo "available=false" >> "$GITHUB_OUTPUT"
             echo "needs_backfill=true" >> "$GITHUB_OUTPUT"
@@ -184,7 +184,7 @@ jobs:
 
       # 定時・手動実行では最新データを取得する。
       # コード変更時は復元済みキャッシュを使って分析だけ再実行する。
-      # キャッシュが無い場合と、保存期間を3年へ拡張して履歴が不足する場合は、
+      # キャッシュが無い場合と、保存期間を4年へ拡張して履歴が不足する場合は、
       # pushでも不足期間を取得してから分析する。
       - name: Refresh TSE stock universe from JPX
         if: >-

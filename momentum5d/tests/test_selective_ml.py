@@ -456,3 +456,68 @@ def test_portfolio_study_can_use_all_cash_and_uses_standard_lots() -> None:
         two_million_result["trades"][0]["shares"]
         > result["trades"][0]["shares"]
     )
+
+
+def test_portfolio_study_holds_topix_etf_only_in_uptrend_and_switches_to_stock() -> None:
+    dates = [date(2026, 7, 1) + timedelta(days=offset) for offset in range(12)]
+    stock_prices = pd.DataFrame(
+        [
+            {
+                "ticker": "1000.T",
+                "date": value,
+                "open": 100.0,
+                "high": 106.0 if index == 2 else 100.0,
+                "low": 99.0,
+                "close": 100.0,
+                "adjusted_close": 100.0,
+            }
+            for index, value in enumerate(dates)
+        ]
+    )
+    candidates = pd.DataFrame(
+        [{"ticker": "1000.T", "date": dates[0], "_ml_rank_score": 1.0}]
+    )
+    etf_dates = [dates[0] - timedelta(days=208) + timedelta(days=index) for index in range(220)]
+    etf_prices = pd.DataFrame(
+        [
+            {
+                "ticker": "1306.T",
+                "date": value,
+                "open": 100.0 + index,
+                "close": 100.0 + index,
+                "adjusted_close": 100.0 + index,
+            }
+            for index, value in enumerate(etf_dates)
+        ]
+    )
+
+    result = calculate_ten_day_portfolio_study(
+        stock_prices,
+        candidates,
+        dates,
+        RisePatternConfig(horizon_days=10),
+        initial_cash=2_000_000.0,
+        minimum_turnover=150_000_000.0,
+        limit_offset=0.015,
+        maximum_daily_buys=2,
+        maximum_positions=3,
+        lot_size=100,
+        take_profit_at_target=True,
+        stop_loss_pct=0.12,
+        topix_etf_prices=etf_prices,
+        topix_etf_max_allocation=0.50,
+        topix_etf_lot_size=10,
+    )
+
+    assert result["status"] == "completed"
+    assert result["topix_etf_overlay_enabled"] is True
+    assert result["completed_trades"] == 1
+    assert result["days_with_topix_etf"] > 0
+    assert result["days_with_stock_positions"] == 1
+    assert result["days_without_any_position"] < result["trading_days"] - 1
+    assert result["maximum_topix_etf_allocation_used"] <= 0.50
+    assert result["topix_etf_open_shares_at_end"] == 0
+    assert any(
+        event["reason"] == "switch_to_individual_stock"
+        for event in result["topix_etf_events"]
+    )

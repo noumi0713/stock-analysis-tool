@@ -25,6 +25,8 @@ from app.yahoo.retail_flow import (
     retail_flow_reasons,
 )
 from app.yahoo.rise_pattern import (
+    TOPIX_ETF_TICKER,
+    add_latest_ml_sharp_selloff_signals,
     add_latest_rise_pattern_signals,
     add_ten_day_signal_and_study,
     backtest_rise_pattern_signals,
@@ -67,6 +69,9 @@ class YahooPatternAnalyzer:
             .all(axis=1)
         ].copy()
         valid_prices = normalize_split_adjusted_prices(valid_prices)
+        valid_prices = valid_prices.loc[
+            ~valid_prices["ticker"].astype(str).eq(TOPIX_ETF_TICKER)
+        ].copy()
         features = self._build_features(valid_prices)
         sectors = load_sector_map(self.settings.data_dir.parent / "config" / "prime_sectors.csv")
         features = add_trend_features(features, sectors)
@@ -82,21 +87,8 @@ class YahooPatternAnalyzer:
         golden_cross_volume_study = backtest_golden_cross_volume(features)
         perfect_order_pullback_study = backtest_perfect_order_pullbacks(features)
         features = add_latest_rise_pattern_signals(features, bottom_events)
+        features = add_latest_ml_sharp_selloff_signals(features)
         features, ten_day_signal_study = self._attach_three_year_ten_day_signal(features)
-        legacy_sharp_defaults: dict[str, Any] = {
-            "ml_sharp_probability": 0.0,
-            "ml_sharp_down_5pct_probability": 1.0,
-            "ml_sharp_down_8pct_probability": 1.0,
-            "ml_sharp_expected_net_return": -1.0,
-            "ml_sharp_model_samples": 0,
-            "ml_sharp_signal": False,
-            "ml_sharp_rank": pd.NA,
-            "ml_sharp_reason": "",
-            "ml_sharp_entry_rule": "5営業日シグナル廃止済み",
-        }
-        for column, default in legacy_sharp_defaults.items():
-            features[column] = default
-        features["ml_sharp_rank"] = features["ml_sharp_rank"].astype("Int64")
         earnings_calendar, important_events = load_event_calendars(self.settings)
         features, event_risk_summary = add_event_risk_controls(
             features,
@@ -107,6 +99,7 @@ class YahooPatternAnalyzer:
             [
                 "observed_inflow_score",
                 "rise_pattern_probability",
+                "ml_sharp_probability",
                 "ml_ten_day_probability",
             ]
         ].max(axis=1)
@@ -140,7 +133,7 @@ class YahooPatternAnalyzer:
         summary = {
             "source": "yfinance",
             "personal_research_only": True,
-            "technical_method": "capitulation_reversal_10d_ml_selective_v3",
+            "technical_method": "capitulation_reversal_10d_ml_selective_v2",
             "technical_method_label": "投げ売り反転・10営業日+5% ML厳選",
             "analyzed_at": datetime.now(UTC).isoformat(),
             "rows": len(features),
@@ -191,17 +184,35 @@ class YahooPatternAnalyzer:
             .gt(0)
             .all(axis=1)
         ].copy()
-        valid_prices = normalize_split_adjusted_prices(valid_prices)
+        all_valid_prices = normalize_split_adjusted_prices(valid_prices)
+        topix_etf_prices = all_valid_prices.loc[
+            all_valid_prices["ticker"].astype(str).eq(TOPIX_ETF_TICKER)
+        ].copy()
+        valid_prices = all_valid_prices.loc[
+            ~all_valid_prices["ticker"].astype(str).eq(TOPIX_ETF_TICKER)
+        ].copy()
         features = self._build_features(valid_prices)
         sectors = load_sector_map(self.settings.data_dir.parent / "config" / "prime_sectors.csv")
         features = add_trend_features(features, sectors)
         features = add_retail_flow_features(features)
-        features, study = add_ten_day_signal_and_study(features, evaluation_days=720)
+        features, study = add_ten_day_signal_and_study(
+            features,
+            evaluation_days=720,
+            topix_etf_prices=topix_etf_prices,
+        )
         study["source_history_start"] = str(valid_prices["date"].min())
         study["source_history_end"] = str(valid_prices["date"].max())
         study["source_history_rows"] = len(valid_prices)
         study["source_tickers"] = int(valid_prices["ticker"].nunique())
         study["requested_evaluation_days"] = 720
+        study["topix_etf_ticker"] = TOPIX_ETF_TICKER
+        study["topix_etf_history_rows"] = len(topix_etf_prices)
+        study["topix_etf_history_start"] = (
+            str(topix_etf_prices["date"].min()) if not topix_etf_prices.empty else None
+        )
+        study["topix_etf_history_end"] = (
+            str(topix_etf_prices["date"].max()) if not topix_etf_prices.empty else None
+        )
 
         latest = features.loc[features["date"].eq(features["date"].max())].copy()
         live_columns = [
@@ -511,6 +522,7 @@ class YahooPatternAnalyzer:
             [
                 "observed_inflow_score",
                 "rise_pattern_probability",
+                "ml_sharp_probability",
                 "ml_ten_day_probability",
             ]
         ].max(axis=1)
@@ -521,7 +533,7 @@ class YahooPatternAnalyzer:
             ml_ten_day_signal
             & latest["rise_pattern_shape"].eq("capitulation_reversal")
             & latest["rsi_14"].le(82.0)
-            & (latest["turnover_value"] >= 150_000_000)
+            & (latest["turnover_value"] >= 200_000_000)
         ].copy()
         latest["sakata_reasons"] = latest.apply(_sakata_reasons, axis=1)
         latest["retail_flow_reasons"] = latest.apply(retail_flow_reasons, axis=1)
@@ -836,6 +848,9 @@ def _combined_signal_reasons(row: pd.Series) -> str:
         and row.get("ml_ten_day_reason")
     ):
         reasons.append(str(row["ml_ten_day_reason"]))
+    ml_signal = row.get("ml_sharp_signal", False)
+    if pd.notna(ml_signal) and bool(ml_signal) and row.get("ml_sharp_reason"):
+        reasons.append(str(row["ml_sharp_reason"]))
     rise_signal = row.get("rise_pattern_signal", False)
     if pd.notna(rise_signal) and bool(rise_signal) and row.get("rise_pattern_reason"):
         reasons.append(str(row["rise_pattern_reason"]))

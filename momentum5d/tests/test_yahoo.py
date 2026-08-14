@@ -870,6 +870,25 @@ def test_ten_day_study_accepts_three_year_evaluation_window() -> None:
     assert signature.parameters["evaluation_days"].default == 240
 
 
+def test_universe_writer_keeps_topix_etf_for_overlay(tmp_path: Path) -> None:
+    from app.yahoo.universe import write_universe
+
+    universe = pd.DataFrame(
+        {
+            "ticker": ["7203.T"],
+            "code": ["72030"],
+            "company_name": ["トヨタ自動車"],
+            "sector_17_code": ["6"],
+            "sector_33_code": ["3700"],
+        }
+    )
+
+    write_universe(universe, tmp_path)
+
+    tickers = (tmp_path / "prime_tickers.txt").read_text(encoding="utf-8").splitlines()
+    assert tickers == ["1306.T", "7203.T"]
+
+
 def test_dashboard_export_fills_company_name_from_bundled_master(
     settings: Settings,
     tmp_path: Path,

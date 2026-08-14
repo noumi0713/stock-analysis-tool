@@ -21,6 +21,12 @@ from app.yahoo.selective_ml import (
 STRONG_SHAPES = frozenset({"sharp_selloff", "capitulation_reversal", "rounded_base"})
 TEN_DAY_ADOPTED_SHAPE = "capitulation_reversal"
 TEN_DAY_ADOPTED_SHAPE_LABEL = "投げ売り反転"
+TOPIX_ETF_TICKER = "1306.T"
+TOPIX_ETF_MAX_ALLOCATION = 0.50
+TOPIX_ETF_LOT_SIZE = 10
+TOPIX_TREND_SHORT_DAYS = 25
+TOPIX_TREND_MEDIUM_DAYS = 75
+TOPIX_TREND_LONG_DAYS = 200
 STRONG_SHAPE_MIN_TURNOVER = 200_000_000.0
 SELECTIVE_SHAPE_FEATURES = (
     "_rise_market_favorable",
@@ -153,6 +159,7 @@ def add_ten_day_signal_and_study(
     *,
     minimum_turnover: float = STRONG_SHAPE_MIN_TURNOVER,
     evaluation_days: int = 240,
+    topix_etf_prices: pd.DataFrame | None = None,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Attach and validate a separate +5% within 10 trading days signal.
 
@@ -404,6 +411,24 @@ def add_ten_day_signal_and_study(
         take_profit_at_target=True,
         stop_loss_pct=0.12,
     )
+    portfolio_two_million_topix_etf_study = calculate_ten_day_portfolio_study(
+        outcome_frame,
+        portfolio_candidates,
+        all_dates,
+        config,
+        initial_cash=2_000_000.0,
+        minimum_turnover=150_000_000.0,
+        limit_offset=0.015,
+        maximum_daily_buys=2,
+        maximum_positions=3,
+        lot_size=100,
+        take_profit_at_target=True,
+        stop_loss_pct=0.12,
+        topix_etf_prices=topix_etf_prices,
+        topix_etf_ticker=TOPIX_ETF_TICKER,
+        topix_etf_max_allocation=TOPIX_ETF_MAX_ALLOCATION,
+        topix_etf_lot_size=TOPIX_ETF_LOT_SIZE,
+    )
     live_candidate_records = (
         latest_scores.loc[
             latest_scores["ml_ten_day_signal"],
@@ -449,6 +474,9 @@ def add_ten_day_signal_and_study(
         "portfolio_hold_to_day10_study": portfolio_hold_to_day10_study,
         "stop_loss_study": stop_loss_study,
         "portfolio_two_million_stop_study": portfolio_two_million_stop_study,
+        "portfolio_two_million_topix_etf_study": (
+            portfolio_two_million_topix_etf_study
+        ),
         "turnover_sensitivity": {
             "comparison_mode": (
                 "frozen_200m_rule_with_threshold_specific_walk_forward_refits"
@@ -701,6 +729,13 @@ def calculate_ten_day_portfolio_study(
     lot_size: int,
     take_profit_at_target: bool = True,
     stop_loss_pct: float | None = None,
+    topix_etf_prices: pd.DataFrame | None = None,
+    topix_etf_ticker: str = TOPIX_ETF_TICKER,
+    topix_etf_max_allocation: float = 0.0,
+    topix_etf_lot_size: int = TOPIX_ETF_LOT_SIZE,
+    topix_trend_short_days: int = TOPIX_TREND_SHORT_DAYS,
+    topix_trend_medium_days: int = TOPIX_TREND_MEDIUM_DAYS,
+    topix_trend_long_days: int = TOPIX_TREND_LONG_DAYS,
 ) -> dict[str, Any]:
     """Simulate overlapping positions with cash, lot, and capacity constraints."""
     base = {
@@ -727,6 +762,28 @@ def calculate_ten_day_portfolio_study(
             "bar, stop is assumed first"
         ),
         "transaction_cost_bps": config.transaction_cost_bps,
+        "topix_etf_overlay_enabled": topix_etf_max_allocation > 0.0,
+        "topix_etf_ticker": (
+            topix_etf_ticker if topix_etf_max_allocation > 0.0 else None
+        ),
+        "topix_etf_max_allocation": (
+            topix_etf_max_allocation if topix_etf_max_allocation > 0.0 else None
+        ),
+        "topix_etf_lot_size": (
+            topix_etf_lot_size if topix_etf_max_allocation > 0.0 else None
+        ),
+        "topix_uptrend_rule": (
+            f"previous adjusted close > {topix_trend_long_days}-day moving average and "
+            f"{topix_trend_short_days}-day moving average > "
+            f"{topix_trend_medium_days}-day moving average; execute at next open"
+            if topix_etf_max_allocation > 0.0
+            else None
+        ),
+        "asset_priority": (
+            "sell TOPIX ETF before a fillable individual-stock entry; never hold both"
+            if topix_etf_max_allocation > 0.0
+            else None
+        ),
     }
     if not study_dates:
         return {**base, "status": "no_study_dates"}
@@ -734,7 +791,18 @@ def calculate_ten_day_portfolio_study(
     calendar = sorted(set(study_dates))
     study_start = calendar[0]
     study_end = calendar[-1]
-    if candidates.empty:
+    etf_enabled = topix_etf_max_allocation > 0.0
+    if not 0.0 <= topix_etf_max_allocation <= 1.0:
+        return {**base, "status": "invalid_topix_etf_max_allocation"}
+    if etf_enabled and (topix_etf_prices is None or topix_etf_prices.empty):
+        return {
+            **base,
+            "status": "missing_topix_etf_prices",
+            "study_start": str(study_start),
+            "study_end": str(study_end),
+            "trading_days": len(calendar),
+        }
+    if candidates.empty and not etf_enabled:
         return {
             **base,
             "status": "no_candidates",
@@ -743,6 +811,58 @@ def calculate_ten_day_portfolio_study(
             "trading_days": len(calendar),
             "days_without_positions": len(calendar),
         }
+
+    etf_by_date: dict[Any, dict[str, Any]] = {}
+    if etf_enabled:
+        etf_prices = topix_etf_prices.copy()
+        etf_prices["date"] = pd.to_datetime(etf_prices["date"]).dt.date
+        if "ticker" in etf_prices:
+            etf_prices = etf_prices.loc[
+                etf_prices["ticker"].astype(str).eq(topix_etf_ticker)
+            ].copy()
+        etf_prices = etf_prices.sort_values("date").drop_duplicates("date", keep="last")
+        etf_ratio = (
+            pd.to_numeric(etf_prices["adjusted_close"], errors="coerce")
+            / pd.to_numeric(etf_prices["close"], errors="coerce")
+        )
+        etf_prices["_open"] = (
+            pd.to_numeric(etf_prices["open"], errors="coerce") * etf_ratio
+        )
+        etf_prices["_close"] = pd.to_numeric(
+            etf_prices["adjusted_close"], errors="coerce"
+        )
+        etf_prices["_ma_short"] = etf_prices["_close"].rolling(
+            topix_trend_short_days,
+            min_periods=topix_trend_short_days,
+        ).mean()
+        etf_prices["_ma_medium"] = etf_prices["_close"].rolling(
+            topix_trend_medium_days,
+            min_periods=topix_trend_medium_days,
+        ).mean()
+        etf_prices["_ma_long"] = etf_prices["_close"].rolling(
+            topix_trend_long_days,
+            min_periods=topix_trend_long_days,
+        ).mean()
+        etf_prices["_trend_on"] = (
+            etf_prices["_close"].gt(etf_prices["_ma_long"])
+            & etf_prices["_ma_short"].gt(etf_prices["_ma_medium"])
+        )
+        etf_prices["_prior_trend_on"] = etf_prices["_trend_on"].shift(1).fillna(False)
+        etf_prices = etf_prices.loc[
+            etf_prices["date"].isin(calendar)
+            & etf_prices[["_open", "_close"]].notna().all(axis=1)
+        ]
+        etf_by_date = {
+            row["date"]: row for row in etf_prices.to_dict(orient="records")
+        }
+        if not etf_by_date:
+            return {
+                **base,
+                "status": "no_topix_etf_prices_in_study_period",
+                "study_start": str(study_start),
+                "study_end": str(study_end),
+                "trading_days": len(calendar),
+            }
 
     candidate_keys = candidates[["ticker", "date"]].drop_duplicates()
     tickers = candidate_keys["ticker"].dropna().unique().tolist()
@@ -870,9 +990,18 @@ def calculate_ten_day_portfolio_study(
     cash = float(initial_cash)
     positions: list[dict[str, Any]] = []
     completed: list[dict[str, Any]] = []
+    etf_shares = 0
+    etf_cost_basis_yen = 0.0
+    etf_last_close: float | None = None
+    etf_buys = 0
+    etf_sells = 0
+    etf_events: list[dict[str, Any]] = []
     equity_curve: list[dict[str, Any]] = []
     days_without_positions = 0
     days_with_positions = 0
+    days_with_stock_positions = 0
+    days_with_topix_etf = 0
+    maximum_topix_etf_allocation_used = 0.0
     maximum_positions_used = 0
     skipped_capacity = 0
     skipped_lot_cost = 0
@@ -883,9 +1012,66 @@ def calculate_ten_day_portfolio_study(
             key = (position["ticker"], value_date)
             close_value = close_lookup.get(key, position["entry_price"])
             market_value += position["shares"] * float(close_value)
-        return cash + market_value
+        etf_market_value = (
+            etf_shares * etf_last_close
+            if etf_shares and etf_last_close is not None
+            else 0.0
+        )
+        return cash + market_value + etf_market_value
+
+    def buy_topix_etf(value_date: Any, price: float, shares: int) -> None:
+        nonlocal cash, etf_shares, etf_cost_basis_yen, etf_buys
+        cost = shares * price * (1.0 + half_cost)
+        cash -= cost
+        etf_shares += shares
+        etf_cost_basis_yen += cost
+        etf_buys += 1
+        etf_events.append(
+            {
+                "date": str(value_date),
+                "side": "buy",
+                "reason": "topix_uptrend_entry",
+                "shares": int(shares),
+                "price": float(price),
+                "cash_flow_yen": float(-cost),
+            }
+        )
+
+    def sell_topix_etf(
+        value_date: Any,
+        price: float,
+        shares: int,
+        reason: str,
+    ) -> None:
+        nonlocal cash, etf_shares, etf_cost_basis_yen, etf_sells
+        shares = min(shares, etf_shares)
+        if shares <= 0:
+            return
+        previous_shares = etf_shares
+        allocated_basis = etf_cost_basis_yen * shares / previous_shares
+        proceeds = shares * price * (1.0 - half_cost)
+        cash += proceeds
+        etf_shares -= shares
+        etf_cost_basis_yen -= allocated_basis
+        if etf_shares == 0:
+            etf_cost_basis_yen = 0.0
+        etf_sells += 1
+        etf_events.append(
+            {
+                "date": str(value_date),
+                "side": "sell",
+                "reason": reason,
+                "shares": int(shares),
+                "price": float(price),
+                "cash_flow_yen": float(proceeds),
+                "realized_profit_yen": float(proceeds - allocated_basis),
+            }
+        )
 
     for value_date in calendar:
+        etf_row = etf_by_date.get(value_date)
+        if etf_row is not None:
+            etf_last_close = float(etf_row["_close"])
         exiting = [position for position in positions if position["exit_date"] == value_date]
         for position in exiting:
             proceeds = position["shares"] * position["exit_price"] * (1.0 - half_cost)
@@ -901,6 +1087,33 @@ def calculate_ten_day_portfolio_study(
             key=lambda plan: plan["rank_score"],
             reverse=True,
         )
+        if etf_row is not None:
+            etf_open = float(etf_row["_open"])
+            prior_trend_on = bool(etf_row["_prior_trend_on"])
+            if etf_shares and not prior_trend_on:
+                sell_topix_etf(
+                    value_date,
+                    etf_open,
+                    etf_shares,
+                    "topix_uptrend_ended",
+                )
+            if entry_plans and etf_shares:
+                sell_topix_etf(
+                    value_date,
+                    etf_open,
+                    etf_shares,
+                    "switch_to_individual_stock",
+                )
+            if not positions and not entry_plans and not etf_shares and prior_trend_on:
+                target_value = cash * topix_etf_max_allocation
+                lot_cost = etf_open * topix_etf_lot_size * (1.0 + half_cost)
+                lots = int(target_value // lot_cost)
+                if lots >= 1:
+                    buy_topix_etf(
+                        value_date,
+                        etf_open,
+                        lots * topix_etf_lot_size,
+                    )
         for plan in entry_plans:
             if daily_buys >= maximum_daily_buys or len(positions) >= maximum_positions:
                 skipped_capacity += 1
@@ -930,11 +1143,60 @@ def calculate_ten_day_portfolio_study(
 
         cash += same_day_exit_proceeds
 
+        if etf_enabled and not positions and etf_row is not None:
+            etf_close = float(etf_row["_close"])
+            if value_date == study_end:
+                if etf_shares:
+                    sell_topix_etf(
+                        value_date,
+                        etf_close,
+                        etf_shares,
+                        "study_end",
+                    )
+            elif etf_shares:
+                equity_before_rebalance = marked_equity(value_date)
+                etf_value = etf_shares * etf_close
+                maximum_value = topix_etf_max_allocation * equity_before_rebalance
+                if etf_value > maximum_value:
+                    value_to_sell = (etf_value - maximum_value) / (
+                        1.0 - topix_etf_max_allocation * half_cost
+                    )
+                    lots_to_sell = int(
+                        np.ceil(value_to_sell / (etf_close * topix_etf_lot_size))
+                    )
+                    sell_topix_etf(
+                        value_date,
+                        etf_close,
+                        lots_to_sell * topix_etf_lot_size,
+                        "allocation_cap_rebalance",
+                    )
+
         equity = marked_equity(value_date)
+        etf_value = (
+            etf_shares * etf_last_close
+            if etf_shares and etf_last_close is not None
+            else 0.0
+        )
+        etf_allocation = etf_value / equity if equity > 0.0 else 0.0
+        maximum_topix_etf_allocation_used = max(
+            maximum_topix_etf_allocation_used,
+            etf_allocation,
+        )
         equity_curve.append(
-            {"date": value_date, "equity": equity, "positions": len(positions)}
+            {
+                "date": value_date,
+                "equity": equity,
+                "positions": len(positions) + int(etf_shares > 0),
+                "stock_positions": len(positions),
+                "topix_etf_shares": etf_shares,
+                "topix_etf_allocation": etf_allocation,
+            }
         )
         if positions:
+            days_with_stock_positions += 1
+        if etf_shares:
+            days_with_topix_etf += 1
+        if positions or etf_shares:
             days_with_positions += 1
         else:
             days_without_positions += 1
@@ -1064,6 +1326,23 @@ def calculate_ten_day_portfolio_study(
         "active_window_trading_days": int(len(active_window)),
         "days_with_positions": days_with_positions,
         "position_day_rate": days_with_positions / len(calendar),
+        "days_with_stock_positions": days_with_stock_positions,
+        "days_with_topix_etf": days_with_topix_etf,
+        "days_without_any_position": days_without_positions,
+        "topix_etf_buy_orders": etf_buys,
+        "topix_etf_sell_orders": etf_sells,
+        "topix_etf_realized_profit_yen": float(
+            sum(
+                event.get("realized_profit_yen", 0.0)
+                for event in etf_events
+                if event["side"] == "sell"
+            )
+        ),
+        "maximum_topix_etf_allocation_used": (
+            maximum_topix_etf_allocation_used if etf_enabled else None
+        ),
+        "topix_etf_open_shares_at_end": etf_shares,
+        "topix_etf_events": etf_events,
         "maximum_positions_used": maximum_positions_used,
         "skipped_for_capacity": skipped_capacity,
         "skipped_for_lot_cost": skipped_lot_cost,
