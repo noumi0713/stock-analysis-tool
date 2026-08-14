@@ -377,6 +377,19 @@ def add_ten_day_signal_and_study(
         lot_size=100,
         take_profit_at_target=False,
     )
+    stop_loss_study = calculate_ten_day_stop_loss_study(
+        outcome_frame,
+        portfolio_candidates,
+        all_dates,
+        config,
+        baseline=portfolio_study,
+        initial_cash=1_000_000.0,
+        minimum_turnover=150_000_000.0,
+        limit_offset=0.015,
+        maximum_daily_buys=2,
+        maximum_positions=3,
+        lot_size=100,
+    )
     live_candidate_records = (
         latest_scores.loc[
             latest_scores["ml_ten_day_signal"],
@@ -420,6 +433,7 @@ def add_ten_day_signal_and_study(
         "limit_order_study": limit_order_study,
         "portfolio_study": portfolio_study,
         "portfolio_hold_to_day10_study": portfolio_hold_to_day10_study,
+        "stop_loss_study": stop_loss_study,
         "turnover_sensitivity": {
             "comparison_mode": (
                 "frozen_200m_rule_with_threshold_specific_walk_forward_refits"
@@ -671,6 +685,7 @@ def calculate_ten_day_portfolio_study(
     maximum_positions: int,
     lot_size: int,
     take_profit_at_target: bool = True,
+    stop_loss_pct: float | None = None,
 ) -> dict[str, Any]:
     """Simulate overlapping positions with cash, lot, and capacity constraints."""
     base = {
@@ -683,12 +698,19 @@ def calculate_ten_day_portfolio_study(
         "lot_size": lot_size,
         "position_budget": "all available cash",
         "take_profit_at_target": take_profit_at_target,
+        "stop_loss_pct_from_entry": (
+            -stop_loss_pct if stop_loss_pct is not None else None
+        ),
         "exit_rule": (
             "+5% target or tenth-trading-day close"
             if take_profit_at_target
             else "hold every filled trade through tenth-trading-day close"
         ),
-        "same_day_sequence": "scheduled exits, then entries; entry-day targets exit after entry",
+        "same_day_sequence": (
+            "scheduled exits, then entries; same-day entry/exit proceeds are not "
+            "reused for another entry; if stop and target touch on the same daily "
+            "bar, stop is assumed first"
+        ),
         "transaction_cost_bps": config.transaction_cost_bps,
     }
     if not study_dates:
@@ -757,14 +779,45 @@ def calculate_ten_day_portfolio_study(
             continue
         target_price = entry_price * 1.05
         exit_date = future.iloc[-1]["date"]
-        exit_price = float(future.iloc[-1]["adjusted_close"])
-        target_hit = False
+        day10_exit_price = float(future.iloc[-1]["adjusted_close"])
+        exit_price = day10_exit_price
+        stop_price = (
+            entry_price * (1.0 - stop_loss_pct)
+            if stop_loss_pct is not None
+            else None
+        )
+        eventual_target_hit = any(
+            float(day["_high"]) >= target_price
+            for holding_index, (_, day) in enumerate(future.iterrows())
+            if not (holding_index == 0 and fill_mode == "intraday")
+        )
+        adverse_returns_before_target: list[float] = []
+        for holding_index, (_, day) in enumerate(future.iterrows()):
+            adverse_returns_before_target.append(float(day["_low"]) / entry_price - 1.0)
+            target_touched = not (
+                holding_index == 0 and fill_mode == "intraday"
+            ) and float(day["_high"]) >= target_price
+            if target_touched:
+                break
+        maximum_adverse_excursion = min(adverse_returns_before_target)
+        target_hit = eventual_target_hit if not take_profit_at_target else False
         take_profit_executed = False
+        stop_loss_executed = False
         holding_trading_days = config.horizon_days
         for holding_index, (_, day) in enumerate(future.iterrows()):
-            if holding_index == 0 and fill_mode == "intraday":
-                continue
-            if float(day["_high"]) >= target_price:
+            stop_touched = (
+                stop_price is not None and float(day["_low"]) <= stop_price
+            )
+            target_touched = not (
+                holding_index == 0 and fill_mode == "intraday"
+            ) and float(day["_high"]) >= target_price
+            if stop_touched:
+                exit_date = day["date"]
+                exit_price = float(stop_price)
+                stop_loss_executed = True
+                holding_trading_days = holding_index + 1
+                break
+            if target_touched:
                 target_hit = True
                 if take_profit_at_target:
                     exit_date = day["date"]
@@ -781,8 +834,14 @@ def calculate_ten_day_portfolio_study(
                 "entry_fill_mode": fill_mode,
                 "exit_date": exit_date,
                 "exit_price": exit_price,
+                "day10_exit_price": day10_exit_price,
                 "target_hit": target_hit,
+                "eventual_target_hit_without_stop": eventual_target_hit,
+                "maximum_adverse_excursion_before_target_or_day10": (
+                    maximum_adverse_excursion
+                ),
                 "take_profit_executed": take_profit_executed,
+                "stop_loss_executed": stop_loss_executed,
                 "holding_trading_days": holding_trading_days,
                 "rank_score": float(candidate.get(score_column, 0.0)),
             }
@@ -821,6 +880,7 @@ def calculate_ten_day_portfolio_study(
             positions.remove(position)
 
         daily_buys = 0
+        same_day_exit_proceeds = 0.0
         entry_plans = sorted(
             plans_by_entry.get(value_date, []),
             key=lambda plan: plan["rank_score"],
@@ -848,10 +908,12 @@ def calculate_ten_day_portfolio_study(
             maximum_positions_used = max(maximum_positions_used, len(positions))
             if plan["exit_date"] == value_date:
                 proceeds = shares * plan["exit_price"] * (1.0 - half_cost)
-                cash += proceeds
+                same_day_exit_proceeds += proceeds
                 position["net_profit_yen"] = proceeds - entry_cost
                 completed.append(position)
                 positions.remove(position)
+
+        cash += same_day_exit_proceeds
 
         equity = marked_equity(value_date)
         equity_curve.append(
@@ -890,7 +952,15 @@ def calculate_ten_day_portfolio_study(
     ):
         gross_return = trade["exit_price"] / trade["entry_price"] - 1.0
         net_return = trade["net_profit_yen"] / trade["entry_cost_yen"]
-        if trade["take_profit_executed"]:
+        day10_net_return = (
+            trade["day10_exit_price"] * (1.0 - half_cost)
+            / (trade["entry_price"] * (1.0 + half_cost))
+            - 1.0
+        )
+        if trade["stop_loss_executed"]:
+            exit_reason = "stop_loss_fixed"
+            exit_reason_label = f"固定損切り（-{stop_loss_pct:.0%}）"
+        elif trade["take_profit_executed"]:
             exit_reason = "take_profit_5pct"
             exit_reason_label = "+5%利確"
         elif trade["target_hit"] and net_return > 0.0:
@@ -928,6 +998,13 @@ def calculate_ten_day_portfolio_study(
                 "gross_return": float(gross_return),
                 "net_return": float(net_return),
                 "net_profit_yen": float(trade["net_profit_yen"]),
+                "day10_net_return_without_exit": float(day10_net_return),
+                "eventual_target_hit_without_stop": bool(
+                    trade["eventual_target_hit_without_stop"]
+                ),
+                "maximum_adverse_excursion_before_target_or_day10": float(
+                    trade["maximum_adverse_excursion_before_target_or_day10"]
+                ),
             }
         )
     return {
@@ -942,6 +1019,15 @@ def calculate_ten_day_portfolio_study(
         "completed_trades": len(completed),
         "target_hit_rate": (
             float(np.mean([trade["target_hit"] for trade in completed]))
+            if completed
+            else None
+        ),
+        "eventual_target_hit_rate_without_stop": (
+            float(
+                np.mean(
+                    [trade["eventual_target_hit_without_stop"] for trade in completed]
+                )
+            )
             if completed
             else None
         ),
@@ -971,6 +1057,173 @@ def calculate_ten_day_portfolio_study(
         "caveat": (
             "Walk-forward model scores avoid future-outcome leakage, but the frozen signal "
             "parameters were selected using part of this same three-year history."
+        ),
+    }
+
+
+def calculate_ten_day_stop_loss_study(
+    outcome_frame: pd.DataFrame,
+    candidates: pd.DataFrame,
+    study_dates: list[Any],
+    config: RisePatternConfig,
+    *,
+    baseline: dict[str, Any],
+    initial_cash: float,
+    minimum_turnover: float,
+    limit_offset: float,
+    maximum_daily_buys: int,
+    maximum_positions: int,
+    lot_size: int,
+) -> dict[str, Any]:
+    """Compare fixed stops while tracking stops of eventual +5% winners."""
+
+    def summarize(result: dict[str, Any], stop_loss_pct: float | None) -> dict[str, Any]:
+        trades = result.get("trades", [])
+        stopped = [trade for trade in trades if trade["exit_reason"] == "stop_loss_fixed"]
+        eventual_targets = [
+            trade for trade in trades if trade["eventual_target_hit_without_stop"]
+        ]
+        false_stops = [
+            trade for trade in stopped if trade["eventual_target_hit_without_stop"]
+        ]
+        useful_stops = [
+            trade
+            for trade in stopped
+            if not trade["eventual_target_hit_without_stop"]
+            and trade["day10_net_return_without_exit"] < trade["net_return"]
+        ]
+        rebound_stops = [
+            trade
+            for trade in stopped
+            if not trade["eventual_target_hit_without_stop"]
+            and trade["day10_net_return_without_exit"] >= trade["net_return"]
+        ]
+        return {
+            "stop_loss_pct_from_entry": (
+                -stop_loss_pct if stop_loss_pct is not None else None
+            ),
+            "ending_equity_yen": result.get("ending_equity_yen"),
+            "total_return": result.get("total_return"),
+            "annualized_return": result.get("annualized_return"),
+            "maximum_drawdown": result.get("maximum_drawdown"),
+            "completed_trades": result.get("completed_trades"),
+            "trade_win_rate": result.get("trade_win_rate"),
+            "days_without_positions": result.get("days_without_positions"),
+            "skipped_for_capacity": result.get("skipped_for_capacity"),
+            "skipped_for_lot_cost": result.get("skipped_for_lot_cost"),
+            "stop_loss_executions": len(stopped),
+            "eventual_target_trades": len(eventual_targets),
+            "eventual_target_winners_stopped": len(false_stops),
+            "false_stop_rate_among_eventual_targets": (
+                len(false_stops) / len(eventual_targets) if eventual_targets else None
+            ),
+            "declining_trades_cut_better_than_day10": len(useful_stops),
+            "non_target_rebounds_cut_too_early": len(rebound_stops),
+            "false_stop_examples": [
+                {
+                    "ticker": trade["ticker"],
+                    "signal_date": trade["signal_date"],
+                    "stop_net_return": trade["net_return"],
+                }
+                for trade in false_stops
+            ],
+        }
+
+    levels = [summarize(baseline, None)]
+    for percentage_point in range(1, 21):
+        stop_loss_pct = percentage_point / 100.0
+        result = calculate_ten_day_portfolio_study(
+            outcome_frame,
+            candidates,
+            study_dates,
+            config,
+            initial_cash=initial_cash,
+            minimum_turnover=minimum_turnover,
+            limit_offset=limit_offset,
+            maximum_daily_buys=maximum_daily_buys,
+            maximum_positions=maximum_positions,
+            lot_size=lot_size,
+            take_profit_at_target=True,
+            stop_loss_pct=stop_loss_pct,
+        )
+        levels.append(summarize(result, stop_loss_pct))
+
+    baseline_trades = baseline.get("trades", [])
+    baseline_targets = [
+        trade for trade in baseline_trades if trade["eventual_target_hit_without_stop"]
+    ]
+    baseline_non_targets = [
+        trade for trade in baseline_trades if not trade["eventual_target_hit_without_stop"]
+    ]
+    path_separation_levels = []
+    half_cost = config.transaction_cost_bps / 20_000.0
+    for percentage_point in range(1, 21):
+        stop_loss_pct = percentage_point / 100.0
+        stopped_target_winners = [
+            trade
+            for trade in baseline_targets
+            if trade["maximum_adverse_excursion_before_target_or_day10"]
+            <= -stop_loss_pct
+        ]
+        stopped_non_targets = [
+            trade
+            for trade in baseline_non_targets
+            if trade["maximum_adverse_excursion_before_target_or_day10"]
+            <= -stop_loss_pct
+        ]
+        stop_net_return = (
+            (1.0 - stop_loss_pct) * (1.0 - half_cost) / (1.0 + half_cost)
+            - 1.0
+        )
+        useful_non_target_stops = [
+            trade
+            for trade in stopped_non_targets
+            if trade["day10_net_return_without_exit"] < stop_net_return
+        ]
+        path_separation_levels.append(
+            {
+                "stop_loss_pct_from_entry": -stop_loss_pct,
+                "eventual_target_trades": len(baseline_targets),
+                "eventual_target_winners_stopped": len(stopped_target_winners),
+                "false_stop_rate_among_eventual_targets": (
+                    len(stopped_target_winners) / len(baseline_targets)
+                    if baseline_targets
+                    else None
+                ),
+                "non_target_trades": len(baseline_non_targets),
+                "non_target_trades_stopped": len(stopped_non_targets),
+                "declining_trades_cut_better_than_day10": len(
+                    useful_non_target_stops
+                ),
+                "non_target_rebounds_cut_too_early": (
+                    len(stopped_non_targets) - len(useful_non_target_stops)
+                ),
+            }
+        )
+
+    comparable = [row for row in levels if row["ending_equity_yen"] is not None]
+    best_return = max(comparable, key=lambda row: row["ending_equity_yen"])
+    low_false_stop = [
+        row
+        for row in comparable
+        if row["false_stop_rate_among_eventual_targets"] is not None
+        and row["false_stop_rate_among_eventual_targets"] <= 0.10
+    ]
+    return {
+        "status": "completed",
+        "comparison": "fixed stop from -1% through -20%, plus no stop",
+        "same_bar_assumption": "stop executes before +5% target on ambiguous daily bars",
+        "levels": levels,
+        "path_separation_baseline_trades": path_separation_levels,
+        "best_by_ending_equity": best_return,
+        "best_with_false_stop_rate_at_most_10pct": (
+            max(low_false_stop, key=lambda row: row["ending_equity_yen"])
+            if low_false_stop
+            else None
+        ),
+        "note": (
+            "An eventual-target false stop is a trade stopped before it later reaches +5% "
+            "within the original ten-trading-day window."
         ),
     }
 

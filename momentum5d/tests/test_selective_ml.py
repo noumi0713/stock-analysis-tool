@@ -410,3 +410,25 @@ def test_portfolio_study_can_use_all_cash_and_uses_standard_lots() -> None:
         == "hold_to_day10_after_target_loss"
     )
     assert hold_result["ending_equity_yen"] < 1_000_000.0
+
+    stopped_result = calculate_ten_day_portfolio_study(
+        pd.DataFrame(price_rows),
+        pd.DataFrame(candidate_rows),
+        dates,
+        RisePatternConfig(horizon_days=10),
+        initial_cash=1_000_000.0,
+        minimum_turnover=150_000_000.0,
+        limit_offset=0.015,
+        maximum_daily_buys=2,
+        maximum_positions=3,
+        lot_size=100,
+        take_profit_at_target=True,
+        stop_loss_pct=0.01,
+    )
+
+    assert stopped_result["completed_trades"] == 1
+    assert stopped_result["target_hit_rate"] == 0.0
+    assert stopped_result["eventual_target_hit_rate_without_stop"] == 1.0
+    assert stopped_result["trades"][0]["holding_trading_days"] == 1
+    assert stopped_result["trades"][0]["exit_reason"] == "stop_loss_fixed"
+    assert stopped_result["trades"][0]["eventual_target_hit_without_stop"] is True
