@@ -390,6 +390,20 @@ def add_ten_day_signal_and_study(
         maximum_positions=3,
         lot_size=100,
     )
+    portfolio_two_million_stop_study = calculate_ten_day_portfolio_study(
+        outcome_frame,
+        portfolio_candidates,
+        all_dates,
+        config,
+        initial_cash=2_000_000.0,
+        minimum_turnover=150_000_000.0,
+        limit_offset=0.015,
+        maximum_daily_buys=2,
+        maximum_positions=3,
+        lot_size=100,
+        take_profit_at_target=True,
+        stop_loss_pct=0.12,
+    )
     live_candidate_records = (
         latest_scores.loc[
             latest_scores["ml_ten_day_signal"],
@@ -434,6 +448,7 @@ def add_ten_day_signal_and_study(
         "portfolio_study": portfolio_study,
         "portfolio_hold_to_day10_study": portfolio_hold_to_day10_study,
         "stop_loss_study": stop_loss_study,
+        "portfolio_two_million_stop_study": portfolio_two_million_stop_study,
         "turnover_sensitivity": {
             "comparison_mode": (
                 "frozen_200m_rule_with_threshold_specific_walk_forward_refits"
