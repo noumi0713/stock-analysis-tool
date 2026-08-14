@@ -134,6 +134,17 @@ def test_latest_ten_day_signal_uses_development_parameters_and_top_one() -> None
     assert result.loc[result["ml_ten_day_signal"], "ml_ten_day_probability"].iloc[0] >= 0.55
     assert result["ml_ten_day_entry_rule"].str.contains(r"\+2%").all()
 
+    parameters["top_n_per_day"] = 5
+    multi_result = score_latest_ten_day_candidates(pd.DataFrame(rows), parameters)
+
+    assert int(multi_result["ml_ten_day_signal"].sum()) == 2
+    assert sorted(
+        multi_result.loc[
+            multi_result["ml_ten_day_signal"],
+            "ml_ten_day_rank",
+        ].tolist()
+    ) == [1, 2]
+
 
 def test_tuning_freezes_development_rule_for_validation() -> None:
     dates = [date(2026, 1, 1) + timedelta(days=offset) for offset in range(120)]

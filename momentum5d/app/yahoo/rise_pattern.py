@@ -28,6 +28,28 @@ TOPIX_TREND_SHORT_DAYS = 25
 TOPIX_TREND_MEDIUM_DAYS = 75
 TOPIX_TREND_LONG_DAYS = 200
 STRONG_SHAPE_MIN_TURNOVER = 200_000_000.0
+DEMO_TRADE_MINIMUM_TURNOVER = 150_000_000.0
+DEMO_TRADE_MAXIMUM_SIGNALS_PER_DAY = 5
+PORTFOLIO_424_SIGNAL_PARAMETERS: dict[str, Any] = {
+    "shape_profile": "capitulation_reversal",
+    "allowed_shapes": [TEN_DAY_ADOPTED_SHAPE],
+    "regime_profile": "all_regimes",
+    "technical_profile": "all_technical",
+    "min_atr_14_pct": None,
+    "min_range_width_10d": None,
+    "min_individual_trend_score": None,
+    "max_return_5d": None,
+    "min_market_breadth_5d": None,
+    "min_market_median_return_20d": None,
+    "model": "logistic",
+    "probability_threshold": 0.55,
+    "max_gap_up": 0.03,
+    "risk_profile": "loose",
+    "max_down_5pct_probability": 0.50,
+    "max_down_8pct_probability": 0.30,
+    "min_expected_net_return": -0.01,
+    "top_n_per_day": 1,
+}
 SELECTIVE_SHAPE_FEATURES = (
     "_rise_market_favorable",
     "_rise_theme_flow",
@@ -358,6 +380,26 @@ def add_ten_day_signal_and_study(
         evaluation_dates,
         portfolio_parameters,
     )
+    demo_trade_parameters = {
+        **PORTFOLIO_424_SIGNAL_PARAMETERS,
+        "top_n_per_day": DEMO_TRADE_MAXIMUM_SIGNALS_PER_DAY,
+    }
+    demo_trade_detection_scored = portfolio_scored.copy()
+    demo_trade_detection_scored["rise_trade_entry_gap_return"] = 0.0
+    demo_trade_history, _ = evaluate_frozen_ml_strategy(
+        demo_trade_detection_scored,
+        evaluation_dates,
+        demo_trade_parameters,
+    )
+    demo_trade_latest_scores = score_latest_ten_day_candidates(
+        outcome_frame,
+        demo_trade_parameters,
+        minimum_shape_samples=config.ml_minimum_shape_samples,
+        minimum_turnover=DEMO_TRADE_MINIMUM_TURNOVER,
+    )
+    demo_trade_live = demo_trade_latest_scores.loc[
+        demo_trade_latest_scores["ml_ten_day_signal"].fillna(False).astype(bool)
+    ].sort_values("ml_ten_day_rank")
     portfolio_study = calculate_ten_day_portfolio_study(
         outcome_frame,
         portfolio_candidates,
@@ -477,6 +519,46 @@ def add_ten_day_signal_and_study(
         "portfolio_two_million_topix_etf_study": (
             portfolio_two_million_topix_etf_study
         ),
+        "demo_trade_signal_study": {
+            "status": "completed",
+            "reference_result": {
+                "ending_equity_yen": 4_246_171,
+                "total_return": 1.1231,
+                "completed_trades": 53,
+                "trade_win_rate": 0.7547,
+            },
+            "reference_dashboard_commit": "97a66a793b4666c6c0ad5dbc683cbff3f54ab642",
+            "shape": TEN_DAY_ADOPTED_SHAPE,
+            "shape_label": TEN_DAY_ADOPTED_SHAPE_LABEL,
+            "minimum_turnover_yen": int(DEMO_TRADE_MINIMUM_TURNOVER),
+            "probability_threshold": 0.55,
+            "maximum_down_5pct_probability": 0.50,
+            "maximum_down_8pct_probability": 0.30,
+            "minimum_expected_net_return": -0.01,
+            "technical_profile": "all_technical",
+            "maximum_signals_per_day": DEMO_TRADE_MAXIMUM_SIGNALS_PER_DAY,
+            "entry_limit_offset_from_previous_close": 0.015,
+            "parameters": demo_trade_parameters,
+            "history_start": (
+                str(demo_trade_history["date"].min())
+                if not demo_trade_history.empty
+                else None
+            ),
+            "history_end": (
+                str(demo_trade_history["date"].max())
+                if not demo_trade_history.empty
+                else None
+            ),
+            "historical_signal_count": int(len(demo_trade_history)),
+            "historical_signals": _demo_trade_signal_records(demo_trade_history),
+            "live_signal_count": int(len(demo_trade_live)),
+            "live_signals": _demo_trade_live_records(demo_trade_live),
+            "note": (
+                "424万6,171円の参考結果を出した投げ売り反転・売買代金1.5億円以上・"
+                "Logistic確率55%以上・全テクニカル許容・損失確率条件を固定。"
+                "デモトレード表示だけを1日最大5銘柄へ拡張"
+            ),
+        },
         "turnover_sensitivity": {
             "comparison_mode": (
                 "frozen_200m_rule_with_threshold_specific_walk_forward_refits"
@@ -527,6 +609,100 @@ def add_ten_day_signal_and_study(
             validation_trades["rise_trade_net_return"].median()
         )
     return frame, study
+
+
+def _optional_float(row: pd.Series, column: str) -> float | None:
+    value = pd.to_numeric(row.get(column), errors="coerce")
+    return float(value) if pd.notna(value) and np.isfinite(value) else None
+
+
+def _demo_trade_signal_records(signals: pd.DataFrame) -> list[dict[str, Any]]:
+    if signals.empty:
+        return []
+    ranked = signals.sort_values(
+        ["date", "_ml_rank_score"],
+        ascending=[True, False],
+    ).copy()
+    ranked["_demo_rank"] = ranked.groupby("date", sort=False).cumcount() + 1
+    records: list[dict[str, Any]] = []
+    for _, row in ranked.iterrows():
+        signal_close = _optional_float(row, "adjusted_close")
+        if signal_close is None:
+            signal_close = _optional_float(row, "close")
+        records.append(
+            {
+                "signal_date": str(row["date"]),
+                "rank": int(row["_demo_rank"]),
+                "ticker": str(row["ticker"]),
+                "shape": str(row.get("_rise_shape") or TEN_DAY_ADOPTED_SHAPE),
+                "signal_close_yen": signal_close,
+                "limit_price_yen": (
+                    signal_close * 1.015 if signal_close is not None else None
+                ),
+                "return_5d": _optional_float(row, "return_5d"),
+                "daily_turnover_yen": _optional_float(row, "turnover_value"),
+                "target_probability": _optional_float(
+                    row,
+                    "ml_logistic_target_probability",
+                ),
+                "down_5pct_probability": _optional_float(
+                    row,
+                    "ml_logistic_down_5pct_probability",
+                ),
+                "down_8pct_probability": _optional_float(
+                    row,
+                    "ml_logistic_down_8pct_probability",
+                ),
+                "expected_net_return": _optional_float(
+                    row,
+                    "ml_logistic_expected_net_return",
+                ),
+                "rank_score": _optional_float(row, "_ml_rank_score"),
+            }
+        )
+    return records
+
+
+def _demo_trade_live_records(signals: pd.DataFrame) -> list[dict[str, Any]]:
+    if signals.empty:
+        return []
+    records: list[dict[str, Any]] = []
+    for _, row in signals.iterrows():
+        signal_close = _optional_float(row, "adjusted_close")
+        if signal_close is None:
+            signal_close = _optional_float(row, "close")
+        records.append(
+            {
+                "signal_date": str(row["date"]),
+                "rank": int(row["ml_ten_day_rank"]),
+                "ticker": str(row["ticker"]),
+                "shape": str(row.get("_rise_shape") or TEN_DAY_ADOPTED_SHAPE),
+                "signal_close_yen": signal_close,
+                "limit_price_yen": (
+                    signal_close * 1.015 if signal_close is not None else None
+                ),
+                "return_5d": _optional_float(row, "return_5d"),
+                "daily_turnover_yen": _optional_float(row, "turnover_value"),
+                "target_probability": _optional_float(
+                    row,
+                    "ml_ten_day_probability",
+                ),
+                "down_5pct_probability": _optional_float(
+                    row,
+                    "ml_ten_day_down_5pct_probability",
+                ),
+                "down_8pct_probability": _optional_float(
+                    row,
+                    "ml_ten_day_down_8pct_probability",
+                ),
+                "expected_net_return": _optional_float(
+                    row,
+                    "ml_ten_day_expected_net_return",
+                ),
+                "reason": str(row.get("ml_ten_day_reason") or ""),
+            }
+        )
+    return records
 
 
 def calculate_ten_day_limit_order_study(

@@ -315,6 +315,34 @@ jobs:
       - name: Export dashboard payload
         run: python -m app yahoo-export-dashboard --output work/latest.json
 
+      - name: Export compact demo-trade signals
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          source = json.loads(Path("work/latest.json").read_text(encoding="utf-8"))
+          study = (source.get("ten_day_signal_study") or {}).get(
+              "demo_trade_signal_study"
+          )
+          if not study or study.get("status") != "completed":
+              raise SystemExit("Demo-trade signal study is unavailable.")
+          payload = {
+              "generated_at": source.get("generated_at"),
+              "latest_date": source.get("latest_date"),
+              "study": study,
+          }
+          Path("work/demo-trade-signals.json").write_text(
+              json.dumps(
+                  payload,
+                  ensure_ascii=False,
+                  separators=(",", ":"),
+                  default=str,
+              ),
+              encoding="utf-8",
+          )
+          PY
+
       - name: Save final analysis checkpoint
         uses: actions/cache/save@v4
         with:
@@ -325,9 +353,10 @@ jobs:
         run: |
           mkdir -p ../dashboard-data
           cp work/latest.json ../dashboard-data/latest.json
+          cp work/demo-trade-signals.json ../dashboard-data/demo-trade-signals.json
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add ../dashboard-data/latest.json
+          git add ../dashboard-data/latest.json ../dashboard-data/demo-trade-signals.json
           if git diff --cached --quiet; then
             echo "Dashboard payload is unchanged."
             exit 0

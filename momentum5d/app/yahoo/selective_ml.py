@@ -249,6 +249,7 @@ def score_latest_ten_day_candidates(
     latest = work.loc[work["date"] == latest_date].copy()
     gap_limit = float(parameters.get("max_gap_up", 0.03))
     gap_label = f"{gap_limit:+.0%}"
+    turnover_label = f"{minimum_turnover / 100_000_000:g}億円"
     defaults: dict[str, Any] = {
         "ml_ten_day_probability": 0.0,
         "ml_ten_day_down_5pct_probability": 1.0,
@@ -350,16 +351,18 @@ def score_latest_ten_day_candidates(
             float(parameters.get("min_expected_net_return", 0.0))
         )
     ].sort_values("_ml_ten_day_rank_score", ascending=False)
-    if not candidates.empty:
-        winner_index = candidates.index[0]
-        eligible.at[winner_index, "ml_ten_day_signal"] = True
-        eligible.at[winner_index, "ml_ten_day_rank"] = 1
-        probability = float(eligible.at[winner_index, "ml_ten_day_probability"])
-        shape = str(eligible.at[winner_index, "_rise_shape"])
+    maximum_candidates = max(1, int(parameters.get("top_n_per_day", 1)))
+    for rank, candidate_index in enumerate(
+        candidates.head(maximum_candidates).index,
+        start=1,
+    ):
+        eligible.at[candidate_index, "ml_ten_day_signal"] = True
+        eligible.at[candidate_index, "ml_ten_day_rank"] = rank
+        probability = float(eligible.at[candidate_index, "ml_ten_day_probability"])
+        shape = str(eligible.at[candidate_index, "_rise_shape"])
         shape_label = STRONG_SHAPE_LABELS.get(shape, shape)
-        turnover_label = f"{minimum_turnover / 100_000_000:g}億円以上"
-        eligible.at[winner_index, "ml_ten_day_reason"] = (
-            f"{shape_label}・売買代金{turnover_label}・10営業日+5%参考率"
+        eligible.at[candidate_index, "ml_ten_day_reason"] = (
+            f"{shape_label}・売買代金{turnover_label}以上・10営業日+5%参考率"
             f"{probability:.0%}・翌日寄付き条件待ち"
         )
 
