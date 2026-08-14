@@ -29,8 +29,8 @@ on:
     - cron: "30 7 * * 1-5"
 
 concurrency:
-  group: momentum5d-daily
-  # コード更新は古い実装の実行を置き換える。定時更新同士は順番を守る。
+  group: momentum5d-daily-${{ github.ref }}
+  # 同じブランチのコード更新は古い実装を置き換え、ブランチ間は独立して実行する。
   cancel-in-progress: ${{ github.event_name == 'push' }}
 
 permissions:
