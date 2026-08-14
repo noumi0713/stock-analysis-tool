@@ -847,7 +847,10 @@ def calculate_ten_day_portfolio_study(
             etf_prices["_close"].gt(etf_prices["_ma_long"])
             & etf_prices["_ma_short"].gt(etf_prices["_ma_medium"])
         )
-        etf_prices["_prior_trend_on"] = etf_prices["_trend_on"].shift(1).fillna(False)
+        etf_prices["_prior_trend_on"] = etf_prices["_trend_on"].shift(
+            1,
+            fill_value=False,
+        )
         etf_prices = etf_prices.loc[
             etf_prices["date"].isin(calendar)
             & etf_prices[["_open", "_close"]].notna().all(axis=1)

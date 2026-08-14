@@ -133,7 +133,7 @@ class YahooPatternAnalyzer:
         summary = {
             "source": "yfinance",
             "personal_research_only": True,
-            "technical_method": "capitulation_reversal_10d_ml_selective_v2",
+            "technical_method": "capitulation_reversal_10d_ml_selective_v3",
             "technical_method_label": "投げ売り反転・10営業日+5% ML厳選",
             "analyzed_at": datetime.now(UTC).isoformat(),
             "rows": len(features),
