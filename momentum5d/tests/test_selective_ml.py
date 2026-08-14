@@ -373,6 +373,7 @@ def test_portfolio_study_can_use_all_cash_and_uses_standard_lots() -> None:
         maximum_daily_buys=2,
         maximum_positions=3,
         lot_size=100,
+        take_profit_at_target=True,
     )
 
     assert result["completed_trades"] == 1
@@ -385,3 +386,27 @@ def test_portfolio_study_can_use_all_cash_and_uses_standard_lots() -> None:
     assert result["trades"][0]["shares"] % 100 == 0
     assert result["trades"][0]["exit_reason"] == "take_profit_5pct"
     assert abs(result["trades"][0]["gross_return"] - 0.05) < 1e-12
+
+    hold_result = calculate_ten_day_portfolio_study(
+        pd.DataFrame(price_rows),
+        pd.DataFrame(candidate_rows),
+        dates,
+        RisePatternConfig(horizon_days=10),
+        initial_cash=1_000_000.0,
+        minimum_turnover=150_000_000.0,
+        limit_offset=0.015,
+        maximum_daily_buys=2,
+        maximum_positions=3,
+        lot_size=100,
+        take_profit_at_target=False,
+    )
+
+    assert hold_result["completed_trades"] == 1
+    assert hold_result["target_hit_rate"] == 1.0
+    assert hold_result["trades"][0]["holding_trading_days"] == 10
+    assert hold_result["trades"][0]["exit_date"] == str(dates[10])
+    assert (
+        hold_result["trades"][0]["exit_reason"]
+        == "hold_to_day10_after_target_loss"
+    )
+    assert hold_result["ending_equity_yen"] < 1_000_000.0

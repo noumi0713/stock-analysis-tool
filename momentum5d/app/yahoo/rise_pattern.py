@@ -362,6 +362,20 @@ def add_ten_day_signal_and_study(
         maximum_daily_buys=2,
         maximum_positions=3,
         lot_size=100,
+        take_profit_at_target=True,
+    )
+    portfolio_hold_to_day10_study = calculate_ten_day_portfolio_study(
+        outcome_frame,
+        portfolio_candidates,
+        all_dates,
+        config,
+        initial_cash=1_000_000.0,
+        minimum_turnover=150_000_000.0,
+        limit_offset=0.015,
+        maximum_daily_buys=2,
+        maximum_positions=3,
+        lot_size=100,
+        take_profit_at_target=False,
     )
     live_candidate_records = (
         latest_scores.loc[
@@ -405,6 +419,7 @@ def add_ten_day_signal_and_study(
         "validation_by_shape": diagnostics.get("validation_by_shape", {}),
         "limit_order_study": limit_order_study,
         "portfolio_study": portfolio_study,
+        "portfolio_hold_to_day10_study": portfolio_hold_to_day10_study,
         "turnover_sensitivity": {
             "comparison_mode": (
                 "frozen_200m_rule_with_threshold_specific_walk_forward_refits"
@@ -655,6 +670,7 @@ def calculate_ten_day_portfolio_study(
     maximum_daily_buys: int,
     maximum_positions: int,
     lot_size: int,
+    take_profit_at_target: bool = True,
 ) -> dict[str, Any]:
     """Simulate overlapping positions with cash, lot, and capacity constraints."""
     base = {
@@ -666,7 +682,12 @@ def calculate_ten_day_portfolio_study(
         "maximum_positions": maximum_positions,
         "lot_size": lot_size,
         "position_budget": "all available cash",
-        "exit_rule": "+5% target or tenth-trading-day close",
+        "take_profit_at_target": take_profit_at_target,
+        "exit_rule": (
+            "+5% target or tenth-trading-day close"
+            if take_profit_at_target
+            else "hold every filled trade through tenth-trading-day close"
+        ),
         "same_day_sequence": "scheduled exits, then entries; entry-day targets exit after entry",
         "transaction_cost_bps": config.transaction_cost_bps,
     }
@@ -738,15 +759,18 @@ def calculate_ten_day_portfolio_study(
         exit_date = future.iloc[-1]["date"]
         exit_price = float(future.iloc[-1]["adjusted_close"])
         target_hit = False
+        take_profit_executed = False
         holding_trading_days = config.horizon_days
         for holding_index, (_, day) in enumerate(future.iterrows()):
             if holding_index == 0 and fill_mode == "intraday":
                 continue
             if float(day["_high"]) >= target_price:
-                exit_date = day["date"]
-                exit_price = target_price
                 target_hit = True
-                holding_trading_days = holding_index + 1
+                if take_profit_at_target:
+                    exit_date = day["date"]
+                    exit_price = target_price
+                    take_profit_executed = True
+                    holding_trading_days = holding_index + 1
                 break
         trade_plans.append(
             {
@@ -758,6 +782,7 @@ def calculate_ten_day_portfolio_study(
                 "exit_date": exit_date,
                 "exit_price": exit_price,
                 "target_hit": target_hit,
+                "take_profit_executed": take_profit_executed,
                 "holding_trading_days": holding_trading_days,
                 "rank_score": float(candidate.get(score_column, 0.0)),
             }
@@ -865,9 +890,18 @@ def calculate_ten_day_portfolio_study(
     ):
         gross_return = trade["exit_price"] / trade["entry_price"] - 1.0
         net_return = trade["net_profit_yen"] / trade["entry_cost_yen"]
-        if trade["target_hit"]:
+        if trade["take_profit_executed"]:
             exit_reason = "take_profit_5pct"
             exit_reason_label = "+5%利確"
+        elif trade["target_hit"] and net_return > 0.0:
+            exit_reason = "hold_to_day10_after_target_profit"
+            exit_reason_label = "+5%到達後10日保有（利益）"
+        elif trade["target_hit"] and net_return < 0.0:
+            exit_reason = "hold_to_day10_after_target_loss"
+            exit_reason_label = "+5%到達後10日保有（損失）"
+        elif trade["target_hit"]:
+            exit_reason = "hold_to_day10_after_target_flat"
+            exit_reason_label = "+5%到達後10日保有（同値）"
         elif net_return > 0.0:
             exit_reason = "time_exit_profit"
             exit_reason_label = "10営業日目決済（利益）"
