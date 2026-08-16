@@ -2,7 +2,7 @@
   "schema_version": 13,
   "source": "yfinance",
   "personal_research_only": true,
-  "generated_at": "2026-08-14T07:50:14.529472+00:00",
+  "generated_at": "2026-08-16T02:30:13.597258+00:00",
   "latest_date": "2026-08-14",
   "update": {
     "status": "complete",
@@ -13,7 +13,7 @@
     "interval": "5m",
     "successful_tickers": 3653,
     "coverage": 0.9854329646614514,
-    "generated_at": "2026-08-14T07:50:14.529472+00:00"
+    "generated_at": "2026-08-16T02:30:13.597258+00:00"
   },
   "metrics": {
     "rows": 1054847,
@@ -15093,8 +15093,8 @@
     }
   },
   "technical_method": {
-    "key": "strong_shape_10d_ml_selective_v1",
-    "label": "10営業日+5% ML厳選",
+    "key": "portfolio_424_capitulation_10d_v1",
+    "label": "424万円基準・投げ売り反転10D",
     "stages": [
       "発見",
       "理解（業種連動の代理）",
@@ -15121,18 +15121,17 @@
       "上方修正",
       "信用残"
     ],
-    "note": "当日の出来高・売買代金を各銘柄の過去20日平均と対象内順位で比較する資金流入観測に、過去の+5%上昇パターンを未来データなしで検知するスコアを統合。強形状3種を形状別モデルで評価し、10営業日以内の+5%到達を目的に、売買代金2億円以上から1日最大1銘柄だけを候補化する。実際の買いは開発期間で選んだ翌日寄付きギャップ上限を満たす場合だけ有効。決算は7営業日以内なら新規買いを停止し、重要指標前は保有量を半減する。決算GDは当日反転を確認後、翌日の高値超えだけを候補化"
+    "note": "424万6,171円の参考バックテスト条件を共通抽出エンジンとして使用。投げ売り反転、売買代金1.5億円以上、Logistic確率55%以上、-5%確率50%以下、-8%確率30%以下、期待ネットリターン-1%以上。モメンタム10Dとカブトレは同一候補を順位順に最大3銘柄表示する。"
   },
   "signal_model": {
-    "key": "strong_shape_10d_ml_selective_v1",
-    "label": "10営業日+5% ML厳選候補",
+    "key": "portfolio_424_capitulation_10d_v1",
+    "label": "424万円基準・共通ランキング",
     "historical_results": {
-      "signals": 55,
-      "target_hit_rate": 0.5454545454545454,
-      "mean_trade_net_return": 0.003818202885991369,
-      "median_trade_net_return": 0.048,
-      "trade_win_rate": 0.6,
-      "target_rate_lower_95": 0.41522461348360484
+      "signals": 53,
+      "trade_win_rate": 0.7547,
+      "ending_equity_yen": 4246171,
+      "total_return": 1.1231,
+      "reference_only": true
     },
     "conditions": {
       "target_holding_days": 10,
@@ -15140,15 +15139,15 @@
       "shapes": [
         "capitulation_reversal"
       ],
-      "minimum_turnover_yen": 200000000,
+      "minimum_turnover_yen": 150000000,
       "model": "logistic",
-      "minimum_probability": 0.45,
+      "minimum_probability": 0.55,
       "maximum_down_5pct_probability": 0.5,
       "maximum_down_8pct_probability": 0.3,
       "minimum_expected_net_return": -0.01,
-      "maximum_candidates_per_day": 1,
-      "maximum_next_open_gap": 0.03,
-      "entry_rule": "翌営業日寄付きが選択ギャップ上限以下の場合のみ有効"
+      "maximum_candidates_per_day": 3,
+      "entry_limit_offset_from_previous_close": 0.015,
+      "entry_rule": "翌営業日の指値条件を満たす場合のみ有効"
     },
     "feature_lifts": [
       {
@@ -15261,7 +15260,7 @@
       }
     ],
     "live_signal_count": 0,
-    "note": "前半でモデル・閾値を選択し、後半は条件を変えずに検証。表示率は履歴上の参考値で、将来の上昇を保証しない"
+    "note": "424万円の成績は条件固定時の参考バックテスト。今回の変更はモメンタム10Dとカブトレの抽出元を共通化し、表示上限を3銘柄に統一するもの。"
   },
   "patterns": {
     "return_1d": {
@@ -20931,8 +20930,8 @@
     "target": "翌営業日始値から10営業日以内に日中高値+5%",
     "entry": "翌営業日始値（ギャップ上限は注文時に確認）",
     "holding_days": 10,
-    "minimum_turnover_yen": 200000000,
-    "maximum_candidates_per_day": 1,
+    "minimum_turnover_yen": 150000000,
+    "maximum_candidates_per_day": 3,
     "development_start": "2023-10-03",
     "development_end": "2025-02-03",
     "validation_start": "2025-02-04",
@@ -20943,21 +20942,21 @@
         "capitulation_reversal"
       ],
       "regime_profile": "all_regimes",
-      "technical_profile": "wide_range",
+      "technical_profile": "all_technical",
       "min_atr_14_pct": null,
-      "min_range_width_10d": 0.18,
+      "min_range_width_10d": null,
       "min_individual_trend_score": null,
       "max_return_5d": null,
       "min_market_breadth_5d": null,
       "min_market_median_return_20d": null,
       "model": "logistic",
-      "probability_threshold": 0.45,
+      "probability_threshold": 0.55,
       "max_gap_up": 0.03,
       "risk_profile": "loose",
       "max_down_5pct_probability": 0.5,
       "max_down_8pct_probability": 0.3,
       "min_expected_net_return": -0.01,
-      "top_n_per_day": 1
+      "top_n_per_day": 3
     },
     "deployment_approved": false,
     "deployment_rule": "未使用後半30件以上・10営業日+5%達成率60%以上・平均損益プラス",
@@ -29446,7 +29445,7 @@
       "maximum_down_8pct_probability": 0.3,
       "minimum_expected_net_return": -0.01,
       "technical_profile": "all_technical",
-      "maximum_signals_per_day": 5,
+      "maximum_signals_per_day": 3,
       "entry_limit_offset_from_previous_close": 0.015,
       "parameters": {
         "shape_profile": "capitulation_reversal",
@@ -29468,11 +29467,11 @@
         "max_down_5pct_probability": 0.5,
         "max_down_8pct_probability": 0.3,
         "min_expected_net_return": -0.01,
-        "top_n_per_day": 5
+        "top_n_per_day": 3
       },
       "history_start": "2023-11-15",
       "history_end": "2026-06-26",
-      "historical_signal_count": 304,
+      "historical_signal_count": 257,
       "historical_signals": [
         {
           "signal_date": "2023-11-15",
@@ -29486,8 +29485,8 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.007993122715039536,
-          "rank_score": 0.8058613797490471
+          "expected_net_return": 0.007993122715039526,
+          "rank_score": 0.805861379749047
         },
         {
           "signal_date": "2023-11-15",
@@ -29501,8 +29500,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.010540083380376937,
-          "rank_score": 0.7427158890770633
+          "expected_net_return": 0.010540083380376956,
+          "rank_score": 0.7427158890770634
         },
         {
           "signal_date": "2023-11-16",
@@ -29516,8 +29515,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.25,
-          "expected_net_return": 0.0011399288066784178,
-          "rank_score": 0.6826152707822694
+          "expected_net_return": 0.0011399288066784499,
+          "rank_score": 0.6826152707822695
         },
         {
           "signal_date": "2023-11-17",
@@ -29531,8 +29530,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.009328449334441354,
-          "rank_score": 0.7586295868114497
+          "expected_net_return": 0.009328449334441392,
+          "rank_score": 0.7586295868114498
         },
         {
           "signal_date": "2023-11-17",
@@ -29546,7 +29545,7 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.25,
-          "expected_net_return": -0.005915961330555395,
+          "expected_net_return": -0.005915961330555396,
           "rank_score": 0.6543917102333341
         },
         {
@@ -29561,7 +29560,7 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.25,
-          "expected_net_return": -0.0096731463971616,
+          "expected_net_return": -0.009673146397161603,
           "rank_score": 0.6393629699669092
         },
         {
@@ -29576,8 +29575,8 @@
           "target_probability": 1.0,
           "down_5pct_probability": 0.45257467119030087,
           "down_8pct_probability": 0.25,
-          "expected_net_return": 0.0326332467705588,
-          "rank_score": 1.047775519963205
+          "expected_net_return": 0.032633246770558864,
+          "rank_score": 1.0477755199632053
         },
         {
           "signal_date": "2023-11-28",
@@ -29591,7 +29590,7 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.25,
-          "expected_net_return": 0.02351598266332334,
+          "expected_net_return": 0.023515982663323325,
           "rank_score": 0.8454528195421823
         },
         {
@@ -29606,8 +29605,8 @@
           "target_probability": 0.5714285714285714,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.25,
-          "expected_net_return": -0.00647906375553828,
-          "rank_score": 0.4635678719619739
+          "expected_net_return": -0.006479063755538261,
+          "rank_score": 0.463567871961974
         },
         {
           "signal_date": "2023-11-30",
@@ -29620,9 +29619,9 @@
           "daily_turnover_yen": 182624600.0,
           "target_probability": 0.76,
           "down_5pct_probability": 0.4444444444444444,
-          "down_8pct_probability": 0.1149891041453929,
-          "expected_net_return": -0.006217739413469023,
-          "rank_score": 0.6734362322798705
+          "down_8pct_probability": 0.11498910414531374,
+          "expected_net_return": -0.006217739413468997,
+          "rank_score": 0.6734362322798825
         },
         {
           "signal_date": "2023-12-01",
@@ -29636,8 +29635,8 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.25,
-          "expected_net_return": 0.00032169718221822935,
-          "rank_score": 0.7526756776177619
+          "expected_net_return": 0.00032169718221825537,
+          "rank_score": 0.752675677617762
         },
         {
           "signal_date": "2023-12-04",
@@ -29651,8 +29650,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.03194644961468328,
-          "rank_score": 0.8641015879324174
+          "expected_net_return": 0.03194644961468333,
+          "rank_score": 0.8641015879324175
         },
         {
           "signal_date": "2023-12-04",
@@ -29666,7 +29665,7 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.3333333333333333,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.004686523465163589,
+          "expected_net_return": 0.004686523465163605,
           "rank_score": 0.8037460938606544
         },
         {
@@ -29681,38 +29680,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.011517547301534781,
-          "rank_score": 0.7673859786798234
-        },
-        {
-          "signal_date": "2023-12-04",
-          "rank": 4,
-          "ticker": "4919.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 3600.0,
-          "limit_price_yen": 3653.9999999999995,
-          "return_5d": -0.052631578947368474,
-          "daily_turnover_yen": 1235880000.0,
-          "target_probability": 0.76,
-          "down_5pct_probability": 0.23684210526315788,
-          "down_8pct_probability": 0.1,
-          "expected_net_return": 0.0072649297344746806,
-          "rank_score": 0.750375508411583
-        },
-        {
-          "signal_date": "2023-12-04",
-          "rank": 5,
-          "ticker": "9090.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1497.0,
-          "limit_price_yen": 1519.455,
-          "return_5d": -0.11733490566037741,
-          "daily_turnover_yen": 1718705700.0,
-          "target_probability": 0.76,
-          "down_5pct_probability": 0.3401293822336293,
-          "down_8pct_probability": 0.1,
-          "expected_net_return": 0.006329512331619725,
-          "rank_score": 0.7363051111031159
+          "expected_net_return": 0.011517547301534809,
+          "rank_score": 0.7673859786798235
         },
         {
           "signal_date": "2023-12-05",
@@ -29726,7 +29695,7 @@
           "target_probability": 1.0,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.017282095165786555,
+          "expected_net_return": 0.01728209516578655,
           "rank_score": 1.0304441701368305
         },
         {
@@ -29741,7 +29710,7 @@
           "target_probability": 1.0,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.014356563231525694,
+          "expected_net_return": 0.014356563231525676,
           "rank_score": 1.018742042399787
         },
         {
@@ -29756,23 +29725,8 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.25,
-          "expected_net_return": 0.005501756711643247,
+          "expected_net_return": 0.005501756711643249,
           "rank_score": 0.773395915735462
-        },
-        {
-          "signal_date": "2023-12-05",
-          "rank": 4,
-          "ticker": "7832.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 2821.5,
-          "limit_price_yen": 2863.8224999999998,
-          "return_5d": -0.048397976391231,
-          "daily_turnover_yen": 7448760000.0,
-          "target_probability": 0.76,
-          "down_5pct_probability": 0.23684210526315788,
-          "down_8pct_probability": 0.1,
-          "expected_net_return": 5.259036420438359e-06,
-          "rank_score": 0.721336825619366
         },
         {
           "signal_date": "2023-12-06",
@@ -29786,8 +29740,8 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.3333333333333333,
           "down_8pct_probability": 0.1,
-          "expected_net_return": -0.0036033856723936535,
-          "rank_score": 0.7705864573104254
+          "expected_net_return": -0.003603385672393636,
+          "rank_score": 0.7705864573104255
         },
         {
           "signal_date": "2023-12-06",
@@ -29800,9 +29754,9 @@
           "daily_turnover_yen": 172448900.0,
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.4444444444444444,
-          "down_8pct_probability": 0.22410165799567577,
-          "expected_net_return": -0.0002163173525739897,
-          "rank_score": 0.7544083707792416
+          "down_8pct_probability": 0.22410165799557208,
+          "expected_net_return": -0.0002163173525739706,
+          "rank_score": 0.7544083707792573
         },
         {
           "signal_date": "2023-12-06",
@@ -29816,38 +29770,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": -0.0004421788825008915,
+          "expected_net_return": -0.00044217888250088454,
           "rank_score": 0.7195470739436807
-        },
-        {
-          "signal_date": "2023-12-06",
-          "rank": 4,
-          "ticker": "4978.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 189.0,
-          "limit_price_yen": 191.83499999999998,
-          "return_5d": -0.09134615384615385,
-          "daily_turnover_yen": 625911300.0,
-          "target_probability": 0.76,
-          "down_5pct_probability": 0.4444444444444444,
-          "down_8pct_probability": 0.1,
-          "expected_net_return": -0.008801946179040575,
-          "rank_score": 0.6653477708393933
-        },
-        {
-          "signal_date": "2023-12-06",
-          "rank": 5,
-          "ticker": "3861.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 533.5999755859375,
-          "limit_price_yen": 541.6039752197265,
-          "return_5d": -0.044070290367478226,
-          "daily_turnover_yen": 2459735807.458496,
-          "target_probability": 0.5714285714285714,
-          "down_5pct_probability": 0.23684210526315788,
-          "down_8pct_probability": 0.1,
-          "expected_net_return": 0.003463906740121918,
-          "rank_score": 0.5465999878627433
         },
         {
           "signal_date": "2023-12-08",
@@ -29861,8 +29785,8 @@
           "target_probability": 1.0,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.25,
-          "expected_net_return": 0.019956149933687918,
-          "rank_score": 0.9978801552903073
+          "expected_net_return": 0.019956149933687977,
+          "rank_score": 0.9978801552903075
         },
         {
           "signal_date": "2023-12-08",
@@ -29876,8 +29800,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.01768972092303318,
-          "rank_score": 0.8070746731658169
+          "expected_net_return": 0.017689720923033225,
+          "rank_score": 0.8070746731658172
         },
         {
           "signal_date": "2023-12-08",
@@ -29891,8 +29815,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.0027352708164890913,
-          "rank_score": 0.7322568727396406
+          "expected_net_return": 0.0027352708164891035,
+          "rank_score": 0.7322568727396407
         },
         {
           "signal_date": "2023-12-11",
@@ -29906,8 +29830,8 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.0023752173168329884,
-          "rank_score": 0.8041499920743496
+          "expected_net_return": 0.002375217316832972,
+          "rank_score": 0.8041499920743495
         },
         {
           "signal_date": "2023-12-12",
@@ -29918,11 +29842,11 @@
           "limit_price_yen": 21.314999999999998,
           "return_5d": -0.125,
           "daily_turnover_yen": 250338900.0,
-          "target_probability": 0.9878248819927609,
+          "target_probability": 0.9878248819927621,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.25,
-          "expected_net_return": 0.007363161020860351,
-          "rank_score": 0.935333081631758
+          "expected_net_return": 0.0073631610208603595,
+          "rank_score": 0.9353330816317591
         },
         {
           "signal_date": "2023-12-13",
@@ -29936,8 +29860,8 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": -0.0026484115688239565,
-          "rank_score": 0.7840554765317218
+          "expected_net_return": -0.002648411568823974,
+          "rank_score": 0.7840554765317217
         },
         {
           "signal_date": "2023-12-13",
@@ -29951,7 +29875,7 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": -0.0039474565543208655,
+          "expected_net_return": -0.003947456554320869,
           "rank_score": 0.7788592965897342
         },
         {
@@ -29966,38 +29890,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.005392345322278694,
-          "rank_score": 0.742885170762799
-        },
-        {
-          "signal_date": "2023-12-13",
-          "rank": 4,
-          "ticker": "6222.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1450.0,
-          "limit_price_yen": 1471.7499999999998,
-          "return_5d": -0.03397734843437705,
-          "daily_turnover_yen": 202710000.0,
-          "target_probability": 0.76,
-          "down_5pct_probability": 0.23684210526315788,
-          "down_8pct_probability": 0.0,
-          "expected_net_return": 0.0007351560401106464,
-          "rank_score": 0.7392564136341269
-        },
-        {
-          "signal_date": "2023-12-13",
-          "rank": 5,
-          "ticker": "3854.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 3130.0,
-          "limit_price_yen": 3176.95,
-          "return_5d": -0.10571428571428576,
-          "daily_turnover_yen": 275440000.0,
-          "target_probability": 0.76,
-          "down_5pct_probability": 0.23684210526315788,
-          "down_8pct_probability": 0.1,
-          "expected_net_return": -0.001083128583455495,
-          "rank_score": 0.7169832751398623
+          "expected_net_return": 0.005392345322278746,
+          "rank_score": 0.7428851707627993
         },
         {
           "signal_date": "2023-12-15",
@@ -30011,7 +29905,7 @@
           "target_probability": 1.0,
           "down_5pct_probability": 0.4878386826332754,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.001838999561827953,
+          "expected_net_return": 0.001838999561827961,
           "rank_score": 0.9435721299839843
         },
         {
@@ -30026,8 +29920,8 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.012387246195834879,
-          "rank_score": 0.8441981075903571
+          "expected_net_return": 0.012387246195834912,
+          "rank_score": 0.8441981075903573
         },
         {
           "signal_date": "2023-12-15",
@@ -30041,23 +29935,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.004753951477298987,
-          "rank_score": 0.7403315953828802
-        },
-        {
-          "signal_date": "2023-12-15",
-          "rank": 4,
-          "ticker": "4431.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 2735.0,
-          "limit_price_yen": 2776.0249999999996,
-          "return_5d": -0.016894320632638404,
-          "daily_turnover_yen": 3061832500.0,
-          "target_probability": 0.76,
-          "down_5pct_probability": 0.23684210526315788,
-          "down_8pct_probability": 0.1,
-          "expected_net_return": 0.0030220316702374867,
-          "rank_score": 0.7334039161546342
+          "expected_net_return": 0.004753951477299016,
+          "rank_score": 0.7403315953828803
         },
         {
           "signal_date": "2023-12-18",
@@ -30071,8 +29950,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.04231354954575456,
-          "rank_score": 0.9055699876567025
+          "expected_net_return": 0.04231354954575449,
+          "rank_score": 0.9055699876567023
         },
         {
           "signal_date": "2023-12-18",
@@ -30086,8 +29965,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.031004364981622165,
-          "rank_score": 0.860333249400173
+          "expected_net_return": 0.031004364981622196,
+          "rank_score": 0.8603332494001731
         },
         {
           "signal_date": "2023-12-18",
@@ -30100,39 +29979,9 @@
           "daily_turnover_yen": 265995000.0,
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.23684210526315788,
-          "down_8pct_probability": 0.1382535428664642,
-          "expected_net_return": 0.014753340572221855,
-          "rank_score": 0.8479244536659354
-        },
-        {
-          "signal_date": "2023-12-18",
-          "rank": 4,
-          "ticker": "4599.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 558.0,
-          "limit_price_yen": 566.3699999999999,
-          "return_5d": -0.057432432432432456,
-          "daily_turnover_yen": 270853200.0,
-          "target_probability": 0.8333333333333334,
-          "down_5pct_probability": 0.23684210526315788,
-          "down_8pct_probability": 0.1,
-          "expected_net_return": 0.009038323367443802,
-          "rank_score": 0.8308024162767929
-        },
-        {
-          "signal_date": "2023-12-18",
-          "rank": 5,
-          "ticker": "4527.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 2721.5,
-          "limit_price_yen": 2762.3224999999998,
-          "return_5d": -0.10211151435169907,
-          "daily_turnover_yen": 6087995500.0,
-          "target_probability": 0.76,
-          "down_5pct_probability": 0.23684210526315788,
-          "down_8pct_probability": 0.0,
-          "expected_net_return": 0.022173971711562275,
-          "rank_score": 0.8250116763199333
+          "down_8pct_probability": 0.1382535428663652,
+          "expected_net_return": 0.01475334057222184,
+          "rank_score": 0.8479244536659502
         },
         {
           "signal_date": "2023-12-19",
@@ -30146,8 +29995,8 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.02416723067554989,
-          "rank_score": 0.8913180455092172
+          "expected_net_return": 0.024167230675549923,
+          "rank_score": 0.8913180455092173
         },
         {
           "signal_date": "2023-12-19",
@@ -30161,8 +30010,8 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.017110505333016966,
-          "rank_score": 0.8780911441390855
+          "expected_net_return": 0.01711050533301699,
+          "rank_score": 0.8780911441390856
         },
         {
           "signal_date": "2023-12-19",
@@ -30176,38 +30025,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.3333333333333333,
           "down_8pct_probability": 0.1,
-          "expected_net_return": -0.007513760379842853,
-          "rank_score": 0.6816116251472952
-        },
-        {
-          "signal_date": "2023-12-19",
-          "rank": 4,
-          "ticker": "8142.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 854.0,
-          "limit_price_yen": 866.81,
-          "return_5d": -0.1010526315789474,
-          "daily_turnover_yen": 312820200.0,
-          "target_probability": 0.76,
-          "down_5pct_probability": 0.3888390503956767,
-          "down_8pct_probability": 0.25,
-          "expected_net_return": -0.0005293163941595125,
-          "rank_score": 0.6814988293837944
-        },
-        {
-          "signal_date": "2023-12-19",
-          "rank": 5,
-          "ticker": "6460.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1961.5,
-          "limit_price_yen": 1990.9225,
-          "return_5d": -0.027033730158730118,
-          "daily_turnover_yen": 2320062200.0,
-          "target_probability": 0.5796000173871629,
-          "down_5pct_probability": 0.23684210526315788,
-          "down_8pct_probability": 0.1,
-          "expected_net_return": 0.008046488170967836,
-          "rank_score": 0.5731017595447185
+          "expected_net_return": -0.0075137603798428425,
+          "rank_score": 0.6816116251472953
         },
         {
           "signal_date": "2023-12-20",
@@ -30218,11 +30037,11 @@
           "limit_price_yen": 526.1083126831054,
           "return_5d": -0.035658952579941894,
           "daily_turnover_yen": 268703989.453125,
-          "target_probability": 0.9058314011988148,
+          "target_probability": 0.9058314011988154,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.0006657360944525258,
-          "rank_score": 0.8490499011321805
+          "expected_net_return": 0.00066573609445255,
+          "rank_score": 0.8490499011321813
         },
         {
           "signal_date": "2023-12-20",
@@ -30236,8 +30055,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.021649646724331964,
-          "rank_score": 0.8229143763710121
+          "expected_net_return": 0.021649646724332037,
+          "rank_score": 0.8229143763710124
         },
         {
           "signal_date": "2023-12-21",
@@ -30251,8 +30070,8 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.040379415889400194,
-          "rank_score": 0.9561667863646184
+          "expected_net_return": 0.040379415889400264,
+          "rank_score": 0.9561667863646187
         },
         {
           "signal_date": "2023-12-21",
@@ -30266,8 +30085,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.030972765080978848,
-          "rank_score": 0.8602068497975996
+          "expected_net_return": 0.03097276508097895,
+          "rank_score": 0.8602068497976001
         },
         {
           "signal_date": "2023-12-21",
@@ -30281,8 +30100,8 @@
           "target_probability": 0.76,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.023218664482301456,
-          "rank_score": 0.81419044740289
+          "expected_net_return": 0.023218664482301494,
+          "rank_score": 0.8141904474028903
         },
         {
           "signal_date": "2023-12-22",
@@ -30296,8 +30115,8 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.4444444444444444,
           "down_8pct_probability": 0.25,
-          "expected_net_return": 0.021928809171467358,
-          "rank_score": 0.8391041255747584
+          "expected_net_return": 0.021928809171467407,
+          "rank_score": 0.8391041255747587
         },
         {
           "signal_date": "2023-12-26",
@@ -30311,8 +30130,8 @@
           "target_probability": 0.8333333333333334,
           "down_5pct_probability": 0.23684210526315788,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.03231734254813405,
-          "rank_score": 0.9389184929995538
+          "expected_net_return": 0.032317342548134106,
+          "rank_score": 0.938918492999554
         },
         {
           "signal_date": "2023-12-27",
@@ -30341,8 +30160,8 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.125,
-          "expected_net_return": 0.0653331607599157,
-          "rank_score": 0.7903767606867215
+          "expected_net_return": 0.06533316075991571,
+          "rank_score": 0.7903767606867216
         },
         {
           "signal_date": "2024-02-15",
@@ -30356,7 +30175,7 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.5,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.012833517259946803,
+          "expected_net_return": 0.012833517259946796,
           "rank_score": 0.55073075078941
         },
         {
@@ -30371,7 +30190,7 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": -0.004652676681616693,
+          "expected_net_return": -0.004652676681616704,
           "rank_score": 0.5099526416898227
         },
         {
@@ -30386,7 +30205,7 @@
           "target_probability": 0.7368421052631579,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.125,
-          "expected_net_return": 0.00400231660987561,
+          "expected_net_return": 0.004002316609875589,
           "rank_score": 0.7341013717026602
         },
         {
@@ -30401,7 +30220,7 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.01042916496829149,
+          "expected_net_return": 0.010429164968291483,
           "rank_score": 0.5702800082894555
         },
         {
@@ -30416,38 +30235,8 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.16666666666666666,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.0005003328467348602,
-          "rank_score": 0.5347313464698956
-        },
-        {
-          "signal_date": "2024-02-16",
-          "rank": 4,
-          "ticker": "4686.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 2532.0,
-          "limit_price_yen": 2569.9799999999996,
-          "return_5d": -0.1370143149284253,
-          "daily_turnover_yen": 478294800.0,
-          "target_probability": 0.5686274509803921,
-          "down_5pct_probability": 0.20833333333333334,
-          "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": -0.0013768541181816921,
-          "rank_score": 0.5230559319435627
-        },
-        {
-          "signal_date": "2024-02-16",
-          "rank": 5,
-          "ticker": "6425.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1854.0,
-          "limit_price_yen": 1881.8099999999997,
-          "return_5d": -0.11840228245363771,
-          "daily_turnover_yen": 2216642400.0,
-          "target_probability": 0.5686274509803921,
-          "down_5pct_probability": 0.20833333333333334,
-          "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": -0.002215978630164926,
-          "rank_score": 0.5196994338956298
+          "expected_net_return": 0.0005003328467348515,
+          "rank_score": 0.5347313464698955
         },
         {
           "signal_date": "2024-02-19",
@@ -30461,7 +30250,7 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": -0.000436585608994176,
+          "expected_net_return": -0.00043658560899417775,
           "rank_score": 0.5268170059803128
         },
         {
@@ -30476,7 +30265,7 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.002725906103084043,
+          "expected_net_return": 0.0027259061030840467,
           "rank_score": 0.5394669728286257
         },
         {
@@ -30491,7 +30280,7 @@
           "target_probability": 0.7368421052631579,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.018226021743338122,
+          "expected_net_return": 0.018226021743338126,
           "rank_score": 0.7696820896724077
         },
         {
@@ -30506,7 +30295,7 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": -0.0016294360742917773,
+          "expected_net_return": -0.0016294360742917739,
           "rank_score": 0.5220456041191224
         },
         {
@@ -30521,7 +30310,7 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": -0.0024846977174927207,
+          "expected_net_return": -0.002484697717492719,
           "rank_score": 0.5186245575463186
         },
         {
@@ -30536,7 +30325,7 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.16666666666666666,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": -0.0032687466351928093,
+          "expected_net_return": -0.003268746635192806,
           "rank_score": 0.5196550285421849
         },
         {
@@ -30551,7 +30340,7 @@
           "target_probability": 0.7368421052631579,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": -0.002770764131923502,
+          "expected_net_return": -0.0027707641319235036,
           "rank_score": 0.6856949461713612
         },
         {
@@ -30564,10 +30353,10 @@
           "return_5d": -0.0845588235294118,
           "daily_turnover_yen": 618889500.0,
           "target_probability": 0.5686274509803921,
-          "down_5pct_probability": 0.2871590448812867,
+          "down_5pct_probability": 0.2871590448812733,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": -0.0002499777919105972,
-          "rank_score": 0.5196808660938518
+          "expected_net_return": -0.00024997779191059284,
+          "rank_score": 0.5196808660938531
         },
         {
           "signal_date": "2024-03-06",
@@ -30581,7 +30370,7 @@
           "target_probability": 0.7368421052631579,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.007963773277410928,
+          "expected_net_return": 0.007963773277410945,
           "rank_score": 0.728633095808699
         },
         {
@@ -30596,7 +30385,7 @@
           "target_probability": 0.7368421052631579,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.0055863842261113265,
+          "expected_net_return": 0.005586384226111333,
           "rank_score": 0.7191235396035005
         },
         {
@@ -30611,38 +30400,8 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.16666666666666666,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.004540478599158137,
+          "expected_net_return": 0.0045404785991581395,
           "rank_score": 0.5508919294795886
-        },
-        {
-          "signal_date": "2024-03-06",
-          "rank": 4,
-          "ticker": "8276.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1984.0,
-          "limit_price_yen": 2013.7599999999998,
-          "return_5d": -0.03875968992248058,
-          "daily_turnover_yen": 2649433600.0,
-          "target_probability": 0.5686274509803921,
-          "down_5pct_probability": 0.20833333333333334,
-          "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.0009348671183053671,
-          "rank_score": 0.532302816889511
-        },
-        {
-          "signal_date": "2024-03-06",
-          "rank": 5,
-          "ticker": "2154.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 2033.0,
-          "limit_price_yen": 2063.495,
-          "return_5d": -0.06828597616865262,
-          "daily_turnover_yen": 510283000.0,
-          "target_probability": 0.5686274509803921,
-          "down_5pct_probability": 0.20833333333333334,
-          "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": -0.005192079896471158,
-          "rank_score": 0.5077950288304048
         },
         {
           "signal_date": "2024-03-08",
@@ -30656,7 +30415,7 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.125,
-          "expected_net_return": 0.017730795428389855,
+          "expected_net_return": 0.017730795428389852,
           "rank_score": 0.5999672993606181
         },
         {
@@ -30671,7 +30430,7 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.16666666666666666,
           "down_8pct_probability": 0.125,
-          "expected_net_return": 0.005400192800173228,
+          "expected_net_return": 0.00540019280017323,
           "rank_score": 0.5548115555144183
         },
         {
@@ -30686,8 +30445,8 @@
           "target_probability": 0.7368421052631579,
           "down_5pct_probability": 0.16666666666666666,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.0066073697703206554,
-          "rank_score": 0.7273741484470044
+          "expected_net_return": 0.006607369770320666,
+          "rank_score": 0.7273741484470045
         },
         {
           "signal_date": "2024-03-12",
@@ -30701,8 +30460,8 @@
           "target_probability": 0.7368421052631579,
           "down_5pct_probability": 0.20833333333333334,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": -0.009551012074662612,
-          "rank_score": 0.6585739544004048
+          "expected_net_return": -0.00955101207466263,
+          "rank_score": 0.6585739544004047
         },
         {
           "signal_date": "2024-03-12",
@@ -30716,7 +30475,7 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.019631456079740435,
+          "expected_net_return": 0.019631456079740428,
           "rank_score": 0.6471532752993538
         },
         {
@@ -30731,23 +30490,8 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.16666666666666666,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.007224925980652193,
-          "rank_score": 0.5616297190055649
-        },
-        {
-          "signal_date": "2024-03-12",
-          "rank": 4,
-          "ticker": "2531.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1117.5,
-          "limit_price_yen": 1134.2624999999998,
-          "return_5d": -0.06874999999999998,
-          "daily_turnover_yen": 1733242500.0,
-          "target_probability": 0.5686274509803921,
-          "down_5pct_probability": 0.16666666666666666,
-          "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.0027775361463007655,
-          "rank_score": 0.5438401596681592
+          "expected_net_return": 0.007224925980652172,
+          "rank_score": 0.5616297190055648
         },
         {
           "signal_date": "2024-03-14",
@@ -30761,7 +30505,7 @@
           "target_probability": 0.5686274509803921,
           "down_5pct_probability": 0.5,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.0032959918660342273,
+          "expected_net_return": 0.0032959918660342125,
           "rank_score": 0.5125806492137597
         },
         {
@@ -30774,10 +30518,10 @@
           "return_5d": -0.051724137931034475,
           "daily_turnover_yen": 485760000.0,
           "target_probability": 0.5686274509803921,
-          "down_5pct_probability": 0.18423557167425395,
+          "down_5pct_probability": 0.18423557167423027,
           "down_8pct_probability": 0.0,
           "expected_net_return": 0.009529462757860156,
-          "rank_score": 0.5883217448444074
+          "rank_score": 0.5883217448444097
         },
         {
           "signal_date": "2024-04-03",
@@ -30791,7 +30535,7 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.48,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.023362994167378623,
+          "expected_net_return": 0.023362994167378612,
           "rank_score": 0.8833640645816022
         },
         {
@@ -30806,8 +30550,8 @@
           "target_probability": 0.5714285714285714,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.0029433365436053903,
-          "rank_score": 0.544822212202011
+          "expected_net_return": 0.002943336543605443,
+          "rank_score": 0.5448222122020112
         },
         {
           "signal_date": "2024-04-04",
@@ -30821,8 +30565,8 @@
           "target_probability": 0.5714285714285714,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.01738546120875257,
-          "rank_score": 0.6118214800933689
+          "expected_net_return": 0.01738546120875259,
+          "rank_score": 0.611821480093369
         },
         {
           "signal_date": "2024-04-05",
@@ -30836,7 +30580,7 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.48,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.016678972828144758,
+          "expected_net_return": 0.016678972828144765,
           "rank_score": 0.8566279792246668
         },
         {
@@ -30851,8 +30595,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.020004604820137686,
-          "rank_score": 0.8286472608881158
+          "expected_net_return": 0.02000460482013777,
+          "rank_score": 0.8286472608881161
         },
         {
           "signal_date": "2024-04-05",
@@ -30866,23 +30610,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.48,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.014246932219872341,
+          "expected_net_return": 0.01424693221987232,
           "rank_score": 0.7767655066572671
-        },
-        {
-          "signal_date": "2024-04-05",
-          "rank": 4,
-          "ticker": "4480.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 4320.0,
-          "limit_price_yen": 4384.799999999999,
-          "return_5d": -0.05366922234392113,
-          "daily_turnover_yen": 1157328000.0,
-          "target_probability": 0.5555555555555556,
-          "down_5pct_probability": 0.19148936170212766,
-          "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.01360839669654901,
-          "rank_score": 0.5808402061715389
         },
         {
           "signal_date": "2024-04-08",
@@ -30896,8 +30625,8 @@
           "target_probability": 0.5714285714285714,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.01627656788848552,
-          "rank_score": 0.6073859068123008
+          "expected_net_return": 0.01627656788848556,
+          "rank_score": 0.6073859068123009
         },
         {
           "signal_date": "2024-04-08",
@@ -30911,8 +30640,8 @@
           "target_probability": 0.5555555555555556,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.0047077657363715835,
-          "rank_score": 0.5452376823308291
+          "expected_net_return": 0.004707765736371605,
+          "rank_score": 0.5452376823308293
         },
         {
           "signal_date": "2024-04-11",
@@ -30926,7 +30655,7 @@
           "target_probability": 0.5555555555555556,
           "down_5pct_probability": 0.48,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": -0.00973161513160403,
+          "expected_net_return": -0.009731615131604034,
           "rank_score": 0.44939832579837025
         },
         {
@@ -30941,8 +30670,8 @@
           "target_probability": 0.5714285714285714,
           "down_5pct_probability": 0.48,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.006858254664891613,
-          "rank_score": 0.5408615900881378
+          "expected_net_return": 0.006858254664891637,
+          "rank_score": 0.540861590088138
         },
         {
           "signal_date": "2024-04-16",
@@ -30956,8 +30685,8 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.03651258606329742,
-          "rank_score": 0.974044265225834
+          "expected_net_return": 0.036512586063297436,
+          "rank_score": 0.9740442652258342
         },
         {
           "signal_date": "2024-04-16",
@@ -30971,8 +30700,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.03142016684144099,
-          "rank_score": 0.9034584451435418
+          "expected_net_return": 0.03142016684144101,
+          "rank_score": 0.9034584451435419
         },
         {
           "signal_date": "2024-04-16",
@@ -30986,38 +30715,8 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.48,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.027970816137228023,
-          "rank_score": 0.9017953524609998
-        },
-        {
-          "signal_date": "2024-04-16",
-          "rank": 4,
-          "ticker": "2222.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1645.0,
-          "limit_price_yen": 1669.6749999999997,
-          "return_5d": -0.08560311284046696,
-          "daily_turnover_yen": 2077964000.0,
-          "target_probability": 0.5714285714285714,
-          "down_5pct_probability": 0.19148936170212766,
-          "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.013909389391507022,
-          "rank_score": 0.5979171928243867
-        },
-        {
-          "signal_date": "2024-04-16",
-          "rank": 5,
-          "ticker": "7366.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1891.0,
-          "limit_price_yen": 1919.3649999999998,
-          "return_5d": -0.046394351991931426,
-          "daily_turnover_yen": 300858100.0,
-          "target_probability": 0.5714285714285714,
-          "down_5pct_probability": 0.19148936170212766,
-          "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.008907533029476614,
-          "rank_score": 0.5779097673762651
+          "expected_net_return": 0.02797081613722803,
+          "rank_score": 0.901795352461
         },
         {
           "signal_date": "2024-04-17",
@@ -31031,8 +30730,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.026791443095316718,
-          "rank_score": 0.8749435501590447
+          "expected_net_return": 0.02679144309531671,
+          "rank_score": 0.8749435501590446
         },
         {
           "signal_date": "2024-04-17",
@@ -31046,7 +30745,7 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.019202729857959157,
+          "expected_net_return": 0.019202729857959153,
           "rank_score": 0.8354397610394017
         },
         {
@@ -31061,8 +30760,8 @@
           "target_probability": 0.5714285714285714,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.008230814479666896,
-          "rank_score": 0.565972123946257
+          "expected_net_return": 0.008230814479666924,
+          "rank_score": 0.5659721239462571
         },
         {
           "signal_date": "2024-04-18",
@@ -31076,8 +30775,8 @@
           "target_probability": 0.5714285714285714,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.03029875116159971,
-          "rank_score": 0.6926235760749703
+          "expected_net_return": 0.030298751161599663,
+          "rank_score": 0.69262357607497
         },
         {
           "signal_date": "2024-04-18",
@@ -31091,8 +30790,8 @@
           "target_probability": 0.5714285714285714,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.014121411298349667,
-          "rank_score": 0.5987652804517574
+          "expected_net_return": 0.01412141129834971,
+          "rank_score": 0.5987652804517575
         },
         {
           "signal_date": "2024-04-19",
@@ -31106,8 +30805,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.029261166773074318,
-          "rank_score": 0.8656735086998623
+          "expected_net_return": 0.029261166773074394,
+          "rank_score": 0.8656735086998626
         },
         {
           "signal_date": "2024-04-19",
@@ -31121,8 +30820,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.02396445284050263,
-          "rank_score": 0.8544866529695756
+          "expected_net_return": 0.023964452840502685,
+          "rank_score": 0.8544866529695758
         },
         {
           "signal_date": "2024-04-22",
@@ -31136,7 +30835,7 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.033897012456263836,
+          "expected_net_return": 0.03389701245626384,
           "rank_score": 0.9635819707976997
         },
         {
@@ -31151,8 +30850,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.03652817300208763,
-          "rank_score": 0.9047415336159156
+          "expected_net_return": 0.036528173002087716,
+          "rank_score": 0.9047415336159159
         },
         {
           "signal_date": "2024-04-22",
@@ -31166,38 +30865,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.024447831025309223,
-          "rank_score": 0.846420165708802
-        },
-        {
-          "signal_date": "2024-04-22",
-          "rank": 4,
-          "ticker": "6005.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 2477.5,
-          "limit_price_yen": 2514.6625,
-          "return_5d": -0.039914745204417734,
-          "daily_turnover_yen": 1717403000.0,
-          "target_probability": 0.5714285714285714,
-          "down_5pct_probability": 0.19148936170212766,
-          "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.007670215706179243,
-          "rank_score": 0.5729604980830756
-        },
-        {
-          "signal_date": "2024-04-22",
-          "rank": 5,
-          "ticker": "4051.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 7380.0,
-          "limit_price_yen": 7490.699999999999,
-          "return_5d": -0.097799511002445,
-          "daily_turnover_yen": 641322000.0,
-          "target_probability": 0.5714285714285714,
-          "down_5pct_probability": 0.19148936170212766,
-          "down_8pct_probability": 0.07283574056014408,
-          "expected_net_return": 0.0003567871482474264,
-          "rank_score": 0.5427814227673268
+          "expected_net_return": 0.02444783102530932,
+          "rank_score": 0.8464201657088023
         },
         {
           "signal_date": "2024-04-23",
@@ -31211,8 +30880,8 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.48,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.024693488265026188,
-          "rank_score": 0.8886860409721925
+          "expected_net_return": 0.024693488265026223,
+          "rank_score": 0.8886860409721927
         },
         {
           "signal_date": "2024-04-24",
@@ -31226,8 +30895,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.03208789112499406,
-          "rank_score": 0.8769804061075412
+          "expected_net_return": 0.032087891124994446,
+          "rank_score": 0.8769804061075428
         },
         {
           "signal_date": "2024-04-24",
@@ -31241,8 +30910,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.48,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.026264969753581904,
-          "rank_score": 0.8156068875613361
+          "expected_net_return": 0.02626496975358189,
+          "rank_score": 0.815606887561336
         },
         {
           "signal_date": "2024-04-26",
@@ -31256,8 +30925,8 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.056681795262194634,
-          "rank_score": 1.0838700381916357
+          "expected_net_return": 0.05668179526219462,
+          "rank_score": 1.0838700381916355
         },
         {
           "signal_date": "2024-04-26",
@@ -31271,7 +30940,7 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.03571906012453793,
+          "expected_net_return": 0.035719060124537926,
           "rank_score": 0.9708701614707961
         },
         {
@@ -31286,23 +30955,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.01719972929402252,
-          "rank_score": 0.8365766949538679
-        },
-        {
-          "signal_date": "2024-04-26",
-          "rank": 4,
-          "ticker": "2484.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 276.0,
-          "limit_price_yen": 280.14,
-          "return_5d": -0.13749999999999996,
-          "daily_turnover_yen": 539856000.0,
-          "target_probability": 0.7777777777777778,
-          "down_5pct_probability": 0.48,
-          "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.013291630616191803,
-          "rank_score": 0.7637135310117756
+          "expected_net_return": 0.01719972929402258,
+          "rank_score": 0.8365766949538681
         },
         {
           "signal_date": "2024-04-30",
@@ -31316,8 +30970,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.02541005080803152,
-          "rank_score": 0.8502690448396911
+          "expected_net_return": 0.02541005080803159,
+          "rank_score": 0.8502690448396913
         },
         {
           "signal_date": "2024-05-02",
@@ -31331,8 +30985,8 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.03741950161254927,
-          "rank_score": 0.9776719274228415
+          "expected_net_return": 0.037419501612549234,
+          "rank_score": 0.9776719274228413
         },
         {
           "signal_date": "2024-05-07",
@@ -31346,8 +31000,8 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.029228904794424887,
-          "rank_score": 0.9449095401503439
+          "expected_net_return": 0.029228904794424845,
+          "rank_score": 0.9449095401503437
         },
         {
           "signal_date": "2024-05-07",
@@ -31358,11 +31012,11 @@
           "limit_price_yen": 2026.9549999999997,
           "return_5d": -0.1108637577916296,
           "daily_turnover_yen": 805589800.0,
-          "target_probability": 0.7820050788619998,
+          "target_probability": 0.7820050788619491,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.03762461137091539,
-          "rank_score": 0.9325035243456613
+          "expected_net_return": 0.03762461137091553,
+          "rank_score": 0.9325035243456112
         },
         {
           "signal_date": "2024-05-07",
@@ -31376,8 +31030,8 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.48,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.026770997135614427,
-          "rank_score": 0.9062268456853148
+          "expected_net_return": 0.026770997135614365,
+          "rank_score": 0.9062268456853145
         },
         {
           "signal_date": "2024-05-10",
@@ -31391,8 +31045,8 @@
           "target_probability": 0.7777777777777778,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.01778585033240291,
-          "rank_score": 0.8197722429371767
+          "expected_net_return": 0.017785850332402924,
+          "rank_score": 0.8197722429371768
         },
         {
           "signal_date": "2024-05-13",
@@ -31406,8 +31060,8 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.03341410907239511,
-          "rank_score": 0.9616503572622248
+          "expected_net_return": 0.033414109072395067,
+          "rank_score": 0.9616503572622246
         },
         {
           "signal_date": "2024-05-13",
@@ -31421,8 +31075,8 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.48,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.03790753374257589,
-          "rank_score": 0.9507729921131607
+          "expected_net_return": 0.03790753374257584,
+          "rank_score": 0.9507729921131605
         },
         {
           "signal_date": "2024-05-13",
@@ -31436,38 +31090,8 @@
           "target_probability": 0.8571428571428571,
           "down_5pct_probability": 0.48,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.027537105095373278,
-          "rank_score": 0.9000605082935809
-        },
-        {
-          "signal_date": "2024-05-13",
-          "rank": 4,
-          "ticker": "6366.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 363.0,
-          "limit_price_yen": 368.44499999999994,
-          "return_5d": -0.15186915887850472,
-          "daily_turnover_yen": 972041400.0,
-          "target_probability": 0.8571428571428571,
-          "down_5pct_probability": 0.48,
-          "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.025018840350099582,
-          "rank_score": 0.8992182185432553
-        },
-        {
-          "signal_date": "2024-05-13",
-          "rank": 5,
-          "ticker": "7991.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1288.0,
-          "limit_price_yen": 1307.32,
-          "return_5d": -0.22689075630252098,
-          "daily_turnover_yen": 252963200.0,
-          "target_probability": 0.7777777777777778,
-          "down_5pct_probability": 0.48,
-          "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.013699013023809626,
-          "rank_score": 0.7745738298730163
+          "expected_net_return": 0.027537105095373257,
+          "rank_score": 0.9000605082935808
         },
         {
           "signal_date": "2024-05-14",
@@ -31481,8 +31105,8 @@
           "target_probability": 0.5714285714285714,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.012243074232378939,
-          "rank_score": 0.5912519321878744
+          "expected_net_return": 0.012243074232378956,
+          "rank_score": 0.5912519321878745
         },
         {
           "signal_date": "2024-05-15",
@@ -31496,8 +31120,8 @@
           "target_probability": 0.5714285714285714,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.02565511332808581,
-          "rank_score": 0.6449000885707019
+          "expected_net_return": 0.02565511332808576,
+          "rank_score": 0.6449000885707017
         },
         {
           "signal_date": "2024-05-15",
@@ -31511,8 +31135,8 @@
           "target_probability": 0.5714285714285714,
           "down_5pct_probability": 0.19148936170212766,
           "down_8pct_probability": 0.06666666666666667,
-          "expected_net_return": 0.019953164651455357,
-          "rank_score": 0.6220922938641801
+          "expected_net_return": 0.019953164651455316,
+          "rank_score": 0.6220922938641799
         },
         {
           "signal_date": "2024-05-15",
@@ -31523,11 +31147,11 @@
           "limit_price_yen": 637.42,
           "return_5d": -0.21499999999999997,
           "daily_turnover_yen": 1472283200.0,
-          "target_probability": 0.5518322517754661,
+          "target_probability": 0.5518322517754686,
           "down_5pct_probability": 0.48,
           "down_8pct_probability": 0.1282051282051282,
-          "expected_net_return": 0.0005368360594833685,
-          "rank_score": 0.4867488267826304
+          "expected_net_return": 0.0005368360594833581,
+          "rank_score": 0.4867488267826327
         },
         {
           "signal_date": "2024-05-16",
@@ -31541,8 +31165,8 @@
           "target_probability": 0.6666666666666666,
           "down_5pct_probability": 0.2765957446808511,
           "down_8pct_probability": 0.18461538461538463,
-          "expected_net_return": 0.012489279153608725,
-          "rank_score": 0.6612719011207088
+          "expected_net_return": 0.012489279153608677,
+          "rank_score": 0.6612719011207085
         },
         {
           "signal_date": "2024-05-30",
@@ -31556,8 +31180,8 @@
           "target_probability": 0.6666666666666666,
           "down_5pct_probability": 0.2765957446808511,
           "down_8pct_probability": 0.18461538461538463,
-          "expected_net_return": 0.014107395965389274,
-          "rank_score": 0.6677443683678309
+          "expected_net_return": 0.014107395965389225,
+          "rank_score": 0.6677443683678308
         },
         {
           "signal_date": "2024-07-25",
@@ -31571,8 +31195,8 @@
           "target_probability": 0.6666666666666666,
           "down_5pct_probability": 0.40540540540540543,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.045935030719969835,
-          "rank_score": 0.8098662490060053
+          "expected_net_return": 0.04593503071996987,
+          "rank_score": 0.8098662490060056
         },
         {
           "signal_date": "2024-07-26",
@@ -31586,8 +31210,8 @@
           "target_probability": 0.6666666666666666,
           "down_5pct_probability": 0.2727272727272727,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.041959040041480176,
-          "rank_score": 0.8072300995598601
+          "expected_net_return": 0.041959040041480246,
+          "rank_score": 0.8072300995598604
         },
         {
           "signal_date": "2024-08-02",
@@ -31601,8 +31225,8 @@
           "target_probability": 0.6666666666666666,
           "down_5pct_probability": 0.40540540540540543,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.046637377304050216,
-          "rank_score": 0.8126756353423269
+          "expected_net_return": 0.04663737730405032,
+          "rank_score": 0.8126756353423273
         },
         {
           "signal_date": "2024-08-05",
@@ -31613,11 +31237,11 @@
           "limit_price_yen": 2318.2599999999998,
           "return_5d": -0.12824427480916034,
           "daily_turnover_yen": 250098000.0,
-          "target_probability": 0.7434200966046258,
+          "target_probability": 0.7434200966046269,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.05238537412718608,
-          "rank_score": 0.9529615931133701
+          "expected_net_return": 0.05238537412718619,
+          "rank_score": 0.9529615931133717
         },
         {
           "signal_date": "2024-08-05",
@@ -31631,8 +31255,8 @@
           "target_probability": 0.6666666666666666,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.056574498468172044,
-          "rank_score": 0.8929646605393549
+          "expected_net_return": 0.05657449846817212,
+          "rank_score": 0.8929646605393551
         },
         {
           "signal_date": "2024-08-05",
@@ -31646,38 +31270,8 @@
           "target_probability": 0.6666666666666666,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.05589534917886286,
-          "rank_score": 0.890248063382118
-        },
-        {
-          "signal_date": "2024-08-05",
-          "rank": 4,
-          "ticker": "1934.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1238.0,
-          "limit_price_yen": 1256.57,
-          "return_5d": -0.13183730715287523,
-          "daily_turnover_yen": 527635600.0,
-          "target_probability": 0.6666666666666666,
-          "down_5pct_probability": 0.0,
-          "down_8pct_probability": 0.0,
-          "expected_net_return": 0.05445930427367475,
-          "rank_score": 0.8845038837613657
-        },
-        {
-          "signal_date": "2024-08-05",
-          "rank": 5,
-          "ticker": "7917.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 958.75,
-          "limit_price_yen": 973.1312499999999,
-          "return_5d": -0.14966740576496673,
-          "daily_turnover_yen": 230100000.0,
-          "target_probability": 0.6354291164298562,
-          "down_5pct_probability": 0.0,
-          "down_8pct_probability": 0.0,
-          "expected_net_return": 0.05411358244251359,
-          "rank_score": 0.8518834461999105
+          "expected_net_return": 0.055895349178862935,
+          "rank_score": 0.8902480633821184
         },
         {
           "signal_date": "2024-08-06",
@@ -31688,11 +31282,11 @@
           "limit_price_yen": 1271.7949999999998,
           "return_5d": -0.15280594996619334,
           "daily_turnover_yen": 219024400.0,
-          "target_probability": 0.8568311096390284,
+          "target_probability": 0.856831109639024,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.04487661388729683,
-          "rank_score": 1.0363375651882158
+          "expected_net_return": 0.04487661388729698,
+          "rank_score": 1.0363375651882119
         },
         {
           "signal_date": "2024-08-06",
@@ -31706,8 +31300,8 @@
           "target_probability": 0.6666666666666666,
           "down_5pct_probability": 0.4375,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.03841968232753257,
-          "rank_score": 0.7765953959767969
+          "expected_net_return": 0.03841968232753272,
+          "rank_score": 0.7765953959767975
         },
         {
           "signal_date": "2024-08-07",
@@ -31718,11 +31312,11 @@
           "limit_price_yen": 2596.8774999999996,
           "return_5d": -0.17878350184561065,
           "daily_turnover_yen": 26153498700.0,
-          "target_probability": 0.6020736750393834,
+          "target_probability": 0.6020736750393825,
           "down_5pct_probability": 0.2727272727272727,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.04040900227079703,
-          "rank_score": 0.7364369568498442
+          "expected_net_return": 0.04040900227079713,
+          "rank_score": 0.7364369568498438
         },
         {
           "signal_date": "2024-08-07",
@@ -31733,11 +31327,11 @@
           "limit_price_yen": 1114.4699999999998,
           "return_5d": -0.17875841436050866,
           "daily_turnover_yen": 382213800.0,
-          "target_probability": 0.6165895498761764,
+          "target_probability": 0.6165895498761769,
           "down_5pct_probability": 0.40540540540540543,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.038009489160253054,
-          "rank_score": 0.728086965976648
+          "expected_net_return": 0.038009489160253075,
+          "rank_score": 0.7280869659766486
         },
         {
           "signal_date": "2024-08-08",
@@ -31751,8 +31345,8 @@
           "target_probability": 1.0,
           "down_5pct_probability": 0.4375,
           "down_8pct_probability": 0.1,
-          "expected_net_return": 0.04579492986677513,
-          "rank_score": 1.1244297194671007
+          "expected_net_return": 0.04579492986677522,
+          "rank_score": 1.1244297194671011
         },
         {
           "signal_date": "2024-08-08",
@@ -31763,11 +31357,11 @@
           "limit_price_yen": 2641.5375,
           "return_5d": -0.14503942181340346,
           "daily_turnover_yen": 3877985250.0,
-          "target_probability": 0.6609477949570732,
+          "target_probability": 0.6609477949570723,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.036321190525100744,
-          "rank_score": 0.8062325570574762
+          "expected_net_return": 0.03632119052510085,
+          "rank_score": 0.8062325570574758
         },
         {
           "signal_date": "2024-08-08",
@@ -31778,26 +31372,11 @@
           "limit_price_yen": 3913.8399999999997,
           "return_5d": -0.09099481376709095,
           "daily_turnover_yen": 860273600.0,
-          "target_probability": 0.6366446784279116,
+          "target_probability": 0.636644678427912,
           "down_5pct_probability": 0.40540540540540543,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.04034275643474737,
-          "rank_score": 0.7574751636263606
-        },
-        {
-          "signal_date": "2024-08-08",
-          "rank": 4,
-          "ticker": "9010.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 2625.0,
-          "limit_price_yen": 2664.3749999999995,
-          "return_5d": -0.11377447670492913,
-          "daily_turnover_yen": 1455037500.0,
-          "target_probability": 0.647790404709374,
-          "down_5pct_probability": 0.40540540540540543,
-          "down_8pct_probability": 0.0,
-          "expected_net_return": 0.036836021640602686,
-          "rank_score": 0.7545939507312441
+          "expected_net_return": 0.0403427564347475,
+          "rank_score": 0.7574751636263614
         },
         {
           "signal_date": "2024-09-30",
@@ -31811,7 +31390,7 @@
           "target_probability": 0.7317073170731707,
           "down_5pct_probability": 0.35294117647058826,
           "down_8pct_probability": 0.29850746268656714,
-          "expected_net_return": -0.0012058794082267779,
+          "expected_net_return": -0.0012058794082267735,
           "rank_score": 0.6468135623902197
         },
         {
@@ -31826,8 +31405,8 @@
           "target_probability": 0.7317073170731707,
           "down_5pct_probability": 0.4318181818181818,
           "down_8pct_probability": 0.29850746268656714,
-          "expected_net_return": 0.0050637640576138565,
-          "rank_score": 0.6640044357188228
+          "expected_net_return": 0.005063764057613903,
+          "rank_score": 0.6640044357188231
         },
         {
           "signal_date": "2024-10-23",
@@ -31841,7 +31420,7 @@
           "target_probability": 0.7317073170731707,
           "down_5pct_probability": 0.3,
           "down_8pct_probability": 0.29850746268656714,
-          "expected_net_return": 0.004650128974701868,
+          "expected_net_return": 0.004650128974701884,
           "rank_score": 0.6755317135689931
         },
         {
@@ -31856,8 +31435,8 @@
           "target_probability": 0.7317073170731707,
           "down_5pct_probability": 0.4318181818181818,
           "down_8pct_probability": 0.29850746268656714,
-          "expected_net_return": 0.005028008635141238,
-          "rank_score": 0.6638614140289324
+          "expected_net_return": 0.005028008635141303,
+          "rank_score": 0.6638614140289326
         },
         {
           "signal_date": "2024-10-28",
@@ -31871,8 +31450,8 @@
           "target_probability": 0.7317073170731707,
           "down_5pct_probability": 0.4318181818181818,
           "down_8pct_probability": 0.29850746268656714,
-          "expected_net_return": 0.01945067447604739,
-          "rank_score": 0.721552077392557
+          "expected_net_return": 0.019450674476047307,
+          "rank_score": 0.7215520773925567
         },
         {
           "signal_date": "2024-10-28",
@@ -31886,8 +31465,8 @@
           "target_probability": 0.6,
           "down_5pct_probability": 0.3,
           "down_8pct_probability": 0.29850746268656714,
-          "expected_net_return": 0.01626864875395216,
-          "rank_score": 0.5902984756128234
+          "expected_net_return": 0.016268648753952245,
+          "rank_score": 0.5902984756128239
         },
         {
           "signal_date": "2024-10-29",
@@ -31901,8 +31480,8 @@
           "target_probability": 0.7317073170731707,
           "down_5pct_probability": 0.3,
           "down_8pct_probability": 0.29850746268656714,
-          "expected_net_return": 0.0026786130973880306,
-          "rank_score": 0.6676456500597377
+          "expected_net_return": 0.002678613097388015,
+          "rank_score": 0.6676456500597376
         },
         {
           "signal_date": "2024-10-30",
@@ -31916,7 +31495,7 @@
           "target_probability": 0.7317073170731707,
           "down_5pct_probability": 0.3,
           "down_8pct_probability": 0.043478260869565216,
-          "expected_net_return": 0.009619189995637337,
+          "expected_net_return": 0.00961918999563732,
           "rank_score": 0.7336623379252852
         },
         {
@@ -31931,8 +31510,8 @@
           "target_probability": 0.7317073170731707,
           "down_5pct_probability": 0.3,
           "down_8pct_probability": 0.29850746268656714,
-          "expected_net_return": 0.01024217988171105,
-          "rank_score": 0.6978999171970298
+          "expected_net_return": 0.01024217988171103,
+          "rank_score": 0.6978999171970297
         },
         {
           "signal_date": "2024-10-31",
@@ -31946,8 +31525,8 @@
           "target_probability": 0.7317073170731707,
           "down_5pct_probability": 0.35294117647058826,
           "down_8pct_probability": 0.29850746268656714,
-          "expected_net_return": 0.004236561560193763,
-          "rank_score": 0.6685833262639018
+          "expected_net_return": 0.004236561560193733,
+          "rank_score": 0.6685833262639017
         },
         {
           "signal_date": "2024-11-06",
@@ -31961,8 +31540,8 @@
           "target_probability": 0.7317073170731707,
           "down_5pct_probability": 0.4318181818181818,
           "down_8pct_probability": 0.29850746268656714,
-          "expected_net_return": -0.00290528954399742,
-          "rank_score": 0.6321282213123778
+          "expected_net_return": -0.0029052895439974444,
+          "rank_score": 0.6321282213123777
         },
         {
           "signal_date": "2024-11-08",
@@ -31976,8 +31555,8 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.2926829268292683,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.0016469604448204125,
-          "rank_score": 0.5932449905613646
+          "expected_net_return": 0.0016469604448202464,
+          "rank_score": 0.5932449905613639
         },
         {
           "signal_date": "2024-11-11",
@@ -31991,7 +31570,7 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.43478260869565216,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.005615027029218009,
+          "expected_net_return": 0.005615027029218018,
           "rank_score": 0.5949072887123167
         },
         {
@@ -32003,11 +31582,11 @@
           "limit_price_yen": 1283.975,
           "return_5d": -0.27423981640849115,
           "daily_turnover_yen": 1465502500.0,
-          "target_probability": 0.7102003418103157,
+          "target_probability": 0.7102003418179863,
           "down_5pct_probability": 0.43478260869565216,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.005605214635586603,
-          "rank_score": 0.6459774718571977
+          "expected_net_return": 0.005605214635586629,
+          "rank_score": 0.6459774718648684
         },
         {
           "signal_date": "2024-11-13",
@@ -32021,8 +31600,8 @@
           "target_probability": 0.8135593220338984,
           "down_5pct_probability": 0.43478260869565216,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 8.875256908115296e-05,
-          "rank_score": 0.7272706038147585
+          "expected_net_return": 8.875256908118159e-05,
+          "rank_score": 0.7272706038147586
         },
         {
           "signal_date": "2024-11-13",
@@ -32036,8 +31615,8 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.4117647058823529,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": -0.0061036478601760044,
-          "rank_score": 0.5503343794360706
+          "expected_net_return": -0.006103647860175937,
+          "rank_score": 0.5503343794360708
         },
         {
           "signal_date": "2024-11-14",
@@ -32051,8 +31630,8 @@
           "target_probability": 0.8135593220338984,
           "down_5pct_probability": 0.5,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": -0.004161790168942717,
-          "rank_score": 0.7037466937322282
+          "expected_net_return": -0.004161790168942611,
+          "rank_score": 0.7037466937322286
         },
         {
           "signal_date": "2024-11-14",
@@ -32066,8 +31645,8 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.43478260869565216,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": -0.005021800505417528,
-          "rank_score": 0.5523599785737745
+          "expected_net_return": -0.005021800505417228,
+          "rank_score": 0.5523599785737757
         },
         {
           "signal_date": "2024-11-15",
@@ -32081,8 +31660,8 @@
           "target_probability": 0.6666666666666666,
           "down_5pct_probability": 0.4117647058823529,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.008601597716781734,
-          "rank_score": 0.6167311193196591
+          "expected_net_return": 0.008601597716781754,
+          "rank_score": 0.6167311193196592
         },
         {
           "signal_date": "2024-11-18",
@@ -32096,8 +31675,8 @@
           "target_probability": 0.8135593220338984,
           "down_5pct_probability": 0.3076923076923077,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.01116120678193509,
-          "rank_score": 0.7842694507665087
+          "expected_net_return": 0.011161206781935346,
+          "rank_score": 0.7842694507665098
         },
         {
           "signal_date": "2024-11-18",
@@ -32108,11 +31687,11 @@
           "limit_price_yen": 2750.6499999999996,
           "return_5d": -0.12580645161290327,
           "daily_turnover_yen": 657446000.0,
-          "target_probability": 0.7694327294123046,
+          "target_probability": 0.769432729412635,
           "down_5pct_probability": 0.3076923076923077,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.003201494907080849,
-          "rank_score": 0.708304010645498
+          "expected_net_return": 0.003201494907080832,
+          "rank_score": 0.7083040106458283
         },
         {
           "signal_date": "2024-11-18",
@@ -32126,38 +31705,8 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.2926829268292683,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.006814259733214481,
-          "rank_score": 0.6139141877149409
-        },
-        {
-          "signal_date": "2024-11-18",
-          "rank": 4,
-          "ticker": "6707.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 5426.0,
-          "limit_price_yen": 5507.389999999999,
-          "return_5d": -0.05272346368715086,
-          "daily_turnover_yen": 1217594400.0,
-          "target_probability": 0.6590909090909091,
-          "down_5pct_probability": 0.3076923076923077,
-          "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.006084940959705345,
-          "rank_score": 0.6094959745346005
-        },
-        {
-          "signal_date": "2024-11-18",
-          "rank": 5,
-          "ticker": "6965.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1693.0,
-          "limit_price_yen": 1718.3949999999998,
-          "return_5d": -0.04079320113314444,
-          "daily_turnover_yen": 6302192500.0,
-          "target_probability": 0.6590909090909091,
-          "down_5pct_probability": 0.3076923076923077,
-          "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.004219931747654912,
-          "rank_score": 0.6020359376863987
+          "expected_net_return": 0.006814259733214521,
+          "rank_score": 0.6139141877149411
         },
         {
           "signal_date": "2024-11-19",
@@ -32171,7 +31720,7 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.3,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.004871437849602847,
+          "expected_net_return": 0.004871437849602834,
           "rank_score": 0.6054111928634212
         },
         {
@@ -32186,8 +31735,8 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.43478260869565216,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": -0.008980375235441332,
-          "rank_score": 0.5365256796536793
+          "expected_net_return": -0.008980375235441259,
+          "rank_score": 0.5365256796536796
         },
         {
           "signal_date": "2024-11-21",
@@ -32201,7 +31750,7 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.3,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": -0.0037209066690166107,
+          "expected_net_return": -0.003720906669016617,
           "rank_score": 0.5710418147889433
         },
         {
@@ -32216,8 +31765,8 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.43478260869565216,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": -0.006000436296994676,
-          "rank_score": 0.5484454354074659
+          "expected_net_return": -0.006000436296994697,
+          "rank_score": 0.5484454354074658
         },
         {
           "signal_date": "2024-12-05",
@@ -32231,8 +31780,8 @@
           "target_probability": 0.9090909090909091,
           "down_5pct_probability": 0.43478260869565216,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.009350093575538294,
-          "rank_score": 0.8598475548975978
+          "expected_net_return": 0.009350093575538308,
+          "rank_score": 0.8598475548975979
         },
         {
           "signal_date": "2024-12-06",
@@ -32246,8 +31795,8 @@
           "target_probability": 0.8135593220338984,
           "down_5pct_probability": 0.43478260869565216,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.0069723222778780986,
-          "rank_score": 0.7548048826499463
+          "expected_net_return": 0.006972322277878131,
+          "rank_score": 0.7548048826499465
         },
         {
           "signal_date": "2024-12-06",
@@ -32258,11 +31807,11 @@
           "limit_price_yen": 1291.08,
           "return_5d": -0.07826086956521738,
           "daily_turnover_yen": 150223200.0,
-          "target_probability": 0.6656726357762135,
+          "target_probability": 0.6656726357761157,
           "down_5pct_probability": 0.2926829268292683,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.0030262422730264003,
-          "rank_score": 0.605343844559493
+          "expected_net_return": 0.0030262422730264154,
+          "rank_score": 0.6053438445593953
         },
         {
           "signal_date": "2024-12-06",
@@ -32276,8 +31825,8 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.4117647058823529,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": -0.0033303040338113583,
-          "rank_score": 0.5614277547415292
+          "expected_net_return": -0.003330304033811321,
+          "rank_score": 0.5614277547415293
         },
         {
           "signal_date": "2024-12-17",
@@ -32291,8 +31840,8 @@
           "target_probability": 0.75,
           "down_5pct_probability": 0.43478260869565216,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": -0.0058241206065809395,
-          "rank_score": 0.6400597890782118
+          "expected_net_return": -0.005824120606580974,
+          "rank_score": 0.6400597890782117
         },
         {
           "signal_date": "2024-12-17",
@@ -32306,8 +31855,8 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.4117647058823529,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": -0.005375668707446023,
-          "rank_score": 0.5532462960469905
+          "expected_net_return": -0.005375668707446054,
+          "rank_score": 0.5532462960469904
         },
         {
           "signal_date": "2024-12-18",
@@ -32321,8 +31870,8 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.4117647058823529,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": -0.005696756834778989,
-          "rank_score": 0.5519619435376586
+          "expected_net_return": -0.00569675683477902,
+          "rank_score": 0.5519619435376585
         },
         {
           "signal_date": "2024-12-18",
@@ -32336,7 +31885,7 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.4117647058823529,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": -0.007334487676834864,
+          "expected_net_return": -0.007334487676834859,
           "rank_score": 0.5454110201694351
         },
         {
@@ -32351,8 +31900,8 @@
           "target_probability": 0.6590909090909091,
           "down_5pct_probability": 0.2926829268292683,
           "down_8pct_probability": 0.28776978417266186,
-          "expected_net_return": 0.005763538485198384,
-          "rank_score": 0.6097113027228765
+          "expected_net_return": 0.005763538485198423,
+          "rank_score": 0.6097113027228767
         },
         {
           "signal_date": "2024-12-20",
@@ -32366,8 +31915,8 @@
           "target_probability": 0.5555555555555556,
           "down_5pct_probability": 0.32608695652173914,
           "down_8pct_probability": 0.21052631578947367,
-          "expected_net_return": -0.0005517814229585561,
-          "rank_score": 0.48916078684312636
+          "expected_net_return": -0.0005517814229586133,
+          "rank_score": 0.48916078684312614
         },
         {
           "signal_date": "2024-12-23",
@@ -32381,8 +31930,8 @@
           "target_probability": 0.5555555555555556,
           "down_5pct_probability": 0.13043478260869565,
           "down_8pct_probability": 0.18604651162790697,
-          "expected_net_return": 0.001958985301163974,
-          "rank_score": 0.5224410417551558
+          "expected_net_return": 0.001958985301163958,
+          "rank_score": 0.5224410417551557
         },
         {
           "signal_date": "2024-12-24",
@@ -32396,7 +31945,7 @@
           "target_probability": 0.5555555555555556,
           "down_5pct_probability": 0.32608695652173914,
           "down_8pct_probability": 0.21052631578947367,
-          "expected_net_return": -0.004089691207226589,
+          "expected_net_return": -0.004089691207226583,
           "rank_score": 0.4750091477060543
         },
         {
@@ -32411,8 +31960,8 @@
           "target_probability": 0.5555555555555556,
           "down_5pct_probability": 0.32608695652173914,
           "down_8pct_probability": 0.21052631578947367,
-          "expected_net_return": -0.00469502939540943,
-          "rank_score": 0.4725877949533229
+          "expected_net_return": -0.004695029395409438,
+          "rank_score": 0.4725877949533228
         },
         {
           "signal_date": "2025-01-08",
@@ -32426,8 +31975,8 @@
           "target_probability": 0.5555555555555556,
           "down_5pct_probability": 0.32608695652173914,
           "down_8pct_probability": 0.21052631578947367,
-          "expected_net_return": 0.012652705821651964,
-          "rank_score": 0.5419787358215684
+          "expected_net_return": 0.012652705821651991,
+          "rank_score": 0.5419787358215685
         },
         {
           "signal_date": "2025-01-15",
@@ -32441,7 +31990,7 @@
           "target_probability": 0.5555555555555556,
           "down_5pct_probability": 0.10526315789473684,
           "down_8pct_probability": 0.125,
-          "expected_net_return": 0.005909003522471408,
+          "expected_net_return": 0.0059090035224713825,
           "rank_score": 0.5499152538559674
         },
         {
@@ -32456,8 +32005,8 @@
           "target_probability": 0.6666666666666665,
           "down_5pct_probability": 0.19047619047619047,
           "down_8pct_probability": 0.18604651162790697,
-          "expected_net_return": 0.01471564009024774,
-          "rank_score": 0.6785746312358523
+          "expected_net_return": 0.014715640090247747,
+          "rank_score": 0.6785746312358524
         },
         {
           "signal_date": "2025-01-17",
@@ -32471,8 +32020,8 @@
           "target_probability": 0.6666666666666665,
           "down_5pct_probability": 0.32608695652173914,
           "down_8pct_probability": 0.21052631578947367,
-          "expected_net_return": 0.004415991475644323,
-          "rank_score": 0.6201429895486488
+          "expected_net_return": 0.004415991475644352,
+          "rank_score": 0.620142989548649
         },
         {
           "signal_date": "2025-01-17",
@@ -32485,9 +32034,9 @@
           "daily_turnover_yen": 1310059250.0,
           "target_probability": 0.5555555555555556,
           "down_5pct_probability": 0.19047619047619047,
-          "down_8pct_probability": 0.19294657543439914,
-          "expected_net_return": 0.011324277208881713,
-          "rank_score": 0.5528630590283035
+          "down_8pct_probability": 0.19294657543448046,
+          "expected_net_return": 0.011324277208881751,
+          "rank_score": 0.5528630590282914
         },
         {
           "signal_date": "2025-01-17",
@@ -32501,38 +32050,8 @@
           "target_probability": 0.5555555555555556,
           "down_5pct_probability": 0.10526315789473684,
           "down_8pct_probability": 0.18604651162790697,
-          "expected_net_return": 0.00873906222365569,
+          "expected_net_return": 0.008739062223655704,
           "rank_score": 0.5520785119165186
-        },
-        {
-          "signal_date": "2025-01-17",
-          "rank": 4,
-          "ticker": "6504.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 7656.0,
-          "limit_price_yen": 7770.839999999999,
-          "return_5d": -0.04847129008202833,
-          "daily_turnover_yen": 6160017600.0,
-          "target_probability": 0.5555555555555556,
-          "down_5pct_probability": 0.13043478260869565,
-          "down_8pct_probability": 0.18604651162790697,
-          "expected_net_return": 0.007375943804599289,
-          "rank_score": 0.5441088757688971
-        },
-        {
-          "signal_date": "2025-01-17",
-          "rank": 5,
-          "ticker": "4375.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 689.0,
-          "limit_price_yen": 699.3349999999999,
-          "return_5d": -0.04570637119113574,
-          "daily_turnover_yen": 160812600.0,
-          "target_probability": 0.5555555555555556,
-          "down_5pct_probability": 0.32608695652173914,
-          "down_8pct_probability": 0.21052631578947367,
-          "expected_net_return": 0.004217540267438083,
-          "rank_score": 0.508238073604713
         },
         {
           "signal_date": "2025-02-06",
@@ -32546,8 +32065,8 @@
           "target_probability": 0.6666666666666665,
           "down_5pct_probability": 0.19047619047619047,
           "down_8pct_probability": 0.043478260869565216,
-          "expected_net_return": 0.016356307266106287,
-          "rank_score": 0.7065225375530378
+          "expected_net_return": 0.016356307266106155,
+          "rank_score": 0.7065225375530373
         },
         {
           "signal_date": "2025-02-06",
@@ -32561,8 +32080,8 @@
           "target_probability": 0.5555555555555556,
           "down_5pct_probability": 0.19047619047619047,
           "down_8pct_probability": 0.18604651162790697,
-          "expected_net_return": 0.002143370736170618,
-          "rank_score": 0.5171744427084329
+          "expected_net_return": 0.002143370736170789,
+          "rank_score": 0.5171744427084336
         },
         {
           "signal_date": "2025-03-11",
@@ -32591,7 +32110,7 @@
           "target_probability": 0.66,
           "down_5pct_probability": 0.3333333333333333,
           "down_8pct_probability": 0.15053763440860218,
-          "expected_net_return": 0.02076722042254441,
+          "expected_net_return": 0.020767220422544412,
           "rank_score": 0.6871549031955541
         },
         {
@@ -32606,8 +32125,8 @@
           "target_probability": 0.6153846153846154,
           "down_5pct_probability": 0.3333333333333333,
           "down_8pct_probability": 0.15789473684210525,
-          "expected_net_return": 0.018837924030366854,
-          "rank_score": 0.6337187676464338
+          "expected_net_return": 0.018837924030366916,
+          "rank_score": 0.633718767646434
         },
         {
           "signal_date": "2025-04-03",
@@ -32621,38 +32140,8 @@
           "target_probability": 0.6153846153846154,
           "down_5pct_probability": 0.3333333333333333,
           "down_8pct_probability": 0.15053763440860218,
-          "expected_net_return": 0.014492395956543893,
+          "expected_net_return": 0.014492395956543877,
           "rank_score": 0.6174402207161673
-        },
-        {
-          "signal_date": "2025-04-03",
-          "rank": 4,
-          "ticker": "543A.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 404.79998779296875,
-          "limit_price_yen": 410.87198760986325,
-          "return_5d": -0.1060070699956529,
-          "daily_turnover_yen": 1295683800.9277344,
-          "target_probability": 0.6153846153846154,
-          "down_5pct_probability": 0.3333333333333333,
-          "down_8pct_probability": 0.15789473684210525,
-          "expected_net_return": 0.01462535938283595,
-          "rank_score": 0.6168685090563102
-        },
-        {
-          "signal_date": "2025-04-03",
-          "rank": 5,
-          "ticker": "7751.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 4463.0,
-          "limit_price_yen": 4529.945,
-          "return_5d": -0.08300801314978423,
-          "daily_turnover_yen": 33651020000.0,
-          "target_probability": 0.5909090909090909,
-          "down_5pct_probability": 0.3333333333333333,
-          "down_8pct_probability": 0.15789473684210525,
-          "expected_net_return": 0.018857396529010834,
-          "rank_score": 0.6093211331654852
         },
         {
           "signal_date": "2025-04-04",
@@ -32681,8 +32170,8 @@
           "target_probability": 0.66,
           "down_5pct_probability": 0.2159090909090909,
           "down_8pct_probability": 0.15789473684210525,
-          "expected_net_return": 0.034074300671111946,
-          "rank_score": 0.751022083067223
+          "expected_net_return": 0.034074300671111966,
+          "rank_score": 0.7510220830672231
         },
         {
           "signal_date": "2025-04-04",
@@ -32696,38 +32185,8 @@
           "target_probability": 0.66,
           "down_5pct_probability": 0.2159090909090909,
           "down_8pct_probability": 0.07142857142857142,
-          "expected_net_return": 0.028382036794002842,
-          "rank_score": 0.7412229523708166
-        },
-        {
-          "signal_date": "2025-04-04",
-          "rank": 4,
-          "ticker": "9273.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 636.0,
-          "limit_price_yen": 645.54,
-          "return_5d": -0.12154696132596687,
-          "daily_turnover_yen": 282002400.0,
-          "target_probability": 0.66,
-          "down_5pct_probability": 0.3333333333333333,
-          "down_8pct_probability": 0.15789473684210525,
-          "expected_net_return": 0.030995900991154963,
-          "rank_score": 0.7269660601049708
-        },
-        {
-          "signal_date": "2025-04-04",
-          "rank": 5,
-          "ticker": "6363.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1783.0,
-          "limit_price_yen": 1809.745,
-          "return_5d": -0.1760628465804066,
-          "daily_turnover_yen": 236069200.0,
-          "target_probability": 0.66,
-          "down_5pct_probability": 0.3333333333333333,
-          "down_8pct_probability": 0.15789473684210525,
-          "expected_net_return": 0.029912486702094183,
-          "rank_score": 0.7226324029487277
+          "expected_net_return": 0.028382036794002863,
+          "rank_score": 0.7412229523708167
         },
         {
           "signal_date": "2025-04-07",
@@ -32756,7 +32215,7 @@
           "target_probability": 1.0,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.092345429880353,
+          "expected_net_return": 0.09234542988035302,
           "rank_score": 1.369381719521412
         },
         {
@@ -32771,38 +32230,8 @@
           "target_probability": 1.0,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.09123082606928423,
+          "expected_net_return": 0.09123082606928426,
           "rank_score": 1.364923304277137
-        },
-        {
-          "signal_date": "2025-04-07",
-          "rank": 4,
-          "ticker": "6055.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1002.0,
-          "limit_price_yen": 1017.0299999999999,
-          "return_5d": -0.17462932454695224,
-          "daily_turnover_yen": 801900600.0,
-          "target_probability": 1.0,
-          "down_5pct_probability": 0.0,
-          "down_8pct_probability": 0.0,
-          "expected_net_return": 0.09037944328496708,
-          "rank_score": 1.3615177731398682
-        },
-        {
-          "signal_date": "2025-04-07",
-          "rank": 5,
-          "ticker": "4188.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 620.0,
-          "limit_price_yen": 629.3,
-          "return_5d": -0.15875169606512896,
-          "daily_turnover_yen": 4920940000.0,
-          "target_probability": 1.0,
-          "down_5pct_probability": 0.0,
-          "down_8pct_probability": 0.0,
-          "expected_net_return": 0.08979135435049412,
-          "rank_score": 1.3591654174019765
         },
         {
           "signal_date": "2025-04-09",
@@ -32816,8 +32245,8 @@
           "target_probability": 0.75,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.026565411434804204,
-          "rank_score": 0.8562616457392168
+          "expected_net_return": 0.026565411434804283,
+          "rank_score": 0.8562616457392171
         },
         {
           "signal_date": "2025-04-11",
@@ -32829,10 +32258,10 @@
           "return_5d": -0.020096463022508004,
           "daily_turnover_yen": 1796074600.0,
           "target_probability": 0.66,
-          "down_5pct_probability": 0.004651123847618591,
+          "down_5pct_probability": 0.004651123847517209,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.027881525523175785,
-          "rank_score": 0.7710609897079412
+          "expected_net_return": 0.027881525523175788,
+          "rank_score": 0.7710609897079514
         },
         {
           "signal_date": "2025-04-11",
@@ -32845,9 +32274,9 @@
           "daily_turnover_yen": 205828994.36645508,
           "target_probability": 0.66,
           "down_5pct_probability": 0.2159090909090909,
-          "down_8pct_probability": 0.05885591568251359,
-          "expected_net_return": 0.021460210578167126,
-          "rank_score": 0.7154215458693824
+          "down_8pct_probability": 0.05885591568253625,
+          "expected_net_return": 0.021460210578167174,
+          "rank_score": 0.7154215458693792
         },
         {
           "signal_date": "2025-04-11",
@@ -32861,38 +32290,8 @@
           "target_probability": 0.66,
           "down_5pct_probability": 0.2159090909090909,
           "down_8pct_probability": 0.15053763440860218,
-          "expected_net_return": 0.020188564239220212,
-          "rank_score": 0.6965827027046815
-        },
-        {
-          "signal_date": "2025-04-11",
-          "rank": 4,
-          "ticker": "9560.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1007.0,
-          "limit_price_yen": 1022.1049999999999,
-          "return_5d": -0.1166666666666667,
-          "daily_turnover_yen": 1010524500.0,
-          "target_probability": 0.66,
-          "down_5pct_probability": 0.2159090909090909,
-          "down_8pct_probability": 0.15053763440860218,
-          "expected_net_return": 0.01893898714109395,
-          "rank_score": 0.6915843943121764
-        },
-        {
-          "signal_date": "2025-04-11",
-          "rank": 5,
-          "ticker": "4568.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 3105.0,
-          "limit_price_yen": 3151.575,
-          "return_5d": -0.14226519337016574,
-          "daily_turnover_yen": 28781797500.0,
-          "target_probability": 0.66,
-          "down_5pct_probability": 0.2159090909090909,
-          "down_8pct_probability": 0.15053763440860218,
-          "expected_net_return": 0.018711001917236195,
-          "rank_score": 0.6906724534167454
+          "expected_net_return": 0.020188564239220268,
+          "rank_score": 0.6965827027046817
         },
         {
           "signal_date": "2025-04-14",
@@ -32906,8 +32305,8 @@
           "target_probability": 0.6153846153846154,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.008893603689566805,
-          "rank_score": 0.6509590301428826
+          "expected_net_return": 0.008893603689566829,
+          "rank_score": 0.6509590301428827
         },
         {
           "signal_date": "2025-04-15",
@@ -32921,7 +32320,7 @@
           "target_probability": 0.66,
           "down_5pct_probability": 0.3333333333333333,
           "down_8pct_probability": 0.15053763440860218,
-          "expected_net_return": 0.02117973318445542,
+          "expected_net_return": 0.021179733184455422,
           "rank_score": 0.6888049542431981
         },
         {
@@ -32936,8 +32335,8 @@
           "target_probability": 0.66,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.15053763440860218,
-          "expected_net_return": 0.017977867516039723,
-          "rank_score": 0.7093308249028686
+          "expected_net_return": 0.01797786751603903,
+          "rank_score": 0.7093308249028658
         },
         {
           "signal_date": "2025-04-16",
@@ -32950,9 +32349,9 @@
           "daily_turnover_yen": 313257600.0,
           "target_probability": 0.6153846153846154,
           "down_5pct_probability": 0.2159090909090909,
-          "down_8pct_probability": 0.032014697172903867,
-          "expected_net_return": 0.010288961670314798,
-          "rank_score": 0.6301473483990299
+          "down_8pct_probability": 0.03201469717293957,
+          "expected_net_return": 0.010288961670314857,
+          "rank_score": 0.6301473483990248
         },
         {
           "signal_date": "2025-04-17",
@@ -32966,7 +32365,7 @@
           "target_probability": 0.66,
           "down_5pct_probability": 0.2159090909090909,
           "down_8pct_probability": 0.07142857142857142,
-          "expected_net_return": 0.005031702245804093,
+          "expected_net_return": 0.005031702245804091,
           "rank_score": 0.6478216141780216
         },
         {
@@ -32979,10 +32378,10 @@
           "return_5d": 0.02752293577981657,
           "daily_turnover_yen": 331004800.0,
           "target_probability": 0.75,
-          "down_5pct_probability": 0.17137495841414982,
+          "down_5pct_probability": 0.1713749584141079,
           "down_8pct_probability": 0.0,
           "expected_net_return": 0.03400789958921257,
-          "rank_score": 0.8688941025154353
+          "rank_score": 0.8688941025154395
         },
         {
           "signal_date": "2025-04-22",
@@ -32996,8 +32395,8 @@
           "target_probability": 0.75,
           "down_5pct_probability": 0.3333333333333333,
           "down_8pct_probability": 0.15053763440860218,
-          "expected_net_return": 0.013633454031244266,
-          "rank_score": 0.7486198376303534
+          "expected_net_return": 0.013633454031244321,
+          "rank_score": 0.7486198376303537
         },
         {
           "signal_date": "2025-04-22",
@@ -33009,10 +32408,10 @@
           "return_5d": -0.015501519756838888,
           "daily_turnover_yen": 20282779950.0,
           "target_probability": 0.6153846153846154,
-          "down_5pct_probability": 0.15692077735055707,
+          "down_5pct_probability": 0.15692077735048726,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.014744770303756599,
-          "rank_score": 0.6586716188645861
+          "expected_net_return": 0.014744770303756653,
+          "rank_score": 0.6586716188645932
         },
         {
           "signal_date": "2025-04-24",
@@ -33026,8 +32425,8 @@
           "target_probability": 0.66,
           "down_5pct_probability": 0.0,
           "down_8pct_probability": 0.0,
-          "expected_net_return": 0.020841260267274897,
-          "rank_score": 0.7433650410690996
+          "expected_net_return": 0.020841260267274918,
+          "rank_score": 0.7433650410690997
         },
         {
           "signal_date": "2025-04-25",
@@ -33041,8 +32440,8 @@
           "target_probability": 0.66,
           "down_5pct_probability": 0.2159090909090909,
           "down_8pct_probability": 0.07142857142857142,
-          "expected_net_return": 0.00975078743286475,
-          "rank_score": 0.6666979549262643
+          "expected_net_return": 0.009750787432864377,
+          "rank_score": 0.6666979549262627
         },
         {
           "signal_date": "2025-04-28",
@@ -33056,8 +32455,8 @@
           "target_probability": 0.66,
           "down_5pct_probability": 0.2159090909090909,
           "down_8pct_probability": 0.07142857142857142,
-          "expected_net_return": 0.011383752268555005,
-          "rank_score": 0.6732298142690253
+          "expected_net_return": 0.011383752268554887,
+          "rank_score": 0.6732298142690248
         },
         {
           "signal_date": "2025-04-28",
@@ -33071,8 +32470,8 @@
           "target_probability": 0.6153846153846154,
           "down_5pct_probability": 0.38461538461538464,
           "down_8pct_probability": 0.15789473684210525,
-          "expected_net_return": 0.008720909706647325,
-          "rank_score": 0.5881225052233505
+          "expected_net_return": 0.008720909706647363,
+          "rank_score": 0.5881225052233506
         },
         {
           "signal_date": "2025-10-10",
@@ -33086,8 +32485,8 @@
           "target_probability": 0.84375,
           "down_5pct_probability": 0.18181818181818182,
           "down_8pct_probability": 0.15555555555555556,
-          "expected_net_return": 0.012850724001928798,
-          "rank_score": 0.8536377444925637
+          "expected_net_return": 0.012850724001928817,
+          "rank_score": 0.8536377444925638
         },
         {
           "signal_date": "2025-10-10",
@@ -33101,8 +32500,8 @@
           "target_probability": 0.5641025641025641,
           "down_5pct_probability": 0.3564356435643564,
           "down_8pct_probability": 0.15555555555555556,
-          "expected_net_return": 0.012587417799287516,
-          "rank_score": 0.5554753376099452
+          "expected_net_return": 0.012587417799287567,
+          "rank_score": 0.5554753376099454
         },
         {
           "signal_date": "2025-10-14",
@@ -33116,7 +32515,7 @@
           "target_probability": 0.84375,
           "down_5pct_probability": 0.4852941176470588,
           "down_8pct_probability": 0.23809523809523808,
-          "expected_net_return": 0.01895820855516271,
+          "expected_net_return": 0.018958208555162726,
           "rank_score": 0.8353391367416593
         },
         {
@@ -33131,8 +32530,8 @@
           "target_probability": 0.5641025641025641,
           "down_5pct_probability": 0.3564356435643564,
           "down_8pct_probability": 0.23809523809523808,
-          "expected_net_return": 0.011598843105910008,
-          "rank_score": 0.5391400864554827
+          "expected_net_return": 0.011598843105909983,
+          "rank_score": 0.5391400864554826
         },
         {
           "signal_date": "2025-10-15",
@@ -33146,7 +32545,7 @@
           "target_probability": 0.84375,
           "down_5pct_probability": 0.3564356435643564,
           "down_8pct_probability": 0.23809523809523808,
-          "expected_net_return": 0.015407789262826094,
+          "expected_net_return": 0.015407789262826087,
           "rank_score": 0.834023306980583
         },
         {
@@ -33161,8 +32560,8 @@
           "target_probability": 0.5641025641025641,
           "down_5pct_probability": 0.18181818181818182,
           "down_8pct_probability": 0.15555555555555556,
-          "expected_net_return": 0.01491965447838563,
-          "rank_score": 0.5822660305009552
+          "expected_net_return": 0.014919654478385492,
+          "rank_score": 0.5822660305009546
         },
         {
           "signal_date": "2025-10-15",
@@ -33176,7 +32575,7 @@
           "target_probability": 0.5641025641025641,
           "down_5pct_probability": 0.3564356435643564,
           "down_8pct_probability": 0.014492753623188406,
-          "expected_net_return": 0.013143313246642092,
+          "expected_net_return": 0.013143313246642075,
           "rank_score": 0.5788583396892185
         },
         {
@@ -33191,8 +32590,8 @@
           "target_probability": 0.7058823529411765,
           "down_5pct_probability": 0.18181818181818182,
           "down_8pct_probability": 0.15555555555555556,
-          "expected_net_return": 0.014796514577360666,
-          "rank_score": 0.7235532597354677
+          "expected_net_return": 0.014796514577360694,
+          "rank_score": 0.7235532597354678
         },
         {
           "signal_date": "2025-10-16",
@@ -33206,7 +32605,7 @@
           "target_probability": 0.5641025641025641,
           "down_5pct_probability": 0.18181818181818182,
           "down_8pct_probability": 0.15555555555555556,
-          "expected_net_return": 0.019138450726739913,
+          "expected_net_return": 0.01913845072673993,
           "rank_score": 0.5991412154943723
         },
         {
@@ -33221,8 +32620,8 @@
           "target_probability": 0.5641025641025641,
           "down_5pct_probability": 0.3564356435643564,
           "down_8pct_probability": 0.23809523809523808,
-          "expected_net_return": 0.0059197845645289,
-          "rank_score": 0.5164238522899584
+          "expected_net_return": 0.005919784564528988,
+          "rank_score": 0.5164238522899587
         },
         {
           "signal_date": "2025-10-17",
@@ -33236,7 +32635,7 @@
           "target_probability": 0.5641025641025641,
           "down_5pct_probability": 0.18181818181818182,
           "down_8pct_probability": 0.014492753623188406,
-          "expected_net_return": 0.012252107439016868,
+          "expected_net_return": 0.01225210743901686,
           "rank_score": 0.5927552626333351
         },
         {
@@ -33251,8 +32650,8 @@
           "target_probability": 0.5641025641025641,
           "down_5pct_probability": 0.18181818181818182,
           "down_8pct_probability": 0.15555555555555556,
-          "expected_net_return": 0.016396073619041523,
-          "rank_score": 0.5881717070635787
+          "expected_net_return": 0.01639607361904149,
+          "rank_score": 0.5881717070635786
         },
         {
           "signal_date": "2025-11-05",
@@ -33266,8 +32665,8 @@
           "target_probability": 0.8580645161290322,
           "down_5pct_probability": 0.3444444444444445,
           "down_8pct_probability": 0.2037037037037037,
-          "expected_net_return": 0.0160933276157365,
-          "rank_score": 0.8574378265919782
+          "expected_net_return": 0.016093327615736532,
+          "rank_score": 0.8574378265919783
         },
         {
           "signal_date": "2025-11-05",
@@ -33281,8 +32680,8 @@
           "target_probability": 0.55,
           "down_5pct_probability": 0.3444444444444445,
           "down_8pct_probability": 0.23076923076923078,
-          "expected_net_return": 0.011161692557517278,
-          "rank_score": 0.5255869411702401
+          "expected_net_return": 0.011161692557517238,
+          "rank_score": 0.5255869411702399
         },
         {
           "signal_date": "2025-11-05",
@@ -33296,38 +32695,8 @@
           "target_probability": 0.55,
           "down_5pct_probability": 0.3444444444444445,
           "down_8pct_probability": 0.2037037037037037,
-          "expected_net_return": 0.009132411744928525,
+          "expected_net_return": 0.009132411744928522,
           "rank_score": 0.521529646979714
-        },
-        {
-          "signal_date": "2025-11-05",
-          "rank": 4,
-          "ticker": "6807.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 2268.0,
-          "limit_price_yen": 2302.02,
-          "return_5d": -0.19915254237288138,
-          "daily_turnover_yen": 2236474800.0,
-          "target_probability": 0.55,
-          "down_5pct_probability": 0.3444444444444445,
-          "down_8pct_probability": 0.2037037037037037,
-          "expected_net_return": 0.007002080236048563,
-          "rank_score": 0.5130083209441942
-        },
-        {
-          "signal_date": "2025-11-05",
-          "rank": 5,
-          "ticker": "1515.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1636.0,
-          "limit_price_yen": 1660.5399999999997,
-          "return_5d": -0.010284331518451317,
-          "daily_turnover_yen": 616772000.0,
-          "target_probability": 0.55,
-          "down_5pct_probability": 0.3444444444444445,
-          "down_8pct_probability": 0.23076923076923078,
-          "expected_net_return": 0.007684431668138269,
-          "rank_score": 0.511677897612724
         },
         {
           "signal_date": "2025-11-07",
@@ -33341,8 +32710,8 @@
           "target_probability": 0.8580645161290322,
           "down_5pct_probability": 0.3444444444444445,
           "down_8pct_probability": 0.2857142857142857,
-          "expected_net_return": 0.00449081601414916,
-          "rank_score": 0.7987261928840416
+          "expected_net_return": 0.004490816014149074,
+          "rank_score": 0.7987261928840412
         },
         {
           "signal_date": "2025-11-07",
@@ -33356,8 +32725,8 @@
           "target_probability": 0.55,
           "down_5pct_probability": 0.3444444444444445,
           "down_8pct_probability": 0.2037037037037037,
-          "expected_net_return": 0.00580152864294795,
-          "rank_score": 0.5082061145717918
+          "expected_net_return": 0.0058015286429479625,
+          "rank_score": 0.5082061145717919
         },
         {
           "signal_date": "2025-11-20",
@@ -33371,7 +32740,7 @@
           "target_probability": 0.6923076923076923,
           "down_5pct_probability": 0.3444444444444445,
           "down_8pct_probability": 0.23076923076923078,
-          "expected_net_return": 0.013911786709949202,
+          "expected_net_return": 0.013911786709949178,
           "rank_score": 0.67889501008766
         },
         {
@@ -33386,8 +32755,8 @@
           "target_probability": 0.8580645161290322,
           "down_5pct_probability": 0.3444444444444445,
           "down_8pct_probability": 0.2037037037037037,
-          "expected_net_return": 0.010949869077896458,
-          "rank_score": 0.836863992440618
+          "expected_net_return": 0.010949869077896399,
+          "rank_score": 0.8368639924406177
         },
         {
           "signal_date": "2025-11-21",
@@ -33401,8 +32770,8 @@
           "target_probability": 0.8580645161290322,
           "down_5pct_probability": 0.3444444444444445,
           "down_8pct_probability": 0.2037037037037037,
-          "expected_net_return": 0.01066623304129697,
-          "rank_score": 0.83572944829422
+          "expected_net_return": 0.010666233041296942,
+          "rank_score": 0.8357294482942199
         },
         {
           "signal_date": "2025-11-21",
@@ -33416,23 +32785,8 @@
           "target_probability": 0.6666666666666666,
           "down_5pct_probability": 0.3444444444444445,
           "down_8pct_probability": 0.2037037037037037,
-          "expected_net_return": 0.002241525893207549,
-          "rank_score": 0.6106327702394968
-        },
-        {
-          "signal_date": "2025-11-21",
-          "rank": 4,
-          "ticker": "4911.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 2201.0,
-          "limit_price_yen": 2234.015,
-          "return_5d": -0.174263740386419,
-          "daily_turnover_yen": 16349468200.0,
-          "target_probability": 0.55,
-          "down_5pct_probability": 0.3444444444444445,
-          "down_8pct_probability": 0.2037037037037037,
-          "expected_net_return": 0.005553061752404163,
-          "rank_score": 0.5072122470096166
+          "expected_net_return": 0.0022415258932075924,
+          "rank_score": 0.6106327702394969
         },
         {
           "signal_date": "2025-12-11",
@@ -33446,8 +32800,8 @@
           "target_probability": 0.8580645161290322,
           "down_5pct_probability": 0.3444444444444445,
           "down_8pct_probability": 0.23076923076923078,
-          "expected_net_return": 0.010021510139801137,
-          "rank_score": 0.8290907276284076
+          "expected_net_return": 0.010021510139801088,
+          "rank_score": 0.8290907276284075
         },
         {
           "signal_date": "2025-12-11",
@@ -33461,8 +32815,8 @@
           "target_probability": 0.55,
           "down_5pct_probability": 0.24285714285714285,
           "down_8pct_probability": 0.04,
-          "expected_net_return": 0.00967174942777567,
-          "rank_score": 0.5584012834253884
+          "expected_net_return": 0.009671749427775558,
+          "rank_score": 0.558401283425388
         },
         {
           "signal_date": "2025-12-22",
@@ -33476,8 +32830,8 @@
           "target_probability": 0.796875,
           "down_5pct_probability": 0.21428571428571427,
           "down_8pct_probability": 0.25252525252525254,
-          "expected_net_return": 0.05596311945140909,
-          "rank_score": 0.961420118498277
+          "expected_net_return": 0.05596311945140812,
+          "rank_score": 0.9614201184982732
         },
         {
           "signal_date": "2026-03-09",
@@ -33491,8 +32845,8 @@
           "target_probability": 0.7666666666666667,
           "down_5pct_probability": 0.25757575757575757,
           "down_8pct_probability": 0.0625,
-          "expected_net_return": 0.015667365100882485,
-          "rank_score": 0.7942035513126209
+          "expected_net_return": 0.015667365100882263,
+          "rank_score": 0.79420355131262
         },
         {
           "signal_date": "2026-03-09",
@@ -33506,7 +32860,7 @@
           "target_probability": 0.7666666666666667,
           "down_5pct_probability": 0.4864864864864865,
           "down_8pct_probability": 0.25,
-          "expected_net_return": 0.011053540031739337,
+          "expected_net_return": 0.011053540031739324,
           "rank_score": 0.7247321781449755
         },
         {
@@ -33521,7 +32875,7 @@
           "target_probability": 0.7666666666666667,
           "down_5pct_probability": 0.3181818181818182,
           "down_8pct_probability": 0.21818181818181817,
-          "expected_net_return": 0.01388568757518817,
+          "expected_net_return": 0.013885687575188193,
           "rank_score": 0.7576639624219649
         },
         {
@@ -33536,7 +32890,7 @@
           "target_probability": 0.7666666666666667,
           "down_5pct_probability": 0.25757575757575757,
           "down_8pct_probability": 0.0625,
-          "expected_net_return": 0.01748829897941861,
+          "expected_net_return": 0.01748829897941862,
           "rank_score": 0.8014872868267654
         },
         {
@@ -33551,7 +32905,7 @@
           "target_probability": 0.6829268292682927,
           "down_5pct_probability": 0.21052631578947367,
           "down_8pct_probability": 0.12121212121212122,
-          "expected_net_return": 0.03331871152271082,
+          "expected_net_return": 0.03331871152271083,
           "rank_score": 0.7769672255983705
         },
         {
@@ -33581,38 +32935,8 @@
           "target_probability": 0.6829268292682927,
           "down_5pct_probability": 0.3235294117647059,
           "down_8pct_probability": 0.12121212121212122,
-          "expected_net_return": 0.02823474694126708,
+          "expected_net_return": 0.028234746941267073,
           "rank_score": 0.7453310576750722
-        },
-        {
-          "signal_date": "2026-03-23",
-          "rank": 4,
-          "ticker": "9823.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1335.0,
-          "limit_price_yen": 1355.0249999999999,
-          "return_5d": -0.07484407484407485,
-          "daily_turnover_yen": 281818500.0,
-          "target_probability": 0.6829268292682927,
-          "down_5pct_probability": 0.21052631578947367,
-          "down_8pct_probability": 0.12121212121212122,
-          "expected_net_return": 0.020131646266371102,
-          "rank_score": 0.7242189645730116
-        },
-        {
-          "signal_date": "2026-03-23",
-          "rank": 5,
-          "ticker": "4587.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1162.0,
-          "limit_price_yen": 1179.4299999999998,
-          "return_5d": -0.1594936708860759,
-          "daily_turnover_yen": 2182468400.0,
-          "target_probability": 0.6829268292682927,
-          "down_5pct_probability": 0.3235294117647059,
-          "down_8pct_probability": 0.22340425531914893,
-          "expected_net_return": 0.019757262773822774,
-          "rank_score": 0.6960923008892409
         },
         {
           "signal_date": "2026-03-27",
@@ -33626,8 +32950,8 @@
           "target_probability": 0.6829268292682927,
           "down_5pct_probability": 0.21052631578947367,
           "down_8pct_probability": 0.12121212121212122,
-          "expected_net_return": 0.023876133782878405,
-          "rank_score": 0.7391969146390408
+          "expected_net_return": 0.023876133782878447,
+          "rank_score": 0.739196914639041
         },
         {
           "signal_date": "2026-03-30",
@@ -33641,8 +32965,8 @@
           "target_probability": 0.6829268292682927,
           "down_5pct_probability": 0.16666666666666666,
           "down_8pct_probability": 0.12121212121212122,
-          "expected_net_return": 0.036480487958347886,
-          "rank_score": 0.7940002962531993
+          "expected_net_return": 0.036480487958347955,
+          "rank_score": 0.7940002962531997
         },
         {
           "signal_date": "2026-03-30",
@@ -33656,8 +32980,8 @@
           "target_probability": 0.6829268292682927,
           "down_5pct_probability": 0.16666666666666666,
           "down_8pct_probability": 0.12121212121212122,
-          "expected_net_return": 0.03551658593583766,
-          "rank_score": 0.7901446881631584
+          "expected_net_return": 0.0355165859358377,
+          "rank_score": 0.7901446881631586
         },
         {
           "signal_date": "2026-03-30",
@@ -33671,38 +32995,8 @@
           "target_probability": 0.6829268292682927,
           "down_5pct_probability": 0.16666666666666666,
           "down_8pct_probability": 0.12121212121212122,
-          "expected_net_return": 0.03282863277174818,
-          "rank_score": 0.7793928755068006
-        },
-        {
-          "signal_date": "2026-03-30",
-          "rank": 4,
-          "ticker": "8739.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1864.0,
-          "limit_price_yen": 1891.9599999999998,
-          "return_5d": -0.0032085561497325887,
-          "daily_turnover_yen": 506076000.0,
-          "target_probability": 0.6829268292682927,
-          "down_5pct_probability": 0.21052631578947367,
-          "down_8pct_probability": 0.12121212121212122,
-          "expected_net_return": 0.033250075553917756,
-          "rank_score": 0.7766926817231983
-        },
-        {
-          "signal_date": "2026-03-30",
-          "rank": 5,
-          "ticker": "8935.T",
-          "shape": "capitulation_reversal",
-          "signal_close_yen": 1574.0,
-          "limit_price_yen": 1597.61,
-          "return_5d": -0.008816120906801062,
-          "daily_turnover_yen": 240664600.0,
-          "target_probability": 0.6829268292682927,
-          "down_5pct_probability": 0.16666666666666666,
-          "down_8pct_probability": 0.12121212121212122,
-          "expected_net_return": 0.03161491018248899,
-          "rank_score": 0.7745379851497638
+          "expected_net_return": 0.032828632771748203,
+          "rank_score": 0.7793928755068007
         },
         {
           "signal_date": "2026-03-31",
@@ -33716,8 +33010,8 @@
           "target_probability": 0.6829268292682927,
           "down_5pct_probability": 0.16666666666666666,
           "down_8pct_probability": 0.12121212121212122,
-          "expected_net_return": 0.035339908075136726,
-          "rank_score": 0.7894379767203548
+          "expected_net_return": 0.035339908075136754,
+          "rank_score": 0.7894379767203549
         },
         {
           "signal_date": "2026-03-31",
@@ -33746,8 +33040,8 @@
           "target_probability": 0.5517241379310345,
           "down_5pct_probability": 0.3235294117647059,
           "down_8pct_probability": 0.22340425531914893,
-          "expected_net_return": 0.010332818449554134,
-          "rank_score": 0.5271918322549081
+          "expected_net_return": 0.010332818449554205,
+          "rank_score": 0.5271918322549083
         },
         {
           "signal_date": "2026-04-01",
@@ -33761,8 +33055,8 @@
           "target_probability": 0.5517241379310345,
           "down_5pct_probability": 0.3235294117647059,
           "down_8pct_probability": 0.12121212121212122,
-          "expected_net_return": 0.005118244488739338,
-          "rank_score": 0.5216623565277031
+          "expected_net_return": 0.0051182444887393035,
+          "rank_score": 0.5216623565277029
         },
         {
           "signal_date": "2026-04-23",
@@ -33776,8 +33070,8 @@
           "target_probability": 0.5517241379310345,
           "down_5pct_probability": 0.21052631578947367,
           "down_8pct_probability": 0.12121212121212122,
-          "expected_net_return": 0.018474946307882857,
-          "rank_score": 0.5863894734018004
+          "expected_net_return": 0.018474946307882795,
+          "rank_score": 0.5863894734018001
         },
         {
           "signal_date": "2026-05-13",
@@ -33791,8 +33085,8 @@
           "target_probability": 0.6470588235294118,
           "down_5pct_probability": 0.4358974358974359,
           "down_8pct_probability": 0.1935483870967742,
-          "expected_net_return": 0.015668069083035713,
-          "rank_score": 0.637109098207295
+          "expected_net_return": 0.01566806908303568,
+          "rank_score": 0.6371090982072948
         },
         {
           "signal_date": "2026-05-14",
@@ -33806,8 +33100,8 @@
           "target_probability": 0.6470588235294118,
           "down_5pct_probability": 0.3508771929824561,
           "down_8pct_probability": 0.038461538461538464,
-          "expected_net_return": 0.014256970836746525,
-          "rank_score": 0.6632297568089215
+          "expected_net_return": 0.014256970836746478,
+          "rank_score": 0.6632297568089214
         },
         {
           "signal_date": "2026-05-18",
@@ -33821,8 +33115,8 @@
           "target_probability": 0.6470588235294118,
           "down_5pct_probability": 0.16,
           "down_8pct_probability": 0.1935483870967742,
-          "expected_net_return": 0.017615950423145867,
-          "rank_score": 0.6724903671574791
+          "expected_net_return": 0.01761595042314575,
+          "rank_score": 0.6724903671574787
         },
         {
           "signal_date": "2026-05-18",
@@ -33836,7 +33130,7 @@
           "target_probability": 0.6470588235294118,
           "down_5pct_probability": 0.16,
           "down_8pct_probability": 0.1935483870967742,
-          "expected_net_return": 0.01674090177033718,
+          "expected_net_return": 0.016740901770337182,
           "rank_score": 0.6689901725462444
         },
         {
@@ -33851,8 +33145,8 @@
           "target_probability": 0.5625,
           "down_5pct_probability": 0.16,
           "down_8pct_probability": 0.1935483870967742,
-          "expected_net_return": 0.005763274551578041,
-          "rank_score": 0.540520840141796
+          "expected_net_return": 0.005763274551578196,
+          "rank_score": 0.5405208401417966
         },
         {
           "signal_date": "2026-05-20",
@@ -33866,7 +33160,7 @@
           "target_probability": 0.7272727272727272,
           "down_5pct_probability": 0.3508771929824561,
           "down_8pct_probability": 0.27906976744186046,
-          "expected_net_return": 0.014111300575870364,
+          "expected_net_return": 0.014111300575870372,
           "rank_score": 0.706769745161684
         },
         {
@@ -33881,8 +33175,8 @@
           "target_probability": 0.6470588235294118,
           "down_5pct_probability": 0.4358974358974359,
           "down_8pct_probability": 0.1935483870967742,
-          "expected_net_return": 0.008615420249475337,
-          "rank_score": 0.6088985028730535
+          "expected_net_return": 0.008615420249475274,
+          "rank_score": 0.6088985028730532
         },
         {
           "signal_date": "2026-05-21",
@@ -33896,7 +33190,7 @@
           "target_probability": 0.7272727272727272,
           "down_5pct_probability": 0.3508771929824561,
           "down_8pct_probability": 0.038461538461538464,
-          "expected_net_return": 0.013971019826374964,
+          "expected_net_return": 0.013971019826374963,
           "rank_score": 0.7422998565107507
         },
         {
@@ -33911,7 +33205,7 @@
           "target_probability": 0.6470588235294118,
           "down_5pct_probability": 0.3508771929824561,
           "down_8pct_probability": 0.1935483870967742,
-          "expected_net_return": 0.006092219700732079,
+          "expected_net_return": 0.006092219700732071,
           "rank_score": 0.6073077249695783
         },
         {
@@ -33926,8 +33220,8 @@
           "target_probability": 0.7272727272727272,
           "down_5pct_probability": 0.3508771929824561,
           "down_8pct_probability": 0.1935483870967742,
-          "expected_net_return": 0.017345026007490685,
-          "rank_score": 0.7325328539399282
+          "expected_net_return": 0.017345026007490622,
+          "rank_score": 0.732532853939928
         },
         {
           "signal_date": "2026-05-22",
@@ -33941,8 +33235,8 @@
           "target_probability": 0.6470588235294118,
           "down_5pct_probability": 0.16,
           "down_8pct_probability": 0.038461538461538464,
-          "expected_net_return": 0.010037090187306063,
-          "rank_score": 0.6654379535094053
+          "expected_net_return": 0.01003709018730603,
+          "rank_score": 0.6654379535094052
         },
         {
           "signal_date": "2026-05-22",
@@ -33956,7 +33250,7 @@
           "target_probability": 0.6470588235294118,
           "down_5pct_probability": 0.16,
           "down_8pct_probability": 0.27906976744186046,
-          "expected_net_return": 0.007248107404054493,
+          "expected_net_return": 0.007248107404054489,
           "rank_score": 0.6181907880293507
         },
         {
@@ -33971,7 +33265,7 @@
           "target_probability": 0.6470588235294118,
           "down_5pct_probability": 0.3508771929824561,
           "down_8pct_probability": 0.1935483870967742,
-          "expected_net_return": 0.008774577803261322,
+          "expected_net_return": 0.008774577803261333,
           "rank_score": 0.6180371573796953
         },
         {
@@ -33986,8 +33280,8 @@
           "target_probability": 0.7272727272727272,
           "down_5pct_probability": 0.3103448275862069,
           "down_8pct_probability": 0.1935483870967742,
-          "expected_net_return": 0.01719593000006849,
-          "rank_score": 0.7359897064498644
+          "expected_net_return": 0.017195930000068478,
+          "rank_score": 0.7359897064498643
         },
         {
           "signal_date": "2026-06-11",
@@ -34001,8 +33295,8 @@
           "target_probability": 0.5625,
           "down_5pct_probability": 0.3508771929824561,
           "down_8pct_probability": 0.1935483870967742,
-          "expected_net_return": 0.013507109794018821,
-          "rank_score": 0.5524084618133135
+          "expected_net_return": 0.01350710979401883,
+          "rank_score": 0.5524084618133136
         },
         {
           "signal_date": "2026-06-16",
@@ -34016,7 +33310,7 @@
           "target_probability": 0.6470588235294118,
           "down_5pct_probability": 0.3508771929824561,
           "down_8pct_probability": 0.1935483870967742,
-          "expected_net_return": 0.011314333575612543,
+          "expected_net_return": 0.011314333575612526,
           "rank_score": 0.6281961804691002
         },
         {
@@ -34031,13 +33325,13 @@
           "target_probability": 0.5849056603773585,
           "down_5pct_probability": 0.39344262295081966,
           "down_8pct_probability": 0.15294117647058825,
-          "expected_net_return": 0.015472328706779628,
+          "expected_net_return": 0.015472328706779653,
           "rank_score": 0.5845095364388069
         }
       ],
       "live_signal_count": 0,
       "live_signals": [],
-      "note": "424万6,171円の参考結果を出した投げ売り反転・売買代金1.5億円以上・Logistic確率55%以上・全テクニカル許容・損失確率条件を固定。デモトレード表示だけを1日最大5銘柄へ拡張"
+      "note": "424万6,171円の参考結果で採用した投げ売り反転・売買代金1.5億円以上・Logistic確率55%以上・損失確率条件を共通抽出条件として固定。モメンタム10Dとカブトレは同じ候補を使い、ランキング表示は1日最大3銘柄。参考成績はランキング上限変更前の基準値。"
     },
     "turnover_sensitivity": {
       "comparison_mode": "frozen_200m_rule_with_threshold_specific_walk_forward_refits",
@@ -41868,7 +41162,7 @@
     ]
   },
   "event_risk_summary": {
-    "earnings_calendar_rows": 21,
+    "earnings_calendar_rows": 22,
     "important_event_rows": 15,
     "covered_latest_tickers": 0,
     "earnings_crossing_risks": 0,
