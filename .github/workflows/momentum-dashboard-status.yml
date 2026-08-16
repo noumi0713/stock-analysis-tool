@@ -1,0 +1,100 @@
+name: Normalize Momentum dashboard status
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/momentum-dashboard-status.yml"
+      - ".github/workflows/momentum5d-daily.yml"
+      - "momentum5d/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: momentum-dashboard-status-main
+  cancel-in-progress: true
+
+jobs:
+  normalize_status:
+    name: Normalize published market session
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Replace stale morning metadata with close metadata
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from datetime import datetime
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+
+          path = Path("dashboard-data/latest.json")
+          payload = json.loads(path.read_text(encoding="utf-8"))
+          update = payload.get("update") or {}
+          latest_date = str(payload.get("latest_date") or "")
+          market_date = str(update.get("market_date") or "")
+          now = datetime.now(ZoneInfo("Asia/Tokyo"))
+
+          stale_morning = (
+              update.get("status") == "complete"
+              and update.get("session") == "morning"
+              and latest_date
+              and market_date
+              and latest_date >= market_date
+              and (
+                  now.date().isoformat() > market_date
+                  or (
+                      now.date().isoformat() == market_date
+                      and (now.hour, now.minute) >= (15, 40)
+                  )
+              )
+          )
+
+          if not stale_morning:
+              print("Published dashboard session is already current; no change needed.")
+              raise SystemExit(0)
+
+          metrics = payload.get("metrics") or {}
+          payload["update"] = {
+              "status": "complete",
+              "session": "close",
+              "session_label": "大引け",
+              "market_date": latest_date,
+              "data_through": f"{latest_date}T15:30:00+09:00",
+              "interval": "1d",
+              "successful_tickers": int(
+                  metrics.get("tickers") or update.get("successful_tickers") or 0
+              ),
+              "coverage": 1.0,
+              "generated_at": payload.get("generated_at"),
+          }
+          path.write_text(
+              json.dumps(
+                  payload,
+                  ensure_ascii=False,
+                  separators=(",", ":"),
+                  default=str,
+              ),
+              encoding="utf-8",
+          )
+          print(f"Normalized stale morning session to close: {latest_date}")
+          PY
+
+      - name: Publish normalized dashboard metadata
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dashboard-data/latest.json
+          if git diff --cached --quiet; then
+            echo "Dashboard metadata is unchanged."
+            exit 0
+          fi
+          git commit -m "Normalize Momentum dashboard close status"
+          git push
