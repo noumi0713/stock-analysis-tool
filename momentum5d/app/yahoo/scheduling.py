@@ -62,10 +62,17 @@ def main() -> int:
     )
     args = parser.parse_args()
     market_date = args.market_date or datetime.now(JST).date()
-    run = args.force or should_run(
-        args.dashboard,
-        session=args.session,
-        market_date=market_date,
+
+    # ソースコードだけを公開する push では重い市場データ取得・バックテストを回さない。
+    # 市場更新は定時 schedule または workflow_dispatch のときだけ実行する。
+    is_code_push = os.getenv("GITHUB_EVENT_NAME") == "push"
+    run = False if is_code_push else (
+        args.force
+        or should_run(
+            args.dashboard,
+            session=args.session,
+            market_date=market_date,
+        )
     )
     values = {
         "session": args.session,
