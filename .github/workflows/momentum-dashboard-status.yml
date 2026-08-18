@@ -9,6 +9,7 @@ on:
       - ".github/workflows/momentum-dashboard-status.yml"
       - ".github/workflows/momentum5d-daily.yml"
       - "momentum5d/**"
+      - "dashboard-data/latest.json"
 
 permissions:
   contents: write
@@ -39,7 +40,23 @@ jobs:
           update = payload.get("update") or {}
           latest_date = str(payload.get("latest_date") or "")
           market_date = str(update.get("market_date") or "")
-          now = datetime.now(ZoneInfo("Asia/Tokyo"))
+
+          generated_raw = payload.get("generated_at") or update.get("generated_at")
+          generated_jst = None
+          if generated_raw:
+              try:
+                  generated_jst = datetime.fromisoformat(
+                      str(generated_raw).replace("Z", "+00:00")
+                  ).astimezone(ZoneInfo("Asia/Tokyo"))
+              except ValueError:
+                  generated_jst = None
+
+          generated_after_close = bool(
+              generated_jst
+              and latest_date
+              and generated_jst.date().isoformat() == latest_date
+              and (generated_jst.hour, generated_jst.minute) >= (15, 40)
+          )
 
           stale_morning = (
               update.get("status") == "complete"
@@ -47,13 +64,7 @@ jobs:
               and latest_date
               and market_date
               and latest_date >= market_date
-              and (
-                  now.date().isoformat() > market_date
-                  or (
-                      now.date().isoformat() == market_date
-                      and (now.hour, now.minute) >= (15, 40)
-                  )
-              )
+              and generated_after_close
           )
 
           if not stale_morning:
