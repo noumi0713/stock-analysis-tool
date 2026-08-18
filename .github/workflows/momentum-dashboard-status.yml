@@ -14,9 +14,11 @@ on:
 permissions:
   contents: write
 
+# The daily workflow and this normalizer both write dashboard-data/latest.json.
+# Use the same concurrency group so they cannot push to main at the same time.
 concurrency:
-  group: momentum-dashboard-status-main
-  cancel-in-progress: true
+  group: momentum5d-daily-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   normalize_status:
@@ -100,6 +102,9 @@ jobs:
       - name: Publish normalized dashboard metadata
         shell: bash
         run: |
+          set -euo pipefail
+          target_branch="${GITHUB_REF_NAME}"
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add dashboard-data/latest.json
@@ -107,5 +112,7 @@ jobs:
             echo "Dashboard metadata is unchanged."
             exit 0
           fi
+
           git commit -m "Normalize Momentum dashboard close status"
-          git push
+          git pull --rebase origin "$target_branch"
+          git push origin "HEAD:${target_branch}"
