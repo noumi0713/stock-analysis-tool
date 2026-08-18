@@ -16,7 +16,6 @@ on:
       - main
       - agent/demand-supply-study
     paths:
-      - ".github/workflows/momentum5d-daily.yml"
       - "momentum5d/**"
   schedule:
     # GitHubの遅延・取りこぼしに備え、完了するまで20分間隔で再試行する。
@@ -356,16 +355,43 @@ jobs:
           key: momentum5d-final-${{ github.run_id }}
 
       - name: Publish aggregate result for the mobile dashboard
+        shell: bash
         run: |
-          mkdir -p ../dashboard-data
-          cp work/latest.json ../dashboard-data/latest.json
-          cp work/demo-trade-signals.json ../dashboard-data/demo-trade-signals.json
+          set -euo pipefail
+
+          target_branch="${GITHUB_REF_NAME}"
+          tmp_latest="$(mktemp)"
+          tmp_signals="$(mktemp)"
+          cp work/latest.json "$tmp_latest"
+          cp work/demo-trade-signals.json "$tmp_signals"
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add ../dashboard-data/latest.json ../dashboard-data/demo-trade-signals.json
-          if git diff --cached --quiet; then
-            echo "Dashboard payload is unchanged."
-            exit 0
-          fi
-          git commit -m "Update Momentum 5D dashboard data"
-          git push
+
+          for attempt in 1 2 3; do
+            echo "Publish attempt ${attempt}/3 on ${target_branch}"
+            git fetch origin "$target_branch"
+            git reset --hard "origin/${target_branch}"
+
+            mkdir -p ../dashboard-data
+            cp "$tmp_latest" ../dashboard-data/latest.json
+            cp "$tmp_signals" ../dashboard-data/demo-trade-signals.json
+            git add ../dashboard-data/latest.json ../dashboard-data/demo-trade-signals.json
+
+            if git diff --cached --quiet; then
+              echo "Dashboard payload is already current."
+              exit 0
+            fi
+
+            git commit -m "Update Momentum 5D dashboard data"
+            if git push origin "HEAD:${target_branch}"; then
+              echo "Dashboard payload published successfully."
+              exit 0
+            fi
+
+            echo "Remote changed during publish; retrying on latest ${target_branch}."
+            sleep $((attempt * 2))
+          done
+
+          echo "Failed to publish dashboard after 3 attempts." >&2
+          exit 1
