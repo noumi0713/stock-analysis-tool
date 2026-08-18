@@ -1,0 +1,77 @@
+name: Force Momentum dashboard republish
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/force-momentum-republish.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: momentum5d-daily-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  republish:
+    name: Republish existing Momentum dashboard data
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Stamp existing published payloads without rerunning analysis
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from datetime import UTC, datetime
+          from pathlib import Path
+
+          stamp = datetime.now(UTC).isoformat()
+          for filename in ("dashboard-data/latest.json", "dashboard-data/demo-trade-signals.json"):
+              path = Path(filename)
+              payload = json.loads(path.read_text(encoding="utf-8"))
+              payload["republished_at"] = stamp
+              path.write_text(
+                  json.dumps(payload, ensure_ascii=False, separators=(",", ":"), default=str),
+                  encoding="utf-8",
+              )
+              print(f"Stamped {filename}: {stamp}")
+          PY
+
+          tmp_latest="$(mktemp)"
+          tmp_signals="$(mktemp)"
+          cp dashboard-data/latest.json "$tmp_latest"
+          cp dashboard-data/demo-trade-signals.json "$tmp_signals"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          for attempt in 1 2 3 4 5; do
+            echo "Republish attempt ${attempt}/5"
+            git rebase --abort >/dev/null 2>&1 || true
+            git fetch origin main
+            git reset --hard origin/main
+            cp "$tmp_latest" dashboard-data/latest.json
+            cp "$tmp_signals" dashboard-data/demo-trade-signals.json
+            git add dashboard-data/latest.json dashboard-data/demo-trade-signals.json
+            git commit -m "Republish Momentum dashboard data"
+
+            if git pull --rebase origin main; then
+              if git push origin HEAD:main; then
+                echo "Momentum dashboard data republished successfully."
+                exit 0
+              fi
+            else
+              git rebase --abort >/dev/null 2>&1 || true
+            fi
+
+            sleep $((attempt * 2))
+          done
+
+          echo "Failed to republish Momentum dashboard data after 5 attempts." >&2
+          exit 1
