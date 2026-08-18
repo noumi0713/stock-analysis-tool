@@ -368,8 +368,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          for attempt in 1 2 3; do
-            echo "Publish attempt ${attempt}/3 on ${target_branch}"
+          for attempt in 1 2 3 4 5; do
+            echo "Publish attempt ${attempt}/5 on ${target_branch}"
+            git rebase --abort >/dev/null 2>&1 || true
             git fetch origin "$target_branch"
             git reset --hard "origin/${target_branch}"
 
@@ -384,14 +385,22 @@ jobs:
             fi
 
             git commit -m "Update Momentum 5D dashboard data"
-            if git push origin "HEAD:${target_branch}"; then
-              echo "Dashboard payload published successfully."
-              exit 0
+
+            # Narrow the race window: rebase the generated-data commit onto the
+            # newest remote head immediately before pushing.
+            if git pull --rebase origin "$target_branch"; then
+              if git push origin "HEAD:${target_branch}"; then
+                echo "Dashboard payload published successfully."
+                exit 0
+              fi
+            else
+              echo "Rebase conflicted; rebuilding the data commit on the newest remote head."
+              git rebase --abort >/dev/null 2>&1 || true
             fi
 
             echo "Remote changed during publish; retrying on latest ${target_branch}."
             sleep $((attempt * 2))
           done
 
-          echo "Failed to publish dashboard after 3 attempts." >&2
+          echo "Failed to publish dashboard after 5 attempts." >&2
           exit 1
