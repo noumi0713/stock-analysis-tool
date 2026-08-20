@@ -22,13 +22,18 @@ def _probability(record: dict[str, Any], key: str, alias: str) -> float | None:
     return _number(record.get(key, record.get(alias)))
 
 
-def _trusted_previous_signals(previous: dict[str, Any] | None) -> dict[str, list[dict]]:
+def _trusted_previous_signals(
+    previous: dict[str, Any] | None,
+    *,
+    start_date: str,
+    end_date: str,
+) -> dict[str, list[dict]]:
     if not previous or (previous.get("meta") or {}).get("signalSource") != SIGNAL_SOURCE:
         return {}
     return {
         str(signal_date): list(records or [])
         for signal_date, records in (previous.get("signals") or {}).items()
-        if str(signal_date).startswith(f"{REPLAY_YEAR}-")
+        if start_date <= str(signal_date) <= end_date
     }
 
 
@@ -36,10 +41,12 @@ def build_replay_payload(
     source: dict[str, Any],
     prices: pd.DataFrame,
     previous: dict[str, Any] | None = None,
+    start_date: str | None = None,
 ) -> dict[str, Any]:
     latest_date = str(source.get("latest_date") or "")
-    if not latest_date.startswith(f"{REPLAY_YEAR}-"):
-        raise ValueError(f"latest_date is outside {REPLAY_YEAR}: {latest_date}")
+    range_start = start_date or f"{REPLAY_YEAR}-01-01"
+    if not latest_date or range_start > latest_date:
+        raise ValueError(f"Invalid replay range: {range_start} to {latest_date}")
 
     study = ((source.get("ten_day_signal_study") or {}).get("demo_trade_signal_study") or {})
     if study.get("status") != "completed":
@@ -49,19 +56,23 @@ def build_replay_payload(
     frame["date"] = pd.to_datetime(frame["date"], errors="coerce").dt.date
     frame = frame.loc[
         frame["date"].notna()
-        & frame["date"].astype(str).str.startswith(f"{REPLAY_YEAR}-")
+        & frame["date"].astype(str).ge(range_start)
         & frame["date"].astype(str).le(latest_date)
     ].copy()
     if frame.empty:
-        raise ValueError(f"No {REPLAY_YEAR} market prices are available")
+        raise ValueError(f"No market prices are available from {range_start}")
     frame["ticker"] = frame["ticker"].astype(str)
     dates = sorted(frame["date"].astype(str).unique().tolist())
     date_index = {value: index for index, value in enumerate(dates)}
 
-    raw_signals = _trusted_previous_signals(previous)
+    raw_signals = _trusted_previous_signals(
+        previous,
+        start_date=range_start,
+        end_date=latest_date,
+    )
     for record in study.get("historical_signals") or []:
         signal_date = str(record.get("signal_date") or "")
-        if signal_date.startswith(f"{REPLAY_YEAR}-") and signal_date <= latest_date:
+        if range_start <= signal_date <= latest_date:
             raw_signals.setdefault(signal_date, []).append(dict(record))
     # The latest market date is authoritative. Writing an empty list is essential:
     # it prevents a prior run's candidates from leaking into a zero-signal session.
@@ -219,6 +230,7 @@ def main() -> None:
     parser.add_argument("--prices", type=Path, required=True)
     parser.add_argument("--previous", type=Path)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--lookback-years", type=int)
     args = parser.parse_args()
 
     source = json.loads(args.dashboard.read_text(encoding="utf-8"))
@@ -227,7 +239,16 @@ def main() -> None:
         if args.previous and args.previous.exists()
         else None
     )
-    payload = build_replay_payload(source, pd.read_parquet(args.prices), previous)
+    start_date = None
+    if args.lookback_years:
+        latest = pd.Timestamp(source["latest_date"])
+        start_date = (latest - pd.DateOffset(years=args.lookback_years)).date().isoformat()
+    payload = build_replay_payload(
+        source,
+        pd.read_parquet(args.prices),
+        previous,
+        start_date=start_date,
+    )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
         json.dumps(payload, ensure_ascii=False, separators=(",", ":"), default=str),
