@@ -11,6 +11,11 @@ on:
         options:
           - morning
           - close
+      force:
+        description: 完了済みセッションも再生成する
+        required: false
+        default: false
+        type: boolean
   push:
     branches:
       - main
@@ -113,6 +118,7 @@ jobs:
         shell: bash
         env:
           REQUESTED_SESSION: ${{ inputs.session }}
+          REQUESTED_FORCE: ${{ inputs.force }}
           SCHEDULE_EXPRESSION: ${{ github.event.schedule }}
         run: |
           set -euo pipefail
@@ -157,7 +163,7 @@ jobs:
           if [ -n "$market_date" ]; then
             scheduling_args+=(--market-date "$market_date")
           fi
-          if [ "${GITHUB_EVENT_NAME:-}" = "push" ]; then
+          if [ "${REQUESTED_FORCE:-false}" = "true" ] || [ "${GITHUB_EVENT_NAME:-}" = "push" ]; then
             # 対象銘柄や分析ロジックの変更は完了済みセッションでも再生成する。
             scheduling_args+=(--force)
           fi
