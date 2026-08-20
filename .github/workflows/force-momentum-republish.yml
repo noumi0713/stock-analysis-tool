@@ -32,7 +32,11 @@ jobs:
           from pathlib import Path
 
           stamp = datetime.now(UTC).isoformat()
-          for filename in ("dashboard-data/latest.json", "dashboard-data/demo-trade-signals.json"):
+          for filename in (
+              "dashboard-data/latest.json",
+              "dashboard-data/demo-trade-signals.json",
+              "dashboard-data/latest_signals.json",
+          ):
               path = Path(filename)
               payload = json.loads(path.read_text(encoding="utf-8"))
               payload["republished_at"] = stamp
@@ -45,8 +49,10 @@ jobs:
 
           tmp_latest="$(mktemp)"
           tmp_signals="$(mktemp)"
+          tmp_latest_signals="$(mktemp)"
           cp dashboard-data/latest.json "$tmp_latest"
           cp dashboard-data/demo-trade-signals.json "$tmp_signals"
+          cp dashboard-data/latest_signals.json "$tmp_latest_signals"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -58,7 +64,11 @@ jobs:
             git reset --hard origin/main
             cp "$tmp_latest" dashboard-data/latest.json
             cp "$tmp_signals" dashboard-data/demo-trade-signals.json
-            git add dashboard-data/latest.json dashboard-data/demo-trade-signals.json
+            cp "$tmp_latest_signals" dashboard-data/latest_signals.json
+            git add \
+              dashboard-data/latest.json \
+              dashboard-data/demo-trade-signals.json \
+              dashboard-data/latest_signals.json
             git commit -m "Republish Momentum dashboard data"
 
             if git pull --rebase origin main; then
