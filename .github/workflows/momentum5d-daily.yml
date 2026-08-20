@@ -348,6 +348,12 @@ jobs:
           )
           PY
 
+      - name: Export latest-market-date signals
+        run: >-
+          python scripts/export_latest_signals.py
+          --dashboard work/latest.json
+          --output work/latest_signals.json
+
       - name: Save final analysis checkpoint
         uses: actions/cache/save@v4
         with:
@@ -362,8 +368,10 @@ jobs:
           target_branch="${GITHUB_REF_NAME}"
           tmp_latest="$(mktemp)"
           tmp_signals="$(mktemp)"
+          tmp_latest_signals="$(mktemp)"
           cp work/latest.json "$tmp_latest"
           cp work/demo-trade-signals.json "$tmp_signals"
+          cp work/latest_signals.json "$tmp_latest_signals"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -377,7 +385,11 @@ jobs:
             mkdir -p ../dashboard-data
             cp "$tmp_latest" ../dashboard-data/latest.json
             cp "$tmp_signals" ../dashboard-data/demo-trade-signals.json
-            git add ../dashboard-data/latest.json ../dashboard-data/demo-trade-signals.json
+            cp "$tmp_latest_signals" ../dashboard-data/latest_signals.json
+            git add \
+              ../dashboard-data/latest.json \
+              ../dashboard-data/demo-trade-signals.json \
+              ../dashboard-data/latest_signals.json
 
             if git diff --cached --quiet; then
               echo "Dashboard payload is already current."
