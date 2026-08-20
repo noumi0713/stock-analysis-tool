@@ -354,6 +354,14 @@ jobs:
           --dashboard work/latest.json
           --output work/latest_signals.json
 
+      - name: Export auto-updating 2026 Kabutore replay
+        run: >-
+          python scripts/export_kabutore_replay.py
+          --dashboard work/latest.json
+          --prices data/yahoo/processed/equities_daily.parquet
+          --previous ../dashboard-data/kabutore-replay-2026.json
+          --output work/kabutore-replay-2026.json
+
       - name: Save final analysis checkpoint
         uses: actions/cache/save@v4
         with:
@@ -369,9 +377,11 @@ jobs:
           tmp_latest="$(mktemp)"
           tmp_signals="$(mktemp)"
           tmp_latest_signals="$(mktemp)"
+          tmp_kabutore_replay="$(mktemp)"
           cp work/latest.json "$tmp_latest"
           cp work/demo-trade-signals.json "$tmp_signals"
           cp work/latest_signals.json "$tmp_latest_signals"
+          cp work/kabutore-replay-2026.json "$tmp_kabutore_replay"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -386,10 +396,12 @@ jobs:
             cp "$tmp_latest" ../dashboard-data/latest.json
             cp "$tmp_signals" ../dashboard-data/demo-trade-signals.json
             cp "$tmp_latest_signals" ../dashboard-data/latest_signals.json
+            cp "$tmp_kabutore_replay" ../dashboard-data/kabutore-replay-2026.json
             git add \
               ../dashboard-data/latest.json \
               ../dashboard-data/demo-trade-signals.json \
-              ../dashboard-data/latest_signals.json
+              ../dashboard-data/latest_signals.json \
+              ../dashboard-data/kabutore-replay-2026.json
 
             if git diff --cached --quiet; then
               echo "Dashboard payload is already current."
