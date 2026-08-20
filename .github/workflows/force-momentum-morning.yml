@@ -28,3 +28,4 @@ jobs:
             -d '{"ref":"main","inputs":{"session":"morning"}}'
 
 # Manual dispatch trigger for latest_signals.json rollout.
+# Manual dispatch trigger for Kabutore 2026 rollout.
