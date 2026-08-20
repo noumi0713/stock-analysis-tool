@@ -92,3 +92,29 @@ def test_zero_signal_latest_date_overwrites_a_previous_candidate() -> None:
     payload = build_replay_payload(_source([]), _prices(), previous)
 
     assert payload["signals"]["2026-08-20"] == []
+
+
+def test_three_year_export_includes_older_signal_bars() -> None:
+    source = _source([])
+    source["ten_day_signal_study"]["demo_trade_signal_study"][
+        "historical_signals"
+    ] = [
+        {
+            "signal_date": "2023-08-21",
+            "rank": 1,
+            "ticker": "1234.T",
+            "target_probability": 0.60,
+        }
+    ]
+    older = _prices().copy()
+    older.loc[0, "date"] = "2023-08-21"
+
+    payload = build_replay_payload(
+        source,
+        older,
+        start_date="2023-08-20",
+    )
+
+    assert payload["meta"]["startDate"] == "2023-08-21"
+    assert payload["signals"]["2023-08-21"][0]["ticker"] == "1234.T"
+    assert len(payload["bars"]["1234.T"]) == 2
