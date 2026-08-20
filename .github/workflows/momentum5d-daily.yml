@@ -368,6 +368,14 @@ jobs:
           --previous ../dashboard-data/kabutore-replay-2026.json
           --output work/kabutore-replay-2026.json
 
+      - name: Export rolling three-year technical backtest data
+        run: >-
+          python scripts/export_technical_backtest_shards.py
+          --dashboard work/latest.json
+          --prices data/yahoo/processed/equities_daily.parquet
+          --lookback-years 3
+          --output-dir work/technical-backtest-3y
+
       - name: Save final analysis checkpoint
         uses: actions/cache/save@v4
         with:
@@ -384,10 +392,12 @@ jobs:
           tmp_signals="$(mktemp)"
           tmp_latest_signals="$(mktemp)"
           tmp_kabutore_replay="$(mktemp)"
+          tmp_technical_backtest="$(mktemp -d)"
           cp work/latest.json "$tmp_latest"
           cp work/demo-trade-signals.json "$tmp_signals"
           cp work/latest_signals.json "$tmp_latest_signals"
           cp work/kabutore-replay-2026.json "$tmp_kabutore_replay"
+          cp -R work/technical-backtest-3y/. "$tmp_technical_backtest/"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -403,11 +413,15 @@ jobs:
             cp "$tmp_signals" ../dashboard-data/demo-trade-signals.json
             cp "$tmp_latest_signals" ../dashboard-data/latest_signals.json
             cp "$tmp_kabutore_replay" ../dashboard-data/kabutore-replay-2026.json
+            mkdir -p ../dashboard-data/technical-backtest-3y
+            find ../dashboard-data/technical-backtest-3y -type f -delete
+            cp -R "$tmp_technical_backtest/." ../dashboard-data/technical-backtest-3y/
             git add \
               ../dashboard-data/latest.json \
               ../dashboard-data/demo-trade-signals.json \
               ../dashboard-data/latest_signals.json \
-              ../dashboard-data/kabutore-replay-2026.json
+              ../dashboard-data/kabutore-replay-2026.json \
+              ../dashboard-data/technical-backtest-3y
 
             if git diff --cached --quiet; then
               echo "Dashboard payload is already current."
