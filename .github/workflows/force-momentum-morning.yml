@@ -29,3 +29,4 @@ jobs:
 
 # Manual dispatch trigger for latest_signals.json rollout.
 # Manual dispatch trigger for Kabutore 2026 rollout.
+# Manual dispatch trigger for all-TSE three-year backtest rollout.
