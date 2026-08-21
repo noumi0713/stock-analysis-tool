@@ -8,6 +8,11 @@ on:
         required: false
         default: false
         type: boolean
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/momentum5d-daily.yml"
   schedule:
     # 東証大引け後。最初の成功後は同一営業日の再試行をスキップする。
     - cron: "50 6 * * 1-5"
@@ -99,17 +104,22 @@ jobs:
           latest_date = str(pd.to_datetime(prices["date"]).max().date())
           published_path = Path("../dashboard-data/latest_signals.json")
           published_date = ""
+          published_is_close = False
           if published_path.exists():
               published = json.loads(published_path.read_text(encoding="utf-8"))
               published_date = str(published.get("date") or "")
+              published_is_close = (
+                  int(published.get("schema_version") or 0) >= 2
+                  and (published.get("update") or {}).get("session") == "close"
+              )
           force = os.environ.get("REQUESTED_FORCE", "false").lower() == "true"
-          should_run = force or published_date != latest_date
+          should_run = force or published_date != latest_date or not published_is_close
           with Path(os.environ["GITHUB_OUTPUT"]).open("a", encoding="utf-8") as output:
               output.write(f"should_run={str(should_run).lower()}\n")
               output.write(f"market_date={latest_date}\n")
           print(
               f"latest={latest_date} published={published_date or '-'} "
-              f"should_run={should_run}"
+              f"close={published_is_close} should_run={should_run}"
           )
           PY
 
