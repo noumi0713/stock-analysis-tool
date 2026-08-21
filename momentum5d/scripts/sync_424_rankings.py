@@ -8,14 +8,10 @@ from typing import Any
 import pandas as pd
 
 MAX_RANK = 3
-REFERENCE_MINIMUM_TURNOVER_YEN = 150_000_000
-REFERENCE_PROBABILITY_THRESHOLD = 0.55
-REFERENCE_MAX_DOWN_5PCT_PROBABILITY = 0.50
-REFERENCE_MAX_DOWN_8PCT_PROBABILITY = 0.30
-REFERENCE_MIN_EXPECTED_NET_RETURN = -0.01
+REFERENCE_MINIMUM_TURNOVER_YEN = 300_000_000
 REFERENCE_SHAPE = "capitulation_reversal"
 REFERENCE_SHAPE_LABEL = "投げ売り反転"
-REFERENCE_ENTRY_LIMIT_OFFSET = 0.015
+REFERENCE_ENTRY_LIMIT_OFFSET = 0.0
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -59,15 +55,21 @@ def _reference_parameters(study: dict[str, Any]) -> dict[str, Any]:
     parameters = dict(study.get("parameters") or {})
     parameters.update(
         {
-            "shape_profile": REFERENCE_SHAPE,
-            "allowed_shapes": [REFERENCE_SHAPE],
-            "regime_profile": "all_regimes",
-            "technical_profile": "all_technical",
-            "model": "logistic",
-            "probability_threshold": REFERENCE_PROBABILITY_THRESHOLD,
-            "max_down_5pct_probability": REFERENCE_MAX_DOWN_5PCT_PROBABILITY,
-            "max_down_8pct_probability": REFERENCE_MAX_DOWN_8PCT_PROBABILITY,
-            "min_expected_net_return": REFERENCE_MIN_EXPECTED_NET_RETURN,
+            "method": "deterministic_rsi14_rank1",
+            "technical_profile": "rsi14_exhaustive_rank1",
+            "rsi_period": 14,
+            "rsi_min": 25.0,
+            "rsi_max": 33.0,
+            "return_1d_min": -0.03,
+            "return_1d_max": 0.0,
+            "return_5d_min": -0.15,
+            "return_5d_max": 0.02,
+            "volume_ratio_min": 1.8,
+            "minimum_turnover_yen": REFERENCE_MINIMUM_TURNOVER_YEN,
+            "atr_14_pct_min": 0.02,
+            "atr_14_pct_max": 0.10,
+            "ma25": "below",
+            "bullish": True,
             "top_n_per_day": MAX_RANK,
         }
     )
@@ -78,11 +80,14 @@ def _normalize_demo_study(study: dict[str, Any]) -> dict[str, Any]:
     live = _top_three(list(study.get("live_signals") or []))
     historical = _top_three(list(study.get("historical_signals") or []))
     study["minimum_turnover_yen"] = REFERENCE_MINIMUM_TURNOVER_YEN
-    study["probability_threshold"] = REFERENCE_PROBABILITY_THRESHOLD
-    study["maximum_down_5pct_probability"] = REFERENCE_MAX_DOWN_5PCT_PROBABILITY
-    study["maximum_down_8pct_probability"] = REFERENCE_MAX_DOWN_8PCT_PROBABILITY
-    study["minimum_expected_net_return"] = REFERENCE_MIN_EXPECTED_NET_RETURN
-    study["technical_profile"] = "all_technical"
+    for key in (
+        "probability_threshold",
+        "maximum_down_5pct_probability",
+        "maximum_down_8pct_probability",
+        "minimum_expected_net_return",
+    ):
+        study.pop(key, None)
+    study["technical_profile"] = "rsi14_exhaustive_rank1"
     study["maximum_signals_per_day"] = MAX_RANK
     study["entry_limit_offset_from_previous_close"] = REFERENCE_ENTRY_LIMIT_OFFSET
     study["parameters"] = _reference_parameters(study)
@@ -91,10 +96,9 @@ def _normalize_demo_study(study: dict[str, Any]) -> dict[str, Any]:
     study["historical_signals"] = historical
     study["historical_signal_count"] = len(historical)
     study["note"] = (
-        "424万6,171円の参考結果で採用した投げ売り反転・売買代金1.5億円以上・"
-        "Logistic確率55%以上・損失確率条件を共通抽出条件として固定。"
-        "モメンタム10Dとカブトレは同じ候補を使い、ランキング表示は1日最大3銘柄。"
-        "参考成績はランキング上限変更前の基準値。"
+        "RSI14固定の全3億2006万160通り総当たり1位を固定。RSI25〜33、"
+        "前日比-3〜0%、5日騰落-15〜+2%、出来高比1.8倍以上、売買代金3億円以上、"
+        "ATR2〜10%、25日線下の陽線を出来高比順に1日最大3銘柄。"
     )
     return study
 
@@ -124,7 +128,7 @@ def _sync_parquet_rankings(
     rank_by_ticker = {str(row["ticker"]): int(row["rank"]) for row in live}
     missing = sorted(set(rank_by_ticker).difference(set(scores["ticker"])))
     if missing:
-        raise RuntimeError(f"424 live signals are missing from latest scores: {missing}")
+        raise RuntimeError(f"RSI14 rank-1 live signals are missing from latest scores: {missing}")
 
     for record in live:
         ticker = str(record["ticker"])
@@ -137,9 +141,9 @@ def _sync_parquet_rankings(
             "ml_ten_day_down_8pct_probability": record.get("down_8pct_probability"),
             "ml_ten_day_expected_net_return": record.get("expected_net_return"),
             "ml_ten_day_reason": record.get("reason") or (
-                f"{REFERENCE_SHAPE_LABEL}・売買代金1.5億円以上・10営業日+5%候補"
+                f"{REFERENCE_SHAPE_LABEL}・RSI14全件テスト1位・10営業日+5%候補"
             ),
-            "ml_ten_day_entry_rule": "翌営業日の指値条件を満たす場合のみ有効",
+            "ml_ten_day_entry_rule": "翌営業日始値でエントリー",
             "rise_pattern_shape": record.get("shape") or REFERENCE_SHAPE,
             "is_ranked_candidate": True,
         }
@@ -184,7 +188,7 @@ def sync_analysis(data_dir: Path) -> int:
     ten_day = analysis.get("ten_day_signal_study") or {}
     study = ten_day.get("demo_trade_signal_study")
     if not isinstance(study, dict) or study.get("status") != "completed":
-        raise RuntimeError("424 demo-trade signal study is unavailable")
+        raise RuntimeError("RSI14 rank-1 signal study is unavailable")
     ten_day["demo_trade_signal_study"] = _normalize_demo_study(study)
     analysis["ten_day_signal_study"] = ten_day
     count = _sync_parquet_rankings(analysis, scores_path, candidates_path)
@@ -205,39 +209,49 @@ def patch_dashboard(path: Path) -> None:
     payload["ten_day_signal_study"] = ten_day
 
     technical = payload.get("technical_method") or {}
-    technical["key"] = "portfolio_424_capitulation_10d_v1"
-    technical["label"] = "424万円基準・投げ売り反転10D"
+    technical["key"] = "rsi14_exhaustive_rank1_10d_v1"
+    technical["label"] = "RSI14全件テスト1位・投げ売り反転10D"
     technical["note"] = (
-        "424万6,171円の参考バックテスト条件を共通抽出エンジンとして使用。"
-        "投げ売り反転、売買代金1.5億円以上、Logistic確率55%以上、"
-        "-5%確率50%以下、-8%確率30%以下、期待ネットリターン-1%以上。"
-        "モメンタム10Dとカブトレは同一候補を順位順に最大3銘柄表示する。"
+        "RSI14固定の全件総当たり1位を抽出エンジンとして使用。"
+        "RSI25〜33、前日比-3〜0%、5日騰落-15〜+2%、出来高比1.8倍以上、"
+        "売買代金3億円以上、ATR2〜10%、25日線下の陽線。"
     )
     payload["technical_method"] = technical
 
     signal_model = payload.get("signal_model") or {}
-    signal_model["key"] = "portfolio_424_capitulation_10d_v1"
-    signal_model["label"] = "424万円基準・共通ランキング"
+    signal_model["key"] = "rsi14_exhaustive_rank1_10d_v1"
+    signal_model["label"] = "RSI14全件テスト1位ランキング"
     signal_model["conditions"] = {
         "target_holding_days": 10,
         "target_return": 0.05,
-        "shapes": [REFERENCE_SHAPE],
+        "method": "deterministic_rsi14_rank1",
+        "shape": REFERENCE_SHAPE,
         "minimum_turnover_yen": REFERENCE_MINIMUM_TURNOVER_YEN,
-        "model": "logistic",
-        "minimum_probability": REFERENCE_PROBABILITY_THRESHOLD,
-        "maximum_down_5pct_probability": REFERENCE_MAX_DOWN_5PCT_PROBABILITY,
-        "maximum_down_8pct_probability": REFERENCE_MAX_DOWN_8PCT_PROBABILITY,
-        "minimum_expected_net_return": REFERENCE_MIN_EXPECTED_NET_RETURN,
+        "rsi_period": 14,
+        "rsi_min": 25.0,
+        "rsi_max": 33.0,
+        "return_1d_min": -0.03,
+        "return_1d_max": 0.0,
+        "return_5d_min": -0.15,
+        "return_5d_max": 0.02,
+        "volume_ratio_min": 1.8,
+        "atr_14_pct_min": 0.02,
+        "atr_14_pct_max": 0.10,
+        "ma25": "below",
+        "bullish": True,
         "maximum_candidates_per_day": MAX_RANK,
         "entry_limit_offset_from_previous_close": REFERENCE_ENTRY_LIMIT_OFFSET,
-        "entry_rule": "翌営業日の指値条件を満たす場合のみ有効",
+        "entry_rule": "翌営業日始値",
+        "take_profit_pct": 0.05,
+        "stop_loss_pct": -0.12,
+        "holding_days": 10,
     }
     reference = study.get("reference_result") or {}
     signal_model["historical_results"] = {
         "signals": reference.get("completed_trades"),
         "trade_win_rate": reference.get("trade_win_rate"),
-        "ending_equity_yen": reference.get("ending_equity_yen"),
-        "total_return": reference.get("total_return"),
+        "mean_trade_net_return": reference.get("mean_trade_net_return"),
+        "profit_factor": reference.get("profit_factor"),
         "reference_only": True,
     }
     signal_model["live_signal_count"] = min(
@@ -245,8 +259,8 @@ def patch_dashboard(path: Path) -> None:
         sum(bool(record.get("ml_ten_day_signal")) for record in payload.get("candidates", [])),
     )
     signal_model["note"] = (
-        "424万円の成績は条件固定時の参考バックテスト。今回の変更は"
-        "モメンタム10Dとカブトレの抽出元を共通化し、表示上限を3銘柄に統一するもの。"
+        "全3億2006万160通りを同一3年間で比較した探索結果。"
+        "完全な未使用期間による前向き確認は継続して必要。"
     )
     payload["signal_model"] = signal_model
     payload["candidates"] = list(payload.get("candidates") or [])[:MAX_RANK]
@@ -261,11 +275,11 @@ def main() -> None:
 
     if args.dashboard is not None:
         patch_dashboard(args.dashboard)
-        print(f"Patched dashboard to shared 424 ranking: {args.dashboard}")
+        print(f"Patched dashboard to RSI14 rank-1 ranking: {args.dashboard}")
         return
 
     count = sync_analysis(args.data_dir)
-    print(f"Shared 424 ranking prepared: {count} candidate(s), max={MAX_RANK}")
+    print(f"RSI14 rank-1 ranking prepared: {count} candidate(s), max={MAX_RANK}")
 
 
 if __name__ == "__main__":

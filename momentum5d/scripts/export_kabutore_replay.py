@@ -8,7 +8,7 @@ from typing import Any
 import pandas as pd
 
 REPLAY_YEAR = 2026
-SIGNAL_SOURCE = "portfolio_424_capitulation_10d_v1"
+SIGNAL_SOURCE = "rsi14_exhaustive_rank1_10d_v1"
 
 
 def _number(value: Any, digits: int = 6) -> float | None:
@@ -50,7 +50,7 @@ def build_replay_payload(
 
     study = ((source.get("ten_day_signal_study") or {}).get("demo_trade_signal_study") or {})
     if study.get("status") != "completed":
-        raise ValueError("424 signal study is unavailable")
+        raise ValueError("RSI14 rank-1 signal study is unavailable")
 
     frame = prices.copy()
     frame["date"] = pd.to_datetime(frame["date"], errors="coerce").dt.date
@@ -145,16 +145,13 @@ def build_replay_payload(
                     "turnover": turnover or 0.0,
                     "volume": int(getattr(price, "volume", 0) or 0),
                     "reason": record.get("reason")
-                    or "投げ売り反転・424万円版Momentum10D条件を通過",
+                    or "投げ売り反転・RSI14全件テスト1位条件を通過",
                     "targetProbability": target_probability,
                     "down5Probability": down_5pct_probability,
                     "down8Probability": down_8pct_probability,
                     "expectedReturn": expected_net_return,
-                    "limitPrice": _number(
-                        record.get("limit_price_yen")
-                        or ((close or 0.0) * 1.015),
-                        2,
-                    ),
+                    "limitPrice": _number(record.get("limit_price_yen"), 2),
+                    "entryRule": record.get("entry_rule") or "翌営業日始値",
                     "score": round((target_probability or 0.0) * 100),
                 }
             )
@@ -201,16 +198,15 @@ def build_replay_payload(
             "maxHoldings": None,
             "lotSize": 100,
             "rankingSize": maximum_signals,
-            "signalVersion": "424万円版 Momentum10D・投げ売り反転",
+            "signalVersion": str(
+                (source.get("signal_model") or {}).get("label")
+                or "RSI14全件テスト1位 Momentum10D"
+            ),
             "signalSource": SIGNAL_SOURCE,
-            "minimumTurnover": int(conditions.get("minimum_turnover_yen") or 150_000_000),
-            "minimumProbability": conditions.get("minimum_probability", 0.55),
-            "maximumDown5Probability": conditions.get(
-                "maximum_down_5pct_probability", 0.50
-            ),
-            "maximumDown8Probability": conditions.get(
-                "maximum_down_8pct_probability", 0.30
-            ),
+            "minimumTurnover": int(conditions.get("minimum_turnover_yen") or 300_000_000),
+            "minimumProbability": conditions.get("minimum_probability"),
+            "maximumDown5Probability": conditions.get("maximum_down_5pct_probability"),
+            "maximumDown8Probability": conditions.get("maximum_down_8pct_probability"),
             "maxHoldingDays": 10,
             "targetReturn": 0.05,
             "stockCount": len(stocks),

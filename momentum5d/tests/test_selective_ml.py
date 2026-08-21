@@ -8,6 +8,8 @@ from app.yahoo.rise_pattern import (
     RisePatternConfig,
     calculate_ten_day_limit_order_study,
     calculate_ten_day_portfolio_study,
+    score_latest_rank1_technical_candidates,
+    select_rank1_technical_signals,
 )
 from app.yahoo.selective_ml import (
     evaluate_frozen_ml_strategy,
@@ -144,6 +146,48 @@ def test_latest_ten_day_signal_uses_development_parameters_and_top_one() -> None
             "ml_ten_day_rank",
         ].tolist()
     ) == [1, 2]
+
+
+def test_rsi14_rank1_signal_uses_exact_technical_filter_and_top_three() -> None:
+    dates = [date(2026, 1, 1) + timedelta(days=offset) for offset in range(30)]
+    rows = []
+    for ticker_index in range(4):
+        for day_index, value in enumerate(dates):
+            close = 110.0 if day_index < 25 else 100.0
+            if day_index == 29:
+                close = 99.0
+            latest = day_index == 29
+            rows.append(
+                {
+                    "date": value,
+                    "ticker": f"90{ticker_index}0.T",
+                    "open": 98.0 if latest else close,
+                    "close": close,
+                    "adjusted_close": close,
+                    "volume": (4_000_000 + ticker_index * 1_000_000) if latest else 1_000_000,
+                    "rsi_14": 30.0,
+                    "return_1d": -0.01 if latest else 0.0,
+                    "return_5d": -0.10 if latest else 0.0,
+                    "atr_14_pct": 0.05,
+                    "trade_outcome_available": False,
+                    "rise_trade_target_hit": False,
+                    "rise_trade_down_5pct": False,
+                    "rise_trade_down_8pct": False,
+                    "rise_trade_net_return": float("nan"),
+                }
+            )
+    frame = pd.DataFrame(rows)
+
+    selected = select_rank1_technical_signals(frame, dates=[dates[-1]])
+    result = score_latest_rank1_technical_candidates(frame)
+
+    assert len(selected) == 3
+    assert int(result["ml_ten_day_signal"].sum()) == 3
+    ranked = result.loc[result["ml_ten_day_signal"]].sort_values("ml_ten_day_rank")
+    assert ranked["ticker"].tolist() == ["9030.T", "9020.T", "9010.T"]
+    assert ranked["ml_ten_day_rank"].tolist() == [1, 2, 3]
+    assert ranked["ml_ten_day_entry_rule"].eq("翌営業日始値でエントリー").all()
+    assert ranked["ml_ten_day_reason"].str.contains("RSI14 25〜33").all()
 
 
 def test_tuning_freezes_development_rule_for_validation() -> None:

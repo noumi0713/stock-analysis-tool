@@ -16,7 +16,7 @@ def build_latest_signals(source: dict[str, Any]) -> dict[str, Any]:
     ten_day = source.get("ten_day_signal_study") or {}
     study = ten_day.get("demo_trade_signal_study") or {}
     if study.get("status") != "completed":
-        raise ValueError("424 signal study is unavailable")
+        raise ValueError("Momentum10D signal study is unavailable")
 
     rows_by_ticker: dict[str, dict[str, Any]] = {}
     for row in source.get("stocks") or []:

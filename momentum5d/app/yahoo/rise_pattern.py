@@ -30,6 +30,18 @@ TOPIX_TREND_LONG_DAYS = 200
 STRONG_SHAPE_MIN_TURNOVER = 200_000_000.0
 DEMO_TRADE_MINIMUM_TURNOVER = 150_000_000.0
 DEMO_TRADE_MAXIMUM_SIGNALS_PER_DAY = 5
+RANK1_RSI_PERIOD = 14
+RANK1_RSI_MIN = 25.0
+RANK1_RSI_MAX = 33.0
+RANK1_RETURN_1D_MIN = -0.03
+RANK1_RETURN_1D_MAX = 0.0
+RANK1_RETURN_5D_MIN = -0.15
+RANK1_RETURN_5D_MAX = 0.02
+RANK1_VOLUME_RATIO_MIN = 1.8
+RANK1_TURNOVER_MIN = 300_000_000.0
+RANK1_ATR_MIN = 0.02
+RANK1_ATR_MAX = 0.10
+RANK1_MAXIMUM_SIGNALS_PER_DAY = 3
 PORTFOLIO_424_SIGNAL_PARAMETERS: dict[str, Any] = {
     "shape_profile": "capitulation_reversal",
     "allowed_shapes": [TEN_DAY_ADOPTED_SHAPE],
@@ -57,6 +69,159 @@ SELECTIVE_SHAPE_FEATURES = (
     "rise_pattern_reversal_confirmed",
     "_rise_observed_inflow",
 )
+
+
+def select_rank1_technical_signals(
+    frame: pd.DataFrame,
+    *,
+    dates: list[Any] | None = None,
+    require_outcome: bool = False,
+) -> pd.DataFrame:
+    """Select the exhaustive RSI(14) rank-1 capitulation-reversal setup."""
+    if frame.empty:
+        return frame.copy()
+    work = frame.sort_values(["ticker", "date"]).copy()
+    def numeric(column: str) -> pd.Series:
+        return pd.to_numeric(work[column], errors="coerce")
+    close = numeric("adjusted_close")
+    raw_close = numeric("close")
+    adjustment = close / raw_close.replace(0.0, np.nan)
+    adjusted_open = numeric("open") * adjustment
+    volume = numeric("volume")
+    group = work.groupby("ticker", sort=False)
+    volume_average_20 = group["volume"].transform(
+        lambda values: pd.to_numeric(values, errors="coerce")
+        .rolling(20, min_periods=20)
+        .mean()
+    )
+    moving_average_25 = group["adjusted_close"].transform(
+        lambda values: pd.to_numeric(values, errors="coerce")
+        .rolling(25, min_periods=25)
+        .mean()
+    )
+    work["_rank1_volume_ratio"] = volume / volume_average_20
+    work["_rank1_turnover"] = close * volume
+    work["_rank1_ma25"] = moving_average_25
+    mask = (
+        numeric("rsi_14").between(RANK1_RSI_MIN, RANK1_RSI_MAX)
+        & numeric("return_1d").between(RANK1_RETURN_1D_MIN, RANK1_RETURN_1D_MAX)
+        & numeric("return_5d").between(RANK1_RETURN_5D_MIN, RANK1_RETURN_5D_MAX)
+        & work["_rank1_volume_ratio"].ge(RANK1_VOLUME_RATIO_MIN)
+        & work["_rank1_turnover"].ge(RANK1_TURNOVER_MIN)
+        & numeric("atr_14_pct").between(RANK1_ATR_MIN, RANK1_ATR_MAX)
+        & close.lt(moving_average_25)
+        & close.gt(adjusted_open)
+    )
+    if dates is not None:
+        mask &= work["date"].isin(dates)
+    if require_outcome:
+        mask &= work["trade_outcome_available"].fillna(False).astype(bool)
+    selected = work.loc[mask].sort_values(
+        ["date", "_rank1_volume_ratio", "ticker"],
+        ascending=[True, False, True],
+    )
+    selected = selected.groupby("date", sort=False).head(
+        RANK1_MAXIMUM_SIGNALS_PER_DAY
+    ).copy()
+    selected["_ml_rank_score"] = selected["_rank1_volume_ratio"]
+    selected["_rise_shape"] = TEN_DAY_ADOPTED_SHAPE
+    return selected
+
+
+def _rank1_reference(history: pd.DataFrame) -> dict[str, float]:
+    if history.empty:
+        return {
+            "target_probability": 100 / 174,
+            "down_5pct_probability": 0.0,
+            "down_8pct_probability": 0.0,
+            "expected_net_return": 0.023188075302756284,
+            "samples": 174.0,
+        }
+    return {
+        "target_probability": float(history["rise_trade_target_hit"].mean()),
+        "down_5pct_probability": float(history["rise_trade_down_5pct"].mean()),
+        "down_8pct_probability": float(history["rise_trade_down_8pct"].mean()),
+        "expected_net_return": float(history["rise_trade_net_return"].mean()),
+        "samples": float(len(history)),
+    }
+
+
+def _attach_rank1_reference(
+    selected: pd.DataFrame,
+    reference: dict[str, float],
+    *,
+    live: bool,
+) -> pd.DataFrame:
+    result = selected.copy()
+    if live:
+        result["ml_ten_day_probability"] = reference["target_probability"]
+        result["ml_ten_day_down_5pct_probability"] = reference["down_5pct_probability"]
+        result["ml_ten_day_down_8pct_probability"] = reference["down_8pct_probability"]
+        result["ml_ten_day_expected_net_return"] = reference["expected_net_return"]
+        result["ml_ten_day_model_samples"] = int(reference["samples"])
+    else:
+        result["ml_logistic_target_probability"] = reference["target_probability"]
+        result["ml_logistic_down_5pct_probability"] = reference["down_5pct_probability"]
+        result["ml_logistic_down_8pct_probability"] = reference["down_8pct_probability"]
+        result["ml_logistic_expected_net_return"] = reference["expected_net_return"]
+    return result
+
+
+def score_latest_rank1_technical_candidates(
+    frame: pd.DataFrame,
+    history: pd.DataFrame | None = None,
+) -> pd.DataFrame:
+    """Return latest-date rows with the RSI(14) rank-1 signal overlay."""
+    if frame.empty:
+        return pd.DataFrame(columns=[*frame.columns, *LIVE_TEN_DAY_SIGNAL_COLUMNS])
+    latest_date = frame["date"].max()
+    latest = frame.loc[frame["date"].eq(latest_date)].copy()
+    defaults: dict[str, Any] = {
+        "ml_ten_day_probability": 0.0,
+        "ml_ten_day_down_5pct_probability": 1.0,
+        "ml_ten_day_down_8pct_probability": 1.0,
+        "ml_ten_day_expected_net_return": -1.0,
+        "ml_ten_day_model_samples": 0,
+        "ml_ten_day_signal": False,
+        "ml_ten_day_rank": pd.NA,
+        "ml_ten_day_reason": "",
+        "ml_ten_day_entry_rule": "翌営業日始値でエントリー",
+    }
+    for column, default in defaults.items():
+        latest[column] = default
+    latest["ml_ten_day_rank"] = latest["ml_ten_day_rank"].astype("Int64")
+    selected = select_rank1_technical_signals(frame, dates=[latest_date])
+    if selected.empty:
+        return latest
+    reference_history = history if history is not None else select_rank1_technical_signals(
+        frame,
+        require_outcome=True,
+    )
+    reference = _rank1_reference(reference_history)
+    selected = _attach_rank1_reference(selected, reference, live=True)
+    for rank, index in enumerate(selected.index, start=1):
+        latest.at[index, "ml_ten_day_signal"] = True
+        latest.at[index, "ml_ten_day_rank"] = rank
+        latest.at[index, "ml_ten_day_probability"] = selected.at[
+            index, "ml_ten_day_probability"
+        ]
+        latest.at[index, "ml_ten_day_down_5pct_probability"] = selected.at[
+            index, "ml_ten_day_down_5pct_probability"
+        ]
+        latest.at[index, "ml_ten_day_down_8pct_probability"] = selected.at[
+            index, "ml_ten_day_down_8pct_probability"
+        ]
+        latest.at[index, "ml_ten_day_expected_net_return"] = selected.at[
+            index, "ml_ten_day_expected_net_return"
+        ]
+        latest.at[index, "ml_ten_day_model_samples"] = int(reference["samples"])
+        latest.at[index, "ml_ten_day_reason"] = (
+            "RSI14 25〜33・前日比-3〜0%・5日騰落-15〜+2%・"
+            "出来高比1.8倍以上・売買代金3億円以上・ATR2〜10%・"
+            "25日線下の陽線"
+        )
+        latest.at[index, "ml_ten_day_entry_rule"] = "翌営業日始値でエントリー"
+    return latest
 
 
 @dataclass(frozen=True)
@@ -381,21 +546,36 @@ def add_ten_day_signal_and_study(
         portfolio_parameters,
     )
     demo_trade_parameters = {
-        **PORTFOLIO_424_SIGNAL_PARAMETERS,
-        "top_n_per_day": DEMO_TRADE_MAXIMUM_SIGNALS_PER_DAY,
+        "method": "deterministic_rsi14_rank1",
+        "rsi_period": RANK1_RSI_PERIOD,
+        "rsi_min": RANK1_RSI_MIN,
+        "rsi_max": RANK1_RSI_MAX,
+        "return_1d_min": RANK1_RETURN_1D_MIN,
+        "return_1d_max": RANK1_RETURN_1D_MAX,
+        "return_5d_min": RANK1_RETURN_5D_MIN,
+        "return_5d_max": RANK1_RETURN_5D_MAX,
+        "volume_ratio_min": RANK1_VOLUME_RATIO_MIN,
+        "minimum_turnover_yen": int(RANK1_TURNOVER_MIN),
+        "atr_14_pct_min": RANK1_ATR_MIN,
+        "atr_14_pct_max": RANK1_ATR_MAX,
+        "ma25": "below",
+        "bullish": True,
+        "top_n_per_day": RANK1_MAXIMUM_SIGNALS_PER_DAY,
     }
-    demo_trade_detection_scored = portfolio_scored.copy()
-    demo_trade_detection_scored["rise_trade_entry_gap_return"] = 0.0
-    demo_trade_history, _ = evaluate_frozen_ml_strategy(
-        demo_trade_detection_scored,
-        evaluation_dates,
-        demo_trade_parameters,
-    )
-    demo_trade_latest_scores = score_latest_ten_day_candidates(
+    demo_trade_history = select_rank1_technical_signals(
         outcome_frame,
-        demo_trade_parameters,
-        minimum_shape_samples=config.ml_minimum_shape_samples,
-        minimum_turnover=DEMO_TRADE_MINIMUM_TURNOVER,
+        dates=evaluation_dates,
+        require_outcome=True,
+    )
+    demo_trade_reference = _rank1_reference(demo_trade_history)
+    demo_trade_history = _attach_rank1_reference(
+        demo_trade_history,
+        demo_trade_reference,
+        live=False,
+    )
+    demo_trade_latest_scores = score_latest_rank1_technical_candidates(
+        outcome_frame,
+        demo_trade_history,
     )
     demo_trade_live = demo_trade_latest_scores.loc[
         demo_trade_latest_scores["ml_ten_day_signal"].fillna(False).astype(bool)
@@ -522,22 +702,25 @@ def add_ten_day_signal_and_study(
         "demo_trade_signal_study": {
             "status": "completed",
             "reference_result": {
-                "ending_equity_yen": 4_246_171,
-                "total_return": 1.1231,
-                "completed_trades": 53,
-                "trade_win_rate": 0.7547,
+                "tested_combinations": 320_060_160,
+                "completed_trades": 174,
+                "trade_win_rate": 0.7298850574712644,
+                "mean_trade_net_return": 0.023188075302756284,
+                "profit_factor": 3.31521585292164,
+                "take_profit_count": 100,
+                "stop_loss_count": 5,
             },
-            "reference_dashboard_commit": "97a66a793b4666c6c0ad5dbc683cbff3f54ab642",
+            "reference_dashboard_commit": None,
             "shape": TEN_DAY_ADOPTED_SHAPE,
             "shape_label": TEN_DAY_ADOPTED_SHAPE_LABEL,
-            "minimum_turnover_yen": int(DEMO_TRADE_MINIMUM_TURNOVER),
-            "probability_threshold": 0.55,
-            "maximum_down_5pct_probability": 0.50,
-            "maximum_down_8pct_probability": 0.30,
-            "minimum_expected_net_return": -0.01,
-            "technical_profile": "all_technical",
-            "maximum_signals_per_day": DEMO_TRADE_MAXIMUM_SIGNALS_PER_DAY,
-            "entry_limit_offset_from_previous_close": 0.015,
+            "minimum_turnover_yen": int(RANK1_TURNOVER_MIN),
+            "technical_profile": "rsi14_exhaustive_rank1",
+            "maximum_signals_per_day": RANK1_MAXIMUM_SIGNALS_PER_DAY,
+            "entry_limit_offset_from_previous_close": 0.0,
+            "entry_rule": "翌営業日始値",
+            "take_profit_pct": 0.05,
+            "stop_loss_pct": -0.12,
+            "holding_days": 10,
             "parameters": demo_trade_parameters,
             "history_start": (
                 str(demo_trade_history["date"].min())
@@ -554,9 +737,9 @@ def add_ten_day_signal_and_study(
             "live_signal_count": int(len(demo_trade_live)),
             "live_signals": _demo_trade_live_records(demo_trade_live),
             "note": (
-                "424万6,171円の参考結果を出した投げ売り反転・売買代金1.5億円以上・"
-                "Logistic確率55%以上・全テクニカル許容・損失確率条件を固定。"
-                "デモトレード表示だけを1日最大5銘柄へ拡張"
+                "RSI14固定の全3億2006万160通り総当たりで1位となった条件。"
+                "RSI25〜33、前日比-3〜0%、5日騰落-15〜+2%、出来高比1.8倍以上、"
+                "売買代金3億円以上、ATR2〜10%、25日線下の陽線を1日最大3銘柄。"
             ),
         },
         "turnover_sensitivity": {
@@ -636,9 +819,8 @@ def _demo_trade_signal_records(signals: pd.DataFrame) -> list[dict[str, Any]]:
                 "ticker": str(row["ticker"]),
                 "shape": str(row.get("_rise_shape") or TEN_DAY_ADOPTED_SHAPE),
                 "signal_close_yen": signal_close,
-                "limit_price_yen": (
-                    signal_close * 1.015 if signal_close is not None else None
-                ),
+                "limit_price_yen": None,
+                "entry_rule": "翌営業日始値",
                 "return_5d": _optional_float(row, "return_5d"),
                 "daily_turnover_yen": _optional_float(row, "turnover_value"),
                 "target_probability": _optional_float(
@@ -678,9 +860,8 @@ def _demo_trade_live_records(signals: pd.DataFrame) -> list[dict[str, Any]]:
                 "ticker": str(row["ticker"]),
                 "shape": str(row.get("_rise_shape") or TEN_DAY_ADOPTED_SHAPE),
                 "signal_close_yen": signal_close,
-                "limit_price_yen": (
-                    signal_close * 1.015 if signal_close is not None else None
-                ),
+                "limit_price_yen": None,
+                "entry_rule": "翌営業日始値",
                 "return_5d": _optional_float(row, "return_5d"),
                 "daily_turnover_yen": _optional_float(row, "turnover_value"),
                 "target_probability": _optional_float(
