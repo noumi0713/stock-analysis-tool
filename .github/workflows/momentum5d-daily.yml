@@ -1,47 +1,28 @@
-name: Momentum 5D daily analysis
+name: Momentum10D close signals
 
 on:
   workflow_dispatch:
     inputs:
-      session:
-        description: 更新する取引セッション
-        required: true
-        default: morning
-        type: choice
-        options:
-          - morning
-          - close
       force:
-        description: 完了済みセッションも再生成する
+        description: 公開済みの営業日も再生成する
         required: false
         default: false
         type: boolean
-  push:
-    branches:
-      - main
-      - agent/demand-supply-study
-    paths:
-      - "momentum5d/**"
   schedule:
-    # GitHubの遅延・取りこぼしに備え、完了するまで20分間隔で再試行する。
-    # 同一セッションが完了済みなら後続の実行は直ちに終了する。
-    - cron: "50 2 * * 1-5"
-    - cron: "10 3 * * 1-5"
-    - cron: "30 3 * * 1-5"
+    # 東証大引け後。最初の成功後は同一営業日の再試行をスキップする。
     - cron: "50 6 * * 1-5"
     - cron: "10 7 * * 1-5"
     - cron: "30 7 * * 1-5"
 
 concurrency:
-  group: momentum5d-daily-${{ github.ref }}
-  # 同じブランチのコード更新は古い実装を置き換え、ブランチ間は独立して実行する。
-  cancel-in-progress: ${{ github.event_name == 'push' }}
+  group: momentum10d-close-signals
+  cancel-in-progress: false
 
 permissions:
   contents: write
 
 env:
-  YAHOO_RETENTION_DAYS: "1461"
+  YAHOO_RETENTION_DAYS: "120"
   YAHOO_OVERLAP_DAYS: "10"
   YAHOO_BATCH_SIZE: "60"
   YAHOO_PAUSE_SECONDS: "1.5"
@@ -50,14 +31,10 @@ env:
   YAHOO_INTRADAY_MIN_COVERAGE: "0.70"
 
 jobs:
-  prepare_data:
-    name: Prepare and validate market data
+  publish_close_signals:
+    name: Publish next-session signals after close
     runs-on: ubuntu-latest
     timeout-minutes: 90
-    outputs:
-      should_run: ${{ steps.update.outputs.should_run }}
-      market_date: ${{ steps.update.outputs.market_date }}
-      session: ${{ steps.update.outputs.session }}
     defaults:
       run:
         working-directory: momentum5d
@@ -66,385 +43,126 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
-      - name: Restore rolling Yahoo history
-        id: yahoo-cache
+      - name: Restore rolling Yahoo prices
         uses: actions/cache/restore@v4
         with:
           path: momentum5d/data/yahoo
-          key: momentum5d-data-ready-${{ github.run_id }}
+          key: momentum10d-close-${{ github.run_id }}
           restore-keys: |
+            momentum10d-close-
             momentum5d-data-ready-
             momentum5d-backtest-ready-
             momentum5d-final-
             momentum5d-yahoo-
 
-      - name: Detect restored Yahoo history
-        id: yahoo-history
-        shell: bash
-        run: |
-          if [ -d data/yahoo ] && [ -n "$(find data/yahoo -type f -print -quit)" ]; then
-            echo "available=true" >> "$GITHUB_OUTPUT"
-            echo "Restored Yahoo history is available."
-            needs_backfill="$(python3 - <<'PY'
-          import json
-          import os
-          from datetime import date, timedelta
-          from pathlib import Path
-
-          status_path = Path("data/yahoo/metadata/ingestion_status.json")
-          if not status_path.exists():
-              print("true")
-          else:
-              status = json.loads(status_path.read_text())
-              as_of = date.fromisoformat(status["as_of"])
-              expected_start = as_of - timedelta(
-                  days=int(os.environ["YAHOO_RETENTION_DAYS"])
-              )
-              actual_start = date.fromisoformat(status["min_date"])
-              tolerance = timedelta(days=int(os.environ["YAHOO_OVERLAP_DAYS"]))
-              print(str(actual_start > expected_start + tolerance).lower())
-          PY
-            )"
-            echo "needs_backfill=$needs_backfill" >> "$GITHUB_OUTPUT"
-            echo "Four-year history backfill required: $needs_backfill"
-          else
-            echo "available=false" >> "$GITHUB_OUTPUT"
-            echo "needs_backfill=true" >> "$GITHUB_OUTPUT"
-            echo "No restored Yahoo history was found."
-          fi
-
-      - name: Select session and skip completed retries
-        id: update
-        shell: bash
-        env:
-          REQUESTED_SESSION: ${{ inputs.session }}
-          REQUESTED_FORCE: ${{ inputs.force }}
-          SCHEDULE_EXPRESSION: ${{ github.event.schedule }}
-        run: |
-          set -euo pipefail
-          session="${REQUESTED_SESSION:-}"
-          case "${SCHEDULE_EXPRESSION:-}" in
-            "50 2 * * 1-5"|"10 3 * * 1-5"|"30 3 * * 1-5")
-              session="morning"
-              ;;
-            "50 6 * * 1-5"|"10 7 * * 1-5"|"30 7 * * 1-5")
-              session="close"
-              ;;
-          esac
-          market_date=""
-          if [ -z "$session" ]; then
-            jst_hhmm="$(TZ=Asia/Tokyo date +%H%M)"
-            jst_weekday="$(TZ=Asia/Tokyo date +%u)"
-            if [ "$jst_weekday" -ge 6 ] || [ "$jst_hhmm" -lt 1140 ]; then
-              # 市場開始前のコード更新では、存在しない当日5分足を要求せず、
-              # 休日を含め公開済みの直近営業日を新しい分析ロジックで再生成する。
-              session="close"
-              market_date="$(python3 - <<'PY'
-          import json
-          from pathlib import Path
-
-          payload = json.loads(Path("../dashboard-data/latest.json").read_text())
-          update = payload.get("update") or {}
-          print(update.get("market_date") or payload["latest_date"])
-          PY
-              )"
-            elif [ "$jst_hhmm" -lt 1540 ]; then
-              session="morning"
-            else
-              session="close"
-            fi
-          fi
-          scheduling_args=(
-            app/yahoo/scheduling.py
-            --session "$session"
-            --dashboard ../dashboard-data/latest.json
-            --github-output "$GITHUB_OUTPUT"
-          )
-          if [ -n "$market_date" ]; then
-            scheduling_args+=(--market-date "$market_date")
-          fi
-          if [ "${REQUESTED_FORCE:-false}" = "true" ] || [ "${GITHUB_EVENT_NAME:-}" = "push" ]; then
-            # 対象銘柄や分析ロジックの変更は完了済みセッションでも再生成する。
-            scheduling_args+=(--force)
-          fi
-          python3 "${scheduling_args[@]}"
-
       - name: Set up Python 3.12
-        if: steps.update.outputs.should_run == 'true'
         uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: momentum5d/pyproject.toml
 
-      - name: Install application
-        if: steps.update.outputs.should_run == 'true'
+      - name: Install signal detector
         run: python -m pip install ".[dev]"
 
-      - name: Run unit tests
-        if: steps.update.outputs.should_run == 'true'
+      - name: Run signal-detector tests
         run: |
-          python -m pytest -q
-          python -m ruff check app tests
+          python -m pytest -q tests/test_close_signals_export.py
+          python -m ruff check scripts/export_close_signals.py tests/test_close_signals_export.py
 
-      # 定時・手動実行では最新データを取得する。
-      # コード変更時は復元済みキャッシュを使って分析だけ再実行する。
-      # キャッシュが無い場合と、保存期間を4年へ拡張して履歴が不足する場合は、
-      # pushでも不足期間を取得してから分析する。
-      - name: Refresh TSE stock universe from JPX
-        if: >-
-          steps.update.outputs.should_run == 'true' &&
-          (github.event_name != 'push' ||
-          steps.yahoo-history.outputs.available != 'true' ||
-          steps.yahoo-history.outputs.needs_backfill == 'true')
+      - name: Refresh TSE universe
         run: python app/yahoo/universe.py --config-dir config
 
-      - name: Download daily and five-minute session data
-        if: >-
-          steps.update.outputs.should_run == 'true' &&
-          (github.event_name != 'push' ||
-          steps.yahoo-history.outputs.available != 'true' ||
-          steps.yahoo-history.outputs.needs_backfill == 'true')
+      - name: Download close data only
         run: >-
           python -m app yahoo-ingest
-          --as-of "${{ steps.update.outputs.market_date }}"
+          --as-of "$(TZ=Asia/Tokyo date +%F)"
           --tickers-file config/prime_tickers.txt
-          --intraday-session "${{ steps.update.outputs.session }}"
+          --intraday-session close
 
-      - name: Validate downloaded data
-        if: steps.update.outputs.should_run == 'true'
-        run: python -m app yahoo-validate
-
-      - name: Confirm cached data for code-only analysis
-        if: >-
-          steps.update.outputs.should_run == 'true' &&
-          github.event_name == 'push' &&
-          steps.yahoo-history.outputs.available == 'true' &&
-          steps.yahoo-history.outputs.needs_backfill != 'true'
-        run: |
-          test -d data/yahoo
-          test -n "$(find data/yahoo -type f -print -quit)"
-          echo "Using restored Yahoo history; skipping market-data refresh."
-
-      - name: Save validated market-data checkpoint
-        if: steps.update.outputs.should_run == 'true'
-        uses: actions/cache/save@v4
-        with:
-          path: momentum5d/data/yahoo
-          key: momentum5d-data-ready-${{ github.run_id }}
-
-  backtest:
-    name: Run three-year ten-day backtest
-    needs: prepare_data
-    if: needs.prepare_data.outputs.should_run == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    defaults:
-      run:
-        working-directory: momentum5d
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Restore validated market-data checkpoint
-        uses: actions/cache/restore@v4
-        with:
-          path: momentum5d/data/yahoo
-          key: momentum5d-data-ready-${{ github.run_id }}
-          fail-on-cache-miss: true
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-          cache: pip
-          cache-dependency-path: momentum5d/pyproject.toml
-
-      - name: Install application
-        run: python -m pip install .
-
-      - name: Run three-year ten-day signal backtest
-        run: python -m app yahoo-backtest-ten-day
-
-      - name: Save backtest checkpoint
-        uses: actions/cache/save@v4
-        with:
-          path: momentum5d/data/yahoo
-          key: momentum5d-backtest-ready-${{ github.run_id }}
-
-  publish_dashboard:
-    name: Build and publish dashboard
-    needs:
-      - prepare_data
-      - backtest
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    defaults:
-      run:
-        working-directory: momentum5d
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Restore backtest checkpoint
-        uses: actions/cache/restore@v4
-        with:
-          path: momentum5d/data/yahoo
-          key: momentum5d-backtest-ready-${{ github.run_id }}
-          fail-on-cache-miss: true
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-          cache: pip
-          cache-dependency-path: momentum5d/pyproject.toml
-
-      - name: Install application
-        run: python -m pip install .
-
-      - name: Build provisional ranking for earnings lookup
-        run: python -m app yahoo-analyze --top-n 100
-
-      - name: Refresh earnings dates for ranking candidates
-        run: >-
-          python -m app yahoo-update-earnings
-          --as-of "${{ needs.prepare_data.outputs.market_date }}"
-          --candidate-limit 100
-
-      - name: Rebuild final ranking with event controls
-        run: python -m app yahoo-analyze --top-n 20
-
-      - name: Replace both products with the RSI14 three-day ranking
-        run: python scripts/sync_424_rankings.py
-
-      - name: Export dashboard payload
-        run: python -m app yahoo-export-dashboard --output work/latest.json
-
-      - name: Normalize dashboard metadata to the RSI14 three-day ranking
-        run: python scripts/sync_424_rankings.py --dashboard work/latest.json
-
-      - name: Export compact demo-trade signals
+      - name: Skip an already published market date
+        id: update
+        env:
+          REQUESTED_FORCE: ${{ inputs.force }}
         run: |
           python - <<'PY'
           import json
+          import os
           from pathlib import Path
 
-          source = json.loads(Path("work/latest.json").read_text(encoding="utf-8"))
-          study = (source.get("ten_day_signal_study") or {}).get(
-              "demo_trade_signal_study"
+          import pandas as pd
+
+          prices = pd.read_parquet(
+              "data/yahoo/processed/equities_daily.parquet",
+              columns=["date"],
           )
-          if not study or study.get("status") != "completed":
-              raise SystemExit("Demo-trade signal study is unavailable.")
-          payload = {
-              "generated_at": source.get("generated_at"),
-              "latest_date": source.get("latest_date"),
-              "study": study,
-          }
-          Path("work/demo-trade-signals.json").write_text(
-              json.dumps(
-                  payload,
-                  ensure_ascii=False,
-                  separators=(",", ":"),
-                  default=str,
-              ),
-              encoding="utf-8",
+          latest_date = str(pd.to_datetime(prices["date"]).max().date())
+          published_path = Path("../dashboard-data/latest_signals.json")
+          published_date = ""
+          if published_path.exists():
+              published = json.loads(published_path.read_text(encoding="utf-8"))
+              published_date = str(published.get("date") or "")
+          force = os.environ.get("REQUESTED_FORCE", "false").lower() == "true"
+          should_run = force or published_date != latest_date
+          with Path(os.environ["GITHUB_OUTPUT"]).open("a", encoding="utf-8") as output:
+              output.write(f"should_run={str(should_run).lower()}\n")
+              output.write(f"market_date={latest_date}\n")
+          print(
+              f"latest={latest_date} published={published_date or '-'} "
+              f"should_run={should_run}"
           )
           PY
 
-      - name: Export latest-market-date signals
+      - name: Validate close data
+        if: steps.update.outputs.should_run == 'true'
+        run: python -m app yahoo-validate
+
+      - name: Build next-session signal JSON
+        if: steps.update.outputs.should_run == 'true'
         run: >-
-          python scripts/export_latest_signals.py
-          --dashboard work/latest.json
+          python scripts/export_close_signals.py
+          --prices data/yahoo/processed/equities_daily.parquet
+          --names config/prime_names.csv
           --output work/latest_signals.json
 
-      - name: Export auto-updating 2026 Kabutore replay
-        run: >-
-          python scripts/export_kabutore_replay.py
-          --dashboard work/latest.json
-          --prices data/yahoo/processed/equities_daily.parquet
-          --previous ../dashboard-data/kabutore-replay-2026.json
-          --output work/kabutore-replay-2026.json
-
-      - name: Export rolling three-year technical backtest data
-        run: >-
-          python scripts/export_technical_backtest_shards.py
-          --dashboard work/latest.json
-          --prices data/yahoo/processed/equities_daily.parquet
-          --lookback-years 3
-          --output-dir work/technical-backtest-3y
-
-      - name: Save final analysis checkpoint
+      - name: Save rolling price cache
         uses: actions/cache/save@v4
         with:
           path: momentum5d/data/yahoo
-          key: momentum5d-final-${{ github.run_id }}
+          key: momentum10d-close-${{ github.run_id }}
 
-      - name: Publish aggregate result for the mobile dashboard
+      - name: Publish lightweight signals
+        if: steps.update.outputs.should_run == 'true'
         shell: bash
         run: |
           set -euo pipefail
-
           target_branch="${GITHUB_REF_NAME}"
-          tmp_latest="$(mktemp)"
           tmp_signals="$(mktemp)"
-          tmp_latest_signals="$(mktemp)"
-          tmp_kabutore_replay="$(mktemp)"
-          tmp_technical_backtest="$(mktemp -d)"
-          cp work/latest.json "$tmp_latest"
-          cp work/demo-trade-signals.json "$tmp_signals"
-          cp work/latest_signals.json "$tmp_latest_signals"
-          cp work/kabutore-replay-2026.json "$tmp_kabutore_replay"
-          cp -R work/technical-backtest-3y/. "$tmp_technical_backtest/"
+          cp work/latest_signals.json "$tmp_signals"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           for attempt in 1 2 3 4 5; do
-            echo "Publish attempt ${attempt}/5 on ${target_branch}"
             git rebase --abort >/dev/null 2>&1 || true
             git fetch origin "$target_branch"
             git reset --hard "origin/${target_branch}"
-
-            mkdir -p ../dashboard-data
-            cp "$tmp_latest" ../dashboard-data/latest.json
-            cp "$tmp_signals" ../dashboard-data/demo-trade-signals.json
-            cp "$tmp_latest_signals" ../dashboard-data/latest_signals.json
-            cp "$tmp_kabutore_replay" ../dashboard-data/kabutore-replay-2026.json
-            mkdir -p ../dashboard-data/technical-backtest-3y
-            find ../dashboard-data/technical-backtest-3y -type f -delete
-            cp -R "$tmp_technical_backtest/." ../dashboard-data/technical-backtest-3y/
-            git add \
-              ../dashboard-data/latest.json \
-              ../dashboard-data/demo-trade-signals.json \
-              ../dashboard-data/latest_signals.json \
-              ../dashboard-data/kabutore-replay-2026.json \
-              ../dashboard-data/technical-backtest-3y
+            cp "$tmp_signals" ../dashboard-data/latest_signals.json
+            git add -- ../dashboard-data/latest_signals.json
 
             if git diff --cached --quiet; then
-              echo "Dashboard payload is already current."
+              echo "Signals are already current."
               exit 0
             fi
 
-            git commit -m "Update Momentum 5D dashboard data"
-
-            # Narrow the race window: rebase the generated-data commit onto the
-            # newest remote head immediately before pushing.
-            if git pull --rebase origin "$target_branch"; then
-              if git push origin "HEAD:${target_branch}"; then
-                echo "Dashboard payload published successfully."
-                exit 0
-              fi
-            else
-              echo "Rebase conflicted; rebuilding the data commit on the newest remote head."
-              git rebase --abort >/dev/null 2>&1 || true
+            git commit -m "Update Momentum10D close signals"
+            if git pull --rebase origin "$target_branch" && git push origin "HEAD:${target_branch}"; then
+              echo "Close signals published successfully."
+              exit 0
             fi
-
-            echo "Remote changed during publish; retrying on latest ${target_branch}."
+            git rebase --abort >/dev/null 2>&1 || true
             sleep $((attempt * 2))
           done
 
-          echo "Failed to publish dashboard after 5 attempts." >&2
+          echo "Failed to publish close signals after 5 attempts." >&2
           exit 1
