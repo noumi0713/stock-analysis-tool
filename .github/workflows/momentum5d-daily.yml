@@ -9,6 +9,7 @@ on:
         default: false
         type: boolean
   push:
+    # 初回の大引け専用JSON公開とワークフロー修正確認に使用。
     branches:
       - main
     paths:
