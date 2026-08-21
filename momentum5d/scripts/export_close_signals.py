@@ -9,7 +9,6 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-
 RSI_PERIOD = 14
 RSI_MIN = 25.0
 RSI_MAX = 35.0
