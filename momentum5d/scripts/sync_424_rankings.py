@@ -55,19 +55,19 @@ def _reference_parameters(study: dict[str, Any]) -> dict[str, Any]:
     parameters = dict(study.get("parameters") or {})
     parameters.update(
         {
-            "method": "deterministic_rsi14_rank1",
-            "technical_profile": "rsi14_exhaustive_rank1",
+            "method": "deterministic_rsi14_three_day_frequency",
+            "technical_profile": "rsi14_three_day_frequency",
             "rsi_period": 14,
             "rsi_min": 25.0,
-            "rsi_max": 33.0,
+            "rsi_max": 35.0,
             "return_1d_min": -0.03,
             "return_1d_max": 0.0,
             "return_5d_min": -0.15,
             "return_5d_max": 0.02,
-            "volume_ratio_min": 1.8,
+            "volume_ratio_min": 1.5,
             "minimum_turnover_yen": REFERENCE_MINIMUM_TURNOVER_YEN,
             "atr_14_pct_min": 0.02,
-            "atr_14_pct_max": 0.10,
+            "atr_14_pct_max": 0.12,
             "ma25": "below",
             "bullish": True,
             "top_n_per_day": MAX_RANK,
@@ -87,7 +87,7 @@ def _normalize_demo_study(study: dict[str, Any]) -> dict[str, Any]:
         "minimum_expected_net_return",
     ):
         study.pop(key, None)
-    study["technical_profile"] = "rsi14_exhaustive_rank1"
+    study["technical_profile"] = "rsi14_three_day_frequency"
     study["maximum_signals_per_day"] = MAX_RANK
     study["entry_limit_offset_from_previous_close"] = REFERENCE_ENTRY_LIMIT_OFFSET
     study["parameters"] = _reference_parameters(study)
@@ -96,9 +96,9 @@ def _normalize_demo_study(study: dict[str, Any]) -> dict[str, Any]:
     study["historical_signals"] = historical
     study["historical_signal_count"] = len(historical)
     study["note"] = (
-        "RSI14固定の全3億2006万160通り総当たり1位を固定。RSI25〜33、"
-        "前日比-3〜0%、5日騰落-15〜+2%、出来高比1.8倍以上、売買代金3億円以上、"
-        "ATR2〜10%、25日線下の陽線を出来高比順に1日最大3銘柄。"
+        "平均3営業日に1回の検知を目標に選んだRSI14条件。RSI25〜35、"
+        "前日比-3〜0%、5日騰落-15〜+2%、出来高比1.5倍以上、売買代金3億円以上、"
+        "ATR2〜12%、25日線下の陽線を出来高比順に1日最大3銘柄。"
     )
     return study
 
@@ -128,7 +128,9 @@ def _sync_parquet_rankings(
     rank_by_ticker = {str(row["ticker"]): int(row["rank"]) for row in live}
     missing = sorted(set(rank_by_ticker).difference(set(scores["ticker"])))
     if missing:
-        raise RuntimeError(f"RSI14 rank-1 live signals are missing from latest scores: {missing}")
+        raise RuntimeError(
+            f"RSI14 three-day live signals are missing from latest scores: {missing}"
+        )
 
     for record in live:
         ticker = str(record["ticker"])
@@ -141,7 +143,7 @@ def _sync_parquet_rankings(
             "ml_ten_day_down_8pct_probability": record.get("down_8pct_probability"),
             "ml_ten_day_expected_net_return": record.get("expected_net_return"),
             "ml_ten_day_reason": record.get("reason") or (
-                f"{REFERENCE_SHAPE_LABEL}・RSI14全件テスト1位・10営業日+5%候補"
+                f"{REFERENCE_SHAPE_LABEL}・RSI14平均3営業日検知・10営業日+5%候補"
             ),
             "ml_ten_day_entry_rule": "翌営業日始値でエントリー",
             "rise_pattern_shape": record.get("shape") or REFERENCE_SHAPE,
@@ -188,7 +190,7 @@ def sync_analysis(data_dir: Path) -> int:
     ten_day = analysis.get("ten_day_signal_study") or {}
     study = ten_day.get("demo_trade_signal_study")
     if not isinstance(study, dict) or study.get("status") != "completed":
-        raise RuntimeError("RSI14 rank-1 signal study is unavailable")
+        raise RuntimeError("RSI14 three-day signal study is unavailable")
     ten_day["demo_trade_signal_study"] = _normalize_demo_study(study)
     analysis["ten_day_signal_study"] = ten_day
     count = _sync_parquet_rankings(analysis, scores_path, candidates_path)
@@ -209,34 +211,34 @@ def patch_dashboard(path: Path) -> None:
     payload["ten_day_signal_study"] = ten_day
 
     technical = payload.get("technical_method") or {}
-    technical["key"] = "rsi14_exhaustive_rank1_10d_v1"
-    technical["label"] = "RSI14全件テスト1位・投げ売り反転10D"
+    technical["key"] = "rsi14_three_day_frequency_10d_v1"
+    technical["label"] = "RSI14平均3営業日検知・投げ売り反転10D"
     technical["note"] = (
-        "RSI14固定の全件総当たり1位を抽出エンジンとして使用。"
-        "RSI25〜33、前日比-3〜0%、5日騰落-15〜+2%、出来高比1.8倍以上、"
-        "売買代金3億円以上、ATR2〜10%、25日線下の陽線。"
+        "平均3営業日に1回の検知を目標に選んだRSI14条件を使用。"
+        "RSI25〜35、前日比-3〜0%、5日騰落-15〜+2%、出来高比1.5倍以上、"
+        "売買代金3億円以上、ATR2〜12%、25日線下の陽線。"
     )
     payload["technical_method"] = technical
 
     signal_model = payload.get("signal_model") or {}
-    signal_model["key"] = "rsi14_exhaustive_rank1_10d_v1"
-    signal_model["label"] = "RSI14全件テスト1位ランキング"
+    signal_model["key"] = "rsi14_three_day_frequency_10d_v1"
+    signal_model["label"] = "RSI14平均3営業日検知ランキング"
     signal_model["conditions"] = {
         "target_holding_days": 10,
         "target_return": 0.05,
-        "method": "deterministic_rsi14_rank1",
+        "method": "deterministic_rsi14_three_day_frequency",
         "shape": REFERENCE_SHAPE,
         "minimum_turnover_yen": REFERENCE_MINIMUM_TURNOVER_YEN,
         "rsi_period": 14,
         "rsi_min": 25.0,
-        "rsi_max": 33.0,
+        "rsi_max": 35.0,
         "return_1d_min": -0.03,
         "return_1d_max": 0.0,
         "return_5d_min": -0.15,
         "return_5d_max": 0.02,
-        "volume_ratio_min": 1.8,
+        "volume_ratio_min": 1.5,
         "atr_14_pct_min": 0.02,
-        "atr_14_pct_max": 0.10,
+        "atr_14_pct_max": 0.12,
         "ma25": "below",
         "bullish": True,
         "maximum_candidates_per_day": MAX_RANK,
@@ -252,6 +254,13 @@ def patch_dashboard(path: Path) -> None:
         "trade_win_rate": reference.get("trade_win_rate"),
         "mean_trade_net_return": reference.get("mean_trade_net_return"),
         "profit_factor": reference.get("profit_factor"),
+        "active_signal_days": reference.get("active_signal_days"),
+        "average_signal_interval_trading_days": reference.get(
+            "average_signal_interval_trading_days"
+        ),
+        "ending_equity_yen": reference.get("ending_equity_yen"),
+        "total_return": reference.get("total_return"),
+        "maximum_drawdown": reference.get("maximum_drawdown"),
         "reference_only": True,
     }
     signal_model["live_signal_count"] = min(
@@ -259,7 +268,7 @@ def patch_dashboard(path: Path) -> None:
         sum(bool(record.get("ml_ten_day_signal")) for record in payload.get("candidates", [])),
     )
     signal_model["note"] = (
-        "全3億2006万160通りを同一3年間で比較した探索結果。"
+        "3年間で平均3営業日に1回の検知へ合わせた比較結果。"
         "完全な未使用期間による前向き確認は継続して必要。"
     )
     payload["signal_model"] = signal_model
@@ -275,11 +284,11 @@ def main() -> None:
 
     if args.dashboard is not None:
         patch_dashboard(args.dashboard)
-        print(f"Patched dashboard to RSI14 rank-1 ranking: {args.dashboard}")
+        print(f"Patched dashboard to RSI14 three-day ranking: {args.dashboard}")
         return
 
     count = sync_analysis(args.data_dir)
-    print(f"RSI14 rank-1 ranking prepared: {count} candidate(s), max={MAX_RANK}")
+    print(f"RSI14 three-day ranking prepared: {count} candidate(s), max={MAX_RANK}")
 
 
 if __name__ == "__main__":

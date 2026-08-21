@@ -317,13 +317,13 @@ jobs:
       - name: Rebuild final ranking with event controls
         run: python -m app yahoo-analyze --top-n 20
 
-      - name: Replace both products with the RSI14 rank-1 ranking
+      - name: Replace both products with the RSI14 three-day ranking
         run: python scripts/sync_424_rankings.py
 
       - name: Export dashboard payload
         run: python -m app yahoo-export-dashboard --output work/latest.json
 
-      - name: Normalize dashboard metadata to the RSI14 rank-1 ranking
+      - name: Normalize dashboard metadata to the RSI14 three-day ranking
         run: python scripts/sync_424_rankings.py --dashboard work/latest.json
 
       - name: Export compact demo-trade signals

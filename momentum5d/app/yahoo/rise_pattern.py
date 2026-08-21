@@ -32,15 +32,15 @@ DEMO_TRADE_MINIMUM_TURNOVER = 150_000_000.0
 DEMO_TRADE_MAXIMUM_SIGNALS_PER_DAY = 5
 RANK1_RSI_PERIOD = 14
 RANK1_RSI_MIN = 25.0
-RANK1_RSI_MAX = 33.0
+RANK1_RSI_MAX = 35.0
 RANK1_RETURN_1D_MIN = -0.03
 RANK1_RETURN_1D_MAX = 0.0
 RANK1_RETURN_5D_MIN = -0.15
 RANK1_RETURN_5D_MAX = 0.02
-RANK1_VOLUME_RATIO_MIN = 1.8
+RANK1_VOLUME_RATIO_MIN = 1.5
 RANK1_TURNOVER_MIN = 300_000_000.0
 RANK1_ATR_MIN = 0.02
-RANK1_ATR_MAX = 0.10
+RANK1_ATR_MAX = 0.12
 RANK1_MAXIMUM_SIGNALS_PER_DAY = 3
 PORTFOLIO_424_SIGNAL_PARAMETERS: dict[str, Any] = {
     "shape_profile": "capitulation_reversal",
@@ -77,7 +77,7 @@ def select_rank1_technical_signals(
     dates: list[Any] | None = None,
     require_outcome: bool = False,
 ) -> pd.DataFrame:
-    """Select the exhaustive RSI(14) rank-1 capitulation-reversal setup."""
+    """Select the adopted RSI(14) three-trading-day-frequency setup."""
     if frame.empty:
         return frame.copy()
     work = frame.sort_values(["ticker", "date"]).copy()
@@ -131,11 +131,11 @@ def select_rank1_technical_signals(
 def _rank1_reference(history: pd.DataFrame) -> dict[str, float]:
     if history.empty:
         return {
-            "target_probability": 100 / 174,
+            "target_probability": 203 / 378,
             "down_5pct_probability": 0.0,
             "down_8pct_probability": 0.0,
-            "expected_net_return": 0.023188075302756284,
-            "samples": 174.0,
+            "expected_net_return": 0.01732925797149239,
+            "samples": 378.0,
         }
     return {
         "target_probability": float(history["rise_trade_target_hit"].mean()),
@@ -171,7 +171,7 @@ def score_latest_rank1_technical_candidates(
     frame: pd.DataFrame,
     history: pd.DataFrame | None = None,
 ) -> pd.DataFrame:
-    """Return latest-date rows with the RSI(14) rank-1 signal overlay."""
+    """Return latest-date rows with the adopted RSI(14) signal overlay."""
     if frame.empty:
         return pd.DataFrame(columns=[*frame.columns, *LIVE_TEN_DAY_SIGNAL_COLUMNS])
     latest_date = frame["date"].max()
@@ -216,8 +216,8 @@ def score_latest_rank1_technical_candidates(
         ]
         latest.at[index, "ml_ten_day_model_samples"] = int(reference["samples"])
         latest.at[index, "ml_ten_day_reason"] = (
-            "RSI14 25〜33・前日比-3〜0%・5日騰落-15〜+2%・"
-            "出来高比1.8倍以上・売買代金3億円以上・ATR2〜10%・"
+            "RSI14 25〜35・前日比-3〜0%・5日騰落-15〜+2%・"
+            "出来高比1.5倍以上・売買代金3億円以上・ATR2〜12%・"
             "25日線下の陽線"
         )
         latest.at[index, "ml_ten_day_entry_rule"] = "翌営業日始値でエントリー"
@@ -546,7 +546,7 @@ def add_ten_day_signal_and_study(
         portfolio_parameters,
     )
     demo_trade_parameters = {
-        "method": "deterministic_rsi14_rank1",
+        "method": "deterministic_rsi14_three_day_frequency",
         "rsi_period": RANK1_RSI_PERIOD,
         "rsi_min": RANK1_RSI_MIN,
         "rsi_max": RANK1_RSI_MAX,
@@ -702,19 +702,26 @@ def add_ten_day_signal_and_study(
         "demo_trade_signal_study": {
             "status": "completed",
             "reference_result": {
-                "tested_combinations": 320_060_160,
-                "completed_trades": 174,
-                "trade_win_rate": 0.7298850574712644,
-                "mean_trade_net_return": 0.023188075302756284,
-                "profit_factor": 3.31521585292164,
-                "take_profit_count": 100,
-                "stop_loss_count": 5,
+                "tested_combinations": 11_664,
+                "completed_trades": 378,
+                "active_signal_days": 243,
+                "average_signal_interval_trading_days": 3.016460905349794,
+                "trade_win_rate": 0.6851851851851852,
+                "mean_trade_net_return": 0.01732925797149239,
+                "profit_factor": 2.270260188890265,
+                "take_profit_count": 203,
+                "stop_loss_count": 17,
+                "timed_exit_count": 158,
+                "initial_equity_yen": 2_000_000,
+                "ending_equity_yen": 13_601_136,
+                "total_return": 5.800568028699041,
+                "maximum_drawdown": -0.18575237200220094,
             },
             "reference_dashboard_commit": None,
             "shape": TEN_DAY_ADOPTED_SHAPE,
             "shape_label": TEN_DAY_ADOPTED_SHAPE_LABEL,
             "minimum_turnover_yen": int(RANK1_TURNOVER_MIN),
-            "technical_profile": "rsi14_exhaustive_rank1",
+            "technical_profile": "rsi14_three_day_frequency",
             "maximum_signals_per_day": RANK1_MAXIMUM_SIGNALS_PER_DAY,
             "entry_limit_offset_from_previous_close": 0.0,
             "entry_rule": "翌営業日始値",
@@ -737,9 +744,9 @@ def add_ten_day_signal_and_study(
             "live_signal_count": int(len(demo_trade_live)),
             "live_signals": _demo_trade_live_records(demo_trade_live),
             "note": (
-                "RSI14固定の全3億2006万160通り総当たりで1位となった条件。"
-                "RSI25〜33、前日比-3〜0%、5日騰落-15〜+2%、出来高比1.8倍以上、"
-                "売買代金3億円以上、ATR2〜10%、25日線下の陽線を1日最大3銘柄。"
+                "平均3営業日に1回の検知を目標に選んだRSI14条件。"
+                "RSI25〜35、前日比-3〜0%、5日騰落-15〜+2%、出来高比1.5倍以上、"
+                "売買代金3億円以上、ATR2〜12%、25日線下の陽線を1日最大3銘柄。"
             ),
         },
         "turnover_sensitivity": {

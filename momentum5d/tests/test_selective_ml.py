@@ -148,7 +148,7 @@ def test_latest_ten_day_signal_uses_development_parameters_and_top_one() -> None
     ) == [1, 2]
 
 
-def test_rsi14_rank1_signal_uses_exact_technical_filter_and_top_three() -> None:
+def test_rsi14_three_day_signal_uses_exact_technical_filter_and_top_three() -> None:
     dates = [date(2026, 1, 1) + timedelta(days=offset) for offset in range(30)]
     rows = []
     for ticker_index in range(4):
@@ -187,7 +187,7 @@ def test_rsi14_rank1_signal_uses_exact_technical_filter_and_top_three() -> None:
     assert ranked["ticker"].tolist() == ["9030.T", "9020.T", "9010.T"]
     assert ranked["ml_ten_day_rank"].tolist() == [1, 2, 3]
     assert ranked["ml_ten_day_entry_rule"].eq("翌営業日始値でエントリー").all()
-    assert ranked["ml_ten_day_reason"].str.contains("RSI14 25〜33").all()
+    assert ranked["ml_ten_day_reason"].str.contains("RSI14 25〜35").all()
 
 
 def test_tuning_freezes_development_rule_for_validation() -> None:

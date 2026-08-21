@@ -8,7 +8,7 @@ from typing import Any
 import pandas as pd
 
 REPLAY_YEAR = 2026
-SIGNAL_SOURCE = "rsi14_exhaustive_rank1_10d_v1"
+SIGNAL_SOURCE = "rsi14_three_day_frequency_10d_v1"
 
 
 def _number(value: Any, digits: int = 6) -> float | None:
@@ -50,7 +50,7 @@ def build_replay_payload(
 
     study = ((source.get("ten_day_signal_study") or {}).get("demo_trade_signal_study") or {})
     if study.get("status") != "completed":
-        raise ValueError("RSI14 rank-1 signal study is unavailable")
+        raise ValueError("RSI14 three-day signal study is unavailable")
 
     frame = prices.copy()
     frame["date"] = pd.to_datetime(frame["date"], errors="coerce").dt.date
@@ -145,7 +145,7 @@ def build_replay_payload(
                     "turnover": turnover or 0.0,
                     "volume": int(getattr(price, "volume", 0) or 0),
                     "reason": record.get("reason")
-                    or "投げ売り反転・RSI14全件テスト1位条件を通過",
+                    or "投げ売り反転・RSI14平均3営業日検知条件を通過",
                     "targetProbability": target_probability,
                     "down5Probability": down_5pct_probability,
                     "down8Probability": down_8pct_probability,
@@ -200,7 +200,7 @@ def build_replay_payload(
             "rankingSize": maximum_signals,
             "signalVersion": str(
                 (source.get("signal_model") or {}).get("label")
-                or "RSI14全件テスト1位 Momentum10D"
+                or "RSI14平均3営業日検知 Momentum10D"
             ),
             "signalSource": SIGNAL_SOURCE,
             "minimumTurnover": int(conditions.get("minimum_turnover_yen") or 300_000_000),
