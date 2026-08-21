@@ -8,12 +8,6 @@ on:
         required: false
         default: false
         type: boolean
-  push:
-    # 初回の大引け専用JSON公開とワークフロー修正確認に使用。
-    branches:
-      - main
-    paths:
-      - ".github/workflows/momentum5d-daily.yml"
   schedule:
     # 東証大引け後。最初の成功後は同一営業日の再試行をスキップする。
     - cron: "50 6 * * 1-5"
