@@ -9,6 +9,7 @@ on:
         default: false
         type: boolean
   push:
+    # Rebuild the lightweight JSON immediately when the live signal rule changes.
     branches:
       - main
     paths:
