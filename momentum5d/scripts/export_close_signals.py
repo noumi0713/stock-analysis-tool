@@ -14,20 +14,23 @@ RSI_MIN = 25.0
 RSI_MAX = 35.0
 RETURN_1D_MIN = -0.03
 RETURN_1D_MAX = 0.0
-RETURN_5D_MIN = -0.15
-RETURN_5D_MAX = 0.02
+RETURN_5D_MIN = -0.12
+RETURN_5D_MAX = -0.05
 VOLUME_RATIO_MIN = 1.5
 TURNOVER_MIN = 300_000_000.0
-ATR_MIN = 0.02
-ATR_MAX = 0.12
+ATR_MIN = 0.005
+ATR_MAX = 0.08
 MAX_SIGNALS = 3
+TAKE_PROFIT_PCT = 0.235
+STOP_LOSS_PCT = -0.22
+HOLDING_DAYS = 10
 
-# These are descriptive reference values from the frozen three-year comparison.
+# These are descriptive reference values from the frozen three-year stable-score comparison.
 # They are not used to decide whether a stock passes the technical screen.
-REFERENCE_TARGET_PROBABILITY = 203 / 378
-REFERENCE_DOWN_5_PROBABILITY = 0.31876606683804626
-REFERENCE_DOWN_8_PROBABILITY = 0.16195372750642673
-REFERENCE_EXPECTED_NET_RETURN = 0.01732925797149239
+REFERENCE_TARGET_PROBABILITY = 0.5612903225806452
+REFERENCE_DOWN_5_PROBABILITY = 0.23870967741935484
+REFERENCE_DOWN_8_PROBABILITY = 0.10967741935483871
+REFERENCE_EXPECTED_NET_RETURN = 0.04109912872314453
 
 
 def _rolling_sum(values: pd.Series, period: int) -> pd.Series:
@@ -174,9 +177,9 @@ def build_payload(
                 "down_8pct_probability": REFERENCE_DOWN_8_PROBABILITY,
                 "expected_net_return": REFERENCE_EXPECTED_NET_RETURN,
                 "entry_rule": "翌営業日始値",
-                "take_profit_pct": 0.05,
-                "stop_loss_pct": -0.12,
-                "holding_days": 10,
+                "take_profit_pct": TAKE_PROFIT_PCT,
+                "stop_loss_pct": STOP_LOSS_PCT,
+                "holding_days": HOLDING_DAYS,
             }
         )
 
@@ -200,8 +203,8 @@ def build_payload(
             "generated_at": stamp,
         },
         "signal_model": {
-            "key": "rsi14_three_day_frequency_10d_v2",
-            "label": "RSI14投げ売り反転10D",
+            "key": "rsi14_stable_score_10d_v1",
+            "label": "RSI14安定スコア1位10D",
             "conditions": {
                 "rsi_period": RSI_PERIOD,
                 "rsi_min": RSI_MIN,
@@ -218,9 +221,9 @@ def build_payload(
                 "bullish": True,
                 "maximum_candidates_per_day": MAX_SIGNALS,
                 "entry_rule": "翌営業日始値",
-                "take_profit_pct": 0.05,
-                "stop_loss_pct": -0.12,
-                "holding_days": 10,
+                "take_profit_pct": TAKE_PROFIT_PCT,
+                "stop_loss_pct": STOP_LOSS_PCT,
+                "holding_days": HOLDING_DAYS,
             },
         },
         "signal_count": len(records),
