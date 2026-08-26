@@ -20,11 +20,29 @@ VOLUME_RATIO_MIN = 1.5
 TURNOVER_MIN = 300_000_000.0
 ATR_MIN = 0.005
 ATR_MAX = 0.08
-MAX_SIGNALS = 3
+MAX_SIGNALS = 4
 MAX_NEAR_MISSES = 5
 TAKE_PROFIT_PCT = 0.235
 STOP_LOSS_PCT = -0.22
 HOLDING_DAYS = 10
+
+PULLBACK_MAX_SIGNALS = 4
+PULLBACK_DRAWDOWN_MIN = -0.10
+PULLBACK_DRAWDOWN_MAX = -0.02
+PULLBACK_MA25_DISTANCE_MIN = 0.0
+PULLBACK_MA25_DISTANCE_MAX = 0.02
+PULLBACK_RETURN_1D_MIN = -0.04
+PULLBACK_RETURN_1D_MAX = 0.05
+PULLBACK_CLOSE_POSITION_MIN = 0.50
+PULLBACK_VOLUME_RATIO_MIN = 0.8
+PULLBACK_TURNOVER_MIN = 500_000_000.0
+PULLBACK_ATR_MIN = 0.005
+PULLBACK_ATR_MAX = 0.10
+PULLBACK_MA25_SLOPE_MIN = 0.0
+PULLBACK_MA75_SLOPE_MIN = -0.005
+PULLBACK_TAKE_PROFIT_PCT = 0.14
+PULLBACK_STOP_LOSS_PCT = -0.12
+PULLBACK_HOLDING_DAYS = 15
 
 CONDITION_KEYS = (
     "rsi",
@@ -112,6 +130,18 @@ def calculate_indicators(prices: pd.DataFrame) -> pd.DataFrame:
         stock["trading_value"] = close * volume
         stock["ATR"] = true_range.rolling(14, min_periods=14).sum().div(14).div(close)
         stock["ma25"] = close.rolling(25, min_periods=25).mean()
+        stock["ma75"] = close.rolling(75, min_periods=75).mean()
+        stock["ma25_slope_5d"] = stock["ma25"].div(stock["ma25"].shift(5)).sub(1.0)
+        stock["ma75_slope_10d"] = stock["ma75"].div(stock["ma75"].shift(10)).sub(1.0)
+        stock["prior_high_20d"] = (
+            stock["_high"].rolling(20, min_periods=20).max().shift(1)
+        )
+        stock["drawdown_from_20d_high"] = close.div(stock["prior_high_20d"]).sub(1.0)
+        stock["distance_from_ma25"] = close.div(stock["ma25"]).sub(1.0)
+        day_range = stock["_high"].sub(stock["_low"])
+        stock["close_position"] = close.sub(stock["_low"]).div(
+            day_range.replace(0.0, np.nan)
+        ).fillna(0.5)
         groups.append(stock)
     return pd.concat(groups, ignore_index=True) if groups else work.iloc[0:0].copy()
 
@@ -152,6 +182,56 @@ def select_latest_signals(indicators: pd.DataFrame) -> pd.DataFrame:
         latest.loc[mask]
         .sort_values(["volume_ratio_1_20", "ticker"], ascending=[False, True])
         .head(MAX_SIGNALS)
+        .reset_index(drop=True)
+    )
+
+
+def _pullback_condition_results(frame: pd.DataFrame) -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "trend_order": (frame["_close"] > frame["ma25"])
+            & (frame["ma25"] > frame["ma75"]),
+            "ma25_slope": frame["ma25_slope_5d"].gt(PULLBACK_MA25_SLOPE_MIN),
+            "ma75_slope": frame["ma75_slope_10d"].gt(PULLBACK_MA75_SLOPE_MIN),
+            "drawdown": frame["drawdown_from_20d_high"].between(
+                PULLBACK_DRAWDOWN_MIN, PULLBACK_DRAWDOWN_MAX
+            ),
+            "ma25_distance": frame["distance_from_ma25"].between(
+                PULLBACK_MA25_DISTANCE_MIN, PULLBACK_MA25_DISTANCE_MAX
+            ),
+            "return_1d": frame["return_1d"].between(
+                PULLBACK_RETURN_1D_MIN, PULLBACK_RETURN_1D_MAX
+            ),
+            "bullish": frame["_close"].gt(frame["_open"]),
+            "close_position": frame["close_position"].ge(
+                PULLBACK_CLOSE_POSITION_MIN
+            ),
+            "volume_ratio": frame["volume_ratio_1_20"].ge(
+                PULLBACK_VOLUME_RATIO_MIN
+            ),
+            "trading_value": frame["trading_value"].ge(PULLBACK_TURNOVER_MIN),
+            "atr": frame["ATR"].between(PULLBACK_ATR_MIN, PULLBACK_ATR_MAX),
+        },
+        index=frame.index,
+    )
+
+
+def select_latest_pullback_signals(indicators: pd.DataFrame) -> pd.DataFrame:
+    latest = _latest_rows(indicators)
+    if latest.empty:
+        return latest
+    mask = _pullback_condition_results(latest).all(axis=1)
+    selected = latest.loc[mask].copy()
+    selected["_pullback_score"] = (
+        selected["close_position"] * 2
+        + selected["volume_ratio_1_20"]
+        - selected["distance_from_ma25"] * 25
+    )
+    return (
+        selected.sort_values(
+            ["_pullback_score", "ticker"], ascending=[False, True]
+        )
+        .head(PULLBACK_MAX_SIGNALS)
         .reset_index(drop=True)
     )
 
@@ -308,6 +388,7 @@ def build_payload(
     latest_date = indicators["date"].max().isoformat()
     latest_rows = indicators.loc[indicators["date"].astype(str).eq(latest_date)]
     signals = select_latest_signals(indicators)
+    pullback_signals = select_latest_pullback_signals(indicators)
     near_misses = select_latest_near_misses(indicators)
     company_names = names or {}
     records: list[dict[str, Any]] = []
@@ -342,6 +423,49 @@ def build_payload(
             }
         )
 
+    pullback_records: list[dict[str, Any]] = []
+    for position, (_, row) in enumerate(pullback_signals.iterrows(), start=1):
+        ticker = str(row["ticker"])
+        code = str(row.get("code") or ticker.removesuffix(".T"))[:4]
+        pullback_records.append(
+            {
+                "date": latest_date,
+                "code": code,
+                "ticker": ticker,
+                "name": company_names.get(code) or ticker,
+                "rank": position,
+                "signal": "first_pullback",
+                "pattern": "上昇トレンド初押し",
+                "close": round(float(row["_close"]), 2),
+                "trading_value": round(float(row["trading_value"])),
+                "turnover_value": round(float(row["trading_value"])),
+                "RSI": round(float(row["RSI"]), 4),
+                "ATR": round(float(row["ATR"]), 6),
+                "return_1d": round(float(row["return_1d"]), 6),
+                "return_5d": round(float(row["return_5d"]), 6),
+                "volume_ratio_1_20": round(float(row["volume_ratio_1_20"]), 6),
+                "ma25": round(float(row["ma25"]), 4),
+                "ma75": round(float(row["ma75"]), 4),
+                "ma25_slope_5d": round(float(row["ma25_slope_5d"]), 6),
+                "ma75_slope_10d": round(float(row["ma75_slope_10d"]), 6),
+                "drawdown_from_20d_high": round(
+                    float(row["drawdown_from_20d_high"]), 6
+                ),
+                "distance_from_ma25": round(
+                    float(row["distance_from_ma25"]), 6
+                ),
+                "close_position": round(float(row["close_position"]), 6),
+                "target_probability": 0.0,
+                "down_5pct_probability": 0.0,
+                "down_8pct_probability": 0.0,
+                "expected_net_return": 0.0,
+                "entry_rule": "翌営業日始値（前日終値比−4〜+3%のみ）",
+                "take_profit_pct": PULLBACK_TAKE_PROFIT_PCT,
+                "stop_loss_pct": PULLBACK_STOP_LOSS_PCT,
+                "holding_days": PULLBACK_HOLDING_DAYS,
+            }
+        )
+
     near_miss_records: list[dict[str, Any]] = []
     for position, (_, row) in enumerate(near_misses.iterrows(), start=1):
         ticker = str(row["ticker"])
@@ -372,7 +496,7 @@ def build_payload(
     stamp = generated_at or datetime.now(UTC).isoformat()
     ticker_count = int(latest_rows["ticker"].nunique())
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "generated_at": stamp,
         "date": latest_date,
         "latest_date": latest_date,
@@ -412,8 +536,39 @@ def build_payload(
                 "holding_days": HOLDING_DAYS,
             },
         },
+        "pullback_signal_model": {
+            "key": "uptrend_first_pullback_v1",
+            "label": "上昇トレンド初押し",
+            "conditions": {
+                "trend_order": "close > ma25 > ma75",
+                "ma25_slope_5d_min": PULLBACK_MA25_SLOPE_MIN,
+                "ma75_slope_10d_min": PULLBACK_MA75_SLOPE_MIN,
+                "drawdown_from_20d_high_min": PULLBACK_DRAWDOWN_MIN,
+                "drawdown_from_20d_high_max": PULLBACK_DRAWDOWN_MAX,
+                "distance_from_ma25_min": PULLBACK_MA25_DISTANCE_MIN,
+                "distance_from_ma25_max": PULLBACK_MA25_DISTANCE_MAX,
+                "return_1d_min": PULLBACK_RETURN_1D_MIN,
+                "return_1d_max": PULLBACK_RETURN_1D_MAX,
+                "bullish": True,
+                "close_position_min": PULLBACK_CLOSE_POSITION_MIN,
+                "volume_ratio_min": PULLBACK_VOLUME_RATIO_MIN,
+                "minimum_turnover_yen": int(PULLBACK_TURNOVER_MIN),
+                "atr_14_pct_min": PULLBACK_ATR_MIN,
+                "atr_14_pct_max": PULLBACK_ATR_MAX,
+                "maximum_candidates_per_day": PULLBACK_MAX_SIGNALS,
+                "entry_gap_min": -0.04,
+                "entry_gap_max": 0.03,
+                "entry_rule": "翌営業日始値",
+                "take_profit_pct": PULLBACK_TAKE_PROFIT_PCT,
+                "stop_loss_pct": PULLBACK_STOP_LOSS_PCT,
+                "holding_days": PULLBACK_HOLDING_DAYS,
+            },
+        },
+        "total_signal_count": len(records) + len(pullback_records),
         "signal_count": len(records),
         "signals": records,
+        "pullback_signal_count": len(pullback_records),
+        "pullback_signals": pullback_records,
         "near_miss_count": len(near_miss_records),
         "near_misses": near_miss_records,
     }
@@ -435,7 +590,8 @@ def main() -> None:
         encoding="utf-8",
     )
     print(
-        f"Close signals: date={payload['date']} count={payload['signal_count']} "
+        f"Close signals: date={payload['date']} reversal={payload['signal_count']} "
+        f"pullback={payload['pullback_signal_count']} "
         f"near_misses={payload['near_miss_count']} output={args.output}"
     )
 
