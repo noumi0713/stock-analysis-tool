@@ -7,8 +7,10 @@ import pandas as pd
 from scripts.export_close_signals import (
     MAX_NEAR_MISSES,
     MAX_SIGNALS,
+    PULLBACK_MAX_SIGNALS,
     build_payload,
     select_latest_near_misses,
+    select_latest_pullback_signals,
     select_latest_signals,
 )
 
@@ -26,10 +28,16 @@ def _candidate(ticker: str, volume_ratio: float, *, signal_date: date) -> dict:
         "_close": 900.0,
         "_open": 880.0,
         "ma25": 1_000.0,
+        "ma75": 950.0,
+        "ma25_slope_5d": 0.01,
+        "ma75_slope_10d": 0.0,
+        "drawdown_from_20d_high": -0.06,
+        "distance_from_ma25": -0.10,
+        "close_position": 0.7,
     }
 
 
-def test_select_latest_signals_keeps_volume_ratio_top_three() -> None:
+def test_select_latest_signals_keeps_volume_ratio_top_four() -> None:
     signal_date = date(2026, 8, 21)
     frame = pd.DataFrame(
         [
@@ -43,7 +51,57 @@ def test_select_latest_signals_keeps_volume_ratio_top_three() -> None:
     selected = select_latest_signals(frame)
 
     assert len(selected) == MAX_SIGNALS
-    assert selected["ticker"].tolist() == ["1004.T", "1002.T", "1003.T"]
+    assert selected["ticker"].tolist() == [
+        "1004.T",
+        "1002.T",
+        "1003.T",
+        "1001.T",
+    ]
+
+
+def _pullback_candidate(
+    ticker: str, score_volume: float, *, signal_date: date
+) -> dict:
+    return {
+        "ticker": ticker,
+        "date": signal_date,
+        "_close": 1_010.0,
+        "_open": 1_000.0,
+        "ma25": 1_000.0,
+        "ma75": 950.0,
+        "ma25_slope_5d": 0.01,
+        "ma75_slope_10d": 0.0,
+        "drawdown_from_20d_high": -0.06,
+        "distance_from_ma25": 0.01,
+        "return_1d": 0.01,
+        "close_position": 0.7,
+        "volume_ratio_1_20": score_volume,
+        "trading_value": 600_000_000.0,
+        "ATR": 0.04,
+    }
+
+
+def test_select_latest_pullback_signals_keeps_score_top_four() -> None:
+    signal_date = date(2026, 8, 25)
+    frame = pd.DataFrame(
+        [
+            _pullback_candidate("1001.T", 1.0, signal_date=signal_date),
+            _pullback_candidate("1002.T", 1.4, signal_date=signal_date),
+            _pullback_candidate("1003.T", 1.2, signal_date=signal_date),
+            _pullback_candidate("1004.T", 1.8, signal_date=signal_date),
+            _pullback_candidate("1005.T", 0.9, signal_date=signal_date),
+        ]
+    )
+
+    selected = select_latest_pullback_signals(frame)
+
+    assert len(selected) == PULLBACK_MAX_SIGNALS
+    assert selected["ticker"].tolist() == [
+        "1004.T",
+        "1002.T",
+        "1003.T",
+        "1001.T",
+    ]
 
 
 def test_select_latest_signals_never_reuses_previous_day() -> None:
@@ -161,6 +219,12 @@ def test_payload_publishes_stable_score_rules() -> None:
     assert conditions["atr_14_pct_max"] == 0.08
     assert conditions["take_profit_pct"] == 0.235
     assert conditions["stop_loss_pct"] == -0.22
+    assert conditions["maximum_candidates_per_day"] == 4
+    assert payload["pullback_signal_model"]["conditions"]["take_profit_pct"] == 0.14
+    assert payload["pullback_signal_model"]["conditions"]["stop_loss_pct"] == -0.12
+    assert payload["pullback_signal_model"]["conditions"]["holding_days"] == 15
+    assert payload["pullback_signal_count"] == 0
+    assert payload["pullback_signals"] == []
     assert payload["near_miss_count"] == 0
     assert payload["near_misses"] == []
 
