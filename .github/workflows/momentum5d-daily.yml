@@ -81,6 +81,7 @@ jobs:
         run: python app/yahoo/universe.py --config-dir config
 
       - name: Download close data only
+        if: github.event_name != 'push'
         run: >-
           python -m app yahoo-ingest
           --as-of "$(TZ=Asia/Tokyo date +%F)"
