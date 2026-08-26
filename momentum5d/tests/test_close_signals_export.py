@@ -4,7 +4,13 @@ from datetime import date
 
 import pandas as pd
 
-from scripts.export_close_signals import MAX_SIGNALS, build_payload, select_latest_signals
+from scripts.export_close_signals import (
+    MAX_NEAR_MISSES,
+    MAX_SIGNALS,
+    build_payload,
+    select_latest_near_misses,
+    select_latest_signals,
+)
 
 
 def _candidate(ticker: str, volume_ratio: float, *, signal_date: date) -> dict:
@@ -81,6 +87,53 @@ def test_select_latest_signals_rejects_retired_condition_ranges() -> None:
     assert selected["ticker"].tolist() == ["1001.T"]
 
 
+def test_select_latest_near_misses_keeps_exactly_seven_conditions() -> None:
+    signal_date = date(2026, 8, 25)
+    valid = _candidate("1001.T", 2.0, signal_date=signal_date)
+    frame = pd.DataFrame(
+        [
+            valid,
+            {**_candidate("1002.T", 2.0, signal_date=signal_date), "return_1d": 0.001},
+            {**_candidate("1003.T", 1.4, signal_date=signal_date)},
+            {**_candidate("1004.T", 2.0, signal_date=signal_date), "RSI": 36.0},
+            {
+                **_candidate("1005.T", 2.0, signal_date=signal_date),
+                "return_1d": 0.01,
+            },
+            {
+                **_candidate("1006.T", 2.0, signal_date=signal_date),
+                "trading_value": 250_000_000.0,
+            },
+            {
+                **_candidate("1007.T", 2.0, signal_date=signal_date),
+                "_close": 1_100.0,
+            },
+            {
+                **_candidate("1008.T", 1.4, signal_date=signal_date),
+                "RSI": 36.0,
+            },
+        ]
+    )
+
+    selected = select_latest_near_misses(frame)
+
+    assert len(selected) == MAX_NEAR_MISSES
+    assert selected["ticker"].tolist() == [
+        "1002.T",
+        "1003.T",
+        "1004.T",
+        "1006.T",
+        "1005.T",
+    ]
+    assert selected["_failed_condition"].tolist() == [
+        "return_1d",
+        "volume_ratio_1_20",
+        "rsi",
+        "trading_value",
+        "return_1d",
+    ]
+
+
 def test_payload_publishes_stable_score_rules() -> None:
     rows = []
     for day in pd.date_range("2026-07-01", periods=40, freq="B"):
@@ -108,3 +161,32 @@ def test_payload_publishes_stable_score_rules() -> None:
     assert conditions["atr_14_pct_max"] == 0.08
     assert conditions["take_profit_pct"] == 0.235
     assert conditions["stop_loss_pct"] == -0.22
+    assert payload["near_miss_count"] == 0
+    assert payload["near_misses"] == []
+
+
+def test_payload_publishes_near_miss_reason(monkeypatch) -> None:
+    signal_date = date(2026, 8, 25)
+    indicators = pd.DataFrame(
+        [_candidate("6707.T", 1.126, signal_date=signal_date)]
+    )
+    monkeypatch.setattr(
+        "scripts.export_close_signals.calculate_indicators",
+        lambda _prices: indicators,
+    )
+
+    payload = build_payload(pd.DataFrame(), names={"6707": "サンケン電気"})
+
+    assert payload["signal_count"] == 0
+    assert payload["near_miss_count"] == 1
+    candidate = payload["near_misses"][0]
+    assert candidate["code"] == "6707"
+    assert candidate["name"] == "サンケン電気"
+    assert candidate["passed_conditions"] == 7
+    assert candidate["failed_condition"] == {
+        "key": "volume_ratio_1_20",
+        "label": "出来高比",
+        "actual_value": 1.126,
+        "actual_label": "1.13倍",
+        "required_label": "1.5倍以上",
+    }

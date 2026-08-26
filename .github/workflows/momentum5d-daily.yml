@@ -91,6 +91,7 @@ jobs:
         id: update
         env:
           REQUESTED_FORCE: ${{ inputs.force }}
+          WORKFLOW_EVENT: ${{ github.event_name }}
         run: |
           python - <<'PY'
           import json
@@ -114,7 +115,10 @@ jobs:
                   int(published.get("schema_version") or 0) >= 2
                   and (published.get("update") or {}).get("session") == "close"
               )
-          force = os.environ.get("REQUESTED_FORCE", "false").lower() == "true"
+          force = (
+              os.environ.get("REQUESTED_FORCE", "false").lower() == "true"
+              or os.environ.get("WORKFLOW_EVENT") == "push"
+          )
           should_run = force or published_date != latest_date or not published_is_close
           with Path(os.environ["GITHUB_OUTPUT"]).open("a", encoding="utf-8") as output:
               output.write(f"should_run={str(should_run).lower()}\n")
