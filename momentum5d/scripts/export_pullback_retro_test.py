@@ -23,7 +23,8 @@ def main() -> None:
     args = parser.parse_args()
 
     prices = pd.read_parquet(args.prices)
-    indicators = calculate_indicators(prices)
+    prices["_parsed_date"] = pd.to_datetime(prices["date"], errors="coerce").dt.date
+    indicators = calculate_indicators(prices.drop(columns=["_parsed_date"]))
     names = _load_names(args.names)
     results: dict[str, object] = {}
 
@@ -40,6 +41,20 @@ def main() -> None:
         ranked = selected.sort_values(
             ["_pullback_score", "ticker"], ascending=[False, True]
         ).head(PULLBACK_MAX_SIGNALS)
+
+        history = prices.loc[prices["_parsed_date"].le(signal_date)]
+        observation_counts = history.groupby("ticker", sort=False).size()
+        diagnostics = {
+            "maximum_observations_per_ticker": int(observation_counts.max()),
+            "median_observations_per_ticker": float(observation_counts.median()),
+            "ma75_available_count": int(day["ma75"].notna().sum()),
+            "ma75_slope_10d_available_count": int(
+                day["ma75_slope_10d"].notna().sum()
+            ),
+            "condition_pass_counts": {
+                key: int(conditions[key].sum()) for key in conditions.columns
+            },
+        }
 
         records: list[dict[str, object]] = []
         for rank, (_, row) in enumerate(ranked.iterrows(), start=1):
@@ -66,18 +81,6 @@ def main() -> None:
                     "ticker": ticker,
                     "name": names.get(code) or ticker,
                     "close": round(float(row["_close"]), 2),
-                    "drawdown_from_20d_high": round(
-                        float(row["drawdown_from_20d_high"]), 6
-                    ),
-                    "distance_from_ma25": round(
-                        float(row["distance_from_ma25"]), 6
-                    ),
-                    "volume_ratio_1_20": round(
-                        float(row["volume_ratio_1_20"]), 6
-                    ),
-                    "trading_value": round(float(row["trading_value"])),
-                    "atr_14_pct": round(float(row["ATR"]), 6),
-                    "close_position": round(float(row["close_position"]), 6),
                     "score": round(float(row["_pullback_score"]), 6),
                     "entry_date": entry_date,
                     "entry_gap": None if entry_gap is None else round(entry_gap, 6),
@@ -89,6 +92,7 @@ def main() -> None:
             "ticker_count": int(day["ticker"].nunique()),
             "raw_qualifying_count": int(len(selected)),
             "signal_count": len(records),
+            "diagnostics": diagnostics,
             "signals": records,
         }
 
