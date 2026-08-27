@@ -1,4 +1,5 @@
 name: Pullback cache diagnostics August 2026
+# Re-run after the production 180-day Yahoo cache backfill.
 
 on:
   push:
