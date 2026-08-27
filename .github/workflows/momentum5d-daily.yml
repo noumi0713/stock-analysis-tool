@@ -15,6 +15,7 @@ on:
     paths:
       - .github/workflows/momentum5d-daily.yml
       - momentum5d/scripts/export_close_signals.py
+      - momentum5d/scripts/resolve_close_ingest.py
   schedule:
     # 東証大引け後。最初の成功後は同一営業日の再試行をスキップする。
     - cron: "50 6 * * 1-5"
