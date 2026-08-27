@@ -1,0 +1,56 @@
+name: Pullback retro test 2026-08-24 and 25
+
+on:
+  push:
+    branches:
+      - codex/pullback-retro-20260824-25
+    paths:
+      - .github/workflows/pullback-retro-test.yml
+
+permissions:
+  contents: read
+
+jobs:
+  retro_test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: momentum5d
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Restore production Yahoo price cache
+        uses: actions/cache/restore@v4
+        with:
+          path: momentum5d/data/yahoo
+          key: pullback-retro-${{ github.run_id }}
+          restore-keys: |
+            momentum10d-close-
+            momentum5d-data-ready-
+            momentum5d-backtest-ready-
+            momentum5d-final-
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: momentum5d/pyproject.toml
+
+      - name: Install detector
+        run: python -m pip install .
+
+      - name: Re-test pullback signals
+        run: >-
+          python scripts/export_pullback_retro_test.py
+          --prices data/yahoo/processed/equities_daily.parquet
+          --names config/prime_names.csv
+          --dates 2026-08-24 2026-08-25 2026-08-26
+          --output work/pullback_retro_20260824_25.json
+
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: pullback-retro-20260824-25
+          path: momentum5d/work/pullback_retro_20260824_25.json
+          if-no-files-found: error
