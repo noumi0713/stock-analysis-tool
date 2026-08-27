@@ -43,6 +43,8 @@ PULLBACK_MA75_SLOPE_MIN = -0.005
 PULLBACK_TAKE_PROFIT_PCT = 0.14
 PULLBACK_STOP_LOSS_PCT = -0.12
 PULLBACK_HOLDING_DAYS = 15
+PULLBACK_REQUIRED_SESSIONS = 85
+PULLBACK_MIN_INDICATOR_COVERAGE = 0.80
 
 CONDITION_KEYS = (
     "rsi",
@@ -387,6 +389,16 @@ def build_payload(
         raise ValueError("No usable daily prices were found")
     latest_date = indicators["date"].max().isoformat()
     latest_rows = indicators.loc[indicators["date"].astype(str).eq(latest_date)]
+    pullback_indicator_coverage = float(
+        latest_rows["ma75_slope_10d"].notna().mean()
+    )
+    if pullback_indicator_coverage < PULLBACK_MIN_INDICATOR_COVERAGE:
+        raise ValueError(
+            "Insufficient history for first-pullback detection: "
+            f"ma75_slope_10d coverage={pullback_indicator_coverage:.1%}, "
+            f"required={PULLBACK_MIN_INDICATOR_COVERAGE:.1%}; "
+            f"at least {PULLBACK_REQUIRED_SESSIONS} trading sessions are required"
+        )
     signals = select_latest_signals(indicators)
     pullback_signals = select_latest_pullback_signals(indicators)
     near_misses = select_latest_near_misses(indicators)
@@ -510,6 +522,9 @@ def build_payload(
             "interval": "1d",
             "successful_tickers": ticker_count,
             "coverage": 1.0,
+            "pullback_indicator_coverage": round(
+                pullback_indicator_coverage, 6
+            ),
             "generated_at": stamp,
         },
         "signal_model": {
