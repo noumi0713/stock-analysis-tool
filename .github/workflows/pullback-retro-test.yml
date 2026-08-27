@@ -1,4 +1,4 @@
-name: Pullback retro test 2026-08-24 and 25
+name: Pullback retro test August 2026
 
 on:
   push:
@@ -45,12 +45,16 @@ jobs:
           python scripts/export_pullback_retro_test.py
           --prices data/yahoo/processed/equities_daily.parquet
           --names config/prime_names.csv
-          --dates 2026-08-24 2026-08-25 2026-08-26
-          --output work/pullback_retro_20260824_25.json
+          --dates
+          2026-08-03 2026-08-04 2026-08-05 2026-08-06 2026-08-07
+          2026-08-10 2026-08-12 2026-08-13 2026-08-14 2026-08-17
+          2026-08-18 2026-08-19 2026-08-20 2026-08-21 2026-08-24
+          2026-08-25 2026-08-26
+          --output work/pullback_retro_august.json
 
       - name: Upload result
         uses: actions/upload-artifact@v4
         with:
-          name: pullback-retro-20260824-25
-          path: momentum5d/work/pullback_retro_20260824_25.json
+          name: pullback-retro-august
+          path: momentum5d/work/pullback_retro_august.json
           if-no-files-found: error
