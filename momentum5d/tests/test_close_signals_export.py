@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import date
 
 import pandas as pd
+import pytest
 
 from scripts.export_close_signals import (
     MAX_NEAR_MISSES,
@@ -194,7 +195,7 @@ def test_select_latest_near_misses_keeps_exactly_seven_conditions() -> None:
 
 def test_payload_publishes_stable_score_rules() -> None:
     rows = []
-    for day in pd.date_range("2026-07-01", periods=40, freq="B"):
+    for day in pd.date_range("2026-04-01", periods=90, freq="B"):
         close = 1_000.0
         rows.append(
             {
@@ -227,6 +228,27 @@ def test_payload_publishes_stable_score_rules() -> None:
     assert payload["pullback_signals"] == []
     assert payload["near_miss_count"] == 0
     assert payload["near_misses"] == []
+
+
+def test_payload_rejects_insufficient_pullback_history() -> None:
+    rows = []
+    for day in pd.date_range("2026-04-01", periods=84, freq="B"):
+        close = 1_000.0
+        rows.append(
+            {
+                "ticker": "1001.T",
+                "date": day.date(),
+                "open": close - 5,
+                "high": close + 10,
+                "low": close - 10,
+                "close": close,
+                "adjusted_close": close,
+                "volume": 500_000,
+            }
+        )
+
+    with pytest.raises(ValueError, match="at least 85 trading sessions"):
+        build_payload(pd.DataFrame(rows))
 
 
 def test_payload_publishes_near_miss_reason(monkeypatch) -> None:
