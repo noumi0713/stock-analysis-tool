@@ -15,6 +15,7 @@ on:
     paths:
       - .github/workflows/momentum5d-daily.yml
       - momentum5d/scripts/export_close_signals.py
+      - momentum5d/scripts/resolve_close_ingest.py
   schedule:
     # 東証大引け後。最初の成功後は同一営業日の再試行をスキップする。
     - cron: "50 6 * * 1-5"
@@ -75,32 +76,43 @@ jobs:
 
       - name: Run signal-detector tests
         run: |
-          python -m pytest -q tests/test_close_signals_export.py
-          python -m ruff check scripts/export_close_signals.py tests/test_close_signals_export.py
+          python -m pytest -q \
+            tests/test_close_signals_export.py \
+            tests/test_close_ingest_plan.py
+          python -m ruff check \
+            scripts/export_close_signals.py \
+            scripts/resolve_close_ingest.py \
+            tests/test_close_signals_export.py \
+            tests/test_close_ingest_plan.py
 
       - name: Refresh TSE universe
         run: python app/yahoo/universe.py --config-dir config
 
+      - name: Resolve completed market session
+        id: close_plan
+        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[refresh-yahoo]')
+        run: python scripts/resolve_close_ingest.py >> "$GITHUB_OUTPUT"
+
       - name: Download close data only
-        # 通常のルール変更pushはキャッシュを再利用し、履歴拡張時だけ明示的に再取得する。
+        # 遅延実行は前日の日足へ切り替え、5分足障害時も日足で更新を継続する。
         if: github.event_name != 'push' || contains(github.event.head_commit.message, '[refresh-yahoo]')
         env:
-          WORKFLOW_EVENT: ${{ github.event_name }}
-          HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          CLOSE_AS_OF: ${{ steps.close_plan.outputs.as_of }}
+          USE_INTRADAY_CLOSE: ${{ steps.close_plan.outputs.use_intraday_close }}
         run: |
           set -euo pipefail
-          if [[ "$WORKFLOW_EVENT" == "push" && "$HEAD_COMMIT_MESSAGE" == *"[refresh-yahoo]"* ]]; then
-            # 履歴拡張は場中でも実行できるよう、公開済みの確定営業日までを取得する。
-            as_of="$(python -c 'import json; print(json.load(open("../dashboard-data/latest_signals.json"))["date"])')"
-            python -m app yahoo-ingest \
-              --as-of "$as_of" \
-              --tickers-file config/prime_tickers.txt
-          else
-            python -m app yahoo-ingest \
-              --as-of "$(TZ=Asia/Tokyo date +%F)" \
+          if [[ "$USE_INTRADAY_CLOSE" == "true" ]]; then
+            if python -m app yahoo-ingest \
+              --as-of "$CLOSE_AS_OF" \
               --tickers-file config/prime_tickers.txt \
-              --intraday-session close
+              --intraday-session close; then
+              exit 0
+            fi
+            echo "::warning::5分足の取得に失敗したため日足へ切り替えます。"
           fi
+          python -m app yahoo-ingest \
+            --as-of "$CLOSE_AS_OF" \
+            --tickers-file config/prime_tickers.txt
 
       - name: Skip an already published market date
         id: update
