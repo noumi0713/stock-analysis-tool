@@ -84,11 +84,23 @@ jobs:
       - name: Download close data only
         # 通常のルール変更pushはキャッシュを再利用し、履歴拡張時だけ明示的に再取得する。
         if: github.event_name != 'push' || contains(github.event.head_commit.message, '[refresh-yahoo]')
-        run: >-
-          python -m app yahoo-ingest
-          --as-of "$(TZ=Asia/Tokyo date +%F)"
-          --tickers-file config/prime_tickers.txt
-          --intraday-session close
+        env:
+          WORKFLOW_EVENT: ${{ github.event_name }}
+          HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          set -euo pipefail
+          if [[ "$WORKFLOW_EVENT" == "push" && "$HEAD_COMMIT_MESSAGE" == *"[refresh-yahoo]"* ]]; then
+            # 履歴拡張は場中でも実行できるよう、公開済みの確定営業日までを取得する。
+            as_of="$(python -c 'import json; print(json.load(open("../dashboard-data/latest_signals.json"))["date"])')"
+            python -m app yahoo-ingest \
+              --as-of "$as_of" \
+              --tickers-file config/prime_tickers.txt
+          else
+            python -m app yahoo-ingest \
+              --as-of "$(TZ=Asia/Tokyo date +%F)" \
+              --tickers-file config/prime_tickers.txt \
+              --intraday-session close
+          fi
 
       - name: Skip an already published market date
         id: update
