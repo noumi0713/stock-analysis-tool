@@ -29,7 +29,8 @@ permissions:
   contents: write
 
 env:
-  YAHOO_RETENTION_DAYS: "120"
+  # MA75の10営業日傾きを計算するには最低85営業日が必要。
+  YAHOO_RETENTION_DAYS: "180"
   YAHOO_OVERLAP_DAYS: "10"
   YAHOO_BATCH_SIZE: "60"
   YAHOO_PAUSE_SECONDS: "1.5"
@@ -81,7 +82,8 @@ jobs:
         run: python app/yahoo/universe.py --config-dir config
 
       - name: Download close data only
-        if: github.event_name != 'push'
+        # 通常のルール変更pushはキャッシュを再利用し、履歴拡張時だけ明示的に再取得する。
+        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[refresh-yahoo]')
         run: >-
           python -m app yahoo-ingest
           --as-of "$(TZ=Asia/Tokyo date +%F)"
