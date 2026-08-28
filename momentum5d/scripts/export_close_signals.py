@@ -378,10 +378,67 @@ def _load_names(path: Path | None) -> dict[str, str]:
     }
 
 
+def _load_theme_memberships(path: Path | None) -> dict[str, list[dict[str, str]]]:
+    """Load descriptive theme metadata without affecting signal selection."""
+
+    if path is None or not path.exists():
+        return {}
+    frame = pd.read_csv(path, dtype="string")
+    required = {
+        "theme_name",
+        "cluster",
+        "topix17_group",
+        "stock_code",
+        "source_url",
+    }
+    missing = required.difference(frame.columns)
+    if missing:
+        raise ValueError(f"Theme data is missing columns: {sorted(missing)}")
+
+    memberships: dict[str, list[dict[str, str]]] = {}
+    for row in frame.itertuples(index=False):
+        if pd.isna(row.stock_code) or pd.isna(row.theme_name):
+            continue
+        code = str(row.stock_code).strip()
+        membership = {
+            "theme": str(row.theme_name).strip(),
+            "cluster": "" if pd.isna(row.cluster) else str(row.cluster).strip(),
+            "topix17_group": (
+                "" if pd.isna(row.topix17_group) else str(row.topix17_group).strip()
+            ),
+            "source_url": "" if pd.isna(row.source_url) else str(row.source_url).strip(),
+        }
+        bucket = memberships.setdefault(code, [])
+        if membership not in bucket:
+            bucket.append(membership)
+
+    for bucket in memberships.values():
+        bucket.sort(key=lambda item: (item["theme"], item["cluster"]))
+    return memberships
+
+
+def _theme_fields(
+    code: str, memberships: dict[str, list[dict[str, str]]]
+) -> dict[str, Any]:
+    items = memberships.get(code, [])
+    return {
+        "theme_covered": bool(items),
+        "themes": sorted({item["theme"] for item in items if item["theme"]}),
+        "theme_clusters": sorted(
+            {item["cluster"] for item in items if item["cluster"]}
+        ),
+        "topix17_groups": sorted(
+            {item["topix17_group"] for item in items if item["topix17_group"]}
+        ),
+        "theme_memberships": items,
+    }
+
+
 def build_payload(
     prices: pd.DataFrame,
     *,
     names: dict[str, str] | None = None,
+    theme_memberships: dict[str, list[dict[str, str]]] | None = None,
     generated_at: str | None = None,
 ) -> dict[str, Any]:
     indicators = calculate_indicators(prices)
@@ -403,6 +460,7 @@ def build_payload(
     pullback_signals = select_latest_pullback_signals(indicators)
     near_misses = select_latest_near_misses(indicators)
     company_names = names or {}
+    themes_by_code = theme_memberships or {}
     records: list[dict[str, Any]] = []
     for position, (_, row) in enumerate(signals.iterrows(), start=1):
         ticker = str(row["ticker"])
@@ -413,6 +471,7 @@ def build_payload(
                 "code": code,
                 "ticker": ticker,
                 "name": company_names.get(code) or ticker,
+                **_theme_fields(code, themes_by_code),
                 "rank": position,
                 "signal": "capitulation_reversal",
                 "pattern": "投げ売り反転",
@@ -445,6 +504,7 @@ def build_payload(
                 "code": code,
                 "ticker": ticker,
                 "name": company_names.get(code) or ticker,
+                **_theme_fields(code, themes_by_code),
                 "rank": position,
                 "signal": "first_pullback",
                 "pattern": "上昇トレンド初押し",
@@ -488,6 +548,7 @@ def build_payload(
                 "code": code,
                 "ticker": ticker,
                 "name": company_names.get(code) or ticker,
+                **_theme_fields(code, themes_by_code),
                 "rank": position,
                 "signal": "near_miss",
                 "pattern": "投げ売り反転",
@@ -507,6 +568,12 @@ def build_payload(
 
     stamp = generated_at or datetime.now(UTC).isoformat()
     ticker_count = int(latest_rows["ticker"].nunique())
+    theme_names = {
+        item["theme"]
+        for memberships in themes_by_code.values()
+        for item in memberships
+        if item["theme"]
+    }
     return {
         "schema_version": 3,
         "generated_at": stamp,
@@ -526,6 +593,14 @@ def build_payload(
                 pullback_indicator_coverage, 6
             ),
             "generated_at": stamp,
+        },
+        "theme_catalog": {
+            "enabled": bool(themes_by_code),
+            "used_for_primary_selection": False,
+            "theme_count": len(theme_names),
+            "covered_stock_count": len(themes_by_code),
+            "membership_count": sum(len(items) for items in themes_by_code.values()),
+            "description": "株探テーマを参考にした関連銘柄分析用メタデータ",
         },
         "signal_model": {
             "key": "rsi14_stable_score_10d_v1",
@@ -593,11 +668,13 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="大引け後の翌営業日用シグナルを生成")
     parser.add_argument("--prices", type=Path, required=True)
     parser.add_argument("--names", type=Path)
+    parser.add_argument("--themes", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     payload = build_payload(
         pd.read_parquet(args.prices),
         names=_load_names(args.names),
+        theme_memberships=_load_theme_memberships(args.themes),
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
