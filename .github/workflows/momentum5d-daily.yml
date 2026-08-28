@@ -16,6 +16,7 @@ on:
       - .github/workflows/momentum5d-daily.yml
       - momentum5d/scripts/export_close_signals.py
       - momentum5d/scripts/resolve_close_ingest.py
+      - momentum5d/app/yahoo/theme_context.py
       - dashboard-data/theme_members.csv
   schedule:
     # 東証大引け後。最初の成功後は同一営業日の再試行をスキップする。
@@ -79,11 +80,14 @@ jobs:
         run: |
           python -m pytest -q \
             tests/test_close_signals_export.py \
+            tests/test_theme_context.py \
             tests/test_close_ingest_plan.py
           python -m ruff check \
+            app/yahoo/theme_context.py \
             scripts/export_close_signals.py \
             scripts/resolve_close_ingest.py \
             tests/test_close_signals_export.py \
+            tests/test_theme_context.py \
             tests/test_close_ingest_plan.py
 
       - name: Refresh TSE universe

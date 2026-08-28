@@ -9,6 +9,8 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from app.yahoo.theme_context import calculate_theme_context, latest_context_by_code
+
 RSI_PERIOD = 14
 RSI_MIN = 25.0
 RSI_MAX = 35.0
@@ -418,9 +420,24 @@ def _load_theme_memberships(path: Path | None) -> dict[str, list[dict[str, str]]
 
 
 def _theme_fields(
-    code: str, memberships: dict[str, list[dict[str, str]]]
+    code: str,
+    memberships: dict[str, list[dict[str, str]]],
+    context_by_code: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     items = memberships.get(code, [])
+    context = (context_by_code or {}).get(code)
+    if context is None:
+        context = {
+            "status": "uncovered" if not items else "insufficient_history",
+            "label": "テーマ未分類" if not items else "テーマ履歴不足",
+            "primary_theme": items[0]["theme"] if items else None,
+            "score": None,
+            "return_5d": None,
+            "breadth_5d": None,
+            "turnover_ratio_1_20": None,
+            "member_count": None,
+            "use": "pullback_ranking_aid_only",
+        }
     return {
         "theme_covered": bool(items),
         "themes": sorted({item["theme"] for item in items if item["theme"]}),
@@ -431,6 +448,7 @@ def _theme_fields(
             {item["topix17_group"] for item in items if item["topix17_group"]}
         ),
         "theme_memberships": items,
+        "theme_context": context,
     }
 
 
@@ -461,6 +479,12 @@ def build_payload(
     near_misses = select_latest_near_misses(indicators)
     company_names = names or {}
     themes_by_code = theme_memberships or {}
+    theme_context = calculate_theme_context(indicators, themes_by_code)
+    context_by_code = latest_context_by_code(
+        theme_context,
+        themes_by_code,
+        latest_date=indicators["date"].max(),
+    )
     records: list[dict[str, Any]] = []
     for position, (_, row) in enumerate(signals.iterrows(), start=1):
         ticker = str(row["ticker"])
@@ -471,7 +495,7 @@ def build_payload(
                 "code": code,
                 "ticker": ticker,
                 "name": company_names.get(code) or ticker,
-                **_theme_fields(code, themes_by_code),
+                **_theme_fields(code, themes_by_code, context_by_code),
                 "rank": position,
                 "signal": "capitulation_reversal",
                 "pattern": "投げ売り反転",
@@ -504,7 +528,7 @@ def build_payload(
                 "code": code,
                 "ticker": ticker,
                 "name": company_names.get(code) or ticker,
-                **_theme_fields(code, themes_by_code),
+                **_theme_fields(code, themes_by_code, context_by_code),
                 "rank": position,
                 "signal": "first_pullback",
                 "pattern": "上昇トレンド初押し",
@@ -548,7 +572,7 @@ def build_payload(
                 "code": code,
                 "ticker": ticker,
                 "name": company_names.get(code) or ticker,
-                **_theme_fields(code, themes_by_code),
+                **_theme_fields(code, themes_by_code, context_by_code),
                 "rank": position,
                 "signal": "near_miss",
                 "pattern": "投げ売り反転",
@@ -597,10 +621,16 @@ def build_payload(
         "theme_catalog": {
             "enabled": bool(themes_by_code),
             "used_for_primary_selection": False,
+            "selection_policy": (
+                "初押しの参考順位にだけ使用。投げ売り反転の合否・順位には使用しない"
+            ),
             "theme_count": len(theme_names),
             "covered_stock_count": len(themes_by_code),
             "membership_count": sum(len(items) for items in themes_by_code.values()),
             "description": "株探テーマを参考にした関連銘柄分析用メタデータ",
+            "historical_membership_caveat": (
+                "現在の所属テーマを使用しており、過去時点の所属履歴は未整備"
+            ),
         },
         "signal_model": {
             "key": "rsi14_stable_score_10d_v1",

@@ -308,11 +308,11 @@ def test_theme_memberships_are_metadata_only(monkeypatch, tmp_path) -> None:
     assert payload["signals"][0]["themes"] == ["パワー半導体", "半導体"]
     assert payload["signals"][0]["theme_clusters"] == ["AI・半導体"]
     assert payload["signals"][0]["topix17_groups"] == ["電機・精密"]
-    assert payload["theme_catalog"] == {
-        "enabled": True,
-        "used_for_primary_selection": False,
-        "theme_count": 2,
-        "covered_stock_count": 1,
-        "membership_count": 2,
-        "description": "株探テーマを参考にした関連銘柄分析用メタデータ",
-    }
+    assert payload["theme_catalog"]["enabled"] is True
+    assert payload["theme_catalog"]["used_for_primary_selection"] is False
+    assert payload["theme_catalog"]["theme_count"] == 2
+    assert payload["theme_catalog"]["covered_stock_count"] == 1
+    assert payload["theme_catalog"]["membership_count"] == 2
+    assert payload["signals"][0]["theme_context"]["use"] == (
+        "pullback_ranking_aid_only"
+    )

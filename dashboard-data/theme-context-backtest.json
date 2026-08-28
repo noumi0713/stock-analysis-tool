@@ -1,0 +1,145 @@
+{
+  "method": "theme_context_incremental_holdout_v1",
+  "price_start": "2023-08-21",
+  "price_end": "2026-08-21",
+  "holdout_start": "2025-02-10",
+  "theme_count": 14,
+  "membership_history": "current_catalog_only",
+  "membership_caveat": "株探テーマの過去時点の所属履歴がないため、現在の所属を過去へ適用した研究値",
+  "theme_score": {
+    "return_5d_rank_weight": 0.4,
+    "breadth_5d_rank_weight": 0.3,
+    "turnover_ratio_rank_weight": 0.3
+  },
+  "families": {
+    "reversal": {
+      "horizon_sessions": 10,
+      "all_candidates": {
+        "signals": 188,
+        "active_days": 114,
+        "target_5pct_hit_rate": 0.5372340425531915,
+        "mean_net_return": 0.039959280543194274,
+        "mean_max_adverse_excursion": -0.04042215326137326
+      },
+      "holdout_candidates": {
+        "signals": 97,
+        "active_days": 56,
+        "target_5pct_hit_rate": 0.4639175257731959,
+        "mean_net_return": 0.035901492840068196,
+        "mean_max_adverse_excursion": -0.04720665558168656
+      },
+      "all_variants": {
+        "baseline": {
+          "signals": 164,
+          "active_days": 114,
+          "target_5pct_hit_rate": 0.5609756097560976,
+          "mean_net_return": 0.042021866754262754,
+          "mean_max_adverse_excursion": -0.03725893466229448
+        },
+        "theme_rank": {
+          "signals": 164,
+          "active_days": 114,
+          "target_5pct_hit_rate": 0.5487804878048781,
+          "mean_net_return": 0.03932993261506196,
+          "mean_max_adverse_excursion": -0.038491115891596664
+        },
+        "theme_filter": {
+          "signals": 7,
+          "active_days": 7,
+          "target_5pct_hit_rate": 0.2857142857142857,
+          "mean_net_return": -0.02133255356365482,
+          "mean_max_adverse_excursion": -0.077770626852081
+        }
+      },
+      "holdout_variants": {
+        "baseline": {
+          "signals": 77,
+          "active_days": 56,
+          "target_5pct_hit_rate": 0.5064935064935064,
+          "mean_net_return": 0.04158085845591713,
+          "mean_max_adverse_excursion": -0.040765001030312706
+        },
+        "theme_rank": {
+          "signals": 77,
+          "active_days": 56,
+          "target_5pct_hit_rate": 0.4935064935064935,
+          "mean_net_return": 0.03727764678776121,
+          "mean_max_adverse_excursion": -0.04301208795038902
+        },
+        "theme_filter": {
+          "signals": 3,
+          "active_days": 3,
+          "target_5pct_hit_rate": 0.3333333333333333,
+          "mean_net_return": 0.015553323936256302,
+          "mean_max_adverse_excursion": -0.046222348780200116
+        }
+      },
+      "decision": "do_not_use_theme_for_selection"
+    },
+    "pullback": {
+      "horizon_sessions": 15,
+      "all_candidates": {
+        "signals": 5248,
+        "active_days": 603,
+        "target_5pct_hit_rate": 0.5019054878048781,
+        "mean_net_return": 0.014943407390160183,
+        "mean_max_adverse_excursion": -0.04788094061012728
+      },
+      "holdout_candidates": {
+        "signals": 3201,
+        "active_days": 347,
+        "target_5pct_hit_rate": 0.5298344267416433,
+        "mean_net_return": 0.019877731507409967,
+        "mean_max_adverse_excursion": -0.04475441696636591
+      },
+      "all_variants": {
+        "baseline": {
+          "signals": 2083,
+          "active_days": 603,
+          "target_5pct_hit_rate": 0.48727796447431587,
+          "mean_net_return": 0.013198933180789692,
+          "mean_max_adverse_excursion": -0.04883118900493574
+        },
+        "theme_rank": {
+          "signals": 2083,
+          "active_days": 603,
+          "target_5pct_hit_rate": 0.5208833413346136,
+          "mean_net_return": 0.017104887577461463,
+          "mean_max_adverse_excursion": -0.04963141575230478
+        },
+        "theme_filter": {
+          "signals": 632,
+          "active_days": 282,
+          "target_5pct_hit_rate": 0.5806962025316456,
+          "mean_net_return": 0.023696772313205865,
+          "mean_max_adverse_excursion": -0.0462833372966718
+        }
+      },
+      "holdout_variants": {
+        "baseline": {
+          "signals": 1217,
+          "active_days": 347,
+          "target_5pct_hit_rate": 0.5036976170912079,
+          "mean_net_return": 0.016399180707938735,
+          "mean_max_adverse_excursion": -0.04656326226428692
+        },
+        "theme_rank": {
+          "signals": 1217,
+          "active_days": 347,
+          "target_5pct_hit_rate": 0.5538208709942481,
+          "mean_net_return": 0.021265246214508194,
+          "mean_max_adverse_excursion": -0.046988369235910925
+        },
+        "theme_filter": {
+          "signals": 407,
+          "active_days": 176,
+          "target_5pct_hit_rate": 0.6167076167076168,
+          "mean_net_return": 0.02731595683570624,
+          "mean_max_adverse_excursion": -0.04448356139242347
+        }
+      },
+      "decision": "theme_rank_only"
+    }
+  },
+  "deployment_decision": "テーマは初押しの参考順位にだけ使い、投げ売り反転の合否・順位には使わない。テーマ網羅と所属履歴が整うまで強制除外はしない"
+}
