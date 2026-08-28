@@ -9,6 +9,7 @@ from scripts.export_close_signals import (
     MAX_NEAR_MISSES,
     MAX_SIGNALS,
     PULLBACK_MAX_SIGNALS,
+    _load_theme_memberships,
     build_payload,
     select_latest_near_misses,
     select_latest_pullback_signals,
@@ -275,4 +276,43 @@ def test_payload_publishes_near_miss_reason(monkeypatch) -> None:
         "actual_value": 1.126,
         "actual_label": "1.13倍",
         "required_label": "1.5倍以上",
+    }
+
+
+def test_theme_memberships_are_metadata_only(monkeypatch, tmp_path) -> None:
+    theme_path = tmp_path / "theme_members.csv"
+    theme_path.write_text(
+        "theme_name,cluster,topix17_group,stock_code,source_url\n"
+        "半導体,AI・半導体,電機・精密,6707,https://example.test/theme/semiconductor\n"
+        "パワー半導体,AI・半導体,電機・精密,6707,https://example.test/theme/power\n",
+        encoding="utf-8",
+    )
+    themes = _load_theme_memberships(theme_path)
+    signal_date = date(2026, 8, 27)
+    indicators = pd.DataFrame(
+        [_candidate("6707.T", 2.0, signal_date=signal_date)]
+    )
+    monkeypatch.setattr(
+        "scripts.export_close_signals.calculate_indicators",
+        lambda _prices: indicators,
+    )
+
+    payload = build_payload(
+        pd.DataFrame(),
+        names={"6707": "サンケン電気"},
+        theme_memberships=themes,
+    )
+
+    assert payload["signal_count"] == 1
+    assert payload["signals"][0]["code"] == "6707"
+    assert payload["signals"][0]["themes"] == ["パワー半導体", "半導体"]
+    assert payload["signals"][0]["theme_clusters"] == ["AI・半導体"]
+    assert payload["signals"][0]["topix17_groups"] == ["電機・精密"]
+    assert payload["theme_catalog"] == {
+        "enabled": True,
+        "used_for_primary_selection": False,
+        "theme_count": 2,
+        "covered_stock_count": 1,
+        "membership_count": 2,
+        "description": "株探テーマを参考にした関連銘柄分析用メタデータ",
     }

@@ -16,6 +16,7 @@ on:
       - .github/workflows/momentum5d-daily.yml
       - momentum5d/scripts/export_close_signals.py
       - momentum5d/scripts/resolve_close_ingest.py
+      - dashboard-data/theme_members.csv
   schedule:
     # 東証大引け後。最初の成功後は同一営業日の再試行をスキップする。
     - cron: "50 6 * * 1-5"
@@ -166,6 +167,7 @@ jobs:
           python scripts/export_close_signals.py
           --prices data/yahoo/processed/equities_daily.parquet
           --names config/prime_names.csv
+          --themes ../dashboard-data/theme_members.csv
           --output work/latest_signals.json
 
       - name: Save rolling price cache
