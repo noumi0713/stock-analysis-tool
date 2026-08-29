@@ -9,6 +9,8 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from app.yahoo.theme_context import calculate_theme_context, latest_context_by_code
+
 RSI_PERIOD = 14
 RSI_MIN = 25.0
 RSI_MAX = 35.0
@@ -135,15 +137,13 @@ def calculate_indicators(prices: pd.DataFrame) -> pd.DataFrame:
         stock["ma75"] = close.rolling(75, min_periods=75).mean()
         stock["ma25_slope_5d"] = stock["ma25"].div(stock["ma25"].shift(5)).sub(1.0)
         stock["ma75_slope_10d"] = stock["ma75"].div(stock["ma75"].shift(10)).sub(1.0)
-        stock["prior_high_20d"] = (
-            stock["_high"].rolling(20, min_periods=20).max().shift(1)
-        )
+        stock["prior_high_20d"] = stock["_high"].rolling(20, min_periods=20).max().shift(1)
         stock["drawdown_from_20d_high"] = close.div(stock["prior_high_20d"]).sub(1.0)
         stock["distance_from_ma25"] = close.div(stock["ma25"]).sub(1.0)
         day_range = stock["_high"].sub(stock["_low"])
-        stock["close_position"] = close.sub(stock["_low"]).div(
-            day_range.replace(0.0, np.nan)
-        ).fillna(0.5)
+        stock["close_position"] = (
+            close.sub(stock["_low"]).div(day_range.replace(0.0, np.nan)).fillna(0.5)
+        )
         groups.append(stock)
     return pd.concat(groups, ignore_index=True) if groups else work.iloc[0:0].copy()
 
@@ -152,12 +152,8 @@ def _condition_results(frame: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(
         {
             "rsi": frame["RSI"].between(RSI_MIN, RSI_MAX),
-            "return_1d": frame["return_1d"].between(
-                RETURN_1D_MIN, RETURN_1D_MAX
-            ),
-            "return_5d": frame["return_5d"].between(
-                RETURN_5D_MIN, RETURN_5D_MAX
-            ),
+            "return_1d": frame["return_1d"].between(RETURN_1D_MIN, RETURN_1D_MAX),
+            "return_5d": frame["return_5d"].between(RETURN_5D_MIN, RETURN_5D_MAX),
             "volume_ratio_1_20": frame["volume_ratio_1_20"].ge(VOLUME_RATIO_MIN),
             "trading_value": frame["trading_value"].ge(TURNOVER_MIN),
             "atr_14_pct": frame["ATR"].between(ATR_MIN, ATR_MAX),
@@ -191,8 +187,7 @@ def select_latest_signals(indicators: pd.DataFrame) -> pd.DataFrame:
 def _pullback_condition_results(frame: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(
         {
-            "trend_order": (frame["_close"] > frame["ma25"])
-            & (frame["ma25"] > frame["ma75"]),
+            "trend_order": (frame["_close"] > frame["ma25"]) & (frame["ma25"] > frame["ma75"]),
             "ma25_slope": frame["ma25_slope_5d"].gt(PULLBACK_MA25_SLOPE_MIN),
             "ma75_slope": frame["ma75_slope_10d"].gt(PULLBACK_MA75_SLOPE_MIN),
             "drawdown": frame["drawdown_from_20d_high"].between(
@@ -201,16 +196,10 @@ def _pullback_condition_results(frame: pd.DataFrame) -> pd.DataFrame:
             "ma25_distance": frame["distance_from_ma25"].between(
                 PULLBACK_MA25_DISTANCE_MIN, PULLBACK_MA25_DISTANCE_MAX
             ),
-            "return_1d": frame["return_1d"].between(
-                PULLBACK_RETURN_1D_MIN, PULLBACK_RETURN_1D_MAX
-            ),
+            "return_1d": frame["return_1d"].between(PULLBACK_RETURN_1D_MIN, PULLBACK_RETURN_1D_MAX),
             "bullish": frame["_close"].gt(frame["_open"]),
-            "close_position": frame["close_position"].ge(
-                PULLBACK_CLOSE_POSITION_MIN
-            ),
-            "volume_ratio": frame["volume_ratio_1_20"].ge(
-                PULLBACK_VOLUME_RATIO_MIN
-            ),
+            "close_position": frame["close_position"].ge(PULLBACK_CLOSE_POSITION_MIN),
+            "volume_ratio": frame["volume_ratio_1_20"].ge(PULLBACK_VOLUME_RATIO_MIN),
             "trading_value": frame["trading_value"].ge(PULLBACK_TURNOVER_MIN),
             "atr": frame["ATR"].between(PULLBACK_ATR_MIN, PULLBACK_ATR_MAX),
         },
@@ -230,9 +219,7 @@ def select_latest_pullback_signals(indicators: pd.DataFrame) -> pd.DataFrame:
         - selected["distance_from_ma25"] * 25
     )
     return (
-        selected.sort_values(
-            ["_pullback_score", "ticker"], ascending=[False, True]
-        )
+        selected.sort_values(["_pullback_score", "ticker"], ascending=[False, True])
         .head(PULLBACK_MAX_SIGNALS)
         .reset_index(drop=True)
     )
@@ -278,8 +265,7 @@ def select_latest_near_misses(indicators: pd.DataFrame) -> pd.DataFrame:
         for index in near.index
     ]
     near["_miss_distance"] = [
-        _miss_distance(row, str(row["_failed_condition"]))
-        for _, row in near.iterrows()
+        _miss_distance(row, str(row["_failed_condition"])) for _, row in near.iterrows()
     ]
     return (
         near.sort_values(
@@ -403,9 +389,7 @@ def _load_theme_memberships(path: Path | None) -> dict[str, list[dict[str, str]]
         membership = {
             "theme": str(row.theme_name).strip(),
             "cluster": "" if pd.isna(row.cluster) else str(row.cluster).strip(),
-            "topix17_group": (
-                "" if pd.isna(row.topix17_group) else str(row.topix17_group).strip()
-            ),
+            "topix17_group": ("" if pd.isna(row.topix17_group) else str(row.topix17_group).strip()),
             "source_url": "" if pd.isna(row.source_url) else str(row.source_url).strip(),
         }
         bucket = memberships.setdefault(code, [])
@@ -418,19 +402,33 @@ def _load_theme_memberships(path: Path | None) -> dict[str, list[dict[str, str]]
 
 
 def _theme_fields(
-    code: str, memberships: dict[str, list[dict[str, str]]]
+    code: str,
+    memberships: dict[str, list[dict[str, str]]],
+    context_by_code: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     items = memberships.get(code, [])
+    context = (context_by_code or {}).get(code)
+    if context is None:
+        context = {
+            "status": "uncovered" if not items else "insufficient_history",
+            "label": "テーマ未分類" if not items else "テーマ履歴不足",
+            "primary_theme": items[0]["theme"] if items else None,
+            "score": None,
+            "return_5d": None,
+            "breadth_5d": None,
+            "turnover_ratio_1_20": None,
+            "member_count": None,
+            "use": "pullback_ranking_aid_only",
+        }
     return {
         "theme_covered": bool(items),
         "themes": sorted({item["theme"] for item in items if item["theme"]}),
-        "theme_clusters": sorted(
-            {item["cluster"] for item in items if item["cluster"]}
-        ),
+        "theme_clusters": sorted({item["cluster"] for item in items if item["cluster"]}),
         "topix17_groups": sorted(
             {item["topix17_group"] for item in items if item["topix17_group"]}
         ),
         "theme_memberships": items,
+        "theme_context": context,
     }
 
 
@@ -446,9 +444,7 @@ def build_payload(
         raise ValueError("No usable daily prices were found")
     latest_date = indicators["date"].max().isoformat()
     latest_rows = indicators.loc[indicators["date"].astype(str).eq(latest_date)]
-    pullback_indicator_coverage = float(
-        latest_rows["ma75_slope_10d"].notna().mean()
-    )
+    pullback_indicator_coverage = float(latest_rows["ma75_slope_10d"].notna().mean())
     if pullback_indicator_coverage < PULLBACK_MIN_INDICATOR_COVERAGE:
         raise ValueError(
             "Insufficient history for first-pullback detection: "
@@ -461,6 +457,12 @@ def build_payload(
     near_misses = select_latest_near_misses(indicators)
     company_names = names or {}
     themes_by_code = theme_memberships or {}
+    theme_context = calculate_theme_context(indicators, themes_by_code)
+    context_by_code = latest_context_by_code(
+        theme_context,
+        themes_by_code,
+        latest_date=indicators["date"].max(),
+    )
     records: list[dict[str, Any]] = []
     for position, (_, row) in enumerate(signals.iterrows(), start=1):
         ticker = str(row["ticker"])
@@ -471,7 +473,7 @@ def build_payload(
                 "code": code,
                 "ticker": ticker,
                 "name": company_names.get(code) or ticker,
-                **_theme_fields(code, themes_by_code),
+                **_theme_fields(code, themes_by_code, context_by_code),
                 "rank": position,
                 "signal": "capitulation_reversal",
                 "pattern": "投げ売り反転",
@@ -504,7 +506,7 @@ def build_payload(
                 "code": code,
                 "ticker": ticker,
                 "name": company_names.get(code) or ticker,
-                **_theme_fields(code, themes_by_code),
+                **_theme_fields(code, themes_by_code, context_by_code),
                 "rank": position,
                 "signal": "first_pullback",
                 "pattern": "上昇トレンド初押し",
@@ -520,12 +522,8 @@ def build_payload(
                 "ma75": round(float(row["ma75"]), 4),
                 "ma25_slope_5d": round(float(row["ma25_slope_5d"]), 6),
                 "ma75_slope_10d": round(float(row["ma75_slope_10d"]), 6),
-                "drawdown_from_20d_high": round(
-                    float(row["drawdown_from_20d_high"]), 6
-                ),
-                "distance_from_ma25": round(
-                    float(row["distance_from_ma25"]), 6
-                ),
+                "drawdown_from_20d_high": round(float(row["drawdown_from_20d_high"]), 6),
+                "distance_from_ma25": round(float(row["distance_from_ma25"]), 6),
                 "close_position": round(float(row["close_position"]), 6),
                 "target_probability": 0.0,
                 "down_5pct_probability": 0.0,
@@ -548,7 +546,7 @@ def build_payload(
                 "code": code,
                 "ticker": ticker,
                 "name": company_names.get(code) or ticker,
-                **_theme_fields(code, themes_by_code),
+                **_theme_fields(code, themes_by_code, context_by_code),
                 "rank": position,
                 "signal": "near_miss",
                 "pattern": "投げ売り反転",
@@ -589,18 +587,22 @@ def build_payload(
             "interval": "1d",
             "successful_tickers": ticker_count,
             "coverage": 1.0,
-            "pullback_indicator_coverage": round(
-                pullback_indicator_coverage, 6
-            ),
+            "pullback_indicator_coverage": round(pullback_indicator_coverage, 6),
             "generated_at": stamp,
         },
         "theme_catalog": {
             "enabled": bool(themes_by_code),
             "used_for_primary_selection": False,
+            "selection_policy": (
+                "初押しの参考順位にだけ使用。投げ売り反転の合否・順位には使用しない"
+            ),
             "theme_count": len(theme_names),
             "covered_stock_count": len(themes_by_code),
             "membership_count": sum(len(items) for items in themes_by_code.values()),
-            "description": "株探テーマを参考にした関連銘柄分析用メタデータ",
+            "description": "公開事業検索と株探テーマを参考にした関連銘柄分析用メタデータ",
+            "historical_membership_caveat": (
+                "現在の所属テーマを使用しており、過去時点の所属履歴は未整備"
+            ),
         },
         "signal_model": {
             "key": "rsi14_stable_score_10d_v1",

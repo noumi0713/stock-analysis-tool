@@ -1,0 +1,300 @@
+{
+  "method": "theme_context_incremental_holdout_v1",
+  "price_start": "2023-08-21",
+  "price_end": "2026-08-21",
+  "holdout_start": "2025-02-10",
+  "theme_count": 124,
+  "active_theme_count": 121,
+  "cluster_count": 13,
+  "active_cluster_count": 13,
+  "membership_history": "current_catalog_only",
+  "membership_caveat": "株探テーマの過去時点の所属履歴がないため、現在の所属を過去へ適用した研究値",
+  "theme_score": {
+    "return_5d_rank_weight": 0.4,
+    "breadth_5d_rank_weight": 0.3,
+    "turnover_ratio_rank_weight": 0.3
+  },
+  "families": {
+    "reversal": {
+      "horizon_sessions": 10,
+      "all_candidates": {
+        "signals": 188,
+        "active_days": 114,
+        "target_5pct_hit_rate": 0.5372340425531915,
+        "mean_net_return": 0.039959280543194274,
+        "mean_max_adverse_excursion": -0.04042215326137326,
+        "context_coverage": null
+      },
+      "holdout_candidates": {
+        "signals": 97,
+        "active_days": 56,
+        "target_5pct_hit_rate": 0.4639175257731959,
+        "mean_net_return": 0.035901492840068196,
+        "mean_max_adverse_excursion": -0.04720665558168656,
+        "context_coverage": null
+      },
+      "all_variants": {
+        "baseline": {
+          "signals": 164,
+          "active_days": 114,
+          "target_5pct_hit_rate": 0.5609756097560976,
+          "mean_net_return": 0.042021866754262754,
+          "mean_max_adverse_excursion": -0.03725893466229448,
+          "context_coverage": null
+        },
+        "theme_rank": {
+          "signals": 164,
+          "active_days": 114,
+          "target_5pct_hit_rate": 0.5548780487804879,
+          "mean_net_return": 0.04156635252168503,
+          "mean_max_adverse_excursion": -0.03856954489046034,
+          "context_coverage": null
+        },
+        "theme_filter": {
+          "signals": 14,
+          "active_days": 13,
+          "target_5pct_hit_rate": 0.6428571428571429,
+          "mean_net_return": 0.03674004336167964,
+          "mean_max_adverse_excursion": -0.04693904176661029,
+          "context_coverage": null
+        }
+      },
+      "holdout_variants": {
+        "baseline": {
+          "signals": 77,
+          "active_days": 56,
+          "target_5pct_hit_rate": 0.5064935064935064,
+          "mean_net_return": 0.04158085845591713,
+          "mean_max_adverse_excursion": -0.040765001030312706,
+          "context_coverage": null
+        },
+        "theme_rank": {
+          "signals": 77,
+          "active_days": 56,
+          "target_5pct_hit_rate": 0.5064935064935064,
+          "mean_net_return": 0.04150811471561885,
+          "mean_max_adverse_excursion": -0.0432929454721969,
+          "context_coverage": null
+        },
+        "theme_filter": {
+          "signals": 4,
+          "active_days": 4,
+          "target_5pct_hit_rate": 0.5,
+          "mean_net_return": 0.06847197770204319,
+          "mean_max_adverse_excursion": -0.0347888950269149,
+          "context_coverage": null
+        }
+      },
+      "comparison_all": {
+        "0_baseline": {
+          "signals": 164,
+          "active_days": 114,
+          "target_5pct_hit_rate": 0.5609756097560976,
+          "mean_net_return": 0.042021866754262754,
+          "mean_max_adverse_excursion": -0.03725893466229448,
+          "context_coverage": 0.0
+        },
+        "1_cluster_only": {
+          "signals": 164,
+          "active_days": 114,
+          "target_5pct_hit_rate": 0.5609756097560976,
+          "mean_net_return": 0.04178757861140307,
+          "mean_max_adverse_excursion": -0.03809734722404469,
+          "context_coverage": 0.5487804878048781
+        },
+        "2_theme_only": {
+          "signals": 164,
+          "active_days": 114,
+          "target_5pct_hit_rate": 0.5548780487804879,
+          "mean_net_return": 0.04156635252168503,
+          "mean_max_adverse_excursion": -0.03856954489046034,
+          "context_coverage": 0.5487804878048781
+        },
+        "3_hierarchical": {
+          "signals": 164,
+          "active_days": 114,
+          "target_5pct_hit_rate": 0.5609756097560976,
+          "mean_net_return": 0.04168523904814959,
+          "mean_max_adverse_excursion": -0.03820375987828218,
+          "context_coverage": 0.5487804878048781
+        }
+      },
+      "comparison_holdout": {
+        "0_baseline": {
+          "signals": 77,
+          "active_days": 56,
+          "target_5pct_hit_rate": 0.5064935064935064,
+          "mean_net_return": 0.04158085845591713,
+          "mean_max_adverse_excursion": -0.040765001030312706,
+          "context_coverage": 0.0
+        },
+        "1_cluster_only": {
+          "signals": 77,
+          "active_days": 56,
+          "target_5pct_hit_rate": 0.5194805194805194,
+          "mean_net_return": 0.041979297556057296,
+          "mean_max_adverse_excursion": -0.04228722576710383,
+          "context_coverage": 0.5584415584415584
+        },
+        "2_theme_only": {
+          "signals": 77,
+          "active_days": 56,
+          "target_5pct_hit_rate": 0.5064935064935064,
+          "mean_net_return": 0.04150811471561885,
+          "mean_max_adverse_excursion": -0.0432929454721969,
+          "context_coverage": 0.5584415584415584
+        },
+        "3_hierarchical": {
+          "signals": 77,
+          "active_days": 56,
+          "target_5pct_hit_rate": 0.5194805194805194,
+          "mean_net_return": 0.04176132757717974,
+          "mean_max_adverse_excursion": -0.042513870900804454,
+          "context_coverage": 0.5584415584415584
+        }
+      },
+      "decision": "do_not_use_theme_for_selection"
+    },
+    "pullback": {
+      "horizon_sessions": 15,
+      "all_candidates": {
+        "signals": 5248,
+        "active_days": 603,
+        "target_5pct_hit_rate": 0.5019054878048781,
+        "mean_net_return": 0.014943407390160183,
+        "mean_max_adverse_excursion": -0.04788094061012728,
+        "context_coverage": null
+      },
+      "holdout_candidates": {
+        "signals": 3201,
+        "active_days": 347,
+        "target_5pct_hit_rate": 0.5298344267416433,
+        "mean_net_return": 0.019877731507409967,
+        "mean_max_adverse_excursion": -0.04475441696636591,
+        "context_coverage": null
+      },
+      "all_variants": {
+        "baseline": {
+          "signals": 2083,
+          "active_days": 603,
+          "target_5pct_hit_rate": 0.48727796447431587,
+          "mean_net_return": 0.013198933180789692,
+          "mean_max_adverse_excursion": -0.04883118900493574,
+          "context_coverage": null
+        },
+        "theme_rank": {
+          "signals": 2083,
+          "active_days": 603,
+          "target_5pct_hit_rate": 0.5228036485837734,
+          "mean_net_return": 0.01686327502213911,
+          "mean_max_adverse_excursion": -0.04950867590132596,
+          "context_coverage": null
+        },
+        "theme_filter": {
+          "signals": 804,
+          "active_days": 345,
+          "target_5pct_hit_rate": 0.554726368159204,
+          "mean_net_return": 0.02149920731270211,
+          "mean_max_adverse_excursion": -0.04678187805419094,
+          "context_coverage": null
+        }
+      },
+      "holdout_variants": {
+        "baseline": {
+          "signals": 1217,
+          "active_days": 347,
+          "target_5pct_hit_rate": 0.5036976170912079,
+          "mean_net_return": 0.016399180707938735,
+          "mean_max_adverse_excursion": -0.04656326226428692,
+          "context_coverage": null
+        },
+        "theme_rank": {
+          "signals": 1217,
+          "active_days": 347,
+          "target_5pct_hit_rate": 0.5579293344289236,
+          "mean_net_return": 0.021094652998342286,
+          "mean_max_adverse_excursion": -0.04702247473783935,
+          "context_coverage": null
+        },
+        "theme_filter": {
+          "signals": 490,
+          "active_days": 211,
+          "target_5pct_hit_rate": 0.5959183673469388,
+          "mean_net_return": 0.02588079890270321,
+          "mean_max_adverse_excursion": -0.04588541564106943,
+          "context_coverage": null
+        }
+      },
+      "comparison_all": {
+        "0_baseline": {
+          "signals": 2083,
+          "active_days": 603,
+          "target_5pct_hit_rate": 0.48727796447431587,
+          "mean_net_return": 0.013198933180789692,
+          "mean_max_adverse_excursion": -0.04883118900493574,
+          "context_coverage": 0.0
+        },
+        "1_cluster_only": {
+          "signals": 2083,
+          "active_days": 603,
+          "target_5pct_hit_rate": 0.5170427268362938,
+          "mean_net_return": 0.01647731634293359,
+          "mean_max_adverse_excursion": -0.04963267249884638,
+          "context_coverage": 0.7921267402784445
+        },
+        "2_theme_only": {
+          "signals": 2083,
+          "active_days": 603,
+          "target_5pct_hit_rate": 0.5213634181469035,
+          "mean_net_return": 0.016611520406789104,
+          "mean_max_adverse_excursion": -0.04956493674606313,
+          "context_coverage": 0.7921267402784445
+        },
+        "3_hierarchical": {
+          "signals": 2083,
+          "active_days": 603,
+          "target_5pct_hit_rate": 0.5165626500240038,
+          "mean_net_return": 0.016354131116794356,
+          "mean_max_adverse_excursion": -0.049572615632829616,
+          "context_coverage": 0.7921267402784445
+        }
+      },
+      "comparison_holdout": {
+        "0_baseline": {
+          "signals": 1217,
+          "active_days": 347,
+          "target_5pct_hit_rate": 0.5036976170912079,
+          "mean_net_return": 0.016399180707938735,
+          "mean_max_adverse_excursion": -0.04656326226428692,
+          "context_coverage": 0.0
+        },
+        "1_cluster_only": {
+          "signals": 1217,
+          "active_days": 347,
+          "target_5pct_hit_rate": 0.5423171733771569,
+          "mean_net_return": 0.019250117298565135,
+          "mean_max_adverse_excursion": -0.0474761657319909,
+          "context_coverage": 0.8003286770747741
+        },
+        "2_theme_only": {
+          "signals": 1217,
+          "active_days": 347,
+          "target_5pct_hit_rate": 0.5554642563681184,
+          "mean_net_return": 0.020729515490855704,
+          "mean_max_adverse_excursion": -0.047129123118841154,
+          "context_coverage": 0.8003286770747741
+        },
+        "3_hierarchical": {
+          "signals": 1217,
+          "active_days": 347,
+          "target_5pct_hit_rate": 0.5472473294987674,
+          "mean_net_return": 0.020958308922849604,
+          "mean_max_adverse_excursion": -0.047239643501127325,
+          "context_coverage": 0.8003286770747741
+        }
+      },
+      "decision": "2_theme_only"
+    }
+  },
+  "deployment_decision": "初押しは比較1〜3のホールドアウト最良方式を参考順位にだけ使う。投げ売り反転には使わず、所属履歴が整うまで強制除外もしない"
+}
