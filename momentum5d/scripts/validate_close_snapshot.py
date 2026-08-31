@@ -6,6 +6,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from app.storage.parquet import ParquetStore
+
 DAILY_SOURCE = "yfinance"
 
 
@@ -27,6 +29,21 @@ def load_expected_tickers(path: Path) -> set[str]:
     if not values:
         raise ValueError("期待銘柄ファイルが空です")
     return values
+
+
+def remove_non_daily_close_rows(
+    prices: pd.DataFrame,
+    *,
+    expected_date: date,
+) -> tuple[pd.DataFrame, list[str]]:
+    """Remove stale intraday overlays that could not be replaced by a daily bar."""
+
+    if not {"date", "ticker", "source"}.issubset(prices.columns):
+        return prices.copy(), []
+    dates = pd.to_datetime(prices["date"], errors="coerce").dt.date
+    stale = dates.eq(expected_date) & prices["source"].astype(str).ne(DAILY_SOURCE)
+    removed = sorted(prices.loc[stale, "ticker"].astype(str).unique())
+    return prices.loc[~stale].copy(), removed
 
 
 def validate_close_snapshot(
@@ -106,10 +123,25 @@ def main() -> None:
     parser.add_argument("--expected-date", type=date.fromisoformat, required=True)
     parser.add_argument("--tickers-file", type=Path, required=True)
     parser.add_argument("--minimum-coverage", type=float, default=0.95)
+    parser.add_argument(
+        "--remove-non-daily",
+        action="store_true",
+        help="当日に確定日足へ置換できなかった5分足行を候補母集団から除外する",
+    )
     args = parser.parse_args()
 
+    prices = pd.read_parquet(args.prices)
+    excluded_tickers: list[str] = []
+    if args.remove_non_daily:
+        prices, excluded_tickers = remove_non_daily_close_rows(
+            prices,
+            expected_date=args.expected_date,
+        )
+        if excluded_tickers:
+            ParquetStore._atomic_parquet(prices, args.prices)
+
     result = validate_close_snapshot(
-        pd.read_parquet(args.prices),
+        prices,
         expected_date=args.expected_date,
         expected_tickers=load_expected_tickers(args.tickers_file),
         minimum_coverage=args.minimum_coverage,
@@ -118,7 +150,8 @@ def main() -> None:
         "Certified daily close: "
         f"date={result['market_date']} source={result['source']} "
         f"coverage={result['coverage']:.1%} "
-        f"tickers={result['successful_tickers']}/{result['expected_tickers']}"
+        f"tickers={result['successful_tickers']}/{result['expected_tickers']} "
+        f"excluded_non_daily={','.join(excluded_tickers) or '-'}"
     )
 
 

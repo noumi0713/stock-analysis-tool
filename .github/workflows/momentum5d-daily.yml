@@ -155,6 +155,7 @@ jobs:
           --expected-date "$CLOSE_AS_OF"
           --tickers-file config/prime_tickers.txt
           --minimum-coverage 0.95
+          --remove-non-daily
 
       - name: Skip an already published market date
         id: update
