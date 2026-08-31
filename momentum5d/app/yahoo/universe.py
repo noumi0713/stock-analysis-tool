@@ -1,11 +1,19 @@
 from __future__ import annotations
 
 import argparse
+from datetime import date
 from io import BytesIO
 from pathlib import Path
 
 import pandas as pd
 import requests
+
+from app.point_in_time_universe import (
+    DELISTING_URLS,
+    NEW_LISTING_URLS,
+    build_point_in_time_universe,
+    download_listing_events,
+)
 
 JPX_LISTED_ISSUES_URL = (
     "https://www.jpx.co.jp/markets/statistics-equities/misc/"
@@ -97,16 +105,51 @@ def write_universe(universe: pd.DataFrame, config_dir: Path) -> None:
     )
 
 
+def write_point_in_time_universe(
+    universe: pd.DataFrame,
+    config_dir: Path,
+    *,
+    start: date,
+    as_of: date,
+) -> pd.DataFrame:
+    new_listings = download_listing_events(NEW_LISTING_URLS, kind="new")
+    delistings = download_listing_events(DELISTING_URLS, kind="delisted")
+    history = build_point_in_time_universe(
+        universe,
+        new_listings,
+        delistings,
+        start=start,
+        as_of=as_of,
+    )
+    history.to_csv(config_dir / "tse_universe_history.csv", index=False, encoding="utf-8")
+    tickers = sorted(history.loc[~history["ticker_reused"], "ticker"].unique())
+    (config_dir / "historical_tickers.txt").write_text(
+        "\n".join(tickers) + "\n", encoding="utf-8"
+    )
+    return history
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="JPX公式一覧から東証全銘柄ユニバースを生成する"
     )
     parser.add_argument("--config-dir", type=Path, default=Path("config"))
     parser.add_argument("--url", default=JPX_LISTED_ISSUES_URL)
+    parser.add_argument("--history-start", type=date.fromisoformat)
+    parser.add_argument("--as-of", type=date.fromisoformat, default=date.today())
     args = parser.parse_args()
     universe = download_tse_universe(args.url)
     write_universe(universe, args.config_dir)
-    print(f"TSE universe: {len(universe):,} stocks")
+    history_count = 0
+    if args.history_start is not None:
+        history = write_point_in_time_universe(
+            universe,
+            args.config_dir,
+            start=args.history_start,
+            as_of=args.as_of,
+        )
+        history_count = len(history)
+    print(f"TSE universe: {len(universe):,} stocks history_intervals={history_count:,}")
     return 0
 
 

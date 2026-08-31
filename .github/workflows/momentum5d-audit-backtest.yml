@@ -1,0 +1,99 @@
+name: Frozen strategy certified backtest
+
+on:
+  workflow_dispatch:
+    inputs:
+      as_of:
+        description: End date (YYYY-MM-DD); blank uses current JST date
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  YAHOO_RETENTION_DAYS: "1096"
+  YAHOO_OVERLAP_DAYS: "10"
+  YAHOO_BATCH_SIZE: "60"
+  YAHOO_PAUSE_SECONDS: "1.5"
+  YAHOO_MAX_RETRIES: "3"
+  YAHOO_TIMEOUT_SECONDS: "30"
+
+jobs:
+  certified_backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    defaults:
+      run:
+        working-directory: momentum5d
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: momentum5d/pyproject.toml
+
+      - name: Install and verify frozen controls
+        run: |
+          python -m pip install ".[dev]"
+          python -m scripts.verify_live_strategy
+          python -m pytest -q \
+            tests/test_live_strategy.py \
+            tests/test_adjustments.py \
+            tests/test_point_in_time_universe.py \
+            tests/test_live_backtest.py \
+            tests/test_live_backtest_input_audit.py \
+            tests/test_evaluation_protocol.py \
+            tests/test_forward_validation.py
+
+      - name: Resolve audit dates
+        id: dates
+        env:
+          REQUESTED_AS_OF: ${{ inputs.as_of }}
+        run: |
+          as_of="$REQUESTED_AS_OF"
+          if [[ -z "$as_of" ]]; then
+            as_of="$(TZ=Asia/Tokyo date +%F)"
+          fi
+          history_start="$(date -u -d "$as_of -3 years" +%F)"
+          echo "as_of=$as_of" >> "$GITHUB_OUTPUT"
+          echo "history_start=$history_start" >> "$GITHUB_OUTPUT"
+
+      - name: Build JPX point-in-time universe
+        run: >-
+          python app/yahoo/universe.py
+          --config-dir work/audit-config
+          --history-start "${{ steps.dates.outputs.history_start }}"
+          --as-of "${{ steps.dates.outputs.as_of }}"
+
+      - name: Download untouched raw OHLCV and adjusted close
+        env:
+          DATA_DIR: work/audit-data
+          LOG_DIR: work/audit-logs
+        run: >-
+          python -m app yahoo-ingest
+          --as-of "${{ steps.dates.outputs.as_of }}"
+          --tickers-file work/audit-config/historical_tickers.txt
+          --full-refresh
+
+      - name: Run both signals through the same certified engine
+        run: >-
+          python scripts/run_live_strategy_backtest.py
+          --prices work/audit-data/yahoo/processed/equities_daily.parquet
+          --universe-history work/audit-config/tse_universe_history.csv
+          --input-mode raw_ohlcv_with_adjusted_close
+          --output-dir outputs/certified-live-backtest
+
+      - name: Upload audit package
+        uses: actions/upload-artifact@v4
+        with:
+          name: certified-live-backtest-${{ steps.dates.outputs.as_of }}
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            momentum5d/outputs/certified-live-backtest/
+            momentum5d/work/audit-data/yahoo/metadata/ingestion_status.json
+            momentum5d/work/audit-config/tse_universe_history.csv

@@ -6,6 +6,38 @@
 
 `yfinance` はYahoo公式ライブラリではなく、仕様変更・レート制限・データ訂正の可能性があります。全銘柄の日足は公開・再配布せず、利用前にYahooの最新利用条件を確認してください。スマホ画面用には、厳選候補0〜1銘柄のランキングと直近60営業日の日足だけを公開リポジトリへ保存します。
 
+## 凍結した本番候補ルールと検証状態
+
+初押しと投げ売り反転の本番候補ルールは
+`config/strategy_specs/live_v1_2026-08-31.json` に統一し、SHA-256で変更を検知します。
+一次条件、翌営業日始値の入口、利確・損切り、保有期間、最大候補数、資金配分を
+他のスクリプトへ重複定義しません。固定額の許容損失制限は無効です。
+
+バックテストは2つのシグナルを混ぜず、共通の約定・手数料・スリッページ・資金管理
+エンジンで評価します。調整済み価格と同じ株数基準へ換算した出来高を使用し、JPXの
+新規上場・上場廃止履歴から営業日時点のユニバースを復元します。旧シャードのように
+分割前後の出来高を補正できない入力は `provisional` となり、正式結果にできません。
+
+既存3年分はルール調整中に参照済みであり、真のアウト・オブ・サンプルではありません。
+`config/evaluation_protocols/oos_v1_2026-08-31.json` は2026年9月1日以降の12か月を
+前向きOOSとして封印し、2027年8月31日まで性能指標を開かないよう固定しています。
+A/B/C二次判断は一次候補を変更せず、情報確認時刻・出典・3つの根拠・最大リスク・
+翌営業日の条件を追記専用ログへ保存します。本格運用ゲートは完了記録50件以上、
+目標100件、両シグナル各20件以上と最終OOS解禁を要求します。合格しても自動売買を
+許可せず、手動リスク審査へ進めるだけです。
+
+主要な監査コマンド:
+
+```bash
+python -m scripts.verify_live_strategy
+python scripts/run_live_strategy_backtest.py \
+  --prices data/yahoo/processed/equities_daily.parquet \
+  --universe-history config/tse_universe_history.csv \
+  --input-mode raw_ohlcv_with_adjusted_close \
+  --output-dir outputs/live_strategy_backtest
+python -m scripts.check_oos_status --as-of 2026-08-31
+```
+
 ## 実装済みの機能
 
 - 上場銘柄一覧の日次スナップショット

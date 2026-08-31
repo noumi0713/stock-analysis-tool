@@ -11,10 +11,36 @@ from scripts.export_close_signals import (
     PULLBACK_MAX_SIGNALS,
     _load_theme_memberships,
     build_payload,
+    calculate_indicators,
     select_latest_near_misses,
     select_latest_pullback_signals,
     select_latest_signals,
 )
+
+
+def test_calculate_indicators_does_not_treat_split_as_volume_surge() -> None:
+    rows = []
+    dates = pd.date_range("2026-08-03", periods=21, freq="B")
+    for position, day in enumerate(dates):
+        after_split = position == len(dates) - 1
+        raw_close = 2_500.0 if after_split else 5_000.0
+        rows.append(
+            {
+                "ticker": "9279.T",
+                "date": day.date(),
+                "open": raw_close,
+                "high": raw_close * 1.01,
+                "low": raw_close * 0.99,
+                "close": raw_close,
+                "adjusted_close": 2_500.0,
+                "volume": 200_000 if after_split else 100_000,
+            }
+        )
+
+    indicators = calculate_indicators(pd.DataFrame(rows))
+
+    assert indicators.iloc[-1]["volume_ratio_1_20"] == pytest.approx(1.0)
+    assert indicators.iloc[-1]["trading_value"] == pytest.approx(500_000_000.0)
 
 
 def _candidate(ticker: str, volume_ratio: float, *, signal_date: date) -> dict:
@@ -214,6 +240,12 @@ def test_payload_publishes_stable_score_rules() -> None:
     payload = build_payload(prices, generated_at="2026-08-24T08:00:00+00:00")
     conditions = payload["signal_model"]["conditions"]
 
+    assert payload["strategy_version"] == "live_v1_2026-08-31"
+    assert payload["strategy_status"] == "frozen"
+    assert payload["data_quality"]["status"] == "certified"
+    assert payload["data_quality"]["split_adjusted_volume"] is True
+    assert payload["portfolio_rules"]["fixed_loss_yen_limit_enabled"] is False
+    assert payload["portfolio_rules"]["maximum_open_positions"] == 3
     assert payload["signal_model"]["key"] == "rsi14_stable_score_10d_v1"
     assert conditions["return_5d_min"] == -0.12
     assert conditions["return_5d_max"] == -0.05

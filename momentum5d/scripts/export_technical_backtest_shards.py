@@ -7,6 +7,9 @@ from typing import Any
 
 import pandas as pd
 
+from app.adjustments import price_adjustment_factor, split_adjusted_volume
+from app.point_in_time_universe import filter_prices_by_point_in_time_universe
+
 
 def _stock_metadata(source: dict[str, Any], tickers: list[str]) -> dict[str, dict[str, str]]:
     source_rows = {
@@ -32,11 +35,16 @@ def export_shards(
     output_dir: Path,
     *,
     lookback_years: int = 3,
+    universe_history: pd.DataFrame | None = None,
 ) -> dict[str, Any]:
     latest = pd.Timestamp(str(source["latest_date"])).normalize()
     start = (latest - pd.DateOffset(years=lookback_years)).normalize()
 
     frame = prices.copy()
+    universe_mode = "current_snapshot_unverified"
+    if universe_history is not None:
+        frame = filter_prices_by_point_in_time_universe(frame, universe_history)
+        universe_mode = "jpx_point_in_time"
     frame["date"] = pd.to_datetime(frame["date"], errors="coerce").dt.normalize()
     frame = frame.loc[
         frame["date"].notna()
@@ -46,6 +54,12 @@ def export_shards(
     if frame.empty:
         raise ValueError(f"No prices are available from {start.date()} to {latest.date()}")
     frame["ticker"] = frame["ticker"].astype(str)
+    frame["adjustment_factor"] = price_adjustment_factor(
+        frame["close"], frame.get("adjusted_close", frame["close"])
+    )
+    frame["adjusted_volume"] = split_adjusted_volume(
+        frame["volume"], frame["adjustment_factor"]
+    )
     frame["month"] = frame["date"].dt.strftime("%Y-%m")
 
     dates = sorted(frame["date"].dt.strftime("%Y-%m-%d").unique().tolist())
@@ -66,7 +80,7 @@ def export_shards(
             for row in rows.sort_values("date").itertuples(index=False):
                 close = float(row.close)
                 adjusted_close = float(getattr(row, "adjusted_close", close))
-                ratio = adjusted_close / close if close else 1.0
+                ratio = float(row.adjustment_factor)
                 encoded.append(
                     [
                         date_index[row.date.strftime("%Y-%m-%d")],
@@ -74,7 +88,7 @@ def export_shards(
                         round(float(row.high) * ratio, 2),
                         round(float(row.low) * ratio, 2),
                         round(adjusted_close, 2),
-                        int(row.volume),
+                        int(round(float(row.adjusted_volume))),
                     ]
                 )
             bars[str(ticker)] = encoded
@@ -101,6 +115,7 @@ def export_shards(
             "dateCount": len(dates),
             "shardCount": len(shards),
             "dataScope": "all-tse",
+            "universeMode": universe_mode,
         },
         "dates": dates,
         "stocks": stocks,
@@ -119,6 +134,7 @@ def main() -> None:
     parser.add_argument("--prices", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--lookback-years", type=int, default=3)
+    parser.add_argument("--universe-history", type=Path)
     args = parser.parse_args()
 
     source = json.loads(args.dashboard.read_text(encoding="utf-8"))
@@ -127,6 +143,11 @@ def main() -> None:
         pd.read_parquet(args.prices),
         args.output_dir,
         lookback_years=args.lookback_years,
+        universe_history=(
+            pd.read_csv(args.universe_history)
+            if args.universe_history is not None
+            else None
+        ),
     )
 
 

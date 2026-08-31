@@ -9,42 +9,55 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-RSI_PERIOD = 14
-RSI_MIN = 25.0
-RSI_MAX = 35.0
-RETURN_1D_MIN = -0.03
-RETURN_1D_MAX = 0.0
-RETURN_5D_MIN = -0.12
-RETURN_5D_MAX = -0.05
-VOLUME_RATIO_MIN = 1.5
-TURNOVER_MIN = 300_000_000.0
-ATR_MIN = 0.005
-ATR_MAX = 0.08
-MAX_SIGNALS = 4
-MAX_NEAR_MISSES = 5
-TAKE_PROFIT_PCT = 0.235
-STOP_LOSS_PCT = -0.22
-HOLDING_DAYS = 10
+from app.adjustments import price_adjustment_factor, split_adjusted_volume
+from app.live_strategy import load_frozen_strategy
 
-PULLBACK_MAX_SIGNALS = 4
-PULLBACK_DRAWDOWN_MIN = -0.10
-PULLBACK_DRAWDOWN_MAX = -0.02
-PULLBACK_MA25_DISTANCE_MIN = 0.0
-PULLBACK_MA25_DISTANCE_MAX = 0.02
-PULLBACK_RETURN_1D_MIN = -0.04
-PULLBACK_RETURN_1D_MAX = 0.05
-PULLBACK_CLOSE_POSITION_MIN = 0.50
-PULLBACK_VOLUME_RATIO_MIN = 0.8
-PULLBACK_TURNOVER_MIN = 500_000_000.0
-PULLBACK_ATR_MIN = 0.005
-PULLBACK_ATR_MAX = 0.10
-PULLBACK_MA25_SLOPE_MIN = 0.0
-PULLBACK_MA75_SLOPE_MIN = -0.005
-PULLBACK_TAKE_PROFIT_PCT = 0.14
-PULLBACK_STOP_LOSS_PCT = -0.12
-PULLBACK_HOLDING_DAYS = 15
-PULLBACK_REQUIRED_SESSIONS = 85
-PULLBACK_MIN_INDICATOR_COVERAGE = 0.80
+LIVE_STRATEGY = load_frozen_strategy()
+REVERSAL_SPEC = LIVE_STRATEGY["signals"]["capitulation_reversal"]
+REVERSAL_CONDITIONS = REVERSAL_SPEC["conditions"]
+REVERSAL_EXECUTION = REVERSAL_SPEC["execution"]
+PULLBACK_SPEC = LIVE_STRATEGY["signals"]["first_pullback"]
+PULLBACK_CONDITIONS = PULLBACK_SPEC["conditions"]
+PULLBACK_EXECUTION = PULLBACK_SPEC["execution"]
+
+RSI_PERIOD = int(REVERSAL_CONDITIONS["rsi_period"])
+RSI_MIN = float(REVERSAL_CONDITIONS["rsi_min"])
+RSI_MAX = float(REVERSAL_CONDITIONS["rsi_max"])
+RETURN_1D_MIN = float(REVERSAL_CONDITIONS["return_1d_min"])
+RETURN_1D_MAX = float(REVERSAL_CONDITIONS["return_1d_max"])
+RETURN_5D_MIN = float(REVERSAL_CONDITIONS["return_5d_min"])
+RETURN_5D_MAX = float(REVERSAL_CONDITIONS["return_5d_max"])
+VOLUME_RATIO_MIN = float(REVERSAL_CONDITIONS["volume_ratio_min"])
+TURNOVER_MIN = float(REVERSAL_CONDITIONS["minimum_turnover_yen"])
+ATR_MIN = float(REVERSAL_CONDITIONS["atr_14_pct_min"])
+ATR_MAX = float(REVERSAL_CONDITIONS["atr_14_pct_max"])
+MAX_SIGNALS = int(REVERSAL_SPEC["maximum_candidates_per_day"])
+MAX_NEAR_MISSES = 5
+TAKE_PROFIT_PCT = float(REVERSAL_EXECUTION["take_profit_pct"])
+STOP_LOSS_PCT = float(REVERSAL_EXECUTION["stop_loss_pct"])
+HOLDING_DAYS = int(REVERSAL_EXECUTION["holding_days"])
+
+PULLBACK_MAX_SIGNALS = int(PULLBACK_SPEC["maximum_candidates_per_day"])
+PULLBACK_DRAWDOWN_MIN = float(PULLBACK_CONDITIONS["drawdown_from_20d_high_min"])
+PULLBACK_DRAWDOWN_MAX = float(PULLBACK_CONDITIONS["drawdown_from_20d_high_max"])
+PULLBACK_MA25_DISTANCE_MIN = float(PULLBACK_CONDITIONS["distance_from_ma25_min"])
+PULLBACK_MA25_DISTANCE_MAX = float(PULLBACK_CONDITIONS["distance_from_ma25_max"])
+PULLBACK_RETURN_1D_MIN = float(PULLBACK_CONDITIONS["return_1d_min"])
+PULLBACK_RETURN_1D_MAX = float(PULLBACK_CONDITIONS["return_1d_max"])
+PULLBACK_CLOSE_POSITION_MIN = float(PULLBACK_CONDITIONS["close_position_min"])
+PULLBACK_VOLUME_RATIO_MIN = float(PULLBACK_CONDITIONS["volume_ratio_min"])
+PULLBACK_TURNOVER_MIN = float(PULLBACK_CONDITIONS["minimum_turnover_yen"])
+PULLBACK_ATR_MIN = float(PULLBACK_CONDITIONS["atr_14_pct_min"])
+PULLBACK_ATR_MAX = float(PULLBACK_CONDITIONS["atr_14_pct_max"])
+PULLBACK_MA25_SLOPE_MIN = float(PULLBACK_CONDITIONS["ma25_slope_5d_min"])
+PULLBACK_MA75_SLOPE_MIN = float(PULLBACK_CONDITIONS["ma75_slope_10d_min"])
+PULLBACK_TAKE_PROFIT_PCT = float(PULLBACK_EXECUTION["take_profit_pct"])
+PULLBACK_STOP_LOSS_PCT = float(PULLBACK_EXECUTION["stop_loss_pct"])
+PULLBACK_HOLDING_DAYS = int(PULLBACK_EXECUTION["holding_days"])
+PULLBACK_REQUIRED_SESSIONS = int(LIVE_STRATEGY["data"]["history_sessions_required"])
+PULLBACK_MIN_INDICATOR_COVERAGE = float(
+    LIVE_STRATEGY["data"]["minimum_latest_ticker_coverage"]
+)
 
 CONDITION_KEYS = (
     "rsi",
@@ -104,12 +117,13 @@ def calculate_indicators(prices: pd.DataFrame) -> pd.DataFrame:
     work = work.dropna(subset=["date", "ticker"]).sort_values(["ticker", "date"])
     raw_close = pd.to_numeric(work["close"], errors="coerce")
     adjusted_close = pd.to_numeric(work["adjusted_close"], errors="coerce")
-    adjustment = adjusted_close.div(raw_close.replace(0.0, np.nan)).fillna(1.0)
+    adjustment = price_adjustment_factor(raw_close, adjusted_close)
     work["_close"] = adjusted_close
     work["_open"] = pd.to_numeric(work["open"], errors="coerce") * adjustment
     work["_high"] = pd.to_numeric(work["high"], errors="coerce") * adjustment
     work["_low"] = pd.to_numeric(work["low"], errors="coerce") * adjustment
-    work["_volume"] = pd.to_numeric(work["volume"], errors="coerce")
+    work["_volume_raw"] = pd.to_numeric(work["volume"], errors="coerce")
+    work["_volume"] = split_adjusted_volume(work["_volume_raw"], adjustment)
 
     groups: list[pd.DataFrame] = []
     for _, stock in work.groupby("ticker", sort=False):
@@ -188,6 +202,21 @@ def select_latest_signals(indicators: pd.DataFrame) -> pd.DataFrame:
     )
 
 
+def select_historical_signals(indicators: pd.DataFrame) -> pd.DataFrame:
+    if indicators.empty:
+        return indicators.copy()
+    selected = indicators.loc[_condition_results(indicators).all(axis=1)].copy()
+    return (
+        selected.sort_values(
+            ["date", "volume_ratio_1_20", "ticker"],
+            ascending=[True, False, True],
+        )
+        .groupby("date", sort=False)
+        .head(MAX_SIGNALS)
+        .reset_index(drop=True)
+    )
+
+
 def _pullback_condition_results(frame: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(
         {
@@ -224,15 +253,39 @@ def select_latest_pullback_signals(indicators: pd.DataFrame) -> pd.DataFrame:
         return latest
     mask = _pullback_condition_results(latest).all(axis=1)
     selected = latest.loc[mask].copy()
+    ranking = PULLBACK_SPEC["ranking"]
     selected["_pullback_score"] = (
-        selected["close_position"] * 2
-        + selected["volume_ratio_1_20"]
-        - selected["distance_from_ma25"] * 25
+        selected["close_position"] * float(ranking["close_position_weight"])
+        + selected["volume_ratio_1_20"] * float(ranking["volume_ratio_weight"])
+        + selected["distance_from_ma25"] * float(ranking["ma25_distance_weight"])
     )
     return (
         selected.sort_values(
             ["_pullback_score", "ticker"], ascending=[False, True]
         )
+        .head(PULLBACK_MAX_SIGNALS)
+        .reset_index(drop=True)
+    )
+
+
+def select_historical_pullback_signals(indicators: pd.DataFrame) -> pd.DataFrame:
+    if indicators.empty:
+        return indicators.copy()
+    selected = indicators.loc[
+        _pullback_condition_results(indicators).all(axis=1)
+    ].copy()
+    ranking = PULLBACK_SPEC["ranking"]
+    selected["_pullback_score"] = (
+        selected["close_position"] * float(ranking["close_position_weight"])
+        + selected["volume_ratio_1_20"] * float(ranking["volume_ratio_weight"])
+        + selected["distance_from_ma25"] * float(ranking["ma25_distance_weight"])
+    )
+    return (
+        selected.sort_values(
+            ["date", "_pullback_score", "ticker"],
+            ascending=[True, False, True],
+        )
+        .groupby("date", sort=False)
         .head(PULLBACK_MAX_SIGNALS)
         .reset_index(drop=True)
     )
@@ -487,6 +540,7 @@ def build_payload(
                 "down_5pct_probability": REFERENCE_DOWN_5_PROBABILITY,
                 "down_8pct_probability": REFERENCE_DOWN_8_PROBABILITY,
                 "expected_net_return": REFERENCE_EXPECTED_NET_RETURN,
+                "metrics_status": "historical_group_reference_not_individual_forecast",
                 "entry_rule": "翌営業日始値",
                 "take_profit_pct": TAKE_PROFIT_PCT,
                 "stop_loss_pct": STOP_LOSS_PCT,
@@ -531,6 +585,7 @@ def build_payload(
                 "down_5pct_probability": 0.0,
                 "down_8pct_probability": 0.0,
                 "expected_net_return": 0.0,
+                "metrics_status": "not_calibrated",
                 "entry_rule": "翌営業日始値（前日終値比−4〜+3%のみ）",
                 "take_profit_pct": PULLBACK_TAKE_PROFIT_PCT,
                 "stop_loss_pct": PULLBACK_STOP_LOSS_PCT,
@@ -576,6 +631,16 @@ def build_payload(
     }
     return {
         "schema_version": 3,
+        "strategy_version": LIVE_STRATEGY["strategy_version"],
+        "strategy_status": LIVE_STRATEGY["status"],
+        "portfolio_rules": LIVE_STRATEGY["portfolio"],
+        "data_quality": {
+            "status": "certified",
+            "adjusted_ohlc": True,
+            "split_adjusted_volume": True,
+            "signal_universe": "current_tse_as_of_signal_date",
+            "historical_point_in_time_universe": "not_applicable_to_live_detection",
+        },
         "generated_at": stamp,
         "date": latest_date,
         "latest_date": latest_date,
@@ -646,8 +711,8 @@ def build_payload(
                 "atr_14_pct_min": PULLBACK_ATR_MIN,
                 "atr_14_pct_max": PULLBACK_ATR_MAX,
                 "maximum_candidates_per_day": PULLBACK_MAX_SIGNALS,
-                "entry_gap_min": -0.04,
-                "entry_gap_max": 0.03,
+                "entry_gap_min": PULLBACK_EXECUTION["entry_gap_min"],
+                "entry_gap_max": PULLBACK_EXECUTION["entry_gap_max"],
                 "entry_rule": "翌営業日始値",
                 "take_profit_pct": PULLBACK_TAKE_PROFIT_PCT,
                 "stop_loss_pct": PULLBACK_STOP_LOSS_PCT,

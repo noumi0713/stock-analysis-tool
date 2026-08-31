@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "protocol_version": "oos_v1_2026-08-31",
+  "status": "frozen",
+  "frozen_at": "2026-08-31T12:30:00+09:00",
+  "strategy_version": "live_v1_2026-08-31",
+  "historical_contamination": {
+    "data_through": "2026-08-31",
+    "used_during_rule_development": true,
+    "eligible_as_true_out_of_sample": false,
+    "reason": "The full historical window was inspected repeatedly while tuning the rules."
+  },
+  "prospective_out_of_sample": {
+    "start_date": "2026-09-01",
+    "minimum_interim_date": "2027-02-28",
+    "final_unlock_date": "2027-08-31",
+    "duration_months": 12,
+    "parameter_changes_allowed": false,
+    "performance_metrics_sealed_until_unlock": true
+  },
+  "reporting": {
+    "separate_signal_types": true,
+    "required_metrics": [
+      "completed_trades",
+      "total_return",
+      "maximum_drawdown",
+      "trade_win_rate",
+      "mean_trade_net_return",
+      "profit_factor"
+    ],
+    "include_transaction_costs_and_slippage": true,
+    "require_certified_input_data": true
+  }
+}

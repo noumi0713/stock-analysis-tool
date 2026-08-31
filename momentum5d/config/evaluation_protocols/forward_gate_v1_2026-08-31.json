@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "protocol_version": "forward_gate_v1_2026-08-31",
+  "status": "frozen",
+  "strategy_version": "live_v1_2026-08-31",
+  "collection_start": "2026-09-01",
+  "minimum_completed_records": 50,
+  "target_completed_records": 100,
+  "minimum_completed_records_per_signal": 20,
+  "accepted_data_quality": "certified",
+  "require_final_oos_unlock": true,
+  "automated_outcome": "ready_for_manual_risk_review_only",
+  "notes": "Passing this gate does not authorize live trading or guarantee profit."
+}
