@@ -10,6 +10,7 @@ on:
         type: boolean
   push:
     # Rebuild the lightweight JSON immediately when the live signal rule changes.
+    # A commit tagged [refresh-yahoo] also refreshes and certifies the final daily bars.
     branches:
       - main
     paths:
