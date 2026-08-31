@@ -15,7 +15,12 @@ class CloseIngestPlan:
 
 
 def resolve_close_ingest_plan(now: datetime | None = None) -> CloseIngestPlan:
-    """Choose a completed Japanese market date even when Actions runs late."""
+    """Choose the date whose official daily bar should be requested.
+
+    A five-minute bar stamped 15:25 does not reliably include the TSE closing
+    auction. Close-signal publication must therefore use Yahoo's daily bar,
+    never an intraday aggregation, even after the session has ended.
+    """
 
     current = now or datetime.now(UTC)
     if current.tzinfo is None:
@@ -25,7 +30,7 @@ def resolve_close_ingest_plan(now: datetime | None = None) -> CloseIngestPlan:
     if current_jst.time() >= CLOSE_DATA_READY_AT:
         return CloseIngestPlan(
             as_of=current_jst.date(),
-            use_intraday_close=True,
+            use_intraday_close=False,
         )
     return CloseIngestPlan(
         as_of=current_jst.date() - timedelta(days=1),

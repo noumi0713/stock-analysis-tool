@@ -18,7 +18,7 @@ from scripts.resolve_close_ingest import resolve_close_ingest_plan
         (
             datetime(2026, 8, 27, 6, 40, tzinfo=UTC),
             date(2026, 8, 27),
-            True,
+            False,
         ),
         (
             datetime(2026, 8, 27, 18, 21, tzinfo=UTC),

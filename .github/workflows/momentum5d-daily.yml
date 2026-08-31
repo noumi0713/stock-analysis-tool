@@ -22,12 +22,13 @@ on:
       - momentum5d/app/resources/evaluation_protocols/*.json
       - momentum5d/scripts/export_close_signals.py
       - momentum5d/scripts/resolve_close_ingest.py
+      - momentum5d/scripts/validate_close_snapshot.py
       - dashboard-data/theme_members.csv
   schedule:
-    # 東証大引け後の15:50/16:10/16:30 JST。最初の成功後は同一営業日の再試行をスキップする。
-    - cron: "50 6 * * 1-5"
+    # Yahoo日足の確定を待ち16:10/16:30/17:00 JSTに再試行する。
     - cron: "10 7 * * 1-5"
     - cron: "30 7 * * 1-5"
+    - cron: "0 8 * * 1-5"
 
 concurrency:
   group: momentum10d-close-signals
@@ -97,7 +98,8 @@ jobs:
             tests/test_live_backtest.py \
             tests/test_live_backtest_input_audit.py \
             tests/test_close_signals_export.py \
-            tests/test_close_ingest_plan.py
+            tests/test_close_ingest_plan.py \
+            tests/test_validate_close_snapshot.py
           python -m ruff check \
             app/live_strategy.py \
             app/evaluation_protocol.py \
@@ -114,9 +116,11 @@ jobs:
             scripts/check_forward_readiness.py \
             scripts/export_close_signals.py \
             scripts/resolve_close_ingest.py \
+            scripts/validate_close_snapshot.py \
             tests/test_live_strategy.py \
             tests/test_close_signals_export.py \
-            tests/test_close_ingest_plan.py
+            tests/test_close_ingest_plan.py \
+            tests/test_validate_close_snapshot.py
 
       - name: Refresh TSE universe
         run: >-
@@ -130,26 +134,26 @@ jobs:
         if: github.event_name != 'push' || contains(github.event.head_commit.message, '[refresh-yahoo]')
         run: python scripts/resolve_close_ingest.py >> "$GITHUB_OUTPUT"
 
-      - name: Download close data only
-        # 遅延実行は前日の日足へ切り替え、5分足障害時も日足で更新を継続する。
+      - name: Download final daily close data only
+        # 15:25始まりの5分足は大引け板寄せを保証しないため、終値用途には使わない。
         if: github.event_name != 'push' || contains(github.event.head_commit.message, '[refresh-yahoo]')
         env:
           CLOSE_AS_OF: ${{ steps.close_plan.outputs.as_of }}
-          USE_INTRADAY_CLOSE: ${{ steps.close_plan.outputs.use_intraday_close }}
-        run: |
-          set -euo pipefail
-          if [[ "$USE_INTRADAY_CLOSE" == "true" ]]; then
-            if python -m app yahoo-ingest \
-              --as-of "$CLOSE_AS_OF" \
-              --tickers-file config/prime_tickers.txt \
-              --intraday-session close; then
-              exit 0
-            fi
-            echo "::warning::5分足の取得に失敗したため日足へ切り替えます。"
-          fi
-          python -m app yahoo-ingest \
-            --as-of "$CLOSE_AS_OF" \
-            --tickers-file config/prime_tickers.txt
+        run: >-
+          python -m app yahoo-ingest
+          --as-of "$CLOSE_AS_OF"
+          --tickers-file config/prime_tickers.txt
+
+      - name: Certify final daily close snapshot
+        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[refresh-yahoo]')
+        env:
+          CLOSE_AS_OF: ${{ steps.close_plan.outputs.as_of }}
+        run: >-
+          python scripts/validate_close_snapshot.py
+          --prices data/yahoo/processed/equities_daily.parquet
+          --expected-date "$CLOSE_AS_OF"
+          --tickers-file config/prime_tickers.txt
+          --minimum-coverage 0.95
 
       - name: Skip an already published market date
         id: update
