@@ -9,8 +9,8 @@ from typing import Any
 FROZEN_PROTOCOL_VERSION = "oos_v1_2026-08-31"
 FROZEN_PROTOCOL_SHA256 = "1c1347e70c276fa707ea6201bdb40e73d16e008e25cd3d2f6a409395db97ab82"
 DEFAULT_PROTOCOL_PATH = (
-    Path(__file__).resolve().parents[1]
-    / "config"
+    Path(__file__).resolve().parent
+    / "resources"
     / "evaluation_protocols"
     / "oos_v1_2026-08-31.json"
 )

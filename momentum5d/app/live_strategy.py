@@ -8,8 +8,8 @@ from typing import Any
 FROZEN_STRATEGY_VERSION = "live_v1_2026-08-31"
 FROZEN_STRATEGY_SHA256 = "d505dc664986c4ad9741bb3354e87403b0ebadc7f4906f8a04c88cc72e0d834b"
 DEFAULT_STRATEGY_PATH = (
-    Path(__file__).resolve().parents[1]
-    / "config"
+    Path(__file__).resolve().parent
+    / "resources"
     / "strategy_specs"
     / "live_v1_2026-08-31.json"
 )

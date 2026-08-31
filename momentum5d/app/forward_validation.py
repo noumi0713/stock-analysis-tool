@@ -11,8 +11,8 @@ import pandas as pd
 from app.evaluation_protocol import load_evaluation_protocol, oos_access_status
 
 DEFAULT_FORWARD_GATE_PATH = (
-    Path(__file__).resolve().parents[1]
-    / "config"
+    Path(__file__).resolve().parent
+    / "resources"
     / "evaluation_protocols"
     / "forward_gate_v1_2026-08-31.json"
 )

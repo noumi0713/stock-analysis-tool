@@ -2,12 +2,17 @@ from __future__ import annotations
 
 from datetime import date
 
-from app.evaluation_protocol import load_evaluation_protocol, oos_access_status
+from app.evaluation_protocol import (
+    DEFAULT_PROTOCOL_PATH,
+    load_evaluation_protocol,
+    oos_access_status,
+)
 
 
 def test_frozen_oos_protocol_rejects_old_history_as_true_oos() -> None:
     protocol = load_evaluation_protocol()
 
+    assert "app/resources/evaluation_protocols" in DEFAULT_PROTOCOL_PATH.as_posix()
     assert protocol["historical_contamination"]["used_during_rule_development"]
     assert not protocol["historical_contamination"]["eligible_as_true_out_of_sample"]
 

@@ -14,6 +14,7 @@ from app.live_strategy import (
 def test_frozen_live_strategy_is_valid() -> None:
     spec = load_frozen_strategy()
 
+    assert "app/resources/strategy_specs" in DEFAULT_STRATEGY_PATH.as_posix()
     assert spec["status"] == "frozen"
     assert spec["portfolio"]["fixed_loss_yen_limit_enabled"] is False
     assert set(spec["signals"]) == {"capitulation_reversal", "first_pullback"}

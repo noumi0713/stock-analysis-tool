@@ -4,7 +4,11 @@ from datetime import date, timedelta
 
 import pandas as pd
 
-from app.forward_validation import assess_forward_readiness, load_forward_gate
+from app.forward_validation import (
+    DEFAULT_FORWARD_GATE_PATH,
+    assess_forward_readiness,
+    load_forward_gate,
+)
 
 
 def _observations(count: int) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -74,5 +78,6 @@ def test_gate_remains_closed_before_final_oos_unlock() -> None:
 def test_forward_gate_configuration_is_frozen_at_fifty_to_one_hundred() -> None:
     gate = load_forward_gate()
 
+    assert "app/resources/evaluation_protocols" in DEFAULT_FORWARD_GATE_PATH.as_posix()
     assert gate["minimum_completed_records"] == 50
     assert gate["target_completed_records"] == 100

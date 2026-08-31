@@ -18,8 +18,8 @@ on:
       - momentum5d/app/evaluation_protocol.py
       - momentum5d/app/forward_validation.py
       - momentum5d/app/secondary_decision_log.py
-      - momentum5d/config/strategy_specs/live_v1_2026-08-31.json
-      - momentum5d/config/evaluation_protocols/*.json
+      - momentum5d/app/resources/strategy_specs/live_v1_2026-08-31.json
+      - momentum5d/app/resources/evaluation_protocols/*.json
       - momentum5d/scripts/export_close_signals.py
       - momentum5d/scripts/resolve_close_ingest.py
       - dashboard-data/theme_members.csv
@@ -84,6 +84,9 @@ jobs:
       - name: Run signal-detector tests
         run: |
           python -m scripts.verify_live_strategy
+          # Run as a file path as production does. This imports the installed wheel,
+          # so missing packaged strategy resources fail before market data is touched.
+          python scripts/export_close_signals.py --help >/dev/null
           python -m pytest -q \
             tests/test_live_strategy.py \
             tests/test_evaluation_protocol.py \
