@@ -24,7 +24,7 @@ on:
       - momentum5d/scripts/resolve_close_ingest.py
       - dashboard-data/theme_members.csv
   schedule:
-    # 東証大引け後。最初の成功後は同一営業日の再試行をスキップする。
+    # 東証大引け後の15:50/16:10/16:30 JST。最初の成功後は同一営業日の再試行をスキップする。
     - cron: "50 6 * * 1-5"
     - cron: "10 7 * * 1-5"
     - cron: "30 7 * * 1-5"
