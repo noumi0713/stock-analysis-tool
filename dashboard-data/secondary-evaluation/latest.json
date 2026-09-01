@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "collecting",
+  "calculation_executed_at": "2026-09-01T22:34:41.460892+00:00",
+  "git_commit_id": "febdd5bd23f50e573f1e357694e4f791b02b71c5",
+  "strategy_version": "live_v1_2026-08-31",
+  "strategy_config_sha256": "d505dc664986c4ad9741bb3354e87403b0ebadc7f4906f8a04c88cc72e0d834b",
+  "evaluation_policy": {
+    "no_hindsight_classification": true,
+    "same_frozen_exit_rules_for_all_groups": true,
+    "minimum_completed_sample": 50,
+    "target_completed_sample": 100,
+    "adoption_rule": "expectancy_not_lower_and_portfolio_maximum_drawdown_lower"
+  },
+  "strategies": {
+    "capitulation_reversal": {
+      "status": "no_forward_abc_records",
+      "verdict": {
+        "decision": "サンプル不足で判断保留",
+        "reason": "A/B/C判定記録が0件"
+      }
+    },
+    "first_pullback": {
+      "status": "no_forward_abc_records",
+      "verdict": {
+        "decision": "サンプル不足で判断保留",
+        "reason": "A/B/C判定記録が0件"
+      }
+    }
+  }
+}
