@@ -17,6 +17,7 @@ SIGNAL_ARRAYS = {
 }
 CLASSIFICATIONS = {"A", "B", "C"}
 ASSESSMENTS = {"supportive", "neutral", "adverse", "unknown"}
+SECONDARY_ACTIONS = {"enter_candidate", "wait_for_confirmation", "skip"}
 
 
 class DecisionLogError(ValueError):
@@ -131,7 +132,16 @@ def build_decision_record(
                 "ticker": key[0],
                 "signal_type": key[1],
                 "primary_rank": primary["rank"],
+                "primary_signal_snapshot": primary["primary_signal"],
                 "classification": label,
+                "secondary_action": str(
+                    supplied_row.get("secondary_action")
+                    or {
+                        "A": "enter_candidate",
+                        "B": "wait_for_confirmation",
+                        "C": "skip",
+                    }[label]
+                ),
                 **assessments,
                 "data_fresh": bool(supplied_row.get("data_fresh")),
                 "signal_shape_intact": bool(
@@ -145,17 +155,20 @@ def build_decision_record(
                 ),
             }
         )
+        if normalized[-1]["secondary_action"] not in SECONDARY_ACTIONS:
+            raise DecisionLogError(f"Invalid secondary_action for {key}")
     maximum_a = int(spec["secondary_selection"]["maximum_a_candidates"])
     if a_count > maximum_a:
         raise DecisionLogError(f"A candidates exceed frozen maximum: {a_count}>{maximum_a}")
 
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "strategy_version": spec["strategy_version"],
         "signal_date": signal_date,
         "evaluated_at": evaluated_at,
         "primary_signal_sha256": _canonical_digest(primary_payload),
         "primary_data_quality": primary_payload["data_quality"],
+        "audit_context": primary_payload.get("audit_context") or {},
         "source_snapshot": source_snapshot,
         "decision_policy": "secondary_only_does_not_change_primary_signal",
         "decisions": sorted(
@@ -186,6 +199,9 @@ def load_decisions(log_dir: Path) -> pd.DataFrame:
                 {
                     "signal_date": payload["signal_date"],
                     "strategy_version": payload["strategy_version"],
+                    "decision_audit_id": (payload.get("audit_context") or {}).get(
+                        "audit_id"
+                    ),
                     **decision,
                 }
             )
@@ -221,10 +237,33 @@ def evaluate_decisions(
             if not eligible.empty
             else None,
         }
+    eligible_all = merged.loc[merged["net_return"].notna()]
+    a_eligible = eligible_all.loc[eligible_all["classification"].eq("A")]
+    baseline_mean = (
+        float(eligible_all["net_return"].mean()) if not eligible_all.empty else None
+    )
+    a_mean = float(a_eligible["net_return"].mean()) if not a_eligible.empty else None
     return {
         "status": "completed",
         "decision_count": len(merged),
         "entry_eligible_count": int(merged["net_return"].notna().sum()),
         "by_classification": by_class,
+        "all_primary_signals_baseline": {
+            "eligible_candidates": len(eligible_all),
+            "mean_net_return": baseline_mean,
+            "win_rate": float(eligible_all["net_return"].gt(0).mean())
+            if not eligible_all.empty
+            else None,
+        },
+        "a_selection_vs_all_primary": {
+            "eligible_a_candidates": len(a_eligible),
+            "mean_net_return": a_mean,
+            "mean_return_difference": (
+                a_mean - baseline_mean
+                if a_mean is not None and baseline_mean is not None
+                else None
+            ),
+            "status": "descriptive_not_probability_calibration",
+        },
         "evaluated_at": datetime.now(UTC).isoformat(),
     }

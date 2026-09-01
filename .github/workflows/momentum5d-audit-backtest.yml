@@ -84,6 +84,8 @@ jobs:
           python scripts/run_live_strategy_backtest.py
           --prices work/audit-data/yahoo/processed/equities_daily.parquet
           --universe-history work/audit-config/tse_universe_history.csv
+          --ingestion-status work/audit-data/yahoo/metadata/ingestion_status.json
+          --git-commit "${{ github.sha }}"
           --input-mode raw_ohlcv_with_adjusted_close
           --output-dir outputs/certified-live-backtest
 

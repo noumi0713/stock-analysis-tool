@@ -54,6 +54,27 @@ python scripts/record_confirmed_fill.py \
   --strategy first_pullback
 ```
 
+### P1 判定監査
+
+大引けワークフローは、軽量な `dashboard-data/latest_signals.json` に加えて
+`dashboard-data/signal-audit/YYYY-MM-DD.json.gz` を保存します。監査ファイルには
+期待された全銘柄を初押し・投げ売り反転ごとに記録し、分割調整後OHLCV、全指標、
+条件ごとの実測値と合否、指標不足、ランキング順位、最終的な検知・除外理由を含めます。
+条件別件数は独立集計と判定順ファネルを分けて出力します。
+
+ランキングは候補上限を決めるための順序尺度であり、勝率・確率・期待値ではありません。
+未校正の確率プレースホルダーは大引けシグナルJSONへ出力しません。
+
+A/B/C判断は `scripts/record_secondary_decisions.py` で追記専用保存します。一次候補の
+スナップショットを保持し、A/B/Cに関係なく、買わなかった候補も含めて
+`scripts/update_candidate_outcomes.py` が次の10営業日を追跡します。
+`scripts/evaluate_secondary_decisions.py` はA候補と一次シグナル全部買いの反実仮想を
+比較できます。
+
+日次シグナル、A/B/C記録、10営業日追跡、認証バックテストには、最終取引日、取得時刻、
+凍結設定バージョンとSHA-256、GitコミットID、計算時刻、戦略名を付与します。
+0件の日は完全母集団での該当なしと、データ欠損を伴う0件を区別します。
+
 ## 実装済みの機能
 
 - 上場銘柄一覧の日次スナップショット

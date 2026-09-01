@@ -127,3 +127,5 @@ def test_decision_evaluation_keeps_non_executable_candidates() -> None:
         0.1
     )
     assert result["by_classification"]["C"]["mean_net_return"] is None
+    assert result["all_primary_signals_baseline"]["eligible_candidates"] == 1
+    assert result["a_selection_vs_all_primary"]["mean_return_difference"] == 0.0

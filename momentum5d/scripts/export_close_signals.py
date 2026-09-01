@@ -10,11 +10,13 @@ import numpy as np
 import pandas as pd
 
 from app.adjustments import normalize_split_adjusted_ohlcv
+from app.audit_metadata import build_audit_context
 from app.live_strategy import load_frozen_strategy
 from app.market_data_contract import (
     load_market_certification,
     validate_market_certification,
 )
+from app.signal_audit import build_audit_bundle, build_strategy_audit, write_gzip_json
 
 LIVE_STRATEGY = load_frozen_strategy()
 REVERSAL_SPEC = LIVE_STRATEGY["signals"]["capitulation_reversal"]
@@ -74,12 +76,32 @@ CONDITION_KEYS = (
     "bullish",
 )
 
-# These are descriptive reference values from the frozen three-year stable-score comparison.
-# They are not used to decide whether a stock passes the technical screen.
-REFERENCE_TARGET_PROBABILITY = 0.5612903225806452
-REFERENCE_DOWN_5_PROBABILITY = 0.23870967741935484
-REFERENCE_DOWN_8_PROBABILITY = 0.10967741935483871
-REFERENCE_EXPECTED_NET_RETURN = 0.04109912872314453
+REVERSAL_NAME = "投げ売り反転"
+PULLBACK_NAME = "上昇トレンド初押し"
+
+AUDIT_METRICS = [
+    "date",
+    "_open",
+    "_high",
+    "_low",
+    "_close",
+    "_volume",
+    "stock_splits",
+    "RSI",
+    "ATR",
+    "return_1d",
+    "return_5d",
+    "volume_ratio_1_20",
+    "trading_value",
+    "ma25",
+    "ma75",
+    "ma25_slope_5d",
+    "ma75_slope_10d",
+    "prior_high_20d",
+    "drawdown_from_20d_high",
+    "distance_from_ma25",
+    "close_position",
+]
 
 
 def _rolling_sum(values: pd.Series, period: int) -> pd.Series:
@@ -241,6 +263,122 @@ def _pullback_condition_results(frame: pd.DataFrame) -> pd.DataFrame:
         },
         index=frame.index,
     )
+
+
+def _reversal_condition_actuals(frame: pd.DataFrame) -> dict[str, pd.Series]:
+    return {
+        "rsi": frame["RSI"],
+        "return_1d": frame["return_1d"],
+        "return_5d": frame["return_5d"],
+        "volume_ratio_1_20": frame["volume_ratio_1_20"],
+        "trading_value": frame["trading_value"],
+        "atr_14_pct": frame["ATR"],
+        "ma25": frame["_close"].div(frame["ma25"]).sub(1.0),
+        "bullish": frame["_close"].sub(frame["_open"]),
+    }
+
+
+def _pullback_condition_actuals(frame: pd.DataFrame) -> dict[str, pd.Series]:
+    trend_gap = pd.concat(
+        [
+            frame["_close"].div(frame["ma25"]).sub(1.0),
+            frame["ma25"].div(frame["ma75"]).sub(1.0),
+        ],
+        axis=1,
+    ).min(axis=1, skipna=False)
+    return {
+        "trend_order": trend_gap,
+        "ma25_slope": frame["ma25_slope_5d"],
+        "ma75_slope": frame["ma75_slope_10d"],
+        "drawdown": frame["drawdown_from_20d_high"],
+        "ma25_distance": frame["distance_from_ma25"],
+        "return_1d": frame["return_1d"],
+        "bullish": frame["_close"].sub(frame["_open"]),
+        "close_position": frame["close_position"],
+        "volume_ratio": frame["volume_ratio_1_20"],
+        "trading_value": frame["trading_value"],
+        "atr": frame["ATR"],
+    }
+
+
+REVERSAL_REQUIREMENTS = {
+    "rsi": f"{RSI_MIN} <= RSI14 <= {RSI_MAX}",
+    "return_1d": f"{RETURN_1D_MIN} <= return_1d <= {RETURN_1D_MAX}",
+    "return_5d": f"{RETURN_5D_MIN} <= return_5d <= {RETURN_5D_MAX}",
+    "volume_ratio_1_20": f"volume_ratio_1_20 >= {VOLUME_RATIO_MIN}",
+    "trading_value": f"trading_value >= {TURNOVER_MIN}",
+    "atr_14_pct": f"{ATR_MIN} <= ATR14/close <= {ATR_MAX}",
+    "ma25": "close < ma25",
+    "bullish": "close > open",
+}
+
+PULLBACK_REQUIREMENTS = {
+    "trend_order": "close > ma25 > ma75",
+    "ma25_slope": f"ma25_slope_5d > {PULLBACK_MA25_SLOPE_MIN}",
+    "ma75_slope": f"ma75_slope_10d > {PULLBACK_MA75_SLOPE_MIN}",
+    "drawdown": (
+        f"{PULLBACK_DRAWDOWN_MIN} <= drawdown_from_20d_high "
+        f"<= {PULLBACK_DRAWDOWN_MAX}"
+    ),
+    "ma25_distance": (
+        f"{PULLBACK_MA25_DISTANCE_MIN} <= distance_from_ma25 "
+        f"<= {PULLBACK_MA25_DISTANCE_MAX}"
+    ),
+    "return_1d": f"{PULLBACK_RETURN_1D_MIN} <= return_1d <= {PULLBACK_RETURN_1D_MAX}",
+    "bullish": "close > open",
+    "close_position": f"close_position >= {PULLBACK_CLOSE_POSITION_MIN}",
+    "volume_ratio": f"volume_ratio_1_20 >= {PULLBACK_VOLUME_RATIO_MIN}",
+    "trading_value": f"trading_value >= {PULLBACK_TURNOVER_MIN}",
+    "atr": f"{PULLBACK_ATR_MIN} <= ATR14/close <= {PULLBACK_ATR_MAX}",
+}
+
+
+def _reversal_ranking(indicators: pd.DataFrame) -> pd.DataFrame:
+    latest = _latest_rows(indicators)
+    actuals = _reversal_condition_actuals(latest)
+    valid = pd.DataFrame(actuals).notna().all(axis=1)
+    eligible = _condition_results(latest).all(axis=1) & valid
+    ranked = latest.loc[eligible, ["ticker", "volume_ratio_1_20"]].sort_values(
+        ["volume_ratio_1_20", "ticker"], ascending=[False, True]
+    )
+    ranked = ranked.rename(columns={"volume_ratio_1_20": "ranking_value"})
+    ranked.insert(1, "rank", range(1, len(ranked) + 1))
+    ranked["method"] = "volume_ratio_descending"
+    ranked["interpretation"] = "ordinal_only_not_win_rate_or_expected_return"
+    return ranked.reset_index(drop=True)
+
+
+def _pullback_ranking(indicators: pd.DataFrame) -> pd.DataFrame:
+    latest = _latest_rows(indicators)
+    actuals = _pullback_condition_actuals(latest)
+    valid = pd.DataFrame(actuals).notna().all(axis=1)
+    eligible = _pullback_condition_results(latest).all(axis=1) & valid
+    ranking = PULLBACK_SPEC["ranking"]
+    ranked = latest.loc[
+        eligible,
+        ["ticker", "close_position", "volume_ratio_1_20", "distance_from_ma25"],
+    ].copy()
+    ranked["close_position_contribution"] = ranked["close_position"] * float(
+        ranking["close_position_weight"]
+    )
+    ranked["volume_ratio_contribution"] = ranked["volume_ratio_1_20"] * float(
+        ranking["volume_ratio_weight"]
+    )
+    ranked["ma25_distance_contribution"] = ranked["distance_from_ma25"] * float(
+        ranking["ma25_distance_weight"]
+    )
+    ranked["ranking_value"] = ranked[
+        [
+            "close_position_contribution",
+            "volume_ratio_contribution",
+            "ma25_distance_contribution",
+        ]
+    ].sum(axis=1)
+    ranked = ranked.sort_values(["ranking_value", "ticker"], ascending=[False, True])
+    ranked.insert(1, "rank", range(1, len(ranked) + 1))
+    ranked["method"] = "frozen_linear_score_v1"
+    ranked["interpretation"] = "ordinal_only_not_win_rate_or_expected_return"
+    return ranked.reset_index(drop=True)
 
 
 def select_latest_pullback_signals(indicators: pd.DataFrame) -> pd.DataFrame:
@@ -490,6 +628,8 @@ def build_payload(
     names: dict[str, str] | None = None,
     theme_memberships: dict[str, list[dict[str, str]]] | None = None,
     generated_at: str | None = None,
+    git_commit: str | None = None,
+    include_full_audit: bool = False,
 ) -> dict[str, Any]:
     certification = validate_market_certification(certification, prices=prices)
     indicators = calculate_indicators(prices)
@@ -501,6 +641,16 @@ def build_payload(
         expected_date=latest_date,
     )
     latest_rows = indicators.loc[indicators["date"].astype(str).eq(latest_date)]
+    stamp = generated_at or datetime.now(UTC).isoformat()
+    audit_context = build_audit_context(
+        market_date=latest_date,
+        acquired_at=str(certification["acquired_at"]),
+        strategy_version=LIVE_STRATEGY["strategy_version"],
+        strategy_names=["capitulation_reversal", "first_pullback"],
+        snapshot_fingerprint=str(certification["snapshot_fingerprint"]),
+        computed_at=stamp,
+        git_commit=git_commit,
+    )
     pullback_indicator_coverage = float(
         latest_rows["ma75_slope_10d"].notna().mean()
     )
@@ -514,6 +664,14 @@ def build_payload(
     signals = select_latest_signals(indicators)
     pullback_signals = select_latest_pullback_signals(indicators)
     near_misses = select_latest_near_misses(indicators)
+    reversal_ranking = _reversal_ranking(indicators)
+    pullback_ranking = _pullback_ranking(indicators)
+    ranking_by_signal = {
+        "capitulation_reversal": reversal_ranking.set_index("ticker").to_dict(
+            orient="index"
+        ),
+        "first_pullback": pullback_ranking.set_index("ticker").to_dict(orient="index"),
+    }
     company_names = names or {}
     themes_by_code = theme_memberships or {}
     records: list[dict[str, Any]] = []
@@ -528,8 +686,10 @@ def build_payload(
                 "name": company_names.get(code) or ticker,
                 **_theme_fields(code, themes_by_code),
                 "rank": position,
+                "audit_id": audit_context["audit_id"],
                 "signal": "capitulation_reversal",
-                "pattern": "投げ売り反転",
+                "strategy_name": REVERSAL_NAME,
+                "pattern": REVERSAL_NAME,
                 "close": round(float(row["_close"]), 2),
                 "trading_value": round(float(row["trading_value"])),
                 "turnover_value": round(float(row["trading_value"])),
@@ -538,11 +698,10 @@ def build_payload(
                 "return_1d": round(float(row["return_1d"]), 6),
                 "return_5d": round(float(row["return_5d"]), 6),
                 "volume_ratio_1_20": round(float(row["volume_ratio_1_20"]), 6),
-                "target_probability": REFERENCE_TARGET_PROBABILITY,
-                "down_5pct_probability": REFERENCE_DOWN_5_PROBABILITY,
-                "down_8pct_probability": REFERENCE_DOWN_8_PROBABILITY,
-                "expected_net_return": REFERENCE_EXPECTED_NET_RETURN,
-                "metrics_status": "historical_group_reference_not_individual_forecast",
+                "ranking": ranking_by_signal["capitulation_reversal"][ticker],
+                "ranking_metrics_status": (
+                    "ordinal_selection_only_not_probability_or_expected_return"
+                ),
                 "entry_rule": "翌営業日始値",
                 "take_profit_pct": TAKE_PROFIT_PCT,
                 "stop_loss_pct": STOP_LOSS_PCT,
@@ -562,8 +721,10 @@ def build_payload(
                 "name": company_names.get(code) or ticker,
                 **_theme_fields(code, themes_by_code),
                 "rank": position,
+                "audit_id": audit_context["audit_id"],
                 "signal": "first_pullback",
-                "pattern": "上昇トレンド初押し",
+                "strategy_name": PULLBACK_NAME,
+                "pattern": PULLBACK_NAME,
                 "close": round(float(row["_close"]), 2),
                 "trading_value": round(float(row["trading_value"])),
                 "turnover_value": round(float(row["trading_value"])),
@@ -583,11 +744,10 @@ def build_payload(
                     float(row["distance_from_ma25"]), 6
                 ),
                 "close_position": round(float(row["close_position"]), 6),
-                "target_probability": 0.0,
-                "down_5pct_probability": 0.0,
-                "down_8pct_probability": 0.0,
-                "expected_net_return": 0.0,
-                "metrics_status": "not_calibrated",
+                "ranking": ranking_by_signal["first_pullback"][ticker],
+                "ranking_metrics_status": (
+                    "ordinal_selection_only_not_probability_or_expected_return"
+                ),
                 "entry_rule": "翌営業日始値（前日終値比−4〜+3%のみ）",
                 "take_profit_pct": PULLBACK_TAKE_PROFIT_PCT,
                 "stop_loss_pct": PULLBACK_STOP_LOSS_PCT,
@@ -607,8 +767,10 @@ def build_payload(
                 "name": company_names.get(code) or ticker,
                 **_theme_fields(code, themes_by_code),
                 "rank": position,
+                "audit_id": audit_context["audit_id"],
                 "signal": "near_miss",
-                "pattern": "投げ売り反転",
+                "strategy_name": REVERSAL_NAME,
+                "pattern": REVERSAL_NAME,
                 "close": round(float(row["_close"]), 2),
                 "trading_value": round(float(row["trading_value"])),
                 "RSI": round(float(row["RSI"]), 4),
@@ -623,15 +785,78 @@ def build_payload(
             }
         )
 
-    stamp = generated_at or datetime.now(UTC).isoformat()
     theme_names = {
         item["theme"]
         for memberships in themes_by_code.values()
         for item in memberships
         if item["theme"]
     }
-    return {
-        "schema_version": 3,
+    reversal_audit = build_strategy_audit(
+        latest_rows,
+        signal_type="capitulation_reversal",
+        strategy_name=REVERSAL_NAME,
+        condition_results=_condition_results(latest_rows),
+        condition_actuals=_reversal_condition_actuals(latest_rows),
+        condition_requirements=REVERSAL_REQUIREMENTS,
+        selected_tickers=signals["ticker"].astype(str).tolist(),
+        ranking=reversal_ranking,
+        ranking_definition={
+            "method": "volume_ratio_descending",
+            "formula": "volume_ratio_1_20 descending; ticker ascending tie-break",
+            "components": ["volume_ratio_1_20"],
+            "meaning": "ordinal_selection_only",
+            "not_a_probability": True,
+            "not_expected_return": True,
+        },
+        metric_keys=AUDIT_METRICS,
+        audit_context=audit_context,
+        missing_tickers=certification.get("missing_tickers") or [],
+        company_names=company_names,
+    )
+    pullback_audit = build_strategy_audit(
+        latest_rows,
+        signal_type="first_pullback",
+        strategy_name=PULLBACK_NAME,
+        condition_results=_pullback_condition_results(latest_rows),
+        condition_actuals=_pullback_condition_actuals(latest_rows),
+        condition_requirements=PULLBACK_REQUIREMENTS,
+        selected_tickers=pullback_signals["ticker"].astype(str).tolist(),
+        ranking=pullback_ranking,
+        ranking_definition={
+            "method": "frozen_linear_score_v1",
+            "formula": (
+                "2.0*close_position + 1.0*volume_ratio_1_20 "
+                "- 25.0*distance_from_ma25"
+            ),
+            "components": [
+                {"metric": "close_position", "weight": 2.0},
+                {"metric": "volume_ratio_1_20", "weight": 1.0},
+                {"metric": "distance_from_ma25", "weight": -25.0},
+            ],
+            "meaning": "ordinal_selection_only",
+            "not_a_probability": True,
+            "not_expected_return": True,
+        },
+        metric_keys=AUDIT_METRICS,
+        audit_context=audit_context,
+        missing_tickers=certification.get("missing_tickers") or [],
+        company_names=company_names,
+    )
+    strategy_audits = {
+        "capitulation_reversal": reversal_audit,
+        "first_pullback": pullback_audit,
+    }
+    full_audit = build_audit_bundle(
+        audit_context=audit_context,
+        certification=certification,
+        strategies=strategy_audits,
+    )
+    audit_summary = {
+        key: {field: value for field, value in audit.items() if field != "candidates"}
+        for key, audit in strategy_audits.items()
+    }
+    payload = {
+        "schema_version": 4,
         "strategy_version": LIVE_STRATEGY["strategy_version"],
         "strategy_status": LIVE_STRATEGY["status"],
         "portfolio_rules": LIVE_STRATEGY["portfolio"],
@@ -647,6 +872,8 @@ def build_payload(
             "historical_point_in_time_universe": "not_applicable_to_live_detection",
         },
         "generated_at": stamp,
+        "audit_context": audit_context,
+        "signal_audit_summary": audit_summary,
         "date": latest_date,
         "latest_date": latest_date,
         "next_session": "翌営業日",
@@ -678,6 +905,7 @@ def build_payload(
         "signal_model": {
             "key": "rsi14_stable_score_10d_v1",
             "label": "RSI14安定スコア1位10D",
+            "ranking": reversal_audit["ranking_definition"],
             "conditions": {
                 "rsi_period": RSI_PERIOD,
                 "rsi_min": RSI_MIN,
@@ -702,6 +930,7 @@ def build_payload(
         "pullback_signal_model": {
             "key": "uptrend_first_pullback_v1",
             "label": "上昇トレンド初押し",
+            "ranking": pullback_audit["ranking_definition"],
             "conditions": {
                 "trend_order": "close > ma25 > ma75",
                 "ma25_slope_5d_min": PULLBACK_MA25_SLOPE_MIN,
@@ -735,6 +964,9 @@ def build_payload(
         "near_miss_count": len(near_miss_records),
         "near_misses": near_miss_records,
     }
+    if include_full_audit:
+        payload["_full_audit_bundle"] = full_audit
+    return payload
 
 
 def main() -> None:
@@ -744,13 +976,26 @@ def main() -> None:
     parser.add_argument("--themes", type=Path)
     parser.add_argument("--certification", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--audit-output", type=Path, required=True)
+    parser.add_argument("--audit-reference")
+    parser.add_argument("--git-commit")
     args = parser.parse_args()
     payload = build_payload(
         pd.read_parquet(args.prices),
         certification=load_market_certification(args.certification),
         names=_load_names(args.names),
         theme_memberships=_load_theme_memberships(args.themes),
+        git_commit=args.git_commit,
+        include_full_audit=True,
     )
+    full_audit = payload.pop("_full_audit_bundle")
+    artifact = write_gzip_json(full_audit, args.audit_output)
+    artifact["path"] = args.audit_reference or artifact["path"]
+    artifact["candidate_rows"] = sum(
+        len(strategy["candidates"])
+        for strategy in full_audit["strategies"].values()
+    )
+    payload["signal_audit_artifact"] = artifact
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
         json.dumps(payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False),

@@ -108,6 +108,14 @@ def validate_market_certification(
         certification.get("minimum_coverage", 1.0)
     ):
         raise MarketDataContractError("Certified snapshot coverage is insufficient")
+    missing_tickers = certification.get("missing_tickers")
+    if missing_tickers is not None:
+        if not isinstance(missing_tickers, list):
+            raise MarketDataContractError("Certification missing_tickers must be a list")
+        if len(missing_tickers) != expected_tickers - successful:
+            raise MarketDataContractError(
+                "Certification missing_tickers does not match ticker counts"
+            )
     if certification.get("rejected_sources") != []:
         raise MarketDataContractError("Certified snapshot contains rejected sources")
     fingerprint = str(certification.get("snapshot_fingerprint") or "")

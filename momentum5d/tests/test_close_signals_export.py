@@ -291,6 +291,18 @@ def test_payload_publishes_stable_score_rules() -> None:
 
     assert payload["strategy_version"] == "live_v1_2026-08-31"
     assert payload["strategy_status"] == "frozen"
+    assert payload["schema_version"] == 4
+    assert payload["audit_context"]["strategy_config_version"] == (
+        "live_v1_2026-08-31"
+    )
+    assert payload["signal_model"]["ranking"]["not_a_probability"] is True
+    assert payload["pullback_signal_model"]["ranking"]["not_expected_return"] is True
+    assert (
+        payload["signal_audit_summary"]["capitulation_reversal"][
+            "detection_status"
+        ]
+        == "no_matches_complete_universe"
+    )
     assert payload["data_quality"]["status"] == "certified"
     assert payload["data_quality"]["split_adjusted_volume"] is True
     assert payload["portfolio_rules"]["fixed_loss_yen_limit_enabled"] is False
@@ -406,6 +418,13 @@ def test_theme_memberships_are_metadata_only(monkeypatch, tmp_path) -> None:
     assert payload["signals"][0]["themes"] == ["パワー半導体", "半導体"]
     assert payload["signals"][0]["theme_clusters"] == ["AI・半導体"]
     assert payload["signals"][0]["topix17_groups"] == ["電機・精密"]
+    assert "target_probability" not in payload["signals"][0]
+    assert payload["signals"][0]["ranking"]["method"] == (
+        "volume_ratio_descending"
+    )
+    assert payload["signals"][0]["ranking_metrics_status"] == (
+        "ordinal_selection_only_not_probability_or_expected_return"
+    )
     assert payload["theme_catalog"] == {
         "enabled": True,
         "used_for_primary_selection": False,

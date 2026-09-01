@@ -140,6 +140,7 @@ def validate_close_snapshot(
         raise ValueError(f"当日の日足に欠損があります: {tickers}")
 
     actual_tickers = set(latest["ticker"]) & expected_tickers
+    missing_tickers = sorted(expected_tickers - actual_tickers)
     coverage = len(actual_tickers) / len(expected_tickers)
     if coverage < minimum_coverage:
         raise ValueError(
@@ -162,6 +163,7 @@ def validate_close_snapshot(
         "expected_tickers": len(expected_tickers),
         "coverage": coverage,
         "minimum_coverage": minimum_coverage,
+        "missing_tickers": missing_tickers,
         "rejected_sources": [],
         "snapshot_fingerprint": daily_snapshot_fingerprint(prices, expected_date),
     }

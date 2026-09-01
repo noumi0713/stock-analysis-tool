@@ -79,6 +79,7 @@ def test_removes_unconfirmed_intraday_rows_before_coverage_check() -> None:
     assert removed == ["1003.T"]
     assert set(cleaned["ticker"]) == {"1001.T", "1002.T"}
     assert result["coverage"] == pytest.approx(2 / 3)
+    assert result["missing_tickers"] == ["1003.T"]
 
 
 def test_rejects_stale_daily_snapshot() -> None:
