@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "status": "no_secondary_decisions",
+  "strategy_version": "live_v1_2026-08-31",
+  "observation_sessions": 10,
+  "calculation_executed_at": "2026-09-01T09:17:00.750738+00:00",
+  "git_commit_id": "7856b19e103c319bb40055dc3cc0b88bfe1f8e71",
+  "outcomes": []
+}
