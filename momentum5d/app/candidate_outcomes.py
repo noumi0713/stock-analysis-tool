@@ -34,7 +34,7 @@ def track_ten_session_outcomes(
     stamp = computed_at or datetime.now(UTC).isoformat()
     if decisions.empty:
         return {
-            "schema_version": 1,
+            "schema_version": 2,
             "status": "no_secondary_decisions",
             "strategy_version": spec["strategy_version"],
             "observation_sessions": OBSERVATION_SESSIONS,
@@ -79,14 +79,17 @@ def track_ten_session_outcomes(
             "all_primary_buy_net_return_10_sessions": None,
         }
         start_index = date_position.get(signal_date)
-        if start_index is None or start_index + OBSERVATION_SESSIONS >= len(market_dates):
-            output.append({**base, "status": "pending_10_sessions"})
+        execution = spec["signals"][signal_type]["execution"]
+        official_sessions = int(execution["holding_days"])
+        base["official_holding_sessions"] = official_sessions
+        if start_index is None or start_index + official_sessions >= len(market_dates):
+            output.append({**base, "status": "pending_official_exit_horizon"})
             continue
-        observation_dates = market_dates[
-            start_index + 1 : start_index + 1 + OBSERVATION_SESSIONS
+        official_dates = market_dates[
+            start_index + 1 : start_index + 1 + official_sessions
         ]
         base["confirmed_buy_execution_ids"] = fills.get(
-            (observation_dates[0], ticker, signal_type), []
+            (official_dates[0], ticker, signal_type), []
         )
         base["actual_trade_status"] = (
             "confirmed_bought"
@@ -94,20 +97,19 @@ def track_ten_session_outcomes(
             else "not_confirmed_bought"
         )
         stock = bars.get(ticker)
-        if stock is None or any(day not in stock.index for day in observation_dates):
+        if stock is None or any(day not in stock.index for day in official_dates):
             output.append(
                 {
                     **base,
-                    "status": "data_insufficient_for_10_sessions",
-                    "expected_observation_end": observation_dates[-1].isoformat(),
+                    "status": "data_insufficient_for_official_exit_horizon",
+                    "expected_observation_end": official_dates[-1].isoformat(),
                 }
             )
             continue
-        future = stock.loc[observation_dates]
+        future = stock.loc[official_dates]
         signal_close = _primary_close(decision)
         raw_entry = float(future.iloc[0]["_open"])
         entry_gap = raw_entry / signal_close - 1.0
-        execution = spec["signals"][signal_type]["execution"]
         entry_rule_eligible = True
         if "entry_gap_min" in execution:
             entry_rule_eligible = (
@@ -116,59 +118,93 @@ def track_ten_session_outcomes(
                 <= float(execution["entry_gap_max"])
             )
 
-        raw_close_10 = float(future.iloc[-1]["_close"])
+        first_ten = future.head(OBSERVATION_SESSIONS)
+        raw_close_10 = float(first_ten.iloc[-1]["_close"])
         raw_return_10 = raw_close_10 / raw_entry - 1.0
+        mfe_10 = float(first_ten["_high"].max()) / raw_entry - 1.0
+        mae_10 = float(first_ten["_low"].min()) / raw_entry - 1.0
         mfe = float(future["_high"].max()) / raw_entry - 1.0
         mae = float(future["_low"].min()) / raw_entry - 1.0
         result = {
             **base,
             "status": "completed",
-            "entry_date": observation_dates[0].isoformat(),
-            "observation_end_date": observation_dates[-1].isoformat(),
+            "entry_date": official_dates[0].isoformat(),
+            "observation_end_date": official_dates[-1].isoformat(),
             "signal_close": signal_close,
             "next_open": raw_entry,
             "entry_gap": entry_gap,
             "entry_rule_eligible": entry_rule_eligible,
             "close_10_sessions": raw_close_10,
             "unfiltered_return_10_sessions": raw_return_10,
-            "maximum_favorable_excursion_10_sessions": mfe,
-            "maximum_adverse_excursion_10_sessions": mae,
+            "maximum_favorable_excursion_10_sessions": mfe_10,
+            "maximum_adverse_excursion_10_sessions": mae_10,
+            "maximum_favorable_excursion_official_horizon": mfe,
+            "maximum_adverse_excursion_official_horizon": mae,
+            "hit_plus_5pct": mfe >= 0.05,
+            "hit_minus_5pct": mae <= -0.05,
+            "hit_minus_8pct": mae <= -0.08,
+            "daily_mark_path": [
+                {
+                    "date": day.isoformat(),
+                    "close": float(bar["_close"]),
+                    "high": float(bar["_high"]),
+                    "low": float(bar["_low"]),
+                }
+                for day, bar in future.iterrows()
+            ],
             "all_primary_buy_comparison_eligible": entry_rule_eligible,
             "all_primary_buy_net_return_10_sessions": None,
             "all_primary_buy_exit_reason": "entry_rule_excluded",
+            "strategy_entry_price": None,
+            "strategy_exit_price": None,
+            "strategy_gross_return": None,
+            "strategy_net_return": None,
+            "strategy_exit_reason": "entry_rule_excluded",
+            "strategy_exit_date": None,
+            "strategy_holding_sessions": 0,
         }
         if entry_rule_eligible:
             entry_price = raw_entry * (1.0 + one_way_slippage)
             target = entry_price * (1.0 + float(execution["take_profit_pct"]))
             stop = entry_price * (1.0 + float(execution["stop_loss_pct"]))
-            exit_price = raw_close_10 * (1.0 - one_way_slippage)
-            exit_reason = "mark_at_10_sessions"
-            exit_date = observation_dates[-1]
-            for day, bar in future.iterrows():
+            exit_price = float(future.iloc[-1]["_close"]) * (1.0 - one_way_slippage)
+            exit_reason = "time"
+            exit_date = official_dates[-1]
+            holding_sessions = official_sessions
+            for session, (day, bar) in enumerate(future.iterrows(), start=1):
                 if float(bar["_low"]) <= stop:
                     exit_price = stop * (1.0 - one_way_slippage)
                     exit_reason = "stop_loss"
                     exit_date = day
+                    holding_sessions = session
                     break
                 if float(bar["_high"]) >= target:
                     exit_price = target * (1.0 - one_way_slippage)
                     exit_reason = "take_profit"
                     exit_date = day
+                    holding_sessions = session
                     break
+            gross_return = exit_price / entry_price - 1.0
             result.update(
                 {
-                    "all_primary_buy_net_return_10_sessions": (
-                        exit_price / entry_price - 1.0 - round_trip_cost
-                    ),
+                    "all_primary_buy_net_return_10_sessions": gross_return
+                    - round_trip_cost,
                     "all_primary_buy_exit_reason": exit_reason,
                     "all_primary_buy_exit_date": exit_date.isoformat(),
+                    "strategy_entry_price": entry_price,
+                    "strategy_exit_price": exit_price,
+                    "strategy_gross_return": gross_return,
+                    "strategy_net_return": gross_return - round_trip_cost,
+                    "strategy_exit_reason": exit_reason,
+                    "strategy_exit_date": exit_date.isoformat(),
+                    "strategy_holding_sessions": holding_sessions,
                 }
             )
         output.append(result)
 
     completed = [row for row in output if row["status"] == "completed"]
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": "completed" if completed else "collecting",
         "strategy_version": spec["strategy_version"],
         "observation_sessions": OBSERVATION_SESSIONS,

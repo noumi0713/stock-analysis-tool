@@ -16,7 +16,11 @@ from app.secondary_decision_log import (
 def _primary() -> dict:
     return {
         "strategy_version": "live_v1_2026-08-31",
-        "data_quality": {"status": "certified", "split_adjusted_volume": True},
+        "data_quality": {
+            "status": "certified",
+            "split_adjusted_volume": True,
+            "acquired_at": "2026-08-28T16:20:00+09:00",
+        },
         "date": "2026-08-28",
         "update": {
             "status": "complete",
@@ -52,10 +56,23 @@ def _decision(ticker: str, signal_type: str, classification: str) -> dict:
 def _analysis() -> dict:
     return {
         "signal_date": "2026-08-28",
-        "evaluated_at": "2026-08-31T08:00:00+09:00",
+        "evaluated_at": "2026-08-28T17:10:00+09:00",
+        "information_cutoff_at": "2026-08-28T17:00:00+09:00",
+        "entry_session_open_at": "2026-08-31T09:00:00+09:00",
         "source_snapshot": {
-            "checked_at": "2026-08-31T07:55:00+09:00",
+            "checked_at": "2026-08-28T16:55:00+09:00",
             "sources": ["https://example.test/market"],
+        },
+        "decision_context_snapshot": {
+            name: {"as_of": "2026-08-28T16:55:00+09:00", "facts": {}}
+            for name in (
+                "market",
+                "sector_theme",
+                "company_news",
+                "earnings_events",
+                "supply_demand",
+                "price_snapshot",
+            )
         },
         "decisions": [
             _decision("1111.T", "capitulation_reversal", "B"),
@@ -77,6 +94,27 @@ def test_a_classification_rejects_unknown_or_adverse_inputs() -> None:
     analysis["decisions"][1]["news_assessment"] = "unknown"
 
     with pytest.raises(DecisionLogError, match="unresolved blocker"):
+        build_decision_record(_primary(), analysis)
+
+
+def test_decision_rejects_information_published_after_cutoff() -> None:
+    analysis = _analysis()
+    analysis["source_snapshot"]["sources"] = [
+        {
+            "url": "https://example.test/future",
+            "published_at": "2026-08-28T17:01:00+09:00",
+        }
+    ]
+
+    with pytest.raises(DecisionLogError, match="published after"):
+        build_decision_record(_primary(), analysis)
+
+
+def test_decision_rejects_hindsight_after_entry_open() -> None:
+    analysis = _analysis()
+    analysis["evaluated_at"] = "2026-08-31T09:01:00+09:00"
+
+    with pytest.raises(DecisionLogError, match="Timestamps must satisfy"):
         build_decision_record(_primary(), analysis)
 
 

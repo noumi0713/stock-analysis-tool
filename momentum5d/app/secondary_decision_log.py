@@ -15,9 +15,17 @@ SIGNAL_ARRAYS = {
     "capitulation_reversal": "signals",
     "first_pullback": "pullback_signals",
 }
-CLASSIFICATIONS = {"A", "B", "C"}
+CLASSIFICATIONS = {"A", "B", "C", "SKIP"}
 ASSESSMENTS = {"supportive", "neutral", "adverse", "unknown"}
 SECONDARY_ACTIONS = {"enter_candidate", "wait_for_confirmation", "skip"}
+CONTEXT_CATEGORIES = {
+    "market",
+    "sector_theme",
+    "company_news",
+    "earnings_events",
+    "supply_demand",
+    "price_snapshot",
+}
 
 
 class DecisionLogError(ValueError):
@@ -29,6 +37,16 @@ def _canonical_digest(value: object) -> str:
         value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
     ).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
+
+
+def _timestamp(value: object, field: str) -> datetime:
+    try:
+        stamp = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise DecisionLogError(f"{field} must be an ISO-8601 timestamp") from exc
+    if stamp.tzinfo is None:
+        raise DecisionLogError(f"{field} must include a timezone")
+    return stamp.astimezone(UTC)
 
 
 def _primary_candidates(payload: dict[str, Any]) -> list[dict[str, Any]]:
@@ -83,11 +101,41 @@ def build_decision_record(
         raise DecisionLogError(f"Decision coverage mismatch missing={missing} extra={extra}")
 
     evaluated_at = str(analysis.get("evaluated_at") or "")
-    if not evaluated_at:
-        raise DecisionLogError("evaluated_at is required")
+    information_cutoff_at = str(analysis.get("information_cutoff_at") or "")
+    entry_session_open_at = str(analysis.get("entry_session_open_at") or "")
+    evaluated_stamp = _timestamp(evaluated_at, "evaluated_at")
+    cutoff_stamp = _timestamp(information_cutoff_at, "information_cutoff_at")
+    entry_stamp = _timestamp(entry_session_open_at, "entry_session_open_at")
+    acquired_stamp = _timestamp(
+        (primary_payload.get("data_quality") or {}).get("acquired_at"),
+        "primary data_quality.acquired_at",
+    )
+    if not acquired_stamp <= cutoff_stamp <= evaluated_stamp < entry_stamp:
+        raise DecisionLogError(
+            "Timestamps must satisfy acquired_at <= information_cutoff_at "
+            "<= evaluated_at < entry_session_open_at"
+        )
+    if entry_stamp.date() <= datetime.fromisoformat(signal_date).date():
+        raise DecisionLogError("entry_session_open_at must be after signal_date")
     source_snapshot = analysis.get("source_snapshot") or {}
     if not source_snapshot.get("checked_at") or not source_snapshot.get("sources"):
         raise DecisionLogError("Timestamped market/news sources are required")
+    if _timestamp(source_snapshot["checked_at"], "source_snapshot.checked_at") > cutoff_stamp:
+        raise DecisionLogError("source_snapshot.checked_at exceeds information cutoff")
+    for source in source_snapshot["sources"]:
+        if isinstance(source, dict) and source.get("published_at"):
+            if _timestamp(source["published_at"], "source published_at") > cutoff_stamp:
+                raise DecisionLogError("Source was published after information cutoff")
+    context = analysis.get("decision_context_snapshot") or {}
+    missing_context = sorted(CONTEXT_CATEGORIES.difference(context))
+    if missing_context:
+        raise DecisionLogError(f"Decision context is missing: {missing_context}")
+    for category in sorted(CONTEXT_CATEGORIES):
+        snapshot = context[category]
+        if "facts" not in snapshot:
+            raise DecisionLogError(f"Decision context facts are missing: {category}")
+        if _timestamp(snapshot.get("as_of"), f"{category}.as_of") > cutoff_stamp:
+            raise DecisionLogError(f"Decision context exceeds cutoff: {category}")
 
     normalized: list[dict[str, Any]] = []
     a_count = 0
@@ -140,6 +188,7 @@ def build_decision_record(
                         "A": "enter_candidate",
                         "B": "wait_for_confirmation",
                         "C": "skip",
+                        "SKIP": "skip",
                     }[label]
                 ),
                 **assessments,
@@ -162,14 +211,18 @@ def build_decision_record(
         raise DecisionLogError(f"A candidates exceed frozen maximum: {a_count}>{maximum_a}")
 
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "strategy_version": spec["strategy_version"],
         "signal_date": signal_date,
         "evaluated_at": evaluated_at,
+        "information_cutoff_at": information_cutoff_at,
+        "entry_session_open_at": entry_session_open_at,
         "primary_signal_sha256": _canonical_digest(primary_payload),
         "primary_data_quality": primary_payload["data_quality"],
         "audit_context": primary_payload.get("audit_context") or {},
         "source_snapshot": source_snapshot,
+        "decision_context_snapshot": context,
+        "decision_context_sha256": _canonical_digest(context),
         "decision_policy": "secondary_only_does_not_change_primary_signal",
         "decisions": sorted(
             normalized,
@@ -202,6 +255,10 @@ def load_decisions(log_dir: Path) -> pd.DataFrame:
                     "decision_audit_id": (payload.get("audit_context") or {}).get(
                         "audit_id"
                     ),
+                    "evaluated_at": payload.get("evaluated_at"),
+                    "information_cutoff_at": payload.get("information_cutoff_at"),
+                    "entry_session_open_at": payload.get("entry_session_open_at"),
+                    "decision_context_sha256": payload.get("decision_context_sha256"),
                     **decision,
                 }
             )

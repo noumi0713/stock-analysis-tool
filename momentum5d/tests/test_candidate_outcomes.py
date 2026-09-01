@@ -41,6 +41,12 @@ def _decisions() -> pd.DataFrame:
     )
 
 
+def _pullback_decisions() -> pd.DataFrame:
+    result = _decisions()
+    result.loc[:, "signal_type"] = "first_pullback"
+    return result
+
+
 def test_tracks_skipped_candidate_for_ten_sessions() -> None:
     result = track_ten_session_outcomes(
         _decisions(),
@@ -63,4 +69,17 @@ def test_outcome_remains_pending_until_ten_sessions_exist() -> None:
     result = track_ten_session_outcomes(_decisions(), _prices(periods=5))
 
     assert result["completed_count"] == 0
-    assert result["outcomes"][0]["status"] == "pending_10_sessions"
+    assert result["outcomes"][0]["status"] == "pending_official_exit_horizon"
+
+
+def test_pullback_uses_frozen_fifteen_session_exit() -> None:
+    result = track_ten_session_outcomes(_pullback_decisions(), _prices(periods=17))
+
+    outcome = result["outcomes"][0]
+    assert outcome["official_holding_sessions"] == 15
+    assert outcome["observation_end_date"] == "2026-09-22"
+    assert outcome["strategy_holding_sessions"] == 15
+    assert outcome["strategy_exit_reason"] == "take_profit"
+    assert outcome["maximum_favorable_excursion_official_horizon"] > outcome[
+        "maximum_favorable_excursion_10_sessions"
+    ]

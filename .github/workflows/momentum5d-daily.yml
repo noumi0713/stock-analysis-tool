@@ -22,10 +22,12 @@ on:
       - momentum5d/app/audit_metadata.py
       - momentum5d/app/signal_audit.py
       - momentum5d/app/candidate_outcomes.py
+      - momentum5d/app/abc_evaluation.py
       - momentum5d/app/resources/strategy_specs/live_v1_2026-08-31.json
       - momentum5d/app/resources/evaluation_protocols/*.json
       - momentum5d/scripts/export_close_signals.py
       - momentum5d/scripts/update_candidate_outcomes.py
+      - momentum5d/scripts/evaluate_secondary_decisions.py
       - momentum5d/scripts/resolve_close_ingest.py
       - momentum5d/scripts/validate_close_snapshot.py
       - dashboard-data/theme_members.csv
@@ -246,7 +248,7 @@ jobs:
           --git-commit "${{ github.sha }}"
           --output work/latest_signals.json
 
-      - name: Update ten-session outcomes for every A/B/C candidate
+      - name: Update frozen-rule outcomes for every secondary candidate
         if: steps.market_gate.outputs.eligible == 'true' && steps.update.outputs.should_run == 'true'
         run: >-
           python scripts/update_candidate_outcomes.py
@@ -255,6 +257,15 @@ jobs:
           --ledger ../dashboard-data/position-ledger.json
           --git-commit "${{ github.sha }}"
           --output work/secondary-outcomes.json
+
+      - name: Evaluate A/B/C effectiveness without hindsight
+        if: steps.market_gate.outputs.eligible == 'true' && steps.update.outputs.should_run == 'true'
+        run: >-
+          python scripts/evaluate_secondary_decisions.py
+          --decision-log-dir ../dashboard-data/secondary-decisions
+          --candidate-outcomes work/secondary-outcomes.json
+          --git-commit "${{ github.sha }}"
+          --output work/secondary-evaluation.json
 
       - name: Save rolling price cache
         if: steps.market_gate.outputs.eligible == 'true'
@@ -272,9 +283,11 @@ jobs:
           tmp_signals="$(mktemp)"
           tmp_audit="$(mktemp)"
           tmp_outcomes="$(mktemp)"
+          tmp_evaluation="$(mktemp)"
           cp work/latest_signals.json "$tmp_signals"
           cp work/signal-audit.json.gz "$tmp_audit"
           cp work/secondary-outcomes.json "$tmp_outcomes"
+          cp work/secondary-evaluation.json "$tmp_evaluation"
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -286,13 +299,16 @@ jobs:
             cp "$tmp_signals" ../dashboard-data/latest_signals.json
             audit_target="../dashboard-data/signal-audit/${{ steps.update.outputs.market_date }}.json.gz"
             outcomes_target="../dashboard-data/secondary-outcomes/latest.json"
-            mkdir -p "$(dirname "$audit_target")" "$(dirname "$outcomes_target")"
+            evaluation_target="../dashboard-data/secondary-evaluation/latest.json"
+            mkdir -p "$(dirname "$audit_target")" "$(dirname "$outcomes_target")" "$(dirname "$evaluation_target")"
             cp "$tmp_audit" "$audit_target"
             cp "$tmp_outcomes" "$outcomes_target"
+            cp "$tmp_evaluation" "$evaluation_target"
             git add -- \
               ../dashboard-data/latest_signals.json \
               "$audit_target" \
-              "$outcomes_target"
+              "$outcomes_target" \
+              "$evaluation_target"
 
             if git diff --cached --quiet; then
               echo "Signals are already current."
