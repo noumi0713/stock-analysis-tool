@@ -9,8 +9,12 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from app.adjustments import price_adjustment_factor, split_adjusted_volume
+from app.adjustments import normalize_split_adjusted_ohlcv
 from app.live_strategy import load_frozen_strategy
+from app.market_data_contract import (
+    load_market_certification,
+    validate_market_certification,
+)
 
 LIVE_STRATEGY = load_frozen_strategy()
 REVERSAL_SPEC = LIVE_STRATEGY["signals"]["capitulation_reversal"]
@@ -115,15 +119,7 @@ def calculate_indicators(prices: pd.DataFrame) -> pd.DataFrame:
     work = prices.copy()
     work["date"] = pd.to_datetime(work["date"], errors="coerce").dt.date
     work = work.dropna(subset=["date", "ticker"]).sort_values(["ticker", "date"])
-    raw_close = pd.to_numeric(work["close"], errors="coerce")
-    adjusted_close = pd.to_numeric(work["adjusted_close"], errors="coerce")
-    adjustment = price_adjustment_factor(raw_close, adjusted_close)
-    work["_close"] = adjusted_close
-    work["_open"] = pd.to_numeric(work["open"], errors="coerce") * adjustment
-    work["_high"] = pd.to_numeric(work["high"], errors="coerce") * adjustment
-    work["_low"] = pd.to_numeric(work["low"], errors="coerce") * adjustment
-    work["_volume_raw"] = pd.to_numeric(work["volume"], errors="coerce")
-    work["_volume"] = split_adjusted_volume(work["_volume_raw"], adjustment)
+    work = normalize_split_adjusted_ohlcv(work)
 
     groups: list[pd.DataFrame] = []
     for _, stock in work.groupby("ticker", sort=False):
@@ -143,7 +139,7 @@ def calculate_indicators(prices: pd.DataFrame) -> pd.DataFrame:
         stock["return_1d"] = close.pct_change(fill_method=None)
         stock["return_5d"] = close.pct_change(5, fill_method=None)
         stock["volume_ratio_1_20"] = volume.div(volume.rolling(20, min_periods=20).mean())
-        stock["trading_value"] = close * volume
+        stock["trading_value"] = stock["_turnover"]
         stock["ATR"] = true_range.rolling(14, min_periods=14).sum().div(14).div(close)
         stock["ma25"] = close.rolling(25, min_periods=25).mean()
         stock["ma75"] = close.rolling(75, min_periods=75).mean()
@@ -490,14 +486,20 @@ def _theme_fields(
 def build_payload(
     prices: pd.DataFrame,
     *,
+    certification: dict[str, Any],
     names: dict[str, str] | None = None,
     theme_memberships: dict[str, list[dict[str, str]]] | None = None,
     generated_at: str | None = None,
 ) -> dict[str, Any]:
+    certification = validate_market_certification(certification, prices=prices)
     indicators = calculate_indicators(prices)
     if indicators.empty:
         raise ValueError("No usable daily prices were found")
     latest_date = indicators["date"].max().isoformat()
+    validate_market_certification(
+        certification,
+        expected_date=latest_date,
+    )
     latest_rows = indicators.loc[indicators["date"].astype(str).eq(latest_date)]
     pullback_indicator_coverage = float(
         latest_rows["ma75_slope_10d"].notna().mean()
@@ -622,7 +624,6 @@ def build_payload(
         )
 
     stamp = generated_at or datetime.now(UTC).isoformat()
-    ticker_count = int(latest_rows["ticker"].nunique())
     theme_names = {
         item["theme"]
         for memberships in themes_by_code.values()
@@ -636,8 +637,12 @@ def build_payload(
         "portfolio_rules": LIVE_STRATEGY["portfolio"],
         "data_quality": {
             "status": "certified",
+            "source": certification["source"],
             "adjusted_ohlc": True,
             "split_adjusted_volume": True,
+            "adjustment_basis": "split_only_latest_share_basis",
+            "snapshot_fingerprint": certification["snapshot_fingerprint"],
+            "acquired_at": certification["acquired_at"],
             "signal_universe": "current_tse_as_of_signal_date",
             "historical_point_in_time_universe": "not_applicable_to_live_detection",
         },
@@ -650,10 +655,13 @@ def build_payload(
             "session": "close",
             "session_label": "大引け",
             "market_date": latest_date,
-            "data_through": f"{latest_date}T15:30:00+09:00",
+            "data_through": certification["data_through"],
             "interval": "1d",
-            "successful_tickers": ticker_count,
-            "coverage": 1.0,
+            "source": certification["source"],
+            "market_timezone": certification["market_timezone"],
+            "successful_tickers": certification["successful_tickers"],
+            "expected_tickers": certification["expected_tickers"],
+            "coverage": certification["coverage"],
             "pullback_indicator_coverage": round(
                 pullback_indicator_coverage, 6
             ),
@@ -734,10 +742,12 @@ def main() -> None:
     parser.add_argument("--prices", type=Path, required=True)
     parser.add_argument("--names", type=Path)
     parser.add_argument("--themes", type=Path)
+    parser.add_argument("--certification", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     payload = build_payload(
         pd.read_parquet(args.prices),
+        certification=load_market_certification(args.certification),
         names=_load_names(args.names),
         theme_memberships=_load_theme_memberships(args.themes),
     )

@@ -8,6 +8,7 @@ import pytest
 from scripts.validate_close_snapshot import (
     remove_non_daily_close_rows,
     validate_close_snapshot,
+    validate_ingestion_status,
 )
 
 
@@ -22,6 +23,7 @@ def _prices(*, source: str = "yfinance", include_second: bool = True) -> pd.Data
             "close": 108.0,
             "volume": 1_000,
             "source": source,
+            "stock_splits": 0.0,
         }
     ]
     if include_second:
@@ -39,6 +41,8 @@ def test_accepts_complete_daily_snapshot() -> None:
 
     assert result["source"] == "yfinance"
     assert result["coverage"] == 1.0
+    assert result["status"] == "certified"
+    assert result["snapshot_fingerprint"]
 
 
 def test_rejects_intraday_close_even_if_date_is_current() -> None:
@@ -97,3 +101,26 @@ def test_rejects_insufficient_daily_coverage() -> None:
             expected_tickers={"1001.T", "1002.T"},
             minimum_coverage=0.75,
         )
+
+
+def test_ingestion_status_must_match_certified_daily_session() -> None:
+    status = {
+        "status": "complete",
+        "source": "yfinance",
+        "session": "close",
+        "interval": "1d",
+        "market_timezone": "Asia/Tokyo",
+        "as_of": "2026-08-31",
+        "market_date": "2026-08-31",
+        "intraday": None,
+        "failed_batches": [],
+        "updated_at": "2026-08-31T07:10:00+00:00",
+    }
+
+    assert validate_ingestion_status(
+        status, expected_date=date(2026, 8, 31)
+    ) == "2026-08-31T07:10:00+00:00"
+
+    status["interval"] = "5m"
+    with pytest.raises(ValueError, match="interval"):
+        validate_ingestion_status(status, expected_date=date(2026, 8, 31))

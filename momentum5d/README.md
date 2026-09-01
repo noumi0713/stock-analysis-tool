@@ -18,6 +18,16 @@
 新規上場・上場廃止履歴から営業日時点のユニバースを復元します。旧シャードのように
 分割前後の出来高を補正できない入力は `provisional` となり、正式結果にできません。
 
+日次シグナルは、東証大引けの日足を別工程で認証し、認証JSONと実際の入力日足の
+SHA-256フィンガープリントが一致した場合だけ生成します。認証前のデータ、5分足、PTS、
+古い営業日、失敗バッチ、取得時刻不明のデータから `complete` を生成できません。
+株式分割は配当込みの `Adj Close / Close` を出来高補正に流用せず、企業アクションの
+分割比率を使ってOHLCを除算、出来高を乗算し、移動平均・ATR・売買代金を同じ株数基準で
+計算します。
+
+保有台帳は証券会社で確認済みの約定だけを受け付けます。「購入予定」「注文済み」や
+約定ID・約定時刻・価格・数量が不足する報告は台帳を変更しません。
+
 既存3年分はルール調整中に参照済みであり、真のアウト・オブ・サンプルではありません。
 `app/resources/evaluation_protocols/oos_v1_2026-08-31.json` は2026年9月1日以降の12か月を
 前向きOOSとして封印し、2027年8月31日まで性能指標を開かないよう固定しています。
@@ -36,6 +46,12 @@ python scripts/run_live_strategy_backtest.py \
   --input-mode raw_ohlcv_with_adjusted_close \
   --output-dir outputs/live_strategy_backtest
 python -m scripts.check_oos_status --as-of 2026-08-31
+python scripts/record_confirmed_fill.py \
+  --ledger data/private/position_ledger.json \
+  --execution-id BROKER_EXECUTION_ID \
+  --ticker 6302 --side buy --quantity 100 --price 5720 \
+  --executed-at 2026-09-01T09:15:00+09:00 \
+  --strategy first_pullback
 ```
 
 ## 実装済みの機能

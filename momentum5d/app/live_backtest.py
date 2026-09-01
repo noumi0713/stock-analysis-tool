@@ -6,12 +6,24 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from app.live_strategy import load_frozen_strategy
+from app.adjustments import normalize_split_adjusted_ohlcv
+from app.live_strategy import StrategySpecError, load_frozen_strategy
 from scripts.export_close_signals import (
     calculate_indicators,
     select_historical_pullback_signals,
     select_historical_signals,
 )
+
+EXECUTION_ENGINE_ID = "shared_next_open_ohlc_v1"
+
+
+def _resolve_strategy(strategy: dict[str, Any] | None) -> dict[str, Any]:
+    frozen = load_frozen_strategy()
+    if strategy is not None and strategy != frozen:
+        raise StrategySpecError(
+            "Backtest strategy differs from the frozen production specification"
+        )
+    return frozen
 
 
 @dataclass(frozen=True, slots=True)
@@ -40,7 +52,7 @@ def _profit_factor(returns: pd.Series) -> float | None:
 def build_trade_paths(
     prices: pd.DataFrame, *, signal_type: str, strategy: dict[str, Any] | None = None
 ) -> pd.DataFrame:
-    spec = strategy or load_frozen_strategy()
+    spec = _resolve_strategy(strategy)
     indicators = calculate_indicators(prices)
     if signal_type == "capitulation_reversal":
         selected = select_historical_signals(indicators)
@@ -137,7 +149,7 @@ def simulate_portfolio(
     *,
     strategy: dict[str, Any] | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, Any]]:
-    spec = strategy or load_frozen_strategy()
+    spec = _resolve_strategy(strategy)
     portfolio = spec["portfolio"]
     initial_capital = float(portfolio["initial_capital_yen"])
     lot_size = int(portfolio["lot_size"])
@@ -161,9 +173,8 @@ def simulate_portfolio(
 
     frame = prices.copy()
     frame["date"] = pd.to_datetime(frame["date"], errors="coerce").dt.date
-    raw_close = pd.to_numeric(frame["close"], errors="coerce")
-    adjusted = pd.to_numeric(frame.get("adjusted_close", raw_close), errors="coerce")
-    frame["mark_close"] = adjusted
+    frame = normalize_split_adjusted_ohlcv(frame)
+    frame["mark_close"] = frame["_close"]
     marks = frame.set_index(["date", "ticker"])["mark_close"].to_dict()
     dates = sorted(frame["date"].dropna().unique())
     entries = {
@@ -259,6 +270,7 @@ def simulate_portfolio(
         previous_year_end = end_equity
     summary = {
         "strategy_version": spec["strategy_version"],
+        "execution_engine_id": EXECUTION_ENGINE_ID,
         "initial_equity_yen": initial_capital,
         "ending_equity_yen": ending_equity,
         "total_return": ending_equity / initial_capital - 1.0,
@@ -279,7 +291,7 @@ def simulate_portfolio(
 def run_strategy_backtest(
     prices: pd.DataFrame, *, signal_type: str, strategy: dict[str, Any] | None = None
 ) -> dict[str, Any]:
-    spec = strategy or load_frozen_strategy()
+    spec = _resolve_strategy(strategy)
     paths = build_trade_paths(prices, signal_type=signal_type, strategy=spec)
     trades, curve, summary = simulate_portfolio(paths, prices, strategy=spec)
     summary.update(

@@ -202,8 +202,18 @@ class YahooFinanceIngestion:
 
         saved_tickers = set(combined["ticker"].astype(str).unique())
         missing_tickers = sorted(set(tickers) - saved_tickers)
+        published_session = (
+            str(intraday_status["session"])
+            if intraday_status is not None
+            else "close"
+        )
+        published_interval = "5m" if intraday_status is not None else "1d"
         status = {
+            "status": "complete",
             "source": "yfinance",
+            "session": published_session,
+            "interval": published_interval,
+            "market_timezone": "Asia/Tokyo",
             "personal_research_only": True,
             "as_of": as_of.isoformat(),
             "request_start": request_start.isoformat(),
@@ -218,6 +228,7 @@ class YahooFinanceIngestion:
             "rejected_market_rows": len(rejected_market_rows),
             "min_date": str(combined["date"].min()),
             "max_date": str(combined["date"].max()),
+            "market_date": str(combined["date"].max()),
             "failed_batches": failures,
             "intraday": intraday_status,
             "updated_at": datetime.now(UTC).isoformat(),

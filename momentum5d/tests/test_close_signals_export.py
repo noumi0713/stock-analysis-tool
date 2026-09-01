@@ -5,6 +5,7 @@ from datetime import date
 import pandas as pd
 import pytest
 
+from app.market_data_contract import daily_snapshot_fingerprint
 from scripts.export_close_signals import (
     MAX_NEAR_MISSES,
     MAX_SIGNALS,
@@ -16,6 +17,49 @@ from scripts.export_close_signals import (
     select_latest_pullback_signals,
     select_latest_signals,
 )
+
+
+def _certification(prices: pd.DataFrame) -> dict[str, object]:
+    if "source" not in prices:
+        prices["source"] = "yfinance"
+    if "stock_splits" not in prices:
+        prices["stock_splits"] = 0.0
+    market_date = pd.to_datetime(prices["date"]).max().date().isoformat()
+    return {
+        "status": "certified",
+        "market_date": market_date,
+        "source": "yfinance",
+        "session": "close",
+        "interval": "1d",
+        "market_timezone": "Asia/Tokyo",
+        "data_through": f"{market_date}T15:30:00+09:00",
+        "acquired_at": f"{market_date}T07:00:00+00:00",
+        "successful_tickers": int(prices["ticker"].nunique()),
+        "expected_tickers": int(prices["ticker"].nunique()),
+        "coverage": 1.0,
+        "minimum_coverage": 0.95,
+        "rejected_sources": [],
+        "snapshot_fingerprint": daily_snapshot_fingerprint(prices, market_date),
+    }
+
+
+def _raw_snapshot(signal_date: date, ticker: str = "6707.T") -> pd.DataFrame:
+    return pd.DataFrame(
+        [
+            {
+                "ticker": ticker,
+                "date": signal_date,
+                "open": 880.0,
+                "high": 910.0,
+                "low": 870.0,
+                "close": 900.0,
+                "adjusted_close": 900.0,
+                "volume": 500_000,
+                "stock_splits": 0.0,
+                "source": "yfinance",
+            }
+        ]
+    )
 
 
 def test_calculate_indicators_does_not_treat_split_as_volume_surge() -> None:
@@ -34,6 +78,7 @@ def test_calculate_indicators_does_not_treat_split_as_volume_surge() -> None:
                 "close": raw_close,
                 "adjusted_close": 2_500.0,
                 "volume": 200_000 if after_split else 100_000,
+                "stock_splits": 2.0 if after_split else 0.0,
             }
         )
 
@@ -237,7 +282,11 @@ def test_payload_publishes_stable_score_rules() -> None:
             }
         )
     prices = pd.DataFrame(rows)
-    payload = build_payload(prices, generated_at="2026-08-24T08:00:00+00:00")
+    payload = build_payload(
+        prices,
+        certification=_certification(prices),
+        generated_at="2026-08-24T08:00:00+00:00",
+    )
     conditions = payload["signal_model"]["conditions"]
 
     assert payload["strategy_version"] == "live_v1_2026-08-31"
@@ -280,8 +329,18 @@ def test_payload_rejects_insufficient_pullback_history() -> None:
             }
         )
 
+    prices = pd.DataFrame(rows)
     with pytest.raises(ValueError, match="at least 85 trading sessions"):
-        build_payload(pd.DataFrame(rows))
+        build_payload(prices, certification=_certification(prices))
+
+
+def test_payload_rejects_snapshot_changed_after_certification() -> None:
+    prices = _raw_snapshot(date(2026, 8, 31))
+    certification = _certification(prices)
+    prices.loc[0, "close"] = 901.0
+
+    with pytest.raises(ValueError, match="fingerprint"):
+        build_payload(prices, certification=certification)
 
 
 def test_payload_publishes_near_miss_reason(monkeypatch) -> None:
@@ -294,7 +353,12 @@ def test_payload_publishes_near_miss_reason(monkeypatch) -> None:
         lambda _prices: indicators,
     )
 
-    payload = build_payload(pd.DataFrame(), names={"6707": "サンケン電気"})
+    prices = _raw_snapshot(signal_date)
+    payload = build_payload(
+        prices,
+        certification=_certification(prices),
+        names={"6707": "サンケン電気"},
+    )
 
     assert payload["signal_count"] == 0
     assert payload["near_miss_count"] == 1
@@ -329,8 +393,10 @@ def test_theme_memberships_are_metadata_only(monkeypatch, tmp_path) -> None:
         lambda _prices: indicators,
     )
 
+    prices = _raw_snapshot(signal_date)
     payload = build_payload(
-        pd.DataFrame(),
+        prices,
+        certification=_certification(prices),
         names={"6707": "サンケン電気"},
         theme_memberships=themes,
     )

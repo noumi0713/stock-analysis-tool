@@ -4,17 +4,15 @@ from datetime import UTC, date, datetime
 
 import pytest
 
-from scripts.resolve_close_ingest import resolve_close_ingest_plan
+from scripts.resolve_close_ingest import (
+    CloseDataNotReadyError,
+    resolve_close_ingest_plan,
+)
 
 
 @pytest.mark.parametrize(
     ("now", "expected_date", "expected_intraday"),
     [
-        (
-            datetime(2026, 8, 27, 6, 39, tzinfo=UTC),
-            date(2026, 8, 26),
-            False,
-        ),
         (
             datetime(2026, 8, 27, 6, 40, tzinfo=UTC),
             date(2026, 8, 27),
@@ -41,3 +39,8 @@ def test_resolve_close_ingest_plan(
 def test_resolve_close_ingest_plan_rejects_naive_datetime() -> None:
     with pytest.raises(ValueError, match="timezone-aware"):
         resolve_close_ingest_plan(datetime(2026, 8, 27, 15, 40))
+
+
+def test_resolve_close_ingest_plan_refuses_previous_day_fallback() -> None:
+    with pytest.raises(CloseDataNotReadyError, match="refusing"):
+        resolve_close_ingest_plan(datetime(2026, 8, 27, 6, 39, tzinfo=UTC))

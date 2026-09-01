@@ -1,14 +1,52 @@
 from __future__ import annotations
 
 import argparse
-from datetime import date
+import json
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 import pandas as pd
 
+from app.market_data_contract import (
+    DAILY_INTERVAL,
+    DAILY_SOURCE,
+    FINAL_SESSION,
+    MARKET_TIMEZONE,
+    daily_snapshot_fingerprint,
+)
 from app.storage.parquet import ParquetStore
 
-DAILY_SOURCE = "yfinance"
+
+def validate_ingestion_status(
+    status: dict[str, object], *, expected_date: date
+) -> str:
+    expected_values = {
+        "status": "complete",
+        "source": DAILY_SOURCE,
+        "session": FINAL_SESSION,
+        "interval": DAILY_INTERVAL,
+        "market_timezone": MARKET_TIMEZONE,
+        "as_of": expected_date.isoformat(),
+        "market_date": expected_date.isoformat(),
+    }
+    for key, expected in expected_values.items():
+        if status.get(key) != expected:
+            raise ValueError(
+                f"取得ステータスが不一致です: {key}={status.get(key)!r} "
+                f"expected={expected!r}"
+            )
+    if status.get("intraday") is not None:
+        raise ValueError("確定日足の取得ステータスに場中データが混在しています")
+    if status.get("failed_batches"):
+        raise ValueError("確定日足の取得に失敗バッチがあります")
+    acquired_at = str(status.get("updated_at") or "")
+    try:
+        parsed = datetime.fromisoformat(acquired_at)
+    except ValueError as exc:
+        raise ValueError("取得時刻 updated_at が不正です") from exc
+    if parsed.tzinfo is None:
+        raise ValueError("取得時刻 updated_at にタイムゾーンがありません")
+    return acquired_at
 
 
 def _normalize_ticker(value: str) -> str:
@@ -52,6 +90,7 @@ def validate_close_snapshot(
     expected_date: date,
     expected_tickers: set[str],
     minimum_coverage: float = 0.95,
+    acquired_at: str | None = None,
 ) -> dict[str, object]:
     required_columns = {
         "date",
@@ -62,6 +101,7 @@ def validate_close_snapshot(
         "close",
         "volume",
         "source",
+        "stock_splits",
     }
     missing_columns = sorted(required_columns - set(prices.columns))
     if missing_columns:
@@ -108,12 +148,22 @@ def validate_close_snapshot(
             f"required>={minimum_coverage:.1%}"
         )
 
+    stamp = acquired_at or datetime.now(UTC).isoformat()
     return {
+        "status": "certified",
         "market_date": expected_date.isoformat(),
         "source": DAILY_SOURCE,
+        "session": FINAL_SESSION,
+        "interval": DAILY_INTERVAL,
+        "market_timezone": MARKET_TIMEZONE,
+        "data_through": f"{expected_date.isoformat()}T15:30:00+09:00",
+        "acquired_at": stamp,
         "successful_tickers": len(actual_tickers),
         "expected_tickers": len(expected_tickers),
         "coverage": coverage,
+        "minimum_coverage": minimum_coverage,
+        "rejected_sources": [],
+        "snapshot_fingerprint": daily_snapshot_fingerprint(prices, expected_date),
     }
 
 
@@ -122,6 +172,8 @@ def main() -> None:
     parser.add_argument("--prices", type=Path, required=True)
     parser.add_argument("--expected-date", type=date.fromisoformat, required=True)
     parser.add_argument("--tickers-file", type=Path, required=True)
+    parser.add_argument("--ingestion-status", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--minimum-coverage", type=float, default=0.95)
     parser.add_argument(
         "--remove-non-daily",
@@ -140,12 +192,24 @@ def main() -> None:
         if excluded_tickers:
             ParquetStore._atomic_parquet(prices, args.prices)
 
+    ingestion_status = json.loads(args.ingestion_status.read_text(encoding="utf-8"))
+    acquired_at = validate_ingestion_status(
+        ingestion_status,
+        expected_date=args.expected_date,
+    )
     result = validate_close_snapshot(
         prices,
         expected_date=args.expected_date,
         expected_tickers=load_expected_tickers(args.tickers_file),
         minimum_coverage=args.minimum_coverage,
+        acquired_at=acquired_at,
     )
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    temporary = args.output.with_suffix(f"{args.output.suffix}.tmp")
+    temporary.write_text(
+        json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    temporary.replace(args.output)
     print(
         "Certified daily close: "
         f"date={result['market_date']} source={result['source']} "

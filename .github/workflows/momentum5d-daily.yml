@@ -98,8 +98,10 @@ jobs:
             tests/test_point_in_time_universe.py \
             tests/test_live_backtest.py \
             tests/test_live_backtest_input_audit.py \
+            tests/test_position_ledger.py \
             tests/test_close_signals_export.py \
             tests/test_close_ingest_plan.py \
+            tests/test_position_ledger.py \
             tests/test_validate_close_snapshot.py
           python -m ruff check \
             app/live_strategy.py \
@@ -107,6 +109,8 @@ jobs:
             app/forward_validation.py \
             app/secondary_decision_log.py \
             app/adjustments.py \
+            app/market_data_contract.py \
+            app/position_ledger.py \
             app/point_in_time_universe.py \
             app/live_backtest.py \
             scripts/verify_live_strategy.py \
@@ -117,13 +121,28 @@ jobs:
             scripts/check_forward_readiness.py \
             scripts/export_close_signals.py \
             scripts/resolve_close_ingest.py \
+            scripts/record_confirmed_fill.py \
             scripts/validate_close_snapshot.py \
             tests/test_live_strategy.py \
             tests/test_close_signals_export.py \
             tests/test_close_ingest_plan.py \
             tests/test_validate_close_snapshot.py
 
+      - name: Gate market-data publication
+        id: market_gate
+        env:
+          WORKFLOW_EVENT: ${{ github.event_name }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          eligible=false
+          if [[ "$WORKFLOW_EVENT" != "push" ]] || [[ "$COMMIT_MESSAGE" == *"[refresh-yahoo]"* ]]; then
+            eligible=true
+          fi
+          echo "eligible=$eligible" >> "$GITHUB_OUTPUT"
+          echo "market-data publication eligible=$eligible"
+
       - name: Refresh TSE universe
+        if: steps.market_gate.outputs.eligible == 'true'
         run: >-
           python app/yahoo/universe.py
           --config-dir config
@@ -132,12 +151,12 @@ jobs:
 
       - name: Resolve completed market session
         id: close_plan
-        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[refresh-yahoo]')
+        if: steps.market_gate.outputs.eligible == 'true'
         run: python scripts/resolve_close_ingest.py >> "$GITHUB_OUTPUT"
 
       - name: Download final daily close data only
         # 15:25始まりの5分足は大引け板寄せを保証しないため、終値用途には使わない。
-        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[refresh-yahoo]')
+        if: steps.market_gate.outputs.eligible == 'true'
         env:
           CLOSE_AS_OF: ${{ steps.close_plan.outputs.as_of }}
         run: >-
@@ -146,7 +165,7 @@ jobs:
           --tickers-file config/prime_tickers.txt
 
       - name: Certify final daily close snapshot
-        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[refresh-yahoo]')
+        if: steps.market_gate.outputs.eligible == 'true'
         env:
           CLOSE_AS_OF: ${{ steps.close_plan.outputs.as_of }}
         run: >-
@@ -154,11 +173,14 @@ jobs:
           --prices data/yahoo/processed/equities_daily.parquet
           --expected-date "$CLOSE_AS_OF"
           --tickers-file config/prime_tickers.txt
+          --ingestion-status data/yahoo/metadata/ingestion_status.json
+          --output work/close_certification.json
           --minimum-coverage 0.95
           --remove-non-daily
 
       - name: Skip an already published market date
         id: update
+        if: steps.market_gate.outputs.eligible == 'true'
         env:
           REQUESTED_FORCE: ${{ inputs.force }}
           WORKFLOW_EVENT: ${{ github.event_name }}
@@ -200,26 +222,28 @@ jobs:
           PY
 
       - name: Validate close data
-        if: steps.update.outputs.should_run == 'true'
+        if: steps.market_gate.outputs.eligible == 'true' && steps.update.outputs.should_run == 'true'
         run: python -m app yahoo-validate
 
       - name: Build next-session signal JSON
-        if: steps.update.outputs.should_run == 'true'
+        if: steps.market_gate.outputs.eligible == 'true' && steps.update.outputs.should_run == 'true'
         run: >-
           python scripts/export_close_signals.py
           --prices data/yahoo/processed/equities_daily.parquet
           --names config/prime_names.csv
           --themes ../dashboard-data/theme_members.csv
+          --certification work/close_certification.json
           --output work/latest_signals.json
 
       - name: Save rolling price cache
+        if: steps.market_gate.outputs.eligible == 'true'
         uses: actions/cache/save@v4
         with:
           path: momentum5d/data/yahoo
           key: momentum10d-close-${{ github.run_id }}
 
       - name: Publish lightweight signals
-        if: steps.update.outputs.should_run == 'true'
+        if: steps.market_gate.outputs.eligible == 'true' && steps.update.outputs.should_run == 'true'
         shell: bash
         run: |
           set -euo pipefail

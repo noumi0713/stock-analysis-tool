@@ -6,10 +6,11 @@ from pathlib import Path
 
 import pandas as pd
 
-from app.live_backtest import run_strategy_backtest
+from app.live_backtest import EXECUTION_ENGINE_ID, run_strategy_backtest
+from app.live_strategy import load_frozen_strategy
 from app.point_in_time_universe import filter_prices_by_point_in_time_universe
 
-SIGNAL_TYPES = ("capitulation_reversal", "first_pullback")
+SIGNAL_TYPES = tuple(load_frozen_strategy()["signals"])
 INPUT_MODES = (
     "raw_ohlcv_with_adjusted_close",
     "legacy_preadjusted_prices_raw_volume",
@@ -30,8 +31,17 @@ def audit_input_data(
 
     warnings: list[str] = []
     certified = input_mode == "raw_ohlcv_with_adjusted_close"
-    if certified and "adjusted_close" not in prices.columns:
-        raise ValueError("Certified input requires adjusted_close alongside raw OHLCV")
+    if certified:
+        certified_columns = {"adjusted_close", "stock_splits", "source"}
+        certified_missing = sorted(certified_columns.difference(prices.columns))
+        if certified_missing:
+            raise ValueError(
+                "Certified input requires corporate-action and source columns: "
+                f"{certified_missing}"
+            )
+        invalid_source = prices["source"].astype(str).ne("yfinance")
+        if invalid_source.any():
+            raise ValueError("Certified backtest input contains a non-daily source")
     if not certified:
         warnings.append(
             "Legacy shards contain pre-adjusted prices and raw volume; split-volume "
@@ -84,6 +94,7 @@ def main() -> int:
         "status": f"completed_{audit['status']}",
         "universe_mode": "jpx_point_in_time",
         "signals_evaluated_separately": True,
+        "execution_engine_id": EXECUTION_ENGINE_ID,
         "input_data_audit": audit,
         "summaries": summaries,
     }

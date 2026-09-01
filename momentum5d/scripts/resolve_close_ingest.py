@@ -6,12 +6,17 @@ from zoneinfo import ZoneInfo
 
 JST = ZoneInfo("Asia/Tokyo")
 CLOSE_DATA_READY_AT = time(15, 40)
+PREOPEN_CUTOFF = time(9, 0)
 
 
 @dataclass(frozen=True)
 class CloseIngestPlan:
     as_of: date
     use_intraday_close: bool
+
+
+class CloseDataNotReadyError(RuntimeError):
+    """Raised instead of silently substituting a previous or non-trading date."""
 
 
 def resolve_close_ingest_plan(now: datetime | None = None) -> CloseIngestPlan:
@@ -27,13 +32,17 @@ def resolve_close_ingest_plan(now: datetime | None = None) -> CloseIngestPlan:
         raise ValueError("now must be timezone-aware")
 
     current_jst = current.astimezone(JST)
-    if current_jst.time() >= CLOSE_DATA_READY_AT:
+    if current_jst.time() < PREOPEN_CUTOFF:
         return CloseIngestPlan(
-            as_of=current_jst.date(),
+            as_of=current_jst.date() - timedelta(days=1),
             use_intraday_close=False,
         )
+    if current_jst.time() < CLOSE_DATA_READY_AT:
+        raise CloseDataNotReadyError(
+            "Current TSE daily close is not ready; refusing to reuse an older date"
+        )
     return CloseIngestPlan(
-        as_of=current_jst.date() - timedelta(days=1),
+        as_of=current_jst.date(),
         use_intraday_close=False,
     )
 

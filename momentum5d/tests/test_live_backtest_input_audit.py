@@ -18,6 +18,8 @@ def _prices(*, adjusted: bool = True) -> pd.DataFrame:
     }
     if adjusted:
         row["adjusted_close"] = 51
+        row["stock_splits"] = 2.0
+        row["source"] = "yfinance"
     return pd.DataFrame([row])
 
 
