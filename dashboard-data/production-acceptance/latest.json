@@ -1,0 +1,154 @@
+{
+  "schema_version": 2,
+  "as_of": "2026-09-02",
+  "SYSTEM_PRODUCTION_READY": "PASS",
+  "FULL_CAPITAL_STRATEGY_READY": "WAIT_OOS",
+  "categories": {
+    "DATA": {
+      "status": "PASS",
+      "checks": {
+        "latest_market_date": {
+          "status": "PASS",
+          "detail": "expected=2026-09-02 actual=2026-09-02"
+        },
+        "coverage": {
+          "status": "PASS",
+          "detail": "3674/3707"
+        },
+        "certified_quality": {
+          "status": "PASS",
+          "detail": "certified"
+        }
+      }
+    },
+    "LIVE_PIPELINE": {
+      "status": "PASS",
+      "checks": {
+        "complete": {
+          "status": "PASS",
+          "detail": "complete"
+        },
+        "atomic_publication": {
+          "status": "PASS",
+          "detail": "ready_for_atomic_publish"
+        },
+        "stale_fallback_disabled": {
+          "status": "PASS",
+          "detail": "stale result fallback must be false"
+        }
+      }
+    },
+    "BACKTEST": {
+      "status": "PASS",
+      "checks": {
+        "certified_input": {
+          "status": "PASS",
+          "detail": "completed_certified"
+        },
+        "strategies_separated": {
+          "status": "PASS",
+          "detail": "True"
+        },
+        "capitulation_reversal_metrics": {
+          "status": "PASS",
+          "detail": "complete"
+        },
+        "first_pullback_metrics": {
+          "status": "PASS",
+          "detail": "complete"
+        }
+      }
+    },
+    "LIVE_BT_CONSISTENCY": {
+      "status": "PASS",
+      "checks": {
+        "effective_values": {
+          "status": "PASS",
+          "detail": "identical"
+        },
+        "effective_values_sha256": {
+          "status": "PASS",
+          "detail": "live=ddc5b7cf2beac3a5764a05e87b43672ecfb1cddad9dd103085ba7c105e090cd9 bt=ddc5b7cf2beac3a5764a05e87b43672ecfb1cddad9dd103085ba7c105e090cd9"
+        }
+      }
+    },
+    "REPRODUCIBILITY": {
+      "status": "PASS",
+      "checks": {
+        "live_signal_rebuild": {
+          "status": "PASS",
+          "detail": "e308e71956377f9b96a2d81a3297d469be56096573b2d04e43ba244aee946727"
+        },
+        "backtest_repeat": {
+          "status": "PASS",
+          "detail": "380c4b30852cce9d41f69608b0e01e0aefc66e73f6790cff32df763c348cdf9d"
+        }
+      }
+    },
+    "FAILSAFE": {
+      "status": "PASS",
+      "checks": {
+        "latest_date_mismatch": {
+          "status": "PASS",
+          "detail": "market_certification: Certification date mismatch: expected=2026-09-02 actual=2026-09-01"
+        },
+        "ticker_shortfall": {
+          "status": "PASS",
+          "detail": "market_certification: Certified snapshot coverage is insufficient"
+        },
+        "complete_false": {
+          "status": "PASS",
+          "detail": "complete_close_payload: payload date/session/status mismatch"
+        },
+        "invalid_strategy_config": {
+          "status": "PASS",
+          "detail": "The live strategy must have status=frozen"
+        },
+        "close_certification_failure": {
+          "status": "PASS",
+          "detail": "market_certification: Market certification requires status=certified"
+        }
+      }
+    },
+    "AUDIT": {
+      "status": "PASS",
+      "checks": {
+        "required_fields": {
+          "status": "PASS",
+          "detail": "complete"
+        }
+      }
+    },
+    "MONITORING": {
+      "status": "PASS",
+      "checks": {
+        "required_fields": {
+          "status": "PASS",
+          "detail": "complete"
+        },
+        "publication_success": {
+          "status": "PASS",
+          "detail": "success"
+        }
+      }
+    },
+    "ROLLBACK": {
+      "status": "PASS",
+      "checks": {
+        "manifest": {
+          "status": "PASS",
+          "detail": "production-snapshots/2026-09-02/latest_signals.json"
+        },
+        "dry_run": {
+          "status": "PASS",
+          "detail": "PASS"
+        }
+      }
+    }
+  },
+  "OOS": "WAIT",
+  "FORWARD_RECORDS": "0 / 50 / 100",
+  "blocking_items": [],
+  "production_migration_allowed": true,
+  "rule": "Unexecuted or unconfirmed checks cannot pass."
+}

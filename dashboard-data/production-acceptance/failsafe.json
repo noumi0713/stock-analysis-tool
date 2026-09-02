@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "scenarios": {
+    "latest_date_mismatch": {
+      "publication_blocked": true,
+      "detail": "market_certification: Certification date mismatch: expected=2026-09-02 actual=2026-09-01"
+    },
+    "ticker_shortfall": {
+      "publication_blocked": true,
+      "detail": "market_certification: Certified snapshot coverage is insufficient"
+    },
+    "complete_false": {
+      "publication_blocked": true,
+      "detail": "complete_close_payload: payload date/session/status mismatch"
+    },
+    "close_certification_failure": {
+      "publication_blocked": true,
+      "detail": "market_certification: Market certification requires status=certified"
+    },
+    "invalid_strategy_config": {
+      "publication_blocked": true,
+      "detail": "The live strategy must have status=frozen"
+    }
+  }
+}
