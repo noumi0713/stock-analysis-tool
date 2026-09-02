@@ -3,7 +3,7 @@
   "status": "failed",
   "complete": false,
   "market_date": "2026-09-02",
-  "calculation_completed_at": "2026-09-02T11:09:59.987816+00:00",
+  "calculation_completed_at": "2026-09-02T11:19:44.085060+00:00",
   "git_commit_id": "a07413b7361a79c60687a51bcaa698a5c605484d",
   "errors": [
     "workflow_failed:33622623548"

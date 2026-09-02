@@ -2,12 +2,12 @@
   "schema_version": 4,
   "date": "2026-09-02",
   "latest_date": "2026-09-02",
-  "generated_at": "2026-09-02T11:09:59.987816+00:00",
+  "generated_at": "2026-09-02T11:19:44.085060+00:00",
   "update": {
     "status": "failed",
     "session": "close",
     "market_date": "2026-09-02",
-    "generated_at": "2026-09-02T11:09:59.987816+00:00",
+    "generated_at": "2026-09-02T11:19:44.085060+00:00",
     "message": "更新失敗・本日データ未確定"
   },
   "data_quality": {
