@@ -140,9 +140,24 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git fetch origin main
+          # The daily release can be running concurrently with this workflow.
+          # Wait for the audited market date to be atomically published on main.
+          release_ready=false
+          for attempt in {1..20}; do
+            git -C .. fetch origin main
+            if git -C .. cat-file -e \
+              "origin/main:dashboard-data/production-audit/${{ steps.dates.outputs.as_of }}.json" 2>/dev/null; then
+              release_ready=true
+              break
+            fi
+            sleep 30
+          done
+          if [[ "$release_ready" != "true" ]]; then
+            echo "No completed live release for ${{ steps.dates.outputs.as_of }} was published." >&2
+            exit 1
+          fi
           acceptance_source="$(mktemp -d)"
-          git archive "origin/main" dashboard-data | tar -x -C "$acceptance_source"
+          git -C .. archive "origin/main" dashboard-data | tar -x -C "$acceptance_source"
           audit="$acceptance_source/dashboard-data/production-audit/${{ steps.dates.outputs.as_of }}.json"
           monitoring="$acceptance_source/dashboard-data/monitoring/latest.json"
           rollback="$acceptance_source/dashboard-data/rollback-manifest.json"
