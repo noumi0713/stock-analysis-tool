@@ -69,50 +69,53 @@ def prepare() -> pd.DataFrame:
     g = df.groupby("ticker", group_keys=False)
     df["prev_close"] = g["adj_close"].shift(1)
     df["return_1d"] = df["adj_close"] / df["prev_close"] - 1.0
-    df["volume_ma20_prev"] = g["volume"].transform(lambda s: s.shift(1).rolling(20, min_periods=20).mean())
+    df["volume_ma20_prev"] = g["volume"].transform(
+        lambda s: s.shift(1).rolling(20, min_periods=20).mean()
+    )
     df["volume_ratio20"] = df["volume"] / df["volume_ma20_prev"]
     df["close_from_high"] = 1.0 - (df["adj_close"] / df["adj_high"])
 
     max_date = df["date"].max()
     start = max_date - pd.DateOffset(years=3)
-    # Keep extra history for rolling features, but only generate impulses in the 3y window.
     df["in_test_window"] = df["date"] >= start
     return df.reset_index(drop=True)
 
 
 def detect(df: pd.DataFrame, cfg: Config) -> tuple[pd.DataFrame, dict]:
-    trades: list[dict] = []
+    # Vectorize the expensive whole-universe filters. Python loops only over the
+    # small set of qualifying impulse events; trading rules are unchanged.
+    impulse_mask = (
+        df["in_test_window"]
+        & df["return_1d"].notna()
+        & df["volume_ratio20"].notna()
+        & df["return_1d"].ge(cfg.impulse_return_min)
+        & df["volume_ratio20"].ge(cfg.impulse_volume_ratio)
+    )
+    quality_mask = (
+        impulse_mask
+        & df["close_from_high"].le(cfg.close_from_high_max)
+        & df["turnover"].ge(cfg.turnover_min_yen)
+    )
     counts = {
-        "impulse": 0,
-        "quality_impulse": 0,
+        "impulse": int(impulse_mask.sum()),
+        "quality_impulse": int(quality_mask.sum()),
         "persistence_and_pullback": 0,
         "recovery_confirmation": 0,
     }
+    trades: list[dict] = []
 
     for ticker, group in df.groupby("ticker", sort=False):
+        candidate_local = np.flatnonzero(quality_mask.loc[group.index].to_numpy())
+        if len(candidate_local) == 0:
+            continue
         x = group.reset_index(drop=True)
         last_entry_idx = -10_000
         n = len(x)
-        for i in range(n):
+
+        for i in candidate_local.tolist():
+            if i == 0 or i >= n - 2:
+                continue
             r = x.iloc[i]
-            if not bool(r["in_test_window"]):
-                continue
-            if not (
-                pd.notna(r["return_1d"])
-                and pd.notna(r["volume_ratio20"])
-                and r["return_1d"] >= cfg.impulse_return_min
-                and r["volume_ratio20"] >= cfg.impulse_volume_ratio
-            ):
-                continue
-            counts["impulse"] += 1
-            if not (
-                r["close_from_high"] <= cfg.close_from_high_max
-                and r["turnover"] >= cfg.turnover_min_yen
-            ):
-                continue
-            counts["quality_impulse"] += 1
-            if i == 0:
-                continue
             pre_impulse_close = float(x.iloc[i - 1]["adj_close"])
             impulse_high = float(r["adj_high"])
 
@@ -123,7 +126,6 @@ def detect(df: pd.DataFrame, cfg: Config) -> tuple[pd.DataFrame, dict]:
                 p = x.iloc[j]
                 if not pd.notna(p["volume_ratio20"]):
                     continue
-                # Every observed post-impulse day through the pullback must retain abnormal volume.
                 interim = x.iloc[i + 1 : j + 1]["volume_ratio20"]
                 if interim.empty or (interim < cfg.persistence_volume_ratio).any():
                     continue
@@ -157,6 +159,7 @@ def detect(df: pd.DataFrame, cfg: Config) -> tuple[pd.DataFrame, dict]:
             if found_recovery is None:
                 continue
             counts["recovery_confirmation"] += 1
+
             k = found_recovery
             entry_idx = k + 1
             if entry_idx >= n or entry_idx - last_entry_idx <= cfg.cooldown_days:
@@ -176,8 +179,12 @@ def detect(df: pd.DataFrame, cfg: Config) -> tuple[pd.DataFrame, dict]:
                 "impulse_volume_ratio": float(r["volume_ratio20"]),
                 "impulse_turnover_yen": float(r["turnover"]),
                 "impulse_close_from_high_pct": float(r["close_from_high"] * 100),
-                "pullback_depth_pct": float((1.0 - float(x.iloc[found_pullback]["adj_close"]) / impulse_high) * 100),
-                "entry_gap_pct": float((entry_price / float(x.iloc[k]["adj_close"]) - 1.0) * 100),
+                "pullback_depth_pct": float(
+                    (1.0 - float(x.iloc[found_pullback]["adj_close"]) / impulse_high) * 100
+                ),
+                "entry_gap_pct": float(
+                    (entry_price / float(x.iloc[k]["adj_close"]) - 1.0) * 100
+                ),
             }
             for horizon in (5, 10, 20):
                 end_idx = entry_idx + horizon - 1
@@ -240,8 +247,7 @@ def yearly(trades: pd.DataFrame) -> list[dict]:
     t["year"] = pd.to_datetime(t["entry_date"]).dt.year
     out = []
     for year, part in t.groupby("year"):
-        row = {"year": int(year), **summarize(part)}
-        out.append(row)
+        out.append({"year": int(year), **summarize(part)})
     return out
 
 
@@ -280,12 +286,15 @@ def main() -> None:
     base_trades = None
     for name, cfg in variants.items():
         trades, counts = detect(df, cfg)
-        summary = summarize(trades)
-        excl_tier4 = trades.loc[~trades["ticker"].astype(str).str.startswith("593A")] if not trades.empty else trades
+        excl_tier4 = (
+            trades.loc[~trades["ticker"].astype(str).str.startswith("593A")]
+            if not trades.empty
+            else trades
+        )
         payload["variants"][name] = {
             "config": asdict(cfg),
             "stage_counts": counts,
-            "summary": summary,
+            "summary": summarize(trades),
             "summary_excluding_593A": summarize(excl_tier4),
             "yearly": yearly(trades),
         }
@@ -294,7 +303,9 @@ def main() -> None:
 
     assert base_trades is not None
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    OUTPUT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    OUTPUT_JSON.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     base_trades.to_csv(OUTPUT_CSV, index=False)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
 
