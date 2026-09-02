@@ -5,13 +5,16 @@ import hashlib
 import json
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 
 from app.audit_metadata import resolve_git_commit
-from app.live_backtest import EXECUTION_ENGINE_ID, run_strategy_backtest
+from app.execution_contract import EXECUTION_ENGINE_ID
+from app.live_backtest import run_strategy_backtest
 from app.live_strategy import FROZEN_STRATEGY_SHA256, load_frozen_strategy
 from app.point_in_time_universe import filter_prices_by_point_in_time_universe
+from app.production_readiness import frozen_logic_contract
 
 SIGNAL_TYPES = tuple(load_frozen_strategy()["signals"])
 INPUT_MODES = (
@@ -26,6 +29,16 @@ def _file_sha256(path: Path) -> str:
         while chunk := source.read(1024 * 1024):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _update_frame_hash(digest: Any, frame: pd.DataFrame) -> None:
+    canonical = frame.copy()
+    for column in canonical.columns:
+        if column.endswith("date"):
+            canonical[column] = canonical[column].astype(str)
+    digest.update(
+        canonical.to_json(orient="records", double_precision=15, force_ascii=False).encode("utf-8")
+    )
 
 
 def audit_input_data(
@@ -47,8 +60,7 @@ def audit_input_data(
         certified_missing = sorted(certified_columns.difference(prices.columns))
         if certified_missing:
             raise ValueError(
-                "Certified input requires corporate-action and source columns: "
-                f"{certified_missing}"
+                f"Certified input requires corporate-action and source columns: {certified_missing}"
             )
         invalid_source = prices["source"].astype(str).ne("yfinance")
         if invalid_source.any():
@@ -106,8 +118,22 @@ def main() -> int:
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     summaries = {}
+    deterministic = hashlib.sha256()
     for signal_type in SIGNAL_TYPES:
         result = run_strategy_backtest(prices, signal_type=signal_type)
+        deterministic.update(signal_type.encode("utf-8"))
+        deterministic_summary = dict(result["summary"])
+        deterministic.update(
+            json.dumps(
+                deterministic_summary,
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+                allow_nan=False,
+            ).encode("utf-8")
+        )
+        for frame in (result["candidate_paths"], result["trades"], result["equity_curve"]):
+            _update_frame_hash(deterministic, frame)
         strategy_audit = {**result_audit, "strategy_name": signal_type}
         result["summary"]["audit_context"] = strategy_audit
         summaries[signal_type] = result["summary"]
@@ -122,9 +148,7 @@ def main() -> int:
         result["candidate_paths"].to_csv(
             args.output_dir / f"{signal_type}_candidate_paths.csv", index=False
         )
-        result["trades"].to_csv(
-            args.output_dir / f"{signal_type}_trades.csv", index=False
-        )
+        result["trades"].to_csv(args.output_dir / f"{signal_type}_trades.csv", index=False)
         result["equity_curve"].to_csv(
             args.output_dir / f"{signal_type}_equity_curve.csv", index=False
         )
@@ -133,6 +157,10 @@ def main() -> int:
         "universe_mode": "jpx_point_in_time",
         "signals_evaluated_separately": True,
         "execution_engine_id": EXECUTION_ENGINE_ID,
+        "logic_contract": {**frozen_logic_contract(), "consumer": "backtest"},
+        "deterministic_fingerprint": deterministic.hexdigest(),
+        "costs_and_slippage_included": True,
+        "regime_performance_status": "not_available_without_point_in_time_regime_labels",
         "audit_context": result_audit,
         "input_data_audit": audit,
         "summaries": summaries,

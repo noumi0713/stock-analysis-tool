@@ -7,14 +7,13 @@ import numpy as np
 import pandas as pd
 
 from app.adjustments import normalize_split_adjusted_ohlcv
+from app.execution_contract import EXECUTION_ENGINE_ID
 from app.live_strategy import StrategySpecError, load_frozen_strategy
 from scripts.export_close_signals import (
     calculate_indicators,
     select_historical_pullback_signals,
     select_historical_signals,
 )
-
-EXECUTION_ENGINE_ID = "shared_next_open_ohlc_v1"
 
 
 def _resolve_strategy(strategy: dict[str, Any] | None) -> dict[str, Any]:
@@ -49,6 +48,18 @@ def _profit_factor(returns: pd.Series) -> float | None:
     return gains / losses if losses > 0 else None
 
 
+def _maximum_consecutive_losses(returns: pd.Series) -> int:
+    longest = 0
+    current = 0
+    for value in returns:
+        if float(value) < 0:
+            current += 1
+            longest = max(longest, current)
+        else:
+            current = 0
+    return longest
+
+
 def build_trade_paths(
     prices: pd.DataFrame, *, signal_type: str, strategy: dict[str, Any] | None = None
 ) -> pd.DataFrame:
@@ -65,9 +76,7 @@ def build_trade_paths(
 
     execution = spec["signals"][signal_type]["execution"]
     slippage = float(spec["portfolio"]["slippage_bps_per_side"]) / 10_000.0
-    transaction_cost = (
-        float(spec["portfolio"]["round_trip_transaction_cost_bps"]) / 10_000.0
-    )
+    transaction_cost = float(spec["portfolio"]["round_trip_transaction_cost_bps"]) / 10_000.0
     market_dates = sorted(indicators["date"].drop_duplicates())
     next_date = {day: market_dates[index + 1] for index, day in enumerate(market_dates[:-1])}
     bars = {
@@ -91,18 +100,14 @@ def build_trade_paths(
         signal_close = float(row["_close"])
         gap = raw_entry / signal_close - 1.0
         if "entry_gap_min" in execution and not (
-            float(execution["entry_gap_min"])
-            <= gap
-            <= float(execution["entry_gap_max"])
+            float(execution["entry_gap_min"]) <= gap <= float(execution["entry_gap_max"])
         ):
             continue
 
         entry_price = raw_entry * (1.0 + slippage)
         target_price = entry_price * (1.0 + float(execution["take_profit_pct"]))
         stop_price = entry_price * (1.0 + float(execution["stop_loss_pct"]))
-        future = stock.loc[stock["date"].ge(entry_date)].head(
-            int(execution["holding_days"])
-        )
+        future = stock.loc[stock["date"].ge(entry_date)].head(int(execution["holding_days"]))
         if future.empty:
             continue
         exit_price = float(future.iloc[-1]["_close"]) * (1.0 - slippage)
@@ -155,9 +160,7 @@ def simulate_portfolio(
     lot_size = int(portfolio["lot_size"])
     max_positions = int(portfolio["maximum_open_positions"])
     max_new = int(portfolio["maximum_new_positions_per_day"])
-    one_way_cost = (
-        float(portfolio["round_trip_transaction_cost_bps"]) / 20_000.0
-    )
+    one_way_cost = float(portfolio["round_trip_transaction_cost_bps"]) / 20_000.0
     if trade_paths.empty:
         return (
             pd.DataFrame(),
@@ -168,6 +171,18 @@ def simulate_portfolio(
                 "total_return": 0.0,
                 "maximum_drawdown": 0.0,
                 "completed_trades": 0,
+                "trade_win_rate": None,
+                "mean_trade_net_return": None,
+                "expected_net_return_per_trade": None,
+                "profit_factor": None,
+                "maximum_consecutive_losses": 0,
+                "annualized_return": 0.0,
+                "annual_returns": {},
+                "costs_included": True,
+                "round_trip_transaction_cost_bps": float(
+                    portfolio["round_trip_transaction_cost_bps"]
+                ),
+                "slippage_bps_per_side": float(portfolio["slippage_bps_per_side"]),
             },
         )
 
@@ -236,8 +251,7 @@ def simulate_portfolio(
             )
 
         market_value = sum(
-            item["shares"]
-            * float(marks.get((day, ticker), item["entry_price"]))
+            item["shares"] * float(marks.get((day, ticker), item["entry_price"]))
             for ticker, item in positions.items()
         )
         curve.append(
@@ -252,15 +266,20 @@ def simulate_portfolio(
 
     completed_frame = pd.DataFrame(completed)
     curve_frame = pd.DataFrame(curve)
-    curve_frame["drawdown"] = (
-        curve_frame["equity_yen"] / curve_frame["equity_yen"].cummax() - 1.0
-    )
+    curve_frame["drawdown"] = curve_frame["equity_yen"] / curve_frame["equity_yen"].cummax() - 1.0
     realized_returns = (
         completed_frame["net_profit_yen"] / completed_frame["cash_out"]
         if not completed_frame.empty
         else pd.Series(dtype="float64")
     )
     ending_equity = float(curve_frame.iloc[-1]["equity_yen"])
+    elapsed_days = max((curve_frame.iloc[-1]["date"] - curve_frame.iloc[0]["date"]).days, 0)
+    elapsed_years = elapsed_days / 365.25
+    annualized_return = (
+        (ending_equity / initial_capital) ** (1.0 / elapsed_years) - 1.0
+        if elapsed_years > 0 and ending_equity > 0
+        else 0.0
+    )
     annual = {}
     previous_year_end = initial_capital
     years = pd.Series(curve_frame["date"]).map(lambda day: day.year)
@@ -282,8 +301,16 @@ def simulate_portfolio(
         "mean_trade_net_return": float(realized_returns.mean())
         if not realized_returns.empty
         else None,
+        "expected_net_return_per_trade": float(realized_returns.mean())
+        if not realized_returns.empty
+        else None,
         "profit_factor": _profit_factor(realized_returns),
+        "maximum_consecutive_losses": _maximum_consecutive_losses(realized_returns),
+        "annualized_return": annualized_return,
         "annual_returns": annual,
+        "costs_included": True,
+        "round_trip_transaction_cost_bps": float(portfolio["round_trip_transaction_cost_bps"]),
+        "slippage_bps_per_side": float(portfolio["slippage_bps_per_side"]),
     }
     return completed_frame, curve_frame, summary
 

@@ -7,9 +7,22 @@ on:
         description: End date (YYYY-MM-DD); blank uses current JST date
         required: false
         type: string
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/momentum5d-audit-backtest.yml
+      - momentum5d/app/execution_contract.py
+      - momentum5d/app/live_backtest.py
+      - momentum5d/app/production_readiness.py
+      - momentum5d/scripts/run_live_strategy_backtest.py
+      - momentum5d/scripts/compare_backtest_runs.py
+      - momentum5d/scripts/run_failsafe_acceptance.py
+      - momentum5d/scripts/evaluate_production_readiness.py
+      - momentum5d/scripts/verify_rollback_dry_run.py
 
 permissions:
-  contents: read
+  contents: write
 
 env:
   YAHOO_RETENTION_DAYS: "1096"
@@ -22,7 +35,7 @@ env:
 jobs:
   certified_backtest:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 300
     defaults:
       run:
         working-directory: momentum5d
@@ -47,7 +60,18 @@ jobs:
             tests/test_live_backtest.py \
             tests/test_live_backtest_input_audit.py \
             tests/test_evaluation_protocol.py \
-            tests/test_forward_validation.py
+            tests/test_forward_validation.py \
+            tests/test_production_readiness.py
+          python -m ruff check \
+            app/execution_contract.py \
+            app/live_backtest.py \
+            app/production_readiness.py \
+            scripts/run_live_strategy_backtest.py \
+            scripts/compare_backtest_runs.py \
+            scripts/run_failsafe_acceptance.py \
+            scripts/verify_rollback_dry_run.py \
+            scripts/evaluate_production_readiness.py \
+            tests/test_production_readiness.py
 
       - name: Resolve audit dates
         id: dates
@@ -79,7 +103,7 @@ jobs:
           --tickers-file work/audit-config/historical_tickers.txt
           --full-refresh
 
-      - name: Run both signals through the same certified engine
+      - name: Run both signals through the same certified engine twice
         run: >-
           python scripts/run_live_strategy_backtest.py
           --prices work/audit-data/yahoo/processed/equities_daily.parquet
@@ -87,7 +111,94 @@ jobs:
           --ingestion-status work/audit-data/yahoo/metadata/ingestion_status.json
           --git-commit "${{ github.sha }}"
           --input-mode raw_ohlcv_with_adjusted_close
-          --output-dir outputs/certified-live-backtest
+          --output-dir outputs/certified-live-backtest-run1
+
+      - name: Repeat certified backtest with identical inputs
+        run: >-
+          python scripts/run_live_strategy_backtest.py
+          --prices work/audit-data/yahoo/processed/equities_daily.parquet
+          --universe-history work/audit-config/tse_universe_history.csv
+          --ingestion-status work/audit-data/yahoo/metadata/ingestion_status.json
+          --git-commit "${{ github.sha }}"
+          --input-mode raw_ohlcv_with_adjusted_close
+          --output-dir outputs/certified-live-backtest-run2
+
+      - name: Certify reproducibility
+        run: >-
+          python scripts/compare_backtest_runs.py
+          --first outputs/certified-live-backtest-run1/summary.json
+          --second outputs/certified-live-backtest-run2/summary.json
+          --output outputs/certified-live-backtest/summary.json
+
+      - name: Exercise isolated fail-safe scenarios
+        run: >-
+          python scripts/run_failsafe_acceptance.py
+          --output outputs/production-acceptance/failsafe.json
+
+      - name: Fetch final live release and evaluate acceptance
+        id: acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          acceptance_source="$(mktemp -d)"
+          git archive "origin/main" dashboard-data | tar -x -C "$acceptance_source"
+          audit="$acceptance_source/dashboard-data/production-audit/${{ steps.dates.outputs.as_of }}.json"
+          monitoring="$acceptance_source/dashboard-data/monitoring/latest.json"
+          rollback="$acceptance_source/dashboard-data/rollback-manifest.json"
+          mkdir -p outputs/production-acceptance
+          python scripts/verify_rollback_dry_run.py \
+            --dashboard-root "$acceptance_source/dashboard-data" \
+            --manifest "$rollback" \
+            --output outputs/production-acceptance/rollback-verified.json
+          set +e
+          python scripts/evaluate_production_readiness.py \
+            --daily-audit "$audit" \
+            --backtest-summary outputs/certified-live-backtest/summary.json \
+            --rollback-manifest outputs/production-acceptance/rollback-verified.json \
+            --failsafe-report outputs/production-acceptance/failsafe.json \
+            --monitoring "$monitoring" \
+            --as-of "${{ steps.dates.outputs.as_of }}" \
+            --output outputs/production-acceptance/latest.json
+          exit_code=$?
+          set -e
+          echo "exit_code=$exit_code" >> "$GITHUB_OUTPUT"
+
+      - name: Publish acceptance evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          cp outputs/certified-live-backtest/summary.json "$tmp/backtest.json"
+          cp outputs/production-acceptance/failsafe.json "$tmp/failsafe.json"
+          cp outputs/production-acceptance/latest.json "$tmp/acceptance.json"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for attempt in 1 2 3 4 5; do
+            git rebase --abort >/dev/null 2>&1 || true
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p ../dashboard-data/production-backtest ../dashboard-data/production-acceptance
+            cp "$tmp/backtest.json" ../dashboard-data/production-backtest/latest.json
+            cp "$tmp/failsafe.json" ../dashboard-data/production-acceptance/failsafe.json
+            cp "$tmp/acceptance.json" ../dashboard-data/production-acceptance/latest.json
+            git add ../dashboard-data/production-backtest/latest.json \
+              ../dashboard-data/production-acceptance/failsafe.json \
+              ../dashboard-data/production-acceptance/latest.json
+            git commit -m "Publish production acceptance evidence" || exit 0
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            git rebase --abort >/dev/null 2>&1 || true
+            sleep $((attempt * 2))
+          done
+          exit 1
+
+      - name: Enforce final acceptance decision
+        if: steps.acceptance.outputs.exit_code != '0'
+        run: |
+          echo "Final production acceptance did not pass." >&2
+          exit 1
 
       - name: Upload audit package
         uses: actions/upload-artifact@v4
@@ -97,5 +208,8 @@ jobs:
           retention-days: 90
           path: |
             momentum5d/outputs/certified-live-backtest/
+            momentum5d/outputs/certified-live-backtest-run1/
+            momentum5d/outputs/certified-live-backtest-run2/
+            momentum5d/outputs/production-acceptance/
             momentum5d/work/audit-data/yahoo/metadata/ingestion_status.json
             momentum5d/work/audit-config/tse_universe_history.csv

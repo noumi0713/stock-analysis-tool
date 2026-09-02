@@ -21,6 +21,8 @@ on:
       - momentum5d/app/secondary_decision_log.py
       - momentum5d/app/audit_metadata.py
       - momentum5d/app/signal_audit.py
+      - momentum5d/app/production_readiness.py
+      - momentum5d/app/execution_contract.py
       - momentum5d/app/candidate_outcomes.py
       - momentum5d/app/abc_evaluation.py
       - momentum5d/app/resources/strategy_specs/live_v1_2026-08-31.json
@@ -30,6 +32,12 @@ on:
       - momentum5d/scripts/evaluate_secondary_decisions.py
       - momentum5d/scripts/resolve_close_ingest.py
       - momentum5d/scripts/validate_close_snapshot.py
+      - momentum5d/scripts/prepare_production_release.py
+      - momentum5d/scripts/publish_failure_status.py
+      - momentum5d/scripts/evaluate_production_readiness.py
+      - momentum5d/scripts/compare_backtest_runs.py
+      - momentum5d/scripts/run_failsafe_acceptance.py
+      - momentum5d/scripts/verify_rollback_dry_run.py
       - dashboard-data/theme_members.csv
   schedule:
     # Yahoo日足の確定を待ち16:10/16:30/17:00 JSTに再試行する。
@@ -66,6 +74,22 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+
+      # This must run before setup/install/tests.  Otherwise an early failure can
+      # leave yesterday's successful payload visible as if it were today's result.
+      - name: Gate market-data publication
+        id: market_gate
+        env:
+          WORKFLOW_EVENT: ${{ github.event_name }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          eligible=false
+          if [[ "$WORKFLOW_EVENT" != "push" ]] || [[ "$COMMIT_MESSAGE" == *"[refresh-yahoo]"* ]]; then
+            eligible=true
+          fi
+          echo "eligible=$eligible" >> "$GITHUB_OUTPUT"
+          echo "fallback_market_date=$(TZ=Asia/Tokyo date +%F)" >> "$GITHUB_OUTPUT"
+          echo "market-data publication eligible=$eligible"
 
       - name: Restore rolling Yahoo prices
         uses: actions/cache/restore@v4
@@ -108,7 +132,8 @@ jobs:
             tests/test_close_signals_export.py \
             tests/test_close_ingest_plan.py \
             tests/test_position_ledger.py \
-            tests/test_validate_close_snapshot.py
+            tests/test_validate_close_snapshot.py \
+            tests/test_production_readiness.py
           python -m ruff check \
             app/live_strategy.py \
             app/evaluation_protocol.py \
@@ -122,6 +147,8 @@ jobs:
             app/position_ledger.py \
             app/point_in_time_universe.py \
             app/live_backtest.py \
+            app/execution_contract.py \
+            app/production_readiness.py \
             scripts/verify_live_strategy.py \
             scripts/run_live_strategy_backtest.py \
             scripts/record_secondary_decisions.py \
@@ -133,23 +160,17 @@ jobs:
             scripts/resolve_close_ingest.py \
             scripts/record_confirmed_fill.py \
             scripts/validate_close_snapshot.py \
+            scripts/prepare_production_release.py \
+            scripts/publish_failure_status.py \
+            scripts/evaluate_production_readiness.py \
+            scripts/compare_backtest_runs.py \
+            scripts/run_failsafe_acceptance.py \
+            scripts/verify_rollback_dry_run.py \
             tests/test_live_strategy.py \
             tests/test_close_signals_export.py \
             tests/test_close_ingest_plan.py \
-            tests/test_validate_close_snapshot.py
-
-      - name: Gate market-data publication
-        id: market_gate
-        env:
-          WORKFLOW_EVENT: ${{ github.event_name }}
-          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-        run: |
-          eligible=false
-          if [[ "$WORKFLOW_EVENT" != "push" ]] || [[ "$COMMIT_MESSAGE" == *"[refresh-yahoo]"* ]]; then
-            eligible=true
-          fi
-          echo "eligible=$eligible" >> "$GITHUB_OUTPUT"
-          echo "market-data publication eligible=$eligible"
+            tests/test_validate_close_snapshot.py \
+            tests/test_production_readiness.py
 
       - name: Refresh TSE universe
         if: steps.market_gate.outputs.eligible == 'true'
@@ -178,15 +199,16 @@ jobs:
         if: steps.market_gate.outputs.eligible == 'true'
         env:
           CLOSE_AS_OF: ${{ steps.close_plan.outputs.as_of }}
-        run: >-
-          python scripts/validate_close_snapshot.py
-          --prices data/yahoo/processed/equities_daily.parquet
-          --expected-date "$CLOSE_AS_OF"
-          --tickers-file config/prime_tickers.txt
-          --ingestion-status data/yahoo/metadata/ingestion_status.json
-          --output work/close_certification.json
-          --minimum-coverage 0.95
-          --remove-non-daily
+        run: |
+          minimum_coverage="$(python -c 'from app.live_strategy import load_frozen_strategy; print(load_frozen_strategy()["data"]["minimum_latest_ticker_coverage"])')"
+          python scripts/validate_close_snapshot.py \
+            --prices data/yahoo/processed/equities_daily.parquet \
+            --expected-date "$CLOSE_AS_OF" \
+            --tickers-file config/prime_tickers.txt \
+            --ingestion-status data/yahoo/metadata/ingestion_status.json \
+            --output work/close_certification.json \
+            --minimum-coverage "$minimum_coverage" \
+            --remove-non-daily
 
       - name: Skip an already published market date
         id: update
@@ -216,6 +238,8 @@ jobs:
               published_is_close = (
                   int(published.get("schema_version") or 0) >= 2
                   and (published.get("update") or {}).get("session") == "close"
+                  and (published.get("update") or {}).get("status") == "complete"
+                  and (published.get("production") or {}).get("status") == "published"
               )
           force = (
               os.environ.get("REQUESTED_FORCE", "false").lower() == "true"
@@ -247,6 +271,20 @@ jobs:
           --audit-reference "signal-audit/${{ steps.update.outputs.market_date }}.json.gz"
           --git-commit "${{ github.sha }}"
           --output work/latest_signals.json
+
+      - name: Apply production quality gate and stage atomic release
+        if: steps.market_gate.outputs.eligible == 'true' && steps.update.outputs.should_run == 'true'
+        run: >-
+          python scripts/prepare_production_release.py
+          --prices data/yahoo/processed/equities_daily.parquet
+          --certification work/close_certification.json
+          --signals work/latest_signals.json
+          --output-dir work/production-release
+          --expected-date "${{ steps.update.outputs.market_date }}"
+          --names config/prime_names.csv
+          --themes ../dashboard-data/theme_members.csv
+          --git-commit "${{ github.sha }}"
+          --previous-status ../dashboard-data/production-status.json
 
       - name: Update frozen-rule outcomes for every secondary candidate
         if: steps.market_gate.outputs.eligible == 'true' && steps.update.outputs.should_run == 'true'
@@ -280,11 +318,11 @@ jobs:
         run: |
           set -euo pipefail
           target_branch="${GITHUB_REF_NAME}"
-          tmp_signals="$(mktemp)"
+          tmp_release="$(mktemp -d)"
           tmp_audit="$(mktemp)"
           tmp_outcomes="$(mktemp)"
           tmp_evaluation="$(mktemp)"
-          cp work/latest_signals.json "$tmp_signals"
+          cp -a work/production-release/. "$tmp_release/"
           cp work/signal-audit.json.gz "$tmp_audit"
           cp work/secondary-outcomes.json "$tmp_outcomes"
           cp work/secondary-evaluation.json "$tmp_evaluation"
@@ -296,19 +334,41 @@ jobs:
             git rebase --abort >/dev/null 2>&1 || true
             git fetch origin "$target_branch"
             git reset --hard "origin/${target_branch}"
-            cp "$tmp_signals" ../dashboard-data/latest_signals.json
+            cp "$tmp_release/latest_signals.json" ../dashboard-data/latest_signals.json
             audit_target="../dashboard-data/signal-audit/${{ steps.update.outputs.market_date }}.json.gz"
             outcomes_target="../dashboard-data/secondary-outcomes/latest.json"
             evaluation_target="../dashboard-data/secondary-evaluation/latest.json"
-            mkdir -p "$(dirname "$audit_target")" "$(dirname "$outcomes_target")" "$(dirname "$evaluation_target")"
+            production_audit_target="../dashboard-data/production-audit/${{ steps.update.outputs.market_date }}.json"
+            production_snapshot_target="../dashboard-data/production-snapshots/${{ steps.update.outputs.market_date }}"
+            strategy_target="../dashboard-data/strategies/${{ steps.update.outputs.market_date }}"
+            mkdir -p \
+              "$(dirname "$audit_target")" \
+              "$(dirname "$outcomes_target")" \
+              "$(dirname "$evaluation_target")" \
+              "$(dirname "$production_audit_target")" \
+              "$production_snapshot_target" \
+              "$strategy_target" \
+              ../dashboard-data/monitoring
             cp "$tmp_audit" "$audit_target"
             cp "$tmp_outcomes" "$outcomes_target"
             cp "$tmp_evaluation" "$evaluation_target"
+            cp "$tmp_release/production-status.json" ../dashboard-data/production-status.json
+            cp "$tmp_release/rollback-manifest.json" ../dashboard-data/rollback-manifest.json
+            cp "$tmp_release/monitoring/latest.json" ../dashboard-data/monitoring/latest.json
+            cp "$tmp_release/production-audit/${{ steps.update.outputs.market_date }}.json" "$production_audit_target"
+            cp -a "$tmp_release/production-snapshots/${{ steps.update.outputs.market_date }}/." "$production_snapshot_target/"
+            cp -a "$tmp_release/strategies/${{ steps.update.outputs.market_date }}/." "$strategy_target/"
             git add -- \
               ../dashboard-data/latest_signals.json \
               "$audit_target" \
               "$outcomes_target" \
-              "$evaluation_target"
+              "$evaluation_target" \
+              ../dashboard-data/production-status.json \
+              ../dashboard-data/rollback-manifest.json \
+              ../dashboard-data/monitoring/latest.json \
+              "$production_audit_target" \
+              "$production_snapshot_target" \
+              "$strategy_target"
 
             if git diff --cached --quiet; then
               echo "Signals are already current."
@@ -325,4 +385,46 @@ jobs:
           done
 
           echo "Failed to publish close signals after 5 attempts." >&2
+          exit 1
+
+      - name: Publish explicit failure state without stale signals
+        if: failure() && steps.market_gate.outputs.eligible == 'true'
+        shell: bash
+        env:
+          PLANNED_MARKET_DATE: ${{ steps.close_plan.outputs.as_of }}
+          FALLBACK_MARKET_DATE: ${{ steps.market_gate.outputs.fallback_market_date }}
+        run: |
+          set -euo pipefail
+          target_branch="${GITHUB_REF_NAME}"
+          market_date="${PLANNED_MARKET_DATE:-${FALLBACK_MARKET_DATE}}"
+          failure_dir="$(mktemp -d)"
+          python scripts/publish_failure_status.py \
+            --market-date "$market_date" \
+            --git-commit "${{ github.sha }}" \
+            --error "workflow_failed:${{ github.run_id }}" \
+            --output-dir "$failure_dir"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for attempt in 1 2 3 4 5; do
+            git rebase --abort >/dev/null 2>&1 || true
+            git fetch origin "$target_branch"
+            git reset --hard "origin/${target_branch}"
+            cp "$failure_dir/latest_signals.json" ../dashboard-data/latest_signals.json
+            cp "$failure_dir/production-status.json" ../dashboard-data/production-status.json
+            mkdir -p ../dashboard-data/monitoring
+            cp "$failure_dir/monitoring/latest.json" ../dashboard-data/monitoring/latest.json
+            git add -- \
+              ../dashboard-data/latest_signals.json \
+              ../dashboard-data/production-status.json \
+              ../dashboard-data/monitoring/latest.json
+            git commit -m "Mark Momentum10D close update failed" || exit 0
+            if git pull --rebase origin "$target_branch" && git push origin "HEAD:${target_branch}"; then
+              echo "Failure state published; stale signals are not exposed as current."
+              exit 0
+            fi
+            git rebase --abort >/dev/null 2>&1 || true
+            sleep $((attempt * 2))
+          done
+          echo "Failed to publish explicit failure state after 5 attempts." >&2
           exit 1
