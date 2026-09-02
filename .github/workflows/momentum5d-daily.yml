@@ -275,7 +275,7 @@ jobs:
       - name: Apply production quality gate and stage atomic release
         if: steps.market_gate.outputs.eligible == 'true' && steps.update.outputs.should_run == 'true'
         run: >-
-          python scripts/prepare_production_release.py
+          python -m scripts.prepare_production_release
           --prices data/yahoo/processed/equities_daily.parquet
           --certification work/close_certification.json
           --signals work/latest_signals.json

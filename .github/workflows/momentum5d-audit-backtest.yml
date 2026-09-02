@@ -105,7 +105,7 @@ jobs:
 
       - name: Run both signals through the same certified engine twice
         run: >-
-          python scripts/run_live_strategy_backtest.py
+          python -m scripts.run_live_strategy_backtest
           --prices work/audit-data/yahoo/processed/equities_daily.parquet
           --universe-history work/audit-config/tse_universe_history.csv
           --ingestion-status work/audit-data/yahoo/metadata/ingestion_status.json
@@ -115,7 +115,7 @@ jobs:
 
       - name: Repeat certified backtest with identical inputs
         run: >-
-          python scripts/run_live_strategy_backtest.py
+          python -m scripts.run_live_strategy_backtest
           --prices work/audit-data/yahoo/processed/equities_daily.parquet
           --universe-history work/audit-config/tse_universe_history.csv
           --ingestion-status work/audit-data/yahoo/metadata/ingestion_status.json
@@ -125,14 +125,14 @@ jobs:
 
       - name: Certify reproducibility
         run: >-
-          python scripts/compare_backtest_runs.py
+          python -m scripts.compare_backtest_runs
           --first outputs/certified-live-backtest-run1/summary.json
           --second outputs/certified-live-backtest-run2/summary.json
           --output outputs/certified-live-backtest/summary.json
 
       - name: Exercise isolated fail-safe scenarios
         run: >-
-          python scripts/run_failsafe_acceptance.py
+          python -m scripts.run_failsafe_acceptance
           --output outputs/production-acceptance/failsafe.json
 
       - name: Fetch final live release and evaluate acceptance
@@ -147,12 +147,12 @@ jobs:
           monitoring="$acceptance_source/dashboard-data/monitoring/latest.json"
           rollback="$acceptance_source/dashboard-data/rollback-manifest.json"
           mkdir -p outputs/production-acceptance
-          python scripts/verify_rollback_dry_run.py \
+          python -m scripts.verify_rollback_dry_run \
             --dashboard-root "$acceptance_source/dashboard-data" \
             --manifest "$rollback" \
             --output outputs/production-acceptance/rollback-verified.json
           set +e
-          python scripts/evaluate_production_readiness.py \
+          python -m scripts.evaluate_production_readiness \
             --daily-audit "$audit" \
             --backtest-summary outputs/certified-live-backtest/summary.json \
             --rollback-manifest outputs/production-acceptance/rollback-verified.json \
