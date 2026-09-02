@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "current": {
+    "market_date": "2026-09-02",
+    "git_commit_id": "242adabd644a4dcd29b40e2f4ce306b6fc7e58e5",
+    "strategy_config_version": "live_v1_2026-08-31",
+    "strategy_config_sha256": "d505dc664986c4ad9741bb3354e87403b0ebadc7f4906f8a04c88cc72e0d834b",
+    "data_schema_version": 4,
+    "snapshot_path": "production-snapshots/2026-09-02/latest_signals.json"
+  },
+  "previous_known_good": {
+    "schema_version": 1,
+    "status": "failed",
+    "complete": false,
+    "market_date": "2026-09-02",
+    "calculation_completed_at": "2026-09-02T11:19:44.085060+00:00",
+    "git_commit_id": "a07413b7361a79c60687a51bcaa698a5c605484d",
+    "errors": [
+      "workflow_failed:33622623548"
+    ],
+    "publication": {
+      "status": "blocked",
+      "stale_result_fallback_allowed": false
+    }
+  },
+  "rollback_supported": true
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "market_date": "2026-09-02",
+  "strategy_version": "live_v1_2026-08-31",
+  "strategy_name": "capitulation_reversal",
+  "strategy_model": {
+    "key": "rsi14_stable_score_10d_v1",
+    "label": "RSI14安定スコア1位10D",
+    "ranking": {
+      "method": "volume_ratio_descending",
+      "formula": "volume_ratio_1_20 descending; ticker ascending tie-break",
+      "components": [
+        "volume_ratio_1_20"
+      ],
+      "meaning": "ordinal_selection_only",
+      "not_a_probability": true,
+      "not_expected_return": true
+    },
+    "conditions": {
+      "rsi_period": 14,
+      "rsi_min": 25.0,
+      "rsi_max": 35.0,
+      "return_1d_min": -0.03,
+      "return_1d_max": 0.0,
+      "return_5d_min": -0.12,
+      "return_5d_max": -0.05,
+      "volume_ratio_min": 1.5,
+      "minimum_turnover_yen": 300000000,
+      "atr_14_pct_min": 0.005,
+      "atr_14_pct_max": 0.08,
+      "ma25": "below",
+      "bullish": true,
+      "maximum_candidates_per_day": 4,
+      "entry_rule": "翌営業日始値",
+      "take_profit_pct": 0.235,
+      "stop_loss_pct": -0.22,
+      "holding_days": 10
+    }
+  },
+  "portfolio_rules": {
+    "initial_capital_yen": 2000000,
+    "lot_size": 100,
+    "maximum_open_positions": 3,
+    "maximum_new_positions_per_day": 2,
+    "maximum_gross_exposure": 1.0,
+    "position_sizing": "equal_weight_remaining_slots",
+    "fixed_loss_yen_limit_enabled": false,
+    "round_trip_transaction_cost_bps": 20,
+    "slippage_bps_per_side": 10
+  },
+  "signal_count": 0,
+  "signals": [],
+  "audit_context": {
+    "data_final_market_date": "2026-09-02",
+    "data_acquired_at": "2026-09-02T11:32:20.020363+00:00",
+    "strategy_config_version": "live_v1_2026-08-31",
+    "strategy_config_sha256": "d505dc664986c4ad9741bb3354e87403b0ebadc7f4906f8a04c88cc72e0d834b",
+    "git_commit_id": "242adabd644a4dcd29b40e2f4ce306b6fc7e58e5",
+    "calculation_executed_at": "2026-09-02T11:32:40.982338+00:00",
+    "strategy_names": [
+      "capitulation_reversal",
+      "first_pullback"
+    ],
+    "market_snapshot_fingerprint": "993f0595497e000d9c27e42012142b5054b3ce6efd596ddb616933542cf1b600",
+    "audit_id": "2c42a9f6aaf89bf222ae917cda4eb6f900ca4082da7036f64fca578de19d5b88"
+  }
+}
