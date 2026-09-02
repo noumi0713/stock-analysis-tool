@@ -15,37 +15,60 @@ permissions:
 jobs:
   research:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 180
+    env:
+      YAHOO_RETENTION_DAYS: "1200"
+      YAHOO_OVERLAP_DAYS: "10"
+      YAHOO_BATCH_SIZE: "60"
+      YAHOO_PAUSE_SECONDS: "1.0"
+      YAHOO_MAX_RETRIES: "3"
+      YAHOO_TIMEOUT_SECONDS: "30"
     steps:
-      - name: Check out repository
+      - name: Check out research branch
         uses: actions/checkout@v6
 
-      - name: Restore rolling Yahoo history
-        id: yahoo-cache
-        uses: actions/cache/restore@v4
+      - name: Check out current main universe code
+        uses: actions/checkout@v6
         with:
-          path: momentum5d/data/yahoo
-          key: material-breakout-research-${{ github.run_id }}
-          restore-keys: |
-            momentum5d-final-
-            momentum5d-backtest-ready-
-            momentum5d-data-ready-
-            momentum5d-yahoo-
-
-      - name: Confirm cached market data
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -f momentum5d/data/yahoo/processed/equities_daily.parquet
-          ls -lh momentum5d/data/yahoo/processed/equities_daily.parquet
+          ref: main
+          path: _main
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v6
         with:
           python-version: "3.12"
+          cache: pip
+          cache-dependency-path: momentum5d/pyproject.toml
 
-      - name: Install research dependencies
-        run: python -m pip install pandas numpy pyarrow
+      - name: Install application and research dependencies
+        run: |
+          python -m pip install "./momentum5d"
+          python -m pip install xlrd
+
+      - name: Build point-in-time TSE universe
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p research/work/universe
+          AS_OF="$(TZ=Asia/Tokyo date +%F)"
+          HISTORY_START="$(date -u -d "$AS_OF - 1200 days" +%F)"
+          PYTHONPATH="$GITHUB_WORKSPACE/_main/momentum5d" \
+            python "$GITHUB_WORKSPACE/_main/momentum5d/app/yahoo/universe.py" \
+            --config-dir "$GITHUB_WORKSPACE/research/work/universe" \
+            --history-start "$HISTORY_START" \
+            --as-of "$AS_OF"
+          wc -l research/work/universe/historical_tickers.txt
+
+      - name: Download three-plus years of TSE daily data
+        shell: bash
+        working-directory: momentum5d
+        run: |
+          set -euo pipefail
+          AS_OF="$(TZ=Asia/Tokyo date +%F)"
+          python -m app yahoo-ingest \
+            --as-of "$AS_OF" \
+            --tickers-file ../research/work/universe/historical_tickers.txt
+          ls -lh data/yahoo/processed/equities_daily.parquet
 
       - name: Run three-year event study
         run: python research/material_breakout_pullback_3y.py
