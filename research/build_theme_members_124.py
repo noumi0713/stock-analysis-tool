@@ -17,7 +17,7 @@ DEFAULT_CATALOG = ROOT / "research" / "theme_catalog_124.csv"
 DEFAULT_MANIFEST = ROOT / "dashboard-data" / "technical-backtest-3y" / "manifest.json"
 DEFAULT_OUT = ROOT / "research" / "data" / "theme_members_124.csv"
 DEFAULT_REPORT = ROOT / "research" / "data" / "theme_catalog_124_validation.json"
-BASE_URL = "https://s.kabutan.jp/themes/{}/?market=all"
+BASE_PATH = "https://s.kabutan.jp/themes/{}/"
 CODE_RE = re.compile(r"(?:/stocks/|[?&]code=)([0-9A-Z]{4})(?:/|[&#?\"']|$)", re.I)
 
 
@@ -74,30 +74,80 @@ def parse_theme_page(html: str) -> tuple[str | None, list[str]]:
     return heading, sorted(codes)
 
 
-def fetch_theme(session: requests.Session, kabutan_name: str, timeout: int) -> dict:
-    url = BASE_URL.format(quote(kabutan_name, safe=""))
+def fetch_theme(
+    session: requests.Session,
+    kabutan_name: str,
+    timeout: int,
+    *,
+    page_delay: float = 0.03,
+    max_pages: int = 60,
+) -> dict:
+    encoded = quote(kabutan_name, safe="")
+    base_url = BASE_PATH.format(encoded)
+    all_codes: set[str] = set()
+    page_heading: str | None = None
+    first_status: int | None = None
+    pages_with_members = 0
+
     try:
-        response = session.get(url, timeout=timeout)
-        status = int(response.status_code)
-        response.raise_for_status()
-        heading, codes = parse_theme_page(response.text)
-        normalized_match = bool(
-            heading and normalize_text(heading) == normalize_text(kabutan_name)
-        )
+        for page in range(1, max_pages + 1):
+            url = f"{base_url}?market=all&page={page}"
+            response = session.get(url, timeout=timeout)
+            if page == 1:
+                first_status = int(response.status_code)
+            if response.status_code == 404 and page > 1:
+                break
+            response.raise_for_status()
+            heading, codes = parse_theme_page(response.text)
+            if page == 1:
+                page_heading = heading
+                if not (
+                    page_heading
+                    and normalize_text(page_heading) == normalize_text(kabutan_name)
+                ):
+                    return {
+                        "url": f"{base_url}?market=all",
+                        "http_status": first_status,
+                        "page_heading": page_heading,
+                        "heading_match": False,
+                        "page_count": 0,
+                        "codes": [],
+                        "error": None,
+                    }
+
+            code_set = set(codes)
+            new_codes = code_set - all_codes
+            if not code_set or (page > 1 and not new_codes):
+                break
+            all_codes.update(new_codes)
+            pages_with_members = page
+
+            # Kabutan currently paginates theme members at 20 rows/page. A short
+            # page is the terminal page; otherwise continue until no new codes.
+            if len(code_set) < 20:
+                break
+            if page_delay > 0:
+                time.sleep(page_delay)
+
         return {
-            "url": url,
-            "http_status": status,
-            "page_heading": heading,
-            "heading_match": normalized_match,
-            "codes": codes,
+            "url": f"{base_url}?market=all",
+            "http_status": first_status,
+            "page_heading": page_heading,
+            "heading_match": bool(
+                page_heading
+                and normalize_text(page_heading) == normalize_text(kabutan_name)
+            ),
+            "page_count": pages_with_members,
+            "codes": sorted(all_codes),
             "error": None,
         }
     except Exception as exc:  # noqa: BLE001 - diagnostic report must preserve failures
         return {
-            "url": url,
-            "http_status": None,
-            "page_heading": None,
+            "url": f"{base_url}?market=all",
+            "http_status": first_status,
+            "page_heading": page_heading,
             "heading_match": False,
+            "page_count": pages_with_members,
             "codes": [],
             "error": f"{type(exc).__name__}: {exc}",
         }
@@ -122,7 +172,17 @@ def write_csv(path: Path, rows: list[dict]) -> None:
         writer.writerows(rows)
 
 
-def build(catalog_path: Path, manifest_path: Path, out_path: Path, report_path: Path, *, delay: float, timeout: int, strict: bool) -> dict:
+def build(
+    catalog_path: Path,
+    manifest_path: Path,
+    out_path: Path,
+    report_path: Path,
+    *,
+    delay: float,
+    page_delay: float,
+    timeout: int,
+    strict: bool,
+) -> dict:
     catalog = read_catalog(catalog_path)
     manifest_names = load_manifest_names(manifest_path)
     session = requests.Session()
@@ -144,7 +204,12 @@ def build(catalog_path: Path, manifest_path: Path, out_path: Path, report_path: 
         theme = str(item["theme_name"]).strip()
         cluster = str(item["cluster"]).strip()
         kabutan_name = str(item.get("kabutan_name") or theme).strip()
-        fetched = fetch_theme(session, kabutan_name, timeout)
+        fetched = fetch_theme(
+            session,
+            kabutan_name,
+            timeout,
+            page_delay=page_delay,
+        )
         codes = list(fetched.pop("codes"))
         resolved = bool(fetched["heading_match"] and codes)
         eligible_codes = [code for code in codes if code in manifest_names]
@@ -179,7 +244,11 @@ def build(catalog_path: Path, manifest_path: Path, out_path: Path, report_path: 
                         "source_url": fetched["url"],
                     }
                 )
-        print(f"[{index:03d}/124] {theme}: resolved={resolved} members={len(codes)} eligible={len(eligible_codes)}")
+        print(
+            f"[{index:03d}/124] {theme}: resolved={resolved} "
+            f"members={len(codes)} eligible={len(eligible_codes)} "
+            f"pages={fetched.get('page_count', 0)}"
+        )
         if delay > 0 and index < len(catalog):
             time.sleep(delay)
 
@@ -189,15 +258,29 @@ def build(catalog_path: Path, manifest_path: Path, out_path: Path, report_path: 
     resolved_rows = [r for r in validations if r["resolved"]]
     unresolved_rows = [r for r in validations if not r["resolved"]]
     thin_rows = [r for r in resolved_rows if r["eligible_3y_member_count"] < 5]
-    by_cluster = defaultdict(lambda: {"catalog_themes": 0, "resolved_themes": 0, "membership_rows": 0, "eligible_membership_rows": 0})
+    ranking_eligible_rows = [
+        r for r in resolved_rows if r["eligible_3y_member_count"] >= 5
+    ]
+    by_cluster = defaultdict(
+        lambda: {
+            "catalog_themes": 0,
+            "resolved_themes": 0,
+            "ranking_eligible_themes": 0,
+            "membership_rows": 0,
+            "eligible_membership_rows": 0,
+        }
+    )
     for item in catalog:
         by_cluster[item["cluster"]]["catalog_themes"] += 1
     for row in resolved_rows:
         bucket = by_cluster[row["cluster"]]
         bucket["resolved_themes"] += 1
+        if row["eligible_3y_member_count"] >= 5:
+            bucket["ranking_eligible_themes"] += 1
         bucket["membership_rows"] += row["member_count"]
         bucket["eligible_membership_rows"] += row["eligible_3y_member_count"]
 
+    catalog_ready = len(resolved_rows) == 124
     report = {
         "catalog_theme_count": len(catalog),
         "cluster_count": len(by_cluster),
@@ -207,8 +290,10 @@ def build(catalog_path: Path, manifest_path: Path, out_path: Path, report_path: 
         "total_membership_rows": len(membership_rows),
         "unique_3y_eligible_stock_count": len(unique_eligible),
         "total_3y_eligible_membership_rows": sum(eligible_counter.values()),
+        "ranking_eligible_theme_count": len(ranking_eligible_rows),
         "themes_with_fewer_than_5_eligible_members": len(thin_rows),
-        "strict_ready": len(resolved_rows) == 124 and not thin_rows,
+        "catalog_ready": catalog_ready,
+        "strict_ready": catalog_ready,
         "cluster_summary": dict(sorted(by_cluster.items())),
         "unresolved": unresolved_rows,
         "thin_themes": thin_rows,
@@ -217,11 +302,34 @@ def build(catalog_path: Path, manifest_path: Path, out_path: Path, report_path: 
             "This is a research-only classification layer and does not modify production trading rules.",
             "Theme membership is a current snapshot; applying it to historical prices introduces classification look-ahead bias.",
             "Overlapping stock memberships are intentionally preserved. Weekly volume analysis should apportion volume by membership count.",
+            "Weekly ranking research should exclude themes with fewer than 5 valid 3-year members rather than treating them as classification failures.",
         ],
     }
     report_path.parent.mkdir(parents=True, exist_ok=True)
-    report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(json.dumps({k: report[k] for k in ["catalog_theme_count", "cluster_count", "resolved_theme_count", "unresolved_theme_count", "unique_member_stock_count", "total_membership_rows", "unique_3y_eligible_stock_count", "total_3y_eligible_membership_rows", "themes_with_fewer_than_5_eligible_members", "strict_ready"]}, ensure_ascii=False, indent=2))
+    report_path.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    compact_keys = [
+        "catalog_theme_count",
+        "cluster_count",
+        "resolved_theme_count",
+        "unresolved_theme_count",
+        "unique_member_stock_count",
+        "total_membership_rows",
+        "unique_3y_eligible_stock_count",
+        "total_3y_eligible_membership_rows",
+        "ranking_eligible_theme_count",
+        "themes_with_fewer_than_5_eligible_members",
+        "catalog_ready",
+        "strict_ready",
+    ]
+    print(
+        json.dumps(
+            {key: report[key] for key in compact_keys},
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
     if strict and not report["strict_ready"]:
         raise SystemExit(2)
     return report
@@ -233,11 +341,21 @@ def main() -> None:
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
-    parser.add_argument("--delay", type=float, default=0.15)
+    parser.add_argument("--delay", type=float, default=0.10)
+    parser.add_argument("--page-delay", type=float, default=0.03)
     parser.add_argument("--timeout", type=int, default=20)
     parser.add_argument("--strict", action="store_true")
     args = parser.parse_args()
-    build(args.catalog, args.manifest, args.output, args.report, delay=args.delay, timeout=args.timeout, strict=args.strict)
+    build(
+        args.catalog,
+        args.manifest,
+        args.output,
+        args.report,
+        delay=args.delay,
+        page_delay=args.page_delay,
+        timeout=args.timeout,
+        strict=args.strict,
+    )
 
 
 if __name__ == "__main__":
