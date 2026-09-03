@@ -7,6 +7,7 @@ on:
       - research/first-pullback-watch-prototype
     paths:
       - "research/build_theme_relevance_batch.py"
+      - "research/collect_theme_relevance_profiles.py"
       - ".github/workflows/theme-relevance-batch-001.yml"
 
 permissions:
@@ -15,14 +16,22 @@ permissions:
 jobs:
   build-batch:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install profile dependency
+        run: pip install --disable-pip-version-check -q yfinance
       - name: Fetch 124-theme source branch
         run: git fetch origin research/volume-top100-overheat:refs/remotes/origin/research/volume-top100-overheat
       - name: Build batch 001
         run: python research/build_theme_relevance_batch.py --batch 1 --size 300
+      - name: Collect current company profiles
+        run: python research/collect_theme_relevance_profiles.py --batch 1 --workers 4
       - name: Commit batch files
         run: |
           git config user.name "github-actions[bot]"
@@ -31,6 +40,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes"
           else
-            git commit -m "Generate theme relevance batch 001"
+            git commit -m "Collect theme relevance batch 001 profiles"
             git push
           fi
