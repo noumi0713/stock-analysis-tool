@@ -2,31 +2,31 @@
   "batch": 1,
   "stocks": 300,
   "stock_theme_pairs": 955,
-  "official_ir_overrides": 14,
+  "official_ir_overrides": 23,
   "band_counts": {
-    "ノイズ候補": 468,
-    "主力テーマ": 324,
+    "ノイズ候補": 470,
+    "主力テーマ": 326,
     "補助関連": 128,
-    "有力関連": 35
+    "有力関連": 31
   },
   "confidence_counts": {
     "C": 595,
-    "A": 290,
-    "B": 70
+    "A": 292,
+    "B": 68
   },
   "score_source_counts": {
-    "auto_v2": 941,
-    "official_ir_override": 14
+    "auto_v2": 932,
+    "official_ir_override": 23
   },
   "review_counts": {
     "needs_review_macro": 19,
-    "ok": 302,
-    "official_ir_reviewed": 14,
+    "ok": 299,
+    "official_ir_reviewed": 23,
     "non_operating_security": 8,
-    "needs_review": 553,
-    "qa_borderline": 25,
+    "needs_review": 551,
     "qa_peripheral": 10,
-    "needs_official_ir": 24
+    "needs_official_ir": 24,
+    "qa_borderline": 21
   },
   "status": "research_provisional",
   "warning": "Only official_ir_override rows are directly verified against official sources. auto_v2 rows are current-business-profile first-pass and are not suitable for historical PIT backtests."
