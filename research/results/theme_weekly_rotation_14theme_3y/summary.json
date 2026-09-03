@@ -1,0 +1,194 @@
+{
+  "meta": {
+    "data_start": "2023-08-21",
+    "data_end": "2026-08-21",
+    "stock_count": 3707,
+    "theme_count": 14,
+    "theme_membership_rows": 1419,
+    "top_n": 5,
+    "mode": "provisional_14_theme_test_current_membership_snapshot_applied_historically",
+    "volume_definition": "split-adjusted weekly share volume, apportioned by number of theme memberships, week-over-week change",
+    "return_definition": "median constituent weekly close-to-close return",
+    "signal_timing": "rank after week close, evaluate next week"
+  },
+  "baseline": {
+    "n": 2170,
+    "mean_pct": 0.1274,
+    "median_pct": 0.2292,
+    "positive_rate_pct": 54.24
+  },
+  "groups": {
+    "return_bottom5": {
+      "n": 770,
+      "mean_pct": 0.0122,
+      "median_pct": 0.2031,
+      "positive_rate_pct": 53.25
+    },
+    "return_top5": {
+      "n": 770,
+      "mean_pct": 0.2437,
+      "median_pct": 0.2764,
+      "positive_rate_pct": 55.45
+    },
+    "volume_bottom5": {
+      "n": 770,
+      "mean_pct": 0.0926,
+      "median_pct": 0.2178,
+      "positive_rate_pct": 53.38
+    },
+    "volume_top5": {
+      "n": 770,
+      "mean_pct": 0.1126,
+      "median_pct": 0.2321,
+      "positive_rate_pct": 53.64
+    }
+  },
+  "spreads": {
+    "return_top_minus_bottom": {
+      "n": 154,
+      "mean_pct": 0.2315,
+      "median_pct": 0.1565,
+      "positive_rate_pct": 56.49
+    },
+    "volume_top_minus_bottom": {
+      "n": 154,
+      "mean_pct": 0.02,
+      "median_pct": 0.0458,
+      "positive_rate_pct": 53.25
+    }
+  },
+  "combinations": {
+    "volume_bottom5_and_return_bottom5": {
+      "n": 314,
+      "mean_pct": -0.0754,
+      "median_pct": 0.1187,
+      "positive_rate_pct": 51.59
+    },
+    "volume_bottom5_and_return_top5": {
+      "n": 246,
+      "mean_pct": 0.3555,
+      "median_pct": 0.36,
+      "positive_rate_pct": 57.72
+    },
+    "volume_top5_and_return_bottom5": {
+      "n": 243,
+      "mean_pct": 0.1993,
+      "median_pct": 0.3194,
+      "positive_rate_pct": 57.2
+    },
+    "volume_top5_and_return_top5": {
+      "n": 318,
+      "mean_pct": 0.102,
+      "median_pct": 0.1701,
+      "positive_rate_pct": 52.83
+    }
+  },
+  "yearly": {
+    "2023": {
+      "return_bottom5": {
+        "n": 85,
+        "mean_pct": -0.1793,
+        "median_pct": -0.1496,
+        "positive_rate_pct": 45.88
+      },
+      "return_top5": {
+        "n": 85,
+        "mean_pct": -0.112,
+        "median_pct": -0.1437,
+        "positive_rate_pct": 48.24
+      },
+      "volume_bottom5": {
+        "n": 85,
+        "mean_pct": -0.2044,
+        "median_pct": -0.1329,
+        "positive_rate_pct": 48.24
+      },
+      "volume_top5": {
+        "n": 85,
+        "mean_pct": -0.1513,
+        "median_pct": -0.2415,
+        "positive_rate_pct": 43.53
+      }
+    },
+    "2024": {
+      "return_bottom5": {
+        "n": 265,
+        "mean_pct": -0.1844,
+        "median_pct": 0.1348,
+        "positive_rate_pct": 51.7
+      },
+      "return_top5": {
+        "n": 265,
+        "mean_pct": -0.0252,
+        "median_pct": 0.0,
+        "positive_rate_pct": 49.06
+      },
+      "volume_bottom5": {
+        "n": 265,
+        "mean_pct": -0.2066,
+        "median_pct": -0.044,
+        "positive_rate_pct": 48.3
+      },
+      "volume_top5": {
+        "n": 265,
+        "mean_pct": -0.0409,
+        "median_pct": 0.0633,
+        "positive_rate_pct": 52.08
+      }
+    },
+    "2025": {
+      "return_bottom5": {
+        "n": 260,
+        "mean_pct": 0.3367,
+        "median_pct": 0.4164,
+        "positive_rate_pct": 58.85
+      },
+      "return_top5": {
+        "n": 260,
+        "mean_pct": 0.4824,
+        "median_pct": 0.6108,
+        "positive_rate_pct": 62.31
+      },
+      "volume_bottom5": {
+        "n": 260,
+        "mean_pct": 0.4556,
+        "median_pct": 0.5715,
+        "positive_rate_pct": 61.15
+      },
+      "volume_top5": {
+        "n": 260,
+        "mean_pct": 0.3908,
+        "median_pct": 0.4959,
+        "positive_rate_pct": 60.38
+      }
+    },
+    "2026": {
+      "return_bottom5": {
+        "n": 160,
+        "mean_pct": -0.0877,
+        "median_pct": 0.0332,
+        "positive_rate_pct": 50.62
+      },
+      "return_top5": {
+        "n": 160,
+        "mean_pct": 0.4904,
+        "median_pct": 0.405,
+        "positive_rate_pct": 58.75
+      },
+      "volume_bottom5": {
+        "n": 160,
+        "mean_pct": 0.156,
+        "median_pct": 0.2621,
+        "positive_rate_pct": 51.88
+      },
+      "volume_top5": {
+        "n": 160,
+        "mean_pct": 0.0551,
+        "median_pct": 0.095,
+        "positive_rate_pct": 50.62
+      }
+    }
+  },
+  "ranking_week_count": 154,
+  "ranking_row_count": 3080
+}
