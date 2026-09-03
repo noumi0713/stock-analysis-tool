@@ -1,0 +1,44 @@
+name: Theme relevance official v3
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - "research/collect_official_site_evidence.py"
+      - "research/score_theme_relevance_v3.py"
+      - ".github/workflows/theme-relevance-official-v3.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install --disable-pip-version-check -q requests beautifulsoup4
+      - name: Collect official-site evidence
+        run: python research/collect_official_site_evidence.py --batch 1 --workers 4
+      - name: Score with official-site evidence v3
+        run: python research/score_theme_relevance_v3.py --batch 1
+      - name: Commit v3 evidence and scores
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/theme_relevance_batches/batch_001_official_evidence.csv research/results/theme_relevance_batches/batch_001_scores_v3.csv research/results/theme_relevance_batches/batch_001_score_summary_v3.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Add official-site evidence relevance v3 batch 001"
+            git pull --rebase origin research/first-pullback-watch-prototype
+            git push
+          fi
