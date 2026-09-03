@@ -7,6 +7,7 @@ on:
       - research/first-pullback-watch-prototype
     paths:
       - "research/first_pullback_watch_prototype.py"
+      - "research/first_pullback_watch_ui.py"
       - "research/first_pullback_watch_prototype.md"
       - ".github/workflows/first-pullback-watch-prototype.yml"
 
@@ -22,5 +23,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Run self-test
+      - name: Run state-machine self-test
         run: python research/first_pullback_watch_prototype.py --self-test
+
+      - name: Check UI syntax
+        run: python -m py_compile research/first_pullback_watch_ui.py
