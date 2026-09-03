@@ -1,0 +1,26 @@
+name: First pullback watch prototype check
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - "research/first_pullback_watch_prototype.py"
+      - "research/first_pullback_watch_prototype.md"
+      - ".github/workflows/first-pullback-watch-prototype.yml"
+
+jobs:
+  prototype-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v6
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Run self-test
+        run: python research/first_pullback_watch_prototype.py --self-test
