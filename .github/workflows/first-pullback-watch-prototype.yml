@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Check out branch
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v6
@@ -28,3 +30,16 @@ jobs:
 
       - name: Check UI syntax
         run: python -m py_compile research/first_pullback_watch_ui.py
+
+      - name: Extract IFIS top10 theme memberships
+        shell: python
+        run: |
+          import csv, io, subprocess
+          codes = {"1848","5273","6993","7523","5817","6543","9082","7066","4809","3094"}
+          subprocess.check_call(["git","fetch","origin","research/volume-top100-overheat:refs/remotes/origin/research/volume-top100-overheat"])
+          raw = subprocess.check_output(["git","show","origin/research/volume-top100-overheat:research/data/theme_members_124.csv"], text=True)
+          rows = [r for r in csv.DictReader(io.StringIO(raw)) if str(r.get("code", "")) in codes]
+          print("CODE\tNAME\tTHEME\tCLUSTER")
+          for r in sorted(rows, key=lambda x:(x["code"], x["theme"])):
+              print(f'{r["code"]}\t{r["name"]}\t{r["theme"]}\t{r["cluster"]}')
+          print("MISSING\t" + ",".join(sorted(codes - {r["code"] for r in rows})))
