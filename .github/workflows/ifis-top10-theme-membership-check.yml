@@ -1,0 +1,31 @@
+name: IFIS top10 theme membership check
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - ".github/workflows/ifis-top10-theme-membership-check.yml"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Fetch theme research branch
+        run: git fetch origin research/volume-top100-overheat:refs/remotes/origin/research/volume-top100-overheat
+      - name: Extract memberships
+        shell: python
+        run: |
+          import csv, io, subprocess
+          codes = {"1848","5273","6993","7523","5817","6543","9082","7066","4809","3094"}
+          raw = subprocess.check_output(["git","show","origin/research/volume-top100-overheat:research/data/theme_members_124.csv"], text=True)
+          rows = [r for r in csv.DictReader(io.StringIO(raw)) if str(r.get("code", "")) in codes]
+          print("CODE\tNAME\tTHEME\tCLUSTER")
+          for r in sorted(rows, key=lambda x:(x["code"], x["theme"])):
+              print(f'{r["code"]}\t{r["name"]}\t{r["theme"]}\t{r["cluster"]}')
+          missing = sorted(codes - {r["code"] for r in rows})
+          print("MISSING\t" + ",".join(missing))
