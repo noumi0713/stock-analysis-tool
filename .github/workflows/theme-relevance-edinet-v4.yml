@@ -1,0 +1,38 @@
+name: Theme relevance EDINET fallback v4
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  edinet-fallback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      EDINET_API_KEY: ${{ secrets.EDINET_API_KEY }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install --disable-pip-version-check -q requests beautifulsoup4 pypdf
+      - name: Fill unresolved ratios from EDINET
+        run: python research/edinet_revenue_fallback_v4.py --batch 1
+      - name: Commit EDINET fallback output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/theme_relevance_batches/batch_001_revenue_mix_v4_edinet.csv \
+                  research/results/theme_relevance_batches/batch_001_edinet_v4_summary.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Add EDINET fallback for batch 001 revenue mix"
+            git pull --rebase origin research/first-pullback-watch-prototype
+            git push
+          fi
