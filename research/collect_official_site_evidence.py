@@ -34,24 +34,26 @@ def same_host(a: str, b: str) -> bool:
     return ha == hb
 
 
-def robots_allows(session: requests.Session, url: str) -> bool:
-    p = urlparse(url)
+def load_robots(session: requests.Session, website: str) -> tuple[RobotFileParser | None, bool]:
+    p = urlparse(website)
     robots_url = f"{p.scheme}://{p.netloc}/robots.txt"
     try:
         r = session.get(robots_url, timeout=5, headers={"User-Agent": UA})
         if r.status_code >= 400:
-            return True
+            return None, False
         rp = RobotFileParser()
         rp.set_url(robots_url)
         rp.parse(r.text.splitlines())
-        return rp.can_fetch(UA, url)
+        return rp, True
     except Exception:
-        # If robots cannot be read, only the homepage will be attempted and no deep crawl.
-        return True
+        return None, False
 
 
-def fetch_page(session: requests.Session, url: str) -> tuple[str, BeautifulSoup] | None:
-    if not robots_allows(session, url):
+def fetch_page(session: requests.Session, url: str, rp: RobotFileParser | None, robots_known: bool, is_home: bool = False) -> tuple[str, BeautifulSoup] | None:
+    if robots_known and rp is not None and not rp.can_fetch(UA, url):
+        return None
+    # If robots could not be read, keep the fallback conservative: homepage only.
+    if not robots_known and not is_home:
         return None
     try:
         r = session.get(url, timeout=8, headers={"User-Agent": UA}, allow_redirects=True)
@@ -74,7 +76,8 @@ def collect_one(row: dict[str, str]) -> dict[str, str]:
         website = "https://" + website
 
     session = requests.Session()
-    home = fetch_page(session, website)
+    rp, robots_known = load_robots(session, website)
+    home = fetch_page(session, website, rp, robots_known, is_home=True)
     if not home:
         return {**base, "official_status": "home_unavailable", "official_urls": website, "official_text": ""}
     home_text, soup = home
@@ -82,28 +85,28 @@ def collect_one(row: dict[str, str]) -> dict[str, str]:
     urls = [website]
 
     links: list[str] = []
-    for a in soup.find_all("a", href=True):
-        label = " ".join(a.stripped_strings).lower()
-        href = urljoin(website, a.get("href"))
-        if not href.startswith(("http://", "https://")) or not same_host(website, href):
-            continue
-        if any(h.lower() in label for h in LINK_HINTS):
-            href = href.split("#", 1)[0]
-            if href not in links and href != website:
-                links.append(href)
-        if len(links) >= 8:
-            break
+    if robots_known:
+        for a in soup.find_all("a", href=True):
+            label = " ".join(a.stripped_strings).lower()
+            href = urljoin(website, a.get("href"))
+            if not href.startswith(("http://", "https://")) or not same_host(website, href):
+                continue
+            if any(h.lower() in label for h in LINK_HINTS):
+                href = href.split("#", 1)[0]
+                if href not in links and href != website:
+                    links.append(href)
+            if len(links) >= 8:
+                break
 
     for url in links[:2]:
         time.sleep(0.15)
-        page = fetch_page(session, url)
+        page = fetch_page(session, url, rp, robots_known)
         if page:
             text, _ = page
             texts.append(text)
             urls.append(url)
 
-    combined = " ".join(texts)
-    combined = re.sub(r"\s+", " ", combined)[:30000]
+    combined = re.sub(r"\s+", " ", " ".join(texts))[:30000]
     return {
         **base,
         "official_status": "ok",
