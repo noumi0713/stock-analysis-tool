@@ -1,0 +1,27 @@
+{
+  "batch": 1,
+  "stocks": 300,
+  "stock_theme_pairs": 955,
+  "band_counts": {
+    "ノイズ候補": 474,
+    "主力テーマ": 322,
+    "補助関連": 133,
+    "有力関連": 26
+  },
+  "confidence_counts": {
+    "C": 607,
+    "A": 284,
+    "B": 64
+  },
+  "review_counts": {
+    "needs_review_macro": 19,
+    "ok": 304,
+    "needs_review": 565,
+    "non_operating_security": 8,
+    "qa_borderline": 25,
+    "qa_peripheral": 10,
+    "needs_official_ir": 24
+  },
+  "scoring": "v2: 0.70*current_business + 0.30*growth_relevance; direct-term position penalty",
+  "note": "Automated first pass. Official-IR QA is required for macro, missing-profile and sampled borderline/peripheral rows."
+}

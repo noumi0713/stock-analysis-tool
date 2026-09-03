@@ -1,0 +1,956 @@
+﻿batch,stock_code,long_name,theme_name,cluster,current_business_score,growth_relevance_score,relevance_score,band,confidence,review_flag,evidence,strong_hits,weak_hits,evidence_position,quote_type,sector,industry,website
+1,1301,"Kyokuyo Co., Ltd.",円高メリット,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.kyokuyo.co.jp
+1,130A,Veritas In Silico Inc.,創薬,医療・ヘルスケア,94,98,95,主力テーマ,A,ok,industry=Biotechnology; direct=drug discovery; position=0.20; growth=development/commercialization,drug discovery,,0.1958,EQUITY,Healthcare,Biotechnology,https://www.veritasinsilico.com
+1,130A,Veritas In Silico Inc.,医薬品関連,医療・ヘルスケア,42,42,42,補助関連,C,needs_review,adjacent=drug discovery; growth=development/commercialization,,drug discovery,,EQUITY,Healthcare,Biotechnology,https://www.veritasinsilico.com
+1,1326,SPDR Gold Shares,金,資源・素材,100,100,100,主力テーマ,A,non_operating_security,投資商品としてテーマ価格へ直接連動,gold bullion | gold bars,gold,,ETF,,,
+1,1328,NEXT FUNDS Gold Price Exchange Traded Fund,金,資源・素材,100,100,100,主力テーマ,A,non_operating_security,投資商品としてテーマ価格へ直接連動,gold price,gold,,ETF,,,
+1,1332,Nissui Corporation,円高メリット,内需・消費,42,30,38,ノイズ候補,C,needs_review_macro,adjacent=import/export,,import/export,,EQUITY,Consumer Defensive,Packaged Foods,https://www.nissui.co.jp
+1,1333,Umios Corporation,介護関連,医療・ヘルスケア,82,74,80,主力テーマ,B,ok,direct=nursing care; position=0.41,nursing care,,0.4064,EQUITY,Consumer Defensive,Packaged Foods,https://www.umios.com/jp
+1,1333,Umios Corporation,円高メリット,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.umios.com/jp
+1,1333,Umios Corporation,宅配,物流・海運,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.umios.com/jp
+1,1333,Umios Corporation,食品,内需・消費,97,89,95,主力テーマ,A,ok,industry=Packaged Foods; direct=food products/packaged foods; position=0.19,food products | packaged foods,foods | meat products | seafood,0.1860,EQUITY,Consumer Defensive,Packaged Foods,https://www.umios.com/jp
+1,135A,"VRAIN Solution, Inc.",IoT,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://vrain.co.jp
+1,135A,"VRAIN Solution, Inc.",デジタルトランスフォーメーション,デジタル・サービス,58,56,57,補助関連,C,needs_review,direct=digital transformation; position=0.74; growth=develops,digital transformation,,0.7372,EQUITY,Technology,Software - Infrastructure,https://vrain.co.jp
+1,135A,"VRAIN Solution, Inc.",人工知能,AI・半導体,97,99,98,主力テーマ,A,ok,direct=artificial intelligence/ ai ; position=0.05; growth=develops,artificial intelligence |  ai ,,0.0450,EQUITY,Technology,Software - Infrastructure,https://vrain.co.jp
+1,1375,"Yukiguni Factory Co., Ltd.",食品,内需・消費,94,86,92,主力テーマ,A,ok,industry=Packaged Foods; direct=food products/packaged foods; position=0.20,food products | packaged foods,foods,0.2014,EQUITY,Consumer Defensive,Packaged Foods,https://www.yukiguni-factory.co.jp
+1,137A,"Cocolive, Inc.",IT関連,デジタル・サービス,90,82,88,主力テーマ,A,ok,industry=Software - Infrastructure; adjacent=software/cloud service,,software | cloud service,,EQUITY,Technology,Software - Infrastructure,https://cocolive.co.jp
+1,137A,"Cocolive, Inc.",SaaS,デジタル・サービス,94,86,92,主力テーマ,A,ok,industry=Software - Infrastructure; direct=cloud service business; position=0.08,cloud service business,cloud service,0.0825,EQUITY,Technology,Software - Infrastructure,https://cocolive.co.jp
+1,137A,"Cocolive, Inc.",クラウドコンピューティング,デジタル・サービス,92,84,90,主力テーマ,A,ok,direct=cloud service; position=0.08,cloud service,cloud,0.0825,EQUITY,Technology,Software - Infrastructure,https://cocolive.co.jp
+1,137A,"Cocolive, Inc.",サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://cocolive.co.jp
+1,137A,"Cocolive, Inc.",不動産テック,不動産・建設,42,30,38,ノイズ候補,C,needs_review,adjacent=property app,,property app,,EQUITY,Technology,Software - Infrastructure,https://cocolive.co.jp
+1,137A,"Cocolive, Inc.",不動産関連,不動産・建設,42,30,38,ノイズ候補,C,needs_review,adjacent=real estate,,real estate,,EQUITY,Technology,Software - Infrastructure,https://cocolive.co.jp
+1,1380,"Akikawa Foods & Farms Co., Ltd.",宅配,物流・海運,66,56,63,有力関連,B,qa_borderline,direct=home delivery; position=0.52,home delivery,delivery companies,0.5211,EQUITY,Consumer Defensive,Farm Products,https://www.akikawabokuen.com
+1,1381,"AXYZ Co., Ltd.",外食,内需・消費,86,78,84,主力テーマ,B,ok,direct=eating out; position=0.36,eating out,franchise stores,0.3601,EQUITY,Consumer Defensive,Farm Products,https://www.axyz-grp.co.jp
+1,138A,"Hikari Food Service Co., Ltd.",外食,内需・消費,97,89,95,主力テーマ,A,ok,industry=Restaurants; direct=restaurant/food service; position=0.02,restaurant | food service,bar,0.0214,EQUITY,Consumer Cyclical,Restaurants,https://www.hikari-food-service.jp
+1,138A,"Hikari Food Service Co., Ltd.",小売り,内需・消費,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Restaurants,https://www.hikari-food-service.jp
+1,1401,Mbs Inc,住宅関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.homemakeup.co.jp
+1,1401,Mbs Inc,建設,不動産・建設,94,96,95,主力テーマ,A,qa_peripheral,industry=Engineering & Construction; direct=construction work; position=0.82; growth=develops,construction work,construction,0.8197,EQUITY,Industrials,Engineering & Construction,https://www.homemakeup.co.jp
+1,1401,Mbs Inc,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.homemakeup.co.jp
+1,1401,Mbs Inc,防災,防衛・国土強靱化,86,88,87,主力テーマ,A,ok,direct=disaster prevention; position=0.36; growth=develops,disaster prevention,disaster,0.3584,EQUITY,Industrials,Engineering & Construction,https://www.homemakeup.co.jp
+1,1407,West Holdings Corporation,再生可能エネルギー,GX・エネルギー,97,89,95,主力テーマ,A,ok,industry=Utilities - Renewable; direct=renewable energy/green power; position=0.18,renewable energy | green power,solar power | wind power,0.1809,EQUITY,Utilities,Utilities - Renewable,https://www.west-gr.co.jp
+1,1407,West Holdings Corporation,太陽光発電関連,GX・エネルギー,86,78,84,主力テーマ,B,ok,direct=solar power; position=0.38,solar power,solar,0.3814,EQUITY,Utilities,Utilities - Renewable,https://www.west-gr.co.jp
+1,1407,West Holdings Corporation,蓄電池,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Utilities,Utilities - Renewable,https://www.west-gr.co.jp
+1,1414,"SHO-BOND Holdings Co.,Ltd.",国土強靱化,防衛・国土強靱化,50,48,49,補助関連,C,needs_review,adjacent=civil engineering/bridge/tunnel; growth=expansion,,civil engineering | bridge | tunnel,,EQUITY,Industrials,Engineering & Construction,https://www.sho-bondhd.jp
+1,1414,"SHO-BOND Holdings Co.,Ltd.",建設,不動産・建設,96,98,97,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction work/civil engineering/engineering and construction; position=0.23; growth=expansion,construction work | civil engineering | engineering and construction,construction,0.2266,EQUITY,Industrials,Engineering & Construction,https://www.sho-bondhd.jp
+1,1414,"SHO-BOND Holdings Co.,Ltd.",耐震化,防衛・国土強靱化,58,56,57,補助関連,C,needs_review,direct=seismic-resistant; position=0.80; growth=expansion,seismic-resistant,reinforcement,0.7972,EQUITY,Industrials,Engineering & Construction,https://www.sho-bondhd.jp
+1,1414,"SHO-BOND Holdings Co.,Ltd.",防災,防衛・国土強靱化,42,40,41,補助関連,C,needs_review,adjacent=seismic; growth=expansion,,seismic,,EQUITY,Industrials,Engineering & Construction,https://www.sho-bondhd.jp
+1,1417,MIRAIT ONE Corporation,データセンター,データセンター・電力,58,56,57,補助関連,C,needs_review,direct=data center; position=0.79; growth=development,data center,,0.7882,EQUITY,Industrials,Engineering & Construction,https://www.mirait-one.com
+1,1417,MIRAIT ONE Corporation,ドローン,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.mirait-one.com
+1,1417,MIRAIT ONE Corporation,光ファイバー,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.mirait-one.com
+1,1417,MIRAIT ONE Corporation,太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.mirait-one.com
+1,1417,MIRAIT ONE Corporation,建設,不動産・建設,97,99,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/civil engineering; position=0.10; growth=development,construction business | civil engineering,construction,0.1048,EQUITY,Industrials,Engineering & Construction,https://www.mirait-one.com
+1,1418,"Interlife Holdings Co., Ltd.",建設,不動産・建設,86,78,84,主力テーマ,B,ok,direct=construction business; position=0.24,construction business,construction,0.2380,EQUITY,Industrials,Specialty Business Services,https://www.n-interlife.co.jp
+1,1419,"Tama Home Co., Ltd.",マンション関連,不動産・建設,82,86,83,主力テーマ,B,ok,direct=condominium; position=0.47; growth=development/investment,condominium,housing,0.4744,EQUITY,Consumer Cyclical,Residential Construction,https://www.tamahome.jp
+1,1419,"Tama Home Co., Ltd.",住宅関連,不動産・建設,100,100,100,主力テーマ,A,ok,industry=Residential Construction; direct=housing business/residential construction/custom-built homes; position=0.10; growth=development/investment,housing business | residential construction | custom-built homes,housing | residential,0.0960,EQUITY,Consumer Cyclical,Residential Construction,https://www.tamahome.jp
+1,141A,"TRIAL Holdings, Inc.",デジタルトランスフォーメーション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Discount Stores,https://www.trial-holdings.inc
+1,141A,"TRIAL Holdings, Inc.",人工知能,AI・半導体,86,78,84,主力テーマ,B,ok,direct= ai ; position=0.22, ai ,,0.2182,EQUITY,Consumer Defensive,Discount Stores,https://www.trial-holdings.inc
+1,141A,"TRIAL Holdings, Inc.",外食,内需・消費,58,46,54,補助関連,C,needs_review,direct=restaurant; position=0.71,restaurant,,0.7125,EQUITY,Consumer Defensive,Discount Stores,https://www.trial-holdings.inc
+1,141A,"TRIAL Holdings, Inc.",小売り,内需・消費,94,86,92,主力テーマ,A,ok,industry=Discount Stores; direct=discount stores/supermarket; position=0.29,discount stores | supermarket,retail | stores,0.2900,EQUITY,Consumer Defensive,Discount Stores,https://www.trial-holdings.inc
+1,141A,"TRIAL Holdings, Inc.",物流,物流・海運,42,30,38,ノイズ候補,C,needs_review,adjacent=logistics,,logistics,,EQUITY,Consumer Defensive,Discount Stores,https://www.trial-holdings.inc
+1,141A,"TRIAL Holdings, Inc.",生活防衛,内需・消費,66,56,63,有力関連,B,needs_review_macro,direct=discount store,discount store,supermarket | daily necessities,,EQUITY,Consumer Defensive,Discount Stores,https://www.trial-holdings.inc
+1,141A,"TRIAL Holdings, Inc.",食品,内需・消費,42,30,38,ノイズ候補,C,needs_review,adjacent=foods,,foods,,EQUITY,Consumer Defensive,Discount Stores,https://www.trial-holdings.inc
+1,1420,Sanyo Homes Corporation,介護関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Residential Construction,https://www.sanyohomes.co.jp
+1,1420,Sanyo Homes Corporation,住宅関連,不動産・建設,97,99,98,主力テーマ,A,ok,industry=Residential Construction; direct=housing business/residential construction; position=0.13; growth=develops,housing business | residential construction,housing | residential,0.1329,EQUITY,Consumer Cyclical,Residential Construction,https://www.sanyohomes.co.jp
+1,1429,"Nippon Aqua Co., Ltd.",住宅関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.n-aqua.jp
+1,1429,"Nippon Aqua Co., Ltd.",建設,不動産・建設,90,92,91,主力テーマ,A,ok,industry=Engineering & Construction; adjacent=construction; growth=development,,construction,,EQUITY,Industrials,Engineering & Construction,https://www.n-aqua.jp
+1,1430,First-corporation Inc.,マンション関連,不動産・建設,86,78,84,主力テーマ,B,ok,direct=condominium; position=0.38,condominium,,0.3785,EQUITY,Consumer Cyclical,Residential Construction,https://www.1st-corp.com
+1,1430,First-corporation Inc.,不動産関連,不動産・建設,86,78,84,主力テーマ,B,ok,direct=real estate business; position=0.26,real estate business,real estate,0.2624,EQUITY,Consumer Cyclical,Residential Construction,https://www.1st-corp.com
+1,1430,First-corporation Inc.,建設,不動産・建設,86,78,84,主力テーマ,B,ok,direct=construction business; position=0.21,construction business,construction,0.2065,EQUITY,Consumer Cyclical,Residential Construction,https://www.1st-corp.com
+1,1431,"Lib Work Co.,Ltd.",3Dプリンター,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Diversified,https://www.libwork.co.jp
+1,1431,"Lib Work Co.,Ltd.",SaaS,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Diversified,https://www.libwork.co.jp
+1,1431,"Lib Work Co.,Ltd.",サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Diversified,https://www.libwork.co.jp
+1,1431,"Lib Work Co.,Ltd.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Diversified,https://www.libwork.co.jp
+1,1431,"Lib Work Co.,Ltd.",住宅関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Diversified,https://www.libwork.co.jp
+1,1431,"Lib Work Co.,Ltd.",建設,不動産・建設,42,30,38,ノイズ候補,C,needs_review,adjacent=construction,,construction,,EQUITY,Real Estate,Real Estate - Diversified,https://www.libwork.co.jp
+1,1433,"Besterra Co., Ltd.",原子力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.besterra.co.jp
+1,1433,"Besterra Co., Ltd.",脱炭素,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.besterra.co.jp
+1,1434,"Jesco Holdings, Inc.",再生可能エネルギー,GX・エネルギー,92,84,90,主力テーマ,A,ok,direct=renewable energy; position=0.05,renewable energy,solar power,0.0482,EQUITY,Industrials,Engineering & Construction,https://www.jesco.co.jp
+1,1434,"Jesco Holdings, Inc.",建設,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business; position=0.11,construction business,construction,0.1082,EQUITY,Industrials,Engineering & Construction,https://www.jesco.co.jp
+1,1434,"Jesco Holdings, Inc.",防災,防衛・国土強靱化,86,78,84,主力テーマ,B,ok,direct=disaster prevention; position=0.38,disaster prevention,disaster,0.3834,EQUITY,Industrials,Engineering & Construction,https://www.jesco.co.jp
+1,1434,"Jesco Holdings, Inc.",電力設備投資関連,データセンター・電力,91,83,89,主力テーマ,A,ok,direct=power transmission/substation; position=0.23,power transmission | substation,electrical equipment | power plant,0.2284,EQUITY,Industrials,Engineering & Construction,https://www.jesco.co.jp
+1,1435,"Robot Home, Inc.",IoT,設備投資・機械,58,56,57,補助関連,C,needs_review,direct= iot; position=0.72; growth=develops, iot,,0.7162,EQUITY,Real Estate,Real Estate Services,https://corp.robothome.jp
+1,1435,"Robot Home, Inc.",デジタルトランスフォーメーション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate Services,https://corp.robothome.jp
+1,1435,"Robot Home, Inc.",不動産テック,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate Services,https://corp.robothome.jp
+1,1435,"Robot Home, Inc.",不動産ファンド,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate Services,https://corp.robothome.jp
+1,1435,"Robot Home, Inc.",不動産関連,不動産・建設,90,92,91,主力テーマ,A,ok,industry=Real Estate Services; adjacent=real estate/property management; growth=develops,,real estate | property management,,EQUITY,Real Estate,Real Estate Services,https://corp.robothome.jp
+1,1436,GreenEnergy & Company Inc.,住宅関連,不動産・建設,42,42,42,補助関連,C,needs_review,adjacent=housing; growth=development/expansion,,housing,,EQUITY,Industrials,Engineering & Construction,https://green-energy.co.jp
+1,1436,GreenEnergy & Company Inc.,再生可能エネルギー,GX・エネルギー,66,68,67,有力関連,B,qa_borderline,direct=renewable energy; position=0.52; growth=development/expansion,renewable energy,solar power,0.5154,EQUITY,Industrials,Engineering & Construction,https://green-energy.co.jp
+1,1436,GreenEnergy & Company Inc.,太陽光発電関連,GX・エネルギー,92,96,93,主力テーマ,A,ok,direct=solar power; position=0.08; growth=development/expansion,solar power,solar,0.0832,EQUITY,Industrials,Engineering & Construction,https://green-energy.co.jp
+1,1436,GreenEnergy & Company Inc.,建設,不動産・建設,90,94,91,主力テーマ,A,ok,industry=Engineering & Construction; adjacent=construction; growth=development/expansion,,construction,,EQUITY,Industrials,Engineering & Construction,https://green-energy.co.jp
+1,1436,GreenEnergy & Company Inc.,脱炭素,GX・エネルギー,42,42,42,補助関連,C,needs_review,adjacent=renewable energy; growth=development/expansion,,renewable energy,,EQUITY,Industrials,Engineering & Construction,https://green-energy.co.jp
+1,1436,GreenEnergy & Company Inc.,蓄電池,GX・エネルギー,82,86,83,主力テーマ,B,ok,direct=storage battery; position=0.41; growth=development/expansion,storage battery,battery,0.4097,EQUITY,Industrials,Engineering & Construction,https://green-energy.co.jp
+1,1438,"Gifu landscape architect Co., Ltd.",住宅関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.gifu-zohen.co.jp
+1,1438,"Gifu landscape architect Co., Ltd.",太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.gifu-zohen.co.jp
+1,1438,"Gifu landscape architect Co., Ltd.",建設,不動産・建設,90,82,88,主力テーマ,A,ok,industry=Engineering & Construction; adjacent=construction,,construction,,EQUITY,Industrials,Engineering & Construction,https://www.gifu-zohen.co.jp
+1,143A,"Ishin Co., Ltd.",デジタルトランスフォーメーション,デジタル・サービス,42,30,38,ノイズ候補,C,needs_review,adjacent=cloud service,,cloud service,,EQUITY,Communication Services,Advertising Agencies,https://ishin1853.co.jp
+1,143A,"Ishin Co., Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://ishin1853.co.jp
+1,1443,"Giken Holdings Co., Ltd.",建設,不動産・建設,94,96,95,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business; position=0.13; growth=development,construction business,construction,0.1270,EQUITY,Industrials,Engineering & Construction,https://www.giken-hd.co.jp
+1,1443,"Giken Holdings Co., Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.giken-hd.co.jp
+1,1444,"Nissou Co.,Ltd.",不動産関連,不動産・建設,92,84,90,主力テーマ,A,ok,direct=real estate brokerage; position=0.20,real estate brokerage,real estate,0.1963,EQUITY,Consumer Cyclical,Residential Construction,https://reform-nisso.co.jp
+1,1444,"Nissou Co.,Ltd.",住宅関連,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Residential Construction; direct=residential construction,residential construction,residential,,EQUITY,Consumer Cyclical,Residential Construction,https://reform-nisso.co.jp
+1,1447,"SAAF Holdings Co.,Ltd.",IT関連,デジタル・サービス,94,98,95,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology; position=0.03; growth=develops/development,information technology,,0.0314,EQUITY,Technology,Information Technology Services,https://www.saaf-hd.co.jp
+1,1447,"SAAF Holdings Co.,Ltd.",IoT,設備投資・機械,86,90,87,主力テーマ,A,ok,direct= iot; position=0.26; growth=develops/development, iot,,0.2644,EQUITY,Technology,Information Technology Services,https://www.saaf-hd.co.jp
+1,1447,"SAAF Holdings Co.,Ltd.",クラウドコンピューティング,デジタル・サービス,42,42,42,補助関連,C,needs_review,adjacent=cloud; growth=develops/development,,cloud,,EQUITY,Technology,Information Technology Services,https://www.saaf-hd.co.jp
+1,1447,"SAAF Holdings Co.,Ltd.",デジタルトランスフォーメーション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.saaf-hd.co.jp
+1,1447,"SAAF Holdings Co.,Ltd.",フィンテック,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.saaf-hd.co.jp
+1,1447,"SAAF Holdings Co.,Ltd.",マイナンバー,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.saaf-hd.co.jp
+1,1447,"SAAF Holdings Co.,Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.saaf-hd.co.jp
+1,1447,"SAAF Holdings Co.,Ltd.",電子政府,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.saaf-hd.co.jp
+1,1449,,住宅関連,不動産・建設,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1449,,建設,不動産・建設,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,145A,L is B corp.,IT関連,デジタル・サービス,90,96,92,主力テーマ,A,ok,industry=Software - Infrastructure; adjacent=software/cloud service; growth=develops/development,,software | cloud service,,EQUITY,Technology,Software - Infrastructure,https://www.l-is-b.com
+1,145A,L is B corp.,SaaS,デジタル・サービス,90,96,92,主力テーマ,A,ok,industry=Software - Infrastructure; adjacent=cloud service; growth=develops/development,,cloud service,,EQUITY,Technology,Software - Infrastructure,https://www.l-is-b.com
+1,145A,L is B corp.,デジタルトランスフォーメーション,デジタル・サービス,86,92,88,主力テーマ,A,ok,direct= dx ; position=0.21; growth=develops/development, dx ,cloud service,0.2121,EQUITY,Technology,Software - Infrastructure,https://www.l-is-b.com
+1,145A,L is B corp.,人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.l-is-b.com
+1,145A,L is B corp.,生成AI,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.l-is-b.com
+1,146A,Columbia Works Inc.,ホテル,内需・消費,86,88,87,主力テーマ,A,ok,direct=hotel management; position=0.37; growth=development,hotel management,hotel,0.3746,EQUITY,Real Estate,Real Estate - Development,https://columbiaworks.jp
+1,146A,Columbia Works Inc.,マンション関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Development,https://columbiaworks.jp
+1,146A,Columbia Works Inc.,不動産ファンド,不動産・建設,42,40,41,補助関連,C,needs_review,adjacent=asset management; growth=development,,asset management,,EQUITY,Real Estate,Real Estate - Development,https://columbiaworks.jp
+1,146A,Columbia Works Inc.,不動産関連,不動産・建設,94,96,95,主力テーマ,A,ok,industry=Real Estate - Development; direct=real estate development; position=0.10; growth=development,real estate development,real estate,0.0970,EQUITY,Real Estate,Real Estate - Development,https://columbiaworks.jp
+1,147A,"Soracom, Inc.",IT関連,デジタル・サービス,90,82,88,主力テーマ,A,ok,industry=Software - Infrastructure; adjacent=software,,software,,EQUITY,Technology,Software - Infrastructure,https://www.soracom.io
+1,147A,"Soracom, Inc.",IoT,設備投資・機械,97,89,95,主力テーマ,A,ok,direct=internet of things/ iot; position=0.03,internet of things |  iot,,0.0326,EQUITY,Technology,Software - Infrastructure,https://www.soracom.io
+1,147A,"Soracom, Inc.",クラウドコンピューティング,デジタル・サービス,42,30,38,ノイズ候補,C,needs_review,adjacent=cloud,,cloud,,EQUITY,Technology,Software - Infrastructure,https://www.soracom.io
+1,147A,"Soracom, Inc.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.soracom.io
+1,147A,"Soracom, Inc.",生成AI,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.soracom.io
+1,148A,"Hatch Work Co.,Ltd.",クラウドコンピューティング,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Specialty Business Services,https://hatchwork.co.jp
+1,1491,"Chugai Mining Co., Ltd.",ゲーム関連,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Basic Materials,Gold,https://www.chugaikogyo.co.jp
+1,1491,"Chugai Mining Co., Ltd.",レアメタル,資源・素材,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Basic Materials,Gold,https://www.chugaikogyo.co.jp
+1,1491,"Chugai Mining Co., Ltd.",不動産関連,不動産・建設,86,90,87,主力テーマ,A,ok,direct=real estate business; position=0.25; growth=development/investment,real estate business,real estate,0.2454,EQUITY,Basic Materials,Gold,https://www.chugaikogyo.co.jp
+1,1491,"Chugai Mining Co., Ltd.",工作機械,設備投資・機械,66,68,67,有力関連,B,qa_borderline,direct=machine tool/machining center/lathe; position=0.60; growth=development/investment,machine tool | machining center | lathe,,0.5962,EQUITY,Basic Materials,Gold,https://www.chugaikogyo.co.jp
+1,1491,"Chugai Mining Co., Ltd.",機械,設備投資・機械,42,42,42,補助関連,C,needs_review,adjacent=machine; growth=development/investment,,machine,,EQUITY,Basic Materials,Gold,https://www.chugaikogyo.co.jp
+1,1491,"Chugai Mining Co., Ltd.",都市鉱山,資源・素材,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Basic Materials,Gold,https://www.chugaikogyo.co.jp
+1,1491,"Chugai Mining Co., Ltd.",金,資源・素材,46,46,46,補助関連,C,needs_review,adjacent=precious metals/gold; growth=development/investment,,precious metals | gold,,EQUITY,Basic Materials,Gold,https://www.chugaikogyo.co.jp
+1,149A,"Thinca Co.,Ltd.",IT関連,デジタル・サービス,90,92,91,主力テーマ,A,ok,industry=Software - Application; adjacent=software/cloud service; growth=development,,software | cloud service,,EQUITY,Technology,Software - Application,https://www.thinca.co.jp
+1,149A,"Thinca Co.,Ltd.",SaaS,デジタル・サービス,90,92,91,主力テーマ,A,ok,industry=Software - Application; adjacent=cloud service; growth=development,,cloud service,,EQUITY,Technology,Software - Application,https://www.thinca.co.jp
+1,149A,"Thinca Co.,Ltd.",クラウドコンピューティング,デジタル・サービス,92,94,93,主力テーマ,A,ok,direct=cloud service; position=0.18; growth=development,cloud service,cloud,0.1757,EQUITY,Technology,Software - Application,https://www.thinca.co.jp
+1,149A,"Thinca Co.,Ltd.",サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.thinca.co.jp
+1,150A,"JSH Co.,Ltd.",旅行,内需・消費,42,30,38,ノイズ候補,C,needs_review,adjacent=tourism,,tourism,,EQUITY,Industrials,Conglomerates,https://www.jsh-japan.jp
+1,1514,"Sumiseki Holdings,Inc.",半導体部材・部品,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Thermal Coal,https://www.sumiseki.co.jp
+1,1514,"Sumiseki Holdings,Inc.",風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Thermal Coal,https://www.sumiseki.co.jp
+1,1515,"Nittetsu Mining Co., Ltd.",下水道,防衛・国土強靱化,66,66,66,有力関連,B,qa_borderline,direct=wastewater; position=0.59; growth=development,wastewater,water treatment,0.5874,EQUITY,Basic Materials,Copper,https://www.nittetsukou.co.jp
+1,1515,"Nittetsu Mining Co., Ltd.",不動産関連,不動産・建設,92,94,93,主力テーマ,A,ok,direct=real estate business; position=0.13; growth=development,real estate business,real estate,0.1269,EQUITY,Basic Materials,Copper,https://www.nittetsukou.co.jp
+1,1515,"Nittetsu Mining Co., Ltd.",太陽光発電関連,GX・エネルギー,58,56,57,補助関連,C,needs_review,direct=solar power; position=0.94; growth=development,solar power,solar,0.9393,EQUITY,Basic Materials,Copper,https://www.nittetsukou.co.jp
+1,1515,"Nittetsu Mining Co., Ltd.",機械,設備投資・機械,42,40,41,補助関連,C,needs_review,adjacent=machine; growth=development,,machine,,EQUITY,Basic Materials,Copper,https://www.nittetsukou.co.jp
+1,1515,"Nittetsu Mining Co., Ltd.",資源開発,資源・素材,42,40,41,補助関連,C,needs_review,adjacent=mining; growth=development,,mining,,EQUITY,Basic Materials,Copper,https://www.nittetsukou.co.jp
+1,1515,"Nittetsu Mining Co., Ltd.",鉄鋼,資源・素材,82,84,83,主力テーマ,B,ok,direct=steel manufacturing; position=0.43; growth=development,steel manufacturing,steel,0.4315,EQUITY,Basic Materials,Copper,https://www.nittetsukou.co.jp
+1,1515,"Nittetsu Mining Co., Ltd.",銅,資源・素材,42,40,41,補助関連,C,needs_review,adjacent=copper; growth=development,,copper,,EQUITY,Basic Materials,Copper,https://www.nittetsukou.co.jp
+1,1515,"Nittetsu Mining Co., Ltd.",非鉄,資源・素材,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Basic Materials,Copper,https://www.nittetsukou.co.jp
+1,1518,"Mitsui Matsushima Holdings Co., Ltd.",半導体部材・部品,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Thermal Coal,https://www.mitsui-matsushima.co.jp
+1,151A,Dive Group Inc.,インバウンド,内需・消費,46,46,46,補助関連,C,needs_review_macro,adjacent=tourism/hotel; growth=develops/development,,tourism | hotel,,EQUITY,Industrials,Staffing & Employment Services,https://dive.design
+1,151A,Dive Group Inc.,ホテル,内需・消費,46,46,46,補助関連,C,needs_review,adjacent=hotel/accommodation; growth=develops/development,,hotel | accommodation,,EQUITY,Industrials,Staffing & Employment Services,https://dive.design
+1,153A,Caulis Inc.,IT関連,デジタル・サービス,90,92,91,主力テーマ,A,ok,industry=Software - Infrastructure; adjacent=software; growth=development,,software,,EQUITY,Technology,Software - Infrastructure,https://www.caulis.jp
+1,153A,Caulis Inc.,SaaS,デジタル・サービス,90,82,88,主力テーマ,A,ok,industry=Software - Infrastructure,,,,EQUITY,Technology,Software - Infrastructure,https://www.caulis.jp
+1,153A,Caulis Inc.,クラウドコンピューティング,デジタル・サービス,42,40,41,補助関連,C,needs_review,adjacent=cloud; growth=development,,cloud,,EQUITY,Technology,Software - Infrastructure,https://www.caulis.jp
+1,153A,Caulis Inc.,サイバーセキュリティ,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.caulis.jp
+1,153A,Caulis Inc.,証券,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.caulis.jp
+1,153A,Caulis Inc.,銀行,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.caulis.jp
+1,1540,Japan Physical Gold ETF,金,資源・素材,100,100,100,主力テーマ,A,non_operating_security,投資商品としてテーマ価格へ直接連動,,gold,,ETF,,,
+1,155A,"Information Strategy and Technology Co.,Ltd.",IT関連,デジタル・サービス,94,96,95,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology; growth=development,information technology,,,EQUITY,Technology,Information Technology Services,https://www.is-tech.co.jp
+1,155A,"Information Strategy and Technology Co.,Ltd.",クラウドコンピューティング,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.is-tech.co.jp
+1,155A,"Information Strategy and Technology Co.,Ltd.",サイバーセキュリティ,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.is-tech.co.jp
+1,155A,"Information Strategy and Technology Co.,Ltd.",デジタルトランスフォーメーション,デジタル・サービス,97,99,98,主力テーマ,A,ok,direct= dx /dx consulting; position=0.20; growth=development, dx  | dx consulting,,0.1987,EQUITY,Technology,Information Technology Services,https://www.is-tech.co.jp
+1,155A,"Information Strategy and Technology Co.,Ltd.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.is-tech.co.jp
+1,155A,"Information Strategy and Technology Co.,Ltd.",生成AI,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.is-tech.co.jp
+1,156A,Material Group Inc.,IT関連,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://materialgroup.jp
+1,156A,Material Group Inc.,SaaS,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://materialgroup.jp
+1,156A,Material Group Inc.,サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://materialgroup.jp
+1,1605,Inpex Corporation,アンモニア,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Oil & Gas E&P,https://www.inpex.com
+1,1605,Inpex Corporation,レアメタル,資源・素材,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Oil & Gas E&P,https://www.inpex.com
+1,1605,Inpex Corporation,再生可能エネルギー,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Oil & Gas E&P,https://www.inpex.com
+1,1605,Inpex Corporation,太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Oil & Gas E&P,https://www.inpex.com
+1,1605,Inpex Corporation,核融合発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Oil & Gas E&P,https://www.inpex.com
+1,1605,Inpex Corporation,水素,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Oil & Gas E&P,https://www.inpex.com
+1,1605,Inpex Corporation,脱炭素,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Oil & Gas E&P,https://www.inpex.com
+1,1605,Inpex Corporation,資源開発,資源・素材,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Oil & Gas E&P,https://www.inpex.com
+1,1605,Inpex Corporation,風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Oil & Gas E&P,https://www.inpex.com
+1,160A,"As Partners CO.,LTD.",不動産関連,不動産・建設,92,94,93,主力テーマ,A,ok,direct=real estate business; position=0.09; growth=development,real estate business,real estate,0.0900,EQUITY,Industrials,Conglomerates,https://www.as-partners.co.jp
+1,160A,"As Partners CO.,LTD.",介護関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Conglomerates,https://www.as-partners.co.jp
+1,1662,"Japan Petroleum Exploration Co., Ltd.",レアアース,資源・素材,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Oil & Gas E&P,https://www.japex.co.jp
+1,1662,"Japan Petroleum Exploration Co., Ltd.",レアメタル,資源・素材,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Oil & Gas E&P,https://www.japex.co.jp
+1,1662,"Japan Petroleum Exploration Co., Ltd.",資源開発,資源・素材,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Energy,Oil & Gas E&P,https://www.japex.co.jp
+1,166A,TASUKI Holdings Inc.,IoT,設備投資・機械,92,96,93,主力テーマ,A,ok,direct= iot; position=0.19; growth=develops/investment, iot,,0.1882,EQUITY,Technology,Software - Application,https://tasuki-holdings.co.jp
+1,166A,TASUKI Holdings Inc.,SaaS,デジタル・サービス,90,82,88,主力テーマ,A,ok,industry=Software - Application,,,,EQUITY,Technology,Software - Application,https://tasuki-holdings.co.jp
+1,166A,TASUKI Holdings Inc.,フィンテック,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://tasuki-holdings.co.jp
+1,166A,TASUKI Holdings Inc.,マンション関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://tasuki-holdings.co.jp
+1,166A,TASUKI Holdings Inc.,不動産テック,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://tasuki-holdings.co.jp
+1,166A,TASUKI Holdings Inc.,不動産ファンド,不動産・建設,66,68,67,有力関連,B,qa_borderline,direct=real estate fund; position=0.62; growth=develops/investment,real estate fund,asset management,0.6191,EQUITY,Technology,Software - Application,https://tasuki-holdings.co.jp
+1,166A,TASUKI Holdings Inc.,不動産関連,不動産・建設,92,96,93,主力テーマ,A,ok,direct=real estate business; position=0.05; growth=develops/investment,real estate business,real estate,0.0546,EQUITY,Technology,Software - Application,https://tasuki-holdings.co.jp
+1,166A,TASUKI Holdings Inc.,住宅関連,不動産・建設,42,42,42,補助関連,C,needs_review,adjacent=residential; growth=develops/investment,,residential,,EQUITY,Technology,Software - Application,https://tasuki-holdings.co.jp
+1,166A,TASUKI Holdings Inc.,生成AI,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://tasuki-holdings.co.jp
+1,1672,WisdomTree Physical Gold,金,資源・素材,100,100,100,主力テーマ,A,non_operating_security,投資商品としてテーマ価格へ直接連動,,gold,,ETF,,,
+1,167A,"Ryoyo Ryosan Holdings, Inc.",IoT,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Electronics & Computer Distribution,https://www.rr-hds.co.jp
+1,167A,"Ryoyo Ryosan Holdings, Inc.",サイバーセキュリティ,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Electronics & Computer Distribution,https://www.rr-hds.co.jp
+1,167A,"Ryoyo Ryosan Holdings, Inc.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Electronics & Computer Distribution,https://www.rr-hds.co.jp
+1,167A,"Ryoyo Ryosan Holdings, Inc.",半導体,AI・半導体,92,94,93,主力テーマ,A,ok,direct=semiconductor; position=0.12; growth=development,semiconductor,electronic component | electronics,0.1179,EQUITY,Technology,Electronics & Computer Distribution,https://www.rr-hds.co.jp
+1,167A,"Ryoyo Ryosan Holdings, Inc.",半導体商社,AI・半導体,42,40,41,補助関連,C,needs_review,adjacent=semiconductor; growth=development,,semiconductor,,EQUITY,Technology,Electronics & Computer Distribution,https://www.rr-hds.co.jp
+1,167A,"Ryoyo Ryosan Holdings, Inc.",自動車部材・部品,自動車・モビリティ,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Electronics & Computer Distribution,https://www.rr-hds.co.jp
+1,167A,"Ryoyo Ryosan Holdings, Inc.",自動運転車,自動車・モビリティ,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Electronics & Computer Distribution,https://www.rr-hds.co.jp
+1,168A,Itamiarts.Inc,eコマース,内需・消費,66,56,63,有力関連,B,qa_borderline,direct=e-commerce; position=0.58,e-commerce,,0.5833,EQUITY,Communication Services,Advertising Agencies,https://www.itamiarts.co.jp
+1,1692,WisdomTree Aluminium,アルミニウム,資源・素材,100,100,100,主力テーマ,A,non_operating_security,投資商品としてテーマ価格へ直接連動,aluminium,,,ETF,,,
+1,1693,WisdomTree Copper,銅,資源・素材,100,100,100,主力テーマ,A,non_operating_security,投資商品としてテーマ価格へ直接連動,,copper,,ETF,,,
+1,1711,"SDS HOLDINGS Co.,Ltd.",再生可能エネルギー,GX・エネルギー,94,86,92,主力テーマ,A,ok,industry=Utilities - Renewable; direct=renewable energy; position=0.03,renewable energy,solar power | wind power,0.0306,EQUITY,Utilities,Utilities - Renewable,https://shodensya.com
+1,1711,"SDS HOLDINGS Co.,Ltd.",太陽光発電関連,GX・エネルギー,92,84,90,主力テーマ,A,ok,direct=solar power; position=0.15,solar power,solar,0.1491,EQUITY,Utilities,Utilities - Renewable,https://shodensya.com
+1,1711,"SDS HOLDINGS Co.,Ltd.",省エネ関連,GX・エネルギー,92,84,90,主力テーマ,A,ok,direct=energy saving; position=0.05,energy saving,,0.0472,EQUITY,Utilities,Utilities - Renewable,https://shodensya.com
+1,1718,"Mikikogyo Co., Ltd.",不動産関連,不動産・建設,42,30,38,ノイズ候補,C,needs_review,adjacent=real estate,,real estate,,EQUITY,Industrials,Engineering & Construction,https://www.mikikogyo.co.jp
+1,1718,"Mikikogyo Co., Ltd.",住宅関連,不動産・建設,92,84,90,主力テーマ,A,ok,direct=housing business; position=0.08,housing business,housing,0.0774,EQUITY,Industrials,Engineering & Construction,https://www.mikikogyo.co.jp
+1,1718,"Mikikogyo Co., Ltd.",太陽光発電関連,GX・エネルギー,42,30,38,ノイズ候補,C,needs_review,adjacent=solar,,solar,,EQUITY,Industrials,Engineering & Construction,https://www.mikikogyo.co.jp
+1,1718,"Mikikogyo Co., Ltd.",建設,不動産・建設,100,92,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/construction work/civil engineering; position=0.02,construction business | construction work | civil engineering,construction,0.0209,EQUITY,Industrials,Engineering & Construction,https://www.mikikogyo.co.jp
+1,1719,Hazama Ando Corporation,再開発,不動産・建設,42,46,43,補助関連,C,needs_review,adjacent=urban development; growth=develops/development,,urban development,,EQUITY,Industrials,Engineering & Construction,https://www.ad-hzm.co.jp
+1,1719,Hazama Ando Corporation,国土強靱化,防衛・国土強靱化,54,58,55,補助関連,C,needs_review,adjacent=civil engineering/bridge/tunnel; growth=develops/development,,civil engineering | bridge | tunnel | public works,,EQUITY,Industrials,Engineering & Construction,https://www.ad-hzm.co.jp
+1,1719,Hazama Ando Corporation,建設,不動産・建設,94,100,96,主力テーマ,A,ok,industry=Engineering & Construction; direct=civil engineering; position=0.07; growth=develops/development,civil engineering,construction,0.0733,EQUITY,Industrials,Engineering & Construction,https://www.ad-hzm.co.jp
+1,1720,"Tokyu Construction Co., Ltd.",マンション関連,不動産・建設,42,40,41,補助関連,C,needs_review,adjacent=housing; growth=development,,housing,,EQUITY,Industrials,Engineering & Construction,https://www.tokyu-cnst.co.jp
+1,1720,"Tokyu Construction Co., Ltd.",建設,不動産・建設,100,100,100,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/construction work/civil engineering; position=0.06; growth=development,construction business | construction work | civil engineering,construction,0.0595,EQUITY,Industrials,Engineering & Construction,https://www.tokyu-cnst.co.jp
+1,1721,COMSYS Holdings Corporation,データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.comsys-hd.co.jp
+1,1721,COMSYS Holdings Corporation,光ファイバー,データセンター・電力,86,88,87,主力テーマ,A,ok,direct=optical fiber; position=0.21; growth=development,optical fiber,,0.2066,EQUITY,Industrials,Engineering & Construction,https://www.comsys-hd.co.jp
+1,1721,COMSYS Holdings Corporation,電力設備投資関連,データセンター・電力,46,44,45,補助関連,C,needs_review,adjacent=electrical equipment/grid; growth=development,,electrical equipment | grid,,EQUITY,Industrials,Engineering & Construction,https://www.comsys-hd.co.jp
+1,1721,COMSYS Holdings Corporation,電線地中化,防衛・国土強靱化,42,40,41,補助関連,C,needs_review,adjacent=civil engineering; growth=development,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.comsys-hd.co.jp
+1,1721,COMSYS Holdings Corporation,風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.comsys-hd.co.jp
+1,1724,Synclayer Inc.,光ファイバー,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Communication Equipment,https://www.synclayer.co.jp
+1,1724,Synclayer Inc.,防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Communication Equipment,https://www.synclayer.co.jp
+1,1738,,太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,173A,Hammock Inc.,IT関連,デジタル・サービス,90,94,91,主力テーマ,A,ok,industry=Software - Infrastructure; adjacent=software; growth=develops/development,,software,,EQUITY,Technology,Software - Infrastructure,https://www.hammock.jp
+1,173A,Hammock Inc.,クラウドコンピューティング,デジタル・サービス,42,42,42,補助関連,C,needs_review,adjacent=cloud; growth=develops/development,,cloud,,EQUITY,Technology,Software - Infrastructure,https://www.hammock.jp
+1,173A,Hammock Inc.,サイバーセキュリティ,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.hammock.jp
+1,173A,Hammock Inc.,デジタルトランスフォーメーション,デジタル・サービス,86,90,87,主力テーマ,A,ok,direct= dx ; position=0.33; growth=develops/development, dx ,,0.3268,EQUITY,Technology,Software - Infrastructure,https://www.hammock.jp
+1,173A,Hammock Inc.,人工知能,AI・半導体,66,68,67,有力関連,B,qa_borderline,direct= ai ; position=0.50; growth=develops/development, ai ,,0.5000,EQUITY,Technology,Software - Infrastructure,https://www.hammock.jp
+1,1758,"Taiyo Kisokogyo Co.,Ltd.",下水道,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://taiyoukiso.co.jp
+1,1758,"Taiyo Kisokogyo Co.,Ltd.",耐震化,防衛・国土強靱化,42,30,38,ノイズ候補,C,needs_review,adjacent=reinforcement,,reinforcement,,EQUITY,Industrials,Engineering & Construction,https://taiyoukiso.co.jp
+1,1758,"Taiyo Kisokogyo Co.,Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://taiyoukiso.co.jp
+1,1758,"Taiyo Kisokogyo Co.,Ltd.",電力設備投資関連,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://taiyoukiso.co.jp
+1,175A,"Will Smart Co.,LTD.",IT関連,デジタル・サービス,90,92,91,主力テーマ,A,ok,industry=Software - Application; adjacent=software; growth=development,,software,,EQUITY,Technology,Software - Application,https://willsmart.co.jp
+1,175A,"Will Smart Co.,LTD.",IoT,設備投資・機械,86,88,87,主力テーマ,A,ok,direct= iot; position=0.22; growth=development, iot,,0.2203,EQUITY,Technology,Software - Application,https://willsmart.co.jp
+1,175A,"Will Smart Co.,LTD.",クラウドコンピューティング,デジタル・サービス,42,40,41,補助関連,C,needs_review,adjacent=cloud; growth=development,,cloud,,EQUITY,Technology,Software - Application,https://willsmart.co.jp
+1,175A,"Will Smart Co.,LTD.",デジタルトランスフォーメーション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://willsmart.co.jp
+1,175A,"Will Smart Co.,LTD.",データ分析・解析,AI・半導体,66,66,66,有力関連,B,qa_borderline,direct=data science; position=0.61; growth=development,data science,,0.6128,EQUITY,Technology,Software - Application,https://willsmart.co.jp
+1,175A,"Will Smart Co.,LTD.",人工知能,AI・半導体,66,66,66,有力関連,B,qa_borderline,direct= ai ; position=0.60; growth=development, ai ,data science,0.6021,EQUITY,Technology,Software - Application,https://willsmart.co.jp
+1,1762,"Takamatsu Construction Group Co., Ltd.",マンション関連,不動産・建設,92,98,94,主力テーマ,A,ok,direct=condominium; position=0.14; growth=development/research,condominium,housing,0.1411,EQUITY,Industrials,Engineering & Construction,https://www.takamatsu-cg.co.jp
+1,1762,"Takamatsu Construction Group Co., Ltd.",不動産関連,不動産・建設,91,97,93,主力テーマ,A,ok,direct=real estate business/property development; position=0.27; growth=development/research,real estate business | property development,real estate,0.2683,EQUITY,Industrials,Engineering & Construction,https://www.takamatsu-cg.co.jp
+1,1762,"Takamatsu Construction Group Co., Ltd.",建設,不動産・建設,97,100,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/civil engineering; position=0.03; growth=development/research,construction business | civil engineering,construction,0.0310,EQUITY,Industrials,Engineering & Construction,https://www.takamatsu-cg.co.jp
+1,1764,Kudo Corporation,不動産関連,不動産・建設,42,30,38,ノイズ候補,C,needs_review,adjacent=real estate,,real estate,,EQUITY,Industrials,Engineering & Construction,https://www.kudo.co.jp
+1,1764,Kudo Corporation,介護関連,医療・ヘルスケア,58,46,54,補助関連,C,needs_review,direct=nursing care; position=0.77,nursing care,,0.7732,EQUITY,Industrials,Engineering & Construction,https://www.kudo.co.jp
+1,1764,Kudo Corporation,建設,不動産・建設,97,89,95,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/civil engineering; position=0.06,construction business | civil engineering,construction,0.0605,EQUITY,Industrials,Engineering & Construction,https://www.kudo.co.jp
+1,1766,Token Corporation,マンション関連,不動産・建設,86,88,87,主力テーマ,A,ok,direct=condominium; position=0.38; growth=development,condominium,housing,0.3774,EQUITY,Real Estate,Real Estate Services,https://www.token.co.jp
+1,1766,Token Corporation,住宅関連,不動産・建設,42,40,41,補助関連,C,needs_review,adjacent=housing; growth=development,,housing,,EQUITY,Real Estate,Real Estate Services,https://www.token.co.jp
+1,1766,Token Corporation,建設,不動産・建設,92,94,93,主力テーマ,A,ok,direct=construction business; position=0.19; growth=development,construction business,construction,0.1868,EQUITY,Real Estate,Real Estate Services,https://www.token.co.jp
+1,1766,Token Corporation,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate Services,https://www.token.co.jp
+1,1768,Sonec Corporation,建設,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business; position=0.16,construction business,construction,0.1627,EQUITY,Industrials,Engineering & Construction,https://www.sonec-const.co.jp
+1,1770,"Fujita Engineering Co., Ltd.",建設,不動産・建設,90,82,88,主力テーマ,A,ok,industry=Engineering & Construction; adjacent=construction,,construction,,EQUITY,Industrials,Engineering & Construction,https://www.fujita-eng.co.jp
+1,1771,,国土強靱化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1771,,建設,不動産・建設,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1771,,防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1773,YTL Corporation Berhad,ホテル,内需・消費,86,90,87,主力テーマ,A,ok,direct=hotels and resorts; position=0.20; growth=develops/investment,hotels and resorts,hotel,0.2027,EQUITY,Utilities,Utilities - Diversified,https://www.ytl.com
+1,1773,YTL Corporation Berhad,不動産関連,不動産・建設,42,42,42,補助関連,C,needs_review,adjacent=real estate; growth=develops/investment,,real estate,,EQUITY,Utilities,Utilities - Diversified,https://www.ytl.com
+1,1773,YTL Corporation Berhad,建設,不動産・建設,42,42,42,補助関連,C,needs_review,adjacent=construction; growth=develops/investment,,construction,,EQUITY,Utilities,Utilities - Diversified,https://www.ytl.com
+1,1773,YTL Corporation Berhad,鉄道関連,物流・海運,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Utilities,Utilities - Diversified,https://www.ytl.com
+1,1773,YTL Corporation Berhad,電力会社,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Utilities,Utilities - Diversified,https://www.ytl.com
+1,1777,,下水道,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1777,,建設,不動産・建設,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,177A,"Kohjin Bio Co., Ltd.",バイオテクノロジー関連,医療・ヘルスケア,94,86,92,主力テーマ,A,ok,industry=Biotechnology; direct=biotechnology/biotech,biotechnology | biotech,,,EQUITY,Healthcare,Biotechnology,https://www.kohjin-bio.jp
+1,177A,"Kohjin Bio Co., Ltd.",再生医療,医療・ヘルスケア,58,46,54,補助関連,C,needs_review,direct=regenerative medicine; position=0.72,regenerative medicine,stem cells,0.7213,EQUITY,Healthcare,Biotechnology,https://www.kohjin-bio.jp
+1,177A,"Kohjin Bio Co., Ltd.",創薬,医療・ヘルスケア,90,82,88,主力テーマ,A,ok,industry=Biotechnology,,,,EQUITY,Healthcare,Biotechnology,https://www.kohjin-bio.jp
+1,177A,"Kohjin Bio Co., Ltd.",医薬品関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Biotechnology,https://www.kohjin-bio.jp
+1,1780,Yamaura Corporation,マンション関連,不動産・建設,86,88,87,主力テーマ,A,ok,direct=condominium; position=0.29; growth=development,condominium,housing,0.2888,EQUITY,Industrials,Engineering & Construction,https://www.yamaura.co.jp
+1,1780,Yamaura Corporation,建設,不動産・建設,97,99,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/civil engineering; position=0.05; growth=development,construction business | civil engineering,construction,0.0498,EQUITY,Industrials,Engineering & Construction,https://www.yamaura.co.jp
+1,1783,"Fantasista Co., Ltd.",ホテル,内需・消費,42,42,42,補助関連,C,needs_review,adjacent=hotel; growth=development/research,,hotel,,EQUITY,Real Estate,Real Estate - Diversified,https://fantasista-tokyo.jp
+1,1783,"Fantasista Co., Ltd.",不動産関連,不動産・建設,94,98,95,主力テーマ,A,ok,industry=Real Estate - Diversified; direct=real estate business; position=0.05; growth=development/research,real estate business,real estate,0.0532,EQUITY,Real Estate,Real Estate - Diversified,https://fantasista-tokyo.jp
+1,1783,"Fantasista Co., Ltd.",蓄電池,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Diversified,https://fantasista-tokyo.jp
+1,1786,Oriental Shiraishi Corporation,国土強靱化,防衛・国土強靱化,46,34,42,補助関連,C,needs_review,adjacent=civil engineering/bridge,,civil engineering | bridge,,EQUITY,Industrials,Engineering & Construction,https://www.orsc.co.jp
+1,1786,Oriental Shiraishi Corporation,建設,不動産・建設,100,92,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/construction work/civil engineering; position=0.13,construction business | construction work | civil engineering,construction,0.1258,EQUITY,Industrials,Engineering & Construction,https://www.orsc.co.jp
+1,1786,Oriental Shiraishi Corporation,耐震化,防衛・国土強靱化,46,34,42,補助関連,C,needs_review,adjacent=reinforcement/earthquake,,reinforcement | earthquake,,EQUITY,Industrials,Engineering & Construction,https://www.orsc.co.jp
+1,1787,"Nakabohtec Corrosion Protecting Co.,Ltd.",国土強靱化,防衛・国土強靱化,42,30,38,ノイズ候補,C,needs_review,adjacent=civil engineering,,civil engineering,,EQUITY,Industrials,Metal Fabrication,https://www.nakabohtec.co.jp
+1,1788,Santo Corporation,下水道,防衛・国土強靱化,86,90,87,主力テーマ,A,ok,direct=sewage; position=0.30; growth=development/research,sewage,,0.3016,EQUITY,Industrials,Engineering & Construction,https://www.santo.co.jp
+1,1788,Santo Corporation,建設,不動産・建設,97,100,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction work/civil engineering; position=0.08; growth=development/research,construction work | civil engineering,construction,0.0841,EQUITY,Industrials,Engineering & Construction,https://www.santo.co.jp
+1,1788,Santo Corporation,防災,防衛・国土強靱化,92,96,93,主力テーマ,A,ok,direct=flood control; position=0.12; growth=development/research,flood control,,0.1198,EQUITY,Industrials,Engineering & Construction,https://www.santo.co.jp
+1,1795,Masaru Corporation,マンション関連,不動産・建設,92,84,90,主力テーマ,A,ok,direct=condominium; position=0.19,condominium,,0.1925,EQUITY,Industrials,Engineering & Construction,https://www.masaru-co.jp
+1,1795,Masaru Corporation,建設,不動産・建設,90,82,88,主力テーマ,A,ok,industry=Engineering & Construction; adjacent=construction,,construction,,EQUITY,Industrials,Engineering & Construction,https://www.masaru-co.jp
+1,1798,Moriya Corporation,再生可能エネルギー,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.moriya-s.co.jp
+1,1798,Moriya Corporation,建設,不動産・建設,96,88,94,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/construction work/civil engineering; position=0.20,construction business | construction work | civil engineering,construction,0.2014,EQUITY,Industrials,Engineering & Construction,https://www.moriya-s.co.jp
+1,1799,Daiichi Kensetsu Corporation,鉄道関連,物流・海運,91,83,89,主力テーマ,A,ok,direct=railway/railroad; position=0.32,railway | railroad,rail,0.3169,EQUITY,Industrials,Engineering & Construction,https://www.daiichi-kensetsu.co.jp
+1,1801,Taisei Corporation,サーバー冷却,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.taisei.co.jp
+1,1801,Taisei Corporation,サービスロボット,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.taisei.co.jp
+1,1801,Taisei Corporation,マンション関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.taisei.co.jp
+1,1801,Taisei Corporation,不動産関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.taisei.co.jp
+1,1801,Taisei Corporation,国土強靱化,防衛・国土強靱化,42,42,42,補助関連,C,needs_review,adjacent=civil engineering; growth=development/investment,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.taisei.co.jp
+1,1801,Taisei Corporation,建設,不動産・建設,94,98,95,主力テーマ,A,ok,industry=Engineering & Construction; direct=civil engineering; position=0.02; growth=development/investment,civil engineering,construction,0.0176,EQUITY,Industrials,Engineering & Construction,https://www.taisei.co.jp
+1,1801,Taisei Corporation,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.taisei.co.jp
+1,1801,Taisei Corporation,防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.taisei.co.jp
+1,1801,Taisei Corporation,風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.taisei.co.jp
+1,1802,Obayashi Corporation,サーバー冷却,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.obayashi.co.jp
+1,1802,Obayashi Corporation,再開発,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.obayashi.co.jp
+1,1802,Obayashi Corporation,国土強靱化,防衛・国土強靱化,50,48,49,補助関連,C,needs_review,adjacent=civil engineering/bridge/tunnel; growth=development,,civil engineering | bridge | tunnel,,EQUITY,Industrials,Engineering & Construction,https://www.obayashi.co.jp
+1,1802,Obayashi Corporation,建設,不動産・建設,97,99,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/civil engineering; position=0.04; growth=development,construction business | civil engineering,construction,0.0402,EQUITY,Industrials,Engineering & Construction,https://www.obayashi.co.jp
+1,1802,Obayashi Corporation,核融合発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.obayashi.co.jp
+1,1802,Obayashi Corporation,水素,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.obayashi.co.jp
+1,1802,Obayashi Corporation,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.obayashi.co.jp
+1,1802,Obayashi Corporation,鉄道関連,物流・海運,86,88,87,主力テーマ,A,ok,direct=railroad; position=0.38; growth=development,railroad,rail,0.3832,EQUITY,Industrials,Engineering & Construction,https://www.obayashi.co.jp
+1,1802,Obayashi Corporation,防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.obayashi.co.jp
+1,1802,Obayashi Corporation,風力発電,GX・エネルギー,58,56,57,補助関連,C,needs_review,direct=wind power; position=0.82; growth=development,wind power,,0.8190,EQUITY,Industrials,Engineering & Construction,https://www.obayashi.co.jp
+1,1803,Shimizu Corporation,スマートグリッド,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.shimz.co.jp
+1,1803,Shimizu Corporation,介護関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.shimz.co.jp
+1,1803,Shimizu Corporation,国土強靱化,防衛・国土強靱化,50,50,50,補助関連,C,needs_review,adjacent=bridge/tunnel/public works; growth=develops/development,,bridge | tunnel | public works,,EQUITY,Industrials,Engineering & Construction,https://www.shimz.co.jp
+1,1803,Shimizu Corporation,建設,不動産・建設,90,94,91,主力テーマ,A,ok,industry=Engineering & Construction; adjacent=construction; growth=develops/development,,construction,,EQUITY,Industrials,Engineering & Construction,https://www.shimz.co.jp
+1,1803,Shimizu Corporation,水素,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.shimz.co.jp
+1,1803,Shimizu Corporation,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.shimz.co.jp
+1,1803,Shimizu Corporation,防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.shimz.co.jp
+1,1803,Shimizu Corporation,風力発電,GX・エネルギー,82,86,83,主力テーマ,B,ok,direct=wind power; position=0.44; growth=develops/development,wind power,,0.4433,EQUITY,Industrials,Engineering & Construction,https://www.shimz.co.jp
+1,1807,"Watanabe Sato Co., Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.watanabesato.co.jp
+1,1808,HASEKO Corporation,マンション関連,不動産・建設,86,88,87,主力テーマ,A,ok,direct=condominium; position=0.33; growth=development,condominium,,0.3271,EQUITY,Consumer Cyclical,Residential Construction,https://www.haseko.co.jp
+1,1808,HASEKO Corporation,介護関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Residential Construction,https://www.haseko.co.jp
+1,1808,HASEKO Corporation,建設,不動産・建設,42,40,41,補助関連,C,needs_review,adjacent=construction; growth=development,,construction,,EQUITY,Consumer Cyclical,Residential Construction,https://www.haseko.co.jp
+1,1810,"Matsui Construction Co., Ltd.",マンション関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.matsui-ken.co.jp
+1,1810,"Matsui Construction Co., Ltd.",太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.matsui-ken.co.jp
+1,1810,"Matsui Construction Co., Ltd.",建設,不動産・建設,100,100,100,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/civil engineering/engineering and construction; position=0.05; growth=research,construction business | civil engineering | engineering and construction,construction,0.0506,EQUITY,Industrials,Engineering & Construction,https://www.matsui-ken.co.jp
+1,1810,"Matsui Construction Co., Ltd.",耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.matsui-ken.co.jp
+1,1810,"Matsui Construction Co., Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.matsui-ken.co.jp
+1,1811,The Zenitaka Corporation,建設,不動産・建設,94,96,95,主力テーマ,A,qa_peripheral,industry=Engineering & Construction; direct=civil engineering; position=0.71; growth=development,civil engineering,construction,0.7139,EQUITY,Industrials,Engineering & Construction,https://www.zenitaka.co.jp
+1,1811,The Zenitaka Corporation,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.zenitaka.co.jp
+1,1812,Kajima Corporation,サーバー冷却,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kajima.co.jp
+1,1812,Kajima Corporation,ロボット,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kajima.co.jp
+1,1812,Kajima Corporation,再開発,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kajima.co.jp
+1,1812,Kajima Corporation,国土強靱化,防衛・国土強靱化,50,54,51,補助関連,C,needs_review,adjacent=civil engineering/bridge/tunnel; growth=develops/development,,civil engineering | bridge | tunnel,,EQUITY,Industrials,Engineering & Construction,https://www.kajima.co.jp
+1,1812,Kajima Corporation,太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kajima.co.jp
+1,1812,Kajima Corporation,建設,不動産・建設,94,100,96,主力テーマ,A,ok,industry=Engineering & Construction; direct=civil engineering; position=0.02; growth=develops/development,civil engineering,construction,0.0231,EQUITY,Industrials,Engineering & Construction,https://www.kajima.co.jp
+1,1812,Kajima Corporation,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kajima.co.jp
+1,1812,Kajima Corporation,脱炭素,GX・エネルギー,42,46,43,補助関連,C,needs_review,adjacent=renewable energy; growth=develops/development,,renewable energy,,EQUITY,Industrials,Engineering & Construction,https://www.kajima.co.jp
+1,1812,Kajima Corporation,鉄道関連,物流・海運,92,100,94,主力テーマ,A,ok,direct=railway; position=0.18; growth=develops/development,railway,rail,0.1835,EQUITY,Industrials,Engineering & Construction,https://www.kajima.co.jp
+1,1812,Kajima Corporation,防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kajima.co.jp
+1,1812,Kajima Corporation,風力発電,GX・エネルギー,58,62,59,補助関連,C,needs_review,direct=wind power; position=0.74; growth=develops/development,wind power,,0.7355,EQUITY,Industrials,Engineering & Construction,https://www.kajima.co.jp
+1,1813,Fudo Tetra Corporation,国土強靱化,防衛・国土強靱化,42,30,38,ノイズ候補,C,needs_review,adjacent=civil engineering,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.fudotetra.co.jp
+1,1813,Fudo Tetra Corporation,建設,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Engineering & Construction; direct=civil engineering; position=0.03,civil engineering,construction,0.0325,EQUITY,Industrials,Engineering & Construction,https://www.fudotetra.co.jp
+1,1813,Fudo Tetra Corporation,防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.fudotetra.co.jp
+1,1813,Fudo Tetra Corporation,風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.fudotetra.co.jp
+1,1814,"Daisue Construction Co., Ltd.",マンション関連,不動産・建設,86,88,87,主力テーマ,A,ok,direct=condominium; position=0.28; growth=development,condominium,,0.2824,EQUITY,Real Estate,Real Estate - Development,https://www.daisue.co.jp
+1,1814,"Daisue Construction Co., Ltd.",建設,不動産・建設,42,40,41,補助関連,C,needs_review,adjacent=construction; growth=development,,construction,,EQUITY,Real Estate,Real Estate - Development,https://www.daisue.co.jp
+1,1815,Tekken Corporation,マンション関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.tekken.co.jp
+1,1815,Tekken Corporation,再開発,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.tekken.co.jp
+1,1815,Tekken Corporation,国土強靱化,防衛・国土強靱化,50,50,50,補助関連,C,needs_review,adjacent=civil engineering/bridge/tunnel; growth=develops/development,,civil engineering | bridge | tunnel,,EQUITY,Industrials,Engineering & Construction,https://www.tekken.co.jp
+1,1815,Tekken Corporation,鉄道関連,物流・海運,86,90,87,主力テーマ,A,ok,direct=railroad; position=0.21; growth=develops/development,railroad,rail | train,0.2087,EQUITY,Industrials,Engineering & Construction,https://www.tekken.co.jp
+1,1815,Tekken Corporation,防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.tekken.co.jp
+1,1820,"Nishimatsu Construction Co., Ltd.",ホテル,内需・消費,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.nishimatsu.co.jp
+1,1820,"Nishimatsu Construction Co., Ltd.",下水道,防衛・国土強靱化,82,84,83,主力テーマ,B,ok,direct=sewerage; position=0.49; growth=development,sewerage,,0.4947,EQUITY,Industrials,Engineering & Construction,https://www.nishimatsu.co.jp
+1,1820,"Nishimatsu Construction Co., Ltd.",不動産関連,不動産・建設,42,40,41,補助関連,C,needs_review,adjacent=real estate; growth=development,,real estate,,EQUITY,Industrials,Engineering & Construction,https://www.nishimatsu.co.jp
+1,1820,"Nishimatsu Construction Co., Ltd.",国土強靱化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.nishimatsu.co.jp
+1,1820,"Nishimatsu Construction Co., Ltd.",建設,不動産・建設,94,96,95,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business; position=0.05; growth=development,construction business,construction,0.0516,EQUITY,Industrials,Engineering & Construction,https://www.nishimatsu.co.jp
+1,1822,Daiho Corporation,下水道,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.daiho.co.jp
+1,1822,Daiho Corporation,国土強靱化,防衛・国土強靱化,42,42,42,補助関連,C,needs_review,adjacent=civil engineering; growth=development/research,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.daiho.co.jp
+1,1822,Daiho Corporation,建設,不動産・建設,100,100,100,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/construction work/civil engineering; position=0.04; growth=development/research,construction business | construction work | civil engineering | engineering and construction,construction,0.0387,EQUITY,Industrials,Engineering & Construction,https://www.daiho.co.jp
+1,1822,Daiho Corporation,防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.daiho.co.jp
+1,1826,"Sata Construction Co., Ltd.",下水道,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.sata.co.jp
+1,1826,"Sata Construction Co., Ltd.",建設,不動産・建設,97,100,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction work/civil engineering; position=0.08; growth=development/research,construction work | civil engineering,construction,0.0793,EQUITY,Industrials,Engineering & Construction,https://www.sata.co.jp
+1,1826,"Sata Construction Co., Ltd.",耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.sata.co.jp
+1,1827,Nakano Corporation,建設,不動産・建設,94,86,92,主力テーマ,A,qa_peripheral,industry=Engineering & Construction; direct=civil engineering; position=0.51,civil engineering,construction,0.5132,EQUITY,Industrials,Engineering & Construction,https://www.wave-nakano.co.jp
+1,1828,Tanabe Engineering Corporation,建設,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business; position=0.22,construction business,construction,0.2238,EQUITY,Industrials,Engineering & Construction,https://www.tanabe-ind.co.jp
+1,1832,,データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1832,,再生可能エネルギー,GX・エネルギー,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1832,,太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1832,,建設,不動産・建設,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1832,,電力設備投資関連,データセンター・電力,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1832,,風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1833,Okumura Corporation,下水道,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.okumuragumi.co.jp
+1,1833,Okumura Corporation,建設,不動産・建設,94,98,95,主力テーマ,A,qa_peripheral,industry=Engineering & Construction; direct=civil engineering; position=0.69; growth=development/investment,civil engineering,construction,0.6942,EQUITY,Industrials,Engineering & Construction,https://www.okumuragumi.co.jp
+1,1833,Okumura Corporation,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.okumuragumi.co.jp
+1,1833,Okumura Corporation,防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.okumuragumi.co.jp
+1,1835,"Totetsu Kogyo Co., Ltd.",国土強靱化,防衛・国土強靱化,50,38,46,補助関連,C,needs_review,adjacent=civil engineering/bridge/tunnel,,civil engineering | bridge | tunnel,,EQUITY,Industrials,Engineering & Construction,https://www.totetsu.co.jp
+1,1835,"Totetsu Kogyo Co., Ltd.",建設,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Engineering & Construction; direct=civil engineering; position=0.07,civil engineering,construction,0.0671,EQUITY,Industrials,Engineering & Construction,https://www.totetsu.co.jp
+1,1835,"Totetsu Kogyo Co., Ltd.",耐震化,防衛・国土強靱化,42,30,38,ノイズ候補,C,needs_review,adjacent=reinforcement,,reinforcement,,EQUITY,Industrials,Engineering & Construction,https://www.totetsu.co.jp
+1,1835,"Totetsu Kogyo Co., Ltd.",鉄道関連,物流・海運,92,84,90,主力テーマ,A,ok,direct=railway; position=0.04,railway,rail,0.0397,EQUITY,Industrials,Engineering & Construction,https://www.totetsu.co.jp
+1,1835,"Totetsu Kogyo Co., Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.totetsu.co.jp
+1,1840,"Tsuchiya Holdings Co., Ltd.",住宅関連,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Residential Construction; direct=residential construction,residential construction,housing | residential,,EQUITY,Consumer Cyclical,Residential Construction,https://www.tsuchiya.co.jp
+1,1844,"Ohmori Co.,Ltd.",下水道,防衛・国土強靱化,86,78,84,主力テーマ,B,ok,direct=sewerage; position=0.27,sewerage,,0.2729,EQUITY,Industrials,Engineering & Construction,https://www.ohmori.co.jp
+1,1844,"Ohmori Co.,Ltd.",不動産関連,不動産・建設,42,30,38,ノイズ候補,C,needs_review,adjacent=real estate,,real estate,,EQUITY,Industrials,Engineering & Construction,https://www.ohmori.co.jp
+1,1844,"Ohmori Co.,Ltd.",水道関連,防衛・国土強靱化,86,78,84,主力テーマ,B,ok,direct=water supply; position=0.24,water supply,,0.2390,EQUITY,Industrials,Engineering & Construction,https://www.ohmori.co.jp
+1,1844,"Ohmori Co.,Ltd.",電線地中化,防衛・国土強靱化,42,30,38,ノイズ候補,C,needs_review,adjacent=civil engineering,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.ohmori.co.jp
+1,1847,"Ichiken Co., Ltd.",建設,不動産・建設,100,100,100,主力テーマ,A,ok,direct=construction business/construction work/civil engineering; position=0.05; growth=development,construction business | construction work | civil engineering,construction,0.0473,EQUITY,Real Estate,Real Estate - Development,https://www.ichiken.co.jp
+1,1848,Fuji P.S Corporation,国土強靱化,防衛・国土強靱化,46,34,42,補助関連,C,needs_review,adjacent=civil engineering/bridge,,civil engineering | bridge,,EQUITY,Industrials,Engineering & Construction,https://www.fujips.co.jp
+1,1848,Fuji P.S Corporation,建設,不動産・建設,97,89,95,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/civil engineering; position=0.04,construction business | civil engineering,construction,0.0411,EQUITY,Industrials,Engineering & Construction,https://www.fujips.co.jp
+1,1848,Fuji P.S Corporation,耐震化,防衛・国土強靱化,58,46,54,補助関連,C,needs_review,direct=seismic reinforcement; position=0.68,seismic reinforcement,reinforcement,0.6789,EQUITY,Industrials,Engineering & Construction,https://www.fujips.co.jp
+1,1848,Fuji P.S Corporation,鉄道関連,物流・海運,92,84,90,主力テーマ,A,ok,direct=railway; position=0.18,railway,rail,0.1806,EQUITY,Industrials,Engineering & Construction,https://www.fujips.co.jp
+1,1850,"Nankai Tatsumura Construction Co., Ltd.",建設,不動産・建設,90,92,91,主力テーマ,A,ok,industry=Engineering & Construction; adjacent=construction; growth=development,,construction,,EQUITY,Industrials,Engineering & Construction,https://www.nantatsu.co.jp
+1,1850,"Nankai Tatsumura Construction Co., Ltd.",鉄道関連,物流・海運,58,56,57,補助関連,C,needs_review,direct=railway; position=0.98; growth=development,railway,rail,0.9815,EQUITY,Industrials,Engineering & Construction,https://www.nantatsu.co.jp
+1,1852,Asanuma Corporation,建設,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Engineering & Construction; direct=general contractor; position=0.12,general contractor,construction,0.1241,EQUITY,Industrials,Engineering & Construction,https://www.asanuma.co.jp
+1,1852,Asanuma Corporation,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.asanuma.co.jp
+1,1853,"Mori-Gumi Co., Ltd.",マンション関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.morigumi.co.jp
+1,1853,"Mori-Gumi Co., Ltd.",建設,不動産・建設,100,92,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction work/civil engineering/engineering and construction; position=0.03,construction work | civil engineering | engineering and construction,construction,0.0318,EQUITY,Industrials,Engineering & Construction,https://www.morigumi.co.jp
+1,1860,Toda Corporation,介護関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.toda.co.jp
+1,1860,Toda Corporation,国土強靱化,防衛・国土強靱化,42,44,43,補助関連,C,needs_review,adjacent=civil engineering; growth=development/research,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.toda.co.jp
+1,1860,Toda Corporation,建設,不動産・建設,94,100,96,主力テーマ,A,ok,industry=Engineering & Construction; direct=civil engineering; position=0.06; growth=development/research,civil engineering,construction,0.0610,EQUITY,Industrials,Engineering & Construction,https://www.toda.co.jp
+1,1860,Toda Corporation,脱炭素,GX・エネルギー,42,44,43,補助関連,C,needs_review,adjacent=renewable energy; growth=development/research,,renewable energy,,EQUITY,Industrials,Engineering & Construction,https://www.toda.co.jp
+1,1860,Toda Corporation,風力発電,GX・エネルギー,58,60,59,補助関連,C,needs_review,direct=wind power; position=0.79; growth=development/research,wind power,,0.7924,EQUITY,Industrials,Engineering & Construction,https://www.toda.co.jp
+1,1861,"Kumagai Gumi Co.,Ltd.",再開発,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kumagaigumi.co.jp
+1,1861,"Kumagai Gumi Co.,Ltd.",建設,不動産・建設,94,96,95,主力テーマ,A,ok,industry=Engineering & Construction; direct=civil engineering; position=0.18; growth=research,civil engineering,construction,0.1845,EQUITY,Industrials,Engineering & Construction,https://www.kumagaigumi.co.jp
+1,1866,Kitano Construction Corp.,ホテル,内需・消費,42,40,41,補助関連,C,needs_review,adjacent=hotel; growth=development,,hotel,,EQUITY,Industrials,Engineering & Construction,https://www.kitano.co.jp
+1,1866,Kitano Construction Corp.,建設,不動産・建設,100,100,100,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/construction work/general contractor; position=0.04; growth=development,construction business | construction work | general contractor,construction,0.0362,EQUITY,Industrials,Engineering & Construction,https://www.kitano.co.jp
+1,1867,UEKI Corporation,介護関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.uekigumi.co.jp
+1,1867,UEKI Corporation,建設,不動産・建設,97,99,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/civil engineering; position=0.10; growth=development,construction business | civil engineering,construction,0.1030,EQUITY,Industrials,Engineering & Construction,https://www.uekigumi.co.jp
+1,1869,,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1869,,鉄道関連,物流・海運,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1869,,防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,186A,Astroscale Holdings Inc.,宇宙開発関連,防衛・国土強靱化,42,42,42,補助関連,C,needs_review,adjacent=aerospace; growth=development/research,,aerospace,,EQUITY,Industrials,Aerospace & Defense,https://www.astroscale.com/ja/
+1,186A,Astroscale Holdings Inc.,防衛,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Aerospace & Defense,https://www.astroscale.com/ja/
+1,1870,"Yahagi Construction Co.,Ltd.",不動産関連,不動産・建設,92,96,93,主力テーマ,A,ok,direct=real estate business; position=0.06; growth=development/investment,real estate business,real estate,0.0616,EQUITY,Industrials,Engineering & Construction,https://www.yahagi.co.jp
+1,1870,"Yahagi Construction Co.,Ltd.",国土強靱化,防衛・国土強靱化,42,42,42,補助関連,C,needs_review,adjacent=civil engineering; growth=development/investment,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.yahagi.co.jp
+1,1870,"Yahagi Construction Co.,Ltd.",建設,不動産・建設,94,98,95,主力テーマ,A,ok,industry=Engineering & Construction; direct=civil engineering; position=0.04; growth=development/investment,civil engineering,construction,0.0441,EQUITY,Industrials,Engineering & Construction,https://www.yahagi.co.jp
+1,1870,"Yahagi Construction Co.,Ltd.",耐震化,防衛・国土強靱化,86,90,87,主力テーマ,A,ok,direct=seismic reinforcement; position=0.34; growth=development/investment,seismic reinforcement,reinforcement,0.3374,EQUITY,Industrials,Engineering & Construction,https://www.yahagi.co.jp
+1,1870,"Yahagi Construction Co.,Ltd.",鉄道関連,物流・海運,91,95,92,主力テーマ,A,ok,direct=railway/railroad; position=0.32; growth=development/investment,railway | railroad,rail,0.3153,EQUITY,Industrials,Engineering & Construction,https://www.yahagi.co.jp
+1,1870,"Yahagi Construction Co.,Ltd.",防災,防衛・国土強靱化,42,42,42,補助関連,C,needs_review,adjacent=seismic; growth=development/investment,,seismic,,EQUITY,Industrials,Engineering & Construction,https://www.yahagi.co.jp
+1,1871,"PS Construction Co., Ltd.",国土強靱化,防衛・国土強靱化,46,34,42,補助関連,C,needs_review,adjacent=civil engineering/bridge,,civil engineering | bridge,,EQUITY,Industrials,Engineering & Construction,https://www.psc.co.jp
+1,1871,"PS Construction Co., Ltd.",建設,不動産・建設,100,92,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/construction work/civil engineering; position=0.03,construction business | construction work | civil engineering,construction,0.0294,EQUITY,Industrials,Engineering & Construction,https://www.psc.co.jp
+1,1871,"PS Construction Co., Ltd.",耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.psc.co.jp
+1,1871,"PS Construction Co., Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.psc.co.jp
+1,1873,"Nihon House Holdings Co., Ltd.",ホテル,内需・消費,66,56,63,有力関連,B,qa_borderline,direct=operates hotels; position=0.53,operates hotels,hotel,0.5270,EQUITY,Consumer Cyclical,Residential Construction,https://www.nihonhouse-hd.co.jp
+1,1873,"Nihon House Holdings Co., Ltd.",住宅関連,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Residential Construction; direct=residential construction,residential construction,housing | residential,,EQUITY,Consumer Cyclical,Residential Construction,https://www.nihonhouse-hd.co.jp
+1,1878,"Daito Trust Construction Co.,Ltd.",住宅関連,不動産・建設,46,46,46,補助関連,C,needs_review,adjacent=housing/residential; growth=development/investment,,housing | residential,,EQUITY,Real Estate,Real Estate - Diversified,https://kentaku.co.jp
+1,1879,Shinnihon Corporation,マンション関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.shinnihon-c.co.jp
+1,1879,Shinnihon Corporation,不動産関連,不動産・建設,42,42,42,補助関連,C,needs_review,adjacent=real estate; growth=development/investment,,real estate,,EQUITY,Industrials,Engineering & Construction,https://www.shinnihon-c.co.jp
+1,1879,Shinnihon Corporation,建設,不動産・建設,100,100,100,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction work/civil engineering/engineering and construction; position=0.19; growth=development/investment,construction work | civil engineering | engineering and construction,construction,0.1935,EQUITY,Industrials,Engineering & Construction,https://www.shinnihon-c.co.jp
+1,1879,Shinnihon Corporation,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.shinnihon-c.co.jp
+1,1882,Toa Road Corporation,国土強靱化,防衛・国土強靱化,50,48,49,補助関連,C,needs_review,adjacent=civil engineering/bridge/tunnel; growth=development,,civil engineering | bridge | tunnel,,EQUITY,Industrials,Engineering & Construction,https://www.toadoro.co.jp
+1,1885,TOA Corporation,レアアース,資源・素材,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.toa-const.co.jp
+1,1885,TOA Corporation,建設,不動産・建設,97,99,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction work/civil engineering; position=0.08; growth=development,construction work | civil engineering,construction,0.0840,EQUITY,Industrials,Engineering & Construction,https://www.toa-const.co.jp
+1,1885,TOA Corporation,防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.toa-const.co.jp
+1,1885,TOA Corporation,風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.toa-const.co.jp
+1,1887,JDC Corporation,マンション関連,不動産・建設,42,42,42,補助関連,C,needs_review,adjacent=housing; growth=development/investment,,housing,,EQUITY,Industrials,Engineering & Construction,https://www.n-kokudo.co.jp
+1,1887,JDC Corporation,下水道,防衛・国土強靱化,92,96,93,主力テーマ,A,ok,direct=sewerage; position=0.15; growth=development/investment,sewerage,,0.1514,EQUITY,Industrials,Engineering & Construction,https://www.n-kokudo.co.jp
+1,1887,JDC Corporation,不動産関連,不動産・建設,42,42,42,補助関連,C,needs_review,adjacent=real estate; growth=development/investment,,real estate,,EQUITY,Industrials,Engineering & Construction,https://www.n-kokudo.co.jp
+1,1887,JDC Corporation,再開発,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.n-kokudo.co.jp
+1,1887,JDC Corporation,国土強靱化,防衛・国土強靱化,50,50,50,補助関連,C,needs_review,adjacent=civil engineering/bridge/tunnel; growth=development/investment,,civil engineering | bridge | tunnel,,EQUITY,Industrials,Engineering & Construction,https://www.n-kokudo.co.jp
+1,1887,JDC Corporation,太陽光発電関連,GX・エネルギー,86,90,87,主力テーマ,A,ok,direct=solar power; position=0.38; growth=development/investment,solar power,solar,0.3769,EQUITY,Industrials,Engineering & Construction,https://www.n-kokudo.co.jp
+1,1887,JDC Corporation,建設,不動産・建設,97,100,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/civil engineering; position=0.02; growth=development/investment,construction business | civil engineering,construction,0.0155,EQUITY,Industrials,Engineering & Construction,https://www.n-kokudo.co.jp
+1,1887,JDC Corporation,建設機械,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.n-kokudo.co.jp
+1,1887,JDC Corporation,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.n-kokudo.co.jp
+1,1887,JDC Corporation,防災,防衛・国土強靱化,82,86,83,主力テーマ,B,ok,direct=flood control; position=0.46; growth=development/investment,flood control,seismic,0.4571,EQUITY,Industrials,Engineering & Construction,https://www.n-kokudo.co.jp
+1,1888,"Wakachiku Construction Co., Ltd.",国土強靱化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.wakachiku.co.jp
+1,1888,"Wakachiku Construction Co., Ltd.",建設,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business; position=0.28,construction business,construction,0.2833,EQUITY,Industrials,Engineering & Construction,https://www.wakachiku.co.jp
+1,1892,,建設,不動産・建設,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,1893,"Penta-Ocean Construction Co., Ltd.",データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.penta-ocean.co.jp
+1,1893,"Penta-Ocean Construction Co., Ltd.",ドローン,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.penta-ocean.co.jp
+1,1893,"Penta-Ocean Construction Co., Ltd.",国土強靱化,防衛・国土強靱化,50,48,49,補助関連,C,needs_review,adjacent=civil engineering/bridge/tunnel; growth=development,,civil engineering | bridge | tunnel,,EQUITY,Industrials,Engineering & Construction,https://www.penta-ocean.co.jp
+1,1893,"Penta-Ocean Construction Co., Ltd.",建設,不動産・建設,94,96,95,主力テーマ,A,ok,industry=Engineering & Construction; direct=civil engineering; position=0.06; growth=development,civil engineering,construction,0.0567,EQUITY,Industrials,Engineering & Construction,https://www.penta-ocean.co.jp
+1,1893,"Penta-Ocean Construction Co., Ltd.",鉄道関連,物流・海運,82,84,83,主力テーマ,B,ok,direct=railway; position=0.47; growth=development,railway,rail,0.4705,EQUITY,Industrials,Engineering & Construction,https://www.penta-ocean.co.jp
+1,1893,"Penta-Ocean Construction Co., Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.penta-ocean.co.jp
+1,1893,"Penta-Ocean Construction Co., Ltd.",風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.penta-ocean.co.jp
+1,1897,"The Kaneshita Construction Co.,Ltd.",建設,不動産・建設,97,89,95,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction work/civil engineering; position=0.13,construction work | civil engineering,construction,0.1324,EQUITY,Industrials,Engineering & Construction,https://www.kaneshita.co.jp
+1,1898,"Seikitokyu Kogyo Co., Ltd.",国土強靱化,防衛・国土強靱化,42,30,38,ノイズ候補,C,needs_review,adjacent=civil engineering,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.seikitokyu.co.jp
+1,1898,"Seikitokyu Kogyo Co., Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.seikitokyu.co.jp
+1,1899,Fukuda Corporation,不動産関連,不動産・建設,92,94,93,主力テーマ,A,ok,direct=real estate business; position=0.05; growth=development,real estate business,real estate,0.0484,EQUITY,Industrials,Engineering & Construction,https://www.fkd.co.jp
+1,1899,Fukuda Corporation,建設,不動産・建設,97,99,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction work/civil engineering; position=0.14; growth=development,construction work | civil engineering,construction,0.1434,EQUITY,Industrials,Engineering & Construction,https://www.fkd.co.jp
+1,1899,Fukuda Corporation,鉄道関連,物流・海運,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.fkd.co.jp
+1,189A,"D & M Company Co., Ltd.",リース,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Medical Care Facilities,https://www.dmcompany.co.jp
+1,189A,"D & M Company Co., Ltd.",介護関連,医療・ヘルスケア,97,99,98,主力テーマ,A,ok,industry=Medical Care Facilities; direct=nursing care/long-term care; position=0.11; growth=investment,nursing care | long-term care,,0.1088,EQUITY,Healthcare,Medical Care Facilities,https://www.dmcompany.co.jp
+1,189A,"D & M Company Co., Ltd.",医療機器,医療・ヘルスケア,82,84,83,主力テーマ,B,ok,direct=medical equipment; position=0.48; growth=investment,medical equipment,,0.4837,EQUITY,Healthcare,Medical Care Facilities,https://www.dmcompany.co.jp
+1,1904,"Taisei Oncho Co., Ltd.",建設,不動産・建設,94,86,92,主力テーマ,A,qa_peripheral,industry=Building Products & Equipment; direct=construction business; position=0.51,construction business,construction,0.5057,EQUITY,Industrials,Building Products & Equipment,https://www.taisei-oncho.co.jp
+1,1905,Tenox Corporation,住宅関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.tenox.co.jp
+1,1905,Tenox Corporation,国土強靱化,防衛・国土強靱化,42,30,38,ノイズ候補,C,needs_review,adjacent=civil engineering,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.tenox.co.jp
+1,1909,"Nippon Dry-Chemical Co., Ltd.",機械,設備投資・機械,42,30,38,ノイズ候補,C,needs_review,adjacent=equipment,,equipment,,EQUITY,Industrials,Security & Protection Services,https://www.ndc-group.co.jp
+1,1909,"Nippon Dry-Chemical Co., Ltd.",設備投資,設備投資・機械,42,30,38,ノイズ候補,C,needs_review,adjacent=equipment,,equipment,,EQUITY,Industrials,Security & Protection Services,https://www.ndc-group.co.jp
+1,1909,"Nippon Dry-Chemical Co., Ltd.",防災,防衛・国土強靱化,97,89,95,主力テーマ,A,ok,direct=disaster prevention/fire alarm; position=0.07,disaster prevention | fire alarm,disaster,0.0675,EQUITY,Industrials,Security & Protection Services,https://www.ndc-group.co.jp
+1,190A,Chordia Therapeutics Inc.,バイオテクノロジー関連,医療・ヘルスケア,97,100,98,主力テーマ,A,ok,industry=Biotechnology; direct=biotechnology/biotech; position=0.06; growth=develops/development,biotechnology | biotech,,0.0612,EQUITY,Healthcare,Biotechnology,https://www.chordiatherapeutics.com
+1,190A,Chordia Therapeutics Inc.,創薬,医療・ヘルスケア,90,82,88,主力テーマ,A,ok,industry=Biotechnology,,,,EQUITY,Healthcare,Biotechnology,https://www.chordiatherapeutics.com
+1,1911,"Sumitomo Forestry Co., Ltd.",住宅関連,不動産・建設,97,100,98,主力テーマ,A,ok,industry=Residential Construction; direct=housing business/residential construction; position=0.14; growth=develops/development,housing business | residential construction,housing | residential,0.1427,EQUITY,Consumer Cyclical,Residential Construction,https://sfc.jp
+1,1911,"Sumitomo Forestry Co., Ltd.",耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Residential Construction,https://sfc.jp
+1,1911,"Sumitomo Forestry Co., Ltd.",風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Residential Construction,https://sfc.jp
+1,1914,"Japan Foundation Engineering Co., Ltd.",国土強靱化,防衛・国土強靱化,42,30,38,ノイズ候補,C,needs_review,adjacent=bridge,,bridge,,EQUITY,Industrials,Engineering & Construction,https://www.jafec.co.jp
+1,1914,"Japan Foundation Engineering Co., Ltd.",耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.jafec.co.jp
+1,1914,"Japan Foundation Engineering Co., Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.jafec.co.jp
+1,1921,Tomoe Corporation,マンション関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.tomoe-corporation.co.jp
+1,1921,Tomoe Corporation,不動産関連,不動産・建設,86,78,84,主力テーマ,B,ok,direct=real estate business; position=0.22,real estate business,real estate,0.2188,EQUITY,Industrials,Engineering & Construction,https://www.tomoe-corporation.co.jp
+1,1921,Tomoe Corporation,建設,不動産・建設,90,82,88,主力テーマ,A,ok,industry=Engineering & Construction; adjacent=construction,,construction,,EQUITY,Industrials,Engineering & Construction,https://www.tomoe-corporation.co.jp
+1,1921,Tomoe Corporation,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.tomoe-corporation.co.jp
+1,1921,Tomoe Corporation,送電,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.tomoe-corporation.co.jp
+1,1921,Tomoe Corporation,電力設備投資関連,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.tomoe-corporation.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",サービスロボット,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",スマートグリッド,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",マンション関連,不動産・建設,92,96,93,主力テーマ,A,ok,direct=condominium; position=0.13; growth=develops/development,condominium,housing,0.1273,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",リチウムイオン電池,自動車・モビリティ,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",ロボット,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",不動産ファンド,不動産・建設,42,42,42,補助関連,C,needs_review,adjacent=asset management; growth=develops/development,,asset management,,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",介護関連,医療・ヘルスケア,66,68,67,有力関連,B,qa_borderline,direct=nursing care; position=0.59; growth=develops/development,nursing care,,0.5869,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",住宅関連,不動産・建設,92,96,93,主力テーマ,A,ok,direct=housing business; position=0.12; growth=develops/development,housing business,housing,0.1174,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",再生可能エネルギー,GX・エネルギー,66,68,67,有力関連,B,qa_borderline,direct=renewable energy; position=0.64; growth=develops/development,renewable energy,,0.6380,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",物流,物流・海運,42,42,42,補助関連,C,needs_review,adjacent=logistics; growth=develops/development,,logistics,,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",蓄電池,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1925,"Daiwa House Industry Co., Ltd.",風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Real Estate,Real Estate - Development,https://www.daiwahouse.co.jp
+1,1926,"Raito Kogyo Co., Ltd.",国土強靱化,防衛・国土強靱化,42,30,38,ノイズ候補,C,needs_review,adjacent=civil engineering,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.raito.co.jp
+1,1926,"Raito Kogyo Co., Ltd.",建設,不動産・建設,97,89,95,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction work/civil engineering; position=0.04,construction work | civil engineering,construction,0.0415,EQUITY,Industrials,Engineering & Construction,https://www.raito.co.jp
+1,1926,"Raito Kogyo Co., Ltd.",耐震化,防衛・国土強靱化,42,30,38,ノイズ候補,C,needs_review,adjacent=reinforcement,,reinforcement,,EQUITY,Industrials,Engineering & Construction,https://www.raito.co.jp
+1,1926,"Raito Kogyo Co., Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.raito.co.jp
+1,1928,"Sekisui House, Ltd.",マンション関連,不動産・建設,86,88,87,主力テーマ,A,ok,direct=condominium; position=0.36; growth=development,condominium,housing,0.3624,EQUITY,Consumer Cyclical,Residential Construction,https://www.sekisuihouse.co.jp
+1,1928,"Sekisui House, Ltd.",介護関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Residential Construction,https://www.sekisuihouse.co.jp
+1,1928,"Sekisui House, Ltd.",住宅関連,不動産・建設,94,96,95,主力テーマ,A,ok,industry=Residential Construction; direct=residential construction; growth=development,residential construction,housing | residential,,EQUITY,Consumer Cyclical,Residential Construction,https://www.sekisuihouse.co.jp
+1,1928,"Sekisui House, Ltd.",太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Residential Construction,https://www.sekisuihouse.co.jp
+1,1928,"Sekisui House, Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Residential Construction,https://www.sekisuihouse.co.jp
+1,1929,"Nittoc Construction Co., Ltd.",国土強靱化,防衛・国土強靱化,42,30,38,ノイズ候補,C,needs_review,adjacent=civil engineering,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.nittoc.co.jp
+1,1929,"Nittoc Construction Co., Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.nittoc.co.jp
+1,1930,"Hokuriku Electrical Construction Co.,Ltd.",データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.rikudenko.co.jp
+1,1930,"Hokuriku Electrical Construction Co.,Ltd.",建設,不動産・建設,97,89,95,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/civil engineering; position=0.10,construction business | civil engineering,construction,0.1018,EQUITY,Industrials,Engineering & Construction,https://www.rikudenko.co.jp
+1,1930,"Hokuriku Electrical Construction Co.,Ltd.",鉄道関連,物流・海運,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.rikudenko.co.jp
+1,1930,"Hokuriku Electrical Construction Co.,Ltd.",電力設備投資関連,データセンター・電力,92,84,90,主力テーマ,A,ok,direct=electrical construction; position=0.02,electrical construction,,0.0161,EQUITY,Industrials,Engineering & Construction,https://www.rikudenko.co.jp
+1,1934,Yurtec Corporation,電力設備投資関連,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.yurtec.co.jp
+1,1934,Yurtec Corporation,風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.yurtec.co.jp
+1,1938,"Nippon Rietec Co.,Ltd.",太陽光発電関連,GX・エネルギー,58,46,54,補助関連,C,needs_review,direct=solar power; position=0.70,solar power,solar,0.6992,EQUITY,Industrials,Engineering & Construction,https://www.j-rietec.co.jp
+1,1938,"Nippon Rietec Co.,Ltd.",鉄道関連,物流・海運,92,84,90,主力テーマ,A,ok,direct=railway; position=0.05,railway,rail | train,0.0508,EQUITY,Industrials,Engineering & Construction,https://www.j-rietec.co.jp
+1,1938,"Nippon Rietec Co.,Ltd.",電力設備投資関連,データセンター・電力,42,30,38,ノイズ候補,C,needs_review,adjacent=electrical equipment,,electrical equipment,,EQUITY,Industrials,Engineering & Construction,https://www.j-rietec.co.jp
+1,1939,Yondenko Corporation,リース,金融・金利,92,94,93,主力テーマ,A,ok,direct=leasing business; position=0.19; growth=development,leasing business,lease,0.1871,EQUITY,Industrials,Engineering & Construction,https://www.yondenko.co.jp
+1,1939,Yondenko Corporation,太陽光発電関連,GX・エネルギー,86,88,87,主力テーマ,A,ok,direct=solar power; position=0.21; growth=development,solar power,solar,0.2063,EQUITY,Industrials,Engineering & Construction,https://www.yondenko.co.jp
+1,1939,Yondenko Corporation,建設,不動産・建設,97,99,98,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business/civil engineering; position=0.17; growth=development,construction business | civil engineering,construction,0.1670,EQUITY,Industrials,Engineering & Construction,https://www.yondenko.co.jp
+1,1939,Yondenko Corporation,電力設備投資関連,データセンター・電力,92,94,93,主力テーマ,A,ok,direct=power transmission; position=0.06; growth=development,power transmission,,0.0551,EQUITY,Industrials,Engineering & Construction,https://www.yondenko.co.jp
+1,1941,Chudenko Corporation,電力設備投資関連,データセンター・電力,42,40,41,補助関連,C,needs_review,adjacent=electrical equipment; growth=develops,,electrical equipment,,EQUITY,Industrials,Engineering & Construction,https://www.chudenko.co.jp
+1,1941,Chudenko Corporation,電線地中化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.chudenko.co.jp
+1,1942,"Kandenko Co.,Ltd.",スマートグリッド,データセンター・電力,42,40,41,補助関連,C,needs_review,adjacent=power grid; growth=expansion,,power grid,,EQUITY,Industrials,Engineering & Construction,https://www.kandenko.co.jp
+1,1942,"Kandenko Co.,Ltd.",データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kandenko.co.jp
+1,1942,"Kandenko Co.,Ltd.",太陽光発電関連,GX・エネルギー,58,56,57,補助関連,C,needs_review,direct=solar power; position=0.83; growth=expansion,solar power,solar,0.8280,EQUITY,Industrials,Engineering & Construction,https://www.kandenko.co.jp
+1,1942,"Kandenko Co.,Ltd.",送電,データセンター・電力,66,66,66,有力関連,B,qa_borderline,direct=power transmission/transmission line; position=0.61; growth=expansion,power transmission | transmission line,power grid,0.6133,EQUITY,Industrials,Engineering & Construction,https://www.kandenko.co.jp
+1,1942,"Kandenko Co.,Ltd.",防災,防衛・国土強靱化,42,40,41,補助関連,C,needs_review,adjacent=disaster; growth=expansion,,disaster,,EQUITY,Industrials,Engineering & Construction,https://www.kandenko.co.jp
+1,1942,"Kandenko Co.,Ltd.",電力設備投資関連,データセンター・電力,58,56,57,補助関連,C,needs_review,direct=power transmission/substation; position=0.88; growth=expansion,power transmission | substation,electrical equipment | power plant | grid,0.8845,EQUITY,Industrials,Engineering & Construction,https://www.kandenko.co.jp
+1,1942,"Kandenko Co.,Ltd.",電線地中化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kandenko.co.jp
+1,1942,"Kandenko Co.,Ltd.",風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kandenko.co.jp
+1,1944,Kinden Corporation,スマートグリッド,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kinden.co.jp
+1,1944,Kinden Corporation,データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kinden.co.jp
+1,1944,Kinden Corporation,太陽光発電関連,GX・エネルギー,58,56,57,補助関連,C,needs_review,direct=photovoltaic; position=0.87; growth=developing,photovoltaic,,0.8654,EQUITY,Industrials,Engineering & Construction,https://www.kinden.co.jp
+1,1944,Kinden Corporation,送電,データセンター・電力,86,88,87,主力テーマ,A,ok,direct=transmission line; position=0.27; growth=developing,transmission line,,0.2691,EQUITY,Industrials,Engineering & Construction,https://www.kinden.co.jp
+1,1944,Kinden Corporation,電力設備投資関連,データセンター・電力,86,88,87,主力テーマ,A,ok,direct=substation; position=0.33; growth=developing,substation,electrical equipment,0.3264,EQUITY,Industrials,Engineering & Construction,https://www.kinden.co.jp
+1,1944,Kinden Corporation,電線地中化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kinden.co.jp
+1,1944,Kinden Corporation,風力発電,GX・エネルギー,58,56,57,補助関連,C,needs_review,direct=wind turbine; position=0.80; growth=developing,wind turbine,,0.8028,EQUITY,Industrials,Engineering & Construction,https://www.kinden.co.jp
+1,1945,Tokyo Energy & Systems Inc.,データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.qtes.co.jp
+1,1945,Tokyo Energy & Systems Inc.,再生可能エネルギー,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.qtes.co.jp
+1,1945,Tokyo Energy & Systems Inc.,原子力発電,GX・エネルギー,92,84,90,主力テーマ,A,ok,direct=nuclear power; position=0.17,nuclear power,nuclear,0.1745,EQUITY,Industrials,Engineering & Construction,https://www.qtes.co.jp
+1,1945,Tokyo Energy & Systems Inc.,太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.qtes.co.jp
+1,1945,Tokyo Energy & Systems Inc.,電力設備投資関連,データセンター・電力,86,78,84,主力テーマ,B,ok,direct=substation; position=0.25,substation,,0.2527,EQUITY,Industrials,Engineering & Construction,https://www.qtes.co.jp
+1,1946,Toenec Corporation,電力設備投資関連,データセンター・電力,46,34,42,補助関連,C,needs_review,adjacent=electrical equipment/power plant,,electrical equipment | power plant,,EQUITY,Industrials,Engineering & Construction,https://www.toenec.co.jp
+1,1948,"The Kodensha Co., Ltd.",電力設備投資関連,データセンター・電力,92,94,93,主力テーマ,A,ok,direct=power transmission; position=0.16; growth=research,power transmission,electrical equipment,0.1610,EQUITY,Industrials,Engineering & Construction,https://www.kk-kodensha.co.jp
+1,194A,"WOLVES HAND Co., Ltd.",サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Medical Care Facilities,https://www.wolveshand.jp
+1,194A,"WOLVES HAND Co., Ltd.",創薬,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Medical Care Facilities,https://www.wolveshand.jp
+1,194A,"WOLVES HAND Co., Ltd.",医療機器,医療・ヘルスケア,58,58,58,補助関連,C,needs_review,direct=medical equipment; position=0.83; growth=development/research,medical equipment,,0.8336,EQUITY,Healthcare,Medical Care Facilities,https://www.wolveshand.jp
+1,1950,"Nippon Densetsu Kogyo Co., Ltd.",再生可能エネルギー,GX・エネルギー,58,46,54,補助関連,C,needs_review,direct=renewable energy; position=0.81,renewable energy,,0.8070,EQUITY,Industrials,Infrastructure Operations,https://www.densetsuko.co.jp
+1,1950,"Nippon Densetsu Kogyo Co., Ltd.",太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Infrastructure Operations,https://www.densetsuko.co.jp
+1,1950,"Nippon Densetsu Kogyo Co., Ltd.",鉄道関連,物流・海運,92,84,90,主力テーマ,A,ok,direct=railway; position=0.10,railway,rail | train,0.0971,EQUITY,Industrials,Infrastructure Operations,https://www.densetsuko.co.jp
+1,1951,"EXEO Group, Inc.",IoT,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.exeo.co.jp
+1,1951,"EXEO Group, Inc.",クラウドコンピューティング,デジタル・サービス,42,40,41,補助関連,C,needs_review,adjacent=cloud; growth=development,,cloud,,EQUITY,Industrials,Engineering & Construction,https://www.exeo.co.jp
+1,1951,"EXEO Group, Inc.",デジタルトランスフォーメーション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.exeo.co.jp
+1,1951,"EXEO Group, Inc.",データセンター,データセンター・電力,82,84,83,主力テーマ,B,ok,direct=data center; position=0.40; growth=development,data center,,0.4005,EQUITY,Industrials,Engineering & Construction,https://www.exeo.co.jp
+1,1951,"EXEO Group, Inc.",光ファイバー,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.exeo.co.jp
+1,1951,"EXEO Group, Inc.",耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.exeo.co.jp
+1,1951,"EXEO Group, Inc.",鉄道関連,物流・海運,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.exeo.co.jp
+1,1951,"EXEO Group, Inc.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.exeo.co.jp
+1,1951,"EXEO Group, Inc.",電線地中化,防衛・国土強靱化,42,40,41,補助関連,C,needs_review,adjacent=civil engineering; growth=development,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.exeo.co.jp
+1,1952,"Shin Nippon Air Technologies Co., Ltd.",データセンター,データセンター・電力,66,56,63,有力関連,B,qa_borderline,direct=data center; position=0.61,data center,,0.6061,EQUITY,Industrials,Building Products & Equipment,https://www.snk.co.jp
+1,1952,"Shin Nippon Air Technologies Co., Ltd.",原子力発電,GX・エネルギー,58,46,54,補助関連,C,needs_review,direct=nuclear power; position=0.77,nuclear power,nuclear,0.7695,EQUITY,Industrials,Building Products & Equipment,https://www.snk.co.jp
+1,1959,Kraftia Corporation,データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kraftia.co.jp
+1,1959,Kraftia Corporation,太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kraftia.co.jp
+1,1959,Kraftia Corporation,送電,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kraftia.co.jp
+1,1959,Kraftia Corporation,防災,防衛・国土強靱化,82,74,80,主力テーマ,B,ok,direct=disaster prevention; position=0.40,disaster prevention,disaster,0.4040,EQUITY,Industrials,Engineering & Construction,https://www.kraftia.co.jp
+1,1959,Kraftia Corporation,電力設備投資関連,データセンター・電力,92,84,90,主力テーマ,A,ok,direct=power infrastructure; position=0.06,power infrastructure,power plant,0.0607,EQUITY,Industrials,Engineering & Construction,https://www.kraftia.co.jp
+1,1959,Kraftia Corporation,電線地中化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kraftia.co.jp
+1,1959,Kraftia Corporation,風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kraftia.co.jp
+1,195A,MUSCAT GROUP Inc.,eコマース,内需・消費,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://muscatgroup.co.jp
+1,195A,MUSCAT GROUP Inc.,クラウドコンピューティング,デジタル・サービス,42,42,42,補助関連,C,needs_review,adjacent=cloud; growth=develops/research,,cloud,,EQUITY,Technology,Software - Infrastructure,https://muscatgroup.co.jp
+1,195A,MUSCAT GROUP Inc.,デジタルトランスフォーメーション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://muscatgroup.co.jp
+1,195A,MUSCAT GROUP Inc.,データ分析・解析,AI・半導体,92,96,93,主力テーマ,A,ok,direct=data analysis; position=0.07; growth=develops/research,data analysis,,0.0730,EQUITY,Technology,Software - Infrastructure,https://muscatgroup.co.jp
+1,1960,Sanyo Engineering & Construction Inc.,建設,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction business; position=0.07,construction business,construction,0.0729,EQUITY,Industrials,Engineering & Construction,https://www.suntec-sec.jp
+1,1960,Sanyo Engineering & Construction Inc.,電力設備投資関連,データセンター・電力,66,56,63,有力関連,B,qa_borderline,direct=power transmission; position=0.50,power transmission,electrical equipment,0.5010,EQUITY,Industrials,Engineering & Construction,https://www.suntec-sec.jp
+1,1961,"Sanki Engineering Co., Ltd.",FA関連,設備投資・機械,58,46,54,補助関連,C,needs_review,direct=factory automation; position=0.68,factory automation,automation | manufacturing system | control system,0.6805,EQUITY,Industrials,Engineering & Construction,https://www.sanki.co.jp
+1,1961,"Sanki Engineering Co., Ltd.",サーバー冷却,データセンター・電力,46,34,42,補助関連,C,needs_review,adjacent=air conditioning/hvac,,air conditioning | hvac,,EQUITY,Industrials,Engineering & Construction,https://www.sanki.co.jp
+1,1961,"Sanki Engineering Co., Ltd.",データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.sanki.co.jp
+1,1961,"Sanki Engineering Co., Ltd.",下水道,防衛・国土強靱化,58,46,54,補助関連,C,needs_review,direct=sewage; position=0.79,sewage,,0.7881,EQUITY,Industrials,Engineering & Construction,https://www.sanki.co.jp
+1,1961,"Sanki Engineering Co., Ltd.",建設,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Engineering & Construction; direct=civil engineering; position=0.45,civil engineering,construction,0.4483,EQUITY,Industrials,Engineering & Construction,https://www.sanki.co.jp
+1,1961,"Sanki Engineering Co., Ltd.",水道関連,防衛・国土強靱化,92,84,90,主力テーマ,A,ok,direct=water supply; position=0.14,water supply,,0.1427,EQUITY,Industrials,Engineering & Construction,https://www.sanki.co.jp
+1,1961,"Sanki Engineering Co., Ltd.",物流,物流・海運,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.sanki.co.jp
+1,1961,"Sanki Engineering Co., Ltd.",省エネ関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.sanki.co.jp
+1,1961,"Sanki Engineering Co., Ltd.",防災,防衛・国土強靱化,92,84,90,主力テーマ,A,ok,direct=disaster prevention; position=0.17,disaster prevention,disaster,0.1661,EQUITY,Industrials,Engineering & Construction,https://www.sanki.co.jp
+1,1961,"Sanki Engineering Co., Ltd.",電力設備投資関連,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.sanki.co.jp
+1,1963,JGC Holdings Corporation,アンモニア,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.jgc.com
+1,1963,JGC Holdings Corporation,レアアース,資源・素材,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.jgc.com
+1,1963,JGC Holdings Corporation,円安メリット,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.jgc.com
+1,1963,JGC Holdings Corporation,原子力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.jgc.com
+1,1963,JGC Holdings Corporation,核融合発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.jgc.com
+1,1963,JGC Holdings Corporation,水素,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.jgc.com
+1,1963,JGC Holdings Corporation,脱炭素,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.jgc.com
+1,1963,JGC Holdings Corporation,蓄電池,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.jgc.com
+1,1963,JGC Holdings Corporation,資源開発,資源・素材,42,40,41,補助関連,C,needs_review,adjacent=oil and gas; growth=next generation,,oil and gas,,EQUITY,Industrials,Engineering & Construction,https://www.jgc.com
+1,1964,"Chugai Ro Co., Ltd.",アンモニア,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Specialty Industrial Machinery,https://chugai.co.jp
+1,1964,"Chugai Ro Co., Ltd.",全固体電池,自動車・モビリティ,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Specialty Industrial Machinery,https://chugai.co.jp
+1,1964,"Chugai Ro Co., Ltd.",水素,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Specialty Industrial Machinery,https://chugai.co.jp
+1,1964,"Chugai Ro Co., Ltd.",設備投資,設備投資・機械,82,84,83,主力テーマ,B,ok,direct=industrial machinery; growth=development,industrial machinery,equipment | machinery,,EQUITY,Industrials,Specialty Industrial Machinery,https://chugai.co.jp
+1,1964,"Chugai Ro Co., Ltd.",鉄鋼,資源・素材,42,40,41,補助関連,C,needs_review,adjacent=steel; growth=development,,steel,,EQUITY,Industrials,Specialty Industrial Machinery,https://chugai.co.jp
+1,1965,Techno Ryowa Ltd.,建設,不動産・建設,90,82,88,主力テーマ,A,ok,industry=Engineering & Construction; adjacent=construction,,construction,,EQUITY,Industrials,Engineering & Construction,https://www.techno-ryowa.co.jp
+1,1965,Techno Ryowa Ltd.,省エネ関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.techno-ryowa.co.jp
+1,1966,Takada Corporation,半導体製造装置,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.takada.co.jp
+1,1966,Takada Corporation,原子力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.takada.co.jp
+1,1966,Takada Corporation,電力設備投資関連,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.takada.co.jp
+1,1967,Yamato Corporation,下水道,防衛・国土強靱化,97,89,95,主力テーマ,A,ok,direct=sewerage/sewage; position=0.18,sewerage | sewage,water treatment,0.1765,EQUITY,Industrials,Engineering & Construction,https://www.yamato-se.co.jp
+1,1967,Yamato Corporation,建設,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Engineering & Construction; direct=civil engineering; position=0.08,civil engineering,construction,0.0809,EQUITY,Industrials,Engineering & Construction,https://www.yamato-se.co.jp
+1,1967,Yamato Corporation,水道関連,防衛・国土強靱化,97,89,95,主力テーマ,A,ok,direct=water supply/water treatment; position=0.16,water supply | water treatment,,0.1593,EQUITY,Industrials,Engineering & Construction,https://www.yamato-se.co.jp
+1,1968,"Taihei Dengyo Kaisha, Ltd.",再生可能エネルギー,GX・エネルギー,92,94,93,主力テーマ,A,ok,direct=renewable energy; position=0.18; growth=development,renewable energy,wind power | clean energy,0.1850,EQUITY,Industrials,Engineering & Construction,https://www.taihei-dengyo.co.jp
+1,1968,"Taihei Dengyo Kaisha, Ltd.",原子力発電,GX・エネルギー,42,40,41,補助関連,C,needs_review,adjacent=nuclear; growth=development,,nuclear,,EQUITY,Industrials,Engineering & Construction,https://www.taihei-dengyo.co.jp
+1,1968,"Taihei Dengyo Kaisha, Ltd.",耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.taihei-dengyo.co.jp
+1,1968,"Taihei Dengyo Kaisha, Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.taihei-dengyo.co.jp
+1,1968,"Taihei Dengyo Kaisha, Ltd.",電力設備投資関連,データセンター・電力,42,40,41,補助関連,C,needs_review,adjacent=power plant; growth=development,,power plant,,EQUITY,Industrials,Engineering & Construction,https://www.taihei-dengyo.co.jp
+1,1968,"Taihei Dengyo Kaisha, Ltd.",風力発電,GX・エネルギー,66,66,66,有力関連,B,qa_borderline,direct=wind power; position=0.59; growth=development,wind power,,0.5859,EQUITY,Industrials,Engineering & Construction,https://www.taihei-dengyo.co.jp
+1,1969,"Takasago Thermal Engineering Co., Ltd.",サーバー冷却,データセンター・電力,46,34,42,補助関連,C,needs_review,adjacent=air conditioning/hvac,,air conditioning | hvac,,EQUITY,Industrials,Building Products & Equipment,https://www.tte-net.com
+1,1969,"Takasago Thermal Engineering Co., Ltd.",データセンター,データセンター・電力,82,74,80,主力テーマ,B,ok,direct=datacenter; position=0.45,datacenter,,0.4520,EQUITY,Industrials,Building Products & Equipment,https://www.tte-net.com
+1,1969,"Takasago Thermal Engineering Co., Ltd.",建設,不動産・建設,90,82,88,主力テーマ,A,ok,industry=Building Products & Equipment,,,,EQUITY,Industrials,Building Products & Equipment,https://www.tte-net.com
+1,1969,"Takasago Thermal Engineering Co., Ltd.",水素,GX・エネルギー,42,30,38,ノイズ候補,C,needs_review,adjacent=hydrogen,,hydrogen,,EQUITY,Industrials,Building Products & Equipment,https://www.tte-net.com
+1,196A,"MFS, Inc.",住宅関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Financial Services,Mortgage Finance,https://www.mortgagefss.jp
+1,1972,"Sanko Metal Industrial Co., Ltd.",建設,不動産・建設,94,86,92,主力テーマ,A,qa_peripheral,industry=Building Products & Equipment; direct=construction work; position=0.70,construction work,construction,0.6951,EQUITY,Industrials,Building Products & Equipment,https://www.sankometal.co.jp
+1,1975,"Asahi Kogyosha Co., Ltd.",データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.asahikogyosha.co.jp
+1,1975,"Asahi Kogyosha Co., Ltd.",半導体製造装置,AI・半導体,42,40,41,補助関連,C,needs_review,adjacent=semiconductor; growth=develops,,semiconductor,,EQUITY,Industrials,Engineering & Construction,https://www.asahikogyosha.co.jp
+1,1975,"Asahi Kogyosha Co., Ltd.",建設,不動産・建設,90,92,91,主力テーマ,A,ok,industry=Engineering & Construction; adjacent=construction; growth=develops,,construction,,EQUITY,Industrials,Engineering & Construction,https://www.asahikogyosha.co.jp
+1,1976,"MEISEI INDUSTRIAL Co.,Ltd.",原子力発電,GX・エネルギー,82,74,80,主力テーマ,B,ok,direct=nuclear power; position=0.46,nuclear power,nuclear,0.4630,EQUITY,Industrials,Engineering & Construction,https://www.meisei-kogyo.co.jp
+1,1976,"MEISEI INDUSTRIAL Co.,Ltd.",建設,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Engineering & Construction; direct=construction work; position=0.02,construction work,construction,0.0226,EQUITY,Industrials,Engineering & Construction,https://www.meisei-kogyo.co.jp
+1,1979,Taikisha Ltd.,自動車製造装置,自動車・モビリティ,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Building Products & Equipment,https://www.taikisha-group.com
+1,197A,"TAUNS Laboratories,Inc.",医薬品関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Medical Instruments & Supplies,https://www.tauns.co.jp
+1,1980,"Dai-Dan Co., Ltd.",クラウドコンピューティング,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Specialty Industrial Machinery,https://www.daidan.co.jp
+1,1980,"Dai-Dan Co., Ltd.",サーバー冷却,データセンター・電力,42,30,38,ノイズ候補,C,needs_review,adjacent=air conditioning,,air conditioning,,EQUITY,Industrials,Specialty Industrial Machinery,https://www.daidan.co.jp
+1,1980,"Dai-Dan Co., Ltd.",データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Specialty Industrial Machinery,https://www.daidan.co.jp
+1,1980,"Dai-Dan Co., Ltd.",下水道,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Specialty Industrial Machinery,https://www.daidan.co.jp
+1,1980,"Dai-Dan Co., Ltd.",人工知能,AI・半導体,86,78,84,主力テーマ,B,ok,direct=artificial intelligence; position=0.32,artificial intelligence,,0.3226,EQUITY,Industrials,Specialty Industrial Machinery,https://www.daidan.co.jp
+1,1980,"Dai-Dan Co., Ltd.",受変電設備,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Specialty Industrial Machinery,https://www.daidan.co.jp
+1,1980,"Dai-Dan Co., Ltd.",建設,不動産・建設,42,30,38,ノイズ候補,C,needs_review,adjacent=construction,,construction,,EQUITY,Industrials,Specialty Industrial Machinery,https://www.daidan.co.jp
+1,1980,"Dai-Dan Co., Ltd.",水道関連,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Specialty Industrial Machinery,https://www.daidan.co.jp
+1,1981,"Kyowanissei Co.,Ltd.",水道関連,防衛・国土強靱化,92,84,90,主力テーマ,A,ok,direct=water supply; position=0.20,water supply,water system,0.1994,EQUITY,Industrials,Building Products & Equipment,https://www.kyowa-nissei.co.jp
+1,1982,"Hibiya Engineering, Ltd.",サーバー冷却,データセンター・電力,42,40,41,補助関連,C,needs_review,adjacent=air conditioning; growth=development,,air conditioning,,EQUITY,Industrials,Engineering & Construction,https://www.hibiya-eng.co.jp
+1,1982,"Hibiya Engineering, Ltd.",データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.hibiya-eng.co.jp
+1,198A,PostPrime Inc.,サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://corp.postprime.com
+1,1992,"Kanda Tsushinki Co., Ltd.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Communication Equipment,https://www.kandt.co.jp
+1,1994,Takahashi Curtain Wall Corporation,建設,不動産・建設,90,82,88,主力テーマ,A,ok,industry=Building Products & Equipment,,,,EQUITY,Industrials,Building Products & Equipment,https://t-cw.co.jp
+1,1997,"Akatsuki Eazima Co., Ltd.",下水道,防衛・国土強靱化,58,46,54,補助関連,C,needs_review,direct=sewerage; position=0.65,sewerage,,0.6501,EQUITY,Industrials,Engineering & Construction,https://www.eazima.co.jp
+1,1997,"Akatsuki Eazima Co., Ltd.",水道関連,防衛・国土強靱化,86,78,84,主力テーマ,B,ok,direct=water supply; position=0.21,water supply,,0.2115,EQUITY,Industrials,Engineering & Construction,https://www.eazima.co.jp
+1,2001,Nippn Corporation,バイオテクノロジー関連,医療・ヘルスケア,58,58,58,補助関連,C,needs_review,direct=biotechnology/biotech; position=0.70; growth=development/research,biotechnology | biotech,,0.6972,EQUITY,Consumer Defensive,Packaged Foods,https://www.nippn.co.jp
+1,2001,Nippn Corporation,円高メリット,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.nippn.co.jp
+1,2001,Nippn Corporation,食品,内需・消費,97,100,98,主力テーマ,A,ok,industry=Packaged Foods; direct=packaged foods/food business; position=0.05; growth=development/research,packaged foods | food business,foods | confectionery,0.0506,EQUITY,Consumer Defensive,Packaged Foods,https://www.nippn.co.jp
+1,2002,Nisshin Seifun Group Inc.,円高メリット,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.nisshin.com
+1,2002,Nisshin Seifun Group Inc.,機械,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.nisshin.com
+1,2002,Nisshin Seifun Group Inc.,食品,内需・消費,94,86,92,主力テーマ,A,ok,industry=Packaged Foods; direct=packaged foods,packaged foods,foods,,EQUITY,Consumer Defensive,Packaged Foods,https://www.nisshin.com
+1,2003,"Nitto Fuji Flour Milling Co.,Ltd.",外食,内需・消費,66,56,63,有力関連,B,qa_borderline,direct=restaurant; position=0.56,restaurant,,0.5589,EQUITY,Consumer Defensive,Farm Products,https://www.nittofuji.co.jp
+1,2003,"Nitto Fuji Flour Milling Co.,Ltd.",食品,内需・消費,90,82,88,主力テーマ,A,ok,industry=Farm Products,,,,EQUITY,Consumer Defensive,Farm Products,https://www.nittofuji.co.jp
+1,2036,NEXT NOTES Nikkei-TOCOM Leveraged Gold ETN,金,資源・素材,100,100,100,主力テーマ,A,non_operating_security,投資商品としてテーマ価格へ直接連動,,gold,,ETF,,,
+1,2037,NEXT NOTES Nikkei-TOCOM Inverse Gold ETN,金,資源・素材,100,100,100,主力テーマ,A,non_operating_security,投資商品としてテーマ価格へ直接連動,,gold,,ETF,,,
+1,2053,"Chubu Shiryo Co., Ltd.",円高メリット,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.chubushiryo.co.jp
+1,2058,,食品,内需・消費,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,205A,Logos Holdings Inc.,住宅関連,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Residential Construction; direct=residential construction,residential construction,residential,,EQUITY,Consumer Cyclical,Residential Construction,https://logos-holdings.jp
+1,205A,Logos Holdings Inc.,建設,不動産・建設,42,30,38,ノイズ候補,C,needs_review,adjacent=construction,,construction,,EQUITY,Consumer Cyclical,Residential Construction,https://logos-holdings.jp
+1,205A,Logos Holdings Inc.,建設DX,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Residential Construction,https://logos-holdings.jp
+1,2060,"Feed One Co.,Ltd.",円高メリット,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.feed-one.co.jp
+1,206A,"PRISM BioLab Co.,LTD",バイオテクノロジー関連,医療・ヘルスケア,94,100,96,主力テーマ,A,ok,industry=Biotechnology; direct=biotechnology/biotech; growth=develops/development,biotechnology | biotech,drug discovery,,EQUITY,Healthcare,Biotechnology,https://prismbiolab.com
+1,206A,"PRISM BioLab Co.,LTD",創薬,医療・ヘルスケア,94,100,96,主力テーマ,A,ok,industry=Biotechnology; direct=drug discovery; position=0.18; growth=develops/development,drug discovery,,0.1789,EQUITY,Healthcare,Biotechnology,https://prismbiolab.com
+1,206A,"PRISM BioLab Co.,LTD",医薬品関連,医療・ヘルスケア,97,100,98,主力テーマ,A,ok,direct=pharmaceutical/pharma; position=0.11; growth=develops/development,pharmaceutical | pharma,drug discovery,0.1123,EQUITY,Healthcare,Biotechnology,https://prismbiolab.com
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,IT関連,デジタル・サービス,42,40,41,補助関連,C,needs_review,adjacent=cloud service; growth=development,,cloud service,,EQUITY,Industrials,Engineering & Construction,https://www.kke-hd.co.jp
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,クラウドコンピューティング,デジタル・サービス,58,56,57,補助関連,C,needs_review,direct=cloud service; position=0.94; growth=development,cloud service,cloud,0.9398,EQUITY,Industrials,Engineering & Construction,https://www.kke-hd.co.jp
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kke-hd.co.jp
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,データ分析・解析,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kke-hd.co.jp
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,建設DX,不動産・建設,82,84,83,主力テーマ,B,ok,direct=bim; position=0.44; growth=development,bim,,0.4352,EQUITY,Industrials,Engineering & Construction,https://www.kke-hd.co.jp
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kke-hd.co.jp
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,防災,防衛・国土強靱化,42,40,41,補助関連,C,needs_review,adjacent=disaster; growth=development,,disaster,,EQUITY,Industrials,Engineering & Construction,https://www.kke-hd.co.jp
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,風力発電,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.kke-hd.co.jp
+1,2108,"Nippon Beet Sugar Manufacturing Co.,Ltd.",円高メリット,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Confectioners,https://www.nitten.co.jp
+1,2108,"Nippon Beet Sugar Manufacturing Co.,Ltd.",食品,内需・消費,90,82,88,主力テーマ,A,ok,industry=Confectioners,,,,EQUITY,Consumer Defensive,Confectioners,https://www.nitten.co.jp
+1,2109,"Mitsui DM Sugar Co.,Ltd.",円高メリット,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Confectioners,https://www.msdm-hd.com
+1,2109,"Mitsui DM Sugar Co.,Ltd.",食品,内需・消費,90,82,88,主力テーマ,A,ok,industry=Confectioners,,,,EQUITY,Consumer Defensive,Confectioners,https://www.msdm-hd.com
+1,2112,"Ensuiko Sugar Refining Co., Ltd.",食品,内需・消費,90,82,88,主力テーマ,A,ok,industry=Confectioners,,,,EQUITY,Consumer Defensive,Confectioners,https://www.ensuiko.co.jp
+1,2114,Fuji Nihon Corporation,食品,内需・消費,90,82,88,主力テーマ,A,ok,industry=Confectioners,,,,EQUITY,Consumer Defensive,Confectioners,https://www.fuji-nihon.com
+1,2117,"WELLNEO SUGAR Co., Ltd.",倉庫,物流・海運,58,46,54,補助関連,C,needs_review,direct=warehousing; position=0.68,warehousing,warehouse | storage,0.6802,EQUITY,Consumer Defensive,Confectioners,https://www.wellneo-sugar.co.jp
+1,211A,Cados Corporation,不動産関連,不動産・建設,42,30,38,ノイズ候補,C,needs_review,adjacent=real estate,,real estate,,EQUITY,Industrials,Engineering & Construction,https://cados.jp
+1,211A,Cados Corporation,太陽光発電関連,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://cados.jp
+1,211A,Cados Corporation,建設,不動産・建設,94,86,92,主力テーマ,A,ok,industry=Engineering & Construction; direct=civil engineering; position=0.30,civil engineering,construction,0.3015,EQUITY,Industrials,Engineering & Construction,https://cados.jp
+1,2120,"LIFULL Co.,Ltd.",不動産テック,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Internet Content & Information,https://www.lifull.com
+1,2120,"LIFULL Co.,Ltd.",不動産関連,不動産・建設,42,42,42,補助関連,C,needs_review,adjacent=real estate; growth=development/investment,,real estate,,EQUITY,Communication Services,Internet Content & Information,https://www.lifull.com
+1,2122,"Interspace Co.,Ltd.",サブスクリプション,デジタル・サービス,42,30,38,ノイズ候補,C,needs_review,adjacent=saas,,saas,,EQUITY,Communication Services,Advertising Agencies,https://www.interspace.ne.jp
+1,212A,FIT EASY Inc.,サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Leisure,https://fiteasy.co.jp
+1,2130,"Members Co., Ltd.",IT関連,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://www.members.co.jp
+1,2130,"Members Co., Ltd.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://www.members.co.jp
+1,2130,"Members Co., Ltd.",生成AI,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://www.members.co.jp
+1,2134,"Kitahama Capital Partners Co.,Ltd.",データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Financial Services,Asset Management,https://kitahamabank.co.jp
+1,2134,"Kitahama Capital Partners Co.,Ltd.",不動産ファンド,不動産・建設,42,44,43,補助関連,C,needs_review,adjacent=asset management; growth=develops/focuses,,asset management,,EQUITY,Financial Services,Asset Management,https://kitahamabank.co.jp
+1,2134,"Kitahama Capital Partners Co.,Ltd.",不動産関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Financial Services,Asset Management,https://kitahamabank.co.jp
+1,2134,"Kitahama Capital Partners Co.,Ltd.",再生可能エネルギー,GX・エネルギー,86,92,88,主力テーマ,A,ok,direct=renewable energy; position=0.24; growth=develops/focuses,renewable energy,,0.2393,EQUITY,Financial Services,Asset Management,https://kitahamabank.co.jp
+1,2137,,介護関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,2138,"CROOZ, Inc.",eコマース,内需・消費,92,94,93,主力テーマ,A,ok,direct=e-commerce; position=0.08; growth=development,e-commerce,,0.0771,EQUITY,Technology,Software - Application,https://www.crooz.co.jp
+1,2138,"CROOZ, Inc.",介護関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.crooz.co.jp
+1,2139,"Chuco Co., Ltd.",eコマース,内需・消費,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://www.chuco.co.jp
+1,2148,ITmedia Inc.,IT関連,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://corp.itmedia.co.jp
+1,2148,ITmedia Inc.,クラウドコンピューティング,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://corp.itmedia.co.jp
+1,2148,ITmedia Inc.,デジタルトランスフォーメーション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://corp.itmedia.co.jp
+1,2148,ITmedia Inc.,データ分析・解析,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://corp.itmedia.co.jp
+1,2148,ITmedia Inc.,人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://corp.itmedia.co.jp
+1,2153,E J Holdings Inc.,国土強靱化,防衛・国土強靱化,42,42,42,補助関連,C,needs_review,adjacent=civil engineering; growth=development/research,,civil engineering,,EQUITY,Industrials,Engineering & Construction,https://www.ej-hds.co.jp
+1,2153,E J Holdings Inc.,防災,防衛・国土強靱化,82,86,83,主力テーマ,B,ok,direct=disaster prevention; position=0.45; growth=development/research,disaster prevention,disaster,0.4548,EQUITY,Industrials,Engineering & Construction,https://www.ej-hds.co.jp
+1,2158,"FRONTEO, Inc.",IT関連,デジタル・サービス,94,86,92,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology,information technology,software,,EQUITY,Technology,Information Technology Services,https://www.fronteo.com
+1,2158,"FRONTEO, Inc.",クラウドコンピューティング,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.fronteo.com
+1,2158,"FRONTEO, Inc.",データ分析・解析,AI・半導体,66,56,63,有力関連,B,qa_borderline,direct=data analysis; position=0.52,data analysis,business intelligence,0.5163,EQUITY,Technology,Information Technology Services,https://www.fronteo.com
+1,2158,"FRONTEO, Inc.",ロボット,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.fronteo.com
+1,2158,"FRONTEO, Inc.",人工知能,AI・半導体,100,92,98,主力テーマ,A,ok,direct=artificial intelligence/ ai /ai solution; position=0.02,artificial intelligence |  ai  | ai solution,,0.0187,EQUITY,Technology,Information Technology Services,https://www.fronteo.com
+1,2158,"FRONTEO, Inc.",創薬,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.fronteo.com
+1,2158,"FRONTEO, Inc.",生成AI,AI・半導体,46,34,42,補助関連,C,needs_review,adjacent=artificial intelligence/ ai ,,artificial intelligence |  ai ,,EQUITY,Technology,Information Technology Services,https://www.fronteo.com
+1,2160,GNI Group Ltd.,バイオテクノロジー関連,医療・ヘルスケア,94,100,96,主力テーマ,A,ok,industry=Biotechnology; direct=biotechnology/biotech; growth=develops/development,biotechnology | biotech,,,EQUITY,Healthcare,Biotechnology,https://www.gnipharma.com
+1,2160,GNI Group Ltd.,創薬,医療・ヘルスケア,90,82,88,主力テーマ,A,ok,industry=Biotechnology,,,,EQUITY,Healthcare,Biotechnology,https://www.gnipharma.com
+1,2160,GNI Group Ltd.,医療機器,医療・ヘルスケア,92,98,94,主力テーマ,A,ok,direct=medical equipment; position=0.15; growth=develops/development,medical equipment,,0.1467,EQUITY,Healthcare,Biotechnology,https://www.gnipharma.com
+1,2160,GNI Group Ltd.,医薬品関連,医療・ヘルスケア,97,100,98,主力テーマ,A,ok,direct=pharmaceutical/pharma; position=0.07; growth=develops/development,pharmaceutical | pharma,,0.0682,EQUITY,Healthcare,Biotechnology,https://www.gnipharma.com
+1,2164,"Chiikishinbunsha Co.,Ltd.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Publishing,https://www.chiikinews.co.jp
+1,2164,"Chiikishinbunsha Co.,Ltd.",生成AI,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Publishing,https://www.chiikinews.co.jp
+1,2169,"CDS Co.,Ltd.",FA関連,設備投資・機械,42,40,41,補助関連,C,needs_review,adjacent=automation; growth=development,,automation,,EQUITY,Technology,Software - Application,https://www.cds-japan.jp
+1,2169,"CDS Co.,Ltd.",IoT,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.cds-japan.jp
+1,2169,"CDS Co.,Ltd.",ロボット,AI・半導体,86,88,87,主力テーマ,A,ok,direct=robot; position=0.30; growth=development,robot,automation,0.3036,EQUITY,Technology,Software - Application,https://www.cds-japan.jp
+1,2170,Link and Motivation Inc.,クラウドコンピューティング,デジタル・サービス,92,94,93,主力テーマ,A,ok,direct=cloud service; position=0.04; growth=development,cloud service,cloud,0.0373,EQUITY,Industrials,Consulting Services,https://www.lmi.ne.jp
+1,2170,Link and Motivation Inc.,サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Consulting Services,https://www.lmi.ne.jp
+1,2173,Hakuten Corporation,サービスロボット,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://www.hakuten.co.jp
+1,2173,Hakuten Corporation,人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://www.hakuten.co.jp
+1,2175,"SMS Co., Ltd.",サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Health Information Services,https://www.bm-sms.co.jp
+1,2175,"SMS Co., Ltd.",介護関連,医療・ヘルスケア,97,99,98,主力テーマ,A,ok,direct=nursing care/elderly care; position=0.03; growth=research,nursing care | elderly care,care services,0.0297,EQUITY,Healthcare,Health Information Services,https://www.bm-sms.co.jp
+1,2183,"Linical Co., Ltd.",バイオテクノロジー関連,医療・ヘルスケア,94,98,95,主力テーマ,A,ok,industry=Biotechnology; direct=biotechnology/biotech; growth=development/research,biotechnology | biotech,drug discovery,,EQUITY,Healthcare,Biotechnology,https://www.linical.com/ja
+1,2183,"Linical Co., Ltd.",認知症薬,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Biotechnology,https://www.linical.com/ja
+1,2186,Sobal Corporation,IT関連,デジタル・サービス,90,96,92,主力テーマ,A,ok,industry=Software - Application; adjacent=software; growth=develops/development,,software,,EQUITY,Technology,Software - Application,https://www.sobal.co.jp
+1,2186,Sobal Corporation,IoT,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.sobal.co.jp
+1,2186,Sobal Corporation,人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.sobal.co.jp
+1,2186,Sobal Corporation,自動運転車,自動車・モビリティ,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.sobal.co.jp
+1,218A,"Liberaware Co., Ltd.",IoT,設備投資・機械,86,88,87,主力テーマ,A,ok,direct= iot; position=0.31; growth=development, iot,,0.3140,EQUITY,Technology,Computer Hardware,https://liberaware.co.jp
+1,218A,"Liberaware Co., Ltd.",デジタルトランスフォーメーション,デジタル・サービス,66,66,66,有力関連,B,qa_borderline,direct=digital transformation; position=0.60; growth=development,digital transformation,,0.6012,EQUITY,Technology,Computer Hardware,https://liberaware.co.jp
+1,218A,"Liberaware Co., Ltd.",データ分析・解析,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Computer Hardware,https://liberaware.co.jp
+1,218A,"Liberaware Co., Ltd.",ドローン,防衛・国土強靱化,86,88,87,主力テーマ,A,ok,direct=drone; position=0.20; growth=development,drone,,0.2045,EQUITY,Technology,Computer Hardware,https://liberaware.co.jp
+1,218A,"Liberaware Co., Ltd.",ロボット,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Computer Hardware,https://liberaware.co.jp
+1,218A,"Liberaware Co., Ltd.",下水道,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Computer Hardware,https://liberaware.co.jp
+1,218A,"Liberaware Co., Ltd.",人工知能,AI・半導体,86,88,87,主力テーマ,A,ok,direct=artificial intelligence; position=0.36; growth=development,artificial intelligence,,0.3554,EQUITY,Technology,Computer Hardware,https://liberaware.co.jp
+1,2193,Cookpad Inc.,eコマース,内需・消費,86,78,84,主力テーマ,B,ok,direct=online marketplace; position=0.28,online marketplace,,0.2791,EQUITY,Communication Services,Internet Content & Information,https://cookpad.com/jp
+1,2193,Cookpad Inc.,宅配,物流・海運,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Internet Content & Information,https://cookpad.com/jp
+1,2195,"Amita Holdings Co.,Ltd.",脱炭素,GX・エネルギー,86,90,87,主力テーマ,A,ok,direct=carbon neutral; position=0.29; growth=develops/development,carbon neutral,,0.2945,EQUITY,Industrials,Waste Management,https://www.amita-net.co.jp
+1,2198,IKK Holdings Inc.,介護関連,医療・ヘルスケア,92,94,93,主力テーマ,A,ok,direct=nursing care; position=0.14; growth=development,nursing care,care services,0.1449,EQUITY,Consumer Cyclical,Personal Services,https://www.ikk-grp.jp
+1,2198,IKK Holdings Inc.,食品,内需・消費,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Personal Services,https://www.ikk-grp.jp
+1,219A,Heartseed Inc.,再生医療,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Biotechnology,https://www.heartseed.jp
+1,219A,Heartseed Inc.,創薬,医療・ヘルスケア,90,82,88,主力テーマ,A,ok,industry=Biotechnology,,,,EQUITY,Healthcare,Biotechnology,https://www.heartseed.jp
+1,2206,"Ezaki Glico Co., Ltd.",食品,内需・消費,94,86,92,主力テーマ,A,ok,industry=Packaged Foods; direct=packaged foods/food business; position=0.31,packaged foods | food business,foods | confectionery,0.3126,EQUITY,Consumer Defensive,Packaged Foods,https://www.glico.com/global/
+1,2207,"Meito Co., Ltd.",食品,内需・消費,97,89,95,主力テーマ,A,ok,industry=Confectioners; direct=food products/beverage; position=0.04,food products | beverage,foods | confectionery,0.0363,EQUITY,Consumer Defensive,Confectioners,https://www.meito-abc.co.jp
+1,2208,Bourbon Corporation,再生医療,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Confectioners,https://www.bourbon.co.jp
+1,2209,"Imuraya Group Co., Ltd.",食品,内需・消費,94,86,92,主力テーマ,A,ok,industry=Confectioners; direct=food products; position=0.08,food products,confectionery,0.0793,EQUITY,Consumer Defensive,Confectioners,https://www.imuraya-group.com
+1,220A,Faber Company Inc.,SaaS,デジタル・サービス,90,82,88,主力テーマ,A,ok,industry=Software - Application,,,,EQUITY,Technology,Software - Application,https://www.fabercompany.co.jp
+1,220A,Faber Company Inc.,デジタルトランスフォーメーション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.fabercompany.co.jp
+1,2211,"Fujiya Co., Ltd.",外食,内需・消費,82,74,80,主力テーマ,B,ok,direct=restaurant; position=0.47,restaurant,,0.4662,EQUITY,Consumer Defensive,Confectioners,https://www.fujiya-peko.co.jp
+1,2211,"Fujiya Co., Ltd.",食品,内需・消費,94,86,92,主力テーマ,A,ok,industry=Confectioners; direct=beverage; position=0.39,beverage,confectionery,0.3945,EQUITY,Consumer Defensive,Confectioners,https://www.fujiya-peko.co.jp
+1,2212,"Yamazaki Baking Co., Ltd.",外食,内需・消費,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.yamazakipan.co.jp
+1,2212,"Yamazaki Baking Co., Ltd.",食品,内需・消費,100,92,98,主力テーマ,A,ok,industry=Packaged Foods; direct=food manufacturing/packaged foods/food business; position=0.03,food manufacturing | packaged foods | food business,foods | confectionery,0.0321,EQUITY,Consumer Defensive,Packaged Foods,https://www.yamazakipan.co.jp
+1,2215,"First Baking Co., Ltd.",食品,内需・消費,97,89,95,主力テーマ,A,ok,industry=Packaged Foods; direct=food products/packaged foods; position=0.14,food products | packaged foods,foods,0.1373,EQUITY,Consumer Defensive,Packaged Foods,https://www.daiichipan.co.jp
+1,2216,Kanro Inc.,食品,内需・消費,94,86,92,主力テーマ,A,ok,industry=Confectioners; direct=food products; position=0.11,food products,confectionery,0.1138,EQUITY,Consumer Defensive,Confectioners,https://www.kanro.co.jp
+1,2220,"Kameda Seika Co.,Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.kamedaseika.co.jp
+1,2220,"Kameda Seika Co.,Ltd.",食品,内需・消費,94,86,92,主力テーマ,A,ok,industry=Packaged Foods; direct=packaged foods,packaged foods,foods,,EQUITY,Consumer Defensive,Packaged Foods,https://www.kamedaseika.co.jp
+1,2222,"Kotobuki Spirits Co., Ltd.",インバウンド,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Confectioners,https://www.kotobukispirits.co.jp
+1,2222,"Kotobuki Spirits Co., Ltd.",旅行,内需・消費,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Confectioners,https://www.kotobukispirits.co.jp
+1,2222,"Kotobuki Spirits Co., Ltd.",食品,内需・消費,90,82,88,主力テーマ,A,ok,industry=Confectioners,,,,EQUITY,Consumer Defensive,Confectioners,https://www.kotobukispirits.co.jp
+1,2226,KOIKE-YA Inc.,食品,内需・消費,94,86,92,主力テーマ,A,ok,industry=Packaged Foods; direct=packaged foods,packaged foods,foods,,EQUITY,Consumer Defensive,Packaged Foods,https://koike-ya.com
+1,2229,"Calbee, Inc.",食品,内需・消費,97,89,95,主力テーマ,A,ok,industry=Packaged Foods; direct=food products/packaged foods; position=0.10,food products | packaged foods,foods,0.1033,EQUITY,Consumer Defensive,Packaged Foods,https://www.calbee.co.jp
+1,2264,"Morinaga Milk Industry Co., Ltd.",介護関連,医療・ヘルスケア,58,46,54,補助関連,C,needs_review,direct=nursing care; position=0.67,nursing care,,0.6744,EQUITY,Consumer Defensive,Packaged Foods,https://www.morinagamilk.co.jp
+1,2264,"Morinaga Milk Industry Co., Ltd.",宅配,物流・海運,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.morinagamilk.co.jp
+1,2264,"Morinaga Milk Industry Co., Ltd.",食品,内需・消費,96,88,94,主力テーマ,A,ok,industry=Packaged Foods; direct=food products/packaged foods/beverage; position=0.27,food products | packaged foods | beverage,foods,0.2662,EQUITY,Consumer Defensive,Packaged Foods,https://www.morinagamilk.co.jp
+1,2267,"Yakult Honsha Co.,Ltd.",食品,内需・消費,94,86,92,主力テーマ,A,ok,industry=Beverages - Non-Alcoholic; direct=beverage; position=0.07,beverage,,0.0702,EQUITY,Consumer Defensive,Beverages - Non-Alcoholic,https://www.yakult.co.jp
+1,2269,"Meiji Holdings Co., Ltd.",介護関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.meiji.com
+1,2269,"Meiji Holdings Co., Ltd.",宅配,物流・海運,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Defensive,Packaged Foods,https://www.meiji.com
+1,2269,"Meiji Holdings Co., Ltd.",食品,内需・消費,97,89,95,主力テーマ,A,ok,industry=Packaged Foods; direct=food products/packaged foods; position=0.13,food products | packaged foods,foods,0.1258,EQUITY,Consumer Defensive,Packaged Foods,https://www.meiji.com
+1,2270,"MEGMILK SNOW BRAND Co.,Ltd.",食品,内需・消費,100,92,98,主力テーマ,A,ok,industry=Packaged Foods; direct=food products/packaged foods/beverage; position=0.11,food products | packaged foods | beverage,foods,0.1116,EQUITY,Consumer Defensive,Packaged Foods,https://www.meg-snow.com
+1,2282,NH Foods Ltd.,食品,内需・消費,94,86,92,主力テーマ,A,ok,industry=Packaged Foods; direct=packaged foods,packaged foods,foods | meat products,,EQUITY,Consumer Defensive,Packaged Foods,https://www.nipponham.co.jp
+1,228A,"OPRO Co., Ltd.",IT関連,デジタル・サービス,90,82,88,主力テーマ,A,ok,industry=Software - Infrastructure; adjacent=software,,software,,EQUITY,Technology,Software - Infrastructure,https://corp.opro.net
+1,228A,"OPRO Co., Ltd.",クラウドコンピューティング,デジタル・サービス,42,30,38,ノイズ候補,C,needs_review,adjacent=cloud,,cloud,,EQUITY,Technology,Software - Infrastructure,https://corp.opro.net
+1,228A,"OPRO Co., Ltd.",サブスクリプション,デジタル・サービス,58,46,54,補助関連,C,needs_review,direct=subscription business; position=0.74,subscription business,,0.7394,EQUITY,Technology,Software - Infrastructure,https://corp.opro.net
+1,228A,"OPRO Co., Ltd.",デジタルトランスフォーメーション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://corp.opro.net
+1,228A,"OPRO Co., Ltd.",データ分析・解析,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://corp.opro.net
+1,228A,"OPRO Co., Ltd.",電子政府,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://corp.opro.net
+1,2292,S Foods Inc.,食品,内需・消費,94,86,92,主力テーマ,A,ok,industry=Farm Products; direct=food products; position=0.28,food products,foods,0.2790,EQUITY,Consumer Defensive,Farm Products,https://www.sfoods.co.jp
+1,2294,"Kakiyasu Honten Co., Ltd.",外食,内需・消費,58,46,54,補助関連,C,needs_review,direct=restaurant; position=0.83,restaurant,,0.8265,EQUITY,Consumer Defensive,Food Distribution,https://www.kakiyasuhonten.co.jp
+1,2296,Itoham Yonekyu Holdings Inc.,食品,内需・消費,94,86,92,主力テーマ,A,ok,industry=Packaged Foods; direct=food products/packaged foods; position=0.22,food products | packaged foods,foods,0.2211,EQUITY,Consumer Defensive,Packaged Foods,https://www.itoham-yonekyu-holdings.com
+1,2303,Dawn Corp.,IT関連,デジタル・サービス,94,96,95,主力テーマ,A,qa_peripheral,industry=Software - Application; direct=information systems; position=0.90; growth=development,information systems,software | cloud service,0.9006,EQUITY,Technology,Software - Application,https://www.dawn-corp.co.jp
+1,2303,Dawn Corp.,クラウドコンピューティング,デジタル・サービス,92,94,93,主力テーマ,A,ok,direct=cloud service; position=0.09; growth=development,cloud service,cloud,0.0950,EQUITY,Technology,Software - Application,https://www.dawn-corp.co.jp
+1,2303,Dawn Corp.,ドローン,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.dawn-corp.co.jp
+1,2303,Dawn Corp.,自動運転車,自動車・モビリティ,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.dawn-corp.co.jp
+1,2303,Dawn Corp.,防災,防衛・国土強靱化,42,40,41,補助関連,C,needs_review,adjacent=disaster; growth=development,,disaster,,EQUITY,Technology,Software - Application,https://www.dawn-corp.co.jp
+1,2304,"CSS Holdings,Ltd.",ホテル,内需・消費,42,30,38,ノイズ候補,C,needs_review,adjacent=hotel,,hotel,,EQUITY,Industrials,Specialty Business Services,https://www.css-holdings.jp
+1,2304,"CSS Holdings,Ltd.",外食,内需・消費,86,78,84,主力テーマ,B,ok,direct=restaurant; position=0.33,restaurant,cafe,0.3261,EQUITY,Industrials,Specialty Business Services,https://www.css-holdings.jp
+1,2307,"Cross Cat Co., Ltd.",IT関連,デジタル・サービス,94,86,92,主力テーマ,A,qa_peripheral,industry=Software - Application; direct=system integration; position=0.75,system integration,software | cloud service,0.7472,EQUITY,Technology,Software - Application,https://www.xcat.co.jp
+1,2307,"Cross Cat Co., Ltd.",キャッシュレス決済,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.xcat.co.jp
+1,2307,"Cross Cat Co., Ltd.",クラウドコンピューティング,デジタル・サービス,86,78,84,主力テーマ,B,ok,direct=cloud service; position=0.25,cloud service,cloud,0.2465,EQUITY,Technology,Software - Application,https://www.xcat.co.jp
+1,2307,"Cross Cat Co., Ltd.",デジタルトランスフォーメーション,デジタル・サービス,92,84,90,主力テーマ,A,ok,direct=digital transformation; position=0.13,digital transformation,cloud service,0.1308,EQUITY,Technology,Software - Application,https://www.xcat.co.jp
+1,2307,"Cross Cat Co., Ltd.",フィンテック,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.xcat.co.jp
+1,2307,"Cross Cat Co., Ltd.",マイナンバー,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.xcat.co.jp
+1,2307,"Cross Cat Co., Ltd.",電子政府,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.xcat.co.jp
+1,2311,"EPCO Co.,Ltd.",下水道,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.epco.co.jp
+1,2311,"EPCO Co.,Ltd.",住宅関連,不動産・建設,42,30,38,ノイズ候補,C,needs_review,adjacent=housing,,housing,,EQUITY,Industrials,Engineering & Construction,https://www.epco.co.jp
+1,2311,"EPCO Co.,Ltd.",太陽光発電関連,GX・エネルギー,58,46,54,補助関連,C,needs_review,direct=solar power; position=0.68,solar power,solar,0.6797,EQUITY,Industrials,Engineering & Construction,https://www.epco.co.jp
+1,2311,"EPCO Co.,Ltd.",蓄電池,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Engineering & Construction,https://www.epco.co.jp
+1,2315,CAICA DIGITAL Inc.,IT関連,デジタル・サービス,94,100,96,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology; position=0.07; growth=development/research,information technology,software,0.0651,EQUITY,Technology,Information Technology Services,https://www.caica.jp
+1,2315,CAICA DIGITAL Inc.,データ分析・解析,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.caica.jp
+1,2315,CAICA DIGITAL Inc.,フィンテック,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.caica.jp
+1,2315,CAICA DIGITAL Inc.,人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.caica.jp
+1,2317,Systena Corporation,IT関連,デジタル・サービス,94,98,95,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology; growth=development/next generation,information technology,software,,EQUITY,Technology,Information Technology Services,https://www.systena.co.jp
+1,2317,Systena Corporation,IoT,設備投資・機械,86,90,87,主力テーマ,A,ok,direct= iot; position=0.35; growth=development/next generation, iot,,0.3501,EQUITY,Technology,Information Technology Services,https://www.systena.co.jp
+1,2317,Systena Corporation,クラウドコンピューティング,デジタル・サービス,42,42,42,補助関連,C,needs_review,adjacent=cloud; growth=development/next generation,,cloud,,EQUITY,Technology,Information Technology Services,https://www.systena.co.jp
+1,2317,Systena Corporation,マイナンバー,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.systena.co.jp
+1,2317,Systena Corporation,人工知能,AI・半導体,86,90,87,主力テーマ,A,ok,direct=artificial intelligence; position=0.35; growth=development/next generation,artificial intelligence,,0.3538,EQUITY,Technology,Information Technology Services,https://www.systena.co.jp
+1,2317,Systena Corporation,自動運転車,自動車・モビリティ,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.systena.co.jp
+1,231A,,マンション関連,不動産・建設,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,231A,,下水道,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,231A,,住宅関連,不動産・建設,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,231A,,建設,不動産・建設,8,5,7,ノイズ候補,C,needs_official_ir,事業概要に直接根拠を確認できず,,,,,,,
+1,2321,Softfront Holdings,IT関連,デジタル・サービス,90,92,91,主力テーマ,A,ok,industry=Software - Application; adjacent=software; growth=development,,software,,EQUITY,Technology,Software - Application,https://www.softfront.co.jp
+1,2321,Softfront Holdings,クラウドコンピューティング,デジタル・サービス,42,40,41,補助関連,C,needs_review,adjacent=cloud; growth=development,,cloud,,EQUITY,Technology,Software - Application,https://www.softfront.co.jp
+1,2321,Softfront Holdings,サービスロボット,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.softfront.co.jp
+1,2321,Softfront Holdings,データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.softfront.co.jp
+1,2321,Softfront Holdings,人工知能,AI・半導体,58,56,57,補助関連,C,needs_review,direct= ai ; position=0.66; growth=development, ai ,,0.6616,EQUITY,Technology,Software - Application,https://www.softfront.co.jp
+1,2321,Softfront Holdings,生成AI,AI・半導体,42,40,41,補助関連,C,needs_review,adjacent= ai ; growth=development,, ai ,,EQUITY,Technology,Software - Application,https://www.softfront.co.jp
+1,2323,fonfun corporation,IT関連,デジタル・サービス,94,96,95,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology/software development; position=0.49; growth=development,information technology | software development,software,0.4865,EQUITY,Technology,Information Technology Services,https://www.fonfun.co.jp
+1,2323,fonfun corporation,SaaS,デジタル・サービス,86,88,87,主力テーマ,A,ok,direct=saas; position=0.20; growth=development,saas,,0.2007,EQUITY,Technology,Information Technology Services,https://www.fonfun.co.jp
+1,2323,fonfun corporation,クラウドコンピューティング,デジタル・サービス,46,44,45,補助関連,C,needs_review,adjacent=cloud/saas; growth=development,,cloud | saas,,EQUITY,Technology,Information Technology Services,https://www.fonfun.co.jp
+1,2323,fonfun corporation,サイバーセキュリティ,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.fonfun.co.jp
+1,2323,fonfun corporation,デジタルトランスフォーメーション,デジタル・サービス,100,100,100,主力テーマ,A,ok,direct=digital transformation/ dx /digitalization; position=0.11; growth=development,digital transformation |  dx  | digitalization,,0.1099,EQUITY,Technology,Information Technology Services,https://www.fonfun.co.jp
+1,2325,"NJS Co., Ltd.",ドローン,防衛・国土強靱化,58,58,58,補助関連,C,needs_review,direct=drone; position=0.70; growth=develops/development,drone,,0.6980,EQUITY,Industrials,Waste Management,https://www.njs.co.jp
+1,2325,"NJS Co., Ltd.",下水道,防衛・国土強靱化,86,90,87,主力テーマ,A,ok,direct=sewerage; position=0.37; growth=develops/development,sewerage,,0.3672,EQUITY,Industrials,Waste Management,https://www.njs.co.jp
+1,2325,"NJS Co., Ltd.",水道関連,防衛・国土強靱化,86,90,87,主力テーマ,A,ok,direct=water supply; position=0.35; growth=develops/development,water supply,,0.3531,EQUITY,Industrials,Waste Management,https://www.njs.co.jp
+1,2325,"NJS Co., Ltd.",耐震化,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Waste Management,https://www.njs.co.jp
+1,2325,"NJS Co., Ltd.",防災,防衛・国土強靱化,86,90,87,主力テーマ,A,ok,direct=disaster prevention; position=0.27; growth=develops/development,disaster prevention,disaster,0.2665,EQUITY,Industrials,Waste Management,https://www.njs.co.jp
+1,2326,Digital Arts Inc.,IT関連,デジタル・サービス,90,92,91,主力テーマ,A,ok,industry=Software - Infrastructure; adjacent=software; growth=develops,,software,,EQUITY,Technology,Software - Infrastructure,https://www.daj.jp
+1,2326,Digital Arts Inc.,SaaS,デジタル・サービス,90,82,88,主力テーマ,A,ok,industry=Software - Infrastructure,,,,EQUITY,Technology,Software - Infrastructure,https://www.daj.jp
+1,2326,Digital Arts Inc.,サイバーセキュリティ,防衛・国土強靱化,92,94,93,主力テーマ,A,ok,direct=security software; position=0.07; growth=develops,security software,,0.0715,EQUITY,Technology,Software - Infrastructure,https://www.daj.jp
+1,2326,Digital Arts Inc.,サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.daj.jp
+1,2326,Digital Arts Inc.,マイナンバー,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.daj.jp
+1,2327,NS Solutions Corporation,IT関連,デジタル・サービス,100,100,100,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology/system integration/information systems; position=0.03; growth=development/expansion,information technology | system integration | information systems,software,0.0290,EQUITY,Technology,Information Technology Services,https://www.nssol.nipponsteel.com
+1,2327,NS Solutions Corporation,IoT,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.nssol.nipponsteel.com
+1,2327,NS Solutions Corporation,SaaS,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.nssol.nipponsteel.com
+1,2327,NS Solutions Corporation,クラウドコンピューティング,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.nssol.nipponsteel.com
+1,2327,NS Solutions Corporation,サイバーセキュリティ,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.nssol.nipponsteel.com
+1,2327,NS Solutions Corporation,デジタルトランスフォーメーション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.nssol.nipponsteel.com
+1,2327,NS Solutions Corporation,データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.nssol.nipponsteel.com
+1,2327,NS Solutions Corporation,ドローン,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.nssol.nipponsteel.com
+1,2327,NS Solutions Corporation,人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.nssol.nipponsteel.com
+1,2327,NS Solutions Corporation,電子政府,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.nssol.nipponsteel.com
+1,2330,"Forside Co.,Ltd.",ゲーム関連,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Leisure,https://www.forside.co.jp
+1,2330,"Forside Co.,Ltd.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Leisure,https://www.forside.co.jp
+1,2330,"Forside Co.,Ltd.",物流,物流・海運,42,42,42,補助関連,C,needs_review,adjacent=logistics; growth=development/investment,,logistics,,EQUITY,Consumer Cyclical,Leisure,https://www.forside.co.jp
+1,2330,"Forside Co.,Ltd.",生成AI,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Leisure,https://www.forside.co.jp
+1,2330,"Forside Co.,Ltd.",陸運,物流・海運,66,68,67,有力関連,B,qa_borderline,direct=trucking; position=0.58; growth=development/investment,trucking,transportation,0.5802,EQUITY,Consumer Cyclical,Leisure,https://www.forside.co.jp
+1,2331,"Alsok Co.,Ltd.",サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Security & Protection Services,https://www.alsok.co.jp
+1,2331,"Alsok Co.,Ltd.",サービスロボット,設備投資・機械,42,30,38,ノイズ候補,C,needs_review,adjacent=robot,,robot,,EQUITY,Industrials,Security & Protection Services,https://www.alsok.co.jp
+1,2331,"Alsok Co.,Ltd.",ドローン,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Security & Protection Services,https://www.alsok.co.jp
+1,2331,"Alsok Co.,Ltd.",マイナンバー,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Security & Protection Services,https://www.alsok.co.jp
+1,2331,"Alsok Co.,Ltd.",マンション関連,不動産・建設,86,78,84,主力テーマ,B,ok,direct=condominium; position=0.27,condominium,,0.2679,EQUITY,Industrials,Security & Protection Services,https://www.alsok.co.jp
+1,2331,"Alsok Co.,Ltd.",ロボット,AI・半導体,82,74,80,主力テーマ,B,ok,direct=robot; position=0.47,robot,,0.4732,EQUITY,Industrials,Security & Protection Services,https://www.alsok.co.jp
+1,2331,"Alsok Co.,Ltd.",介護関連,医療・ヘルスケア,92,84,90,主力テーマ,A,ok,direct=long-term care; position=0.18,long-term care,care services,0.1794,EQUITY,Industrials,Security & Protection Services,https://www.alsok.co.jp
+1,2331,"Alsok Co.,Ltd.",防災,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Security & Protection Services,https://www.alsok.co.jp
+1,2332,"Quest Co., Ltd.",IT関連,デジタル・サービス,94,96,95,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology; growth=development,information technology,,,EQUITY,Technology,Information Technology Services,https://www.quest.co.jp
+1,2334,eole Inc.,ゲーム関連,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.eole.co.jp
+1,2334,eole Inc.,データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.eole.co.jp
+1,2334,eole Inc.,人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://www.eole.co.jp
+1,2335,Cube System Inc.,IT関連,デジタル・サービス,97,99,98,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology/system integration; position=0.14; growth=development,information technology | system integration,cloud service,0.1379,EQUITY,Technology,Information Technology Services,https://www.cubesystem.co.jp
+1,2335,Cube System Inc.,デジタルトランスフォーメーション,デジタル・サービス,42,40,41,補助関連,C,needs_review,adjacent=cloud service; growth=development,,cloud service,,EQUITY,Technology,Information Technology Services,https://www.cubesystem.co.jp
+1,2335,Cube System Inc.,フィンテック,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.cubesystem.co.jp
+1,2335,Cube System Inc.,人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.cubesystem.co.jp
+1,2337,Ichigo Inc.,不動産ファンド,不動産・建設,97,100,98,主力テーマ,A,ok,direct=real estate fund/real estate investment trust; position=0.17; growth=develops/development,real estate fund | real estate investment trust,asset management | real estate investment,0.1749,EQUITY,Real Estate,Real Estate Services,https://www.ichigo.gr.jp
+1,2337,Ichigo Inc.,不動産関連,不動産・建設,94,100,96,主力テーマ,A,ok,industry=Real Estate Services; direct=real estate business; position=0.05; growth=develops/development,real estate business,real estate,0.0469,EQUITY,Real Estate,Real Estate Services,https://www.ichigo.gr.jp
+1,2337,Ichigo Inc.,太陽光発電関連,GX・エネルギー,42,46,43,補助関連,C,needs_review,adjacent=solar; growth=develops/development,,solar,,EQUITY,Real Estate,Real Estate Services,https://www.ichigo.gr.jp
+1,2337,Ichigo Inc.,風力発電,GX・エネルギー,66,72,68,有力関連,B,qa_borderline,direct=wind power; position=0.51; growth=develops/development,wind power,,0.5063,EQUITY,Real Estate,Real Estate Services,https://www.ichigo.gr.jp
+1,2338,"Quantum Solutions Co.,Ltd.",エッジコンピューティング,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.quantum-s.co.jp
+1,2338,"Quantum Solutions Co.,Ltd.",ゲーム関連,デジタル・サービス,42,40,41,補助関連,C,needs_review,adjacent=game content; growth=development,,game content,,EQUITY,Technology,Information Technology Services,https://www.quantum-s.co.jp
+1,2338,"Quantum Solutions Co.,Ltd.",データセンター,データセンター・電力,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.quantum-s.co.jp
+1,2338,"Quantum Solutions Co.,Ltd.",人工知能,AI・半導体,97,99,98,主力テーマ,A,ok,direct= ai /ai solution; position=0.10; growth=development, ai  | ai solution,,0.1036,EQUITY,Technology,Information Technology Services,https://www.quantum-s.co.jp
+1,2341,"Arbeit-Times Co., Ltd.",サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Publishing,https://www.atimes.co.jp
+1,2342,Transgenic Group Inc.,eコマース,内需・消費,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Biotechnology,https://transgenic-group.co.jp
+1,2342,Transgenic Group Inc.,バイオテクノロジー関連,医療・ヘルスケア,94,100,96,主力テーマ,A,ok,industry=Biotechnology; direct=biotechnology/biotech; growth=develops/development,biotechnology | biotech,drug discovery,,EQUITY,Healthcare,Biotechnology,https://transgenic-group.co.jp
+1,2345,"HODL 1,inc.",AIエージェント,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://hodl1.jp
+1,2349,"Nippon Information Development Co., Ltd.",IT関連,デジタル・サービス,97,99,98,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology/information systems; position=0.02; growth=development,information technology | information systems,software,0.0242,EQUITY,Technology,Information Technology Services,https://www.nid.co.jp
+1,2349,"Nippon Information Development Co., Ltd.",IoT,設備投資・機械,92,94,93,主力テーマ,A,ok,direct= iot; position=0.13; growth=development, iot,,0.1337,EQUITY,Technology,Information Technology Services,https://www.nid.co.jp
+1,2349,"Nippon Information Development Co., Ltd.",クラウドコンピューティング,デジタル・サービス,42,40,41,補助関連,C,needs_review,adjacent=cloud; growth=development,,cloud,,EQUITY,Technology,Information Technology Services,https://www.nid.co.jp
+1,2349,"Nippon Information Development Co., Ltd.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.nid.co.jp
+1,2351,ASJ Inc.,IT関連,デジタル・サービス,90,96,92,主力テーマ,A,ok,industry=Software - Infrastructure; adjacent=software/cloud service; growth=develops/development,,software | cloud service,,EQUITY,Technology,Software - Infrastructure,https://www.asj.ad.jp
+1,2351,ASJ Inc.,eコマース,内需・消費,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.asj.ad.jp
+1,2351,ASJ Inc.,クラウドコンピューティング,デジタル・サービス,58,60,59,補助関連,C,needs_review,direct=cloud service; position=0.79; growth=develops/development,cloud service,cloud,0.7902,EQUITY,Technology,Software - Infrastructure,https://www.asj.ad.jp
+1,2351,ASJ Inc.,サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.asj.ad.jp
+1,2351,ASJ Inc.,フィンテック,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.asj.ad.jp
+1,2353,"NIPPON PARKING DEVELOPMENT Co.,Ltd.",インバウンド,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Conglomerates,https://n-p-d.co.jp
+1,2353,"NIPPON PARKING DEVELOPMENT Co.,Ltd.",不動産関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Conglomerates,https://n-p-d.co.jp
+1,2353,"NIPPON PARKING DEVELOPMENT Co.,Ltd.",再生可能エネルギー,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Conglomerates,https://n-p-d.co.jp
+1,2354,YE DIGITAL Corporation,FA関連,設備投資・機械,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.ye-digital.com
+1,2354,YE DIGITAL Corporation,IT関連,デジタル・サービス,94,86,92,主力テーマ,A,qa_peripheral,industry=Information Technology Services; direct=information technology/information systems; position=0.87,information technology | information systems,software,0.8734,EQUITY,Technology,Information Technology Services,https://www.ye-digital.com
+1,2354,YE DIGITAL Corporation,IoT,設備投資・機械,100,92,98,主力テーマ,A,ok,direct=internet of things/ iot/iot platform; position=0.02,internet of things |  iot | iot platform,,0.0220,EQUITY,Technology,Information Technology Services,https://www.ye-digital.com
+1,2354,YE DIGITAL Corporation,クラウドコンピューティング,デジタル・サービス,82,74,80,主力テーマ,B,ok,direct=cloud system; position=0.40,cloud system,cloud,0.4047,EQUITY,Technology,Information Technology Services,https://www.ye-digital.com
+1,2354,YE DIGITAL Corporation,サイバーセキュリティ,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.ye-digital.com
+1,2354,YE DIGITAL Corporation,デジタルトランスフォーメーション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.ye-digital.com
+1,2354,YE DIGITAL Corporation,人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.ye-digital.com
+1,2354,YE DIGITAL Corporation,教育ICT,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.ye-digital.com
+1,2359,Core Corporation,IT関連,デジタル・サービス,94,86,92,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology,information technology,cloud service,,EQUITY,Technology,Information Technology Services,https://www.core.co.jp
+1,2359,Core Corporation,IoT,設備投資・機械,87,79,85,主力テーマ,A,ok,direct=internet of things/ iot; position=0.46,internet of things |  iot,,0.4618,EQUITY,Technology,Information Technology Services,https://www.core.co.jp
+1,2359,Core Corporation,エッジコンピューティング,AI・半導体,42,30,38,ノイズ候補,C,needs_review,adjacent=iot,,iot,,EQUITY,Technology,Information Technology Services,https://www.core.co.jp
+1,2359,Core Corporation,クラウドコンピューティング,デジタル・サービス,58,46,54,補助関連,C,needs_review,direct=cloud service; position=0.85,cloud service,cloud,0.8454,EQUITY,Technology,Information Technology Services,https://www.core.co.jp
+1,2359,Core Corporation,マイナンバー,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.core.co.jp
+1,2359,Core Corporation,宇宙開発関連,防衛・国土強靱化,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.core.co.jp
+1,2359,Core Corporation,自動運転車,自動車・モビリティ,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.core.co.jp
+1,2370,"MEDINET Co., Ltd.",バイオテクノロジー関連,医療・ヘルスケア,94,98,95,主力テーマ,A,qa_peripheral,industry=Biotechnology; direct=biotechnology/biotech/biopharmaceutical; position=0.90; growth=development/research,biotechnology | biotech | biopharmaceutical,,0.8992,EQUITY,Healthcare,Biotechnology,https://www.medinet-inc.co.jp
+1,2370,"MEDINET Co., Ltd.",再生医療,医療・ヘルスケア,97,100,98,主力テーマ,A,ok,direct=regenerative medicine/cell therapy; position=0.09; growth=development/research,regenerative medicine | cell therapy,,0.0907,EQUITY,Healthcare,Biotechnology,https://www.medinet-inc.co.jp
+1,2371,"Kakaku.com, Inc.",サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Internet Content & Information,https://corporate.kakaku.com
+1,2371,"Kakaku.com, Inc.",保険,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Internet Content & Information,https://corporate.kakaku.com
+1,2371,"Kakaku.com, Inc.",外食,内需・消費,92,84,90,主力テーマ,A,ok,direct=restaurant; position=0.05,restaurant,,0.0455,EQUITY,Communication Services,Internet Content & Information,https://corporate.kakaku.com
+1,2371,"Kakaku.com, Inc.",旅行,内需・消費,42,30,38,ノイズ候補,C,needs_review,adjacent=travel,,travel,,EQUITY,Communication Services,Internet Content & Information,https://corporate.kakaku.com
+1,2371,"Kakaku.com, Inc.",生活防衛,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Internet Content & Information,https://corporate.kakaku.com
+1,2373,Care Twentyone Corporation,介護関連,医療・ヘルスケア,94,86,92,主力テーマ,A,ok,industry=Medical Care Facilities; direct=nursing care; position=0.46,nursing care,,0.4580,EQUITY,Healthcare,Medical Care Facilities,https://www.care21.co.jp
+1,2375,GiG Works Inc.,IT関連,デジタル・サービス,94,96,95,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology/software development; position=0.40; growth=development,information technology | software development,software | cloud service,0.4047,EQUITY,Technology,Information Technology Services,https://www.gig.co.jp/
+1,2375,GiG Works Inc.,人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.gig.co.jp/
+1,2375,GiG Works Inc.,生成AI,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.gig.co.jp/
+1,2376,Scinex Corporation,eコマース,内需・消費,82,86,83,主力テーマ,B,ok,direct=e-commerce; position=0.47; growth=develops/investment,e-commerce,,0.4682,EQUITY,Communication Services,Publishing,https://www.scinex.co.jp
+1,2376,Scinex Corporation,キャッシュレス決済,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Publishing,https://www.scinex.co.jp
+1,2376,Scinex Corporation,デジタルトランスフォーメーション,デジタル・サービス,92,96,93,主力テーマ,A,ok,direct= dx ; position=0.04; growth=develops/investment, dx ,,0.0424,EQUITY,Communication Services,Publishing,https://www.scinex.co.jp
+1,2376,Scinex Corporation,人工知能,AI・半導体,91,95,92,主力テーマ,A,ok,direct=artificial intelligence/ ai ; position=0.39; growth=develops/investment,artificial intelligence |  ai ,,0.3923,EQUITY,Communication Services,Publishing,https://www.scinex.co.jp
+1,2376,Scinex Corporation,旅行,内需・消費,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Publishing,https://www.scinex.co.jp
+1,2376,Scinex Corporation,生成AI,AI・半導体,46,46,46,補助関連,C,needs_review,adjacent=artificial intelligence/ ai ; growth=develops/investment,,artificial intelligence |  ai ,,EQUITY,Communication Services,Publishing,https://www.scinex.co.jp
+1,2378,"Renaissance,Incorporated",介護関連,医療・ヘルスケア,66,68,67,有力関連,B,qa_borderline,direct=nursing care; position=0.51; growth=develops/development,nursing care,,0.5093,EQUITY,Communication Services,Entertainment,https://www.s-renaissance.co.jp
+1,2379,DIP Corporation,人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Internet Content & Information,https://www.dip-net.co.jp
+1,2384,"SBS Holdings, Inc.",不動産関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Integrated Freight & Logistics,https://www.sbs-group.co.jp
+1,2384,"SBS Holdings, Inc.",物流,物流・海運,97,100,98,主力テーマ,A,ok,industry=Integrated Freight & Logistics; direct=logistics business/logistics services; position=0.01; growth=develops/development,logistics business | logistics services,logistics,0.0147,EQUITY,Industrials,Integrated Freight & Logistics,https://www.sbs-group.co.jp
+1,2384,"SBS Holdings, Inc.",陸運,物流・海運,86,90,87,主力テーマ,A,ok,direct=truck transport; position=0.29; growth=develops/development,truck transport,transportation | delivery,0.2941,EQUITY,Industrials,Integrated Freight & Logistics,https://www.sbs-group.co.jp
+1,2385,Soiken Holdings Inc.,バイオテクノロジー関連,医療・ヘルスケア,94,98,95,主力テーマ,A,ok,industry=Biotechnology; direct=biotechnology/biotech; growth=development/research,biotechnology | biotech,,,EQUITY,Healthcare,Biotechnology,https://www.soiken.com
+1,2388,"Wedge Holdings CO.,LTD.",ゲーム関連,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Conglomerates,https://www.wedge-hd.com
+1,2388,"Wedge Holdings CO.,LTD.",リース,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Conglomerates,https://www.wedge-hd.com
+1,2391,"Planet, Inc.",IT関連,デジタル・サービス,94,86,92,主力テーマ,A,ok,industry=Information Technology Services; direct=information technology,information technology,,,EQUITY,Technology,Information Technology Services,https://www.planet-van.co.jp
+1,2391,"Planet, Inc.",インバウンド,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.planet-van.co.jp
+1,2391,"Planet, Inc.",データベース,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Information Technology Services,https://www.planet-van.co.jp
+1,2393,"Nippon Care Supply Co., Ltd.",介護関連,医療・ヘルスケア,58,46,54,補助関連,C,needs_review,direct=nursing care; position=0.74,nursing care,,0.7445,EQUITY,Industrials,Rental & Leasing Services,https://www.caresupply.co.jp
+1,2395,"Shin Nippon Biomedical Laboratories, Ltd.",バイオテクノロジー関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Diagnostics & Research,https://www.snbl.co.jp
+1,2395,"Shin Nippon Biomedical Laboratories, Ltd.",ホテル,内需・消費,58,60,59,補助関連,C,needs_review,direct=operates hotels; position=0.72; growth=develops/development,operates hotels,hotel | accommodation,0.7244,EQUITY,Healthcare,Diagnostics & Research,https://www.snbl.co.jp
+1,2395,"Shin Nippon Biomedical Laboratories, Ltd.",再生医療,医療・ヘルスケア,86,92,88,主力テーマ,A,ok,direct=regenerative medicine; position=0.33; growth=develops/development,regenerative medicine,,0.3333,EQUITY,Healthcare,Diagnostics & Research,https://www.snbl.co.jp
+1,2395,"Shin Nippon Biomedical Laboratories, Ltd.",創薬,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Diagnostics & Research,https://www.snbl.co.jp
+1,2395,"Shin Nippon Biomedical Laboratories, Ltd.",医薬品関連,医療・ヘルスケア,97,100,98,主力テーマ,A,ok,direct=pharmaceutical/pharma; position=0.09; growth=develops/development,pharmaceutical | pharma,,0.0932,EQUITY,Healthcare,Diagnostics & Research,https://www.snbl.co.jp
+1,2395,"Shin Nippon Biomedical Laboratories, Ltd.",水素,GX・エネルギー,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Diagnostics & Research,https://www.snbl.co.jp
+1,2404,"Tetsujin Holdings, Inc.",外食,内需・消費,92,84,90,主力テーマ,A,ok,direct=restaurant; position=0.08,restaurant,,0.0817,EQUITY,Consumer Cyclical,Lodging,https://www.tetsujin.ne.jp
+1,2408,"KG Intelligence CO., LTD.",住宅関連,不動産・建設,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Publishing,https://www.kg-net.co.jp
+1,2411,Gendai Agency Inc.,不動産関連,不動産・建設,42,44,43,補助関連,C,needs_review,adjacent=real estate; growth=development/research,,real estate,,EQUITY,Communication Services,Advertising Agencies,https://www.gendai-a.co.jp
+1,2413,"M3, Inc.",IT関連,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Health Information Services,https://corporate.m3.com
+1,2413,"M3, Inc.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Health Information Services,https://corporate.m3.com
+1,2413,"M3, Inc.",介護関連,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Health Information Services,https://corporate.m3.com
+1,2413,"M3, Inc.",遠隔医療,医療・ヘルスケア,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Healthcare,Health Information Services,https://corporate.m3.com
+1,2415,"Human Holdings Co., Ltd.",介護関連,医療・ヘルスケア,92,96,93,主力テーマ,A,ok,direct=nursing care; position=0.05; growth=develops/development,nursing care,care services,0.0489,EQUITY,Consumer Defensive,Education & Training Services,https://www.athuman.com
+1,2418,TSUKADA GLOBAL HOLDINGS Inc.,インバウンド,内需・消費,46,44,45,補助関連,C,needs_review_macro,adjacent=hotel/restaurant; growth=development,,hotel | restaurant,,EQUITY,Consumer Cyclical,Personal Services,https://www.tsukada-global.holdings
+1,2418,TSUKADA GLOBAL HOLDINGS Inc.,ホテル,内需・消費,100,100,100,主力テーマ,A,ok,direct=hotel business/operates hotels/hotel management; position=0.14; growth=development,hotel business | operates hotels | hotel management,hotel | accommodation,0.1427,EQUITY,Consumer Cyclical,Personal Services,https://www.tsukada-global.holdings
+1,241A,"ROXX,inc.",サブスクリプション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://roxx.co.jp
+1,241A,"ROXX,inc.",データベース,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://roxx.co.jp
+1,241A,"ROXX,inc.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Application,https://roxx.co.jp
+1,2425,"Care Service Co.,Ltd.",介護関連,医療・ヘルスケア,94,86,92,主力テーマ,A,ok,industry=Medical Care Facilities; direct=nursing care; position=0.33,nursing care,care services,0.3322,EQUITY,Healthcare,Medical Care Facilities,https://www.care.co.jp
+1,2428,Wellnet Corporation,IT関連,デジタル・サービス,90,92,91,主力テーマ,A,ok,industry=Software - Infrastructure; adjacent=software; growth=develops,,software,,EQUITY,Technology,Software - Infrastructure,https://www.wellnet.co.jp
+1,2428,Wellnet Corporation,MaaS,自動車・モビリティ,58,56,57,補助関連,C,needs_review,direct= maas; position=0.86; growth=develops, maas,,0.8555,EQUITY,Technology,Software - Infrastructure,https://www.wellnet.co.jp
+1,2428,Wellnet Corporation,eコマース,内需・消費,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.wellnet.co.jp
+1,2428,Wellnet Corporation,キャッシュレス決済,金融・金利,42,40,41,補助関連,C,needs_review,adjacent=electronic payment; growth=develops,,electronic payment,,EQUITY,Technology,Software - Infrastructure,https://www.wellnet.co.jp
+1,2428,Wellnet Corporation,フィンテック,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Technology,Software - Infrastructure,https://www.wellnet.co.jp
+1,2429,"World Holdings Co., Ltd.",不動産関連,不動産・建設,66,68,67,有力関連,B,qa_borderline,direct=real estate brokerage; position=0.52; growth=development/research,real estate brokerage,real estate,0.5244,EQUITY,Industrials,Staffing & Employment Services,https://www.world-hd.co.jp
+1,2432,"DeNA Co., Ltd.",IT関連,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Conglomerates,https://dena.com/intl/
+1,2432,"DeNA Co., Ltd.",MaaS,自動車・モビリティ,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Conglomerates,https://dena.com/intl/
+1,2432,"DeNA Co., Ltd.",eコマース,内需・消費,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Conglomerates,https://dena.com/intl/
+1,2432,"DeNA Co., Ltd.",フィンテック,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Conglomerates,https://dena.com/intl/
+1,2432,"DeNA Co., Ltd.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Conglomerates,https://dena.com/intl/
+1,2432,"DeNA Co., Ltd.",自動運転車,自動車・モビリティ,66,70,67,有力関連,B,qa_borderline,direct=adas; position=0.53; growth=develops/strategic,adas,,0.5276,EQUITY,Industrials,Conglomerates,https://dena.com/intl/
+1,2432,"DeNA Co., Ltd.",電気自動車関連,自動車・モビリティ,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Industrials,Conglomerates,https://dena.com/intl/
+1,2433,Hakuhodo DY Holdings Inc,クラウドコンピューティング,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://www.hakuhodody-holdings.co.jp
+1,2435,"CEDAR.Co.,Ltd.",介護関連,医療・ヘルスケア,94,86,92,主力テーマ,A,ok,industry=Medical Care Facilities; direct=nursing care; position=0.08,nursing care,care services,0.0811,EQUITY,Healthcare,Medical Care Facilities,https://www.cedar-web.com
+1,2436,"Kyodo Public Relations Co., Ltd.",SaaS,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://www.kyodo-pr.co.jp
+1,2436,"Kyodo Public Relations Co., Ltd.",デジタルトランスフォーメーション,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://www.kyodo-pr.co.jp
+1,2436,"Kyodo Public Relations Co., Ltd.",データ分析・解析,AI・半導体,42,30,38,ノイズ候補,C,needs_review,adjacent=big data,,big data,,EQUITY,Communication Services,Advertising Agencies,https://www.kyodo-pr.co.jp
+1,2436,"Kyodo Public Relations Co., Ltd.",人工知能,AI・半導体,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Advertising Agencies,https://www.kyodo-pr.co.jp
+1,2437,"Shinwa Wise Holdings Co.,Ltd.",再生可能エネルギー,GX・エネルギー,42,30,38,ノイズ候補,C,needs_review,adjacent=solar power,,solar power,,EQUITY,Consumer Cyclical,Personal Services,https://www.shinwa-wise.com
+1,2437,"Shinwa Wise Holdings Co.,Ltd.",太陽光発電関連,GX・エネルギー,66,56,63,有力関連,B,qa_borderline,direct=solar power; position=0.51,solar power,solar,0.5117,EQUITY,Consumer Cyclical,Personal Services,https://www.shinwa-wise.com
+1,2438,"Asukanet Co., Ltd.",フィンテック,金融・金利,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Consumer Cyclical,Personal Services,https://www.asukanet.co.jp
+1,2440,"Gurunavi, Inc.",IT関連,デジタル・サービス,8,5,7,ノイズ候補,C,needs_review,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Internet Content & Information,https://corporate.gnavi.co.jp
+1,2440,"Gurunavi, Inc.",インバウンド,内需・消費,42,40,41,補助関連,C,needs_review_macro,adjacent=restaurant; growth=research,,restaurant,,EQUITY,Communication Services,Internet Content & Information,https://corporate.gnavi.co.jp
+1,2440,"Gurunavi, Inc.",外食,内需・消費,92,94,93,主力テーマ,A,ok,direct=restaurant; position=0.12; growth=research,restaurant,,0.1182,EQUITY,Communication Services,Internet Content & Information,https://corporate.gnavi.co.jp
+1,2440,"Gurunavi, Inc.",生活防衛,内需・消費,8,5,7,ノイズ候補,C,needs_review_macro,事業概要に直接根拠を確認できず,,,,EQUITY,Communication Services,Internet Content & Information,https://corporate.gnavi.co.jp
