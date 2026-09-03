@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import demand_acceleration_3y as study
 
 
+study.THEME_FILE = Path(__file__).resolve().parent / "data" / "theme_members_124.csv"
 _original_load_memberships = study.load_memberships
 
 
