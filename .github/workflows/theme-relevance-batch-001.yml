@@ -8,6 +8,7 @@ on:
     paths:
       - "research/build_theme_relevance_batch.py"
       - "research/collect_theme_relevance_profiles.py"
+      - "research/prepare_theme_relevance_context.py"
       - ".github/workflows/theme-relevance-batch-001.yml"
 
 permissions:
@@ -32,6 +33,8 @@ jobs:
         run: python research/build_theme_relevance_batch.py --batch 1 --size 300
       - name: Collect current company profiles
         run: python research/collect_theme_relevance_profiles.py --batch 1 --workers 4
+      - name: Build compact scoring context
+        run: python research/prepare_theme_relevance_context.py --batch 1
       - name: Commit batch files
         run: |
           git config user.name "github-actions[bot]"
@@ -41,5 +44,6 @@ jobs:
             echo "No changes"
           else
             git commit -m "Collect theme relevance batch 001 profiles"
+            git pull --rebase origin research/first-pullback-watch-prototype
             git push
           fi
