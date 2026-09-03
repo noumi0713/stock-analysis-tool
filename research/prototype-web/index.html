@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>初押し監視プロトタイプ</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111827;background:#f6f7f9}
+body{margin:0}.wrap{max-width:1100px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:18px}.title{font-size:24px;font-weight:800}.sub{font-size:13px;color:#6b7280;margin-top:4px}.badge{font-size:12px;padding:6px 9px;border-radius:999px;background:#fff;border:1px solid #e5e7eb}
+.panel{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:14px;margin-bottom:14px}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}button,input,select{font:inherit}button{border:0;border-radius:10px;padding:9px 12px;background:#111827;color:#fff;font-weight:700}.search{flex:1;min-width:180px;padding:9px 11px;border:1px solid #d1d5db;border-radius:10px}.status{font-size:13px;color:#374151}.warn{background:#fff7ed;border-color:#fed7aa;color:#9a3412}.ok{background:#ecfdf5;border-color:#a7f3d0;color:#065f46}.err{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid #eef0f3;white-space:nowrap}th{font-size:12px;color:#6b7280;background:#fafafa;position:sticky;top:0}.scroll{overflow:auto}.ticker{font-weight:800}.pill{padding:3px 7px;border-radius:999px;background:#f3f4f6;font-size:11px}.num{text-align:right}.muted{color:#6b7280}.detail{display:none}.detail.show{display:block}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.metric{background:#f9fafb;border-radius:10px;padding:10px}.metric b{display:block;font-size:18px}.metric span{font-size:11px;color:#6b7280}.empty{text-align:center;padding:30px;color:#6b7280}.source{font-size:11px;color:#6b7280}.reason{margin-top:8px;font-size:13px;line-height:1.55}
+@media(max-width:700px){.wrap{padding:12px}.top{display:block}.badge{display:inline-block;margin-top:8px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.title{font-size:21px}th,td{padding:9px 6px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><div class="title">初押し監視プロトタイプ</div><div class="sub">実データ接続版 / 本番売買ロジックとは分離</div></div>
+    <div id="asof" class="badge">読込中</div>
+  </div>
+  <div id="notice" class="panel status">GitHubの日次データを確認しています…</div>
+  <div class="panel"><div class="row">
+    <input id="q" class="search" placeholder="銘柄コード・銘柄名で検索" />
+    <select id="type" class="search" style="flex:0 0 190px"><option value="all">すべて</option><option value="first_pullback">上昇トレンド初押し</option><option value="capitulation_reversal">投げ売り反転</option></select>
+    <button id="reload">再読込</button>
+  </div></div>
+  <div class="panel scroll"><table><thead><tr><th>銘柄</th><th>種別</th><th class="num">終値</th><th class="num">RSI</th><th class="num">出来高比</th><th class="num">高値から</th><th class="num">25MA乖離</th><th class="num">順位</th></tr></thead><tbody id="tbody"><tr><td colspan="8" class="empty">読込中…</td></tr></tbody></table></div>
+  <div id="detail" class="panel detail"></div>
+  <div class="source">データ元: GitHub内の日次生成データ。最新データが品質チェックで棄却された場合は、直近の certified スナップショットへ自動フォールバックします。</div>
+</div>
+<script>
+const OWNER='noumi0713', REPO='stock-analysis-tool';
+const RAW='https://raw.githubusercontent.com/'+OWNER+'/'+REPO+'/main/';
+const API='https://api.github.com/repos/'+OWNER+'/'+REPO+'/contents/';
+let rows=[];
+const el=id=>document.getElementById(id);
+const first=(o,ks,d=null)=>{for(const k of ks){if(o&&o[k]!==undefined&&o[k]!==null)return o[k]}return d};
+const n=v=>{const x=Number(v);return Number.isFinite(x)?x:null};
+const pct=v=>{const x=n(v);if(x===null)return '—'; const p=Math.abs(x)<=1?x*100:x; return (p>0?'+':'')+p.toFixed(2)+'%'};
+const num=v=>{const x=n(v);return x===null?'—':x.toLocaleString('ja-JP',{maximumFractionDigits:2})};
+function normalize(s,kind){const f=first(s,['features','technical','metrics'],{})||{};const code=String(first(s,['ticker','symbol','code','stock_code'],'')).replace('.T','');return {raw:s,kind:first(s,['signal_type','strategy','type'],kind),code,name:first(s,['name','stock_name','company_name'],''),close:first(s,['close','price','last_price'],first(f,['close'])),rsi:first(s,['rsi','rsi14'],first(f,['rsi','rsi14'])),vol:first(s,['volume_ratio_1_20','volume_ratio','volume_ratio_20'],first(f,['volume_ratio_1_20','volume_ratio'])),dd:first(s,['drawdown_from_20d_high','drawdown','distance_from_high'],first(f,['drawdown_from_20d_high'])),ma25d:first(s,['distance_from_ma25','ma25_distance'],first(f,['distance_from_ma25'])),rank:first(s,['rank','ranking','signal_rank'],first(f,['rank']))}}
+async function j(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error(r.status+' '+url);return r.json()}
+async function certifiedFallback(){const dirs=await j(API+'dashboard-data/production-snapshots?ref=main');const dates=dirs.filter(x=>x.type==='dir').map(x=>x.name).sort().reverse();for(const d of dates){try{const x=await j(RAW+'dashboard-data/production-snapshots/'+d+'/latest_signals.json');if(x?.data_quality?.status==='certified')return {data:x,date:d}}catch(e){}}throw new Error('certified snapshot not found')}
+function collect(x){const out=[];const buckets=[['signals',null],['pullback_signals','first_pullback'],['capitulation_signals','capitulation_reversal'],['near_misses','near_miss']];for(const [key,kind] of buckets){if(Array.isArray(x[key]))for(const s of x[key])out.push(normalize(s,kind))}const seen=new Set();return out.filter(r=>{const k=r.code+'|'+r.kind;if(seen.has(k))return false;seen.add(k);return true})}
+async function load(){el('notice').className='panel status';el('notice').textContent='GitHubの日次データを確認しています…';try{let x=await j(RAW+'dashboard-data/latest_signals.json'),fallback=false,d=x.latest_date||x.date;if(x?.data_quality?.status!=='certified'){const fb=await certifiedFallback();x=fb.data;fallback=true;d=fb.date}rows=collect(x);el('asof').textContent='基準日 '+d;el('notice').className='panel status '+(fallback?'warn':'ok');el('notice').innerHTML=fallback?'<b>最新データは品質チェック不合格。</b> 直近の認証済みデータ '+d+' を表示しています。':'<b>認証済み実データを表示中。</b> 基準日 '+d+'。';render()}catch(e){el('notice').className='panel status err';el('notice').textContent='実データ読込に失敗: '+e.message;el('tbody').innerHTML='<tr><td colspan="8" class="empty">データを取得できませんでした</td></tr>'}}
+function kindLabel(k){return k==='first_pullback'?'初押し':k==='capitulation_reversal'?'投げ売り反転':k==='near_miss'?'惜しい候補':(k||'シグナル')}
+function render(){const q=el('q').value.trim().toLowerCase(),t=el('type').value;const rs=rows.filter(r=>(t==='all'||r.kind===t)&&(!q||(r.code+' '+r.name).toLowerCase().includes(q)));el('tbody').innerHTML=rs.length?rs.map(r=>`<tr data-i="${rows.indexOf(r)}"><td><span class="ticker">${r.code||'—'}</span><br><span class="muted">${r.name||''}</span></td><td><span class="pill">${kindLabel(r.kind)}</span></td><td class="num">${num(r.close)}</td><td class="num">${num(r.rsi)}</td><td class="num">${r.vol==null?'—':num(r.vol)+'x'}</td><td class="num">${pct(r.dd)}</td><td class="num">${pct(r.ma25d)}</td><td class="num">${num(r.rank)}</td></tr>`).join(''):'<tr><td colspan="8" class="empty">該当銘柄なし</td></tr>';document.querySelectorAll('#tbody tr[data-i]').forEach(tr=>tr.onclick=()=>show(rows[Number(tr.dataset.i)]))}
+function show(r){const d=el('detail');d.classList.add('show');const caution=(r.rsi!=null&&Number(r.rsi)>=70)||(r.dd!=null&&Number(r.dd)>-0.02)||(r.ma25d!=null&&Number(r.ma25d)>0.08);d.innerHTML=`<div class="row" style="justify-content:space-between"><div><div class="ticker" style="font-size:20px">${r.code} ${r.name||''}</div><div class="muted">${kindLabel(r.kind)} / 実データ</div></div><span class="pill">${caution?'過熱警戒':'要分析'}</span></div><div class="grid" style="margin-top:12px"><div class="metric"><b>${num(r.close)}</b><span>終値</span></div><div class="metric"><b>${num(r.rsi)}</b><span>RSI14</span></div><div class="metric"><b>${r.vol==null?'—':num(r.vol)+'x'}</b><span>出来高比</span></div><div class="metric"><b>${pct(r.dd)}</b><span>20日高値から</span></div></div><div class="reason"><b>暫定テクニカル判定</b><br>${caution?'現時点では追いかけ買いを避け、初押し待ちとして監視する側に寄せます。':'過熱だけでは除外しません。材料・テーマ・アクセス急増データを接続後に最終判定します。'}</div><details style="margin-top:12px"><summary>取得した生データ</summary><pre style="white-space:pre-wrap;font-size:11px">${escapeHtml(JSON.stringify(r.raw,null,2))}</pre></details>`;d.scrollIntoView({behavior:'smooth',block:'nearest'})}
+function escapeHtml(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+el('q').addEventListener('input',render);el('type').addEventListener('change',render);el('reload').onclick=load;load();
+</script>
+</body></html>
