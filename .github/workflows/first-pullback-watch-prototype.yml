@@ -9,7 +9,11 @@ on:
       - "research/first_pullback_watch_prototype.py"
       - "research/first_pullback_watch_ui.py"
       - "research/first_pullback_watch_prototype.md"
+      - "research/build_theme_relevance_batch.py"
       - ".github/workflows/first-pullback-watch-prototype.yml"
+
+permissions:
+  contents: write
 
 jobs:
   prototype-check:
@@ -31,15 +35,20 @@ jobs:
       - name: Check UI syntax
         run: python -m py_compile research/first_pullback_watch_ui.py
 
-      - name: Extract IFIS top10 theme memberships
-        shell: python
+      - name: Fetch 124-theme source branch
+        run: git fetch origin research/volume-top100-overheat:refs/remotes/origin/research/volume-top100-overheat
+
+      - name: Build first 300-stock relevance batch
+        run: python research/build_theme_relevance_batch.py --batch 1 --size 300
+
+      - name: Commit generated batch files
         run: |
-          import csv, io, subprocess
-          codes = {"1848","5273","6993","7523","5817","6543","9082","7066","4809","3094"}
-          subprocess.check_call(["git","fetch","origin","research/volume-top100-overheat:refs/remotes/origin/research/volume-top100-overheat"])
-          raw = subprocess.check_output(["git","show","origin/research/volume-top100-overheat:research/data/theme_members_124.csv"], text=True)
-          rows = [r for r in csv.DictReader(io.StringIO(raw)) if str(r.get("code", "")) in codes]
-          print("CODE\tNAME\tTHEME\tCLUSTER")
-          for r in sorted(rows, key=lambda x:(x["code"], x["theme"])):
-              print(f'{r["code"]}\t{r["name"]}\t{r["theme"]}\t{r["cluster"]}')
-          print("MISSING\t" + ",".join(sorted(codes - {r["code"] for r in rows})))
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/theme_relevance_batches/batch_001_*.csv
+          if git diff --cached --quiet; then
+            echo "No batch changes"
+          else
+            git commit -m "Generate theme relevance batch 001"
+            git push
+          fi
