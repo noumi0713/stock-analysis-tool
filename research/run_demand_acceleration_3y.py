@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+from collections import defaultdict
 from pathlib import Path
 
 import demand_acceleration_3y as study
@@ -21,5 +23,21 @@ def load_memberships_normalized():
     return normalized
 
 
+def load_bars_merged():
+    manifest = json.loads((study.DATA_DIR / "manifest.json").read_text(encoding="utf-8"))
+    merged = defaultdict(list)
+    for shard in manifest["shards"]:
+        payload = json.loads((study.DATA_DIR / shard["path"]).read_text(encoding="utf-8"))
+        for ticker, bars in payload["bars"].items():
+            merged[ticker].extend(bars)
+
+    all_bars = {}
+    for ticker, bars in merged.items():
+        dedup = {int(bar[0]): bar for bar in bars}
+        all_bars[ticker] = [dedup[idx] for idx in sorted(dedup)]
+    return manifest, all_bars
+
+
 study.load_memberships = load_memberships_normalized
+study.load_bars = load_bars_merged
 study.main()
