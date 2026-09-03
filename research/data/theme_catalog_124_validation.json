@@ -1,16 +1,16 @@
 {
   "catalog_theme_count": 124,
   "cluster_count": 13,
-  "resolved_theme_count": 117,
-  "unresolved_theme_count": 7,
-  "unique_member_stock_count": 3271,
-  "total_membership_rows": 10474,
-  "unique_3y_eligible_stock_count": 3158,
-  "total_3y_eligible_membership_rows": 10245,
-  "ranking_eligible_theme_count": 116,
-  "themes_with_fewer_than_5_eligible_members": 1,
-  "catalog_ready": false,
-  "strict_ready": false,
+  "resolved_theme_count": 124,
+  "unresolved_theme_count": 0,
+  "unique_member_stock_count": 3298,
+  "total_membership_rows": 10870,
+  "unique_3y_eligible_stock_count": 3183,
+  "total_3y_eligible_membership_rows": 10634,
+  "ranking_eligible_theme_count": 124,
+  "themes_with_fewer_than_5_eligible_members": 0,
+  "catalog_ready": true,
+  "strict_ready": true,
   "cluster_summary": {
     "AI・半導体": {
       "catalog_themes": 12,
@@ -36,37 +36,37 @@
     "データセンター・電力": {
       "catalog_themes": 9,
       "resolved_themes": 9,
-      "ranking_eligible_themes": 8,
-      "membership_rows": 416,
-      "eligible_membership_rows": 409
+      "ranking_eligible_themes": 9,
+      "membership_rows": 439,
+      "eligible_membership_rows": 431
     },
     "不動産・建設": {
       "catalog_themes": 8,
-      "resolved_themes": 7,
-      "ranking_eligible_themes": 7,
-      "membership_rows": 714,
-      "eligible_membership_rows": 676
+      "resolved_themes": 8,
+      "ranking_eligible_themes": 8,
+      "membership_rows": 738,
+      "eligible_membership_rows": 699
     },
     "内需・消費": {
       "catalog_themes": 10,
-      "resolved_themes": 9,
-      "ranking_eligible_themes": 9,
-      "membership_rows": 1119,
-      "eligible_membership_rows": 1093
+      "resolved_themes": 10,
+      "ranking_eligible_themes": 10,
+      "membership_rows": 1187,
+      "eligible_membership_rows": 1159
     },
     "医療・ヘルスケア": {
       "catalog_themes": 9,
-      "resolved_themes": 8,
-      "ranking_eligible_themes": 8,
-      "membership_rows": 660,
-      "eligible_membership_rows": 651
+      "resolved_themes": 9,
+      "ranking_eligible_themes": 9,
+      "membership_rows": 680,
+      "eligible_membership_rows": 671
     },
     "物流・海運": {
       "catalog_themes": 8,
-      "resolved_themes": 7,
-      "ranking_eligible_themes": 7,
-      "membership_rows": 413,
-      "eligible_membership_rows": 387
+      "resolved_themes": 8,
+      "ranking_eligible_themes": 8,
+      "membership_rows": 436,
+      "eligible_membership_rows": 408
     },
     "自動車・モビリティ": {
       "catalog_themes": 10,
@@ -77,10 +77,10 @@
     },
     "設備投資・機械": {
       "catalog_themes": 9,
-      "resolved_themes": 6,
-      "ranking_eligible_themes": 6,
-      "membership_rows": 556,
-      "eligible_membership_rows": 543
+      "resolved_themes": 9,
+      "ranking_eligible_themes": 9,
+      "membership_rows": 794,
+      "eligible_membership_rows": 780
     },
     "資源・素材": {
       "catalog_themes": 10,
@@ -104,122 +104,8 @@
       "eligible_membership_rows": 799
     }
   },
-  "unresolved": [
-    {
-      "theme_name": "協働ロボット",
-      "cluster": "設備投資・機械",
-      "kabutan_name": "協働ロボット",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E5%8D%94%E5%83%8D%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E5%8D%94%E5%83%8D%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all&page=1"
-    },
-    {
-      "theme_name": "スマートファクトリー",
-      "cluster": "設備投資・機械",
-      "kabutan_name": "スマートファクトリー",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC/?market=all&page=1"
-    },
-    {
-      "theme_name": "物流DX",
-      "cluster": "設備投資・機械",
-      "kabutan_name": "物流DX",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81DX/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81DX/?market=all&page=1"
-    },
-    {
-      "theme_name": "値上げ関連",
-      "cluster": "内需・消費",
-      "kabutan_name": "値上げ関連",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E5%80%A4%E4%B8%8A%E3%81%92%E9%96%A2%E9%80%A3/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E5%80%A4%E4%B8%8A%E3%81%92%E9%96%A2%E9%80%A3/?market=all&page=1"
-    },
-    {
-      "theme_name": "ヘルスケア",
-      "cluster": "医療・ヘルスケア",
-      "kabutan_name": "ヘルスケア",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E3%83%98%E3%83%AB%E3%82%B9%E3%82%B1%E3%82%A2/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E3%83%98%E3%83%AB%E3%82%B9%E3%82%B1%E3%82%A2/?market=all&page=1"
-    },
-    {
-      "theme_name": "物流施設関連",
-      "cluster": "不動産・建設",
-      "kabutan_name": "物流施設関連",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81%E6%96%BD%E8%A8%AD%E9%96%A2%E9%80%A3/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81%E6%96%BD%E8%A8%AD%E9%96%A2%E9%80%A3/?market=all&page=1"
-    },
-    {
-      "theme_name": "港湾関連",
-      "cluster": "物流・海運",
-      "kabutan_name": "港湾関連",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E6%B8%AF%E6%B9%BE%E9%96%A2%E9%80%A3/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E6%B8%AF%E6%B9%BE%E9%96%A2%E9%80%A3/?market=all&page=1"
-    }
-  ],
-  "thin_themes": [
-    {
-      "theme_name": "スーパーコンピューター",
-      "cluster": "データセンター・電力",
-      "kabutan_name": "スーパーコンピューター",
-      "resolved": true,
-      "member_count": 2,
-      "eligible_3y_member_count": 2,
-      "url": "https://s.kabutan.jp/themes/%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%83%BC/?market=all",
-      "http_status": 200,
-      "page_heading": "スーパーコンピューター",
-      "heading_match": true,
-      "page_count": 1,
-      "error": null
-    }
-  ],
+  "unresolved": [],
+  "thin_themes": [],
   "themes": [
     {
       "theme_name": "半導体",
@@ -404,17 +290,17 @@
       "error": null
     },
     {
-      "theme_name": "スーパーコンピューター",
+      "theme_name": "電力会社",
       "cluster": "データセンター・電力",
-      "kabutan_name": "スーパーコンピューター",
+      "kabutan_name": "電力会社",
       "resolved": true,
-      "member_count": 2,
-      "eligible_3y_member_count": 2,
-      "url": "https://s.kabutan.jp/themes/%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%83%BC/?market=all",
+      "member_count": 25,
+      "eligible_3y_member_count": 24,
+      "url": "https://s.kabutan.jp/themes/%E9%9B%BB%E5%8A%9B%E4%BC%9A%E7%A4%BE/?market=all",
       "http_status": 200,
-      "page_heading": "スーパーコンピューター",
+      "page_heading": "電力会社",
       "heading_match": true,
-      "page_count": 1,
+      "page_count": 2,
       "error": null
     },
     {
@@ -950,18 +836,18 @@
       "error": null
     },
     {
-      "theme_name": "協働ロボット",
+      "theme_name": "サービスロボット",
       "cluster": "設備投資・機械",
-      "kabutan_name": "協働ロボット",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E5%8D%94%E5%83%8D%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E5%8D%94%E5%83%8D%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all&page=1"
+      "kabutan_name": "サービスロボット",
+      "resolved": true,
+      "member_count": 37,
+      "eligible_3y_member_count": 37,
+      "url": "https://s.kabutan.jp/themes/%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all",
+      "http_status": 200,
+      "page_heading": "サービスロボット",
+      "heading_match": true,
+      "page_count": 2,
+      "error": null
     },
     {
       "theme_name": "建設機械",
@@ -978,18 +864,18 @@
       "error": null
     },
     {
-      "theme_name": "スマートファクトリー",
+      "theme_name": "IoT",
       "cluster": "設備投資・機械",
-      "kabutan_name": "スマートファクトリー",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC/?market=all&page=1"
+      "kabutan_name": "IoT",
+      "resolved": true,
+      "member_count": 188,
+      "eligible_3y_member_count": 188,
+      "url": "https://s.kabutan.jp/themes/IoT/?market=all",
+      "http_status": 200,
+      "page_heading": "IoT",
+      "heading_match": true,
+      "page_count": 10,
+      "error": null
     },
     {
       "theme_name": "設備投資",
@@ -1006,18 +892,18 @@
       "error": null
     },
     {
-      "theme_name": "物流DX",
+      "theme_name": "物流テック",
       "cluster": "設備投資・機械",
-      "kabutan_name": "物流DX",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81DX/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81DX/?market=all&page=1"
+      "kabutan_name": "物流テック",
+      "resolved": true,
+      "member_count": 13,
+      "eligible_3y_member_count": 12,
+      "url": "https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81%E3%83%86%E3%83%83%E3%82%AF/?market=all",
+      "http_status": 200,
+      "page_heading": "物流テック",
+      "heading_match": true,
+      "page_count": 1,
+      "error": null
     },
     {
       "theme_name": "3Dプリンター",
@@ -1440,18 +1326,18 @@
       "error": null
     },
     {
-      "theme_name": "値上げ関連",
+      "theme_name": "生活防衛",
       "cluster": "内需・消費",
-      "kabutan_name": "値上げ関連",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E5%80%A4%E4%B8%8A%E3%81%92%E9%96%A2%E9%80%A3/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E5%80%A4%E4%B8%8A%E3%81%92%E9%96%A2%E9%80%A3/?market=all&page=1"
+      "kabutan_name": "生活防衛",
+      "resolved": true,
+      "member_count": 68,
+      "eligible_3y_member_count": 66,
+      "url": "https://s.kabutan.jp/themes/%E7%94%9F%E6%B4%BB%E9%98%B2%E8%A1%9B/?market=all",
+      "http_status": 200,
+      "page_heading": "生活防衛",
+      "heading_match": true,
+      "page_count": 4,
+      "error": null
     },
     {
       "theme_name": "eコマース",
@@ -1538,18 +1424,18 @@
       "error": null
     },
     {
-      "theme_name": "ヘルスケア",
+      "theme_name": "ホームヘルスケア",
       "cluster": "医療・ヘルスケア",
-      "kabutan_name": "ヘルスケア",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E3%83%98%E3%83%AB%E3%82%B9%E3%82%B1%E3%82%A2/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E3%83%98%E3%83%AB%E3%82%B9%E3%82%B1%E3%82%A2/?market=all&page=1"
+      "kabutan_name": "ホームヘルスケア",
+      "resolved": true,
+      "member_count": 20,
+      "eligible_3y_member_count": 20,
+      "url": "https://s.kabutan.jp/themes/%E3%83%9B%E3%83%BC%E3%83%A0%E3%83%98%E3%83%AB%E3%82%B9%E3%82%B1%E3%82%A2/?market=all",
+      "http_status": 200,
+      "page_heading": "ホームヘルスケア",
+      "heading_match": true,
+      "page_count": 1,
+      "error": null
     },
     {
       "theme_name": "介護関連",
@@ -1664,18 +1550,18 @@
       "error": null
     },
     {
-      "theme_name": "物流施設関連",
+      "theme_name": "不動産ファンド",
       "cluster": "不動産・建設",
-      "kabutan_name": "物流施設関連",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81%E6%96%BD%E8%A8%AD%E9%96%A2%E9%80%A3/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81%E6%96%BD%E8%A8%AD%E9%96%A2%E9%80%A3/?market=all&page=1"
+      "kabutan_name": "不動産ファンド",
+      "resolved": true,
+      "member_count": 24,
+      "eligible_3y_member_count": 23,
+      "url": "https://s.kabutan.jp/themes/%E4%B8%8D%E5%8B%95%E7%94%A3%E3%83%95%E3%82%A1%E3%83%B3%E3%83%89/?market=all",
+      "http_status": 200,
+      "page_heading": "不動産ファンド",
+      "heading_match": true,
+      "page_count": 2,
+      "error": null
     },
     {
       "theme_name": "再開発",
@@ -1790,18 +1676,18 @@
       "error": null
     },
     {
-      "theme_name": "港湾関連",
+      "theme_name": "港湾運送",
       "cluster": "物流・海運",
-      "kabutan_name": "港湾関連",
-      "resolved": false,
-      "member_count": 0,
-      "eligible_3y_member_count": 0,
-      "url": "https://s.kabutan.jp/themes/%E6%B8%AF%E6%B9%BE%E9%96%A2%E9%80%A3/?market=all",
-      "http_status": 404,
-      "page_heading": null,
-      "heading_match": false,
-      "page_count": 0,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E6%B8%AF%E6%B9%BE%E9%96%A2%E9%80%A3/?market=all&page=1"
+      "kabutan_name": "港湾運送",
+      "resolved": true,
+      "member_count": 23,
+      "eligible_3y_member_count": 21,
+      "url": "https://s.kabutan.jp/themes/%E6%B8%AF%E6%B9%BE%E9%81%8B%E9%80%81/?market=all",
+      "http_status": 200,
+      "page_heading": "港湾運送",
+      "heading_match": true,
+      "page_count": 2,
+      "error": null
     },
     {
       "theme_name": "宅配",
