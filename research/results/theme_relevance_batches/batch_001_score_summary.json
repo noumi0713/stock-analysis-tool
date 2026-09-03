@@ -1,0 +1,24 @@
+{
+  "batch": 1,
+  "stocks": 300,
+  "stock_theme_pairs": 955,
+  "band_counts": {
+    "ノイズ候補": 433,
+    "主力テーマ": 223,
+    "補助関連": 136,
+    "有力関連": 163
+  },
+  "confidence_counts": {
+    "C": 561,
+    "A": 138,
+    "B": 256
+  },
+  "review_counts": {
+    "needs_review_macro": 19,
+    "ok": 215,
+    "needs_review": 713,
+    "non_operating_security": 8
+  },
+  "scoring": "0.70*current_business + 0.30*growth_relevance",
+  "note": "Automated first-pass. needs_review rows require manual/official-IR QA before production use."
+}
