@@ -1,0 +1,35 @@
+name: Theme weekly rotation 14-theme 3Y
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/theme-weekly-rotation-3y
+    paths:
+      - "research/theme_weekly_rotation_14theme_3y.py"
+      - ".github/workflows/theme-weekly-rotation-14theme-3y.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Run provisional three-year study
+        run: python research/theme_weekly_rotation_14theme_3y.py
+      - name: Publish results
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/theme_weekly_rotation_14theme_3y/
+          git commit -m "Add provisional 14-theme 3y rotation results" || exit 0
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
