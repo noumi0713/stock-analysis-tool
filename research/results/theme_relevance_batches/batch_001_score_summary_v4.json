@@ -1,0 +1,23 @@
+{
+  "batch": 1,
+  "stock_theme_pairs": 955,
+  "revenue_share_known_pairs": 139,
+  "revenue_share_unknown_pairs": 816,
+  "band_counts": {
+    "未確定": 819,
+    "補助関連": 36,
+    "有力関連": 21,
+    "主力テーマ": 67,
+    "ノイズ候補": 12
+  },
+  "review_counts": {
+    "macro_sensitivity_required": 19,
+    "revenue_share_candidate_qa": 136,
+    "non_operating_security": 8,
+    "revenue_share_unknown": 792
+  },
+  "formula": "55% revenue exposure + 30% business directness + 15% growth relevance",
+  "exposure_mapping": "80%+ revenue share => 100 exposure score; linear below 80%",
+  "status": "research_provisional_v4",
+  "warning": "No missing revenue ratio is imputed. Candidate ratios require source/arithmetic QA before production use."
+}

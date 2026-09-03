@@ -1,0 +1,12 @@
+{
+  "batch": 1,
+  "stocks": 300,
+  "stock_theme_pairs": 955,
+  "status_counts": {
+    "unknown": 808,
+    "verified_candidate": 139,
+    "non_operating_security": 8
+  },
+  "rule": "company website -> IR HTML/PDF -> explicit share or same-document calculation; otherwise unknown",
+  "warning": "verified_candidate is still an extraction candidate and must pass arithmetic/source QA before scoring as final."
+}
