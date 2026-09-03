@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "data_start": "2023-08-21",
+    "data_end": "2026-08-21",
+    "stock_count": 3707,
+    "eligible_theme_mapped_tickers": 0,
+    "theme_membership_mode": "current_124_theme_snapshot_applied_historically",
+    "quality_fundamental_filter": "NOT_APPLIED: point-in-time historical fundamentals are not stored; applying current fundamentals would create look-ahead bias",
+    "signal_timing": "features known at signal-day close; entry at next trading day's open",
+    "cooldown_trading_days_per_ticker_per_strategy": 20,
+    "min_price_yen": 100.0,
+    "min_average_turnover20_yen": 120000000.0,
+    "main_definition": "score>=60, score_5d_ago<=50, score_delta>=15, overheat_penalty<=20",
+    "score_definition": "100-point fixed demand score using turnover acceleration, volume acceleration, up/down volume asymmetry, close location, moderate 5d return, cross-sectional relative strength, 124-theme strength percentile, 20d-high proximity, and rising 20d trend"
+  },
+  "baseline": {},
+  "strategies": {},
+  "yearly_main_20d": {},
+  "main_20d_score_buckets": {},
+  "main_20d_delta_buckets": {}
+}
