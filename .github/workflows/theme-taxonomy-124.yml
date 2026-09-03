@@ -10,6 +10,10 @@ on:
       - research/build_theme_members_124.py
       - .github/workflows/theme-taxonomy-124.yml
 
+concurrency:
+  group: theme-taxonomy-124-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -33,7 +37,7 @@ jobs:
         run: python -m pip install --disable-pip-version-check requests beautifulsoup4
 
       - name: Build and validate 124-theme memberships
-        run: python research/build_theme_members_124.py --delay 0.10
+        run: python research/build_theme_members_124.py --delay 0.10 --strict
 
       - name: Publish research outputs
         run: |
