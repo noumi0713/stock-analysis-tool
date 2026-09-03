@@ -1,23 +1,25 @@
 {
   "batch": 1,
   "stock_theme_pairs": 955,
-  "revenue_share_known_pairs": 139,
-  "revenue_share_unknown_pairs": 816,
+  "explicit_ratio_candidates": 20,
+  "calculated_ratio_candidates": 99,
+  "unresolved_pairs": 935,
   "band_counts": {
-    "未確定": 819,
-    "補助関連": 36,
-    "有力関連": 21,
-    "主力テーマ": 67,
-    "ノイズ候補": 12
+    "未確定": 936,
+    "有力関連": 5,
+    "主力テーマ": 4,
+    "補助関連": 9,
+    "ノイズ候補": 1
   },
   "review_counts": {
     "macro_sensitivity_required": 19,
-    "revenue_share_candidate_qa": 136,
+    "revenue_share_unknown": 812,
     "non_operating_security": 8,
-    "revenue_share_unknown": 792
+    "calculated_ratio_needs_qa": 97,
+    "explicit_ratio_needs_qa": 19
   },
-  "formula": "55% revenue exposure + 30% business directness + 15% growth relevance",
+  "formula_after_qa": "55% revenue exposure + 30% business directness + 15% growth relevance",
   "exposure_mapping": "80%+ revenue share => 100 exposure score; linear below 80%",
   "status": "research_provisional_v4",
-  "warning": "No missing revenue ratio is imputed. Candidate ratios require source/arithmetic QA before production use."
+  "warning": "No missing revenue ratio is imputed. Calculated ratios remain unscored until QA; explicit ratios are candidate scores until source verification."
 }

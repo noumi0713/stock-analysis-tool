@@ -3,10 +3,11 @@
   "stocks": 300,
   "stock_theme_pairs": 955,
   "status_counts": {
-    "unknown": 808,
-    "verified_candidate": 139,
-    "non_operating_security": 8
+    "unknown": 828,
+    "non_operating_security": 8,
+    "calculated_ratio_candidate": 99,
+    "explicit_ratio_candidate": 20
   },
-  "rule": "company website -> IR HTML/PDF -> explicit share or same-document calculation; otherwise unknown",
-  "warning": "verified_candidate is still an extraction candidate and must pass arithmetic/source QA before scoring as final."
+  "rule": "company website -> IR HTML/PDF -> explicit share; same-snippet calculation only as QA candidate; otherwise unknown",
+  "warning": "No missing ratio is imputed. Explicit and calculated candidates still require source/arithmetic QA before final scoring."
 }
