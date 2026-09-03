@@ -20,12 +20,17 @@ jobs:
       - name: Extract memberships
         shell: python
         run: |
-          import csv, io, subprocess
-          codes = {"1848","5273","6993","7523","5817","6543","9082","7066","4809","3094"}
+          import csv, io, subprocess, re
+          wanted = {"1848","5273","6993","7523","5817","6543","9082","7066","4809","3094"}
           raw = subprocess.check_output(["git","show","origin/research/volume-top100-overheat:research/data/theme_members_124.csv"], text=True)
-          rows = [r for r in csv.DictReader(io.StringIO(raw)) if str(r.get("code", "")) in codes]
+          parsed = list(csv.DictReader(io.StringIO(raw)))
+          def norm(v):
+              m = re.search(r"(\d{4})", str(v or ""))
+              return m.group(1) if m else ""
+          print("SAMPLE_CODES\t" + ",".join(str(r.get("code","")) for r in parsed[:8]))
+          rows = [(norm(r.get("code")), r) for r in parsed if norm(r.get("code")) in wanted]
           print("CODE\tNAME\tTHEME\tCLUSTER")
-          for r in sorted(rows, key=lambda x:(x["code"], x["theme"])):
-              print(f'{r["code"]}\t{r["name"]}\t{r["theme"]}\t{r["cluster"]}')
-          missing = sorted(codes - {r["code"] for r in rows})
-          print("MISSING\t" + ",".join(missing))
+          for code,r in sorted(rows, key=lambda x:(x[0], x[1]["theme"])):
+              print(f'{code}\t{r["name"]}\t{r["theme"]}\t{r["cluster"]}')
+          found = {code for code,_ in rows}
+          print("MISSING\t" + ",".join(sorted(wanted-found)))
