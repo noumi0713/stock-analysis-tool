@@ -1,0 +1,225 @@
+{
+  "meta": {
+    "data_start": "2023-08-21",
+    "data_end": "2026-08-21",
+    "stock_count": 3707,
+    "top_n_daily_volume_change": 100,
+    "volume_change_definition": "today_volume / previous_trading_day_volume - 1",
+    "signal_timing": "rank and features known at signal-day close; entry next trading day open",
+    "min_price_yen": 100.0,
+    "min_average_turnover20_yen": 120000000.0,
+    "main_rule": "daily volume-change top100; overheat<=30; 0<ret1<=5%; close_location>=0.55; confirmation>=18; choose up to 5 lowest-overheat candidates",
+    "overheat_priority": "70% of signal score is inverse overheat risk; demand confirmation is secondary",
+    "average_ranked_candidates_per_day": 99.9
+  },
+  "strategies": {
+    "main_top5": {
+      "5": {
+        "n": 3411,
+        "mean_pct": 0.1451,
+        "median_pct": 0.0541,
+        "win_rate_pct": 50.28
+      },
+      "10": {
+        "n": 3411,
+        "mean_pct": 0.6578,
+        "median_pct": 0.2672,
+        "win_rate_pct": 52.01
+      },
+      "20": {
+        "n": 3411,
+        "mean_pct": 1.3517,
+        "median_pct": 0.7535,
+        "win_rate_pct": 54.38
+      }
+    },
+    "overheat_le_20": {
+      "5": {
+        "n": 52661,
+        "mean_pct": 0.1936,
+        "median_pct": 0.0,
+        "win_rate_pct": 49.98
+      },
+      "10": {
+        "n": 52661,
+        "mean_pct": 0.5146,
+        "median_pct": 0.1931,
+        "win_rate_pct": 51.09
+      },
+      "20": {
+        "n": 52661,
+        "mean_pct": 1.287,
+        "median_pct": 0.6337,
+        "win_rate_pct": 52.94
+      }
+    },
+    "overheat_le_30": {
+      "5": {
+        "n": 57680,
+        "mean_pct": 0.1622,
+        "median_pct": 0.0,
+        "win_rate_pct": 49.54
+      },
+      "10": {
+        "n": 57680,
+        "mean_pct": 0.4639,
+        "median_pct": 0.1408,
+        "win_rate_pct": 50.69
+      },
+      "20": {
+        "n": 57680,
+        "mean_pct": 1.2415,
+        "median_pct": 0.5684,
+        "win_rate_pct": 52.53
+      }
+    },
+    "overheat_le_40": {
+      "5": {
+        "n": 61115,
+        "mean_pct": 0.1576,
+        "median_pct": 0.0,
+        "win_rate_pct": 49.32
+      },
+      "10": {
+        "n": 61115,
+        "mean_pct": 0.4526,
+        "median_pct": 0.1194,
+        "win_rate_pct": 50.52
+      },
+      "20": {
+        "n": 61115,
+        "mean_pct": 1.2286,
+        "median_pct": 0.5196,
+        "win_rate_pct": 52.26
+      }
+    },
+    "top100_all": {
+      "5": {
+        "n": 69331,
+        "mean_pct": 0.0671,
+        "median_pct": -0.0973,
+        "win_rate_pct": 48.52
+      },
+      "10": {
+        "n": 69331,
+        "mean_pct": 0.3579,
+        "median_pct": 0.0,
+        "win_rate_pct": 49.54
+      },
+      "20": {
+        "n": 69331,
+        "mean_pct": 1.0317,
+        "median_pct": 0.2901,
+        "win_rate_pct": 51.14
+      }
+    }
+  },
+  "overheat_buckets_within_top100": {
+    "0-19": {
+      "5": {
+        "n": 49039,
+        "mean_pct": 0.1836,
+        "median_pct": 0.0357,
+        "win_rate_pct": 50.09
+      },
+      "10": {
+        "n": 49039,
+        "mean_pct": 0.5222,
+        "median_pct": 0.2111,
+        "win_rate_pct": 51.26
+      },
+      "20": {
+        "n": 49039,
+        "mean_pct": 1.3037,
+        "median_pct": 0.6676,
+        "win_rate_pct": 53.16
+      }
+    },
+    "20-39": {
+      "5": {
+        "n": 10553,
+        "mean_pct": 0.0795,
+        "median_pct": -0.3985,
+        "win_rate_pct": 46.27
+      },
+      "10": {
+        "n": 10553,
+        "mean_pct": 0.2046,
+        "median_pct": -0.3317,
+        "win_rate_pct": 47.82
+      },
+      "20": {
+        "n": 10553,
+        "mean_pct": 0.9466,
+        "median_pct": -0.2091,
+        "win_rate_pct": 49.02
+      }
+    },
+    "40-59": {
+      "5": {
+        "n": 4951,
+        "mean_pct": -0.3219,
+        "median_pct": -0.8772,
+        "win_rate_pct": 44.58
+      },
+      "10": {
+        "n": 4951,
+        "mean_pct": -0.1311,
+        "median_pct": -0.9804,
+        "win_rate_pct": 45.32
+      },
+      "20": {
+        "n": 4951,
+        "mean_pct": 0.4206,
+        "median_pct": -1.4318,
+        "win_rate_pct": 45.45
+      }
+    },
+    "60+": {
+      "5": {
+        "n": 4788,
+        "mean_pct": -0.7504,
+        "median_pct": -2.0682,
+        "win_rate_pct": 41.46
+      },
+      "10": {
+        "n": 4788,
+        "mean_pct": -0.4803,
+        "median_pct": -2.8399,
+        "win_rate_pct": 40.16
+      },
+      "20": {
+        "n": 4788,
+        "mean_pct": -0.9344,
+        "median_pct": -3.7733,
+        "win_rate_pct": 40.94
+      }
+    }
+  },
+  "yearly_main_10d": {
+    "2023": {
+      "n": 346,
+      "mean_pct": 0.8312,
+      "median_pct": 0.4097,
+      "win_rate_pct": 53.47
+    },
+    "2024": {
+      "n": 1200,
+      "mean_pct": 0.2731,
+      "median_pct": -0.0695,
+      "win_rate_pct": 48.92
+    },
+    "2025": {
+      "n": 1200,
+      "mean_pct": 1.2393,
+      "median_pct": 0.8328,
+      "win_rate_pct": 57.0
+    },
+    "2026": {
+      "n": 665,
+      "mean_pct": 0.2122,
+      "median_pct": -0.1062,
+      "win_rate_pct": 47.82
+    }
+  }
+}
