@@ -75,10 +75,13 @@ def main() -> None:
             review = "non_operating_security"
             score_source = "non_operating_security"
         elif theme in MACRO_THEMES:
-            # Segment sales do not prove FX/rate sensitivity. Keep unresolved until sensitivity data is added.
             review = "macro_sensitivity_required"
             score_source = "macro_unknown"
-        elif share_s:
+        elif status == "calculated_ratio_candidate":
+            # Do not auto-score an inferred numerator/denominator pair until source QA confirms both values.
+            review = "calculated_ratio_needs_qa"
+            score_source = "calculated_candidate_only"
+        elif status == "explicit_ratio_candidate" and share_s:
             try:
                 share = float(share_s)
             except Exception:
@@ -87,11 +90,10 @@ def main() -> None:
                 exposure = exposure_score(share)
                 d = directness if directness is not None else 50.0
                 g = growth if growth is not None else d
-                # Revenue exposure is now the largest component.
                 final_score = round(0.55 * exposure + 0.30 * d + 0.15 * g, 1)
-                confidence = "A" if r.get("share_basis") == "explicit_percent" else "B"
-                review = "revenue_share_candidate_qa"
-                score_source = "revenue_share_v4"
+                confidence = "B"  # still candidate until source snippet is manually/arithmetic checked
+                review = "explicit_ratio_needs_qa"
+                score_source = "revenue_share_v4_candidate"
 
         rows.append({
             "batch": args.batch,
@@ -124,23 +126,26 @@ def main() -> None:
 
     bands: dict[str, int] = {}
     reviews: dict[str, int] = {}
-    known = 0
+    explicit = calculated = 0
     for r in rows:
         bands[r["band"]] = bands.get(r["band"], 0) + 1
         reviews[r["review_flag"]] = reviews.get(r["review_flag"], 0) + 1
-        if r["revenue_share_pct"]:
-            known += 1
+        if r["share_status"] == "explicit_ratio_candidate":
+            explicit += 1
+        elif r["share_status"] == "calculated_ratio_candidate":
+            calculated += 1
     summary = {
         "batch": args.batch,
         "stock_theme_pairs": len(rows),
-        "revenue_share_known_pairs": known,
-        "revenue_share_unknown_pairs": len(rows) - known,
+        "explicit_ratio_candidates": explicit,
+        "calculated_ratio_candidates": calculated,
+        "unresolved_pairs": len(rows) - explicit,
         "band_counts": bands,
         "review_counts": reviews,
-        "formula": "55% revenue exposure + 30% business directness + 15% growth relevance",
+        "formula_after_qa": "55% revenue exposure + 30% business directness + 15% growth relevance",
         "exposure_mapping": "80%+ revenue share => 100 exposure score; linear below 80%",
         "status": "research_provisional_v4",
-        "warning": "No missing revenue ratio is imputed. Candidate ratios require source/arithmetic QA before production use.",
+        "warning": "No missing revenue ratio is imputed. Calculated ratios remain unscored until QA; explicit ratios are candidate scores until source verification.",
     }
     summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False))
