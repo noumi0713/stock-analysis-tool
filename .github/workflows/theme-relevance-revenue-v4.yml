@@ -10,6 +10,10 @@ on:
       - "research/score_theme_relevance_v4.py"
       - ".github/workflows/theme-relevance-revenue-v4.yml"
 
+concurrency:
+  group: theme-relevance-revenue-v4
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -27,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: pip install --disable-pip-version-check -q requests beautifulsoup4 pypdf
       - name: Collect company-IR revenue mix
-        run: python research/collect_revenue_mix_v4.py --batch 1 --workers 4
+        run: python research/collect_revenue_mix_v4.py --batch 1 --workers 10
       - name: Score relevance with revenue share
         run: python research/score_theme_relevance_v4.py --batch 1
       - name: Commit v4 outputs
