@@ -9,6 +9,7 @@ on:
       - "research/build_theme_relevance_batch.py"
       - "research/collect_theme_relevance_profiles.py"
       - "research/prepare_theme_relevance_context.py"
+      - "research/score_theme_relevance.py"
       - ".github/workflows/theme-relevance-batch-001.yml"
 
 permissions:
@@ -35,15 +36,17 @@ jobs:
         run: python research/collect_theme_relevance_profiles.py --batch 1 --workers 4
       - name: Build compact scoring context
         run: python research/prepare_theme_relevance_context.py --batch 1
+      - name: Score 124-theme relevance
+        run: python research/score_theme_relevance.py --batch 1
       - name: Commit batch files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/results/theme_relevance_batches/batch_001_*.csv
+          git add research/results/theme_relevance_batches/batch_001_*.csv research/results/theme_relevance_batches/batch_001_*.json
           if git diff --cached --quiet; then
             echo "No changes"
           else
-            git commit -m "Collect theme relevance batch 001 profiles"
+            git commit -m "Score theme relevance batch 001"
             git pull --rebase origin research/first-pullback-watch-prototype
             git push
           fi
