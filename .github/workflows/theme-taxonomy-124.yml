@@ -1,0 +1,50 @@
+name: Theme taxonomy 124 validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/theme-taxonomy-124-v1
+    paths:
+      - research/theme_catalog_124.csv
+      - research/build_theme_members_124.py
+      - .github/workflows/theme-taxonomy-124.yml
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out research branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install parser dependencies
+        run: python -m pip install --disable-pip-version-check requests beautifulsoup4
+
+      - name: Build and validate 124-theme memberships
+        run: python research/build_theme_members_124.py --delay 0.10
+
+      - name: Publish research outputs
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/data/theme_members_124.csv research/data/theme_catalog_124_validation.json
+          if git diff --cached --quiet; then
+            echo "Theme research outputs unchanged."
+            exit 0
+          fi
+          git commit -m "Publish 124-theme taxonomy validation"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
