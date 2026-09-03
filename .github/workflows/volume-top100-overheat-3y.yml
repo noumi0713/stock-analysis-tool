@@ -7,6 +7,7 @@ on:
       - research/volume-top100-overheat
     paths:
       - "research/volume_top100_overheat_3y.py"
+      - "research/volume_top100_overheat_final_3y.py"
       - ".github/workflows/volume-top100-overheat-3y.yml"
 
 permissions:
@@ -26,7 +27,9 @@ jobs:
           python-version: "3.12"
 
       - name: Run three-year volume top100 overheat study
-        run: python research/volume_top100_overheat_3y.py
+        run: |
+          python research/volume_top100_overheat_3y.py
+          python research/volume_top100_overheat_final_3y.py
 
       - name: Publish research result
         shell: bash
@@ -39,6 +42,6 @@ jobs:
             echo "Research result unchanged."
             exit 0
           fi
-          git commit -m "Add 3y volume top100 overheat results"
+          git commit -m "Add final 3y volume top100 overheat results"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
