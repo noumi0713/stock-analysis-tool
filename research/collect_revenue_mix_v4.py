@@ -20,7 +20,7 @@ try:
 except Exception:
     ALIASES = {}
 
-UA = "stock-analysis-theme-relevance-research/1.1"
+UA = "stock-analysis-theme-relevance-research/1.2"
 IR_HINTS = (
     "ir", "investor", "投資家", "株主", "決算", "財務", "業績", "開示", "ir情報",
 )
@@ -33,6 +33,7 @@ SALES_WORDS = (
     "revenue", "net sales", "sales",
 )
 SEGMENT_WORDS = ("セグメント", "事業", "segment", "business")
+SHARE_WORDS = ("構成比", "売上比率", "売上構成", "占め", "割合", "share", "composition")
 STRATEGY_WORDS = ("重点", "成長戦略", "集中投資", "中期経営", "拡大", "成長分野", "growth", "strategy", "investment")
 MONEY_RE = re.compile(r"(?P<num>[0-9][0-9,]*(?:\.[0-9]+)?)\s*(?P<unit>兆円|億円|百万円|千円|円|trillion|billion|million)", re.I)
 PCT_RE = re.compile(r"(?<![0-9])(?P<pct>[0-9]{1,3}(?:\.[0-9]+)?)\s*%")
@@ -137,23 +138,19 @@ def score_ratio_candidate(snippet: str) -> tuple[float | None, str]:
     low = snippet.lower()
     if not any(w.lower() in low for w in SALES_WORDS):
         return None, ""
-    pcts = []
+    candidates = []
     for m in PCT_RE.finditer(snippet):
         pct = float(m.group("pct"))
-        if 0 <= pct <= 100:
-            pcts.append((pct, m.start()))
-    if not pcts:
+        if not 0 <= pct <= 100:
+            continue
+        local = low[max(0, m.start() - 180): m.end() + 180]
+        if not any(w in local for w in SHARE_WORDS):
+            continue
+        candidates.append((pct, m.start()))
+    if not candidates:
         return None, ""
-    # Prefer percentages near explicit composition/share wording.
-    share_words = ("構成比", "売上比率", "売上構成", "占め", "割合", "share", "composition")
-    best = None
-    for pct, pos in pcts:
-        local = low[max(0, pos - 120): pos + 120]
-        rank = 2 if any(w in local for w in share_words) else 1
-        cand = (rank, pct)
-        if best is None or cand > best:
-            best = cand
-    return (best[1], "explicit_percent") if best else (None, "")
+    candidates.sort(key=lambda x: x[1])
+    return candidates[0][0], "explicit_percent"
 
 
 def money_to_million(num: float, unit: str) -> float:
@@ -177,6 +174,10 @@ def calculated_ratio(snippet: str) -> tuple[float | None, str]:
     low = snippet.lower()
     if not any(w.lower() in low for w in SALES_WORDS):
         return None, ""
+    if not any(w.lower() in low for w in SEGMENT_WORDS):
+        return None, ""
+    if not any(w in low for w in ("合計", "全社", "連結", "total", "consolidated")):
+        return None, ""
     amounts = []
     for m in MONEY_RE.finditer(snippet):
         try:
@@ -185,21 +186,13 @@ def calculated_ratio(snippet: str) -> tuple[float | None, str]:
                 amounts.append((val, m.start()))
         except Exception:
             pass
-    if len(amounts) < 2:
-        return None, ""
-    # Conservative: only calculate if the same snippet contains segment and total/consolidated cues.
-    if not any(w.lower() in low for w in SEGMENT_WORDS):
-        return None, ""
-    if not any(w in low for w in ("合計", "全社", "連結", "total", "consolidated")):
-        return None, ""
     vals = sorted({round(v, 6) for v, _ in amounts})
     if len(vals) < 2:
         return None, ""
     total = max(vals)
-    possible = [v for v in vals if v < total]
+    possible = [v for v in vals if 0 < v < total]
     if not possible:
         return None, ""
-    # Use the closest smaller amount only as a candidate; mark calculated and lower confidence later.
     seg = max(possible)
     pct = seg / total * 100
     if 0 < pct < 100:
@@ -273,34 +266,35 @@ def collect_one(stock: dict[str, str], themes: list[str]) -> list[dict[str, str]
     rows = []
     for theme in themes:
         terms = theme_terms(theme)
-        candidates = []
+        explicit = []
+        calculated = []
         for url, text, dtype in docs:
             for sn in snippets(text, terms):
                 pct, basis = score_ratio_candidate(sn)
-                if pct is None:
-                    pct, basis = calculated_ratio(sn)
                 if pct is not None:
-                    quality = 3 if basis == "explicit_percent" else 2
-                    if dtype == "pdf":
-                        quality += 1
-                    if any(w in sn for w in STRATEGY_WORDS):
-                        quality += 0.1
-                    candidates.append((quality, pct, basis, url, sn))
+                    quality = 4 if dtype == "pdf" else 3
+                    explicit.append((quality, pct, basis, url, sn))
+                    continue
+                pct, basis = calculated_ratio(sn)
+                if pct is not None:
+                    quality = 2 if dtype == "pdf" else 1
+                    calculated.append((quality, pct, basis, url, sn))
+        candidates = explicit or calculated
         if candidates:
-            candidates.sort(key=lambda x: (x[0], x[1]), reverse=True)
+            candidates.sort(key=lambda x: (-x[0], x[4]))
             quality, pct, basis, url, sn = candidates[0]
+            status = "explicit_ratio_candidate" if basis == "explicit_percent" else "calculated_ratio_candidate"
             rows.append({
                 "stock_code": code,
                 "theme_name": theme,
                 "revenue_share_pct": f"{pct:.2f}",
-                "share_status": "verified_candidate",
+                "share_status": status,
                 "share_basis": basis,
                 "source_url": url,
                 "evidence": sn[:1200],
                 "document_count": str(len(docs)),
             })
         else:
-            # Preserve evidence that the theme exists in official documents, but do not invent a ratio.
             evid = ""
             src = ""
             for url, text, _ in docs:
@@ -319,6 +313,13 @@ def collect_one(stock: dict[str, str], themes: list[str]) -> list[dict[str, str]
                 "document_count": str(len(docs)),
             })
     return rows
+
+
+def counter_like(rows: list[dict[str, str]]) -> dict[str, int]:
+    out: dict[str, int] = {}
+    for r in rows:
+        out[r["share_status"]] = out.get(r["share_status"], 0) + 1
+    return out
 
 
 def main() -> None:
@@ -354,7 +355,7 @@ def main() -> None:
                     "share_basis": "", "source_url": "", "evidence": f"{type(exc).__name__}: {exc}"[:1200], "document_count": "0",
                 } for t in themes_by_stock[code]]
             all_rows.extend(rows)
-            print(i, code, CounterLike(rows))
+            print(i, code, counter_like(rows))
 
     order = {(c, t): (i, j) for i, c in enumerate(codes) for j, t in enumerate(themes_by_stock[c])}
     all_rows.sort(key=lambda r: order.get((r["stock_code"], r["theme_name"]), (10**9, 10**9)))
@@ -371,18 +372,11 @@ def main() -> None:
         "stocks": len(codes),
         "stock_theme_pairs": len(all_rows),
         "status_counts": counts,
-        "rule": "company website -> IR HTML/PDF -> explicit share or same-document calculation; otherwise unknown",
-        "warning": "verified_candidate is still an extraction candidate and must pass arithmetic/source QA before scoring as final.",
+        "rule": "company website -> IR HTML/PDF -> explicit share; same-snippet calculation only as QA candidate; otherwise unknown",
+        "warning": "No missing ratio is imputed. Explicit and calculated candidates still require source/arithmetic QA before final scoring.",
     }
     summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False))
-
-
-def CounterLike(rows: list[dict[str, str]]) -> dict[str, int]:
-    out: dict[str, int] = {}
-    for r in rows:
-        out[r["share_status"]] = out.get(r["share_status"], 0) + 1
-    return out
 
 
 if __name__ == "__main__":
