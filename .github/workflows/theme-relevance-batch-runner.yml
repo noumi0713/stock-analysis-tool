@@ -1,0 +1,63 @@
+name: Theme relevance batch runner
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - "research/theme_relevance_next_batch.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  run-batch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Read batch number
+        id: batch
+        shell: bash
+        run: |
+          BATCH=$(tr -d '[:space:]' < research/theme_relevance_next_batch.txt)
+          if ! [[ "$BATCH" =~ ^[1-9][0-9]*$ ]]; then
+            echo "Invalid batch: $BATCH" >&2
+            exit 1
+          fi
+          echo "number=$BATCH" >> "$GITHUB_OUTPUT"
+          printf -v PADDED "%03d" "$BATCH"
+          echo "padded=$PADDED" >> "$GITHUB_OUTPUT"
+      - name: Install dependencies
+        run: pip install --disable-pip-version-check -q yfinance requests beautifulsoup4
+      - name: Fetch 124-theme source branch
+        run: git fetch origin research/volume-top100-overheat:refs/remotes/origin/research/volume-top100-overheat
+      - name: Build 300-stock batch
+        run: python research/build_theme_relevance_batch.py --batch ${{ steps.batch.outputs.number }} --size 300
+      - name: Collect company profiles
+        run: python research/collect_theme_relevance_profiles.py --batch ${{ steps.batch.outputs.number }} --workers 4
+      - name: Collect official-site evidence
+        run: python research/collect_official_site_evidence.py --batch ${{ steps.batch.outputs.number }} --workers 4
+      - name: Score relevance v3
+        run: python research/score_theme_relevance_v3.py --batch ${{ steps.batch.outputs.number }}
+      - name: Build scoring context
+        run: python research/prepare_theme_relevance_context.py --batch ${{ steps.batch.outputs.number }}
+      - name: Commit batch outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          P=${{ steps.batch.outputs.padded }}
+          git add research/results/theme_relevance_batches/batch_${P}_*.csv research/results/theme_relevance_batches/batch_${P}_*.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Generate theme relevance batch ${P} v3"
+            git pull --rebase origin research/first-pullback-watch-prototype
+            git push
+          fi
