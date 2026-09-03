@@ -1,0 +1,6 @@
+{
+  "functions": {
+    "api/technical.py": {"maxDuration": 30},
+    "api/news.py": {"maxDuration": 20}
+  }
+}
