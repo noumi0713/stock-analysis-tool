@@ -21,24 +21,15 @@ jobs:
         shell: python
         run: |
           import csv, io, subprocess, re
-          wanted = {"1848","5273","6993","7523","5817","6543","9082","7066","4809","3094"}
+          wanted = {"6654","7066","5039","6904","3653","603A","6745","8746","7864","6996"}
           raw = subprocess.check_output(["git","show","origin/research/volume-top100-overheat:research/data/theme_members_124.csv"], text=True)
-          print("RAW_HEAD")
-          for line in raw.splitlines()[:5]: print(repr(line))
           reader = csv.DictReader(io.StringIO(raw))
-          print("FIELDNAMES", reader.fieldnames)
-          parsed = list(reader)
-          def norm(v):
-              m = re.search(r"(\d{4})", str(v or ""))
-              return m.group(1) if m else ""
-          code_keys = [k for k in (reader.fieldnames or []) if any(x in k.lower() for x in ['code','ticker','symbol','銘柄'])]
-          print("CODE_KEYS", code_keys)
           rows=[]
-          for r in parsed:
-              vals=' '.join(str(v) for v in r.values())
-              m=re.search(r'(?<!\d)(\d{4})(?:\.T)?(?!\d)', vals)
-              code=m.group(1) if m else ''
-              if code in wanted: rows.append((code,r))
-          print("MATCHES", len(rows))
-          for code,r in sorted(rows,key=lambda x:x[0]): print("MATCH",code,r)
-          print("MISSING", ','.join(sorted(wanted-{c for c,_ in rows})))
+          for r in reader:
+              code = str(r.get("stock_code") or "").strip()
+              if code in wanted:
+                  rows.append((code,r))
+          print("CODE\tTHEME\tCLUSTER")
+          for code,r in sorted(rows,key=lambda x:(x[0],x[1].get("\ufefftheme_name", ""))):
+              print(f'{code}\t{r.get("\ufefftheme_name", "")}\t{r.get("cluster", "")}')
+          print("MISSING\t" + ",".join(sorted(wanted-{c for c,_ in rows})))
