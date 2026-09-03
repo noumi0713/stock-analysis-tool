@@ -3,10 +3,10 @@
   "status": "failed",
   "complete": false,
   "market_date": "2026-09-03",
-  "calculation_completed_at": "2026-09-03T12:12:19.226298+00:00",
-  "git_commit_id": "985816e9f7a727a80058047b415efc384f326576",
+  "calculation_completed_at": "2026-09-03T12:20:19.504535+00:00",
+  "git_commit_id": "3ec8b9f8d0fb5eb2f99ff18c94580a207e9ff277",
   "errors": [
-    "workflow_failed:33753808404"
+    "workflow_failed:33754551852"
   ],
   "publication": {
     "status": "blocked",
