@@ -1,22 +1,19 @@
 {
   "schema_version": 1,
-  "market_date": "2026-09-02",
-  "status": "complete",
-  "data_download": "success",
-  "successful_tickers": 3674,
-  "expected_tickers": 3707,
-  "missing_tickers": 33,
-  "coverage": 0.9910979228486647,
+  "market_date": "2026-09-03",
+  "status": "failed",
+  "data_download": "unknown",
   "signal_counts": {
     "capitulation_reversal": 0,
-    "first_pullback": 4
+    "first_pullback": 0
   },
   "zero_signal_reason": {
-    "capitulation_reversal": "normal_zero",
-    "first_pullback": "signals_found"
+    "capitulation_reversal": "processing_failed",
+    "first_pullback": "processing_failed"
   },
-  "anomalies": [],
-  "processing_seconds": 48.314422,
-  "publication": "success",
-  "audit_path": "production-audit/2026-09-02.json"
+  "anomalies": [
+    "workflow_failed:33753095228"
+  ],
+  "publication": "blocked",
+  "stale_result_fallback_allowed": false
 }
