@@ -7,6 +7,7 @@ on:
       - research/quality-demand-acceleration-3y
     paths:
       - "research/demand_acceleration_3y.py"
+      - "research/run_demand_acceleration_3y.py"
       - ".github/workflows/demand-acceleration-3y.yml"
 
 permissions:
@@ -26,7 +27,7 @@ jobs:
           python-version: "3.12"
 
       - name: Run three-year demand acceleration study
-        run: python research/demand_acceleration_3y.py
+        run: python research/run_demand_acceleration_3y.py
 
       - name: Publish research result
         shell: bash
@@ -34,9 +35,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/results/demand_acceleration_3y/summary.json \
-                  research/results/demand_acceleration_3y/signals.csv \
-                  research/results/demand_acceleration_3y/performance_summary.csv
+          git add research/results/demand_acceleration_3y/
           if git diff --cached --quiet; then
             echo "Research result unchanged."
             exit 0
