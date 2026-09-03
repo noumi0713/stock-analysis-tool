@@ -1,0 +1,55 @@
+name: Theme relevance revenue v5
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - "research/collect_revenue_mix_v5.py"
+      - "research/test_revenue_mix_v5.py"
+      - "research/score_theme_relevance_v5.py"
+      - ".github/workflows/theme-relevance-revenue-v5.yml"
+
+concurrency:
+  group: theme-relevance-revenue-v5
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  revenue-v5:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install --disable-pip-version-check -q requests beautifulsoup4 pypdf
+      - name: Run revenue parser QA fixtures
+        run: python research/test_revenue_mix_v5.py
+      - name: Collect structured segment revenue
+        run: python research/collect_revenue_mix_v5.py --batch 1 --workers 10
+      - name: Score relevance with structured revenue
+        run: python research/score_theme_relevance_v5.py --batch 1
+      - name: Commit v5 outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/theme_relevance_batches/batch_001_revenue_mix_v5.csv \
+                  research/results/theme_relevance_batches/batch_001_segments_v5.csv \
+                  research/results/theme_relevance_batches/batch_001_revenue_mix_v5_summary.json \
+                  research/results/theme_relevance_batches/batch_001_scores_v5.csv \
+                  research/results/theme_relevance_batches/batch_001_score_summary_v5.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Rebuild batch 001 with structured revenue mapping v5"
+            git pull --rebase origin research/first-pullback-watch-prototype
+            git push
+          fi
