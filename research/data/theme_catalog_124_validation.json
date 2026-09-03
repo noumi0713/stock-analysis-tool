@@ -3,90 +3,105 @@
   "cluster_count": 13,
   "resolved_theme_count": 117,
   "unresolved_theme_count": 7,
-  "unique_member_stock_count": 1159,
-  "total_membership_rows": 2274,
-  "unique_3y_eligible_stock_count": 1119,
-  "total_3y_eligible_membership_rows": 2221,
+  "unique_member_stock_count": 3271,
+  "total_membership_rows": 10474,
+  "unique_3y_eligible_stock_count": 3158,
+  "total_3y_eligible_membership_rows": 10245,
+  "ranking_eligible_theme_count": 116,
   "themes_with_fewer_than_5_eligible_members": 1,
+  "catalog_ready": false,
   "strict_ready": false,
   "cluster_summary": {
     "AI・半導体": {
       "catalog_themes": 12,
       "resolved_themes": 12,
-      "membership_rows": 240,
-      "eligible_membership_rows": 240
+      "ranking_eligible_themes": 12,
+      "membership_rows": 1363,
+      "eligible_membership_rows": 1356
     },
     "GX・エネルギー": {
       "catalog_themes": 10,
       "resolved_themes": 10,
-      "membership_rows": 200,
-      "eligible_membership_rows": 195
+      "ranking_eligible_themes": 10,
+      "membership_rows": 746,
+      "eligible_membership_rows": 739
     },
     "デジタル・サービス": {
       "catalog_themes": 10,
       "resolved_themes": 10,
-      "membership_rows": 200,
-      "eligible_membership_rows": 197
+      "ranking_eligible_themes": 10,
+      "membership_rows": 1890,
+      "eligible_membership_rows": 1855
     },
     "データセンター・電力": {
       "catalog_themes": 9,
       "resolved_themes": 9,
-      "membership_rows": 149,
-      "eligible_membership_rows": 146
+      "ranking_eligible_themes": 8,
+      "membership_rows": 416,
+      "eligible_membership_rows": 409
     },
     "不動産・建設": {
       "catalog_themes": 8,
       "resolved_themes": 7,
-      "membership_rows": 139,
-      "eligible_membership_rows": 135
+      "ranking_eligible_themes": 7,
+      "membership_rows": 714,
+      "eligible_membership_rows": 676
     },
     "内需・消費": {
       "catalog_themes": 10,
       "resolved_themes": 9,
-      "membership_rows": 180,
-      "eligible_membership_rows": 176
+      "ranking_eligible_themes": 9,
+      "membership_rows": 1119,
+      "eligible_membership_rows": 1093
     },
     "医療・ヘルスケア": {
       "catalog_themes": 9,
       "resolved_themes": 8,
-      "membership_rows": 157,
-      "eligible_membership_rows": 153
+      "ranking_eligible_themes": 8,
+      "membership_rows": 660,
+      "eligible_membership_rows": 651
     },
     "物流・海運": {
       "catalog_themes": 8,
       "resolved_themes": 7,
-      "membership_rows": 129,
-      "eligible_membership_rows": 119
+      "ranking_eligible_themes": 7,
+      "membership_rows": 413,
+      "eligible_membership_rows": 387
     },
     "自動車・モビリティ": {
       "catalog_themes": 10,
       "resolved_themes": 10,
-      "membership_rows": 200,
-      "eligible_membership_rows": 200
+      "ranking_eligible_themes": 10,
+      "membership_rows": 924,
+      "eligible_membership_rows": 914
     },
     "設備投資・機械": {
       "catalog_themes": 9,
       "resolved_themes": 6,
-      "membership_rows": 120,
-      "eligible_membership_rows": 117
+      "ranking_eligible_themes": 6,
+      "membership_rows": 556,
+      "eligible_membership_rows": 543
     },
     "資源・素材": {
       "catalog_themes": 10,
       "resolved_themes": 10,
-      "membership_rows": 185,
-      "eligible_membership_rows": 176
+      "ranking_eligible_themes": 10,
+      "membership_rows": 282,
+      "eligible_membership_rows": 269
     },
     "金融・金利": {
       "catalog_themes": 9,
       "resolved_themes": 9,
-      "membership_rows": 175,
-      "eligible_membership_rows": 173
+      "ranking_eligible_themes": 9,
+      "membership_rows": 572,
+      "eligible_membership_rows": 554
     },
     "防衛・国土強靱化": {
       "catalog_themes": 10,
       "resolved_themes": 10,
-      "membership_rows": 200,
-      "eligible_membership_rows": 194
+      "ranking_eligible_themes": 10,
+      "membership_rows": 819,
+      "eligible_membership_rows": 799
     }
   },
   "unresolved": [
@@ -98,10 +113,11 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E5%8D%94%E5%83%8D%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E5%8D%94%E5%83%8D%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E5%8D%94%E5%83%8D%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all&page=1"
     },
     {
       "theme_name": "スマートファクトリー",
@@ -111,10 +127,11 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC/?market=all&page=1"
     },
     {
       "theme_name": "物流DX",
@@ -124,10 +141,11 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81DX/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81DX/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81DX/?market=all&page=1"
     },
     {
       "theme_name": "値上げ関連",
@@ -137,10 +155,11 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E5%80%A4%E4%B8%8A%E3%81%92%E9%96%A2%E9%80%A3/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E5%80%A4%E4%B8%8A%E3%81%92%E9%96%A2%E9%80%A3/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E5%80%A4%E4%B8%8A%E3%81%92%E9%96%A2%E9%80%A3/?market=all&page=1"
     },
     {
       "theme_name": "ヘルスケア",
@@ -150,10 +169,11 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E3%83%98%E3%83%AB%E3%82%B9%E3%82%B1%E3%82%A2/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E3%83%98%E3%83%AB%E3%82%B9%E3%82%B1%E3%82%A2/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E3%83%98%E3%83%AB%E3%82%B9%E3%82%B1%E3%82%A2/?market=all&page=1"
     },
     {
       "theme_name": "物流施設関連",
@@ -163,10 +183,11 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81%E6%96%BD%E8%A8%AD%E9%96%A2%E9%80%A3/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81%E6%96%BD%E8%A8%AD%E9%96%A2%E9%80%A3/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81%E6%96%BD%E8%A8%AD%E9%96%A2%E9%80%A3/?market=all&page=1"
     },
     {
       "theme_name": "港湾関連",
@@ -176,10 +197,11 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E6%B8%AF%E6%B9%BE%E9%96%A2%E9%80%A3/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E6%B8%AF%E6%B9%BE%E9%96%A2%E9%80%A3/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E6%B8%AF%E6%B9%BE%E9%96%A2%E9%80%A3/?market=all&page=1"
     }
   ],
   "thin_themes": [
@@ -194,6 +216,7 @@
       "http_status": 200,
       "page_heading": "スーパーコンピューター",
       "heading_match": true,
+      "page_count": 1,
       "error": null
     }
   ],
@@ -203,12 +226,13 @@
       "cluster": "AI・半導体",
       "kabutan_name": "半導体",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 112,
+      "eligible_3y_member_count": 112,
       "url": "https://s.kabutan.jp/themes/%E5%8D%8A%E5%B0%8E%E4%BD%93/?market=all",
       "http_status": 200,
       "page_heading": "半導体",
       "heading_match": true,
+      "page_count": 6,
       "error": null
     },
     {
@@ -216,12 +240,13 @@
       "cluster": "AI・半導体",
       "kabutan_name": "人工知能",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 359,
+      "eligible_3y_member_count": 358,
       "url": "https://s.kabutan.jp/themes/%E4%BA%BA%E5%B7%A5%E7%9F%A5%E8%83%BD/?market=all",
       "http_status": 200,
       "page_heading": "人工知能",
       "heading_match": true,
+      "page_count": 18,
       "error": null
     },
     {
@@ -229,12 +254,13 @@
       "cluster": "AI・半導体",
       "kabutan_name": "生成AI",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 151,
+      "eligible_3y_member_count": 151,
       "url": "https://s.kabutan.jp/themes/%E7%94%9F%E6%88%90AI/?market=all",
       "http_status": 200,
       "page_heading": "生成AI",
       "heading_match": true,
+      "page_count": 8,
       "error": null
     },
     {
@@ -242,12 +268,13 @@
       "cluster": "AI・半導体",
       "kabutan_name": "AIエージェント",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 37,
+      "eligible_3y_member_count": 36,
       "url": "https://s.kabutan.jp/themes/AI%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88/?market=all",
       "http_status": 200,
       "page_heading": "AIエージェント",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -255,12 +282,13 @@
       "cluster": "AI・半導体",
       "kabutan_name": "フィジカルAI",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 51,
+      "eligible_3y_member_count": 51,
       "url": "https://s.kabutan.jp/themes/%E3%83%95%E3%82%A3%E3%82%B8%E3%82%AB%E3%83%ABAI/?market=all",
       "http_status": 200,
       "page_heading": "フィジカルAI",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -268,12 +296,13 @@
       "cluster": "AI・半導体",
       "kabutan_name": "エッジコンピューティング",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 22,
+      "eligible_3y_member_count": 22,
       "url": "https://s.kabutan.jp/themes/%E3%82%A8%E3%83%83%E3%82%B8%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0/?market=all",
       "http_status": 200,
       "page_heading": "エッジコンピューティング",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -281,12 +310,13 @@
       "cluster": "AI・半導体",
       "kabutan_name": "半導体製造装置",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 200,
+      "eligible_3y_member_count": 198,
       "url": "https://s.kabutan.jp/themes/%E5%8D%8A%E5%B0%8E%E4%BD%93%E8%A3%BD%E9%80%A0%E8%A3%85%E7%BD%AE/?market=all",
       "http_status": 200,
       "page_heading": "半導体製造装置",
       "heading_match": true,
+      "page_count": 10,
       "error": null
     },
     {
@@ -294,12 +324,13 @@
       "cluster": "AI・半導体",
       "kabutan_name": "半導体部材・部品",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 113,
+      "eligible_3y_member_count": 113,
       "url": "https://s.kabutan.jp/themes/%E5%8D%8A%E5%B0%8E%E4%BD%93%E9%83%A8%E6%9D%90%E3%83%BB%E9%83%A8%E5%93%81/?market=all",
       "http_status": 200,
       "page_heading": "半導体部材・部品",
       "heading_match": true,
+      "page_count": 6,
       "error": null
     },
     {
@@ -307,12 +338,13 @@
       "cluster": "AI・半導体",
       "kabutan_name": "半導体商社",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 21,
+      "eligible_3y_member_count": 21,
       "url": "https://s.kabutan.jp/themes/%E5%8D%8A%E5%B0%8E%E4%BD%93%E5%95%86%E7%A4%BE/?market=all",
       "http_status": 200,
       "page_heading": "半導体商社",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -320,12 +352,13 @@
       "cluster": "AI・半導体",
       "kabutan_name": "量子コンピューター",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 33,
+      "eligible_3y_member_count": 33,
       "url": "https://s.kabutan.jp/themes/%E9%87%8F%E5%AD%90%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%83%BC/?market=all",
       "http_status": 200,
       "page_heading": "量子コンピューター",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -333,12 +366,13 @@
       "cluster": "AI・半導体",
       "kabutan_name": "データ分析・解析",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 124,
+      "eligible_3y_member_count": 122,
       "url": "https://s.kabutan.jp/themes/%E3%83%87%E3%83%BC%E3%82%BF%E5%88%86%E6%9E%90%E3%83%BB%E8%A7%A3%E6%9E%90/?market=all",
       "http_status": 200,
       "page_heading": "データ分析・解析",
       "heading_match": true,
+      "page_count": 7,
       "error": null
     },
     {
@@ -346,12 +380,13 @@
       "cluster": "AI・半導体",
       "kabutan_name": "ロボット",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 140,
+      "eligible_3y_member_count": 139,
       "url": "https://s.kabutan.jp/themes/%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all",
       "http_status": 200,
       "page_heading": "ロボット",
       "heading_match": true,
+      "page_count": 7,
       "error": null
     },
     {
@@ -359,12 +394,13 @@
       "cluster": "データセンター・電力",
       "kabutan_name": "データセンター",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 150,
+      "eligible_3y_member_count": 149,
       "url": "https://s.kabutan.jp/themes/%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC/?market=all",
       "http_status": 200,
       "page_heading": "データセンター",
       "heading_match": true,
+      "page_count": 8,
       "error": null
     },
     {
@@ -378,6 +414,7 @@
       "http_status": 200,
       "page_heading": "スーパーコンピューター",
       "heading_match": true,
+      "page_count": 1,
       "error": null
     },
     {
@@ -385,12 +422,13 @@
       "cluster": "データセンター・電力",
       "kabutan_name": "光ファイバー",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 35,
+      "eligible_3y_member_count": 35,
       "url": "https://s.kabutan.jp/themes/%E5%85%89%E3%83%95%E3%82%A1%E3%82%A4%E3%83%90%E3%83%BC/?market=all",
       "http_status": 200,
       "page_heading": "光ファイバー",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -404,6 +442,7 @@
       "http_status": 200,
       "page_heading": "電線",
       "heading_match": true,
+      "page_count": 1,
       "error": null
     },
     {
@@ -411,12 +450,13 @@
       "cluster": "データセンター・電力",
       "kabutan_name": "電力設備投資関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 70,
+      "eligible_3y_member_count": 66,
       "url": "https://s.kabutan.jp/themes/%E9%9B%BB%E5%8A%9B%E8%A8%AD%E5%82%99%E6%8A%95%E8%B3%87%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "電力設備投資関連",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -424,12 +464,13 @@
       "cluster": "データセンター・電力",
       "kabutan_name": "送電",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 21,
+      "eligible_3y_member_count": 21,
       "url": "https://s.kabutan.jp/themes/%E9%80%81%E9%9B%BB/?market=all",
       "http_status": 200,
       "page_heading": "送電",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -437,12 +478,13 @@
       "cluster": "データセンター・電力",
       "kabutan_name": "スマートグリッド",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 83,
+      "eligible_3y_member_count": 82,
       "url": "https://s.kabutan.jp/themes/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%82%B0%E3%83%AA%E3%83%83%E3%83%89/?market=all",
       "http_status": 200,
       "page_heading": "スマートグリッド",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -456,6 +498,7 @@
       "http_status": 200,
       "page_heading": "受変電設備",
       "heading_match": true,
+      "page_count": 1,
       "error": null
     },
     {
@@ -463,12 +506,13 @@
       "cluster": "データセンター・電力",
       "kabutan_name": "サーバー冷却",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 28,
+      "eligible_3y_member_count": 28,
       "url": "https://s.kabutan.jp/themes/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E5%86%B7%E5%8D%B4/?market=all",
       "http_status": 200,
       "page_heading": "サーバー冷却",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -476,12 +520,13 @@
       "cluster": "金融・金利",
       "kabutan_name": "地方銀行",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 73,
+      "eligible_3y_member_count": 69,
       "url": "https://s.kabutan.jp/themes/%E5%9C%B0%E6%96%B9%E9%8A%80%E8%A1%8C/?market=all",
       "http_status": 200,
       "page_heading": "地方銀行",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -495,6 +540,7 @@
       "http_status": 200,
       "page_heading": "ネット銀行",
       "heading_match": true,
+      "page_count": 1,
       "error": null
     },
     {
@@ -502,12 +548,13 @@
       "cluster": "金融・金利",
       "kabutan_name": "銀行",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 89,
+      "eligible_3y_member_count": 85,
       "url": "https://s.kabutan.jp/themes/%E9%8A%80%E8%A1%8C/?market=all",
       "http_status": 200,
       "page_heading": "銀行",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -515,12 +562,13 @@
       "cluster": "金融・金利",
       "kabutan_name": "金利上昇メリット",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 86,
+      "eligible_3y_member_count": 82,
       "url": "https://s.kabutan.jp/themes/%E9%87%91%E5%88%A9%E4%B8%8A%E6%98%87%E3%83%A1%E3%83%AA%E3%83%83%E3%83%88/?market=all",
       "http_status": 200,
       "page_heading": "金利上昇メリット",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -528,12 +576,13 @@
       "cluster": "金融・金利",
       "kabutan_name": "証券",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 42,
+      "eligible_3y_member_count": 42,
       "url": "https://s.kabutan.jp/themes/%E8%A8%BC%E5%88%B8/?market=all",
       "http_status": 200,
       "page_heading": "証券",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -541,12 +590,13 @@
       "cluster": "金融・金利",
       "kabutan_name": "保険",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 18,
+      "member_count": 37,
+      "eligible_3y_member_count": 35,
       "url": "https://s.kabutan.jp/themes/%E4%BF%9D%E9%99%BA/?market=all",
       "http_status": 200,
       "page_heading": "保険",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -554,12 +604,13 @@
       "cluster": "金融・金利",
       "kabutan_name": "リース",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 73,
+      "eligible_3y_member_count": 71,
       "url": "https://s.kabutan.jp/themes/%E3%83%AA%E3%83%BC%E3%82%B9/?market=all",
       "http_status": 200,
       "page_heading": "リース",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -567,12 +618,13 @@
       "cluster": "金融・金利",
       "kabutan_name": "フィンテック",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 80,
+      "eligible_3y_member_count": 79,
       "url": "https://s.kabutan.jp/themes/%E3%83%95%E3%82%A3%E3%83%B3%E3%83%86%E3%83%83%E3%82%AF/?market=all",
       "http_status": 200,
       "page_heading": "フィンテック",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -580,12 +632,13 @@
       "cluster": "金融・金利",
       "kabutan_name": "キャッシュレス決済",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 77,
+      "eligible_3y_member_count": 76,
       "url": "https://s.kabutan.jp/themes/%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%83%AC%E3%82%B9%E6%B1%BA%E6%B8%88/?market=all",
       "http_status": 200,
       "page_heading": "キャッシュレス決済",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -593,12 +646,13 @@
       "cluster": "資源・素材",
       "kabutan_name": "レアアース",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 38,
+      "eligible_3y_member_count": 37,
       "url": "https://s.kabutan.jp/themes/%E3%83%AC%E3%82%A2%E3%82%A2%E3%83%BC%E3%82%B9/?market=all",
       "http_status": 200,
       "page_heading": "レアアース",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -606,12 +660,13 @@
       "cluster": "資源・素材",
       "kabutan_name": "レアメタル",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 51,
+      "eligible_3y_member_count": 51,
       "url": "https://s.kabutan.jp/themes/%E3%83%AC%E3%82%A2%E3%83%A1%E3%82%BF%E3%83%AB/?market=all",
       "http_status": 200,
       "page_heading": "レアメタル",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -619,12 +674,13 @@
       "cluster": "資源・素材",
       "kabutan_name": "金",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 14,
+      "member_count": 21,
+      "eligible_3y_member_count": 15,
       "url": "https://s.kabutan.jp/themes/%E9%87%91/?market=all",
       "http_status": 200,
       "page_heading": "金",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -632,12 +688,13 @@
       "cluster": "資源・素材",
       "kabutan_name": "銅",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 18,
+      "member_count": 22,
+      "eligible_3y_member_count": 20,
       "url": "https://s.kabutan.jp/themes/%E9%8A%85/?market=all",
       "http_status": 200,
       "page_heading": "銅",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -645,12 +702,13 @@
       "cluster": "資源・素材",
       "kabutan_name": "アルミニウム",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 28,
+      "eligible_3y_member_count": 26,
       "url": "https://s.kabutan.jp/themes/%E3%82%A2%E3%83%AB%E3%83%9F%E3%83%8B%E3%82%A6%E3%83%A0/?market=all",
       "http_status": 200,
       "page_heading": "アルミニウム",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -658,12 +716,13 @@
       "cluster": "資源・素材",
       "kabutan_name": "鉄鋼",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 45,
+      "eligible_3y_member_count": 44,
       "url": "https://s.kabutan.jp/themes/%E9%89%84%E9%8B%BC/?market=all",
       "http_status": 200,
       "page_heading": "鉄鋼",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -677,6 +736,7 @@
       "http_status": 200,
       "page_heading": "非鉄",
       "heading_match": true,
+      "page_count": 1,
       "error": null
     },
     {
@@ -690,6 +750,7 @@
       "http_status": 200,
       "page_heading": "総合商社",
       "heading_match": true,
+      "page_count": 1,
       "error": null
     },
     {
@@ -697,12 +758,13 @@
       "cluster": "資源・素材",
       "kabutan_name": "資源開発",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 23,
+      "eligible_3y_member_count": 23,
       "url": "https://s.kabutan.jp/themes/%E8%B3%87%E6%BA%90%E9%96%8B%E7%99%BA/?market=all",
       "http_status": 200,
       "page_heading": "資源開発",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -710,12 +772,13 @@
       "cluster": "資源・素材",
       "kabutan_name": "都市鉱山",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 29,
+      "eligible_3y_member_count": 28,
       "url": "https://s.kabutan.jp/themes/%E9%83%BD%E5%B8%82%E9%89%B1%E5%B1%B1/?market=all",
       "http_status": 200,
       "page_heading": "都市鉱山",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -723,12 +786,13 @@
       "cluster": "防衛・国土強靱化",
       "kabutan_name": "防衛",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 73,
+      "eligible_3y_member_count": 72,
       "url": "https://s.kabutan.jp/themes/%E9%98%B2%E8%A1%9B/?market=all",
       "http_status": 200,
       "page_heading": "防衛",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -736,12 +800,13 @@
       "cluster": "防衛・国土強靱化",
       "kabutan_name": "宇宙開発関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 94,
+      "eligible_3y_member_count": 94,
       "url": "https://s.kabutan.jp/themes/%E5%AE%87%E5%AE%99%E9%96%8B%E7%99%BA%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "宇宙開発関連",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -749,12 +814,13 @@
       "cluster": "防衛・国土強靱化",
       "kabutan_name": "ドローン",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 84,
+      "eligible_3y_member_count": 82,
       "url": "https://s.kabutan.jp/themes/%E3%83%89%E3%83%AD%E3%83%BC%E3%83%B3/?market=all",
       "http_status": 200,
       "page_heading": "ドローン",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -762,12 +828,13 @@
       "cluster": "防衛・国土強靱化",
       "kabutan_name": "サイバーセキュリティ",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 86,
+      "eligible_3y_member_count": 84,
       "url": "https://s.kabutan.jp/themes/%E3%82%B5%E3%82%A4%E3%83%90%E3%83%BC%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3/?market=all",
       "http_status": 200,
       "page_heading": "サイバーセキュリティ",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -775,12 +842,13 @@
       "cluster": "防衛・国土強靱化",
       "kabutan_name": "国土強靱化",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 84,
+      "eligible_3y_member_count": 82,
       "url": "https://s.kabutan.jp/themes/%E5%9B%BD%E5%9C%9F%E5%BC%B7%E9%9D%B1%E5%8C%96/?market=all",
       "http_status": 200,
       "page_heading": "国土強靱化",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -788,12 +856,13 @@
       "cluster": "防衛・国土強靱化",
       "kabutan_name": "下水道",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 18,
+      "member_count": 58,
+      "eligible_3y_member_count": 54,
       "url": "https://s.kabutan.jp/themes/%E4%B8%8B%E6%B0%B4%E9%81%93/?market=all",
       "http_status": 200,
       "page_heading": "下水道",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -801,12 +870,13 @@
       "cluster": "防衛・国土強靱化",
       "kabutan_name": "水道関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 33,
+      "eligible_3y_member_count": 32,
       "url": "https://s.kabutan.jp/themes/%E6%B0%B4%E9%81%93%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "水道関連",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -814,12 +884,13 @@
       "cluster": "防衛・国土強靱化",
       "kabutan_name": "電線地中化",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 26,
+      "eligible_3y_member_count": 26,
       "url": "https://s.kabutan.jp/themes/%E9%9B%BB%E7%B7%9A%E5%9C%B0%E4%B8%AD%E5%8C%96/?market=all",
       "http_status": 200,
       "page_heading": "電線地中化",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -827,12 +898,13 @@
       "cluster": "防衛・国土強靱化",
       "kabutan_name": "防災",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 205,
+      "eligible_3y_member_count": 199,
       "url": "https://s.kabutan.jp/themes/%E9%98%B2%E7%81%BD/?market=all",
       "http_status": 200,
       "page_heading": "防災",
       "heading_match": true,
+      "page_count": 11,
       "error": null
     },
     {
@@ -840,12 +912,13 @@
       "cluster": "防衛・国土強靱化",
       "kabutan_name": "耐震化",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 76,
+      "eligible_3y_member_count": 74,
       "url": "https://s.kabutan.jp/themes/%E8%80%90%E9%9C%87%E5%8C%96/?market=all",
       "http_status": 200,
       "page_heading": "耐震化",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -853,12 +926,13 @@
       "cluster": "設備投資・機械",
       "kabutan_name": "工作機械",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 66,
+      "eligible_3y_member_count": 64,
       "url": "https://s.kabutan.jp/themes/%E5%B7%A5%E4%BD%9C%E6%A9%9F%E6%A2%B0/?market=all",
       "http_status": 200,
       "page_heading": "工作機械",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -866,12 +940,13 @@
       "cluster": "設備投資・機械",
       "kabutan_name": "FA関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 111,
+      "eligible_3y_member_count": 107,
       "url": "https://s.kabutan.jp/themes/FA%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "FA関連",
       "heading_match": true,
+      "page_count": 6,
       "error": null
     },
     {
@@ -882,22 +957,24 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E5%8D%94%E5%83%8D%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E5%8D%94%E5%83%8D%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E5%8D%94%E5%83%8D%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all&page=1"
     },
     {
       "theme_name": "建設機械",
       "cluster": "設備投資・機械",
       "kabutan_name": "建設機械",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 68,
+      "eligible_3y_member_count": 67,
       "url": "https://s.kabutan.jp/themes/%E5%BB%BA%E8%A8%AD%E6%A9%9F%E6%A2%B0/?market=all",
       "http_status": 200,
       "page_heading": "建設機械",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -908,22 +985,24 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%95%E3%82%A1%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC/?market=all&page=1"
     },
     {
       "theme_name": "設備投資",
       "cluster": "設備投資・機械",
       "kabutan_name": "設備投資",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 52,
+      "eligible_3y_member_count": 51,
       "url": "https://s.kabutan.jp/themes/%E8%A8%AD%E5%82%99%E6%8A%95%E8%B3%87/?market=all",
       "http_status": 200,
       "page_heading": "設備投資",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -934,22 +1013,24 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81DX/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81DX/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81DX/?market=all&page=1"
     },
     {
       "theme_name": "3Dプリンター",
       "cluster": "設備投資・機械",
       "kabutan_name": "3Dプリンター",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 61,
+      "eligible_3y_member_count": 60,
       "url": "https://s.kabutan.jp/themes/3D%E3%83%97%E3%83%AA%E3%83%B3%E3%82%BF%E3%83%BC/?market=all",
       "http_status": 200,
       "page_heading": "3Dプリンター",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -957,12 +1038,13 @@
       "cluster": "設備投資・機械",
       "kabutan_name": "機械",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 198,
+      "eligible_3y_member_count": 194,
       "url": "https://s.kabutan.jp/themes/%E6%A9%9F%E6%A2%B0/?market=all",
       "http_status": 200,
       "page_heading": "機械",
       "heading_match": true,
+      "page_count": 10,
       "error": null
     },
     {
@@ -970,12 +1052,13 @@
       "cluster": "自動車・モビリティ",
       "kabutan_name": "自動運転車",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 94,
+      "eligible_3y_member_count": 94,
       "url": "https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E9%81%8B%E8%BB%A2%E8%BB%8A/?market=all",
       "http_status": 200,
       "page_heading": "自動運転車",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -983,12 +1066,13 @@
       "cluster": "自動車・モビリティ",
       "kabutan_name": "電気自動車関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 138,
+      "eligible_3y_member_count": 137,
       "url": "https://s.kabutan.jp/themes/%E9%9B%BB%E6%B0%97%E8%87%AA%E5%8B%95%E8%BB%8A%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "電気自動車関連",
       "heading_match": true,
+      "page_count": 7,
       "error": null
     },
     {
@@ -996,12 +1080,13 @@
       "cluster": "自動車・モビリティ",
       "kabutan_name": "自動車電子化",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 34,
+      "eligible_3y_member_count": 34,
       "url": "https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E8%BB%8A%E9%9B%BB%E5%AD%90%E5%8C%96/?market=all",
       "http_status": 200,
       "page_heading": "自動車電子化",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -1009,12 +1094,13 @@
       "cluster": "自動車・モビリティ",
       "kabutan_name": "自動車製造装置",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 54,
+      "eligible_3y_member_count": 52,
       "url": "https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E8%BB%8A%E8%A3%BD%E9%80%A0%E8%A3%85%E7%BD%AE/?market=all",
       "http_status": 200,
       "page_heading": "自動車製造装置",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1022,12 +1108,13 @@
       "cluster": "自動車・モビリティ",
       "kabutan_name": "自動車軽量化",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 48,
+      "eligible_3y_member_count": 48,
       "url": "https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E8%BB%8A%E8%BB%BD%E9%87%8F%E5%8C%96/?market=all",
       "http_status": 200,
       "page_heading": "自動車軽量化",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1035,12 +1122,13 @@
       "cluster": "自動車・モビリティ",
       "kabutan_name": "全固体電池",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 62,
+      "eligible_3y_member_count": 62,
       "url": "https://s.kabutan.jp/themes/%E5%85%A8%E5%9B%BA%E4%BD%93%E9%9B%BB%E6%B1%A0/?market=all",
       "http_status": 200,
       "page_heading": "全固体電池",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -1048,12 +1136,13 @@
       "cluster": "自動車・モビリティ",
       "kabutan_name": "リチウムイオン電池",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 25,
+      "eligible_3y_member_count": 25,
       "url": "https://s.kabutan.jp/themes/%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E9%9B%BB%E6%B1%A0/?market=all",
       "http_status": 200,
       "page_heading": "リチウムイオン電池",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -1061,12 +1150,13 @@
       "cluster": "自動車・モビリティ",
       "kabutan_name": "自動車部材・部品",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 382,
+      "eligible_3y_member_count": 375,
       "url": "https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E8%BB%8A%E9%83%A8%E6%9D%90%E3%83%BB%E9%83%A8%E5%93%81/?market=all",
       "http_status": 200,
       "page_heading": "自動車部材・部品",
       "heading_match": true,
+      "page_count": 20,
       "error": null
     },
     {
@@ -1074,12 +1164,13 @@
       "cluster": "自動車・モビリティ",
       "kabutan_name": "MaaS",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 46,
+      "eligible_3y_member_count": 46,
       "url": "https://s.kabutan.jp/themes/MaaS/?market=all",
       "http_status": 200,
       "page_heading": "MaaS",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1087,12 +1178,13 @@
       "cluster": "自動車・モビリティ",
       "kabutan_name": "空飛ぶクルマ",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 41,
+      "eligible_3y_member_count": 41,
       "url": "https://s.kabutan.jp/themes/%E7%A9%BA%E9%A3%9B%E3%81%B6%E3%82%AF%E3%83%AB%E3%83%9E/?market=all",
       "http_status": 200,
       "page_heading": "空飛ぶクルマ",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1100,12 +1192,13 @@
       "cluster": "GX・エネルギー",
       "kabutan_name": "再生可能エネルギー",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 88,
+      "eligible_3y_member_count": 87,
       "url": "https://s.kabutan.jp/themes/%E5%86%8D%E7%94%9F%E5%8F%AF%E8%83%BD%E3%82%A8%E3%83%8D%E3%83%AB%E3%82%AE%E3%83%BC/?market=all",
       "http_status": 200,
       "page_heading": "再生可能エネルギー",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -1113,12 +1206,13 @@
       "cluster": "GX・エネルギー",
       "kabutan_name": "太陽光発電関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 18,
+      "member_count": 179,
+      "eligible_3y_member_count": 176,
       "url": "https://s.kabutan.jp/themes/%E5%A4%AA%E9%99%BD%E5%85%89%E7%99%BA%E9%9B%BB%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "太陽光発電関連",
       "heading_match": true,
+      "page_count": 9,
       "error": null
     },
     {
@@ -1126,12 +1220,13 @@
       "cluster": "GX・エネルギー",
       "kabutan_name": "風力発電",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 109,
+      "eligible_3y_member_count": 107,
       "url": "https://s.kabutan.jp/themes/%E9%A2%A8%E5%8A%9B%E7%99%BA%E9%9B%BB/?market=all",
       "http_status": 200,
       "page_heading": "風力発電",
       "heading_match": true,
+      "page_count": 6,
       "error": null
     },
     {
@@ -1139,12 +1234,13 @@
       "cluster": "GX・エネルギー",
       "kabutan_name": "原子力発電",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 39,
+      "eligible_3y_member_count": 39,
       "url": "https://s.kabutan.jp/themes/%E5%8E%9F%E5%AD%90%E5%8A%9B%E7%99%BA%E9%9B%BB/?market=all",
       "http_status": 200,
       "page_heading": "原子力発電",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -1152,12 +1248,13 @@
       "cluster": "GX・エネルギー",
       "kabutan_name": "核融合発電",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 30,
+      "eligible_3y_member_count": 30,
       "url": "https://s.kabutan.jp/themes/%E6%A0%B8%E8%9E%8D%E5%90%88%E7%99%BA%E9%9B%BB/?market=all",
       "http_status": 200,
       "page_heading": "核融合発電",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -1165,12 +1262,13 @@
       "cluster": "GX・エネルギー",
       "kabutan_name": "水素",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 109,
+      "eligible_3y_member_count": 109,
       "url": "https://s.kabutan.jp/themes/%E6%B0%B4%E7%B4%A0/?market=all",
       "http_status": 200,
       "page_heading": "水素",
       "heading_match": true,
+      "page_count": 6,
       "error": null
     },
     {
@@ -1178,12 +1276,13 @@
       "cluster": "GX・エネルギー",
       "kabutan_name": "アンモニア",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 56,
+      "eligible_3y_member_count": 56,
       "url": "https://s.kabutan.jp/themes/%E3%82%A2%E3%83%B3%E3%83%A2%E3%83%8B%E3%82%A2/?market=all",
       "http_status": 200,
       "page_heading": "アンモニア",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1191,12 +1290,13 @@
       "cluster": "GX・エネルギー",
       "kabutan_name": "蓄電池",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 62,
+      "eligible_3y_member_count": 62,
       "url": "https://s.kabutan.jp/themes/%E8%93%84%E9%9B%BB%E6%B1%A0/?market=all",
       "http_status": 200,
       "page_heading": "蓄電池",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -1210,6 +1310,7 @@
       "http_status": 200,
       "page_heading": "省エネ関連",
       "heading_match": true,
+      "page_count": 1,
       "error": null
     },
     {
@@ -1217,12 +1318,13 @@
       "cluster": "GX・エネルギー",
       "kabutan_name": "脱炭素",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 54,
+      "eligible_3y_member_count": 54,
       "url": "https://s.kabutan.jp/themes/%E8%84%B1%E7%82%AD%E7%B4%A0/?market=all",
       "http_status": 200,
       "page_heading": "脱炭素",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1230,12 +1332,13 @@
       "cluster": "内需・消費",
       "kabutan_name": "インバウンド",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 135,
+      "eligible_3y_member_count": 133,
       "url": "https://s.kabutan.jp/themes/%E3%82%A4%E3%83%B3%E3%83%90%E3%82%A6%E3%83%B3%E3%83%89/?market=all",
       "http_status": 200,
       "page_heading": "インバウンド",
       "heading_match": true,
+      "page_count": 7,
       "error": null
     },
     {
@@ -1243,12 +1346,13 @@
       "cluster": "内需・消費",
       "kabutan_name": "旅行",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 56,
+      "eligible_3y_member_count": 55,
       "url": "https://s.kabutan.jp/themes/%E6%97%85%E8%A1%8C/?market=all",
       "http_status": 200,
       "page_heading": "旅行",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1256,12 +1360,13 @@
       "cluster": "内需・消費",
       "kabutan_name": "ホテル",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 119,
+      "eligible_3y_member_count": 112,
       "url": "https://s.kabutan.jp/themes/%E3%83%9B%E3%83%86%E3%83%AB/?market=all",
       "http_status": 200,
       "page_heading": "ホテル",
       "heading_match": true,
+      "page_count": 6,
       "error": null
     },
     {
@@ -1269,12 +1374,13 @@
       "cluster": "内需・消費",
       "kabutan_name": "外食",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 179,
+      "eligible_3y_member_count": 173,
       "url": "https://s.kabutan.jp/themes/%E5%A4%96%E9%A3%9F/?market=all",
       "http_status": 200,
       "page_heading": "外食",
       "heading_match": true,
+      "page_count": 9,
       "error": null
     },
     {
@@ -1282,12 +1388,13 @@
       "cluster": "内需・消費",
       "kabutan_name": "小売り",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 157,
+      "eligible_3y_member_count": 155,
       "url": "https://s.kabutan.jp/themes/%E5%B0%8F%E5%A3%B2%E3%82%8A/?market=all",
       "http_status": 200,
       "page_heading": "小売り",
       "heading_match": true,
+      "page_count": 8,
       "error": null
     },
     {
@@ -1295,12 +1402,13 @@
       "cluster": "内需・消費",
       "kabutan_name": "食品",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 108,
+      "eligible_3y_member_count": 104,
       "url": "https://s.kabutan.jp/themes/%E9%A3%9F%E5%93%81/?market=all",
       "http_status": 200,
       "page_heading": "食品",
       "heading_match": true,
+      "page_count": 6,
       "error": null
     },
     {
@@ -1308,12 +1416,13 @@
       "cluster": "内需・消費",
       "kabutan_name": "円高メリット",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 56,
+      "eligible_3y_member_count": 56,
       "url": "https://s.kabutan.jp/themes/%E5%86%86%E9%AB%98%E3%83%A1%E3%83%AA%E3%83%83%E3%83%88/?market=all",
       "http_status": 200,
       "page_heading": "円高メリット",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1321,12 +1430,13 @@
       "cluster": "内需・消費",
       "kabutan_name": "円安メリット",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 119,
+      "eligible_3y_member_count": 119,
       "url": "https://s.kabutan.jp/themes/%E5%86%86%E5%AE%89%E3%83%A1%E3%83%AA%E3%83%83%E3%83%88/?market=all",
       "http_status": 200,
       "page_heading": "円安メリット",
       "heading_match": true,
+      "page_count": 6,
       "error": null
     },
     {
@@ -1337,22 +1447,24 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E5%80%A4%E4%B8%8A%E3%81%92%E9%96%A2%E9%80%A3/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E5%80%A4%E4%B8%8A%E3%81%92%E9%96%A2%E9%80%A3/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E5%80%A4%E4%B8%8A%E3%81%92%E9%96%A2%E9%80%A3/?market=all&page=1"
     },
     {
       "theme_name": "eコマース",
       "cluster": "内需・消費",
       "kabutan_name": "eコマース",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 190,
+      "eligible_3y_member_count": 186,
       "url": "https://s.kabutan.jp/themes/e%E3%82%B3%E3%83%9E%E3%83%BC%E3%82%B9/?market=all",
       "http_status": 200,
       "page_heading": "eコマース",
       "heading_match": true,
+      "page_count": 10,
       "error": null
     },
     {
@@ -1360,12 +1472,13 @@
       "cluster": "医療・ヘルスケア",
       "kabutan_name": "バイオテクノロジー関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 84,
+      "eligible_3y_member_count": 83,
       "url": "https://s.kabutan.jp/themes/%E3%83%90%E3%82%A4%E3%82%AA%E3%83%86%E3%82%AF%E3%83%8E%E3%83%AD%E3%82%B8%E3%83%BC%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "バイオテクノロジー関連",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -1373,12 +1486,13 @@
       "cluster": "医療・ヘルスケア",
       "kabutan_name": "創薬",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 49,
+      "eligible_3y_member_count": 48,
       "url": "https://s.kabutan.jp/themes/%E5%89%B5%E8%96%AC/?market=all",
       "http_status": 200,
       "page_heading": "創薬",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1386,12 +1500,13 @@
       "cluster": "医療・ヘルスケア",
       "kabutan_name": "再生医療",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 73,
+      "eligible_3y_member_count": 73,
       "url": "https://s.kabutan.jp/themes/%E5%86%8D%E7%94%9F%E5%8C%BB%E7%99%82/?market=all",
       "http_status": 200,
       "page_heading": "再生医療",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -1399,12 +1514,13 @@
       "cluster": "医療・ヘルスケア",
       "kabutan_name": "医療機器",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 157,
+      "eligible_3y_member_count": 155,
       "url": "https://s.kabutan.jp/themes/%E5%8C%BB%E7%99%82%E6%A9%9F%E5%99%A8/?market=all",
       "http_status": 200,
       "page_heading": "医療機器",
       "heading_match": true,
+      "page_count": 8,
       "error": null
     },
     {
@@ -1412,12 +1528,13 @@
       "cluster": "医療・ヘルスケア",
       "kabutan_name": "遠隔医療",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 29,
+      "eligible_3y_member_count": 28,
       "url": "https://s.kabutan.jp/themes/%E9%81%A0%E9%9A%94%E5%8C%BB%E7%99%82/?market=all",
       "http_status": 200,
       "page_heading": "遠隔医療",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -1428,22 +1545,24 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E3%83%98%E3%83%AB%E3%82%B9%E3%82%B1%E3%82%A2/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E3%83%98%E3%83%AB%E3%82%B9%E3%82%B1%E3%82%A2/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E3%83%98%E3%83%AB%E3%82%B9%E3%82%B1%E3%82%A2/?market=all&page=1"
     },
     {
       "theme_name": "介護関連",
       "cluster": "医療・ヘルスケア",
       "kabutan_name": "介護関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 168,
+      "eligible_3y_member_count": 166,
       "url": "https://s.kabutan.jp/themes/%E4%BB%8B%E8%AD%B7%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "介護関連",
       "heading_match": true,
+      "page_count": 9,
       "error": null
     },
     {
@@ -1457,6 +1576,7 @@
       "http_status": 200,
       "page_heading": "認知症薬",
       "heading_match": true,
+      "page_count": 1,
       "error": null
     },
     {
@@ -1464,12 +1584,13 @@
       "cluster": "医療・ヘルスケア",
       "kabutan_name": "医薬品関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 83,
+      "eligible_3y_member_count": 81,
       "url": "https://s.kabutan.jp/themes/%E5%8C%BB%E8%96%AC%E5%93%81%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "医薬品関連",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -1477,12 +1598,13 @@
       "cluster": "不動産・建設",
       "kabutan_name": "不動産関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 289,
+      "eligible_3y_member_count": 273,
       "url": "https://s.kabutan.jp/themes/%E4%B8%8D%E5%8B%95%E7%94%A3%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "不動産関連",
       "heading_match": true,
+      "page_count": 15,
       "error": null
     },
     {
@@ -1490,12 +1612,13 @@
       "cluster": "不動産・建設",
       "kabutan_name": "建設",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 144,
+      "eligible_3y_member_count": 134,
       "url": "https://s.kabutan.jp/themes/%E5%BB%BA%E8%A8%AD/?market=all",
       "http_status": 200,
       "page_heading": "建設",
       "heading_match": true,
+      "page_count": 8,
       "error": null
     },
     {
@@ -1503,12 +1626,13 @@
       "cluster": "不動産・建設",
       "kabutan_name": "マンション関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 86,
+      "eligible_3y_member_count": 82,
       "url": "https://s.kabutan.jp/themes/%E3%83%9E%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%B3%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "マンション関連",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -1516,12 +1640,13 @@
       "cluster": "不動産・建設",
       "kabutan_name": "住宅関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 121,
+      "eligible_3y_member_count": 114,
       "url": "https://s.kabutan.jp/themes/%E4%BD%8F%E5%AE%85%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "住宅関連",
       "heading_match": true,
+      "page_count": 7,
       "error": null
     },
     {
@@ -1529,12 +1654,13 @@
       "cluster": "不動産・建設",
       "kabutan_name": "不動産テック",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 30,
+      "eligible_3y_member_count": 30,
       "url": "https://s.kabutan.jp/themes/%E4%B8%8D%E5%8B%95%E7%94%A3%E3%83%86%E3%83%83%E3%82%AF/?market=all",
       "http_status": 200,
       "page_heading": "不動産テック",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -1545,10 +1671,11 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81%E6%96%BD%E8%A8%AD%E9%96%A2%E9%80%A3/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81%E6%96%BD%E8%A8%AD%E9%96%A2%E9%80%A3/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81%E6%96%BD%E8%A8%AD%E9%96%A2%E9%80%A3/?market=all&page=1"
     },
     {
       "theme_name": "再開発",
@@ -1561,6 +1688,7 @@
       "http_status": 200,
       "page_heading": "再開発",
       "heading_match": true,
+      "page_count": 1,
       "error": null
     },
     {
@@ -1568,12 +1696,13 @@
       "cluster": "不動産・建設",
       "kabutan_name": "建設DX",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 25,
+      "eligible_3y_member_count": 25,
       "url": "https://s.kabutan.jp/themes/%E5%BB%BA%E8%A8%ADDX/?market=all",
       "http_status": 200,
       "page_heading": "建設DX",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -1581,12 +1710,13 @@
       "cluster": "物流・海運",
       "kabutan_name": "海運",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 24,
+      "eligible_3y_member_count": 23,
       "url": "https://s.kabutan.jp/themes/%E6%B5%B7%E9%81%8B/?market=all",
       "http_status": 200,
       "page_heading": "海運",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -1594,12 +1724,13 @@
       "cluster": "物流・海運",
       "kabutan_name": "物流",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 18,
+      "member_count": 116,
+      "eligible_3y_member_count": 107,
       "url": "https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81/?market=all",
       "http_status": 200,
       "page_heading": "物流",
       "heading_match": true,
+      "page_count": 6,
       "error": null
     },
     {
@@ -1607,12 +1738,13 @@
       "cluster": "物流・海運",
       "kabutan_name": "倉庫",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 64,
+      "eligible_3y_member_count": 61,
       "url": "https://s.kabutan.jp/themes/%E5%80%89%E5%BA%AB/?market=all",
       "http_status": 200,
       "page_heading": "倉庫",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -1620,12 +1752,13 @@
       "cluster": "物流・海運",
       "kabutan_name": "陸運",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 16,
+      "member_count": 53,
+      "eligible_3y_member_count": 47,
       "url": "https://s.kabutan.jp/themes/%E9%99%B8%E9%81%8B/?market=all",
       "http_status": 200,
       "page_heading": "陸運",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1633,12 +1766,13 @@
       "cluster": "物流・海運",
       "kabutan_name": "鉄道関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 18,
+      "member_count": 93,
+      "eligible_3y_member_count": 90,
       "url": "https://s.kabutan.jp/themes/%E9%89%84%E9%81%93%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "鉄道関連",
       "heading_match": true,
+      "page_count": 5,
       "error": null
     },
     {
@@ -1652,6 +1786,7 @@
       "http_status": 200,
       "page_heading": "航空",
       "heading_match": true,
+      "page_count": 1,
       "error": null
     },
     {
@@ -1662,22 +1797,24 @@
       "member_count": 0,
       "eligible_3y_member_count": 0,
       "url": "https://s.kabutan.jp/themes/%E6%B8%AF%E6%B9%BE%E9%96%A2%E9%80%A3/?market=all",
-      "http_status": null,
+      "http_status": 404,
       "page_heading": null,
       "heading_match": false,
-      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E6%B8%AF%E6%B9%BE%E9%96%A2%E9%80%A3/?market=all"
+      "page_count": 0,
+      "error": "HTTPError: 404 Client Error: Not Found for url: https://s.kabutan.jp/themes/%E6%B8%AF%E6%B9%BE%E9%96%A2%E9%80%A3/?market=all&page=1"
     },
     {
       "theme_name": "宅配",
       "cluster": "物流・海運",
       "kabutan_name": "宅配",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 54,
+      "eligible_3y_member_count": 51,
       "url": "https://s.kabutan.jp/themes/%E5%AE%85%E9%85%8D/?market=all",
       "http_status": 200,
       "page_heading": "宅配",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1685,12 +1822,13 @@
       "cluster": "デジタル・サービス",
       "kabutan_name": "SaaS",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 192,
+      "eligible_3y_member_count": 190,
       "url": "https://s.kabutan.jp/themes/SaaS/?market=all",
       "http_status": 200,
       "page_heading": "SaaS",
       "heading_match": true,
+      "page_count": 10,
       "error": null
     },
     {
@@ -1698,12 +1836,13 @@
       "cluster": "デジタル・サービス",
       "kabutan_name": "クラウドコンピューティング",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 346,
+      "eligible_3y_member_count": 343,
       "url": "https://s.kabutan.jp/themes/%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0/?market=all",
       "http_status": 200,
       "page_heading": "クラウドコンピューティング",
       "heading_match": true,
+      "page_count": 18,
       "error": null
     },
     {
@@ -1711,12 +1850,13 @@
       "cluster": "デジタル・サービス",
       "kabutan_name": "デジタルトランスフォーメーション",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 306,
+      "eligible_3y_member_count": 299,
       "url": "https://s.kabutan.jp/themes/%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/?market=all",
       "http_status": 200,
       "page_heading": "デジタルトランスフォーメーション",
       "heading_match": true,
+      "page_count": 16,
       "error": null
     },
     {
@@ -1724,12 +1864,13 @@
       "cluster": "デジタル・サービス",
       "kabutan_name": "データベース",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 46,
+      "eligible_3y_member_count": 45,
       "url": "https://s.kabutan.jp/themes/%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9/?market=all",
       "http_status": 200,
       "page_heading": "データベース",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1737,12 +1878,13 @@
       "cluster": "デジタル・サービス",
       "kabutan_name": "IT関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 548,
+      "eligible_3y_member_count": 535,
       "url": "https://s.kabutan.jp/themes/IT%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "IT関連",
       "heading_match": true,
+      "page_count": 28,
       "error": null
     },
     {
@@ -1750,12 +1892,13 @@
       "cluster": "デジタル・サービス",
       "kabutan_name": "サブスクリプション",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 221,
+      "eligible_3y_member_count": 218,
       "url": "https://s.kabutan.jp/themes/%E3%82%B5%E3%83%96%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3/?market=all",
       "http_status": 200,
       "page_heading": "サブスクリプション",
       "heading_match": true,
+      "page_count": 12,
       "error": null
     },
     {
@@ -1763,12 +1906,13 @@
       "cluster": "デジタル・サービス",
       "kabutan_name": "電子政府",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 38,
+      "eligible_3y_member_count": 36,
       "url": "https://s.kabutan.jp/themes/%E9%9B%BB%E5%AD%90%E6%94%BF%E5%BA%9C/?market=all",
       "http_status": 200,
       "page_heading": "電子政府",
       "heading_match": true,
+      "page_count": 2,
       "error": null
     },
     {
@@ -1776,12 +1920,13 @@
       "cluster": "デジタル・サービス",
       "kabutan_name": "マイナンバー",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 19,
+      "member_count": 78,
+      "eligible_3y_member_count": 76,
       "url": "https://s.kabutan.jp/themes/%E3%83%9E%E3%82%A4%E3%83%8A%E3%83%B3%E3%83%90%E3%83%BC/?market=all",
       "http_status": 200,
       "page_heading": "マイナンバー",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     },
     {
@@ -1789,12 +1934,13 @@
       "cluster": "デジタル・サービス",
       "kabutan_name": "教育ICT",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 47,
+      "eligible_3y_member_count": 45,
       "url": "https://s.kabutan.jp/themes/%E6%95%99%E8%82%B2ICT/?market=all",
       "http_status": 200,
       "page_heading": "教育ICT",
       "heading_match": true,
+      "page_count": 3,
       "error": null
     },
     {
@@ -1802,18 +1948,20 @@
       "cluster": "デジタル・サービス",
       "kabutan_name": "ゲーム関連",
       "resolved": true,
-      "member_count": 20,
-      "eligible_3y_member_count": 20,
+      "member_count": 68,
+      "eligible_3y_member_count": 68,
       "url": "https://s.kabutan.jp/themes/%E3%82%B2%E3%83%BC%E3%83%A0%E9%96%A2%E9%80%A3/?market=all",
       "http_status": 200,
       "page_heading": "ゲーム関連",
       "heading_match": true,
+      "page_count": 4,
       "error": null
     }
   ],
   "notes": [
     "This is a research-only classification layer and does not modify production trading rules.",
     "Theme membership is a current snapshot; applying it to historical prices introduces classification look-ahead bias.",
-    "Overlapping stock memberships are intentionally preserved. Weekly volume analysis should apportion volume by membership count."
+    "Overlapping stock memberships are intentionally preserved. Weekly volume analysis should apportion volume by membership count.",
+    "Weekly ranking research should exclude themes with fewer than 5 valid 3-year members rather than treating them as classification failures."
   ]
 }
