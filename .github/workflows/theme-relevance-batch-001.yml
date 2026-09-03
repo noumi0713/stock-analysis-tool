@@ -1,0 +1,36 @@
+name: Theme relevance batch 001
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - "research/build_theme_relevance_batch.py"
+      - ".github/workflows/theme-relevance-batch-001.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build-batch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Fetch 124-theme source branch
+        run: git fetch origin research/volume-top100-overheat:refs/remotes/origin/research/volume-top100-overheat
+      - name: Build batch 001
+        run: python research/build_theme_relevance_batch.py --batch 1 --size 300
+      - name: Commit batch files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/theme_relevance_batches/batch_001_*.csv
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Generate theme relevance batch 001"
+            git push
+          fi
