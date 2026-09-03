@@ -1,0 +1,11 @@
+﻿group,n,mean_pct,median_pct,positive_rate_pct
+return_bottom15,2310,0.0196,0.1997,54.11
+return_top15,2310,0.2091,0.279,55.54
+volume_bottom15,2310,0.0192,0.1889,53.81
+volume_top15,2310,0.0935,0.2197,54.5
+volume_bottom15_and_return_bottom15,409,-0.3395,0.0,47.68
+volume_bottom15_and_return_top15,236,0.2323,0.1859,52.97
+volume_top15_and_return_bottom15,268,0.0122,0.1174,52.61
+volume_top15_and_return_top15,432,-0.0611,0.1012,51.16
+return_top_minus_bottom,154,0.1896,0.2099,59.09
+volume_top_minus_bottom,154,0.0744,0.0727,53.25
