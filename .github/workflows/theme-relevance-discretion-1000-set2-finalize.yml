@@ -1,0 +1,34 @@
+name: Theme relevance discretionary 1000 set2 finalize
+
+on:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - "research/discretionary_1000_set2_finalize.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Finalize second 1000
+        run: python research/finalize_discretionary_1000_set2.py
+      - name: Commit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/theme_relevance_batches/discretionary_review_1000_set2_final.csv \
+                  research/results/theme_relevance_batches/discretionary_review_1000_set2_final_summary.json \
+                  research/results/theme_relevance_batches/discretionary_review_1000_set2_qa_sample.csv
+          git commit -m "Finalize second 1000 discretionary theme relevance decisions"
+          git pull --rebase origin research/first-pullback-watch-prototype
+          git push
