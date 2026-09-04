@@ -1,0 +1,28 @@
+{
+  "set": 3,
+  "rows": 1000,
+  "excluded_previous_finalized": 2000,
+  "batch_counts": {
+    "3": 562,
+    "4": 438
+  },
+  "confidence": {
+    "C": 442,
+    "B": 152,
+    "A": 406
+  },
+  "review_flags": {
+    "needs_review": 502,
+    "ok": 277,
+    "qa_borderline": 23,
+    "official_site_supported": 171,
+    "qa_peripheral": 8,
+    "needs_official_ir": 19
+  },
+  "bands": {
+    "ノイズ候補": 367,
+    "有力関連": 102,
+    "主力テーマ": 456,
+    "補助関連": 75
+  }
+}
