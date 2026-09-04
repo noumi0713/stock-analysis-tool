@@ -1,0 +1,7 @@
+﻿stock_code,long_name,theme_name,revenue_share_pct,relevance_score,band,confidence,segment_names,share_basis,source_url
+2721,J-Holdings Corp.,不動産関連,60.17,80.7,主力テーマ,B,業不動産事業,external_customer_sales_table_v6,https://jholdings.co.jp/jhwp/wp-content/uploads/2026/03/20260330-001oICXDXHp.pdf
+2874,"Yokorei Co.,Ltd.",倉庫,31.70,64.1,有力関連,B,冷蔵倉庫事業,external_customer_sales_table_v6,https://www.yokorei.co.jp/ykr8x7k2mf/wp-content/uploads/32fde3f2eb7e5b2f1856af320d30980d.pdf
+2877,NittoBest Corporation,食品,0.00,41.1,補助関連,B,日配食品部門 | 食品の製造販売並びにこれらの付帯事業,external_customer_sales_table_v6,https://www.nittobest.co.jp/Portals/0/news_ir/20260624_有価証券報告書/第88期有価証券報告書.pdf
+2933,Kibun Foods Inc.,食品,100.00,97.0,主力テーマ,B,国内食品事業 | 海外食品事業 | 食品関連事業,external_customer_sales_table_v6,https://www.kibun.co.jp/cms1/kibuncontent/uploads/20260812_tanshin.pdf
+3107,"Daiwabo Holdings Co., Ltd.",機械,0.97,38.2,ノイズ候補,B,産業機械事業,external_customer_sales_table_v6,https://data.swcms.net/file/daiwabo-hd/dam/jcr:cb39a585-e0b1-46e2-955f-ae83a7f77e61/140120260805510716.pdf
+3154,"Medius Holdings Co., Ltd.",介護関連,2.09,42.5,補助関連,B,介護・福祉事業,external_customer_sales_table_v6,https://www.medius.co.jp/wp-content/uploads/2026/08/P5ag.pdf
