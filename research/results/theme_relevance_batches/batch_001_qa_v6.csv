@@ -1,0 +1,27 @@
+﻿stock_code,long_name,theme_name,revenue_share_pct,relevance_score,band,confidence,segment_names,share_basis,source_url
+1401,Mbs Inc,建設,1.83,43.9,補助関連,B,建築工事業,external_customer_sales_table_v6,https://www.homemakeup.co.jp/dcms_media/other/20260413ir.pdf
+1444,"Nissou Co.,Ltd.",不動産関連,4.90,43.6,補助関連,B,不動産流通事業 | 不動産建設事業,explicit_sales_mix_v6,https://reform-nisso.co.jp/company/ir/library/explanation/pdf/38_20260703.pdf
+1491,"Chugai Mining Co., Ltd.",機械,2.38,33.4,ノイズ候補,B,機械事業,external_customer_sales_table_v6,https://www.chugaikogyo.co.jp/wp/wp-content/uploads/2026/06/第134期有価証券報告書.pdf
+1491,"Chugai Mining Co., Ltd.",金,0.49,21.0,ノイズ候補,B,貴金属事業,external_customer_sales_table_v6,https://www.chugaikogyo.co.jp/wp/wp-content/uploads/2026/06/第134期有価証券報告書.pdf
+1764,Kudo Corporation,不動産関連,13.62,41.2,補助関連,B,不動産事業,external_customer_sales_table_v6,https://www.kudo.co.jp/wp-content/uploads/2026/08/59ad4a756434a070d3f47bc5b7f8e5f0.pdf
+1764,Kudo Corporation,介護関連,25.42,58.6,補助関連,B,介護事業,external_customer_sales_table_v6,https://www.kudo.co.jp/wp-content/uploads/2026/08/59ad4a756434a070d3f47bc5b7f8e5f0.pdf
+1764,Kudo Corporation,建設,60.96,84.4,主力テーマ,B,建設事業,external_customer_sales_table_v6,https://www.kudo.co.jp/wp-content/uploads/2026/08/59ad4a756434a070d3f47bc5b7f8e5f0.pdf
+1766,Token Corporation,建設,41.44,70.2,有力関連,B,建設事業,external_customer_sales_table_v6,https://www.token.co.jp/ir/pdf/quarterly26tanshin_3r.pdf
+1770,"Fujita Engineering Co., Ltd.",建設,49.25,73.2,有力関連,B,建設事業,external_customer_sales_table_v6,https://www.fujita-eng.co.jp/wordpress/wp-content/uploads/ir-info/tan_2027-1q.pdf
+1810,"Matsui Construction Co., Ltd.",建設,98.37,100.0,主力テーマ,B,建設事業,external_customer_sales_table_v6,https://www.matsui-ken.co.jp/module/wp-content/uploads/2026/08/2027年3月期-第1四半期決算短信.pdf
+1811,The Zenitaka Corporation,建設,97.26,97.6,主力テーマ,B,建設事業,external_customer_sales_table_v6,https://www.zenitaka.co.jp/news/shi2703-01.pdf
+1822,Daiho Corporation,建設,96.72,100.0,主力テーマ,B,土木事業 | 建築事業,external_customer_sales_table_v6,https://www.daiho.co.jp/wp/wp-content/uploads/2026/05/20260513-tanshint1.pdf
+1826,"Sata Construction Co., Ltd.",建設,98.80,99.1,主力テーマ,B,土木事業 | 建築事業,explicit_sales_mix_v6,https://www.sata.co.jp/uploads/2026/05/sata_financial_release_20260518_01.pdf
+1840,"Tsuchiya Holdings Co., Ltd.",住宅関連,67.27,87.3,主力テーマ,B,住宅事業,external_customer_sales_table_v6,https://www.tsuchiya.co.jp/wp-content/uploads/2026/06/6195598004221ec874ebb67568f4b241.pdf
+1847,"Ichiken Co., Ltd.",建設,99.75,100.0,主力テーマ,B,2建設事業,external_customer_sales_table_v6,https://www.ichiken.co.jp/cms_cL3vf6K5/wp-content/uploads/2026/08/irinfo260807_01.pdf
+1897,"The Kaneshita Construction Co.,Ltd.",建設,95.71,97.5,主力テーマ,B,建設事業,external_customer_sales_table_v6,https://www.kaneshita.co.jp/file/1139debac2d00297d674e32d180fc3b7.pdf
+1921,Tomoe Corporation,不動産関連,19.70,51.0,補助関連,B,不動産事業,external_customer_sales_table_v6,https://www.tomoe-corporation.co.jp/ir/doc/26-08-07-shihan.pdf
+1921,Tomoe Corporation,建設,80.30,94.3,主力テーマ,B,鉄構建設事業,external_customer_sales_table_v6,https://www.tomoe-corporation.co.jp/ir/doc/26-08-07-shihan.pdf
+1939,Yondenko Corporation,リース,1.50,42.7,補助関連,B,リース,explicit_sales_mix_v6,https://www.yondenko.co.jp/pdf/ir/integrated-report/yondenko_ir_a4-2025.pdf
+1939,Yondenko Corporation,太陽光発電関連,2.00,40.4,補助関連,B,太陽光発電,explicit_sales_mix_v6,https://www.yondenko.co.jp/pdf/ir/integrated-report/yondenko_ir_a4-2025.pdf
+1939,Yondenko Corporation,建設,4.80,47.2,補助関連,B,送電・土木工事,explicit_sales_mix_v6,https://www.yondenko.co.jp/pdf/ir/integrated-report/yondenko_ir_a4-2025.pdf
+2198,IKK Holdings Inc.,介護関連,3.00,43.8,補助関連,B,介護事業,explicit_sales_mix_v6,https://www.ikk-grp.jp/ir/irnews/IRNews-202606110-4/main/0/link/Integrated%20Report2026.pdf
+2198,IKK Holdings Inc.,食品,2.00,33.2,ノイズ候補,B,食品事業,explicit_sales_mix_v6,https://www.ikk-grp.jp/ir/irnews/IRNews-202606110-4/main/0/link/Integrated%20Report2026.pdf
+2207,"Meito Co., Ltd.",食品,82.42,97.5,主力テーマ,B,食品事業,external_customer_sales_table_v6,https://www.meito-abc.co.jp/content/wp-content/uploads/ir/6868/20270810_release.pdf
+2337,Ichigo Inc.,不動産関連,8.37,49.0,補助関連,B,現存不動産に新しい価値を創造する事業,external_customer_sales_table_v6,https://www.ichigo.gr.jp/news/p_news_file/file/Ichigo_20260715_Q1_Feb2027_Earnings_JPN.pdf
+2418,TSUKADA GLOBAL HOLDINGS Inc.,ホテル,48.13,78.1,有力関連,B,ホテル事業,external_customer_sales_table_v6,https://www.tsukada-global.holdings/assets/attachmentfile/attachmentfile-file-1290.pdf
