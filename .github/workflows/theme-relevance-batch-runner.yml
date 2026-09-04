@@ -77,6 +77,8 @@ jobs:
               w.writeheader(); w.writerows(rows)
           print("qa_rows", len(rows), dst)
           PY
+      - name: Prepare ChatGPT discretionary review queue
+        run: python research/prepare_discretionary_review_queue.py --batch ${{ steps.batch.outputs.number }}
       - name: Commit batch outputs
         run: |
           git config user.name "github-actions[bot]"
