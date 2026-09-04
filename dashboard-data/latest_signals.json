@@ -1,21 +1,21 @@
 {
   "schema_version": 4,
-  "date": "2026-09-03",
-  "latest_date": "2026-09-03",
-  "generated_at": "2026-09-03T12:20:19.504535+00:00",
+  "date": "2026-09-04",
+  "latest_date": "2026-09-04",
+  "generated_at": "2026-09-04T12:06:18.466778+00:00",
   "update": {
     "status": "failed",
     "session": "close",
-    "market_date": "2026-09-03",
-    "generated_at": "2026-09-03T12:20:19.504535+00:00",
+    "market_date": "2026-09-04",
+    "generated_at": "2026-09-04T12:06:18.466778+00:00",
     "message": "更新失敗・本日データ未確定"
   },
   "data_quality": {
     "status": "rejected"
   },
-  "git_commit_id": "3ec8b9f8d0fb5eb2f99ff18c94580a207e9ff277",
+  "git_commit_id": "6a0683af77039cba90c4b9b020763a330325b28f",
   "errors": [
-    "workflow_failed:33754551852"
+    "workflow_failed:33871047204"
   ],
   "total_signal_count": 0,
   "signal_count": 0,
