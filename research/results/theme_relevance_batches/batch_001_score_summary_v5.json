@@ -1,0 +1,22 @@
+{
+  "batch": 1,
+  "stock_theme_pairs": 955,
+  "scored_pairs": 39,
+  "unscored_pairs": 916,
+  "band_counts": {
+    "未確定": 916,
+    "有力関連": 5,
+    "補助関連": 14,
+    "ノイズ候補": 6,
+    "主力テーマ": 14
+  },
+  "review_counts": {
+    "macro_sensitivity_required": 19,
+    "revenue_share_unknown": 889,
+    "non_operating_security": 8,
+    "structured_segment_needs_sample_qa": 39
+  },
+  "formula": "55% structured revenue exposure + 30% business directness + 15% growth relevance",
+  "status": "research_candidate_v5",
+  "warning": "v5 only scores themes mapped to disclosed revenue segments; specific themes do not inherit broad-segment revenue."
+}

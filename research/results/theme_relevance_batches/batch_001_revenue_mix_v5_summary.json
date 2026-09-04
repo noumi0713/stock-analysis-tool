@@ -1,0 +1,11 @@
+{
+  "batch": 1,
+  "stocks": 300,
+  "stock_theme_pairs": 955,
+  "structured_segments": 271,
+  "mapped_theme_pairs": 39,
+  "unknown_theme_pairs": 908,
+  "rule": "parse disclosed segment labels and sales shares first, then conservatively map themes to segment labels",
+  "critical_rule": "specific themes never inherit a broad segment share (e.g. 下水道 != 土木).",
+  "status": "research_candidate_v5"
+}

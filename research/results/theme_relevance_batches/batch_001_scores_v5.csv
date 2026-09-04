@@ -1,0 +1,1901 @@
+﻿batch,stock_code,long_name,theme_name,cluster,revenue_share_pct,revenue_exposure_score,directness_score,growth_relevance_score,relevance_score,band,confidence,review_flag,score_source,segment_names,share_basis,source_url,evidence
+1,1301,"Kyokuyo Co., Ltd.",円高メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,130A,Veritas In Silico Inc.,創薬,医療・ヘルスケア,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,130A,Veritas In Silico Inc.,医薬品関連,医療・ヘルスケア,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1326,SPDR Gold Shares,金,資源・素材,,,100.0,100.0,,未確定,C,non_operating_security,non_operating_security,,,,事業会社ではないため対象外
+1,1328,NEXT FUNDS Gold Price Exchange Traded Fund,金,資源・素材,,,100.0,100.0,,未確定,C,non_operating_security,non_operating_security,,,,事業会社ではないため対象外
+1,1332,Nissui Corporation,円高メリット,内需・消費,,,42.0,30.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,1333,Umios Corporation,介護関連,医療・ヘルスケア,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1333,Umios Corporation,円高メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,1333,Umios Corporation,宅配,物流・海運,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1333,Umios Corporation,食品,内需・消費,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,135A,"VRAIN Solution, Inc.",IoT,設備投資・機械,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,135A,"VRAIN Solution, Inc.",デジタルトランスフォーメーション,デジタル・サービス,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,135A,"VRAIN Solution, Inc.",人工知能,AI・半導体,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1375,"Yukiguni Factory Co., Ltd.",食品,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,137A,"Cocolive, Inc.",IT関連,デジタル・サービス,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,137A,"Cocolive, Inc.",SaaS,デジタル・サービス,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,137A,"Cocolive, Inc.",クラウドコンピューティング,デジタル・サービス,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,137A,"Cocolive, Inc.",サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,137A,"Cocolive, Inc.",不動産テック,不動産・建設,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,137A,"Cocolive, Inc.",不動産関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1380,"Akikawa Foods & Farms Co., Ltd.",宅配,物流・海運,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1381,"AXYZ Co., Ltd.",外食,内需・消費,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,138A,"Hikari Food Service Co., Ltd.",外食,内需・消費,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,138A,"Hikari Food Service Co., Ltd.",小売り,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1401,Mbs Inc,住宅関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1401,Mbs Inc,建設,不動産・建設,32.41,40.5,94.0,96.0,64.9,有力関連,B,structured_segment_needs_sample_qa,structured_segment_v5,建築工事業,external_customer_sales_table,https://www.homemakeup.co.jp/dcms_media/other/20260713kt.ir.pdf,"事
+業」、「建築工事業」を報告セグメントとしております。「ホームメイキャップ事業」はホームメイキャップ工法
+等による、諸建造物における内外装リフォーム工事、「建築工事業」は新築及び改修工事を行っております。
+２ 報告セグメントごとの売上高、利益又は損失、資産、負債その他の項目の金額の算定方法
+報告されている事業セグメントの会計処理の方法は、「重要な会計方針」における記載と同一であります。
+報告セグメントの利益は、営業利益ベースの数値であります。セグメント間の内部収益及び振替高は市場実勢価
+格に基づいております。
+株式会社エムビーエス(1401) 2026年５月期 決算短信
+17
+３ 報告セグメントごとの売上高、利益又は損失、資産、負債その他の項目の金額に関する情報
+前事業年度（自 2024年６月１日 至 2025年５月31日）
+(単位：千円)
+報告セグメント その他
+（注） 合計ホームメイ
+キャップ事業 建築工事業 計
+売上高 外部顧客への売上高 4,581,538 128,723 4,710,262 2,739 4,713,002
+セグメント間の内部
+売上高又は振替高 － － － －"
+1,1401,Mbs Inc,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1401,Mbs Inc,防災,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1407,West Holdings Corporation,再生可能エネルギー,GX・エネルギー,,,97.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1407,West Holdings Corporation,太陽光発電関連,GX・エネルギー,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1407,West Holdings Corporation,蓄電池,GX・エネルギー,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1414,"SHO-BOND Holdings Co.,Ltd.",国土強靱化,防衛・国土強靱化,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1414,"SHO-BOND Holdings Co.,Ltd.",建設,不動産・建設,,,96.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1414,"SHO-BOND Holdings Co.,Ltd.",耐震化,防衛・国土強靱化,,,58.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1414,"SHO-BOND Holdings Co.,Ltd.",防災,防衛・国土強靱化,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1417,MIRAIT ONE Corporation,データセンター,データセンター・電力,,,58.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1417,MIRAIT ONE Corporation,ドローン,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1417,MIRAIT ONE Corporation,光ファイバー,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1417,MIRAIT ONE Corporation,太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1417,MIRAIT ONE Corporation,建設,不動産・建設,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1418,"Interlife Holdings Co., Ltd.",建設,不動産・建設,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1419,"Tama Home Co., Ltd.",マンション関連,不動産・建設,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1419,"Tama Home Co., Ltd.",住宅関連,不動産・建設,,,100.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,141A,"TRIAL Holdings, Inc.",デジタルトランスフォーメーション,デジタル・サービス,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,141A,"TRIAL Holdings, Inc.",人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,141A,"TRIAL Holdings, Inc.",外食,内需・消費,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,141A,"TRIAL Holdings, Inc.",小売り,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,141A,"TRIAL Holdings, Inc.",物流,物流・海運,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,141A,"TRIAL Holdings, Inc.",生活防衛,内需・消費,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,141A,"TRIAL Holdings, Inc.",食品,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1420,Sanyo Homes Corporation,介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1420,Sanyo Homes Corporation,住宅関連,不動産・建設,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1429,"Nippon Aqua Co., Ltd.",住宅関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1429,"Nippon Aqua Co., Ltd.",建設,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1430,First-corporation Inc.,マンション関連,不動産・建設,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1430,First-corporation Inc.,不動産関連,不動産・建設,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1430,First-corporation Inc.,建設,不動産・建設,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1431,"Lib Work Co.,Ltd.",3Dプリンター,設備投資・機械,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1431,"Lib Work Co.,Ltd.",SaaS,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1431,"Lib Work Co.,Ltd.",サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1431,"Lib Work Co.,Ltd.",人工知能,AI・半導体,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1431,"Lib Work Co.,Ltd.",住宅関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1431,"Lib Work Co.,Ltd.",建設,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1433,"Besterra Co., Ltd.",原子力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1433,"Besterra Co., Ltd.",脱炭素,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1434,"Jesco Holdings, Inc.",再生可能エネルギー,GX・エネルギー,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1434,"Jesco Holdings, Inc.",建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1434,"Jesco Holdings, Inc.",防災,防衛・国土強靱化,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1434,"Jesco Holdings, Inc.",電力設備投資関連,データセンター・電力,,,91.0,83.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1435,"Robot Home, Inc.",IoT,設備投資・機械,,,85.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1435,"Robot Home, Inc.",デジタルトランスフォーメーション,デジタル・サービス,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1435,"Robot Home, Inc.",不動産テック,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1435,"Robot Home, Inc.",不動産ファンド,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1435,"Robot Home, Inc.",不動産関連,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1436,GreenEnergy & Company Inc.,住宅関連,不動産・建設,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1436,GreenEnergy & Company Inc.,再生可能エネルギー,GX・エネルギー,,,66.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1436,GreenEnergy & Company Inc.,太陽光発電関連,GX・エネルギー,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1436,GreenEnergy & Company Inc.,建設,不動産・建設,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1436,GreenEnergy & Company Inc.,脱炭素,GX・エネルギー,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1436,GreenEnergy & Company Inc.,蓄電池,GX・エネルギー,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1438,"Gifu landscape architect Co., Ltd.",住宅関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1438,"Gifu landscape architect Co., Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1438,"Gifu landscape architect Co., Ltd.",建設,不動産・建設,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,143A,"Ishin Co., Ltd.",デジタルトランスフォーメーション,デジタル・サービス,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,143A,"Ishin Co., Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1443,"Giken Holdings Co., Ltd.",建設,不動産・建設,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1443,"Giken Holdings Co., Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1444,"Nissou Co.,Ltd.",不動産関連,不動産・建設,6.10,7.6,92.0,84.0,44.4,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,不動産流通事業 | 不動産建設事業 | 不動産 流通事業 不動産 建設事業,explicit_segment_percent,https://reform-nisso.co.jp/company/ir/library/explanation/pdf/38_20260703.pdf,"トにおける受注数が予想より少な く、グループ全体としては前年対比微増にとどまった。 売上高の増加が各種費用の増加分より少なかったことにより、営業損失が発生、また不動産建設事業において のれんの減損を計上することとなったため、当期純利益も損失となった。 売上高（千円） 営業利益（千円） 当期純利益（千円） 親会社株主に帰属する 69,464 25,154 202,686 △ 75,137 △ 91,089 FY23.7 FY24.7 FY25.7 FY26.7 FY26.7 148,240 56,392 72,700 △ 21,060 △ 16,040 FY23.7 FY24.7 FY25.7 FY26.7 FY26.7 4,166,512 4,678,961 5,279,959 3,956,908 5,515,381 FY23.7 FY24.7 FY25.7 FY26.7 FY26.7 進捗率 71.7% 通期 3Q累計 通期計画 通期 3Q累計 通期計画通期 3Q累計 通期計画 ※2026年7月期計画につきましては、2026年３月17日公開の「2026年７月期第２四半期（中間期）連結 || トにおける受注数が予想より少な く、グループ全体としては前年対比微増にとどまった。 売上高の増加が各種費用の増加分より少なかったことにより、営業損失が発生、また不動産建設事業において のれんの減損を計上することとなったため、当期純利益も損失となった。 売上高（千円） 営業利益（千円） 当期純利益（千円） 親会社株主に帰属する 69,464 25,154 202,686 △ 75,137 △ 91,089 FY23.7 FY24.7 FY25.7 FY26.7 FY26.7 148,240 56,392 72,700 △ 21,060 △ 16,040 FY23.7 FY24.7 FY25.7 FY26.7 FY26.7 4,166,512 4,678,961 5,279,959 3,956,908 5,515,381 FY23.7 FY24.7 FY25.7 FY26.7 FY26.7 進捗率 71.7% 通期 3Q累計 通期計画 通期 3Q累計 通期計画通期 3Q累計 通期計画 ※2026年7月期計画につきましては、2026年３月17日公開の「2026年７月期第２四半期（中間期）連結 || に伴い、買取再販 を予想より行うことが出来なかった。併せて、保有不動産の販売も出来なかったことから、平均保有期間につ いても長くなってしまった。 ※仲介には紹介手数料収入を含みます。 ※平均保有期間は4/30時点で保有している物件も含みます。 195 267 289 FY25.7 3Q FY26.7 3Q FY26.7 通期計画 平均保有期間 14 15 25 FY25.7 3Q FY26.7 3Q FY26.7 通期計画 合計 4 1 7 FY25.7 3Q FY26.7 3Q FY26.7 通期計画 買取再販 成約件数（件） 平均保有期間（日） 10 14 18 FY25.7 3Q FY26.7 3Q FY26.7 通期計画 仲介 Copyright Nissou Co., Ltd. All Rights Reserved. 23 不動産建設事業 / 注文住宅、分譲建売件数 2026年7月期 第3四半期/主要KPI（重要な経営指標） 不動産建設事業においては、本業である注文住宅の受注や建売の販売がほとんど出来ず、苦しい結果となった。 直近の受注状況や情勢なども鑑み、のれんの減損を行"
+1,1444,"Nissou Co.,Ltd.",住宅関連,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1447,"SAAF Holdings Co.,Ltd.",IT関連,デジタル・サービス,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1447,"SAAF Holdings Co.,Ltd.",IoT,設備投資・機械,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1447,"SAAF Holdings Co.,Ltd.",クラウドコンピューティング,デジタル・サービス,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1447,"SAAF Holdings Co.,Ltd.",デジタルトランスフォーメーション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1447,"SAAF Holdings Co.,Ltd.",フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1447,"SAAF Holdings Co.,Ltd.",マイナンバー,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1447,"SAAF Holdings Co.,Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1447,"SAAF Holdings Co.,Ltd.",電子政府,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1449,,住宅関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1449,,建設,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,145A,L is B corp.,IT関連,デジタル・サービス,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,145A,L is B corp.,SaaS,デジタル・サービス,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,145A,L is B corp.,デジタルトランスフォーメーション,デジタル・サービス,,,86.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,145A,L is B corp.,人工知能,AI・半導体,,,85.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,145A,L is B corp.,生成AI,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,146A,Columbia Works Inc.,ホテル,内需・消費,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,146A,Columbia Works Inc.,マンション関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,146A,Columbia Works Inc.,不動産ファンド,不動産・建設,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,146A,Columbia Works Inc.,不動産関連,不動産・建設,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,147A,"Soracom, Inc.",IT関連,デジタル・サービス,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,147A,"Soracom, Inc.",IoT,設備投資・機械,,,97.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,147A,"Soracom, Inc.",クラウドコンピューティング,デジタル・サービス,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,147A,"Soracom, Inc.",人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,147A,"Soracom, Inc.",生成AI,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,148A,"Hatch Work Co.,Ltd.",クラウドコンピューティング,デジタル・サービス,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1491,"Chugai Mining Co., Ltd.",ゲーム関連,デジタル・サービス,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1491,"Chugai Mining Co., Ltd.",レアメタル,資源・素材,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1491,"Chugai Mining Co., Ltd.",不動産関連,不動産・建設,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1491,"Chugai Mining Co., Ltd.",工作機械,設備投資・機械,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1491,"Chugai Mining Co., Ltd.",機械,設備投資・機械,0.50,0.6,72.0,68.0,32.1,ノイズ候補,B,structured_segment_needs_sample_qa,structured_segment_v5,機械事業,external_customer_sales_table,https://www.chugaikogyo.co.jp/wp/wp-content/uploads/2026/06/第134期有価証券報告書.pdf,"額や適切に市場価格を反映していると考えられる指標に重要な変動が生じてい
+ない場合には、当該評価額や指標を用いて調整した金額によっております。
+- 61 -
+報告セグメント
+その他
+（注） 合計貴金属事業 機械事業 コンテンツ
+事業
+貴金属製品販売 155,749,118 － － － 155,749,118
+宝飾品販売 1,882,508 － － － 1,882,508
+不動産販売 － － － 53,864 53,864
+中古工作機械販売 － 789,311 － － 789,311
+グッズ販売 － － 3,561,254 － 3,561,254
+複合カフェ － － 204,334 － 204,334
+その他 － － 90,610 9,673 100,284
+顧客との契約から生じる収益 157,631,627 789,311 3,856,199 63,537 162,340,676
+その他の収益 － － － 4,489 4,489 外部顧客への売上高 157,631,627 789,311 3,856,199 68,027 162,345,165
+（収益認識関係）
+（1）顧客との契約から生"
+1,1491,"Chugai Mining Co., Ltd.",都市鉱山,資源・素材,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1491,"Chugai Mining Co., Ltd.",金,資源・素材,,,46.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,149A,"Thinca Co.,Ltd.",IT関連,デジタル・サービス,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,149A,"Thinca Co.,Ltd.",SaaS,デジタル・サービス,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,149A,"Thinca Co.,Ltd.",クラウドコンピューティング,デジタル・サービス,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,149A,"Thinca Co.,Ltd.",サブスクリプション,デジタル・サービス,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,150A,"JSH Co.,Ltd.",旅行,内需・消費,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1514,"Sumiseki Holdings,Inc.",半導体部材・部品,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1514,"Sumiseki Holdings,Inc.",風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1515,"Nittetsu Mining Co., Ltd.",下水道,防衛・国土強靱化,,,66.0,66.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1515,"Nittetsu Mining Co., Ltd.",不動産関連,不動産・建設,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1515,"Nittetsu Mining Co., Ltd.",太陽光発電関連,GX・エネルギー,,,58.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1515,"Nittetsu Mining Co., Ltd.",機械,設備投資・機械,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1515,"Nittetsu Mining Co., Ltd.",資源開発,資源・素材,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1515,"Nittetsu Mining Co., Ltd.",鉄鋼,資源・素材,,,82.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1515,"Nittetsu Mining Co., Ltd.",銅,資源・素材,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1515,"Nittetsu Mining Co., Ltd.",非鉄,資源・素材,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1518,"Mitsui Matsushima Holdings Co., Ltd.",半導体部材・部品,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,151A,Dive Group Inc.,インバウンド,内需・消費,,,46.0,46.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,151A,Dive Group Inc.,ホテル,内需・消費,,,46.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,153A,Caulis Inc.,IT関連,デジタル・サービス,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,153A,Caulis Inc.,SaaS,デジタル・サービス,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,153A,Caulis Inc.,クラウドコンピューティング,デジタル・サービス,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,153A,Caulis Inc.,サイバーセキュリティ,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,153A,Caulis Inc.,証券,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,153A,Caulis Inc.,銀行,金融・金利,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1540,Japan Physical Gold ETF,金,資源・素材,,,100.0,100.0,,未確定,C,non_operating_security,non_operating_security,,,,事業会社ではないため対象外
+1,155A,"Information Strategy and Technology Co.,Ltd.",IT関連,デジタル・サービス,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,155A,"Information Strategy and Technology Co.,Ltd.",クラウドコンピューティング,デジタル・サービス,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,155A,"Information Strategy and Technology Co.,Ltd.",サイバーセキュリティ,防衛・国土強靱化,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,155A,"Information Strategy and Technology Co.,Ltd.",デジタルトランスフォーメーション,デジタル・サービス,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,155A,"Information Strategy and Technology Co.,Ltd.",人工知能,AI・半導体,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,155A,"Information Strategy and Technology Co.,Ltd.",生成AI,AI・半導体,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,156A,Material Group Inc.,IT関連,デジタル・サービス,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,156A,Material Group Inc.,SaaS,デジタル・サービス,,,85.0,91.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,156A,Material Group Inc.,サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1605,Inpex Corporation,アンモニア,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1605,Inpex Corporation,レアメタル,資源・素材,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1605,Inpex Corporation,再生可能エネルギー,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1605,Inpex Corporation,太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1605,Inpex Corporation,核融合発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1605,Inpex Corporation,水素,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1605,Inpex Corporation,脱炭素,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1605,Inpex Corporation,資源開発,資源・素材,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1605,Inpex Corporation,風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,160A,"As Partners CO.,LTD.",不動産関連,不動産・建設,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,160A,"As Partners CO.,LTD.",介護関連,医療・ヘルスケア,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1662,"Japan Petroleum Exploration Co., Ltd.",レアアース,資源・素材,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1662,"Japan Petroleum Exploration Co., Ltd.",レアメタル,資源・素材,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1662,"Japan Petroleum Exploration Co., Ltd.",資源開発,資源・素材,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,166A,TASUKI Holdings Inc.,IoT,設備投資・機械,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,166A,TASUKI Holdings Inc.,SaaS,デジタル・サービス,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,166A,TASUKI Holdings Inc.,フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,166A,TASUKI Holdings Inc.,マンション関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,166A,TASUKI Holdings Inc.,不動産テック,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,166A,TASUKI Holdings Inc.,不動産ファンド,不動産・建設,,,66.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,166A,TASUKI Holdings Inc.,不動産関連,不動産・建設,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,166A,TASUKI Holdings Inc.,住宅関連,不動産・建設,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,166A,TASUKI Holdings Inc.,生成AI,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1672,WisdomTree Physical Gold,金,資源・素材,,,100.0,100.0,,未確定,C,non_operating_security,non_operating_security,,,,事業会社ではないため対象外
+1,167A,"Ryoyo Ryosan Holdings, Inc.",IoT,設備投資・機械,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,167A,"Ryoyo Ryosan Holdings, Inc.",サイバーセキュリティ,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,167A,"Ryoyo Ryosan Holdings, Inc.",人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,167A,"Ryoyo Ryosan Holdings, Inc.",半導体,AI・半導体,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,167A,"Ryoyo Ryosan Holdings, Inc.",半導体商社,AI・半導体,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,167A,"Ryoyo Ryosan Holdings, Inc.",自動車部材・部品,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,167A,"Ryoyo Ryosan Holdings, Inc.",自動運転車,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,168A,Itamiarts.Inc,eコマース,内需・消費,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1692,WisdomTree Aluminium,アルミニウム,資源・素材,,,100.0,100.0,,未確定,C,non_operating_security,non_operating_security,,,,事業会社ではないため対象外
+1,1693,WisdomTree Copper,銅,資源・素材,,,100.0,100.0,,未確定,C,non_operating_security,non_operating_security,,,,事業会社ではないため対象外
+1,1711,"SDS HOLDINGS Co.,Ltd.",再生可能エネルギー,GX・エネルギー,,,94.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1711,"SDS HOLDINGS Co.,Ltd.",太陽光発電関連,GX・エネルギー,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1711,"SDS HOLDINGS Co.,Ltd.",省エネ関連,GX・エネルギー,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1718,"Mikikogyo Co., Ltd.",不動産関連,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1718,"Mikikogyo Co., Ltd.",住宅関連,不動産・建設,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1718,"Mikikogyo Co., Ltd.",太陽光発電関連,GX・エネルギー,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1718,"Mikikogyo Co., Ltd.",建設,不動産・建設,,,100.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1719,Hazama Ando Corporation,再開発,不動産・建設,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1719,Hazama Ando Corporation,国土強靱化,防衛・国土強靱化,,,54.0,58.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1719,Hazama Ando Corporation,建設,不動産・建設,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1720,"Tokyu Construction Co., Ltd.",マンション関連,不動産・建設,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1720,"Tokyu Construction Co., Ltd.",建設,不動産・建設,,,100.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1721,COMSYS Holdings Corporation,データセンター,データセンター・電力,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1721,COMSYS Holdings Corporation,光ファイバー,データセンター・電力,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1721,COMSYS Holdings Corporation,電力設備投資関連,データセンター・電力,,,46.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1721,COMSYS Holdings Corporation,電線地中化,防衛・国土強靱化,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1721,COMSYS Holdings Corporation,風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1724,Synclayer Inc.,光ファイバー,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1724,Synclayer Inc.,防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1738,,太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,173A,Hammock Inc.,IT関連,デジタル・サービス,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,173A,Hammock Inc.,クラウドコンピューティング,デジタル・サービス,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,173A,Hammock Inc.,サイバーセキュリティ,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,173A,Hammock Inc.,デジタルトランスフォーメーション,デジタル・サービス,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,173A,Hammock Inc.,人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1758,"Taiyo Kisokogyo Co.,Ltd.",下水道,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1758,"Taiyo Kisokogyo Co.,Ltd.",耐震化,防衛・国土強靱化,,,85.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1758,"Taiyo Kisokogyo Co.,Ltd.",防災,防衛・国土強靱化,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1758,"Taiyo Kisokogyo Co.,Ltd.",電力設備投資関連,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,175A,"Will Smart Co.,LTD.",IT関連,デジタル・サービス,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,175A,"Will Smart Co.,LTD.",IoT,設備投資・機械,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,175A,"Will Smart Co.,LTD.",クラウドコンピューティング,デジタル・サービス,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,175A,"Will Smart Co.,LTD.",デジタルトランスフォーメーション,デジタル・サービス,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,175A,"Will Smart Co.,LTD.",データ分析・解析,AI・半導体,,,66.0,66.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,175A,"Will Smart Co.,LTD.",人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1762,"Takamatsu Construction Group Co., Ltd.",マンション関連,不動産・建設,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1762,"Takamatsu Construction Group Co., Ltd.",不動産関連,不動産・建設,,,91.0,97.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1762,"Takamatsu Construction Group Co., Ltd.",建設,不動産・建設,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1764,Kudo Corporation,不動産関連,不動産・建設,15.61,19.5,72.0,68.0,42.5,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,不動産事業,external_customer_sales_table,https://www.kudo.co.jp/wp-content/uploads/2026/08/59ad4a756434a070d3f47bc5b7f8e5f0.pdf,"式会社(1764) 2026年６月期 決算短信
+13
+３．報告セグメントごとの売上高、利益又は損失、その他の項目の金額に関する情報及び収益の分解情報
+Ⅰ 前連結会計年度(自 2024年７月１日 至 2025年６月30日)
+(単位：千円)
+報告セグメント 調整額
+(注)１
+連結
+財務諸表
+計上額
+(注)２建設事業 不動産事業 介護事業 計
+売上高
+一時点で移転される財 1,522,689 884,501 218,959 2,626,149 － 2,626,149
+一定の期間にわたり移転
+される財 11,346,733 607,249 5,890,787 17,844,770 － 17,844,770
+顧客との契約から生じる
+収益 12,869,422 1,491,750 6,109,746 20,470,920 － 20,470,920
+その他の収益 － 2,020,372 6,000 2,026,372 － 2,026,372 外部顧客への売上高 12,869,422 3,512,123 6,115,746 22,497,292 － 22,497,292
+セグメント間の
+内部売上高又は"
+1,1764,Kudo Corporation,介護関連,医療・ヘルスケア,27.18,34.0,92.0,90.0,59.8,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,介護事業,external_customer_sales_table,https://www.kudo.co.jp/wp-content/uploads/2026/08/59ad4a756434a070d3f47bc5b7f8e5f0.pdf,"式会社(1764) 2026年６月期 決算短信
+13
+３．報告セグメントごとの売上高、利益又は損失、その他の項目の金額に関する情報及び収益の分解情報
+Ⅰ 前連結会計年度(自 2024年７月１日 至 2025年６月30日)
+(単位：千円)
+報告セグメント 調整額
+(注)１
+連結
+財務諸表
+計上額
+(注)２建設事業 不動産事業 介護事業 計
+売上高
+一時点で移転される財 1,522,689 884,501 218,959 2,626,149 － 2,626,149
+一定の期間にわたり移転
+される財 11,346,733 607,249 5,890,787 17,844,770 － 17,844,770
+顧客との契約から生じる
+収益 12,869,422 1,491,750 6,109,746 20,470,920 － 20,470,920
+その他の収益 － 2,020,372 6,000 2,026,372 － 2,026,372 外部顧客への売上高 12,869,422 3,512,123 6,115,746 22,497,292 － 22,497,292
+セグメント間の
+内部売上高又は"
+1,1764,Kudo Corporation,建設,不動産・建設,57.20,71.5,97.0,89.0,81.8,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,建設事業,external_customer_sales_table,https://www.kudo.co.jp/wp-content/uploads/2026/08/59ad4a756434a070d3f47bc5b7f8e5f0.pdf,"式会社(1764) 2026年６月期 決算短信
+13
+３．報告セグメントごとの売上高、利益又は損失、その他の項目の金額に関する情報及び収益の分解情報
+Ⅰ 前連結会計年度(自 2024年７月１日 至 2025年６月30日)
+(単位：千円)
+報告セグメント 調整額
+(注)１
+連結
+財務諸表
+計上額
+(注)２建設事業 不動産事業 介護事業 計
+売上高
+一時点で移転される財 1,522,689 884,501 218,959 2,626,149 － 2,626,149
+一定の期間にわたり移転
+される財 11,346,733 607,249 5,890,787 17,844,770 － 17,844,770
+顧客との契約から生じる
+収益 12,869,422 1,491,750 6,109,746 20,470,920 － 20,470,920
+その他の収益 － 2,020,372 6,000 2,026,372 － 2,026,372 外部顧客への売上高 12,869,422 3,512,123 6,115,746 22,497,292 － 22,497,292
+セグメント間の
+内部売上高又は"
+1,1766,Token Corporation,マンション関連,不動産・建設,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1766,Token Corporation,住宅関連,不動産・建設,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1766,Token Corporation,建設,不動産・建設,10.32,12.9,92.0,94.0,48.8,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,建設事業,external_customer_sales_table,https://www.token.co.jp/ir/pdf/quarterly26tanshin_4r.pdf,"けております。
+従って、当社グループでは、「建設事業」及び「不動産賃貸事業」を報告セグメントとしております。
+(２)各報告セグメントに属する主要な内容
+建設事業：土木・建築その他建設工事全般に関する事業及びそれに付随する事業
+不動産賃貸事業：不動産の賃貸、仲介及び管理に関する事業
+２ 報告セグメントごとの売上高、利益又は損失、資産、その他の項目の金額の算定方法
+報告されている事業セグメントの会計処理の方法は、連結財務諸表を作成するために採用される会計方針に
+準拠した方法であります。
+セグメント間の内部収益及び振替高は、市場実勢価格に基づいております。
+３ 報告セグメントごとの売上高及び利益又は損失の金額に関する情報
+前連結会計年度(自 2024年５月１日 至 2025年４月30日)
+(単位：百万円)
+報告セグメント
+その他
+(注)１ 合計 調整額
+(注)２
+連結
+財務諸表
+計上額
+(注)３建設事業 不動産
+賃貸事業 計
+売上高 外部顧客への売上高 151,131 213,284 364,416 2,224 366,640 ― 366,640
+セグメント間の内部
+売上高又は振替高 0 7"
+1,1766,Token Corporation,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1768,Sonec Corporation,建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1770,"Fujita Engineering Co., Ltd.",建設,不動産・建設,62.18,77.7,90.0,82.0,82.0,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,建設事業,external_customer_sales_table,https://www.fujita-eng.co.jp/wordpress/wp-content/uploads/ir-info/tan_2027-1q.pdf,"その他の包括利益合計 78,734 1,679,448
+四半期包括利益 253,068 2,021,321
+（内訳）
+親会社株主に係る四半期包括利益 253,068 2,021,321
+非支配株主に係る四半期包括利益 － －
+（四半期連結包括利益計算書）
+- 6 -
+藤田エンジニアリング㈱ （１７７０） 2027年３月期 第１四半期決算短信
+（単位：千円）
+報告セグメント
+合計
+建設事業
+機器販売及び
+情報システム
+事業
+機器のメンテナ
+ンス事業
+電子部品製造事
+業
+売上高
+一時点で移転される財・サー
+ビス 492,626 1,231,585 1,246,653 323,252 3,294,117
+一定の期間にわたり移転され
+る財・サービス 1,532,657 － 504,669 － 2,037,326
+顧客との契約から生じる収益 2,025,283 1,231,585 1,751,322 323,252 5,331,444 外部顧客への売上高 2,025,283 1,231,585 1,751,322 323,252 5,331,444
+セグメント間の内部売上高又
+は振替高 16,9"
+1,1771,,国土強靱化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1771,,建設,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1771,,防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1773,YTL Corporation Berhad,ホテル,内需・消費,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1773,YTL Corporation Berhad,不動産関連,不動産・建設,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1773,YTL Corporation Berhad,建設,不動産・建設,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1773,YTL Corporation Berhad,鉄道関連,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1773,YTL Corporation Berhad,電力会社,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1777,,下水道,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1777,,建設,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,177A,"Kohjin Bio Co., Ltd.",バイオテクノロジー関連,医療・ヘルスケア,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,177A,"Kohjin Bio Co., Ltd.",再生医療,医療・ヘルスケア,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,177A,"Kohjin Bio Co., Ltd.",創薬,医療・ヘルスケア,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,177A,"Kohjin Bio Co., Ltd.",医薬品関連,医療・ヘルスケア,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1780,Yamaura Corporation,マンション関連,不動産・建設,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1780,Yamaura Corporation,建設,不動産・建設,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1783,"Fantasista Co., Ltd.",ホテル,内需・消費,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1783,"Fantasista Co., Ltd.",不動産関連,不動産・建設,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1783,"Fantasista Co., Ltd.",蓄電池,GX・エネルギー,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1786,Oriental Shiraishi Corporation,国土強靱化,防衛・国土強靱化,,,46.0,34.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1786,Oriental Shiraishi Corporation,建設,不動産・建設,,,100.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1786,Oriental Shiraishi Corporation,耐震化,防衛・国土強靱化,,,46.0,34.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1787,"Nakabohtec Corrosion Protecting Co.,Ltd.",国土強靱化,防衛・国土強靱化,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1788,Santo Corporation,下水道,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1788,Santo Corporation,建設,不動産・建設,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1788,Santo Corporation,防災,防衛・国土強靱化,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1795,Masaru Corporation,マンション関連,不動産・建設,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1795,Masaru Corporation,建設,不動産・建設,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1798,Moriya Corporation,再生可能エネルギー,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1798,Moriya Corporation,建設,不動産・建設,,,96.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1799,Daiichi Kensetsu Corporation,鉄道関連,物流・海運,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1801,Taisei Corporation,サーバー冷却,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1801,Taisei Corporation,サービスロボット,設備投資・機械,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1801,Taisei Corporation,マンション関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1801,Taisei Corporation,不動産関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1801,Taisei Corporation,国土強靱化,防衛・国土強靱化,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1801,Taisei Corporation,建設,不動産・建設,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1801,Taisei Corporation,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1801,Taisei Corporation,防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1801,Taisei Corporation,風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1802,Obayashi Corporation,サーバー冷却,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1802,Obayashi Corporation,再開発,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1802,Obayashi Corporation,国土強靱化,防衛・国土強靱化,,,50.0,48.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1802,Obayashi Corporation,建設,不動産・建設,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1802,Obayashi Corporation,核融合発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1802,Obayashi Corporation,水素,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1802,Obayashi Corporation,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1802,Obayashi Corporation,鉄道関連,物流・海運,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1802,Obayashi Corporation,防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1802,Obayashi Corporation,風力発電,GX・エネルギー,,,58.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1803,Shimizu Corporation,スマートグリッド,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1803,Shimizu Corporation,介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1803,Shimizu Corporation,国土強靱化,防衛・国土強靱化,,,50.0,50.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1803,Shimizu Corporation,建設,不動産・建設,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1803,Shimizu Corporation,水素,GX・エネルギー,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1803,Shimizu Corporation,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1803,Shimizu Corporation,防災,防衛・国土強靱化,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1803,Shimizu Corporation,風力発電,GX・エネルギー,,,82.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1807,"Watanabe Sato Co., Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1808,HASEKO Corporation,マンション関連,不動産・建設,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1808,HASEKO Corporation,介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1808,HASEKO Corporation,建設,不動産・建設,0.13,0.2,58.0,54.0,25.6,ノイズ候補,B,structured_segment_needs_sample_qa,structured_segment_v5,建設関連事業,external_customer_sales_table,https://www.haseko.co.jp/hc/ir/news/upload_files/20260625_1.pdf,"不動産関連事業 249,845 290,209 (16.2%増)
+管理運営事業 145,296 158,525 ( 9 .1%増)
+海外事業 3,466 4,314 (24.5%増)
+合計 1,177,353 1,273,136 ( 8 .1%増)
+(注) セグメント間の取引については相殺消去しております。
+― 3 9 ―
+c.建設関連事業の状況
+売上実績
+区分
+前連結会計年度
+(自 2024年４月１日
+至 2025年３月31日)
+(百万円)
+当連結会計年度
+(自 2025年４月１日
+至 2026年３月31日)
+(百万円)
+建設工事等 533,232 556,390 ( 4 .3%増)
+設計監理 14,250 15,684 ( 1 0.1%増)
+不動産販売等 193,456 207,289 ( 7 .2%増)
+大規模修繕・内装工事等 37,692 39,546 ( 4 .9%増)
+その他 116 1,179 (919.0%増) 外部顧客への売上高 778,746 820,088 ( 5 .3%増)
+d.不動産関連事業の状況
+区分
+前連結会計年度
+(自 2024年４月１日
+至 2025年"
+1,1810,"Matsui Construction Co., Ltd.",マンション関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1810,"Matsui Construction Co., Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1810,"Matsui Construction Co., Ltd.",建設,不動産・建設,98.19,100.0,100.0,100.0,100.0,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,建設事業 | 及び建設工事全般の設計・監理に関する事業,external_customer_sales_table,https://www.matsui-ken.co.jp/module/wp-content/uploads/2026/08/2027年3月期-第1四半期決算短信.pdf,"月１日
+至 2025年６月30日)
+当第１四半期連結累計期間
+(自 2026年４月１日
+至 2026年６月30日)
+減価償却費 120百万円 122百万円
+松井建設株式会社(1810) 2027年３月期 第１四半期決算短信
+8
+（セグメント情報等の注記）
+【セグメント情報】
+前第１四半期連結累計期間（自 2025年４月１日 至 2025年６月30日）
+１ 報告セグメントごとの売上高及び利益又は損失の金額に関する情報及び収益の分解情報
+（単位：百万円）
+報告セグメント
+合計 調整額
+(注１)
+四半期連結
+損益計算書
+計上額
+(注２)建設事業 不動産事業等
+売上高
+一定の期間にわたり
+移転される財 21,642 36 21,678 － 21,678
+一時点で移転される財 505 101 607 － 607
+顧客との契約から生じる収益 22,147 138 22,285 － 22,285
+その他の収益 － 277 277 － 277 外部顧客への売上高 22,147 415 22,563 － 22,563
+セグメント間の内部
+売上高又は振替高 60 1 61 △61 －
+計 22,207 4 || 要事業としており、この２つを報告セグメントとしておりま
+す。
+「建設事業」は建築・土木その他建設工事全般に関する事業であり、「不動産事業等」は不動産の売買・賃貸その
+他不動産全般に関する事業及び建設工事全般の設計・監理に関する事業等であります。
+２ 報告セグメントごとの売上高及び利益又は損失、資産その他の項目の金額に関する情報及び収益の分解情報
+前連結会計年度（自 2024年４月１日 至 2025年３月31日）
+（単位：百万円）
+報告セグメント
+合計
+調整額
+(注１)
+連結財務諸表
+計上額
+(注２)建設事業 不動産事業等
+売上高
+一定の期間にわたり
+移転される財 95,075 121 95,196 － 95,196
+一時点で移転される財 2,025 900 2,926 － 2,926
+顧客との契約から
+生じる収益 97,100 1,022 98,123 － 98,123
+その他の収益 － 1,129 1,129 － 1,129 外部顧客への売上高 97,100 2,152 99,253 － 99,253
+セグメント間の内部
+売上高又は振替高 99 6 105 △105 －
+計 97,2"
+1,1810,"Matsui Construction Co., Ltd.",耐震化,防衛・国土強靱化,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1810,"Matsui Construction Co., Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1811,The Zenitaka Corporation,建設,不動産・建設,97.97,100.0,94.0,96.0,97.6,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,建設事業,external_customer_sales_table,https://www.zenitaka.co.jp/news/shi2703-01.pdf,"- 5 -
+株式会社錢高組 （１８１１）
+2027年３月期 第１四半期決算短信
+（単位：百万円）
+前第１四半期連結累計期間
+(自 2025年４月１日
+ 至 2025年６月30日)
+当第１四半期連結累計期間
+(自 2026年４月１日
+ 至 2026年６月30日)
+四半期純利益 1,781 55
+その他の包括利益
+その他有価証券評価差額金 1,664 3,630
+為替換算調整勘定 △93 36
+その他の包括利益合計 1,571 3,667
+四半期包括利益 3,352 3,722
+（内訳）
+親会社株主に係る四半期包括利益 3,352 3,722
+非支配株主に係る四半期包括利益 － －
+（四半期連結包括利益計算書）
+（第１四半期連結累計期間）
+- 6 -
+株式会社錢高組 （１８１１）
+2027年３月期 第１四半期決算短信
+（単位：百万円）
+建設事業 不動産事業 合計 調整額
+（注）１
+四半期連結
+損益計算書
+計上額
+（注）２
+売上高 外部顧客への売上高 31,609 653 32,263 － 32,263
+セグメント間の内部売上高
+又は振替高 － － － － －
+計 31,609 653 32"
+1,1811,The Zenitaka Corporation,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1812,Kajima Corporation,サーバー冷却,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1812,Kajima Corporation,ロボット,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1812,Kajima Corporation,再開発,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1812,Kajima Corporation,国土強靱化,防衛・国土強靱化,,,50.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1812,Kajima Corporation,太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1812,Kajima Corporation,建設,不動産・建設,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1812,Kajima Corporation,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1812,Kajima Corporation,脱炭素,GX・エネルギー,,,42.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1812,Kajima Corporation,鉄道関連,物流・海運,,,92.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1812,Kajima Corporation,防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1812,Kajima Corporation,風力発電,GX・エネルギー,,,58.0,62.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1813,Fudo Tetra Corporation,国土強靱化,防衛・国土強靱化,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1813,Fudo Tetra Corporation,建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1813,Fudo Tetra Corporation,防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1813,Fudo Tetra Corporation,風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1814,"Daisue Construction Co., Ltd.",マンション関連,不動産・建設,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1814,"Daisue Construction Co., Ltd.",建設,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1815,Tekken Corporation,マンション関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1815,Tekken Corporation,再開発,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1815,Tekken Corporation,国土強靱化,防衛・国土強靱化,,,50.0,50.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1815,Tekken Corporation,鉄道関連,物流・海運,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1815,Tekken Corporation,防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1820,"Nishimatsu Construction Co., Ltd.",ホテル,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1820,"Nishimatsu Construction Co., Ltd.",下水道,防衛・国土強靱化,,,82.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1820,"Nishimatsu Construction Co., Ltd.",不動産関連,不動産・建設,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1820,"Nishimatsu Construction Co., Ltd.",国土強靱化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1820,"Nishimatsu Construction Co., Ltd.",建設,不動産・建設,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1822,Daiho Corporation,下水道,防衛・国土強靱化,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1822,Daiho Corporation,国土強靱化,防衛・国土強靱化,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1822,Daiho Corporation,建設,不動産・建設,100.00,100.0,100.0,100.0,100.0,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,土木事業 | 建築事業,external_customer_sales_table,https://www.daiho.co.jp/wp/wp-content/uploads/2026/08/20260807-tanshin.pdf,"2025年６月30日）
+当第１四半期連結累計期間
+（自 2026年４月１日
+至 2026年６月30日）
+減価償却費 209百万円 205百万円
+（四半期連結キャッシュ・フロー計算書に関する注記）
+ 当第１四半期連結累計期間に係る四半期連結キャッシュ・フロー計算書は作成しておりません。なお、第１四
+半期連結累計期間に係る減価償却費（無形固定資産に係る償却費を含む。）は次のとおりです。
+- 7 -
+大豊建設株式会社（1822） 2027年３月期 第１四半期決算短信
+（単位：百万円）
+報告セグメント 調整額
+（注１）
+四半期連結損益
+計算書計上額
+（注２）土木事業 建築事業 その他の事業 計
+売上高
+国内 12,861 15,070 841 28,772 － 28,772
+海外 2,145 157 － 2,303 － 2,303
+顧客との契約から生じる
+収益 15,007 15,227 841 31,076 － 31,076 外部顧客への売上高 15,007 15,227 841 31,076 － 31,076
+セグメント間の内部売上
+高又は振替高 － 2 57 59 △59 －
+計 15, || 2025年６月30日）
+当第１四半期連結累計期間
+（自 2026年４月１日
+至 2026年６月30日）
+減価償却費 209百万円 205百万円
+（四半期連結キャッシュ・フロー計算書に関する注記）
+ 当第１四半期連結累計期間に係る四半期連結キャッシュ・フロー計算書は作成しておりません。なお、第１四
+半期連結累計期間に係る減価償却費（無形固定資産に係る償却費を含む。）は次のとおりです。
+- 7 -
+大豊建設株式会社（1822） 2027年３月期 第１四半期決算短信
+（単位：百万円）
+報告セグメント 調整額
+（注１）
+四半期連結損益
+計算書計上額
+（注２）土木事業 建築事業 その他の事業 計
+売上高
+国内 12,861 15,070 841 28,772 － 28,772
+海外 2,145 157 － 2,303 － 2,303
+顧客との契約から生じる
+収益 15,007 15,227 841 31,076 － 31,076 外部顧客への売上高 15,007 15,227 841 31,076 － 31,076
+セグメント間の内部売上
+高又は振替高 － 2 57 59 △59 －
+計 15,"
+1,1822,Daiho Corporation,防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1826,"Sata Construction Co., Ltd.",下水道,防衛・国土強靱化,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1826,"Sata Construction Co., Ltd.",建設,不動産・建設,98.80,100.0,97.0,100.0,99.1,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,土木事業 | 建築事業,explicit_segment_percent,https://www.sata.co.jp/uploads/2026/05/sata_financial_release_20260518_01.pdf,"l Rights Reserved. INDEX 2 Ⅰ 会社概要 03 Ⅱ 2026年3月期 決算報告 06 Ⅲ 2027年3月期 通期業績予想 18 Ⅳ 中期経営計画の取り組み状況 22 Ⅴ 参考資料 33 Copyright © Sata Construction Co.,Ltd. All Rights Reserved. Copyright © Sata Construction Co.,Ltd. All Rights Reserved. 会社概要 Business Outline 3 Copyright © Sata Construction Co.,Ltd. All Rights Reserved. 会社概要 4 会社名 佐田建設株式会社（Sata Construction Co.,Ltd.） 本社所在地 群馬県前橋市元総社町1-1-7 代表者 代表取締役社長 星野 克行 創業 / 設立 創業：大正9年3月10日 / 会社設立：昭和24年10月3日 資本金 18億8千6百万円 市場 東京証券取引所 スタンダード市場 事業内容 総合建設業（土木関連事業・建築関連事業） 従業員 || l Rights Reserved. INDEX 2 Ⅰ 会社概要 03 Ⅱ 2026年3月期 決算報告 06 Ⅲ 2027年3月期 通期業績予想 18 Ⅳ 中期経営計画の取り組み状況 22 Ⅴ 参考資料 33 Copyright © Sata Construction Co.,Ltd. All Rights Reserved. Copyright © Sata Construction Co.,Ltd. All Rights Reserved. 会社概要 Business Outline 3 Copyright © Sata Construction Co.,Ltd. All Rights Reserved. 会社概要 4 会社名 佐田建設株式会社（Sata Construction Co.,Ltd.） 本社所在地 群馬県前橋市元総社町1-1-7 代表者 代表取締役社長 星野 克行 創業 / 設立 創業：大正9年3月10日 / 会社設立：昭和24年10月3日 資本金 18億8千6百万円 市場 東京証券取引所 スタンダード市場 事業内容 総合建設業（土木関連事業・建築関連事業） 従業員"
+1,1826,"Sata Construction Co., Ltd.",耐震化,防衛・国土強靱化,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1827,Nakano Corporation,建設,不動産・建設,16.23,20.3,94.0,86.0,52.3,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,建設事業,external_customer_sales_table,https://www.wave-nakano.co.jp/uploads/pdf/677/1Q20260807.pdf,"7 815
+その他の包括利益
+その他有価証券評価差額金 155 437
+為替換算調整勘定 177 172
+退職給付に係る調整額 △23 △33
+その他の包括利益合計 308 577
+四半期包括利益 456 1,393
+（内訳）
+親会社株主に係る四半期包括利益 483 1,435
+非支配株主に係る四半期包括利益 △26 △42
+㈱ナカノフドー建設(1827) 2027年３月期 第１四半期決算短信
+―8―
+（３）四半期連結財務諸表に関する注記事項
+(セグメント情報等の注記)
+【セグメント情報】
+Ⅰ 前第１四半期連結累計期間(自 2025年４月１日 至 2025年６月30日)
+１．報告セグメントごとの売上高及び利益又は損失の金額に関する情報
+(単位：百万円)
+報告セグメント
+その他
+の事業
+(注)１
+合計 調整額
+(注)２
+四半期
+連結損益
+計算書
+計上額
+建設事業 不動産事業
+日本 東南
+アジア 計 日本 東南
+アジア 計
+売上高 外部顧客への売上高 16,048 7,715 23,764 321 0 322 48 24,134 ― 24,134
+セグメント間の
+内部売上高又は振替高 ― "
+1,1828,Tanabe Engineering Corporation,建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1832,,データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1832,,再生可能エネルギー,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1832,,太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1832,,建設,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1832,,電力設備投資関連,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1832,,風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1833,Okumura Corporation,下水道,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1833,Okumura Corporation,建設,不動産・建設,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1833,Okumura Corporation,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1833,Okumura Corporation,防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1835,"Totetsu Kogyo Co., Ltd.",国土強靱化,防衛・国土強靱化,,,50.0,38.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1835,"Totetsu Kogyo Co., Ltd.",建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1835,"Totetsu Kogyo Co., Ltd.",耐震化,防衛・国土強靱化,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1835,"Totetsu Kogyo Co., Ltd.",鉄道関連,物流・海運,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1835,"Totetsu Kogyo Co., Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1840,"Tsuchiya Holdings Co., Ltd.",住宅関連,不動産・建設,61.50,76.9,94.0,86.0,83.4,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,住宅事業,external_customer_sales_table,https://www.tsuchiya.co.jp/wp-content/uploads/2026/06/6195598004221ec874ebb67568f4b241.pdf,"） 2026年10月期 第２四半期決算短信
+（３）中間連結財務諸表に関する注記事項
+（表示方法の変更に関する注記）
+（中間連結損益計算書関係）
+ 前中間連結会計期間において、「営業外収益」で独立掲記しておりました「補助金収入」は、金額的重要性が乏し
+くなったため、当中間連結会計期間より「その他」に含めて表示しております。この表示方法の変更を反映させるた
+め、前中間連結会計期間の中間連結損益計算書の組替えを行っております。この結果、前中間連結会計期間の中間連
+結損益計算書において 、「営業外収益」に表示していた「補助金収入」1,744千円は、「その他」16,976千円として
+組み替えております。
+- 8 -
+㈱土屋ホールディングス（1840） 2026年10月期 第２四半期決算短信
+（単位：千円）
+報告セグメント
+調整額
+（注１）
+中間連結損益
+計算書計上額
+（注２）住宅事業 リフォーム
+事業 不動産事業 賃貸事業 合計
+売上高 外部顧客への売上高 7,663,989 1,262,749 3,535,234 182,252 12,644,226 － 12,644,226
+セグメント間の内"
+1,1844,"Ohmori Co.,Ltd.",下水道,防衛・国土強靱化,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1844,"Ohmori Co.,Ltd.",不動産関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1844,"Ohmori Co.,Ltd.",水道関連,防衛・国土強靱化,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1844,"Ohmori Co.,Ltd.",電線地中化,防衛・国土強靱化,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1847,"Ichiken Co., Ltd.",建設,不動産・建設,,,100.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1848,Fuji P.S Corporation,国土強靱化,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1848,Fuji P.S Corporation,建設,不動産・建設,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1848,Fuji P.S Corporation,耐震化,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1848,Fuji P.S Corporation,鉄道関連,物流・海運,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1850,"Nankai Tatsumura Construction Co., Ltd.",建設,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1850,"Nankai Tatsumura Construction Co., Ltd.",鉄道関連,物流・海運,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1852,Asanuma Corporation,建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1852,Asanuma Corporation,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1853,"Mori-Gumi Co., Ltd.",マンション関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1853,"Mori-Gumi Co., Ltd.",建設,不動産・建設,,,100.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1860,Toda Corporation,介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1860,Toda Corporation,国土強靱化,防衛・国土強靱化,,,42.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1860,Toda Corporation,建設,不動産・建設,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1860,Toda Corporation,脱炭素,GX・エネルギー,,,42.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1860,Toda Corporation,風力発電,GX・エネルギー,,,58.0,60.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1861,"Kumagai Gumi Co.,Ltd.",再開発,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1861,"Kumagai Gumi Co.,Ltd.",建設,不動産・建設,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1866,Kitano Construction Corp.,ホテル,内需・消費,3.63,4.5,42.0,40.0,21.1,ノイズ候補,B,structured_segment_needs_sample_qa,structured_segment_v5,ホテル事業,external_customer_sales_table,https://www.kitano.co.jp/wp-content/uploads/2026/08/令和９年３月期-第１四半期決算短信〔日本基準〕（連結）-1.pdf,"0 69
+退職給付に係る調整額 0 △10
+その他の包括利益合計 △134 1,181
+四半期包括利益 345 2,264
+（内訳）
+親会社株主に係る四半期包括利益 347 2,263
+非支配株主に係る四半期包括利益 △1 0
+（四半期連結包括利益計算書）
+- 6 -
+北野建設㈱（1866） 令和９年３月期 第１四半期決算短信
+（単位：百万円）
+報告セグメント
+合計 調整額 
+（注）１
+四半期連結
+損益計算書
+計上額
+（注）２建設事業 ゴルフ場事業 ホテル事業 広告代理店
+事業
+売上高
+一時点で移転される財
+又はサービス
+240 88 679 151 1,159 － 1,159
+一定の期間にわたり移
+転される財又はサービ
+ス
+17,625 － － － 17,625 － 17,625
+顧客との契約から生じ
+る収益
+17,865 88 679 151 18,784 － 18,784
+その他の収益 96 － － － 96 － 96 外部顧客への売上高 17,961 88 679 151 18,880 － 18,880
+セグメント間の内部
+売上高又は振替高 0 2 2 30 36 △36 －
+"
+1,1866,Kitano Construction Corp.,建設,不動産・建設,,,100.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1867,UEKI Corporation,介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1867,UEKI Corporation,建設,不動産・建設,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1869,,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1869,,鉄道関連,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1869,,防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,186A,Astroscale Holdings Inc.,宇宙開発関連,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,186A,Astroscale Holdings Inc.,防衛,防衛・国土強靱化,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1870,"Yahagi Construction Co.,Ltd.",不動産関連,不動産・建設,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1870,"Yahagi Construction Co.,Ltd.",国土強靱化,防衛・国土強靱化,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1870,"Yahagi Construction Co.,Ltd.",建設,不動産・建設,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1870,"Yahagi Construction Co.,Ltd.",耐震化,防衛・国土強靱化,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1870,"Yahagi Construction Co.,Ltd.",鉄道関連,物流・海運,,,91.0,95.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1870,"Yahagi Construction Co.,Ltd.",防災,防衛・国土強靱化,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1871,"PS Construction Co., Ltd.",国土強靱化,防衛・国土強靱化,,,46.0,34.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1871,"PS Construction Co., Ltd.",建設,不動産・建設,,,100.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1871,"PS Construction Co., Ltd.",耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1871,"PS Construction Co., Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1873,"Nihon House Holdings Co., Ltd.",ホテル,内需・消費,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1873,"Nihon House Holdings Co., Ltd.",住宅関連,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1878,"Daito Trust Construction Co.,Ltd.",住宅関連,不動産・建設,,,46.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1879,Shinnihon Corporation,マンション関連,不動産・建設,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1879,Shinnihon Corporation,不動産関連,不動産・建設,51.86,64.8,42.0,42.0,54.6,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,賃貸等を行う不動産開発全般に関する事業 | 及び不動産開発全般に関する事業,external_customer_sales_table,https://www.shinnihon-c.co.jp/common/img/ir/library/2026/20260512_01.pdf,"入、開発、販売、管理、
+賃貸等を行う不動産開発全般に関する事業を展開しております。
+したがって、建設工事全般に関する事業から構成される「建設事業」及び不動産開発全般に関する事業から構成
+される「開発事業等」の２つを報告セグメントとしております。
+２ 報告セグメントごとの売上高、利益又は損失、資産、負債その他の項目の金額の算定方法
+報告されている事業セグメントの会計処理の方法は、連結財務諸表作成において採用している会計処理の方法と
+概ね同一であります。
+報告セグメントの利益は、営業利益ベースの数値であります。セグメント間の内部売上高及び振替高は市場実勢
+価格に基づいております。
+３ 報告セグメントごとの売上高、利益又は損失、資産、負債その他の項目の金額に関する情報
+前連結会計年度(自 2024年４月１日 至 2025年３月31日)
+(単位：百万円)
+建設事業 開発事業等 合計 調整額(注)１ 連結財務諸表
+計上額(注)２
+売上高 外部顧客への売上高 73,266 58,395 131,662 ― 131,662
+セグメント間の内部売上高
+又は振替高 104 ― 104 △104 ―
+計  || 入、開発、販売、管理、
+賃貸等を行う不動産開発全般に関する事業を展開しております。
+したがって、建設工事全般に関する事業から構成される「建設事業」及び不動産開発全般に関する事業から構成
+される「開発事業等」の２つを報告セグメントとしております。
+２ 報告セグメントごとの売上高、利益又は損失、資産、負債その他の項目の金額の算定方法
+報告されている事業セグメントの会計処理の方法は、連結財務諸表作成において採用している会計処理の方法と
+概ね同一であります。
+報告セグメントの利益は、営業利益ベースの数値であります。セグメント間の内部売上高及び振替高は市場実勢
+価格に基づいております。
+３ 報告セグメントごとの売上高、利益又は損失、資産、負債その他の項目の金額に関する情報
+前連結会計年度(自 2024年４月１日 至 2025年３月31日)
+(単位：百万円)
+建設事業 開発事業等 合計 調整額(注)１ 連結財務諸表
+計上額(注)２
+売上高 外部顧客への売上高 73,266 58,395 131,662 ― 131,662
+セグメント間の内部売上高
+又は振替高 104 ― 104 △104 ―
+計 "
+1,1879,Shinnihon Corporation,建設,不動産・建設,88.11,100.0,100.0,100.0,100.0,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,建設事業 | 建設工事全般に関する事業,external_customer_sales_table,https://www.shinnihon-c.co.jp/common/img/ir/library/2027/20260731_01.pdf,"日
+至 2025年６月30日)
+当第１四半期連結累計期間
+(自 2026年４月１日
+至 2026年６月30日)
+四半期純利益 2,666 2,784
+その他の包括利益
+その他有価証券評価差額金 △24 301
+退職給付に係る調整額 △10 △32
+その他の包括利益合計 △35 269
+四半期包括利益 2,631 3,053
+（内訳）
+親会社株主に係る四半期包括利益 2,631 3,053
+非支配株主に係る四半期包括利益 - -
+新日本建設株式会社(1879) 2027年３月期 第１四半期決算短信
+- 7 -
+（３）四半期連結財務諸表に関する注記事項
+（セグメント情報等の注記）
+Ⅰ 前第１四半期連結累計期間(自 2025年４月１日 至 2025年６月30日)
+報告セグメントごとの売上高及び利益又は損失の金額に関する情報
+(単位：百万円)
+建設事業 開発事業等 合計 調整額
+(注)１
+四半期連結損益
+計算書計上額
+(注)２
+売上高 外部顧客への売上高 18,779 6,830 25,610 ― 25,610
+セグメント間の内部売上高
+又は振替高 21 ― 21 △21 ―
+計 18,800 || 入、開発、販売、管理、
+賃貸等を行う不動産開発全般に関する事業を展開しております。
+したがって、建設工事全般に関する事業から構成される「建設事業」及び不動産開発全般に関する事業から構成
+される「開発事業等」の２つを報告セグメントとしております。
+２ 報告セグメントごとの売上高、利益又は損失、資産、負債その他の項目の金額の算定方法
+報告されている事業セグメントの会計処理の方法は、連結財務諸表作成において採用している会計処理の方法と
+概ね同一であります。
+報告セグメントの利益は、営業利益ベースの数値であります。セグメント間の内部売上高及び振替高は市場実勢
+価格に基づいております。
+３ 報告セグメントごとの売上高、利益又は損失、資産、負債その他の項目の金額に関する情報
+前連結会計年度(自 2024年４月１日 至 2025年３月31日)
+(単位：百万円)
+建設事業 開発事業等 合計 調整額(注)１ 連結財務諸表
+計上額(注)２
+売上高 外部顧客への売上高 73,266 58,395 131,662 ― 131,662
+セグメント間の内部売上高
+又は振替高 104 ― 104 △104 ―
+計 "
+1,1879,Shinnihon Corporation,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1882,Toa Road Corporation,国土強靱化,防衛・国土強靱化,,,50.0,48.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1885,TOA Corporation,レアアース,資源・素材,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1885,TOA Corporation,建設,不動産・建設,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1885,TOA Corporation,防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1885,TOA Corporation,風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1887,JDC Corporation,マンション関連,不動産・建設,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1887,JDC Corporation,下水道,防衛・国土強靱化,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1887,JDC Corporation,不動産関連,不動産・建設,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1887,JDC Corporation,再開発,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1887,JDC Corporation,国土強靱化,防衛・国土強靱化,,,50.0,50.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1887,JDC Corporation,太陽光発電関連,GX・エネルギー,,,90.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1887,JDC Corporation,建設,不動産・建設,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1887,JDC Corporation,建設機械,設備投資・機械,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1887,JDC Corporation,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1887,JDC Corporation,防災,防衛・国土強靱化,,,90.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1888,"Wakachiku Construction Co., Ltd.",国土強靱化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1888,"Wakachiku Construction Co., Ltd.",建設,不動産・建設,3.80,4.8,94.0,86.0,43.7,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,セグメント別売上高割合 不動産事業等 土木事業 建築事業 | 建築事業 | 単体 不動産事業等 土木事業建築事業 | 土木事業建築事業,explicit_segment_percent,https://www.wakachiku.co.jp/data/news/221/news.pdf,"626 － 26,237 － 33.7 売上総利益 1,939 9.9 3,643 13.9 87.8 販管費 1,853 9.4 2,058 7.8 11.0 営業利益 85 0.4 1,584 6.0 1,745.8 経常利益 127 0.7 1,643 6.3 1,186.8 当期純利益 68 0.3 1,109 4.2 1,523.0 単体 連結 ポイント1 ポイント2 ポイント3 ポイント1 ポイント2 ポイント3 売上高は全ての工種で進捗率が進み、昨年同期比33.7%増の262億円（過去最高(1Q)） 営業利益は売上高の増加と採算性向上により、昨年同期比1,745.8%増の15億円（過去最高(1Q)） 受注高は昨年度の反動で、昨年同期比11.2%減の269億円 Copyright © WAKACHIKU CONSTRUCTION Co., Ltd. All rights reserved. セグメント別の状況 概要 5 2026/3 1Q 2027/3 1Q 増減率 （%） 完成工事 19,506 26,151 34.1 土木 12,064 15,289 26.7 建築 7 || 2,171 75.9
+建築 644 1,426 121.4
+不動産事業等 61 44 △26.5
+合計 1,939 3,643 87.8
+（百万円）
+（百万円）
+売上高 （百万円）
+単体
+売上総利益 （百万円）
+次期繰越高
+2026/3
+1Q
+2027/3
+1Q
+増減率
+（%）
+建設事業 132,459 150,098 13.3
+土木 77,791 74,608 △4.1
+建築 54,667 75,489 38.1
+不動産事業等 1,467 344 △76.6
+合計 133,926 150,442 12.3
+（百万円）
+2027年
+3月期
+1Q
+セグメント別売上高割合
+不動産事業等
+土木事業
+建築事業
+0.3%
+41.4%
+58.3%
+Copyright © WAKACHIKU CONSTRUCTION Co., Ltd. All rights reserved.
+0
+10,000
+20,000
+30,000
+2023/3 2024/3 2025/3 2026/3 2027/3
+１Ｑ ２Ｑ ３Ｑ ４Ｑ
+セグメント別の状況 四半期別完成工事高推移
+6
+単体
+年度別完成工事高推移
+昨年度か || 1.1 売上総利益 12,728 14.7 14,602 13.9 14.7 販管費 7,508 8.7 7,952 7.6 5.9 営業利益 5,220 6.0 6,649 6.3 27.4 経常利益 5,228 6.0 6,426 6.1 22.9 親会社株主に帰属する 当期純利益 3,690 4.3 4,367 4.2 18.4 単体 受注高 104,009 － 127,986 － 23.1 売上高 83,636 － 101,776 － 21.7 売上総利益 11,925 14.3 13,821 13.6 15.9 販管費 7,141 8.5 7,576 7.4 6.1 営業利益 4,783 5.7 6,244 6.1 30.5 経常利益 4,876 5.8 6,104 6.0 25.2 当期純利益 3,566 4.3 4,253 4.2 19.3 ROE 8.1% 9.0% 単体 連結 ポイント1 ポイント2 ポイント3 ポイント1 ポイント2 ポイント3 受注高は昨年度比23.1%の1,279億円の高水準となった。 売上高は1Qは出遅れたが2Q以降は順調に推移し、前年度比21 || 完成工事 82,233 100,120 21.8
+土木 54,748 64,143 17.2
+建築 27,485 35,976 30.9
+不動産事業等 1,402 1,656 "
+1,1892,,建設,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,1893,"Penta-Ocean Construction Co., Ltd.",データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1893,"Penta-Ocean Construction Co., Ltd.",ドローン,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1893,"Penta-Ocean Construction Co., Ltd.",国土強靱化,防衛・国土強靱化,,,50.0,48.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1893,"Penta-Ocean Construction Co., Ltd.",建設,不動産・建設,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1893,"Penta-Ocean Construction Co., Ltd.",鉄道関連,物流・海運,,,82.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1893,"Penta-Ocean Construction Co., Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1893,"Penta-Ocean Construction Co., Ltd.",風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1897,"The Kaneshita Construction Co.,Ltd.",建設,不動産・建設,0.10,0.1,97.0,89.0,42.5,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,建設事業,external_customer_sales_table,https://www.kaneshita.co.jp/file/d95affa6ff7f7acb60ccaffec8c9e87e.pdf,"増加額の調整額は、各報告セグメントに配分していない全
+社資産の増加額であります。
+２．セグメント利益は、連結損益計算書の営業利益と調整を行っております。
+３．セグメント資産は、事業セグメントに資産を配分していないため、記載しておりません。
+- 14 -
+金下建設㈱ (1897) 2025年12月期 決算短信
+顧客の名称又は氏名 売上高 関連するセグメント名
+国土交通省 1,859 建設事業
+京都府 1,560 建設事業、製造・販売事業等
+顧客の名称又は氏名 売上高 関連するセグメント名
+国土交通省 1,886 建設事業
+看護学校整備(同) 926 建設事業
+京都府 884 建設事業、製造・販売事業等
+【関連情報】
+前連結会計年度（自2024年１月１日 至2024年12月31日）
+１．製品及びサービスごとの情報
+セグメント情報に同様の情報を開示しているため、記載を省略しております。
+２．地域ごとの情報
+(1) 売上高
+本邦以外の 外部顧客への売上高 がないため、該当事項はありません。
+ (2) 有形固定資産
+本邦以外に所在している有形固定資産がないため、該当事項はありません。
+３．主要な"
+1,1898,"Seikitokyu Kogyo Co., Ltd.",国土強靱化,防衛・国土強靱化,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1898,"Seikitokyu Kogyo Co., Ltd.",防災,防衛・国土強靱化,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1899,Fukuda Corporation,不動産関連,不動産・建設,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1899,Fukuda Corporation,建設,不動産・建設,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1899,Fukuda Corporation,鉄道関連,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,189A,"D & M Company Co., Ltd.",リース,金融・金利,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,189A,"D & M Company Co., Ltd.",介護関連,医療・ヘルスケア,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,189A,"D & M Company Co., Ltd.",医療機器,医療・ヘルスケア,,,82.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1904,"Taisei Oncho Co., Ltd.",建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1905,Tenox Corporation,住宅関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1905,Tenox Corporation,国土強靱化,防衛・国土強靱化,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1909,"Nippon Dry-Chemical Co., Ltd.",機械,設備投資・機械,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1909,"Nippon Dry-Chemical Co., Ltd.",設備投資,設備投資・機械,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1909,"Nippon Dry-Chemical Co., Ltd.",防災,防衛・国土強靱化,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,190A,Chordia Therapeutics Inc.,バイオテクノロジー関連,医療・ヘルスケア,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,190A,Chordia Therapeutics Inc.,創薬,医療・ヘルスケア,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1911,"Sumitomo Forestry Co., Ltd.",住宅関連,不動産・建設,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1911,"Sumitomo Forestry Co., Ltd.",耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1911,"Sumitomo Forestry Co., Ltd.",風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1914,"Japan Foundation Engineering Co., Ltd.",国土強靱化,防衛・国土強靱化,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1914,"Japan Foundation Engineering Co., Ltd.",耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1914,"Japan Foundation Engineering Co., Ltd.",防災,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1921,Tomoe Corporation,マンション関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1921,Tomoe Corporation,不動産関連,不動産・建設,13.14,16.4,86.0,78.0,46.5,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,不動産事業,external_customer_sales_table,https://www.tomoe-corporation.co.jp/ir/doc/26-08-07-shihan.pdf,"0
+その他の包括利益合計 195,767 3,098,859
+四半期包括利益 908,205 4,172,906
+（内訳）
+親会社株主に係る四半期包括利益 897,363 4,163,929
+非支配株主に係る四半期包括利益 10,841 8,977
+（四半期連結包括利益計算書）
+- 6 -
+㈱巴コーポレーション（1921）令和９年３月期 第１四半期決算短信 
+（単位：千円）
+報告セグメント 調整額
+（注１）
+四半期連結
+損益計算書
+計上額
+（注２）鉄構建設事業 不動産事業 計
+売上高
+官公庁への売上高 2,820,052 － 2,820,052 － 2,820,052
+民間への売上高 3,064,340 － 3,064,340 － 3,064,340
+顧客との契約から生じる収益 5,884,392 － 5,884,392 － 5,884,392
+その他の収益 － 890,346 890,346 － 890,346
+(1) 外部顧客への売上高 5,884,392 890,346 6,774,739 － 6,774,739
+(2)セグメント間の内部売上高
+又は振替高 980 43,542 "
+1,1921,Tomoe Corporation,建設,不動産・建設,86.86,100.0,90.0,82.0,94.3,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,鉄構建設事業,external_customer_sales_table,https://www.tomoe-corporation.co.jp/ir/doc/26-08-07-shihan.pdf,"0
+その他の包括利益合計 195,767 3,098,859
+四半期包括利益 908,205 4,172,906
+（内訳）
+親会社株主に係る四半期包括利益 897,363 4,163,929
+非支配株主に係る四半期包括利益 10,841 8,977
+（四半期連結包括利益計算書）
+- 6 -
+㈱巴コーポレーション（1921）令和９年３月期 第１四半期決算短信 
+（単位：千円）
+報告セグメント 調整額
+（注１）
+四半期連結
+損益計算書
+計上額
+（注２）鉄構建設事業 不動産事業 計
+売上高
+官公庁への売上高 2,820,052 － 2,820,052 － 2,820,052
+民間への売上高 3,064,340 － 3,064,340 － 3,064,340
+顧客との契約から生じる収益 5,884,392 － 5,884,392 － 5,884,392
+その他の収益 － 890,346 890,346 － 890,346
+(1) 外部顧客への売上高 5,884,392 890,346 6,774,739 － 6,774,739
+(2)セグメント間の内部売上高
+又は振替高 980 43,542 "
+1,1921,Tomoe Corporation,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1921,Tomoe Corporation,送電,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1921,Tomoe Corporation,電力設備投資関連,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",サービスロボット,設備投資・機械,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",スマートグリッド,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",マンション関連,不動産・建設,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",リチウムイオン電池,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",ロボット,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",不動産ファンド,不動産・建設,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",介護関連,医療・ヘルスケア,,,66.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",住宅関連,不動産・建設,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",再生可能エネルギー,GX・エネルギー,,,66.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",物流,物流・海運,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",蓄電池,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1925,"Daiwa House Industry Co., Ltd.",風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1926,"Raito Kogyo Co., Ltd.",国土強靱化,防衛・国土強靱化,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1926,"Raito Kogyo Co., Ltd.",建設,不動産・建設,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1926,"Raito Kogyo Co., Ltd.",耐震化,防衛・国土強靱化,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1926,"Raito Kogyo Co., Ltd.",防災,防衛・国土強靱化,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1928,"Sekisui House, Ltd.",マンション関連,不動産・建設,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1928,"Sekisui House, Ltd.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1928,"Sekisui House, Ltd.",住宅関連,不動産・建設,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1928,"Sekisui House, Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1928,"Sekisui House, Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1929,"Nittoc Construction Co., Ltd.",国土強靱化,防衛・国土強靱化,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1929,"Nittoc Construction Co., Ltd.",防災,防衛・国土強靱化,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1930,"Hokuriku Electrical Construction Co.,Ltd.",データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1930,"Hokuriku Electrical Construction Co.,Ltd.",建設,不動産・建設,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1930,"Hokuriku Electrical Construction Co.,Ltd.",鉄道関連,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1930,"Hokuriku Electrical Construction Co.,Ltd.",電力設備投資関連,データセンター・電力,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1934,Yurtec Corporation,電力設備投資関連,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1934,Yurtec Corporation,風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1938,"Nippon Rietec Co.,Ltd.",太陽光発電関連,GX・エネルギー,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1938,"Nippon Rietec Co.,Ltd.",鉄道関連,物流・海運,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1938,"Nippon Rietec Co.,Ltd.",電力設備投資関連,データセンター・電力,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1939,Yondenko Corporation,リース,金融・金利,1.50,1.9,92.0,94.0,42.7,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,リース,explicit_segment_percent,https://www.yondenko.co.jp/pdf/ir/integrated-report/yondenko_ir_a4-2025.pdf,電設備の建設・保守および民間・公共建築物 に係る電気・計装、 空調・管などの建築設備の設計・施工を主たる事業とし ています。 1963年の設立以来、 総合設備企業としての事業展開を基軸に据え、 M&Aを通じた施工力強化やエリア拡充に取り組んできたほか、 培った技術 や知見を活かしながら、 太陽光発電事業やリース事業など業容拡大に努め ています。 通信事業者から光ケーブルの敷設や携帯基地局の 工事を請け負うほか、 防災無線 ・消防無線工事など の公共工事を受注するなど、 通信の高度化などに対 応したネットワークインフラを構築しています。 また、 物流倉庫や生産ラインの自動化、 プラント の監視・運用など、 多様な制御システムの構築・メン テナンスにも携わっています。 情報通信工事 電力会社の発電所から各地の変電所へ電気を送る ために必要なのが送電設備 （送電線・鉄塔など） です。 送電・土木工事は、 大規模で工期の長いものも多く、 天候などによって工事進捗が左右されます。当社は 設備の設計・施工・保守を請け負っております。 送電 ・ 土木工事 建築設備工事業の中核を担っているのが、 屋内
+1,1939,Yondenko Corporation,太陽光発電関連,GX・エネルギー,2.00,2.5,86.0,88.0,40.4,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,太陽光発電,explicit_segment_percent,https://www.yondenko.co.jp/pdf/ir/integrated-report/yondenko_ir_a4-2025.pdf,電設備の建設・保守および民間・公共建築物 に係る電気・計装、 空調・管などの建築設備の設計・施工を主たる事業とし ています。 1963年の設立以来、 総合設備企業としての事業展開を基軸に据え、 M&Aを通じた施工力強化やエリア拡充に取り組んできたほか、 培った技術 や知見を活かしながら、 太陽光発電事業やリース事業など業容拡大に努め ています。 通信事業者から光ケーブルの敷設や携帯基地局の 工事を請け負うほか、 防災無線 ・消防無線工事など の公共工事を受注するなど、 通信の高度化などに対 応したネットワークインフラを構築しています。 また、 物流倉庫や生産ラインの自動化、 プラント の監視・運用など、 多様な制御システムの構築・メン テナンスにも携わっています。 情報通信工事 電力会社の発電所から各地の変電所へ電気を送る ために必要なのが送電設備 （送電線・鉄塔など） です。 送電・土木工事は、 大規模で工期の長いものも多く、 天候などによって工事進捗が左右されます。当社は 設備の設計・施工・保守を請け負っております。 送電 ・ 土木工事 建築設備工事業の中核を担っているのが、 屋内
+1,1939,Yondenko Corporation,建設,不動産・建設,9.60,12.0,97.0,99.0,50.5,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,送電 ・ 土木工事 | 土木工事,explicit_segment_percent,https://www.yondenko.co.jp/pdf/ir/integrated-report/yondenko_ir_a4-2025.pdf,"電設備の建設・保守および民間・公共建築物 に係る電気・計装、 空調・管などの建築設備の設計・施工を主たる事業とし ています。 1963年の設立以来、 総合設備企業としての事業展開を基軸に据え、 M&Aを通じた施工力強化やエリア拡充に取り組んできたほか、 培った技術 や知見を活かしながら、 太陽光発電事業やリース事業など業容拡大に努め ています。 通信事業者から光ケーブルの敷設や携帯基地局の 工事を請け負うほか、 防災無線 ・消防無線工事など の公共工事を受注するなど、 通信の高度化などに対 応したネットワークインフラを構築しています。 また、 物流倉庫や生産ラインの自動化、 プラント の監視・運用など、 多様な制御システムの構築・メン テナンスにも携わっています。 情報通信工事 電力会社の発電所から各地の変電所へ電気を送る ために必要なのが送電設備 （送電線・鉄塔など） です。 送電・土木工事は、 大規模で工期の長いものも多く、 天候などによって工事進捗が左右されます。当社は 設備の設計・施工・保守を請け負っております。 送電 ・ 土木工事 建築設備工事業の中核を担っているのが、 屋内 || 以来、 四国管内の配電設備の工事を担っ
+てきました。設計から施工 ・保守までを一貫して担
+える体制や、 専属の協力企業との緊密な連携体制の
+構築により、 施工効率の最適化に努めています。
+また、 災害時には協力企業や自治体、 自衛隊など
+と協力しながら、 迅速な電力供給の復旧にあたります。
+配電工事
+建築設備工事業 送配電設備工事業
+送配電設備工事業
+404億円
+建築設備工事業
+604億円
+事業別連結売上高
+Ⅰ
+ 
+イ ン ト ロ ダ ク シ ョ ン
+➡ P.20 ➡P.22
+得意先 電力会社 発電事業者 ほか 得意先
+電気 ・ 計装工事 （34.4%）
+情報通信工事 （7.8%）
+送電 ・ 土木工事 （4.8%）
+リース （1.5%）
+空調 ・ 管工事 （14.8%）
+配電工事 （33.4%）
+太陽光発電 （2.0%）
+その他 （1.3%）
+364
+15782
+353
+50
+21 13
+15
+2024年度
+1,058億円
+06
+Ⅰ
+ 
+イ ン ト ロ ダ ク シ ョ ン
+事業相関図
+全国の
+事業所数 49拠点
+連結子会社
+15社
+非連結子会社
+11社
+関連会社
+8社
+当社の事業拠点は"
+1,1939,Yondenko Corporation,電力設備投資関連,データセンター・電力,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1941,Chudenko Corporation,電力設備投資関連,データセンター・電力,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1941,Chudenko Corporation,電線地中化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1942,"Kandenko Co.,Ltd.",スマートグリッド,データセンター・電力,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1942,"Kandenko Co.,Ltd.",データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1942,"Kandenko Co.,Ltd.",太陽光発電関連,GX・エネルギー,,,58.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1942,"Kandenko Co.,Ltd.",送電,データセンター・電力,,,66.0,66.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1942,"Kandenko Co.,Ltd.",防災,防衛・国土強靱化,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1942,"Kandenko Co.,Ltd.",電力設備投資関連,データセンター・電力,,,58.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1942,"Kandenko Co.,Ltd.",電線地中化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1942,"Kandenko Co.,Ltd.",風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1944,Kinden Corporation,スマートグリッド,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1944,Kinden Corporation,データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1944,Kinden Corporation,太陽光発電関連,GX・エネルギー,,,58.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1944,Kinden Corporation,送電,データセンター・電力,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1944,Kinden Corporation,電力設備投資関連,データセンター・電力,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1944,Kinden Corporation,電線地中化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1944,Kinden Corporation,風力発電,GX・エネルギー,,,58.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1945,Tokyo Energy & Systems Inc.,データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1945,Tokyo Energy & Systems Inc.,再生可能エネルギー,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1945,Tokyo Energy & Systems Inc.,原子力発電,GX・エネルギー,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1945,Tokyo Energy & Systems Inc.,太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1945,Tokyo Energy & Systems Inc.,電力設備投資関連,データセンター・電力,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1946,Toenec Corporation,電力設備投資関連,データセンター・電力,,,46.0,34.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1948,"The Kodensha Co., Ltd.",電力設備投資関連,データセンター・電力,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,194A,"WOLVES HAND Co., Ltd.",サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,194A,"WOLVES HAND Co., Ltd.",創薬,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,194A,"WOLVES HAND Co., Ltd.",医療機器,医療・ヘルスケア,,,58.0,58.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1950,"Nippon Densetsu Kogyo Co., Ltd.",再生可能エネルギー,GX・エネルギー,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1950,"Nippon Densetsu Kogyo Co., Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1950,"Nippon Densetsu Kogyo Co., Ltd.",鉄道関連,物流・海運,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1951,"EXEO Group, Inc.",IoT,設備投資・機械,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1951,"EXEO Group, Inc.",クラウドコンピューティング,デジタル・サービス,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1951,"EXEO Group, Inc.",デジタルトランスフォーメーション,デジタル・サービス,,,85.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1951,"EXEO Group, Inc.",データセンター,データセンター・電力,,,82.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1951,"EXEO Group, Inc.",光ファイバー,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1951,"EXEO Group, Inc.",耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1951,"EXEO Group, Inc.",鉄道関連,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1951,"EXEO Group, Inc.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1951,"EXEO Group, Inc.",電線地中化,防衛・国土強靱化,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1952,"Shin Nippon Air Technologies Co., Ltd.",データセンター,データセンター・電力,,,85.0,91.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1952,"Shin Nippon Air Technologies Co., Ltd.",原子力発電,GX・エネルギー,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1959,Kraftia Corporation,データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1959,Kraftia Corporation,太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1959,Kraftia Corporation,送電,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1959,Kraftia Corporation,防災,防衛・国土強靱化,,,82.0,74.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1959,Kraftia Corporation,電力設備投資関連,データセンター・電力,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1959,Kraftia Corporation,電線地中化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1959,Kraftia Corporation,風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,195A,MUSCAT GROUP Inc.,eコマース,内需・消費,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,195A,MUSCAT GROUP Inc.,クラウドコンピューティング,デジタル・サービス,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,195A,MUSCAT GROUP Inc.,デジタルトランスフォーメーション,デジタル・サービス,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,195A,MUSCAT GROUP Inc.,データ分析・解析,AI・半導体,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1960,Sanyo Engineering & Construction Inc.,建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1960,Sanyo Engineering & Construction Inc.,電力設備投資関連,データセンター・電力,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1961,"Sanki Engineering Co., Ltd.",FA関連,設備投資・機械,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1961,"Sanki Engineering Co., Ltd.",サーバー冷却,データセンター・電力,,,46.0,34.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1961,"Sanki Engineering Co., Ltd.",データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1961,"Sanki Engineering Co., Ltd.",下水道,防衛・国土強靱化,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1961,"Sanki Engineering Co., Ltd.",建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1961,"Sanki Engineering Co., Ltd.",水道関連,防衛・国土強靱化,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1961,"Sanki Engineering Co., Ltd.",物流,物流・海運,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1961,"Sanki Engineering Co., Ltd.",省エネ関連,GX・エネルギー,,,85.0,91.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1961,"Sanki Engineering Co., Ltd.",防災,防衛・国土強靱化,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1961,"Sanki Engineering Co., Ltd.",電力設備投資関連,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1963,JGC Holdings Corporation,アンモニア,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1963,JGC Holdings Corporation,レアアース,資源・素材,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1963,JGC Holdings Corporation,円安メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,1963,JGC Holdings Corporation,原子力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1963,JGC Holdings Corporation,核融合発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1963,JGC Holdings Corporation,水素,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1963,JGC Holdings Corporation,脱炭素,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1963,JGC Holdings Corporation,蓄電池,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1963,JGC Holdings Corporation,資源開発,資源・素材,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1964,"Chugai Ro Co., Ltd.",アンモニア,GX・エネルギー,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1964,"Chugai Ro Co., Ltd.",全固体電池,自動車・モビリティ,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1964,"Chugai Ro Co., Ltd.",水素,GX・エネルギー,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1964,"Chugai Ro Co., Ltd.",設備投資,設備投資・機械,,,82.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1964,"Chugai Ro Co., Ltd.",鉄鋼,資源・素材,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1965,Techno Ryowa Ltd.,建設,不動産・建設,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1965,Techno Ryowa Ltd.,省エネ関連,GX・エネルギー,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1966,Takada Corporation,半導体製造装置,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1966,Takada Corporation,原子力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1966,Takada Corporation,電力設備投資関連,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1967,Yamato Corporation,下水道,防衛・国土強靱化,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1967,Yamato Corporation,建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1967,Yamato Corporation,水道関連,防衛・国土強靱化,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1968,"Taihei Dengyo Kaisha, Ltd.",再生可能エネルギー,GX・エネルギー,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1968,"Taihei Dengyo Kaisha, Ltd.",原子力発電,GX・エネルギー,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1968,"Taihei Dengyo Kaisha, Ltd.",耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1968,"Taihei Dengyo Kaisha, Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1968,"Taihei Dengyo Kaisha, Ltd.",電力設備投資関連,データセンター・電力,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1968,"Taihei Dengyo Kaisha, Ltd.",風力発電,GX・エネルギー,,,66.0,66.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1969,"Takasago Thermal Engineering Co., Ltd.",サーバー冷却,データセンター・電力,,,46.0,34.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1969,"Takasago Thermal Engineering Co., Ltd.",データセンター,データセンター・電力,,,82.0,74.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1969,"Takasago Thermal Engineering Co., Ltd.",建設,不動産・建設,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1969,"Takasago Thermal Engineering Co., Ltd.",水素,GX・エネルギー,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,196A,"MFS, Inc.",住宅関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1972,"Sanko Metal Industrial Co., Ltd.",建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1975,"Asahi Kogyosha Co., Ltd.",データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1975,"Asahi Kogyosha Co., Ltd.",半導体製造装置,AI・半導体,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1975,"Asahi Kogyosha Co., Ltd.",建設,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1976,"MEISEI INDUSTRIAL Co.,Ltd.",原子力発電,GX・エネルギー,,,82.0,74.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1976,"MEISEI INDUSTRIAL Co.,Ltd.",建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1979,Taikisha Ltd.,自動車製造装置,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,197A,"TAUNS Laboratories,Inc.",医薬品関連,医療・ヘルスケア,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1980,"Dai-Dan Co., Ltd.",クラウドコンピューティング,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1980,"Dai-Dan Co., Ltd.",サーバー冷却,データセンター・電力,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1980,"Dai-Dan Co., Ltd.",データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1980,"Dai-Dan Co., Ltd.",下水道,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1980,"Dai-Dan Co., Ltd.",人工知能,AI・半導体,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1980,"Dai-Dan Co., Ltd.",受変電設備,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1980,"Dai-Dan Co., Ltd.",建設,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1980,"Dai-Dan Co., Ltd.",水道関連,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1981,"Kyowanissei Co.,Ltd.",水道関連,防衛・国土強靱化,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1982,"Hibiya Engineering, Ltd.",サーバー冷却,データセンター・電力,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1982,"Hibiya Engineering, Ltd.",データセンター,データセンター・電力,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,198A,PostPrime Inc.,サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1992,"Kanda Tsushinki Co., Ltd.",人工知能,AI・半導体,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1994,Takahashi Curtain Wall Corporation,建設,不動産・建設,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1997,"Akatsuki Eazima Co., Ltd.",下水道,防衛・国土強靱化,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,1997,"Akatsuki Eazima Co., Ltd.",水道関連,防衛・国土強靱化,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2001,Nippn Corporation,バイオテクノロジー関連,医療・ヘルスケア,,,58.0,58.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2001,Nippn Corporation,円高メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,2001,Nippn Corporation,食品,内需・消費,65.76,82.2,97.0,100.0,89.3,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,食品事業,external_customer_sales_table,https://www.nippn.co.jp/ir/ir_news/detail/__icsFiles/afieldfile/2025/10/14/20251014-2.pdf,"１四半期連結累計期間
+（自 2025年４月１日
+ 至 2025年６月30日）
+減価償却費 2,561百万円 2,593百万円
+のれんの償却額 47 129
+（四半期連結キャッシュ・フロー計算書に関する注記）
+ 当第１四半期連結累計期間に係る四半期連結キャッシュ・フロー計算書は作成しておりません。なお、第１四半
+期連結累計期間に係る減価償却費（のれんを除く無形固定資産に係る償却費を含む。）及びのれんの償却額は、次
+のとおりであります。
+- 9 -
+㈱ニップン（2001）2026年３月期 第１四半期決算短信
+（単位：百万円）
+報告セグメント
+その他
+（注）１ 合計 調整額
+（注）２
+四半期連結
+損益計算書
+計上額
+（注）３製粉事業 食品事業 計
+売上高
+顧客との契約から生じ
+る収益 30,623 58,798 89,422 12,293 101,715 － 101,715
+その他の収益 － 11 11 242 253 － 253 外部顧客への売上高 30,623 58,810 89,434 12,535 101,969 － 101,969
+セグメント間の内部売上
+高又は振替高 643 32"
+1,2002,Nisshin Seifun Group Inc.,円高メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,2002,Nisshin Seifun Group Inc.,機械,設備投資・機械,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2002,Nisshin Seifun Group Inc.,食品,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2003,"Nitto Fuji Flour Milling Co.,Ltd.",外食,内需・消費,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2003,"Nitto Fuji Flour Milling Co.,Ltd.",食品,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2036,NEXT NOTES Nikkei-TOCOM Leveraged Gold ETN,金,資源・素材,,,100.0,100.0,,未確定,C,non_operating_security,non_operating_security,,,,事業会社ではないため対象外
+1,2037,NEXT NOTES Nikkei-TOCOM Inverse Gold ETN,金,資源・素材,,,100.0,100.0,,未確定,C,non_operating_security,non_operating_security,,,,事業会社ではないため対象外
+1,2053,"Chubu Shiryo Co., Ltd.",円高メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,2058,,食品,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,205A,Logos Holdings Inc.,住宅関連,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,205A,Logos Holdings Inc.,建設,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,205A,Logos Holdings Inc.,建設DX,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2060,"Feed One Co.,Ltd.",円高メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,206A,"PRISM BioLab Co.,LTD",バイオテクノロジー関連,医療・ヘルスケア,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,206A,"PRISM BioLab Co.,LTD",創薬,医療・ヘルスケア,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,206A,"PRISM BioLab Co.,LTD",医薬品関連,医療・ヘルスケア,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,IT関連,デジタル・サービス,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,クラウドコンピューティング,デジタル・サービス,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,データ分析・解析,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,建設DX,不動産・建設,,,82.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,防災,防衛・国土強靱化,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,208A,KOZO KEIKAKU ENGINEERING HOLDINGS Inc.,風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2108,"Nippon Beet Sugar Manufacturing Co.,Ltd.",円高メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,2108,"Nippon Beet Sugar Manufacturing Co.,Ltd.",食品,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2109,"Mitsui DM Sugar Co.,Ltd.",円高メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,2109,"Mitsui DM Sugar Co.,Ltd.",食品,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2112,"Ensuiko Sugar Refining Co., Ltd.",食品,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2114,Fuji Nihon Corporation,食品,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2117,"WELLNEO SUGAR Co., Ltd.",倉庫,物流・海運,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,211A,Cados Corporation,不動産関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,211A,Cados Corporation,太陽光発電関連,GX・エネルギー,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,211A,Cados Corporation,建設,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2120,"LIFULL Co.,Ltd.",不動産テック,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2120,"LIFULL Co.,Ltd.",不動産関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2122,"Interspace Co.,Ltd.",サブスクリプション,デジタル・サービス,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,212A,FIT EASY Inc.,サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2130,"Members Co., Ltd.",IT関連,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2130,"Members Co., Ltd.",人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2130,"Members Co., Ltd.",生成AI,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2134,"Kitahama Capital Partners Co.,Ltd.",データセンター,データセンター・電力,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2134,"Kitahama Capital Partners Co.,Ltd.",不動産ファンド,不動産・建設,,,42.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2134,"Kitahama Capital Partners Co.,Ltd.",不動産関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2134,"Kitahama Capital Partners Co.,Ltd.",再生可能エネルギー,GX・エネルギー,,,86.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2137,,介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,2138,"CROOZ, Inc.",eコマース,内需・消費,59.13,73.9,92.0,94.0,82.4,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,EC事業 | EC事業はSHOPLIST事業,external_customer_sales_table,https://crooz.co.jp/wp-content/uploads/2026/06/2026年3月期_有価証券報告書.pdf,"りセグメント区分を変更しており、前連結会計年度については、変更
+後のセグメント区分に基づき作成したものを記載しております。報告セグメントの区分変更については、
+「（セグメント情報等） セグメント情報 １．報告セグメントの概要」に記載しております。
+ 
+前連結会計年度（自 2024年４月１日 至 2025年３月31日）
+（単位：千円）
+ 
+報告セグメント
+その他
+（注） 合計ITアウトソーシン
+グ事業 EC事業 計
+一時点で移転される財又はサービス 911,565 6,942,752 7,854,318 1,458,647 9,312,966
+一定の期間にわたり移転される財又は
+サービス 4,044,262 － 4,044,262 834,420 4,878,682
+顧客との契約から生じる収益 4,955,828 6,942,752 11,898,581 2,293,067 14,191,649
+その他の収益 － － － － － 外部顧客への売上高 4,955,828 6,942,752 11,898,581 2,293,067 14,191,649
+（注）「その他」の区分は報告セグメン || ング事業のうち、主要なSES事業の売上高は2,994,221千円、セグメント利益が164,902千
+円、介護福祉人材サービス事業の売上高は384,939千円、セグメント損失が103,904千円となっております。
+４．EC事業はSHOPLIST事業とAda.事業で構成されており、2025年２月28日に譲渡済みのSHOPLIST事業の売上高
+4,021,981千円が含まれております。Ada.事業のみの売上高は2,920,771千円となります。
+５．資産についてのセグメント情報は、経営者が経営の意思決定上当該情報を各セグメントに配分していないこ
+とから開示しておりません。
+ 
+ 
+当連結会計年度（自 2025年４月１日 至 2026年３月31日）
+ （単位：千円）
+ 報告セグメント
+その他
+（注）１ 合計 調整額 連結財務諸表
+計上額 
+ITアウト
+ソーシング
+事業
+（注）３
+EC事業
+（注）４ 計
+売上高 外部顧客への売上高 7,713,482 3,740,249 11,453,732 366,784 11,820,516 － 11,820,516
+セグメント間の内部売上高
+又は振替高 3"
+1,2138,"CROOZ, Inc.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2139,"Chuco Co., Ltd.",eコマース,内需・消費,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2148,ITmedia Inc.,IT関連,デジタル・サービス,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2148,ITmedia Inc.,クラウドコンピューティング,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2148,ITmedia Inc.,デジタルトランスフォーメーション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2148,ITmedia Inc.,データ分析・解析,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2148,ITmedia Inc.,人工知能,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2153,E J Holdings Inc.,国土強靱化,防衛・国土強靱化,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2153,E J Holdings Inc.,防災,防衛・国土強靱化,,,82.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2158,"FRONTEO, Inc.",IT関連,デジタル・サービス,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2158,"FRONTEO, Inc.",クラウドコンピューティング,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2158,"FRONTEO, Inc.",データ分析・解析,AI・半導体,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2158,"FRONTEO, Inc.",ロボット,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2158,"FRONTEO, Inc.",人工知能,AI・半導体,,,100.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2158,"FRONTEO, Inc.",創薬,医療・ヘルスケア,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2158,"FRONTEO, Inc.",生成AI,AI・半導体,,,85.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2160,GNI Group Ltd.,バイオテクノロジー関連,医療・ヘルスケア,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2160,GNI Group Ltd.,創薬,医療・ヘルスケア,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2160,GNI Group Ltd.,医療機器,医療・ヘルスケア,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2160,GNI Group Ltd.,医薬品関連,医療・ヘルスケア,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2164,"Chiikishinbunsha Co.,Ltd.",人工知能,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2164,"Chiikishinbunsha Co.,Ltd.",生成AI,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2169,"CDS Co.,Ltd.",FA関連,設備投資・機械,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2169,"CDS Co.,Ltd.",IoT,設備投資・機械,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2169,"CDS Co.,Ltd.",ロボット,AI・半導体,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2170,Link and Motivation Inc.,クラウドコンピューティング,デジタル・サービス,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2170,Link and Motivation Inc.,サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2173,Hakuten Corporation,サービスロボット,設備投資・機械,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2173,Hakuten Corporation,人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2175,"SMS Co., Ltd.",サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2175,"SMS Co., Ltd.",介護関連,医療・ヘルスケア,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2183,"Linical Co., Ltd.",バイオテクノロジー関連,医療・ヘルスケア,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2183,"Linical Co., Ltd.",認知症薬,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2186,Sobal Corporation,IT関連,デジタル・サービス,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2186,Sobal Corporation,IoT,設備投資・機械,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2186,Sobal Corporation,人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2186,Sobal Corporation,自動運転車,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,218A,"Liberaware Co., Ltd.",IoT,設備投資・機械,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,218A,"Liberaware Co., Ltd.",デジタルトランスフォーメーション,デジタル・サービス,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,218A,"Liberaware Co., Ltd.",データ分析・解析,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,218A,"Liberaware Co., Ltd.",ドローン,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,218A,"Liberaware Co., Ltd.",ロボット,AI・半導体,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,218A,"Liberaware Co., Ltd.",下水道,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,218A,"Liberaware Co., Ltd.",人工知能,AI・半導体,,,90.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2193,Cookpad Inc.,eコマース,内需・消費,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2193,Cookpad Inc.,宅配,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2195,"Amita Holdings Co.,Ltd.",脱炭素,GX・エネルギー,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2198,IKK Holdings Inc.,介護関連,医療・ヘルスケア,3.00,3.8,92.0,94.0,43.8,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,介護事業,explicit_segment_percent,https://www.ikk-grp.jp/ir/irnews/IRNews-202606110-4/main/0/link/Integrated%20Report2026.pdf,".0 △19.3 △8.6 9.0 9.4 12.2 8.7 加重平均資本コ ス ト （WACC） （%） 2.83 3.17 3.20 2.75 3.08 3.06 3.67 6.91 4.63 4.50 株価収益率（倍） ※4 13.2 19.5 15.5 15.5 - - 13.3 14.1 12.4 11.2 設備投資額 397 2,530 848 1,490 977 150 800 1,939 730 765 減価償却費 1,118 1,047 1,179 1,129 1,211 1,111 1,011 1,094 1,159 1,125 有利子負債額 3,671 4,804 3,744 3,775 6,227 5,314 4,802 4,397 3,596 2,396 44 Chapter 1 私たちが 大 切 に して い ること Chapter 2 会 長・社 長 に よ る コ ミ ット メ ン ト Chapter 3 中長期拡大の 確かな裏 付け Chapter 4 価値創造の全体像 Chapter 5 持続可能性の担保 Chapter 6 データ sp_セキュリテ"
+1,2198,IKK Holdings Inc.,食品,内需・消費,2.00,2.5,72.0,68.0,33.2,ノイズ候補,B,structured_segment_needs_sample_qa,structured_segment_v5,食品事業,explicit_segment_percent,https://www.ikk-grp.jp/ir/irnews/IRNews-202606110-4/main/0/link/Integrated%20Report2026.pdf,".0 △19.3 △8.6 9.0 9.4 12.2 8.7 加重平均資本コ ス ト （WACC） （%） 2.83 3.17 3.20 2.75 3.08 3.06 3.67 6.91 4.63 4.50 株価収益率（倍） ※4 13.2 19.5 15.5 15.5 - - 13.3 14.1 12.4 11.2 設備投資額 397 2,530 848 1,490 977 150 800 1,939 730 765 減価償却費 1,118 1,047 1,179 1,129 1,211 1,111 1,011 1,094 1,159 1,125 有利子負債額 3,671 4,804 3,744 3,775 6,227 5,314 4,802 4,397 3,596 2,396 44 Chapter 1 私たちが 大 切 に して い ること Chapter 2 会 長・社 長 に よ る コ ミ ット メ ン ト Chapter 3 中長期拡大の 確かな裏 付け Chapter 4 価値創造の全体像 Chapter 5 持続可能性の担保 Chapter 6 データ sp_セキュリテ"
+1,219A,Heartseed Inc.,再生医療,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,219A,Heartseed Inc.,創薬,医療・ヘルスケア,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2206,"Ezaki Glico Co., Ltd.",食品,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2207,"Meito Co., Ltd.",食品,内需・消費,83.70,100.0,97.0,89.0,97.5,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,食品事業,external_customer_sales_table,https://www.meito-abc.co.jp/content/wp-content/uploads/ir/6868/20270810_release.pdf,"977 993
+その他の包括利益
+その他有価証券評価差額金 276 2,714
+退職給付に係る調整額 △141 △36
+その他の包括利益合計 134 2,677
+四半期包括利益 1,112 3,671
+（内訳）
+親会社株主に係る四半期包括利益 1,112 3,671
+株式会社meito(2207) 2027年３月期 第１四半期決算短信
+― 8 ―
+（３）四半期連結財務諸表に関する注記事項
+（継続企業の前提に関する注記）
+該当事項はありません。
+（株主資本の金額に著しい変動があった場合の注記）
+該当事項はありません。
+（セグメント情報等の注記）
+Ⅰ 前第１四半期連結累計期間(自 2025年４月１日 至 2025年６月30日)
+１. 報告セグメントごとの売上高及び利益又は損失の金額に関する情報
+（単位：百万円）
+報告セグメント 調整額
+（注１）
+四半期連結
+損益計算書
+計上額
+（注２）食品事業 化成品事業 不動産事業 計
+売上高 外部顧客への売上高 5,201 947 65 6,214 － 6,214
+セグメント間の内部
+売上高又は振替高 － － － － － －
+計 5,201 947 6"
+1,2208,Bourbon Corporation,再生医療,医療・ヘルスケア,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2209,"Imuraya Group Co., Ltd.",食品,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,220A,Faber Company Inc.,SaaS,デジタル・サービス,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,220A,Faber Company Inc.,デジタルトランスフォーメーション,デジタル・サービス,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2211,"Fujiya Co., Ltd.",外食,内需・消費,,,82.0,74.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2211,"Fujiya Co., Ltd.",食品,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2212,"Yamazaki Baking Co., Ltd.",外食,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2212,"Yamazaki Baking Co., Ltd.",食品,内需・消費,,,100.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2215,"First Baking Co., Ltd.",食品,内需・消費,99.46,100.0,97.0,89.0,97.5,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,食品事業,external_customer_sales_table,https://www.daiichipan.co.jp/wp-content/uploads/2026/05/2026shihanki2.pdf,"26年12月期 第２四半期（中間期）決算短信
+9
+（４）中間連結財務諸表に関する注記事項
+（継続企業の前提に関する注記）
+該当事項はありません。
+（株主資本の金額に著しい変動があった場合の注記）
+該当事項はありません。
+（セグメント情報等）
+【セグメント情報】
+Ⅰ 前中間連結会計期間(自 2025年１月１日 至 2025年６月30日)
+報告セグメントごとの売上高及び利益又は損失の金額に関する情報並びに収益の分解情報
+(単位：百万円)
+報告セグメント
+調整額
+(注１)
+中間連結
+損益計算書
+計上額
+(注２)食品事業 不動産事業 計
+売上高
+パン部門 10,538 ― 10,538 ― 10,538
+和洋菓子部門 2,170 ― 2,170 ― 2,170
+その他 1,223 ― 1,223 ― 1,223
+顧客との契約から生じる収益 13,932 ― 13,932 ― 13,932
+その他の収益（注３） ― 75 75 ― 75 外部顧客への売上高 13,932 75 14,008 ― 14,008
+セグメント間の内部売上高又は
+振替高 ― ― ― ― ―
+計 13,932 75 14,"
+1,2216,Kanro Inc.,食品,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2220,"Kameda Seika Co.,Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2220,"Kameda Seika Co.,Ltd.",食品,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2222,"Kotobuki Spirits Co., Ltd.",インバウンド,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,2222,"Kotobuki Spirits Co., Ltd.",旅行,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2222,"Kotobuki Spirits Co., Ltd.",食品,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2226,KOIKE-YA Inc.,食品,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2229,"Calbee, Inc.",食品,内需・消費,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2264,"Morinaga Milk Industry Co., Ltd.",介護関連,医療・ヘルスケア,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2264,"Morinaga Milk Industry Co., Ltd.",宅配,物流・海運,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2264,"Morinaga Milk Industry Co., Ltd.",食品,内需・消費,,,96.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2267,"Yakult Honsha Co.,Ltd.",食品,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2269,"Meiji Holdings Co., Ltd.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2269,"Meiji Holdings Co., Ltd.",宅配,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2269,"Meiji Holdings Co., Ltd.",食品,内需・消費,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2270,"MEGMILK SNOW BRAND Co.,Ltd.",食品,内需・消費,,,100.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2282,NH Foods Ltd.,食品,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,228A,"OPRO Co., Ltd.",IT関連,デジタル・サービス,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,228A,"OPRO Co., Ltd.",クラウドコンピューティング,デジタル・サービス,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,228A,"OPRO Co., Ltd.",サブスクリプション,デジタル・サービス,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,228A,"OPRO Co., Ltd.",デジタルトランスフォーメーション,デジタル・サービス,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,228A,"OPRO Co., Ltd.",データ分析・解析,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,228A,"OPRO Co., Ltd.",電子政府,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2292,S Foods Inc.,食品,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2294,"Kakiyasu Honten Co., Ltd.",外食,内需・消費,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2296,Itoham Yonekyu Holdings Inc.,食品,内需・消費,36.94,46.2,94.0,86.0,66.5,有力関連,B,structured_segment_needs_sample_qa,structured_segment_v5,は振替高の加工食品事業 | 一部費用の加工食品事業,external_customer_sales_table,https://www.itoham-yonekyu-holdings.com/Portals/0\images\ir\pdf\earnings report\202703_1Q_earnings_JP.pdf,"698 204,965 311,664 389 312,053 △30,989 281,064
+セグメント利益 1,332 8,489 9,822 19 9,841 △687 9,154
+(注) １．「その他」の区分は、報告セグメントに含まれない事業セグメントであり、人事給与関連業務サービス
+等です。
+２．セグメント利益の調整額の主な内容は、のれんの償却額△347百万円等です。
+３．セグメント利益は、四半期連結損益計算書の経常利益と調整を行っています。
+伊藤ハム米久ホールディングス株式会社(2296) 2027年３月期 第１四半期決算短信
+-10-
+２．報告セグメントの変更等に関する事項
+（報告セグメントの変更）
+当第１四半期連結会計期間より、セグメントを跨ぐ組織変更に伴い、費用及びセグメント間の内部売上高又
+は振替高の加工食品事業、食肉事業、その他、調整額での配分見直しを行っています。また、外部顧客の当社
+管轄部署移管により、 外部顧客への売上高 の加工食品事業、食肉事業間のセグメント移管を行っています。
+なお、前第１四半期連結累計期間のセグメント情報については、変更後の区分方法によ || 事項
+当連結会計年度より経費の負担部門変更に伴い、一部費用の加工食品事業、食肉事業間での配分の見直しを
+行っています。なお、前連結会計年度のセグメント情報については、変更後の区分方法により作成したものを
+記載しています。
+２．報告セグメントごとの売上高、利益又は損失、資産、その他の項目の金額の算定方法
+報告されている事業セグメントの会計処理方法は、連結財務諸表作成において採用している会計処理方法と概ね
+同一です。報告セグメントの利益は、経常利益ベースの数値です。セグメント間の内部売上高又は振替高は、市場
+実勢価格等に基づいています。
+３．報告セグメントごとの売上高、利益又は損失、資産、その他の項目の金額に関する情報
+前連結会計年度（自 2024年４月１日 至 2025年３月31日）
+(単位：百万円)
+報告セグメント
+その他
+(注)１ 合計 調整額
+(注)２
+連結
+財務諸表
+計上額
+(注)３
+加工食品
+事業 食肉事業 計
+売上高 外部顧客への売上高 400,872 587,883 988,756 15 988,771 － 988,771
+セグメント間の内部
+売上高又は振替高 36,188"
+1,2303,Dawn Corp.,IT関連,デジタル・サービス,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2303,Dawn Corp.,クラウドコンピューティング,デジタル・サービス,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2303,Dawn Corp.,ドローン,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2303,Dawn Corp.,自動運転車,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2303,Dawn Corp.,防災,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2304,"CSS Holdings,Ltd.",ホテル,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2304,"CSS Holdings,Ltd.",外食,内需・消費,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2307,"Cross Cat Co., Ltd.",IT関連,デジタル・サービス,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2307,"Cross Cat Co., Ltd.",キャッシュレス決済,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2307,"Cross Cat Co., Ltd.",クラウドコンピューティング,デジタル・サービス,,,86.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2307,"Cross Cat Co., Ltd.",デジタルトランスフォーメーション,デジタル・サービス,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2307,"Cross Cat Co., Ltd.",フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2307,"Cross Cat Co., Ltd.",マイナンバー,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2307,"Cross Cat Co., Ltd.",電子政府,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2311,"EPCO Co.,Ltd.",下水道,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2311,"EPCO Co.,Ltd.",住宅関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2311,"EPCO Co.,Ltd.",太陽光発電関連,GX・エネルギー,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2311,"EPCO Co.,Ltd.",蓄電池,GX・エネルギー,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2315,CAICA DIGITAL Inc.,IT関連,デジタル・サービス,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2315,CAICA DIGITAL Inc.,データ分析・解析,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2315,CAICA DIGITAL Inc.,フィンテック,金融・金利,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2315,CAICA DIGITAL Inc.,人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2317,Systena Corporation,IT関連,デジタル・サービス,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2317,Systena Corporation,IoT,設備投資・機械,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2317,Systena Corporation,クラウドコンピューティング,デジタル・サービス,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2317,Systena Corporation,マイナンバー,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2317,Systena Corporation,人工知能,AI・半導体,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2317,Systena Corporation,自動運転車,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,231A,,マンション関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,231A,,下水道,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,231A,,住宅関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,231A,,建設,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+1,2321,Softfront Holdings,IT関連,デジタル・サービス,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2321,Softfront Holdings,クラウドコンピューティング,デジタル・サービス,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2321,Softfront Holdings,サービスロボット,設備投資・機械,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2321,Softfront Holdings,データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2321,Softfront Holdings,人工知能,AI・半導体,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2321,Softfront Holdings,生成AI,AI・半導体,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2323,fonfun corporation,IT関連,デジタル・サービス,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2323,fonfun corporation,SaaS,デジタル・サービス,43.71,54.6,92.0,98.0,72.4,有力関連,B,structured_segment_needs_sample_qa,structured_segment_v5,プリ開発SaaS事業,external_customer_sales_table,https://www.fonfun.co.jp/wp-content/uploads/2025/11/20251113001.pdf,"子会社化し、2024年９月30日付で両社を吸収合併しております。当該
+事象によるのれんの増加額は、前中間会計期間において414百万円であります。
+「DXソリューション事業」セグメントにおいて、2024年４月１日付で株式会社ゼロワンよりノーコード業務ア
+プリ開発SaaS事業を譲受、2024年８月１日付でグルーコードコミュニケーションズ株式会社を完全子会社化し、
+2024年９月30日付で同社を吸収合併しております。当該事象によるのれんの増加額は、前中間会計期間において
+563百万円であります。
+株式会社ｆｏｎｆｕｎ(2323) 2026年３月期 第２四半期（中間期）決算短信
+- 10 -
+Ⅱ 当中間会計期間(自 2025年４月１日 至 2025年９月30日)
+１．報告セグメントごとの売上高及び利益又は損失の金額に関する情報
+(単位：千円)
+報告セグメント
+調整額 合計クラウドソリューション
+事業 DXソリューション事業 計
+売上高 外部顧客への売上高 484,135 375,891 860,027 ― 860,027
+セグメント間の内部売上高
+又は振替高 ― ― ― ― ―
+計 484,1"
+1,2323,fonfun corporation,クラウドコンピューティング,デジタル・サービス,45.31,56.6,92.0,98.0,73.5,有力関連,B,structured_segment_needs_sample_qa,structured_segment_v5,合計クラウドソリューション事業,external_customer_sales_table,https://www.fonfun.co.jp/wp-content/uploads/2026/06/20260625001.pdf,"ロ 当該資産除去債務の金額の算定方法
+ 使用見込み期間を取得から15年と見積もり、割引率は1.0%を使用して資産除去債務の金額を算定して
+おります。
+ハ 当該資産除去債務の総額の増減
+ 
+当連結会計年度
+（自 2025年４月１日
+至 2026年３月31日）
+期首残高 －千円
+連結子会社の取得による増加額 23,547
+期末残高 23,547
+ 
+（収益認識関係）
+１．顧客との契約から生じる収益を分解した情報
+当連結会計年度（自 2025年４月１日 至 2026年３月31日）
+(単位：千円）
+ 報告セグメント 合計クラウドソリューション事業 DXソリューション事業
+一時点で移転される
+財又はサービス 296,973 49,827 346,800
+一定の期間にわたり移転される
+財又はサービス 659,521 1,104,881 1,764,403
+顧客との契約から生じる収益 956,495 1,154,709 2,111,204 外部顧客への売上高 956,495 1,154,709 2,111,204
+ 
+２．顧客との契約から生じる収益を理解するための基礎となる情報
+(1) クラウドソリ"
+1,2323,fonfun corporation,サイバーセキュリティ,防衛・国土強靱化,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2323,fonfun corporation,デジタルトランスフォーメーション,デジタル・サービス,60.52,75.7,100.0,100.0,86.6,主力テーマ,B,structured_segment_needs_sample_qa,structured_segment_v5,DXソリューション事業,external_customer_sales_table,https://www.fonfun.co.jp/wp-content/uploads/2025/08/2025081301.pdf,"90 △36,240 40,849
+(注) セグメント利益の調整額△36,240千円は、各報告セグメントに配分していない全社費用であります。全社費用
+は、主に報告セグメントに帰属しない一般管理費であります。
+株式会社ｆｏｎｆｕｎ(2323) 2026年３月期 第１四半期決算短信
+8
+２．報告セグメントごとの固定資産の減損損失又はのれん等に関する情報
+(のれんの金額の重要な変動）
+「DXソリューション事業」において、株式会社ゼロワンからの事業譲受により、のれんの金額が増加しておりま
+す。当該事象によるのれんの増加額は、当第１四半期累計期間に置いて41,000千円であります。
+Ⅱ 当第１四半期累計期間(自 2025年４月１日 至 2025年６月30日)
+１．報告セグメントごとの売上高及び利益又は損失の金額に関する情報
+(単位：千円)
+報告セグメント
+調整額 合計クラウド
+ソリューション
+事業
+DX
+ソリューション
+事業
+計
+売上高 外部顧客への売上高 260,167 169,703 429,871 ― 429,871
+セグメント間の内部売上高
+又は振替高 ― ― ― ― ―
+計 260,1"
+1,2325,"NJS Co., Ltd.",ドローン,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2325,"NJS Co., Ltd.",下水道,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2325,"NJS Co., Ltd.",水道関連,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2325,"NJS Co., Ltd.",耐震化,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2325,"NJS Co., Ltd.",防災,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2326,Digital Arts Inc.,IT関連,デジタル・サービス,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2326,Digital Arts Inc.,SaaS,デジタル・サービス,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2326,Digital Arts Inc.,サイバーセキュリティ,防衛・国土強靱化,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2326,Digital Arts Inc.,サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2326,Digital Arts Inc.,マイナンバー,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2327,NS Solutions Corporation,IT関連,デジタル・サービス,,,100.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2327,NS Solutions Corporation,IoT,設備投資・機械,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2327,NS Solutions Corporation,SaaS,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2327,NS Solutions Corporation,クラウドコンピューティング,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2327,NS Solutions Corporation,サイバーセキュリティ,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2327,NS Solutions Corporation,デジタルトランスフォーメーション,デジタル・サービス,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2327,NS Solutions Corporation,データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2327,NS Solutions Corporation,ドローン,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2327,NS Solutions Corporation,人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2327,NS Solutions Corporation,電子政府,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2330,"Forside Co.,Ltd.",ゲーム関連,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2330,"Forside Co.,Ltd.",人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2330,"Forside Co.,Ltd.",物流,物流・海運,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2330,"Forside Co.,Ltd.",生成AI,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2330,"Forside Co.,Ltd.",陸運,物流・海運,,,66.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2331,"Alsok Co.,Ltd.",サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2331,"Alsok Co.,Ltd.",サービスロボット,設備投資・機械,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2331,"Alsok Co.,Ltd.",ドローン,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2331,"Alsok Co.,Ltd.",マイナンバー,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2331,"Alsok Co.,Ltd.",マンション関連,不動産・建設,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2331,"Alsok Co.,Ltd.",ロボット,AI・半導体,,,82.0,74.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2331,"Alsok Co.,Ltd.",介護関連,医療・ヘルスケア,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2331,"Alsok Co.,Ltd.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2332,"Quest Co., Ltd.",IT関連,デジタル・サービス,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2334,eole Inc.,ゲーム関連,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2334,eole Inc.,データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2334,eole Inc.,人工知能,AI・半導体,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2335,Cube System Inc.,IT関連,デジタル・サービス,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2335,Cube System Inc.,デジタルトランスフォーメーション,デジタル・サービス,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2335,Cube System Inc.,フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2335,Cube System Inc.,人工知能,AI・半導体,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2337,Ichigo Inc.,不動産ファンド,不動産・建設,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2337,Ichigo Inc.,不動産関連,不動産・建設,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2337,Ichigo Inc.,太陽光発電関連,GX・エネルギー,,,42.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2337,Ichigo Inc.,風力発電,GX・エネルギー,,,72.0,72.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2338,"Quantum Solutions Co.,Ltd.",エッジコンピューティング,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2338,"Quantum Solutions Co.,Ltd.",ゲーム関連,デジタル・サービス,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2338,"Quantum Solutions Co.,Ltd.",データセンター,データセンター・電力,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2338,"Quantum Solutions Co.,Ltd.",人工知能,AI・半導体,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2341,"Arbeit-Times Co., Ltd.",サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2342,Transgenic Group Inc.,eコマース,内需・消費,,,85.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2342,Transgenic Group Inc.,バイオテクノロジー関連,医療・ヘルスケア,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2345,"HODL 1,inc.",AIエージェント,AI・半導体,,,85.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2349,"Nippon Information Development Co., Ltd.",IT関連,デジタル・サービス,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2349,"Nippon Information Development Co., Ltd.",IoT,設備投資・機械,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2349,"Nippon Information Development Co., Ltd.",クラウドコンピューティング,デジタル・サービス,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2349,"Nippon Information Development Co., Ltd.",人工知能,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2351,ASJ Inc.,IT関連,デジタル・サービス,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2351,ASJ Inc.,eコマース,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2351,ASJ Inc.,クラウドコンピューティング,デジタル・サービス,,,58.0,60.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2351,ASJ Inc.,サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2351,ASJ Inc.,フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2353,"NIPPON PARKING DEVELOPMENT Co.,Ltd.",インバウンド,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,2353,"NIPPON PARKING DEVELOPMENT Co.,Ltd.",不動産関連,不動産・建設,7.00,8.8,72.0,68.0,36.6,ノイズ候補,B,structured_segment_needs_sample_qa,structured_segment_v5,ヘルスケア事業及び不動産事業,external_customer_sales_table,https://n-p-d.co.jp/release/201907_tanshin.pdf,"（注）１．「その他」の区分は、報告セグメントに含まれない事業セグメントであり、教育事業、
+ヘルスケア事業及び不動産事業等を含んでおります。 
+２．セグメント利益の調整額△584,842 千円は、各報告セグメントに配分していない全社費 
+用等であります。全社費用は、主に財務経理等の管理部門に係る費用及び各報告セグメン
+ト共通の費用であります。 
+３．セグメント資産の調整額は13,569,952 千円であり、各報告セグメントに配分していな
+い全社資産によるものであります。 
+４．セグメント利益は、連結損益計算書の営業利益と調整を行っております。 
+日本駐車場開発㈱ (2353) 2019年７月期 決算短信
+22
+ 
+ 
+ 
+ 
+ 
+当連結会計年度（自 2018 年８月１日 至 2019 年７月31 日） 
+（単位：千円） 
+ 
+報告セグメント 
+駐車場事業 スキー場事業 テーマパーク 
+事業 計 
+売上高 外部顧客への売上高 13,877,735 6,599,588 3,337,609 23,814,933 
+セグメント間の内部
+売上高又は振替高 18,648 29,016 5,236 5"
+1,2353,"NIPPON PARKING DEVELOPMENT Co.,Ltd.",再生可能エネルギー,GX・エネルギー,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2354,YE DIGITAL Corporation,FA関連,設備投資・機械,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2354,YE DIGITAL Corporation,IT関連,デジタル・サービス,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2354,YE DIGITAL Corporation,IoT,設備投資・機械,,,100.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2354,YE DIGITAL Corporation,クラウドコンピューティング,デジタル・サービス,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2354,YE DIGITAL Corporation,サイバーセキュリティ,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2354,YE DIGITAL Corporation,デジタルトランスフォーメーション,デジタル・サービス,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2354,YE DIGITAL Corporation,人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2354,YE DIGITAL Corporation,教育ICT,デジタル・サービス,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2359,Core Corporation,IT関連,デジタル・サービス,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2359,Core Corporation,IoT,設備投資・機械,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2359,Core Corporation,エッジコンピューティング,AI・半導体,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2359,Core Corporation,クラウドコンピューティング,デジタル・サービス,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2359,Core Corporation,マイナンバー,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2359,Core Corporation,宇宙開発関連,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2359,Core Corporation,自動運転車,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2370,"MEDINET Co., Ltd.",バイオテクノロジー関連,医療・ヘルスケア,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2370,"MEDINET Co., Ltd.",再生医療,医療・ヘルスケア,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2371,"Kakaku.com, Inc.",サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2371,"Kakaku.com, Inc.",保険,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2371,"Kakaku.com, Inc.",外食,内需・消費,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2371,"Kakaku.com, Inc.",旅行,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2371,"Kakaku.com, Inc.",生活防衛,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,2373,Care Twentyone Corporation,介護関連,医療・ヘルスケア,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2375,GiG Works Inc.,IT関連,デジタル・サービス,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2375,GiG Works Inc.,人工知能,AI・半導体,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2375,GiG Works Inc.,生成AI,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2376,Scinex Corporation,eコマース,内需・消費,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2376,Scinex Corporation,キャッシュレス決済,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2376,Scinex Corporation,デジタルトランスフォーメーション,デジタル・サービス,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2376,Scinex Corporation,人工知能,AI・半導体,,,91.0,95.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2376,Scinex Corporation,旅行,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2376,Scinex Corporation,生成AI,AI・半導体,,,46.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2378,"Renaissance,Incorporated",介護関連,医療・ヘルスケア,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2379,DIP Corporation,人工知能,AI・半導体,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2384,"SBS Holdings, Inc.",不動産関連,不動産・建設,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2384,"SBS Holdings, Inc.",物流,物流・海運,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2384,"SBS Holdings, Inc.",陸運,物流・海運,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2385,Soiken Holdings Inc.,バイオテクノロジー関連,医療・ヘルスケア,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2388,"Wedge Holdings CO.,LTD.",ゲーム関連,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2388,"Wedge Holdings CO.,LTD.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2391,"Planet, Inc.",IT関連,デジタル・サービス,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2391,"Planet, Inc.",インバウンド,内需・消費,,,54.0,54.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,2391,"Planet, Inc.",データベース,デジタル・サービス,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2393,"Nippon Care Supply Co., Ltd.",介護関連,医療・ヘルスケア,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2395,"Shin Nippon Biomedical Laboratories, Ltd.",バイオテクノロジー関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2395,"Shin Nippon Biomedical Laboratories, Ltd.",ホテル,内需・消費,,,58.0,60.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2395,"Shin Nippon Biomedical Laboratories, Ltd.",再生医療,医療・ヘルスケア,,,86.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2395,"Shin Nippon Biomedical Laboratories, Ltd.",創薬,医療・ヘルスケア,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2395,"Shin Nippon Biomedical Laboratories, Ltd.",医薬品関連,医療・ヘルスケア,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2395,"Shin Nippon Biomedical Laboratories, Ltd.",水素,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2404,"Tetsujin Holdings, Inc.",外食,内需・消費,0.00,0.0,92.0,84.0,40.2,補助関連,B,structured_segment_needs_sample_qa,structured_segment_v5,飲食事業,external_customer_sales_table,https://www.tetsujin.ne.jp/topics/news/pdf2026/20260715a.pdf,"携帯電話業界を中心に人材派遣及びイベン
+ト・キャンペーン支援事業を主体とした人材派遣・イベント・キャンペーン支援事業、着メロ等の配信を行うメ
+ディア・コンテンツ企画事業を事業ドメインとして運営しております。
+前第３四半期連結累計期間(自 2024年９月１日 至 2025年５月31日)
+(単位：千円)
+報告セグメント 契約区分 売上高 構成比
+カラオケルーム運営事業 店舗販売 2,942,660 48.4%
+ＥＣ 205,140 3.4%
+飲食事業 店舗販売 1,389,516 22.9%
+卸売 36,637 0.6%
+ＦＣ 64,878 1.1%
+美容事業 施術サービス 1,281,644 21.1%
+物販 82,762 1.4%
+卸売 3,842 0.1%
+メディア・コンテンツ企画事業 44,380 0.7%
+その他 26,076 0.4%
+顧客との契約から生じる収益 6,077,535 100.0%
+その他の収益 － －% 外部顧客への売上高 6,077,535 100.0%
+(注)「その他」の区分は、報告セグメントに含まれない事業セグメントであり、「レンタルスペース事業」等を
+含"
+1,2408,"KG Intelligence CO., LTD.",住宅関連,不動産・建設,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2411,Gendai Agency Inc.,不動産関連,不動産・建設,,,42.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2413,"M3, Inc.",IT関連,デジタル・サービス,18.70,23.4,8.0,5.0,16.0,ノイズ候補,B,structured_segment_needs_sample_qa,structured_segment_v5,医用臨床支援システム事業,explicit_segment_percent,https://corporate.m3.com/assets.ctfassets.net/1pwj74siywcy/240LHxrVRqSGaXsxDMaShF/76e68b0b5adef1b6d6c0f23fa589758d/20260625_FY25Q4_yuho_J.pdf,"100.0% 役員の兼任 １名
+その他連結子会社123社
+- 9 -
+2026/06/25 16:41:23／25307546_エムスリー株式会社_有価証券報告書（通常方式）
+名称 住所
+資本金
+又は
+出資金
+主要な事業の内容
+（注２）
+議決権の
+所有
+(被所有)
+割合
+（注１）
+関係内容
+Medlive Technology Co., 
+Ltd.
+英領ケイマン
+諸島
+7,328
+米ドル
+（海外）
+中国におけるインターネットを利用した製
+薬会社等の営業・マーケティング支援事業
+36.2% 役員の兼任 １名
+PSP株式会社（注６） 東京都港区 1,100百万円
+（メディカルプラットフォーム）
+医用臨床支援システム事業 18.7% データ事業の委託
+HYUGA PRIMARY CARE株式会社
+（注３） 福岡県春日市 200百万円
+（その他エマージング事業群）
+在宅訪問薬局事業 28.6%
+(18.8%) 該当なし
+クラシコ株式会社（注３） 東京都港区 1,042百万円
+（ペイシェントソリューション）
+メディカルアパレル事業 28.1%
+(28.1%) 該当なし
+その他持分法適用関連会社
+"
+1,2413,"M3, Inc.",人工知能,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2413,"M3, Inc.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2413,"M3, Inc.",遠隔医療,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2415,"Human Holdings Co., Ltd.",介護関連,医療・ヘルスケア,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2418,TSUKADA GLOBAL HOLDINGS Inc.,インバウンド,内需・消費,,,46.0,44.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,2418,TSUKADA GLOBAL HOLDINGS Inc.,ホテル,内需・消費,43.42,54.3,100.0,100.0,74.9,有力関連,B,structured_segment_needs_sample_qa,structured_segment_v5,ホテル事業,external_customer_sales_table,https://www.tsukada-global.holdings/assets/attachmentfile/attachmentfile-file-1290.pdf,"期間を含む連結会計年度の税引前当期純利益に対する税効果会計適用
+後の実効税率を合理的に見積り、税引前中間純利益に当該見積実効税率を乗じて計算しております。ただし、
+見積実効税率を使用できない場合には、法定実効税率を使用しております。
+株式会社ツカダ・グローバルホールディング(2418) 2026年12月期 第２四半期（中間期）決算短信
+-13-
+（セグメント情報等の注記）
+【セグメント情報】
+Ⅰ 前中間連結会計期間(自 2025年１月１日 至 2025年６月30日)
+１．報告セグメントごとの売上高及び利益又は損失の金額に関する情報並びに収益の分解情報
+(単位：百万円)
+報告セグメント 調整額
+(注)１
+中間連結
+損益計算書
+計上額
+(注)２婚礼事業 ホテル事業 Ｗ＆Ｒ事業 計
+売上高
+顧客との契約から生じる
+収益 18,200 14,032 1,433 33,666 － 33,666
+その他の収益 82 － － 82 － 82 外部顧客への売上高 18,282 14,032 1,433 33,748 － 33,748
+セグメント間の
+内部売上高又は振替高 1,019 424 3 1,4"
+1,241A,"ROXX,inc.",サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,241A,"ROXX,inc.",データベース,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,241A,"ROXX,inc.",人工知能,AI・半導体,,,85.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2425,"Care Service Co.,Ltd.",介護関連,医療・ヘルスケア,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2428,Wellnet Corporation,IT関連,デジタル・サービス,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2428,Wellnet Corporation,MaaS,自動車・モビリティ,,,58.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2428,Wellnet Corporation,eコマース,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2428,Wellnet Corporation,キャッシュレス決済,金融・金利,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2428,Wellnet Corporation,フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2429,"World Holdings Co., Ltd.",不動産関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2432,"DeNA Co., Ltd.",IT関連,デジタル・サービス,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2432,"DeNA Co., Ltd.",MaaS,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2432,"DeNA Co., Ltd.",eコマース,内需・消費,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2432,"DeNA Co., Ltd.",フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2432,"DeNA Co., Ltd.",人工知能,AI・半導体,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2432,"DeNA Co., Ltd.",自動運転車,自動車・モビリティ,,,66.0,70.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2432,"DeNA Co., Ltd.",電気自動車関連,自動車・モビリティ,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2433,Hakuhodo DY Holdings Inc,クラウドコンピューティング,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2435,"CEDAR.Co.,Ltd.",介護関連,医療・ヘルスケア,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2436,"Kyodo Public Relations Co., Ltd.",SaaS,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2436,"Kyodo Public Relations Co., Ltd.",デジタルトランスフォーメーション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2436,"Kyodo Public Relations Co., Ltd.",データ分析・解析,AI・半導体,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2436,"Kyodo Public Relations Co., Ltd.",人工知能,AI・半導体,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2437,"Shinwa Wise Holdings Co.,Ltd.",再生可能エネルギー,GX・エネルギー,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2437,"Shinwa Wise Holdings Co.,Ltd.",太陽光発電関連,GX・エネルギー,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2438,"Asukanet Co., Ltd.",フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2440,"Gurunavi, Inc.",IT関連,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2440,"Gurunavi, Inc.",インバウンド,内需・消費,,,42.0,40.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+1,2440,"Gurunavi, Inc.",外食,内需・消費,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+1,2440,"Gurunavi, Inc.",生活防衛,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
