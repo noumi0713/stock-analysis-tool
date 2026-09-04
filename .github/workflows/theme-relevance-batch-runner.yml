@@ -11,10 +11,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: theme-relevance-batch-runner
+  cancel-in-progress: true
+
 jobs:
   run-batch:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
         with:
@@ -35,7 +39,7 @@ jobs:
           printf -v PADDED "%03d" "$BATCH"
           echo "padded=$PADDED" >> "$GITHUB_OUTPUT"
       - name: Install dependencies
-        run: pip install --disable-pip-version-check -q yfinance requests beautifulsoup4
+        run: pip install --disable-pip-version-check -q yfinance requests beautifulsoup4 pypdf
       - name: Fetch 124-theme source branch
         run: git fetch origin research/volume-top100-overheat:refs/remotes/origin/research/volume-top100-overheat
       - name: Build 300-stock batch
@@ -44,10 +48,35 @@ jobs:
         run: python research/collect_theme_relevance_profiles.py --batch ${{ steps.batch.outputs.number }} --workers 4
       - name: Collect official-site evidence
         run: python research/collect_official_site_evidence.py --batch ${{ steps.batch.outputs.number }} --workers 4
-      - name: Score relevance v3
+      - name: Score relevance v3 inputs
         run: python research/score_theme_relevance_v3.py --batch ${{ steps.batch.outputs.number }}
       - name: Build scoring context
         run: python research/prepare_theme_relevance_context.py --batch ${{ steps.batch.outputs.number }}
+      - name: Collect coherent official revenue mix v6
+        run: python research/collect_revenue_mix_v6.py --batch ${{ steps.batch.outputs.number }} --workers 10
+      - name: Run v6 regression QA
+        run: python research/test_revenue_mix_v6.py
+      - name: Score relevance v6
+        run: python research/score_theme_relevance_v6.py --batch ${{ steps.batch.outputs.number }}
+      - name: Export final QA rows
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          batch = int("${{ steps.batch.outputs.number }}")
+          p = f"{batch:03d}"
+          root = Path("research/results/theme_relevance_batches")
+          src = root / f"batch_{p}_scores_v6.csv"
+          dst = root / f"batch_{p}_qa_v6.csv"
+          with src.open(encoding="utf-8-sig") as f:
+              rows = [r for r in csv.DictReader(f) if r.get("review_flag") == "structured_segment_v6_needs_final_qa"]
+          fields = ["stock_code","long_name","theme_name","revenue_share_pct","relevance_score","band","confidence","segment_names","share_basis","source_url"]
+          with dst.open("w", newline="", encoding="utf-8-sig") as f:
+              w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
+              w.writeheader(); w.writerows(rows)
+          print("qa_rows", len(rows), dst)
+          PY
       - name: Commit batch outputs
         run: |
           git config user.name "github-actions[bot]"
@@ -57,7 +86,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes"
           else
-            git commit -m "Generate theme relevance batch ${P} v3"
+            git commit -m "Generate theme relevance batch ${P} through v6"
             git pull --rebase origin research/first-pullback-watch-prototype
             git push
           fi
