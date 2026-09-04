@@ -1,0 +1,7 @@
+stock_code,long_name,theme_name,auto_revenue_share_pct,final_relevance_score,final_band,confidence,decision,decision_basis
+2721,J-Holdings Corp.,不動産関連,60.17,80.7,主力テーマ,B,PASS,公式売上セグメントとテーマ対応に違和感なし
+2874,Yokorei Co. Ltd.,倉庫,31.70,64.1,有力関連,B,PASS,冷蔵倉庫事業の公式売上比率として整合
+2877,NittoBest Corporation,食品,0.00,98.0,主力テーマ,A,MANUAL_OVERRIDE,自動抽出0%を棄却。公式会社概要・有価証券報告書で冷凍食品・日配食品・缶詰・チルド・レトルト等の製造販売が主事業。正確な食品売上比率は推測せず不明扱い
+2933,Kibun Foods Inc.,食品,100.00,97.0,主力テーマ,B,PASS,国内食品・海外食品・食品関連事業の公式売上表と整合
+3107,Daiwabo Holdings Co. Ltd.,機械,0.97,38.2,ノイズ候補,B,PASS,産業機械事業の公式売上比率として整合
+3154,Medius Holdings Co. Ltd.,介護関連,2.09,42.5,補助関連,B,PASS,介護・福祉事業の公式売上比率として整合
