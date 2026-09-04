@@ -1,0 +1,37 @@
+name: Theme relevance discretionary 1000
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - "research/prepare_discretionary_1000.py"
+      - ".github/workflows/theme-relevance-discretion-1000.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Build 1000 review contexts
+        run: python research/prepare_discretionary_1000.py
+      - name: Commit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/theme_relevance_batches/discretionary_review_1000_context.csv \
+                  research/results/theme_relevance_batches/discretionary_review_1000_context_summary.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Prepare 1000 discretionary theme review contexts"
+            git pull --rebase origin research/first-pullback-watch-prototype
+            git push
+          fi
