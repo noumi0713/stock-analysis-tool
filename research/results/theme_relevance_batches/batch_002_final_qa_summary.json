@@ -1,0 +1,17 @@
+{
+  "batch": 2,
+  "stocks": 300,
+  "stock_theme_pairs": 769,
+  "final_qa_pairs": 6,
+  "passed_as_is": 5,
+  "manual_overrides": 1,
+  "manual_override": {
+    "stock_code": "2877",
+    "theme_name": "食品",
+    "auto_revenue_share_pct": 0.0,
+    "final_relevance_score": 98.0,
+    "final_band": "主力テーマ",
+    "revenue_share_policy": "exact share left unknown; do not invent a percentage"
+  },
+  "status": "batch_002_qa_finalized"
+}
