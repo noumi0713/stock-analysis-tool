@@ -1,0 +1,22 @@
+{
+  "rows": 1000,
+  "manual_web_overrides": 50,
+  "bands": {
+    "主力テーマ": 462,
+    "ノイズ候補": 358,
+    "有力関連": 87,
+    "補助関連": 93
+  },
+  "confidence": {
+    "A": 409,
+    "C": 448,
+    "B": 143
+  },
+  "decision_sources": {
+    "chatgpt_confirmed_official_context": 511,
+    "chatgpt_discretion_existing_context": 439,
+    "chatgpt_discretion_manual_web": 50
+  },
+  "unfinalized": 0,
+  "rule": "Revenue share remains blank unless disclosed; relevance score is finalized using official-company context and ChatGPT discretion, with manual web overrides for detected false negatives."
+}
