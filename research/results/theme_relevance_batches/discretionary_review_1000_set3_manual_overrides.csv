@@ -1,0 +1,36 @@
+stock_code,theme_name,final_relevance_score,final_confidence,reason,source_url
+3626,データセンター,90,B,TISインテックグループは国内9拠点のデータセンターを保有し運用・クラウド基盤を直接提供している,https://www.tisi.jp/group/products/dc/
+3673,サブスクリプション,95,A,モビリティ産業向けクラウドサービスをSaaS型で提供しており継続課金が事業モデルの中核,https://www.broadleaf.co.jp/ir/management/business/
+3694,建設DX,94,A,LANDLOG共同運営とGeo Scan等の建設・土木DXサービスを開発販売している,https://www.optim.co.jp/newsdetail/20201027-pressrelease-01
+3697,サイバーセキュリティ,92,A,脆弱性診断・SOC・CSIRT等を直接提供し累計1.5万件超のセキュリティ実績を公式開示,https://service.shiftinc.jp/service_cat/security/
+3710,MaaS,95,A,経路検索から予約決済までを統合したMaaSチケット・MaaSパッケージを自社サービスとして提供,https://about.jorudan.co.jp/products/
+3762,SaaS,85,B,複数の業務・医療系クラウド製品をSaaSとして直接提供しているが全社売上比率は不明,https://www.techmatrix.co.jp/
+3762,クラウドコンピューティング,90,A,クラウド型業務・医療情報システムを主要ソリューションとして直接提供,https://www.techmatrix.co.jp/solution/medical/
+3762,サイバーセキュリティ,95,A,セキュリティ製品・監視・診断等を主要事業領域として直接提供,https://www.techmatrix.co.jp/product/security.html
+3762,サブスクリプション,84,B,SaaS・クラウドサービスを継続利用型で提供するため直接性は高いが比率非開示,https://www.techmatrix.co.jp/
+3774,データセンター,95,A,自社データセンターを設計構築運用し顧客向けにもデータセンターサービスを直接提供,https://www.iij.ad.jp/datacenter/
+3796,クラウドコンピューティング,97,A,不動産業向けシステムをクラウドSaaSとして提供することを公式に明示,https://www.e-seikatsu.info/aboutUs/description.html
+3796,サブスクリプション,97,A,主要サービスの収益モデルを月額サブスクリプション型クラウドSaaSと明示,https://www.e-seikatsu.info/IR/individual.html
+3796,不動産テック,98,A,AIとクラウドで不動産DXを推進する不動産テック企業で事業そのものがテーマに直結,https://www.e-seikatsu.info/
+3804,サブスクリプション,82,B,主力学校業務システムを月額・年額のサブスクリプション型クラウドでも提供,https://www.systemd.co.jp/campusplan
+3804,教育ICT,92,A,学校向け学務システムCampus Planをクラウド型で直接提供し教育ICTが主要事業領域,https://www.systemd.co.jp/campusplan
+3834,教育ICT,90,A,教育機関向けクラウド型教育支援システムmanabaを自社主要サービスとして提供,https://asahi-net.co.jp/recruit/business/
+3922,サブスクリプション,80,B,PR TIMESに月間・半年・年間の定額プランがあり継続課金収益が明確に存在,https://prtimes.co.jp/ir/individual/
+3923,SaaS,97,A,企業業務向けクラウドサービス群が主力でクラウド事業が連結売上の86%を占める,https://www.rakus.co.jp/data/
+3923,サブスクリプション,97,A,クラウド事業のストック売上高比率が92.6%で継続課金モデルが事業の中核,https://www.rakus.co.jp/data/
+3923,デジタルトランスフォーメーション,88,B,経費・請求・販売・勤怠等の業務をクラウドで効率化し企業DXに直接寄与,https://www.rakus.co.jp/service/
+3939,サブスクリプション,88,B,医療介護向けクラウドサービス専業でASP・SaaSとして継続提供する事業モデル,https://www.kanamicnetwork.co.jp/recruit/aboutus.html
+3939,デジタルトランスフォーメーション,90,A,医療介護現場の業務をクラウドとAIでデジタル化することを主要事業として展開,https://www.kanamicnetwork.co.jp/topics/2025/press-release0612/
+3939,人工知能,80,B,介護SaaSをAISaaSへ進化させ生成AI機能を主要クラウドサービスへ実装,https://www.kanamicnetwork.co.jp/topics/2026/press-release0803/
+3984,SaaS,82,B,ビッグデータ・AI分析製品を企業向けオンラインサービスとして広く提供している,https://www.userlocal.jp/products/
+3984,データ分析・解析,96,A,アクセス解析・SNS分析・テキストマイニング等データ分析製品が事業の中核,https://www.userlocal.jp/products/
+3994,サブスクリプション,92,A,バックオフィス向けSaaSを月額・年額プランで提供し継続課金が主要収益モデル,https://biz.moneyforward.com/service/
+3994,フィンテック,96,A,会計・決済・掛け払い・カード等の金融機能をSaaSと統合して直接提供,https://corp.moneyforward.com/service/business/
+3998,教育ICT,98,A,学校・塾向けクラウド型ICT教材すらら・すららドリルの開発提供が事業の中核,https://surala.jp/school/service/drill/
+4057,SaaS,84,B,EC向けクラウドコマースプラットフォームを継続提供するSaaS性の高い事業,https://www.interfactory.co.jp/products.html
+4060,サブスクリプション,98,A,SaaSサービスが2024年度売上の97%を占め定期定額のサブスクリプション型モデルを明示,https://investor.rakumo.com/ja/ir/management/business.html
+4062,半導体部材・部品,98,A,ICパッケージ基板が主要製品で高性能サーバー向けに大規模増産投資を実施,https://www.ibiden.com/company/profile/info/
+4071,データ分析・解析,96,A,ビッグデータ可視化・分析技術を核とする各種プラットフォームを提供,https://www.pa-consul.co.jp/
+4165,サブスクリプション,96,A,KARTEを年間契約のサブスクリプションSaaSモデルとして提供すると公式明示,https://plaid.co.jp/ir/faq/
+4165,データ分析・解析,92,A,顧客行動データの可視化・分析をKARTEの中核価値として提供,https://plaid.co.jp/ir/faq/
+4168,サブスクリプション,90,B,ノーコードアプリ基盤を継続提供し周辺サービスにもサブスク型サービスを明示,https://yappli.co.jp/
