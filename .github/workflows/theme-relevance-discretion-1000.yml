@@ -8,6 +8,7 @@ on:
     paths:
       - "research/prepare_discretionary_1000.py"
       - "research/summarize_discretionary_1000_companies.py"
+      - "research/build_discretionary_compact.py"
       - ".github/workflows/theme-relevance-discretion-1000.yml"
 
 permissions:
@@ -25,6 +26,8 @@ jobs:
         run: python research/prepare_discretionary_1000.py
       - name: Summarize low-confidence companies
         run: python research/summarize_discretionary_1000_companies.py
+      - name: Build compact low-confidence list
+        run: python research/build_discretionary_compact.py
       - name: Commit outputs
         run: |
           git config user.name "github-actions[bot]"
@@ -32,7 +35,8 @@ jobs:
           git add research/results/theme_relevance_batches/discretionary_review_1000_context.csv \
                   research/results/theme_relevance_batches/discretionary_review_1000_context_summary.json \
                   research/results/theme_relevance_batches/discretionary_review_1000_low_conf_companies.csv \
-                  research/results/theme_relevance_batches/discretionary_review_1000_low_conf_summary.json
+                  research/results/theme_relevance_batches/discretionary_review_1000_low_conf_summary.json \
+                  research/results/theme_relevance_batches/discretionary_review_1000_low_conf_compact.csv
           if git diff --cached --quiet; then
             echo "No changes"
           else
