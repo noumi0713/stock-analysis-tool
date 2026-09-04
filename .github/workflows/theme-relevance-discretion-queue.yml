@@ -1,0 +1,47 @@
+name: Theme relevance discretionary queue
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - "research/prepare_discretionary_review_queue.py"
+      - ".github/workflows/theme-relevance-discretion-queue.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build-queue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Read current batch
+        id: batch
+        shell: bash
+        run: |
+          BATCH=$(tr -d '[:space:]' < research/theme_relevance_next_batch.txt)
+          echo "number=$BATCH" >> "$GITHUB_OUTPUT"
+          printf -v PADDED "%03d" "$BATCH"
+          echo "padded=$PADDED" >> "$GITHUB_OUTPUT"
+      - name: Build discretionary review queue
+        run: python research/prepare_discretionary_review_queue.py --batch ${{ steps.batch.outputs.number }}
+      - name: Commit queue
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          P=${{ steps.batch.outputs.padded }}
+          git add research/results/theme_relevance_batches/batch_${P}_discretion_queue.csv
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Prepare batch ${P} ChatGPT discretionary review queue"
+            git pull --rebase origin research/first-pullback-watch-prototype
+            git push
+          fi
