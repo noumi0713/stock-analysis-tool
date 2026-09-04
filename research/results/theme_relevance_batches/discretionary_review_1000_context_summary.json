@@ -1,0 +1,26 @@
+{
+  "rows": 1000,
+  "batch_counts": {
+    "1": 902,
+    "2": 98
+  },
+  "confidence": {
+    "A": 397,
+    "C": 489,
+    "B": 114
+  },
+  "review_flags": {
+    "ok": 312,
+    "official_site_supported": 117,
+    "needs_review": 511,
+    "qa_borderline": 21,
+    "needs_official_ir": 29,
+    "qa_peripheral": 10
+  },
+  "bands": {
+    "主力テーマ": 439,
+    "ノイズ候補": 386,
+    "有力関連": 72,
+    "補助関連": 103
+  }
+}
