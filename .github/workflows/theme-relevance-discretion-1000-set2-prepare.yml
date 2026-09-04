@@ -1,0 +1,41 @@
+name: Theme relevance discretionary 1000 set2 prepare
+
+on:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - "research/discretionary_1000_set2_start.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Build next 1000 review contexts
+        run: python research/prepare_discretionary_1000_set2.py
+      - name: Summarize low-confidence companies
+        run: python research/summarize_discretionary_1000_set2_companies.py
+      - name: Build compact review list
+        run: python research/build_discretionary_set2_compact.py
+      - name: Commit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/theme_relevance_batches/discretionary_review_1000_set2_*.csv \
+                  research/results/theme_relevance_batches/discretionary_review_1000_set2_*.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Prepare second 1000 discretionary theme reviews"
+            git pull --rebase origin research/first-pullback-watch-prototype
+            git push
+          fi
