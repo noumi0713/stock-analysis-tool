@@ -1,0 +1,6 @@
+﻿stock_code,long_name,theme_name,revenue_share_pct,relevance_score,band,confidence,segment_names,share_basis,source_url
+3529,"Atsugi Co., Ltd.",不動産関連,2.92,5.2,ノイズ候補,B,不動産事業,external_customer_sales_table_v6,https://www.atsugi.co.jp/assets/img/uploads/tan20260513_kessan.pdf
+3549,"Kusuri No Aoki Holdings Co., Ltd.",小売り,0.02,17.1,ノイズ候補,B,薬品・化粧品・日用雑貨・食品・調剤薬局等の近隣型小売事業,external_customer_sales_table_v6,https://kusuri-aoki-hd.co.jp/wp-content/uploads/2026/08/news_release_20260819_02.pdf
+3549,"Kusuri No Aoki Holdings Co., Ltd.",食品,0.02,17.1,ノイズ候補,B,薬品・化粧品・日用雑貨・食品・調剤薬局等の近隣型小売事業,external_customer_sales_table_v6,https://kusuri-aoki-hd.co.jp/wp-content/uploads/2026/08/news_release_20260819_02.pdf
+3788,GMO GlobalSign Holdings K.K.,IT関連,4.58,44.2,補助関連,B,DX事業,external_customer_sales_table_v6,https://www.gmogshd.com/wp-content/uploads/2026/05/2026年12月期第２四半期決算短信.pdf
+3793,"Drecom Co.,Ltd.",ゲーム関連,95.18,96.1,主力テーマ,B,計上額ゲーム事業,external_customer_sales_table_v6,https://drecom.co.jp/ir/140120260729501853.pdf
