@@ -1,0 +1,47 @@
+name: Export theme relevance v6 QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - ".github/workflows/theme-relevance-v6-qa-export.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  export-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Export final QA rows
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          src=Path('research/results/theme_relevance_batches/batch_001_scores_v6.csv')
+          out=Path('research/results/theme_relevance_batches/batch_001_qa_v6.csv')
+          with src.open(encoding='utf-8-sig') as f:
+              rows=[r for r in csv.DictReader(f) if r.get('review_flag')=='structured_segment_v6_needs_final_qa']
+          fields=['stock_code','long_name','theme_name','revenue_share_pct','relevance_score','band','confidence','segment_names','share_basis','source_url']
+          with out.open('w',newline='',encoding='utf-8-sig') as f:
+              w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows({k:r.get(k,'') for k in fields} for r in rows)
+          print(f'qa_rows={len(rows)}')
+          PY
+      - name: Commit QA export
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/theme_relevance_batches/batch_001_qa_v6.csv
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Export batch 001 v6 QA rows"
+            git pull --rebase origin research/first-pullback-watch-prototype
+            git push
+          fi
