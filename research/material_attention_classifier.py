@@ -19,7 +19,8 @@ def write_csv(path: Path, rows: list[dict], fields: list[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
-        w.writeheader(); w.writerows(rows)
+        w.writeheader()
+        w.writerows(rows)
 
 
 def parse_snapshot(value: str) -> datetime:
@@ -77,38 +78,61 @@ def build_material_stage(discovery_rows, review_rows):
     for d in discovery_rows:
         if (d.get("attention_stage_status") or "") != "DISCOVERED":
             continue
-        code = str(d.get("stock_code") or "").strip().upper(); review = reviews.get(code)
+        code = str(d.get("stock_code") or "").strip().upper()
+        review = reviews.get(code)
         if review is None:
-            material_class, reason, review_status = "NONE", "No semantic material review exists for this discovered candidate", "MISSING_REVIEW"
+            material_class = "NONE"
+            reason = "No semantic material review exists for this discovered candidate"
+            review_status = "MISSING_REVIEW"
             review = {}
         else:
-            material_class, reason, review_status = *classify_review(review, d.get("snapshot_at", "")), "REVIEWED"
+            material_class, reason = classify_review(review, d.get("snapshot_at", ""))
+            review_status = "REVIEWED"
         row = {
-            "ifis_rank": d.get("ifis_rank", ""), "stock_code": code, "company_name": d.get("company_name", ""),
-            "snapshot_at": d.get("snapshot_at", ""), "best_theme": d.get("best_theme", ""),
-            "theme_relevance_score": d.get("theme_relevance_score", ""), "review_status": review_status,
-            "material_class": material_class, "material_continuity": continuity_class(review.get("catalyst_type", ""), material_class),
-            "catalyst_status": review.get("catalyst_status", ""), "catalyst_direction": review.get("catalyst_direction", ""),
-            "catalyst_type": review.get("catalyst_type", ""), "catalyst_date": review.get("catalyst_date", ""),
-            "catalyst_gate": review.get("catalyst_gate", "FAIL"), "catalyst_confidence": review.get("confidence", ""),
-            "catalyst_summary": review.get("catalyst_summary", ""), "material_reason": reason,
-            "source_urls": review.get("source_urls", ""), "actionability": "RESEARCH_ONLY",
+            "ifis_rank": d.get("ifis_rank", ""),
+            "stock_code": code,
+            "company_name": d.get("company_name", ""),
+            "snapshot_at": d.get("snapshot_at", ""),
+            "best_theme": d.get("best_theme", ""),
+            "theme_relevance_score": d.get("theme_relevance_score", ""),
+            "review_status": review_status,
+            "material_class": material_class,
+            "material_continuity": continuity_class(review.get("catalyst_type", ""), material_class),
+            "catalyst_status": review.get("catalyst_status", ""),
+            "catalyst_direction": review.get("catalyst_direction", ""),
+            "catalyst_type": review.get("catalyst_type", ""),
+            "catalyst_date": review.get("catalyst_date", ""),
+            "catalyst_gate": review.get("catalyst_gate", "FAIL"),
+            "catalyst_confidence": review.get("confidence", ""),
+            "catalyst_summary": review.get("catalyst_summary", ""),
+            "material_reason": reason,
+            "source_urls": review.get("source_urls", ""),
+            "actionability": "RESEARCH_ONLY",
         }
-        rows.append(row); counts[material_class] = counts.get(material_class, 0) + 1
+        rows.append(row)
+        counts[material_class] = counts.get(material_class, 0) + 1
     rows.sort(key=lambda x: (int(float(x["ifis_rank"] or 999999)), x["stock_code"]))
     return rows, {
-        "status": "complete", "stage": "MATERIAL_BEFORE_TECHNICAL", "count": len(rows), "material_class_counts": counts,
+        "status": "complete",
+        "stage": "MATERIAL_BEFORE_TECHNICAL",
+        "count": len(rows),
+        "material_class_counts": counts,
         "rule": "Attention is not interpreted as buying demand. Positive materials are semantically reviewed before entry timing; negative, absent, weak, or lookahead-unsafe catalysts cannot qualify for BUY_NOW.",
         "lookahead_rule": "Catalyst information must be safely available by the attention snapshot; same-day date-only timestamps are rejected as ambiguous.",
     }
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(); ap.add_argument("--discovery", required=True); ap.add_argument("--review", required=True); ap.add_argument("--out-dir", required=True)
-    args = ap.parse_args(); rows, summary = build_material_stage(read_csv(Path(args.discovery)), read_csv(Path(args.review)))
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--discovery", required=True)
+    ap.add_argument("--review", required=True)
+    ap.add_argument("--out-dir", required=True)
+    args = ap.parse_args()
+    rows, summary = build_material_stage(read_csv(Path(args.discovery)), read_csv(Path(args.review)))
     out = Path(args.out_dir)
     fields = ["ifis_rank","stock_code","company_name","snapshot_at","best_theme","theme_relevance_score","review_status","material_class","material_continuity","catalyst_status","catalyst_direction","catalyst_type","catalyst_date","catalyst_gate","catalyst_confidence","catalyst_summary","material_reason","source_urls","actionability"]
-    write_csv(out / "material_stage.csv", rows, fields); out.mkdir(parents=True, exist_ok=True)
+    write_csv(out / "material_stage.csv", rows, fields)
+    out.mkdir(parents=True, exist_ok=True)
     (out / "material_stage_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 
