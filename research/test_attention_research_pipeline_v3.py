@@ -23,6 +23,16 @@ def test_attention_discovery_does_not_double_count_attention_as_score():
     assert "trading_score" not in candidates[0] and "buy_score" not in candidates[0]
 
 
+def test_sub40_theme_noise_is_logged_but_not_discovered():
+    ifis = [{"ifis_rank":"1","stock_code":"2222","company_name":"Noise","snapshot_at":"2026-09-04T01:20:00+09:00"}]
+    minkabu = [{"stock_code":"2222","theme_name":"AI","attention_type":"RISING","theme_rank":"1","minkabu_relevance":"95"}]
+    master = [{"stock_code":"2222","company_name":"Noise","theme_name":"AI","status":"finalized","final_relevance_score":"39","final_band":"ノイズ候補","final_confidence":"B"}]
+    candidates, matches, summary = build_discovery(ifis, minkabu, master)
+    assert candidates == []
+    assert len(matches) == 1 and matches[0]["eligible_by_relevance"] is False
+    assert summary["rejected_noise_match_count"] == 1
+
+
 def test_material_stage_positive_negative_and_lookahead():
     snap = "2026-09-04T01:20:00+09:00"
     strong, _ = classify_review({"catalyst_gate":"PASS","catalyst_direction":"POSITIVE","catalyst_status":"VALID","catalyst_type":"ORDER_ADOPTION","catalyst_date":"2026-09-03T15:00:00+09:00"}, snap)
