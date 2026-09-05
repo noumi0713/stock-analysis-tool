@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, time, timezone
@@ -44,42 +45,68 @@ def atr(highs: list[float], lows: list[float], closes: list[float], n: int = 14)
     return sum(vals) / n
 
 
-def fetch_bars(ticker: str) -> list[dict]:
-    symbol = ticker if ticker.endswith(".T") else f"{ticker}.T"
-    url = (
-        "https://query1.finance.yahoo.com/v8/finance/chart/"
-        + urllib.parse.quote(symbol)
-        + "?range=1y&interval=1d&events=div%2Csplits&includeAdjustedClose=true"
-    )
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=20) as r:
-        raw = json.load(r)
-    result = raw["chart"]["result"][0]
-    ts = result.get("timestamp", [])
-    q = result["indicators"]["quote"][0]
-    adj = (result["indicators"].get("adjclose") or [{}])[0].get("adjclose", [])
+def symbol_candidates(ticker: str) -> list[str]:
+    raw = str(ticker or "").strip().upper()
+    code = raw.split(".", 1)[0]
+    candidates = [raw] if raw else []
+    for suffix in (".T", ".S", ".N", ".F"):
+        symbol = f"{code}{suffix}"
+        if symbol not in candidates:
+            candidates.append(symbol)
+    return candidates
 
-    rows = []
-    for i, stamp in enumerate(ts):
+
+def fetch_bars(ticker: str) -> list[dict]:
+    last_error: Exception | None = None
+    for symbol in symbol_candidates(ticker):
+        url = (
+            "https://query1.finance.yahoo.com/v8/finance/chart/"
+            + urllib.parse.quote(symbol)
+            + "?range=1y&interval=1d&events=div%2Csplits&includeAdjustedClose=true"
+        )
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
         try:
-            o = q["open"][i]; h = q["high"][i]; l = q["low"][i]; c = q["close"][i]
-            v = q.get("volume", [0] * len(ts))[i] or 0
-        except (IndexError, TypeError):
+            with urllib.request.urlopen(req, timeout=20) as r:
+                raw = json.load(r)
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as e:
+            last_error = e
             continue
-        if any(x is None for x in (o, h, l, c)):
+
+        chart = raw.get("chart", {})
+        if chart.get("error") or not chart.get("result"):
+            last_error = ValueError(str(chart.get("error") or "missing chart result"))
             continue
-        ac = adj[i] if i < len(adj) and adj[i] is not None else c
-        factor = ac / c if c else 1.0
-        d = datetime.fromtimestamp(stamp, timezone.utc).astimezone(TOKYO).date().isoformat()
-        rows.append({
-            "date": d,
-            "open": float(o) * factor,
-            "high": float(h) * factor,
-            "low": float(l) * factor,
-            "close": float(c) * factor,
-            "volume": float(v),
-        })
-    return rows
+
+        result = chart["result"][0]
+        ts = result.get("timestamp", [])
+        q = result["indicators"]["quote"][0]
+        adj = (result["indicators"].get("adjclose") or [{}])[0].get("adjclose", [])
+        rows = []
+        for i, stamp in enumerate(ts):
+            try:
+                o = q["open"][i]; h = q["high"][i]; l = q["low"][i]; c = q["close"][i]
+                v = q.get("volume", [0] * len(ts))[i] or 0
+            except (IndexError, TypeError):
+                continue
+            if any(x is None for x in (o, h, l, c)):
+                continue
+            ac = adj[i] if i < len(adj) and adj[i] is not None else c
+            factor = ac / c if c else 1.0
+            d = datetime.fromtimestamp(stamp, timezone.utc).astimezone(TOKYO).date().isoformat()
+            rows.append({
+                "date": d,
+                "open": float(o) * factor,
+                "high": float(h) * factor,
+                "low": float(l) * factor,
+                "close": float(c) * factor,
+                "volume": float(v),
+                "resolved_symbol": symbol,
+            })
+        if rows:
+            return rows
+        last_error = ValueError(f"no usable bars for {symbol}")
+
+    raise ValueError(f"Yahoo symbol resolution failed for {ticker}: {last_error}")
 
 
 def enrich(rows: list[dict]) -> list[dict]:
@@ -139,10 +166,12 @@ def discovery_index(rows: list[dict], snapshot_at: str) -> int | None:
 def monitor_candidate(candidate: dict) -> dict:
     bars = enrich(fetch_bars(candidate["ticker"]))
     idx = discovery_index(bars, candidate["snapshot_at"])
+    resolved_symbol = bars[0].get("resolved_symbol", candidate["ticker"]) if bars else candidate["ticker"]
     base = {
         "ifis_rank": candidate["ifis_rank"],
         "stock_code": candidate["stock_code"],
         "ticker": candidate["ticker"],
+        "resolved_symbol": resolved_symbol,
         "company_name": candidate["company_name"],
         "snapshot_at": candidate["snapshot_at"],
         "best_theme": candidate["best_theme"],
@@ -163,7 +192,7 @@ def monitor_candidate(candidate: dict) -> dict:
 
     dbar = bars[idx]
     discovery = {
-        "ticker": candidate["ticker"],
+        "ticker": resolved_symbol,
         "stock_code": candidate["stock_code"],
         "name": candidate["company_name"],
         "snapshot_at": candidate["snapshot_at"],
@@ -225,7 +254,8 @@ def main() -> None:
         "status": "complete",
         "source": "Yahoo Finance chart endpoint",
         "price_basis": "adjusted close factor applied to OHLC",
-        "point_in_time_rule": "Discovery price uses only a completed TSE daily bar available at the IFIS snapshot. Snapshots before 16:00 JST use the prior market day.",
+        "symbol_rule": "Try requested symbol, then Japanese Yahoo suffixes .T/.S/.N/.F for regional listings.",
+        "point_in_time_rule": "Discovery price uses only a completed market daily bar available at the IFIS snapshot. Snapshots before 16:00 JST use the prior market day.",
         "actionability": "RESEARCH_ONLY_PENDING_CATALYST_REVIEW",
         "candidate_count": len(items),
         "ok_count": sum(1 for x in items if x.get("ok")),
