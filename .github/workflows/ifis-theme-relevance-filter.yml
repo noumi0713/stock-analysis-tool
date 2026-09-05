@@ -7,6 +7,15 @@ on:
         description: Manual IFIS CSV path in the repository
         required: true
         default: research/data/ifis_manual_input_sample.csv
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - research/ifis_theme_relevance_filter.py
+      - research/test_ifis_theme_relevance_filter.py
+      - research/data/ifis_manual_input_sample.csv
+      - research/data/ifis_manual_input.csv
+      - .github/workflows/ifis-theme-relevance-filter.yml
 
 permissions:
   contents: write
@@ -32,7 +41,7 @@ jobs:
 
       - name: Join manual IFIS candidates to finalized theme master
         env:
-          INPUT_PATH: ${{ inputs.input_path }}
+          INPUT_PATH: ${{ inputs.input_path || 'research/data/ifis_manual_input_sample.csv' }}
         run: |
           test -f "$INPUT_PATH"
           python research/ifis_theme_relevance_filter.py \
