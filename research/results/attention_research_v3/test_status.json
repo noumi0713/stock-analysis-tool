@@ -1,7 +1,7 @@
 {
   "status": "passed",
   "workflow": "attention-research-v3-tests.yml",
-  "tested_commit": "daf99abdbe30519e7636e7929e754fa0f5eb490b",
-  "tested_at_utc": "2026-09-05T12:10:26.708519+00:00",
+  "tested_commit": "59e044194651e0d1fff56427950f6389ddf74006",
+  "tested_at_utc": "2026-09-05T12:11:14.759038+00:00",
   "scope": "RESEARCH_ONLY"
 }
