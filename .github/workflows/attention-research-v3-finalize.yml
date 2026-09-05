@@ -1,0 +1,104 @@
+name: Attention research v3 finalize
+
+on:
+  workflow_dispatch:
+    inputs:
+      reviewed_material_path:
+        description: Fully reviewed material CSV for current discovered candidates
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Run v3 unit tests
+        env:
+          PYTHONPATH: research
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest -q research/test_attention_research_pipeline_v3.py
+      - name: Validate discovery and reviewed material inputs
+        env:
+          REVIEWED_PATH: ${{ inputs.reviewed_material_path }}
+        run: |
+          test -s research/results/attention_research_v3/attention_discovery_candidates.csv
+          test -s "$REVIEWED_PATH"
+      - name: Build material-first stage
+        env:
+          REVIEWED_PATH: ${{ inputs.reviewed_material_path }}
+        run: |
+          python research/material_attention_classifier.py \
+            --discovery research/results/attention_research_v3/attention_discovery_candidates.csv \
+            --review "$REVIEWED_PATH" \
+            --out-dir research/results/attention_research_v3
+      - name: Require complete semantic material review
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          p = Path('research/results/attention_research_v3/material_stage.csv')
+          rows = list(csv.DictReader(p.open(encoding='utf-8-sig')))
+          assert rows, 'material stage is empty'
+          missing = [r['stock_code'] for r in rows if r['review_status'] != 'REVIEWED']
+          assert not missing, f'material review incomplete for: {missing}'
+          PY
+      - name: Prepare technical watch
+        run: |
+          python research/prepare_attention_watch.py \
+            --input research/results/attention_research_v3/attention_discovery_candidates.csv \
+            --out research/results/attention_research_v3/attention_watch.json
+      - name: Run expanded technical timing monitor
+        env:
+          PYTHONPATH: research
+        run: |
+          python research/run_attention_technical_monitor.py \
+            --watch research/results/attention_research_v3/attention_watch.json \
+            --out research/results/attention_research_v3/technical_monitor.json
+      - name: Build final three-class output
+        env:
+          PYTHONPATH: research
+        run: |
+          python research/final_attention_entry_classifier.py \
+            --discovery research/results/attention_research_v3/attention_discovery_candidates.csv \
+            --material research/results/attention_research_v3/material_stage.csv \
+            --technical research/results/attention_research_v3/technical_monitor.json \
+            --out-dir research/results/attention_research_v3
+      - name: Validate final output
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('research/results/attention_research_v3')
+          discovery = json.loads((p / 'attention_discovery_summary.json').read_text(encoding='utf-8'))
+          final = json.loads((p / 'attention_entry_final.json').read_text(encoding='utf-8'))
+          allowed = {'BUY_NOW', 'WAIT_FIRST_PULLBACK', 'OVERHEAT_SKIP'}
+          assert final['status'] == 'complete'
+          assert final['actionability'] == 'RESEARCH_ONLY'
+          assert final['count'] == discovery['discovered_count']
+          assert all(x['entry_class'] in allowed for x in final['items'])
+          assert all('trading_score' not in x and 'buy_score' not in x for x in final['items'])
+          assert 'Attention magnitude itself is not rewarded twice' in final['ranking_rule']
+          print(json.dumps({'count': final['count'], 'class_counts': final['class_counts']}, ensure_ascii=False, indent=2))
+          PY
+      - name: Commit research final outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/attention_research_v3
+          if git diff --cached --quiet; then
+            echo "No output changes"
+          else
+            git commit -m "Update attention research v3 final classification"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
