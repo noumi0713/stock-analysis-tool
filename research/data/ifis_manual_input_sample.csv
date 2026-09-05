@@ -1,0 +1,11 @@
+ifis_rank,stock_code,company_name,snapshot_at,attention_score,input_note
+1,6654,不二電機工業,2026-09-04T01:20:00+09:00,,historical manual snapshot sample
+2,7066,ピアズ,2026-09-04T01:20:00+09:00,,historical manual snapshot sample
+3,5039,キットアライブ,2026-09-04T01:20:00+09:00,,historical manual snapshot sample
+4,6904,原田工業,2026-09-04T01:20:00+09:00,,historical manual snapshot sample
+5,3653,モルフォ,2026-09-04T01:20:00+09:00,,historical manual snapshot sample
+6,603A,アイ・グリッド・ソリューションズ,2026-09-04T01:20:00+09:00,,historical manual snapshot sample
+7,6745,ホーチキ,2026-09-04T01:20:00+09:00,,historical manual snapshot sample
+8,8746,unbanked,2026-09-04T01:20:00+09:00,,historical manual snapshot sample
+9,7864,フジシールインターナショナル,2026-09-04T01:20:00+09:00,,historical manual snapshot sample
+10,6996,ニチコン,2026-09-04T01:20:00+09:00,,historical manual snapshot sample
