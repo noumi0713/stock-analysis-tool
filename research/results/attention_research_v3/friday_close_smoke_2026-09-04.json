@@ -1,0 +1,56 @@
+{
+  "status": "complete",
+  "scope": "RESEARCH_ONLY",
+  "test_type": "2026-09-04 Friday-close manual smoke replay against attention research v3 rules",
+  "decision_market_date": "2026-09-04",
+  "ifis_input": "research/data/ifis_manual_input_sample.csv",
+  "ifis_snapshot_at": "2026-09-04T01:20:00+09:00",
+  "minkabu_input": "research/data/minkabu_theme_attention_2026-09-04_close_smoke.csv",
+  "minkabu_snapshot_at": "2026-09-04T15:30:00+09:00",
+  "coverage_note": "Historical Friday POPULAR-theme overlaps verified for the IFIS sample. Historical Friday RISING-theme list was not safely recovered, so this is a conservative popular-only smoke test, not a complete production replay.",
+  "minkabu_relevance_note": "Numeric Minkabu relevance was not reliably recoverable from the historical page and is left blank rather than inferred.",
+  "float_turnover_note": "Float shares were not present in the IFIS sample; float turnover is therefore not fabricated. In this sample all discovered stocks are already rejected by material/overheat rules before this missing field can create a BUY_NOW.",
+  "stage1": {
+    "ifis_count": 10,
+    "discovered_count": 3,
+    "not_discovered_count": 7,
+    "discovered": [
+      {"stock_code":"3653","company_name":"モルフォ","best_theme":"自動運転車","minkabu_theme_rank":1,"theme_price_change_1d_pct":0.65,"theme_relevance_score":69,"additional_matches":["ドローン:47","人工知能:95"]},
+      {"stock_code":"6904","company_name":"原田工業","best_theme":"自動運転車","minkabu_theme_rank":1,"theme_price_change_1d_pct":0.65,"theme_relevance_score":66},
+      {"stock_code":"603A","company_name":"アイ・グリッド・ソリューションズ","best_theme":"電力会社","minkabu_theme_rank":18,"theme_price_change_1d_pct":0.28,"theme_relevance_score":78}
+    ]
+  },
+  "stage2": {
+    "3653": {"material_class":"STRONG","catalyst":"Astemo SDV camera joint development plus preceding drone-related business evidence"},
+    "6904": {"material_class":"WEAK","catalyst":"theme sympathy; no fresh company-specific disclosure verified for the attention move"},
+    "603A": {"material_class":"STRONG","catalyst":"Kobe GX industrial-park promotion partner selection; directly related to renewable/battery/energy management, but already 9 days old at IFIS discovery"}
+  },
+  "stage3_and_final": [
+    {
+      "stock_code":"3653","company_name":"モルフォ","close":1379,
+      "rsi14":82.28,"ma25_deviation_pct":73.02,"return_5d_pct":55.47,"return_10d_pct":84.61,"return_20d_pct":103.99,
+      "volume_ratio20":8.26,"upper_wick_ratio":0.764,"overheat_score":100.0,
+      "attention_price_sequence_proxy":"PRICE_MOVE_PRECEDED_ATTENTION_OR_LATE",
+      "final_class":"OVERHEAT_SKIP","final_label_ja":"過熱・見送り",
+      "main_reasons":["RSI >= 80","25MA deviation >= 15%","10-day return >= 25%","20-day return >= 40%","volume >= 8x 20-day average","long upper wick"]
+    },
+    {
+      "stock_code":"6904","company_name":"原田工業","close":631,
+      "rsi14":71.70,"ma25_deviation_pct":20.14,"return_5d_pct":12.68,"return_10d_pct":10.31,"return_20d_pct":40.22,
+      "volume_ratio20":1.83,"overheat_score":75.90,
+      "attention_price_sequence_proxy":"PRICE_MOVE_PRECEDED_ATTENTION_OR_LATE",
+      "final_class":"OVERHEAT_SKIP","final_label_ja":"過熱・見送り",
+      "main_reasons":["material class WEAK does not support a long entry","20-day return >= 40%"]
+    },
+    {
+      "stock_code":"603A","company_name":"アイ・グリッド・ソリューションズ","close":1145,
+      "rsi14":71.13,"ma25_deviation_pct":31.12,"return_5d_pct":10.31,"return_10d_pct":30.71,"return_20d_pct":52.06,
+      "volume_ratio20":8.10,"upper_wick_ratio":0.369,"overheat_score":82.09,
+      "attention_price_sequence_proxy":"PRICE_MOVE_PRECEDED_ATTENTION_OR_LATE",
+      "final_class":"OVERHEAT_SKIP","final_label_ja":"過熱・見送り",
+      "main_reasons":["25MA deviation >= 15%","10-day return >= 25%","20-day return >= 40%","volume >= 8x 20-day average"]
+    }
+  ],
+  "class_counts": {"BUY_NOW":0,"WAIT_FIRST_PULLBACK":0,"OVERHEAT_SKIP":3},
+  "interpretation": "This Friday sample supports the system's central risk hypothesis: cross-source attention can appear after the price move. All three discovered names had already shown a large one-day move by the prior close (3653 +29.56%, 6904 +14.10%, 603A +15.02%), so the sequence proxy correctly flags late attention rather than rewarding popularity as a buy signal. One sample is not evidence of positive expected value."
+}
