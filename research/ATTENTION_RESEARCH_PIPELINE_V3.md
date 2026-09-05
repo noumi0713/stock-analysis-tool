@@ -20,7 +20,10 @@ A stock is discovered only when:
 
 1. it is in IFIS top N (default 30),
 2. it belongs to a Minkabu POPULAR or RISING theme in the supplied snapshot,
-3. the same stock-theme pair exists in the finalized Kabutan-derived 124-theme master.
+3. the same stock-theme pair exists in the finalized Kabutan-derived 124-theme master,
+4. finalized 124-theme relevance is at least 40 (`SUPPORT` or better).
+
+Sub-40 `NOISE` matches remain in `attention_discovery_matches.csv` for research comparison but do not enter the candidate list. Minkabu relevance is preserved as a raw research field; no unvalidated threshold is imposed on it yet.
 
 No trading score or buy decision is created in this stage. IFIS attention and Minkabu attention are not double-counted.
 
