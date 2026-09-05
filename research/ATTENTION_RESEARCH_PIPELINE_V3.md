@@ -50,7 +50,7 @@ This stage separates examples such as earnings upgrades, orders, policy benefits
 Technical monitor records:
 
 - volume ratio vs 20-day average,
-- optional float turnover when `float_shares` is supplied,
+- float turnover when `float_shares` is supplied,
 - RSI14,
 - MA5 / MA25 / MA75,
 - MA25 deviation,
@@ -76,17 +76,20 @@ Research prototype requirements include:
 
 - material class `STRONG`,
 - technical state `BUY_NOW` or `FIRST_PULLBACK_SIGNAL`,
+- supplied theme price trend is positive on either 1-day or 5-day change,
 - RSI <= 68,
 - MA25 deviation <= 8%,
 - 5-day return <= 10%,
 - 20-day return <= 25%,
 - volume ratio between 1.2x and 5x,
 - upper-wick ratio <= 0.35,
-- float turnover <= 60% when evaluable.
+- float turnover is evaluable and <= 60%.
+
+Missing theme-price or float-turnover evidence is **not assumed favorable**. It downgrades an otherwise valid case to `WAIT_FIRST_PULLBACK` until the evidence is available.
 
 ### WAIT_FIRST_PULLBACK — 初押し待ち
 
-Strong material remains valid but current timing is not clean enough. This includes already-extended stocks, pullback-forming stocks, or cases where attention appears late relative to the price move.
+Strong material remains valid but current timing or required evidence is not clean enough. This includes already-extended stocks, pullback-forming stocks, cases where attention appears late relative to the price move, and otherwise valid stocks lacking theme-price or float-turnover evidence for a strict `BUY_NOW` decision.
 
 ### OVERHEAT_SKIP — 過熱・見送り
 
