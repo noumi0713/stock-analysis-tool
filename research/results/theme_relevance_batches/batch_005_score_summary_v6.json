@@ -1,0 +1,20 @@
+{
+  "batch": 5,
+  "stock_theme_pairs": 992,
+  "scored_pairs": 3,
+  "unscored_pairs": 989,
+  "band_counts": {
+    "未確定": 989,
+    "主力テーマ": 2,
+    "ノイズ候補": 1
+  },
+  "review_counts": {
+    "revenue_share_unknown": 960,
+    "macro_sensitivity_required": 24,
+    "structured_segment_v6_needs_final_qa": 3,
+    "non_operating_security": 5
+  },
+  "formula": "55% validated revenue exposure + 30% business directness + 15% growth relevance",
+  "status": "research_candidate_v6",
+  "warning": "Only themes mapped to one coherent official revenue table are scored. Missing exposure stays unknown."
+}

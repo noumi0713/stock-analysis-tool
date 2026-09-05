@@ -1,0 +1,29 @@
+{
+  "batch": 5,
+  "stocks": 300,
+  "stock_theme_pairs": 992,
+  "official_site_available": 254,
+  "official_site_supported_pairs": 345,
+  "bands": {
+    "ノイズ候補": 392,
+    "主力テーマ": 451,
+    "有力関連": 59,
+    "補助関連": 90
+  },
+  "confidence": {
+    "C": 482,
+    "A": 406,
+    "B": 104
+  },
+  "review": {
+    "needs_review": 494,
+    "official_site_supported": 123,
+    "ok": 323,
+    "qa_peripheral": 5,
+    "needs_review_macro": 24,
+    "qa_borderline": 15,
+    "needs_official_ir": 3,
+    "non_operating_security": 5
+  },
+  "status": "research_first_pass_v3"
+}

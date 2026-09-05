@@ -1,0 +1,485 @@
+﻿batch,stock_code,company_name,theme_name,cluster,revenue_share_pct,final_relevance_score,final_band,final_confidence,decision_source,decision_reason,source_url,original_review_flag,segment_names,quality_tier,status
+1,1414,1414.T,耐震化,防衛・国土強靱化,,90.0,主力テーマ,B,chatgpt_discretion_manual_web,橋梁・構造物補修補強を中核とし耐震補強との直接性が高い,https://www.sho-bondhd.jp/business/,,,B,finalized
+1,1414,1414.T,防災,防衛・国土強靱化,,78.0,有力関連,B,chatgpt_discretion_manual_web,社会インフラ補修・予防保全が防災減災に直接寄与,https://www.sho-bondhd.jp/business/,,,B,finalized
+1,1417,ミライトワン,データセンター,データセンター・電力,,78.0,有力関連,B,chatgpt_discretion_manual_web,アジア太平洋でデータセンター向け配線・ラック設計施工保守を成長事業化,https://www.mirait-one.com/corporate/business/global/,,,B,finalized
+1,1417,ミライトワン,光ファイバー,データセンター・電力,,75.0,有力関連,B,chatgpt_discretion_manual_web,通信インフラ構築が中核で光回線関連との直接性が高い,https://www.mirait-one.com/,,,B,finalized
+1,141A,トライアル,外食,内需・消費,,28.0,ノイズ候補,C,chatgpt_discretion_manual_web,食品・惣菜は強いが外食はグループ中核とは言いにくい,https://trial-holdings.inc/business/,,,C,finalized
+1,141A,トライアル,物流,物流・海運,,72.0,有力関連,B,chatgpt_discretion_manual_web,会社概要で小売と並び物流をグループ主要事業として明示,https://trial-holdings.inc/company/overview/,,,B,finalized
+1,141A,トライアル,食品,内需・消費,,88.0,主力テーマ,B,chatgpt_discretion_manual_web,流通小売の主力商品群として生鮮食品など食品を明示,https://trial-holdings.inc/business/,,,B,finalized
+1,1433,1433.T,原子力発電,GX・エネルギー,,72.0,有力関連,B,chatgpt_discretion_manual_web,原子力発電設備の解体工事実績を公式に明示,https://www.besterra.co.jp/works/energy/,,,B,finalized
+1,1433,1433.T,脱炭素,GX・エネルギー,,75.0,有力関連,B,chatgpt_discretion_manual_web,発電設備解体と再エネ設備資源循環を脱炭素文脈で事業展開,https://www.besterra.co.jp/,,,B,finalized
+1,1435,1435.T,不動産テック,不動産・建設,,96.0,主力テーマ,A,chatgpt_discretion_manual_web,賃貸管理・不動産投資に独自DXプラットフォームとAI・IoTを組み込む中核事業,https://corp.robothome.jp/business,,,A,finalized
+1,1435,1435.T,不動産ファンド,不動産・建設,,78.0,有力関連,B,chatgpt_discretion_manual_web,収益不動産の購入管理売却・資産形成サービスを直接展開,https://corp.robothome.jp/business,,,B,finalized
+1,1436,1436.T,住宅関連,不動産・建設,,90.0,主力テーマ,A,chatgpt_discretion_manual_web,新築住宅販売・リフォーム・不動産を主要事業として公式明示,https://life.green-energy.co.jp/company/company-overview/,,,A,finalized
+1,1515,1515.T,機械,設備投資・機械,,55.0,補助関連,B,chatgpt_discretion_manual_web,機械・環境事業を保有するが資源事業より規模は小さい,https://www.nittetsukou.co.jp/industry/,,,B,finalized
+1,1515,1515.T,資源開発,資源・素材,,96.0,主力テーマ,A,chatgpt_discretion_manual_web,資源事業が売上構成の大半で地下資源探査開発を直接展開,https://www.nittetsukou.co.jp/about/segment/,,,A,finalized
+1,1515,1515.T,銅,資源・素材,,92.0,主力テーマ,A,chatgpt_discretion_manual_web,チリ銅鉱山の開発操業と電気銅製錬を直接展開,https://www.nittetsukou.co.jp/industry/,,,A,finalized
+1,1515,1515.T,非鉄,資源・素材,,90.0,主力テーマ,A,chatgpt_discretion_manual_web,非鉄金属鉱山・銅製錬を資源事業の柱として展開,https://www.nittetsukou.co.jp/about/segment/,,,A,finalized
+1,153A,153A.T,証券,金融・金利,,22.0,ノイズ候補,C,chatgpt_discretion_manual_web,金融不正検知は関連するが証券業そのものではない,https://caulis.jp/about/company/,,,C,finalized
+1,1605,ＩＮＰＥＸ,アンモニア,GX・エネルギー,,80.0,主力テーマ,B,chatgpt_discretion_manual_web,ブルーアンモニア製造利用実証を自社プロジェクトとして推進,https://www.inpex.com/business/project/kashiwazaki.html,,,B,finalized
+1,1605,ＩＮＰＥＸ,レアメタル,資源・素材,,15.0,ノイズ候補,C,chatgpt_discretion_manual_web,主力は石油天然ガス・低炭素エネルギーでレアメタルの直接事業性は弱い,https://www.inpex.com/business/,,,C,finalized
+1,1605,ＩＮＰＥＸ,再生可能エネルギー,GX・エネルギー,,75.0,有力関連,B,chatgpt_discretion_manual_web,国内外で風力・太陽光等の再エネ事業を直接展開,https://www.inpex.com/business/energy/renewable-energy.html,,,B,finalized
+1,1605,ＩＮＰＥＸ,太陽光発電関連,GX・エネルギー,,58.0,補助関連,B,chatgpt_discretion_manual_web,海外再エネ事業で太陽光・蓄電池プロジェクトを保有,https://www.inpex.com/business/project/,,,B,finalized
+1,1605,ＩＮＰＥＸ,核融合発電,GX・エネルギー,,12.0,ノイズ候補,C,chatgpt_discretion_manual_web,核融合発電を自社中核事業としている根拠は確認できない,https://www.inpex.com/business/,,,C,finalized
+1,1605,ＩＮＰＥＸ,水素,GX・エネルギー,,82.0,主力テーマ,B,chatgpt_discretion_manual_web,水素事業を重点領域として実証プラントを建設し事業化を推進,https://www.inpex.com/business/technology/hydrogen/,,,B,finalized
+1,1605,ＩＮＰＥＸ,脱炭素,GX・エネルギー,,85.0,主力テーマ,B,chatgpt_discretion_manual_web,水素アンモニア・CCUS・再エネをエネルギートランジションの重点領域として推進,https://www.inpex.com/business/technology/strategy/,,,B,finalized
+1,1605,ＩＮＰＥＸ,資源開発,資源・素材,,100.0,主力テーマ,A,chatgpt_discretion_manual_web,日本最大規模のエネルギー開発企業として石油天然ガス探鉱開発を中核展開,https://www.inpex.com/business/,,,A,finalized
+1,1605,ＩＮＰＥＸ,風力発電,GX・エネルギー,,72.0,有力関連,B,chatgpt_discretion_manual_web,国内外の洋上風力等を再エネ事業として直接展開,https://www.inpex.com/business/energy/renewable-energy.html,,,B,finalized
+1,1662,石油資源,レアアース,資源・素材,,12.0,ノイズ候補,C,chatgpt_discretion_manual_web,石油天然ガスE&P中心でレアアース直接事業の根拠は弱い,https://www.japex.co.jp/business/,,,C,finalized
+1,1662,石油資源,レアメタル,資源・素材,,15.0,ノイズ候補,C,chatgpt_discretion_manual_web,資源開発企業だがレアメタルを主要事業とする根拠は弱い,https://www.japex.co.jp/business/,,,C,finalized
+1,1662,石油資源,資源開発,資源・素材,,98.0,主力テーマ,A,chatgpt_discretion_manual_web,石油天然ガス等エネルギー資源の探鉱開発生産が会社の中核事業,https://www.japex.co.jp/company/overview/profile/,,,A,finalized
+1,166A,166A.T,フィンテック,金融・金利,,32.0,ノイズ候補,C,chatgpt_discretion_manual_web,金融との接点はあるが不動産テックほど中核ではない,https://tasuki-holdings.co.jp/beyond2033/,,,C,finalized
+1,166A,166A.T,マンション関連,不動産・建設,,82.0,主力テーマ,B,chatgpt_discretion_manual_web,住宅系不動産開発をリアル事業の中核として展開,https://tasuki-holdings.co.jp/beyond2033/,,,B,finalized
+1,166A,166A.T,不動産テック,不動産・建設,,97.0,主力テーマ,A,chatgpt_discretion_manual_web,不動産デベロッパー発の不動産テック企業を明確な中長期戦略として掲げる,https://tasuki-holdings.co.jp/beyond2033/,,,A,finalized
+1,166A,166A.T,住宅関連,不動産・建設,,80.0,主力テーマ,B,chatgpt_discretion_manual_web,住宅不動産開発が基幹事業との結びつきが強い,https://tasuki-holdings.co.jp/beyond2033/,,,B,finalized
+1,166A,166A.T,生成AI,AI・半導体,,62.0,有力関連,B,chatgpt_discretion_manual_web,生成AI・AI活用を不動産DXおよび投資先とのシナジー領域として推進,https://tasuki-holdings.co.jp/ventures/,,,B,finalized
+1,167A,リョー菱ＨＤ,IoT,設備投資・機械,,72.0,有力関連,B,chatgpt_discretion_manual_web,半導体・ICTソリューションの延長でIoT領域への事業直接性が高い,https://www.rr-hds.co.jp/,,,B,finalized
+1,167A,リョー菱ＨＤ,サイバーセキュリティ,防衛・国土強靱化,,78.0,有力関連,B,chatgpt_discretion_manual_web,製造業・車載向けセキュリティソリューションを事業として直接提供,https://www.rr-hds.co.jp/business/security/,,,B,finalized
+1,167A,リョー菱ＨＤ,半導体商社,AI・半導体,,93.0,主力テーマ,A,chatgpt_discretion_manual_web,半導体を中心とするエレクトロニクス商社機能がグループの主要事業,https://www.rr-hds.co.jp/,,,A,finalized
+1,167A,リョー菱ＨＤ,自動車部材・部品,自動車・モビリティ,,58.0,補助関連,B,chatgpt_discretion_manual_web,車載向け半導体・機器ソリューションを扱うが完成部品メーカーではない,https://www.rr-hds.co.jp/business/security/,,,B,finalized
+1,167A,リョー菱ＨＤ,自動運転車,自動車・モビリティ,,45.0,補助関連,C,chatgpt_discretion_manual_web,車載領域との接点はあるが自動運転そのものの売上寄与は不明,https://www.rr-hds.co.jp/business/security/,,,C,finalized
+1,1721,コムシスＨＤ,電力設備投資関連,データセンター・電力,,82.0,主力テーマ,B,chatgpt_discretion_manual_web,配電設備や電気通信インフラの構築を直接展開,https://www.comsys-hd.co.jp/business/social.html,,,B,finalized
+1,1721,コムシスＨＤ,電線地中化,防衛・国土強靱化,,80.0,主力テーマ,B,chatgpt_discretion_manual_web,無電柱化・インフラ土木を直接事業として展開,https://www.comsys-hd.co.jp/business/social.html,,,B,finalized
+1,1721,コムシスＨＤ,風力発電,GX・エネルギー,,48.0,補助関連,C,chatgpt_discretion_manual_web,再エネ・GX案件を扱うが風力単独の規模は不明,https://www.comsys-hd.co.jp/business/social.html,,,C,finalized
+1,1724,1724.T,光ファイバー,データセンター・電力,,92.0,主力テーマ,A,chatgpt_discretion_manual_web,FTTH・光ファイバーネットワークを主要ソリューションとして提供,https://www.synclayer.co.jp/solution/,,,A,finalized
+1,1724,1724.T,防災,防衛・国土強靱化,,70.0,有力関連,B,chatgpt_discretion_manual_web,防災行政情報向け告知放送システムを実導入している,https://www.synclayer.co.jp/case/case_02/,,,B,finalized
+1,1786,1786.T,国土強靱化,防衛・国土強靱化,,86.0,主力テーマ,B,chatgpt_discretion_manual_web,橋梁等インフラ補修・長寿命化・防災減災技術との直接性が高い,https://www.orsc.co.jp/tec/,,,B,finalized
+1,1786,1786.T,耐震化,防衛・国土強靱化,,92.0,主力テーマ,A,chatgpt_discretion_manual_web,耐震補強技術群を公式に主要技術分野として掲載,https://www.orsc.co.jp/tec/,,,A,finalized
+1,1787,1787.T,国土強靱化,防衛・国土強靱化,,84.0,主力テーマ,B,chatgpt_discretion_manual_web,港湾・水道・橋梁・発電所等の社会基盤を防食で維持することが本業,https://www.nakabohtec.co.jp/jigyo/,,,B,finalized
+1,1852,1852.T,耐震化,防衛・国土強靱化,,72.0,有力関連,B,chatgpt_discretion_manual_web,免震構法を保有技術として展開し建築物の耐震安全性向上に直接関与,https://www.asanuma.co.jp/hoyu/article/20.html,,,B,finalized
+1,1853,1853.T,マンション関連,不動産・建設,,90.0,主力テーマ,A,chatgpt_discretion_manual_web,マンション事業を建築事業の主力と公式に明示,https://www.morigumi.co.jp/works/architecture/,,,A,finalized
+1,1866,1866.T,ホテル,内需・消費,,68.0,有力関連,B,chatgpt_discretion_manual_web,グループ関連事業として国内外ホテルを直接経営,https://www.kitano.co.jp/corporate/business/,,,B,finalized
+1,1939,1939.T,建設,不動産・建設,,96.0,主力テーマ,A,user_approved_manual_override,設備工事業を核とし建築設備・送配電設備の設計施工が主力。送電土木4.8%だけを建設関連売上とみなすのは過小評価,https://www.yondenko.co.jp/corporate/profile.php,,,A,finalized
+1,2337,2337.T,不動産関連,不動産・建設,,97.0,主力テーマ,A,user_approved_manual_override,心築と不動産アセットマネジメントがコア事業であり不動産の有効活用を会社の事業軸として明記。8.37%は不動産関連性を表さない,https://www.ichigo.gr.jp/business/,,,A,finalized
+2,262A,262A.T,小売り,内需・消費,,98.0,主力テーマ,A,chatgpt_discretion_manual_web,Zoff店舗とオンラインストアで眼鏡・サングラス等を直接販売することが中核事業,https://www.zoff.com/about-us/company/,,,A,finalized
+2,265A,Ｈｍｃｏｍｍ,AIエージェント,AI・半導体,,78.0,有力関連,B,chatgpt_discretion_manual_web,AI技術をプロダクトと企業業務の自動化に直接活用しておりAIエージェント領域との直接性が高い,https://xi.hmcom.co.jp/,,,B,finalized
+2,265A,Ｈｍｃｏｍｍ,デジタルトランスフォーメーション,デジタル・サービス,,95.0,主力テーマ,A,chatgpt_discretion_manual_web,AI・BI・データ統合技術を用い企業DXをワンストップ支援する事業を明示,https://xi.hmcom.co.jp/,,,A,finalized
+2,265A,Ｈｍｃｏｍｍ,生成AI,AI・半導体,,72.0,有力関連,B,chatgpt_discretion_manual_web,AIを中核技術とする一方で生成AI単独の売上構成は不明なため有力関連に留める,https://xi.hmcom.co.jp/,,,B,finalized
+2,2737,トーメンデバ,半導体商社,AI・半導体,,97.0,主力テーマ,A,chatgpt_discretion_manual_web,半導体・電子部品の専門商社として事業を展開しSamsung製品等を直接販売,https://www.tomendevices.co.jp/,,,A,finalized
+2,2760,東エレデバ,IT関連,デジタル・サービス,,92.0,主力テーマ,A,chatgpt_discretion_manual_web,半導体事業に加えIT・セキュリティ・クラウド関連ソリューションを主要事業として展開,https://www.teldevice.co.jp/ir/action.html,,,A,finalized
+2,2760,東エレデバ,サイバーセキュリティ,防衛・国土強靱化,,93.0,主力テーマ,A,chatgpt_discretion_manual_web,IT市場のセキュリティ製品・サービスを成長領域として直接販売し案件が増加,https://www.teldevice.co.jp/ir/qa2026.html,,,A,finalized
+2,2760,東エレデバ,データセンター,データセンター・電力,,85.0,主力テーマ,B,chatgpt_discretion_manual_web,AIデータセンター需要によるGPU・メモリ・周辺半導体需要を自社受注の成長要因として明示,https://www.teldevice.co.jp/ir/qa2026b.html,,,B,finalized
+2,2760,東エレデバ,半導体商社,AI・半導体,,96.0,主力テーマ,A,chatgpt_discretion_manual_web,EC事業として半導体・電子デバイスを専門知識付きで販売することが主要事業,https://www.teldevice.co.jp/ir/action.html,,,A,finalized
+2,2760,東エレデバ,生成AI,AI・半導体,,76.0,有力関連,B,chatgpt_discretion_manual_web,生成AI・AIエージェント品質管理製品を販売しAI技術への取り組みを明示,https://www.teldevice.co.jp/ir/qa2026.html,,,B,finalized
+2,285A,キオクシア,データセンター,データセンター・電力,,88.0,主力テーマ,B,chatgpt_discretion_manual_web,フラッシュメモリ・SSDはデータセンター向けストレージ用途との経済的直接性が高い,https://www.kioxia-holdings.com/,,,B,finalized
+2,2877,2877.T,食品,内需・消費,,98.0,主力テーマ,A,manual_official_business_override,自動抽出0%を棄却。公式会社概要・有価証券報告書で冷凍食品・日配食品・缶詰・チルド・レトルト等の製造販売が主事業。正確な食品売上比率は推測せず不明扱い,https://s.kabutan.jp/themes/%E9%A3%9F%E5%93%81/?market=all,,,A,finalized
+2,2936,2936.T,サブスクリプション,デジタル・サービス,,96.0,主力テーマ,A,chatgpt_discretion_manual_web,BASE FOOD継続コースは定期配送・自動更新を事業の主要販売モデルとして提供,https://shop.basefood.co.jp/,,,A,finalized
+2,2979,,物流,物流・海運,,98.0,主力テーマ,A,chatgpt_discretion_manual_web,物流不動産へ80%以上を投資する方針で実際の物流不動産比率も9割超の物流REIT,https://sosila-reit.co.jp/ja/portfolio/data.html,,,A,finalized
+2,2980,ＳＲＥＨＤ,IT関連,デジタル・サービス,,95.0,主力テーマ,A,chatgpt_discretion_manual_web,AIクラウド事業と業界向けデジタルソリューションを中核事業として展開,https://sre-group.co.jp/news/2026/260305.html,,,A,finalized
+2,2980,ＳＲＥＨＤ,SaaS,デジタル・サービス,,95.0,主力テーマ,A,chatgpt_discretion_manual_web,不動産・金融向けクラウドサービスを課金契約で継続提供し契約社数5000社超,https://sre-group.co.jp/news/2026/260305.html,,,A,finalized
+2,2980,ＳＲＥＨＤ,クラウドコンピューティング,デジタル・サービス,,97.0,主力テーマ,A,chatgpt_discretion_manual_web,AI査定CLOUD等のクラウドサービスを自社開発・運営し中核事業化,https://sre-group.co.jp/news/2026/260305.html,,,A,finalized
+2,2980,ＳＲＥＨＤ,データ分析・解析,AI・半導体,,88.0,主力テーマ,B,chatgpt_discretion_manual_web,不動産・金融のデータをAI査定や意思決定支援に継続利用する事業構造,https://sre-group.co.jp/news/2026/260305.html,,,B,finalized
+2,2980,ＳＲＥＨＤ,不動産テック,不動産・建設,,98.0,主力テーマ,A,chatgpt_discretion_manual_web,不動産実業の知見とAIクラウドを循環させるビジネスモデルが会社の中核,https://sre-group.co.jp/news/2026/260305.html,,,A,finalized
+2,298A,ＧＶＡテック,SaaS,デジタル・サービス,,90.0,主力テーマ,B,chatgpt_discretion_manual_web,法務管理クラウド/法務OSを継続提供するクラウド型ソフトウェア事業が中核,https://gvatech.co.jp/news/20240305,,,B,finalized
+2,298A,ＧＶＡテック,デジタルトランスフォーメーション,デジタル・サービス,,95.0,主力テーマ,A,chatgpt_discretion_manual_web,法務業務フローの自動化・一元化をクラウド製品で実現し法務DXを直接支援,https://gvatech.co.jp/news/20200928,,,A,finalized
+2,298A,ＧＶＡテック,人工知能,AI・半導体,,96.0,主力テーマ,A,chatgpt_discretion_manual_web,AI契約レビューや生成AIによる証拠解析・書面作成などAIを中核製品へ直接実装,https://gvatech.co.jp/news/20260302,,,A,finalized
+2,3031,3031.T,フィンテック,金融・金利,,96.0,主力テーマ,A,chatgpt_discretion_manual_web,企業間決済・売掛保証等のフィナンシャル事業をEC事業と並ぶ主要事業として展開,https://www.raccoon.ne.jp/service/,,,A,finalized
+2,3132,マクニカＨＤ,IoT,設備投資・機械,,92.0,主力テーマ,A,chatgpt_discretion_manual_web,IoTを最先端技術の発掘・提案・実装対象として公式に事業展開,https://holdings.macnica.co.jp/company/,,,A,finalized
+2,3132,マクニカＨＤ,デジタルトランスフォーメーション,デジタル・サービス,,82.0,主力テーマ,B,chatgpt_discretion_manual_web,先端技術の実装とサービス・ソリューション化を通じ顧客変革を支援,https://holdings.macnica.co.jp/company/,,,B,finalized
+2,3132,マクニカＨＤ,フィジカルAI,AI・半導体,,72.0,有力関連,B,chatgpt_discretion_manual_web,AI・IoT・自動運転を統合する実装領域との関係は強いがフィジカルAI単独開示は限定的,https://holdings.macnica.co.jp/company/,,,B,finalized
+2,3132,マクニカＨＤ,人工知能,AI・半導体,,92.0,主力テーマ,A,chatgpt_discretion_manual_web,AIを最先端技術の発掘・提案・実装対象として公式に中核成長領域へ位置付け,https://holdings.macnica.co.jp/company/,,,A,finalized
+2,3132,マクニカＨＤ,半導体商社,AI・半導体,,99.0,主力テーマ,A,chatgpt_discretion_manual_web,半導体とサイバーセキュリティをコアとする技術商社で半導体商社性が本業そのもの,https://holdings.macnica.co.jp/company/,,,A,finalized
+2,3132,マクニカＨＤ,生成AI,AI・半導体,,80.0,主力テーマ,B,chatgpt_discretion_manual_web,AI事業との直接性は高いが生成AI単独の売上規模は不明,https://holdings.macnica.co.jp/company/,,,B,finalized
+2,3132,マクニカＨＤ,自動運転車,自動車・モビリティ,,88.0,主力テーマ,A,chatgpt_discretion_manual_web,自動運転を最先端技術の発掘・提案・実装領域として明示,https://holdings.macnica.co.jp/company/,,,A,finalized
+2,3150,3150.T,再生可能エネルギー,GX・エネルギー,,95.0,主力テーマ,A,chatgpt_discretion_manual_web,太陽光発電と蓄電池を主力商材として再生可能エネルギー活用を直接推進,https://www.grems.co.jp/business/energysolution,,,A,finalized
+2,3150,3150.T,省エネ関連,GX・エネルギー,,92.0,主力テーマ,A,chatgpt_discretion_manual_web,電力基本料金削減コンサルや各種省エネ設備販売を事業として直接展開,https://www.grems.co.jp/business/energysolution,,,A,finalized
+2,3150,3150.T,蓄電池,GX・エネルギー,,95.0,主力テーマ,A,chatgpt_discretion_manual_web,蓄電池を太陽光発電と並ぶ主力商材として公式に明示,https://www.grems.co.jp/business/energysolution,,,A,finalized
+2,3182,3182.T,サブスクリプション,デジタル・サービス,,99.0,主力テーマ,A,chatgpt_discretion_manual_web,会社が事業区分をBtoCサブスク・BtoBサブスクと明示し主力事業として運営,https://www.oisix.co.jp/investors/business/summary/,,,A,finalized
+2,323A,323A.T,サブスクリプション,デジタル・サービス,,92.0,主力テーマ,B,chatgpt_discretion_manual_web,本の要約サービスを個人・法人向けの継続利用プランとして提供する事業モデル,https://biz.flierinc.com/,,,B,finalized
+2,325A,325A.T,ホームヘルスケア,医療・ヘルスケア,,96.0,主力テーマ,A,chatgpt_discretion_manual_web,睡眠・疲労回復など日常のコンディショニング製品をブランド中核として展開,https://corp.tential.jp/,,,A,finalized
+2,325A,325A.T,医療機器,医療・ヘルスケア,,94.0,主力テーマ,A,chatgpt_discretion_manual_web,主力リカバリーウェアBAKUNE等を一般医療機器として大量販売,https://corp.tential.jp/,,,A,finalized
+2,325A,325A.T,小売り,内需・消費,,78.0,有力関連,B,chatgpt_discretion_manual_web,自社コンディショニング製品を消費者へ直接販売する比重が高いが製造ブランド機能も持つ,https://corp.tential.jp/,,,B,finalized
+3,3283,,物流,物流・海運,,100.0,主力テーマ,A,chatgpt_discretion_manual_web,物流施設特化型REITとして物流施設へ重点投資すること自体が投資法人の中核,https://www.prologis-reit.co.jp/ja/,,,A,finalized
+3,3287,,ホテル,内需・消費,,98.0,主力テーマ,A,chatgpt_discretion_manual_web,ホテル・旅館等の宿泊施設を主要投資対象とするホテル系REITでテーマとの直接性が極めて高い,https://www.hoshinoresorts-reit.com/,,,A,finalized
+3,336A,ダイナマップ,データベース,デジタル・サービス,,98.0,主力テーマ,A,chatgpt_discretion_manual_web,高精度3次元地図・点群データを大規模に整備しデータプラットフォームとして提供,https://www.dynamic-maps.co.jp/,,,A,finalized
+3,336A,ダイナマップ,データ分析・解析,AI・半導体,,90.0,主力テーマ,A,chatgpt_discretion_manual_web,高精度3次元データの閲覧・分析プラットフォームを直接提供,https://www.dynamic-maps.co.jp/service/viewer/,,,A,finalized
+3,336A,ダイナマップ,フィジカルAI,AI・半導体,,90.0,主力テーマ,A,chatgpt_discretion_manual_web,フィジカルAI向け高精度3次元データセット事業を2026年に正式始動,https://www.dynamic-maps.co.jp/news/news-1656/,,,A,finalized
+3,3623,3623.T,フィンテック,金融・金利,,98.0,主力テーマ,A,chatgpt_discretion_manual_web,収納代行・送金・スマホ決済PayB等の総合決済サービスが会社の中核事業,https://www.billingsystem.co.jp/,,,A,finalized
+3,3626,ＴＩＳＩ,MaaS,自動車・モビリティ,,65.0,有力関連,B,chatgpt_discretion_manual_web,モビリティ領域へのITソリューション提供実績はあるがMaaS単独の事業規模は限定的,https://www.tis.jp/,,,B,finalized
+3,3626,ＴＩＳＩ,SaaS,デジタル・サービス,,86.0,主力テーマ,B,chatgpt_discretion_manual_web,クラウド型経費精算やAI審査などSaaS製品を複数提供し継続サービス事業を展開,https://www.tis.jp/service_solution/ai_shinsa/,,,B,finalized
+3,3626,ＴＩＳＩ,キャッシュレス決済,金融・金利,,90.0,主力テーマ,A,chatgpt_discretion_manual_web,決済・デジタルウォレット等の金融決済ソリューションを主要ITサービスとして提供,https://www.tis.jp/branding/MC/solutions_by_issue/individuals-3/,,,A,finalized
+3,3626,ＴＩＳＩ,クラウドコンピューティング,デジタル・サービス,,92.0,主力テーマ,A,chatgpt_discretion_manual_web,AWS・Azure・GCP等を対象としたクラウド構築・診断・運用サービスを直接展開,https://www.tis.jp/service_solution/cloud-diagnosis/,,,A,finalized
+3,3626,ＴＩＳＩ,データセンター,データセンター・電力,,90.0,主力テーマ,B,chatgpt_discretion_manual_web,TISインテックグループは国内9拠点のデータセンターを保有し運用・クラウド基盤を直接提供している,https://www.tisi.jp/group/products/dc/,,,B,finalized
+0,3653,モルフォ,FA関連,設備投資・機械,,75.0,有力関連,B,trial_chatgpt_research_v0_1,製造・検査向け画像認識用途が明確,https://s.kabutan.jp/themes/FA%E9%96%A2%E9%80%A3/?market=all,,,B,finalized
+0,3653,モルフォ,IT関連,デジタル・サービス,,87.0,主力テーマ,A,trial_chatgpt_research_v0_1,ソフトウェア・画像認識技術が中核,https://s.kabutan.jp/themes/IT%E9%96%A2%E9%80%A3/?market=all,,,A,finalized
+0,3653,モルフォ,IoT,設備投資・機械,,48.0,補助関連,C,trial_chatgpt_research_v0_1,関連用途はあるが事業中核度は限定的,https://s.kabutan.jp/themes/IoT/?market=all,,,C,finalized
+0,3653,モルフォ,デジタルトランスフォーメーション,デジタル・サービス,,82.0,主力テーマ,B,trial_chatgpt_research_v0_1,画像認識AIを用いたDX用途が明確,https://s.kabutan.jp/themes/%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/?market=all,,,B,finalized
+0,3653,モルフォ,ドローン,防衛・国土強靱化,,47.0,補助関連,C,trial_chatgpt_research_v0_1,関連用途はあるが売上規模不明,https://s.kabutan.jp/themes/%E3%83%89%E3%83%AD%E3%83%BC%E3%83%B3/?market=all,,,C,finalized
+0,3653,モルフォ,人工知能,AI・半導体,,95.0,主力テーマ,A,trial_chatgpt_research_v0_1,画像処理AIが中核技術・事業,https://s.kabutan.jp/themes/%E4%BA%BA%E5%B7%A5%E7%9F%A5%E8%83%BD/?market=all,,,A,finalized
+0,3653,モルフォ,自動運転車,自動車・モビリティ,,69.0,有力関連,B,trial_chatgpt_research_v0_1,車載/モビリティ向け画像認識に関連,https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E9%81%8B%E8%BB%A2%E8%BB%8A/?market=all,,,B,finalized
+3,3673,ブロドリーフ,サブスクリプション,デジタル・サービス,,95.0,主力テーマ,A,chatgpt_discretion_manual_web,モビリティ産業向けクラウドサービスをSaaS型で提供しており継続課金が事業モデルの中核,https://www.broadleaf.co.jp/ir/management/business/,,,A,finalized
+3,3694,オプティム,建設DX,不動産・建設,,94.0,主力テーマ,A,chatgpt_discretion_manual_web,LANDLOG共同運営とGeo Scan等の建設・土木DXサービスを開発販売している,https://www.optim.co.jp/newsdetail/20201027-pressrelease-01,,,A,finalized
+3,3697,3697.T,サイバーセキュリティ,防衛・国土強靱化,,92.0,主力テーマ,A,chatgpt_discretion_manual_web,脆弱性診断・SOC・CSIRT等を直接提供し累計1.5万件超のセキュリティ実績を公式開示,https://service.shiftinc.jp/service_cat/security/,,,A,finalized
+3,3710,3710.T,MaaS,自動車・モビリティ,,95.0,主力テーマ,A,chatgpt_discretion_manual_web,経路検索から予約決済までを統合したMaaSチケット・MaaSパッケージを自社サービスとして提供,https://about.jorudan.co.jp/products/,,,A,finalized
+3,3762,3762.T,SaaS,デジタル・サービス,,85.0,主力テーマ,B,chatgpt_discretion_manual_web,複数の業務・医療系クラウド製品をSaaSとして直接提供しているが全社売上比率は不明,https://www.techmatrix.co.jp/,,,B,finalized
+3,3762,3762.T,クラウドコンピューティング,デジタル・サービス,,90.0,主力テーマ,A,chatgpt_discretion_manual_web,クラウド型業務・医療情報システムを主要ソリューションとして直接提供,https://www.techmatrix.co.jp/solution/medical/,,,A,finalized
+3,3762,3762.T,サイバーセキュリティ,防衛・国土強靱化,,95.0,主力テーマ,A,chatgpt_discretion_manual_web,セキュリティ製品・監視・診断等を主要事業領域として直接提供,https://www.techmatrix.co.jp/product/security.html,,,A,finalized
+3,3762,3762.T,サブスクリプション,デジタル・サービス,,84.0,主力テーマ,B,chatgpt_discretion_manual_web,SaaS・クラウドサービスを継続利用型で提供するため直接性は高いが比率非開示,https://www.techmatrix.co.jp/,,,B,finalized
+3,3774,ＩＩＪ,データセンター,データセンター・電力,,95.0,主力テーマ,A,chatgpt_discretion_manual_web,自社データセンターを設計構築運用し顧客向けにもデータセンターサービスを直接提供,https://www.iij.ad.jp/datacenter/,,,A,finalized
+3,3796,いい生活,クラウドコンピューティング,デジタル・サービス,,97.0,主力テーマ,A,chatgpt_discretion_manual_web,不動産業向けシステムをクラウドSaaSとして提供することを公式に明示,https://www.e-seikatsu.info/aboutUs/description.html,,,A,finalized
+3,3796,いい生活,サブスクリプション,デジタル・サービス,,97.0,主力テーマ,A,chatgpt_discretion_manual_web,主要サービスの収益モデルを月額サブスクリプション型クラウドSaaSと明示,https://www.e-seikatsu.info/IR/individual.html,,,A,finalized
+3,3796,いい生活,不動産テック,不動産・建設,,98.0,主力テーマ,A,chatgpt_discretion_manual_web,AIとクラウドで不動産DXを推進する不動産テック企業で事業そのものがテーマに直結,https://www.e-seikatsu.info/,,,A,finalized
+3,3804,3804.T,サブスクリプション,デジタル・サービス,,82.0,主力テーマ,B,chatgpt_discretion_manual_web,主力学校業務システムを月額・年額のサブスクリプション型クラウドでも提供,https://www.systemd.co.jp/campusplan,,,B,finalized
+3,3804,3804.T,教育ICT,デジタル・サービス,,92.0,主力テーマ,A,chatgpt_discretion_manual_web,学校向け学務システムCampus Planをクラウド型で直接提供し教育ICTが主要事業領域,https://www.systemd.co.jp/campusplan,,,A,finalized
+3,3834,3834.T,教育ICT,デジタル・サービス,,90.0,主力テーマ,A,chatgpt_discretion_manual_web,教育機関向けクラウド型教育支援システムmanabaを自社主要サービスとして提供,https://asahi-net.co.jp/recruit/business/,,,A,finalized
+4,3922,3922.T,サブスクリプション,デジタル・サービス,,80.0,主力テーマ,B,chatgpt_discretion_manual_web,PR TIMESに月間・半年・年間の定額プランがあり継続課金収益が明確に存在,https://prtimes.co.jp/ir/individual/,,,B,finalized
+4,3923,ラクス,SaaS,デジタル・サービス,,97.0,主力テーマ,A,chatgpt_discretion_manual_web,企業業務向けクラウドサービス群が主力でクラウド事業が連結売上の86%を占める,https://www.rakus.co.jp/data/,,,A,finalized
+4,3923,ラクス,サブスクリプション,デジタル・サービス,,97.0,主力テーマ,A,chatgpt_discretion_manual_web,クラウド事業のストック売上高比率が92.6%で継続課金モデルが事業の中核,https://www.rakus.co.jp/data/,,,A,finalized
+4,3923,ラクス,デジタルトランスフォーメーション,デジタル・サービス,,88.0,主力テーマ,B,chatgpt_discretion_manual_web,経費・請求・販売・勤怠等の業務をクラウドで効率化し企業DXに直接寄与,https://www.rakus.co.jp/service/,,,B,finalized
+4,3939,カナミックＮ,サブスクリプション,デジタル・サービス,,88.0,主力テーマ,B,chatgpt_discretion_manual_web,医療介護向けクラウドサービス専業でASP・SaaSとして継続提供する事業モデル,https://www.kanamicnetwork.co.jp/recruit/aboutus.html,,,B,finalized
+4,3939,カナミックＮ,デジタルトランスフォーメーション,デジタル・サービス,,90.0,主力テーマ,A,chatgpt_discretion_manual_web,医療介護現場の業務をクラウドとAIでデジタル化することを主要事業として展開,https://www.kanamicnetwork.co.jp/topics/2025/press-release0612/,,,A,finalized
+4,3939,カナミックＮ,人工知能,AI・半導体,,80.0,主力テーマ,B,chatgpt_discretion_manual_web,介護SaaSをAISaaSへ進化させ生成AI機能を主要クラウドサービスへ実装,https://www.kanamicnetwork.co.jp/topics/2026/press-release0803/,,,B,finalized
+4,3984,ユーザーロカ,SaaS,デジタル・サービス,,82.0,主力テーマ,B,chatgpt_discretion_manual_web,ビッグデータ・AI分析製品を企業向けオンラインサービスとして広く提供している,https://www.userlocal.jp/products/,,,B,finalized
+4,3984,ユーザーロカ,データ分析・解析,AI・半導体,,96.0,主力テーマ,A,chatgpt_discretion_manual_web,アクセス解析・SNS分析・テキストマイニング等データ分析製品が事業の中核,https://www.userlocal.jp/products/,,,A,finalized
+4,3994,3994.T,サブスクリプション,デジタル・サービス,,92.0,主力テーマ,A,chatgpt_discretion_manual_web,バックオフィス向けSaaSを月額・年額プランで提供し継続課金が主要収益モデル,https://biz.moneyforward.com/service/,,,A,finalized
+4,3994,3994.T,フィンテック,金融・金利,,96.0,主力テーマ,A,chatgpt_discretion_manual_web,会計・決済・掛け払い・カード等の金融機能をSaaSと統合して直接提供,https://corp.moneyforward.com/service/business/,,,A,finalized
+4,3998,3998.T,教育ICT,デジタル・サービス,,98.0,主力テーマ,A,chatgpt_discretion_manual_web,学校・塾向けクラウド型ICT教材すらら・すららドリルの開発提供が事業の中核,https://surala.jp/school/service/drill/,,,A,finalized
+4,4057,4057.T,SaaS,デジタル・サービス,,84.0,主力テーマ,B,chatgpt_discretion_manual_web,EC向けクラウドコマースプラットフォームを継続提供するSaaS性の高い事業,https://www.interfactory.co.jp/products.html,,,B,finalized
+4,4060,4060.T,サブスクリプション,デジタル・サービス,,98.0,主力テーマ,A,chatgpt_discretion_manual_web,SaaSサービスが2024年度売上の97%を占め定期定額のサブスクリプション型モデルを明示,https://investor.rakumo.com/ja/ir/management/business.html,,,A,finalized
+4,4062,イビデン,半導体部材・部品,AI・半導体,,98.0,主力テーマ,A,chatgpt_discretion_manual_web,ICパッケージ基板が主要製品で高性能サーバー向けに大規模増産投資を実施,https://www.ibiden.com/company/profile/info/,,,A,finalized
+4,4071,ＰＡコンサル,データ分析・解析,AI・半導体,,96.0,主力テーマ,A,chatgpt_discretion_manual_web,ビッグデータ可視化・分析技術を核とする各種プラットフォームを提供,https://www.pa-consul.co.jp/,,,A,finalized
+4,4165,プレイド,サブスクリプション,デジタル・サービス,,96.0,主力テーマ,A,chatgpt_discretion_manual_web,KARTEを年間契約のサブスクリプションSaaSモデルとして提供すると公式明示,https://plaid.co.jp/ir/faq/,,,A,finalized
+4,4165,プレイド,データ分析・解析,AI・半導体,,92.0,主力テーマ,A,chatgpt_discretion_manual_web,顧客行動データの可視化・分析をKARTEの中核価値として提供,https://plaid.co.jp/ir/faq/,,,A,finalized
+4,4168,ヤプリ,サブスクリプション,デジタル・サービス,,90.0,主力テーマ,B,chatgpt_discretion_manual_web,ノーコードアプリ基盤を継続提供し周辺サービスにもサブスク型サービスを明示,https://yappli.co.jp/,,,B,finalized
+0,5039,,IT関連,デジタル・サービス,,94.0,主力テーマ,A,trial_chatgpt_research_v0_1,ITサービスが事業中核,https://s.kabutan.jp/themes/IT%E9%96%A2%E9%80%A3/?market=all,,,A,finalized
+0,5039,,クラウドコンピューティング,デジタル・サービス,,97.0,主力テーマ,A,trial_chatgpt_research_v0_1,Salesforce/クラウド支援が事業中核,https://s.kabutan.jp/themes/%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0/?market=all,,,A,finalized
+0,5039,,デジタルトランスフォーメーション,デジタル・サービス,,93.0,主力テーマ,A,trial_chatgpt_research_v0_1,クラウド導入・DX支援が事業中核,https://s.kabutan.jp/themes/%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/?market=all,,,A,finalized
+0,603A,603A.T,再生可能エネルギー,GX・エネルギー,,97.0,主力テーマ,A,trial_chatgpt_research_v0_1,再エネ事業が中核,https://s.kabutan.jp/themes/%E5%86%8D%E7%94%9F%E5%8F%AF%E8%83%BD%E3%82%A8%E3%83%8D%E3%83%AB%E3%82%AE%E3%83%BC/?market=all,,,A,finalized
+0,603A,603A.T,太陽光発電関連,GX・エネルギー,,97.0,主力テーマ,A,trial_chatgpt_research_v0_1,オンサイト太陽光PPA等が中核,https://s.kabutan.jp/themes/%E5%A4%AA%E9%99%BD%E5%85%89%E7%99%BA%E9%9B%BB%E9%96%A2%E9%80%A3/?market=all,,,A,finalized
+0,603A,603A.T,脱炭素,GX・エネルギー,,95.0,主力テーマ,A,trial_chatgpt_research_v0_1,脱炭素ソリューションが事業中核,https://s.kabutan.jp/themes/%E8%84%B1%E7%82%AD%E7%B4%A0/?market=all,,,A,finalized
+0,603A,603A.T,蓄電池,GX・エネルギー,,69.0,有力関連,B,trial_chatgpt_research_v0_1,蓄電池関連事業はあるがテーマ単独比率は不明,https://s.kabutan.jp/themes/%E8%93%84%E9%9B%BB%E6%B1%A0/?market=all,,,B,finalized
+0,603A,603A.T,電力会社,データセンター・電力,,78.0,有力関連,B,trial_chatgpt_research_v0_1,電力供給・エネルギーマネジメントに直接関与,https://s.kabutan.jp/themes/%E9%9B%BB%E5%8A%9B%E4%BC%9A%E7%A4%BE/?market=all,,,B,finalized
+0,6654,6654.T,鉄道関連,物流・海運,,58.0,補助関連,B,trial_chatgpt_research_v0_1,鉄道向け実需はあるが電力設備より中核度が低い,https://s.kabutan.jp/themes/%E9%89%84%E9%81%93%E9%96%A2%E9%80%A3/?market=all,,,B,finalized
+0,6654,6654.T,電力設備投資関連,データセンター・電力,,93.0,主力テーマ,A,trial_chatgpt_research_v0_1,事業の直接性と公式事業内容から主力関連,https://s.kabutan.jp/themes/%E9%9B%BB%E5%8A%9B%E8%A8%AD%E5%82%99%E6%8A%95%E8%B3%87%E9%96%A2%E9%80%A3/?market=all,,,A,finalized
+0,6745,6745.T,防災,防衛・国土強靱化,,96.0,主力テーマ,A,trial_chatgpt_research_v0_1,火災報知・防災設備が中核事業,https://s.kabutan.jp/themes/%E9%98%B2%E7%81%BD/?market=all,,,A,finalized
+0,6904,6904.T,自動車部材・部品,自動車・モビリティ,,93.0,主力テーマ,A,trial_chatgpt_research_v0_1,車載アンテナ等が中核事業,https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E8%BB%8A%E9%83%A8%E6%9D%90%E3%83%BB%E9%83%A8%E5%93%81/?market=all,,,A,finalized
+0,6904,6904.T,自動運転車,自動車・モビリティ,,66.0,有力関連,B,trial_chatgpt_research_v0_1,CASE/自動運転関連だがテーマ単独売上比率は不明,https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E9%81%8B%E8%BB%A2%E8%BB%8A/?market=all,,,B,finalized
+0,6996,6996.T,リチウムイオン電池,自動車・モビリティ,,50.0,補助関連,B,trial_chatgpt_research_v0_1,関連製品はあるがテーマ売上規模は限定/不明,https://s.kabutan.jp/themes/%E3%83%AA%E3%83%81%E3%82%A6%E3%83%A0%E3%82%A4%E3%82%AA%E3%83%B3%E9%9B%BB%E6%B1%A0/?market=all,,,B,finalized
+0,6996,6996.T,水素,GX・エネルギー,,12.0,ノイズ候補,C,trial_chatgpt_research_v0_1,テーマとの経済的直接性が弱い,https://s.kabutan.jp/themes/%E6%B0%B4%E7%B4%A0/?market=all,,,C,finalized
+0,6996,6996.T,自動車部材・部品,自動車・モビリティ,,75.0,有力関連,B,trial_chatgpt_research_v0_1,車載向け電子部品に直接関与,https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E8%BB%8A%E9%83%A8%E6%9D%90%E3%83%BB%E9%83%A8%E5%93%81/?market=all,,,B,finalized
+0,6996,6996.T,蓄電池,GX・エネルギー,,88.0,主力テーマ,A,trial_chatgpt_research_v0_1,蓄電・V2H関連製品を直接展開,https://s.kabutan.jp/themes/%E8%93%84%E9%9B%BB%E6%B1%A0/?market=all,,,A,finalized
+0,6996,6996.T,電気自動車関連,自動車・モビリティ,,86.0,主力テーマ,A,trial_chatgpt_research_v0_1,EV充電/V2H関連製品を直接展開,https://s.kabutan.jp/themes/%E9%9B%BB%E6%B0%97%E8%87%AA%E5%8B%95%E8%BB%8A%E9%96%A2%E9%80%A3/?market=all,,,A,finalized
+0,7066,7066.T,デジタルトランスフォーメーション,デジタル・サービス,,76.0,有力関連,B,trial_chatgpt_research_v0_1,DX支援を事業として展開,https://s.kabutan.jp/themes/%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/?market=all,,,B,finalized
+0,7066,7066.T,生成AI,AI・半導体,,68.0,有力関連,B,trial_chatgpt_research_v0_1,AIサービスを展開するが売上寄与率は非開示,https://s.kabutan.jp/themes/%E7%94%9F%E6%88%90AI/?market=all,,,B,finalized
+0,7864,7864.T,機械,設備投資・機械,,51.0,補助関連,A,trial_chatgpt_research_v0_1,機械事業の売上構成は限定的だが公式数値で確認,https://s.kabutan.jp/themes/%E6%A9%9F%E6%A2%B0/?market=all,,,A,finalized
+0,8746,8746.T,金,資源・素材,,90.0,主力テーマ,A,trial_chatgpt_research_v0_1,金地金等の貴金属取扱いが主要事業,https://s.kabutan.jp/themes/%E9%87%91/?market=all,,,A,finalized
+10,9057,9057.T,物流,物流・海運,,93.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=logistics services; position=0.05; growth=development/research; official=物流; count=17; pos=0.01,https://www.enshu-truck.co.jp,revenue_share_unknown,,A,finalized
+5,5035,ＨＯＵＳＥＩ,クラウドコンピューティング,デジタル・サービス,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=cloud service; position=0.29; growth=development; official=クラウド/クラウドサービス; count=18; pos=0.33,https://www.housei-inc.com | https://www.housei-inc.com/business | https://www.housei-inc.com/about-us/company-info,revenue_share_unknown,,A,finalized
+2,3040,ソリトン,サイバーセキュリティ,防衛・国土強靱化,,92.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=cybersecurity; position=0.38; growth=develops/development; official=サイバーセキュリティ/情報セキュリティ; count=11; pos=0.02,https://www.soliton.co.jp | https://www.soliton.co.jp/products/ | https://www.soliton.co.jp/products/?category,,,A,finalized
+10,9007,9007.T,不動産関連,不動産・建設,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=real estate; official=不動産; count=1; pos=0.79,https://www.odakyu.jp | https://www.odakyu.jp/company_information/,revenue_share_unknown,,C,finalized
+9,7769,リズム,太陽光発電関連,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.rhythm.co.jp,revenue_share_unknown,,C,finalized
+6,5729,日精鉱,レアメタル,資源・素材,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nihonseiko.co.jp | https://www.nihonseiko.co.jp/products/ | https://www.nihonseiko.co.jp/products/antimony/,revenue_share_unknown,,C,finalized
+8,7220,武蔵精密,蓄電池,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.musashi.co.jp,revenue_share_unknown,,C,finalized
+3,3360,3360.T,医療機器,医療・ヘルスケア,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=medical device/medical equipment; position=0.24; growth=develops; official=医療機器; count=11; pos=0.64,https://www.shiphd.co.jp | https://www.shiphd.co.jp/business/ | https://www.shiphd.co.jp/business/tpp/,,,A,finalized
+11,9984,ＳＢＧ,MaaS,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://group.softbank | https://group.softbank/segments | https://group.softbank/segments/investmentbusiness,revenue_share_unknown,,C,finalized
+5,4495,4495.T,SaaS,デジタル・サービス,,88.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Software - Application,https://www.i3-systems.com,revenue_share_unknown,,A,finalized
+1,2209,2209.T,食品,内需・消費,,92.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Confectioners; direct=food products; position=0.08; official=食品; count=9; pos=0.05,https://www.imuraya-group.com | https://www.imuraya-group.com/outline/base | https://www.imuraya-group.com/outline,,,A,finalized
+6,5530,,不動産関連,不動産・建設,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://s.kabutan.jp/themes/%E4%B8%8D%E5%8B%95%E7%94%A3%E9%96%A2%E9%80%A3/?market=all,revenue_share_unknown,,C,finalized
+4,4376,4376.T,住宅関連,不動産・建設,,71.0,有力関連,B,chatgpt_confirmed_official_context,adjacent=housing; growth=investment; official=住宅; count=7; pos=0.21,https://kufu.co.jp | https://kufu.co.jp/company/group/ | https://kufu.co.jp/ir/library/other-material/,revenue_share_unknown,,B,finalized
+3,3649,ファインデ,医療機器,医療・ヘルスケア,,90.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=medical device; position=0.01,https://findex.co.jp | https://findex.co.jp/company/ | https://findex.co.jp/agency/index.html,,,A,finalized
+2,2471,2471.T,物流,物流・海運,,57.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=logistics; official=物流; count=3; pos=0.73,https://www.spool.co.jp | https://www.spool.co.jp/service/index.html,,,C,finalized
+10,8591,8591.T,再生可能エネルギー,GX・エネルギー,,67.0,有力関連,B,chatgpt_confirmed_official_context,direct=renewable energy; position=0.52; growth=develops/investment,https://www.orix.co.jp,revenue_share_unknown,,B,finalized
+4,4471,三洋化,蓄電池,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.sanyo-chemical.co.jp | https://www.sanyo-chemical.co.jp/products,revenue_share_unknown,,C,finalized
+1,2160,2160.T,医療機器,医療・ヘルスケア,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=medical equipment; position=0.15; growth=develops/development; official=医療機器; count=2; pos=0.45,https://www.gnipharma.com | https://www.gnipharma.com/company/product/ | https://www.gnipharma.com/company/profile/,,,A,finalized
+1,147A,ソラコム,IT関連,デジタル・サービス,,88.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Software - Infrastructure; adjacent=software; official=IT; count=262; pos=0.00,https://www.soracom.io | https://www.soracom.io/connectivity-services/ | https://soracom.io/cellular-connectivity/,,,A,finalized
+4,4427,エデュラボ,教育ICT,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.edulab-inc.com,revenue_share_unknown,,C,finalized
+10,9101,郵船,アンモニア,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nyk.com,revenue_share_unknown,,C,finalized
+10,9020,9020.T,鉄道関連,物流・海運,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=railway/railroad; position=0.01; growth=development,https://www.jreast.co.jp,revenue_share_unknown,,A,finalized
+4,3987,エコモット,IoT,設備投資・機械,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=internet of things/ iot/iot platform; position=0.03; official=IoT; count=66; pos=0.00,https://www.ecomott.co.jp | https://www.ecomott.co.jp/approach/ | https://www.ecomott.co.jp/company/,,,A,finalized
+4,4392,ＦＩＧ,ロボット,AI・半導体,,97.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=robot/robotics/robotic; position=0.37; growth=development/research; official=ロボット; count=9; pos=0.04,https://www.figinc.jp | https://www.figinc.jp/corporate/ | https://www.figinc.jp/corporate/profile/,revenue_share_unknown,,A,finalized
+11,9761,9761.T,建設,不動産・建設,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=construction,https://tokai-lease.co.jp,revenue_share_unknown,,C,finalized
+6,5987,5987.T,風力発電,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.onex.co.jp | https://www.onex.co.jp/business/ | https://www.onex.co.jp/corporate/,revenue_share_unknown,,C,finalized
+10,9003,9003.T,ホテル,内需・消費,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=hotel,https://www.sotetsu.co.jp,revenue_share_unknown,,C,finalized
+1,228A,オプロ,サブスクリプション,デジタル・サービス,,54.0,補助関連,C,chatgpt_discretion_existing_context,direct=subscription business; position=0.74,https://corp.opro.net,,,C,finalized
+2,3223,3223.T,外食,内需・消費,,92.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Restaurants; direct=restaurant,https://www.sld-inc.com,,,A,finalized
+7,6506,安川電,スマートグリッド,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.yaskawa.co.jp | https://www.yaskawa.co.jp/company | https://www.yaskawa.co.jp/company/profile/business,revenue_share_unknown,,C,finalized
+11,9513,9513.T,原子力発電,GX・エネルギー,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=nuclear; growth=develops/development,https://www.jpower.co.jp,revenue_share_unknown,,C,finalized
+1,2338,クオンタムＳ,人工知能,AI・半導体,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,direct= ai /ai solution; position=0.10; growth=development; official=AI; count=102; pos=0.00,https://www.quantum-s.co.jp | https://www.quantum-s.co.jp/ | https://www.quantum-s.co.jp/corporate,,,A,finalized
+6,5406,神戸鋼,ロボット,AI・半導体,,84.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=robot; position=0.30,https://www.kobelco.co.jp,revenue_share_unknown,,B,finalized
+3,3625,テックファム,生成AI,AI・半導体,,84.0,主力テーマ,B,chatgpt_confirmed_official_context,adjacent= ai ; growth=develops/development; official=生成AI; count=4; pos=0.75,https://www.techfirm-hd.com | https://www.techfirm-hd.com/company/ | https://www.techfirm-hd.com/pressrelease/20260728.html,,,B,finalized
+7,6721,ウインテスト,半導体,AI・半導体,,90.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=semiconductor; position=0.08,https://www.wintest.co.jp,revenue_share_unknown,,A,finalized
+10,9064,9064.T,陸運,物流・海運,,95.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Trucking; direct=trucking/truck transport; position=0.25; growth=development,https://www.yamato-hd.co.jp,revenue_share_unknown,,A,finalized
+1,1961,三機工,建設,不動産・建設,,92.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Engineering & Construction; direct=civil engineering; position=0.45,https://www.sanki.co.jp,,,A,finalized
+10,8630,8630.T,ホームヘルスケア,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.sompo-hd.com | https://www.sompo-hd.com/company/ | https://www.sompo-hd.com/group/,revenue_share_unknown,,C,finalized
+1,2138,2138.T,eコマース,内需・消費,,93.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=e-commerce; position=0.08; growth=development; official=EC; count=7; pos=0.05,https://www.crooz.co.jp | https://www.crooz.co.jp/about/ | https://www.crooz.co.jp/about/overview,,,A,finalized
+1,2335,キューブシス,フィンテック,金融・金利,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.cubesystem.co.jp | https://www.cubesystem.co.jp/about/ | https://www.cubesystem.co.jp/service/,,,C,finalized
+9,8052,8052.T,設備投資,設備投資・機械,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=equipment/machinery,https://www.tsubaki.co.jp,revenue_share_unknown,,C,finalized
+7,6482,6482.T,物流,物流・海運,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.yushincompany.jp,revenue_share_unknown,,C,finalized
+3,3352,3352.T,外食,内需・消費,,54.0,補助関連,C,chatgpt_discretion_existing_context,direct=restaurant; position=0.89,https://www.buffalo.co.jp | https://www.buffalo.co.jp/company/ | https://www.buffalo.co.jp/service/,,,C,finalized
+1,241A,ＲＯＸＸ,人工知能,AI・半導体,,84.0,主力テーマ,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=AI; count=4; pos=0.42,https://roxx.co.jp,,,B,finalized
+4,4125,三和油化工業,半導体部材・部品,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.sanwayuka.co.jp,,,C,finalized
+9,7762,7762.T,インバウンド,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_macro_context,事業概要に直接根拠を確認できず,https://www.citizen.co.jp,macro_sensitivity_required,,C,finalized
+4,431A,ユーソナー,データ分析・解析,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://usonar.co.jp,revenue_share_unknown,,C,finalized
+10,9087,9087.T,物流,物流・海運,,95.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=logistics business/logistics services; position=0.03; official=物流; count=33; pos=0.00,https://www.takase.co.jp | https://www.takase.co.jp/infomation | https://www.takase.co.jp/summary,revenue_share_unknown,,A,finalized
+10,8381,山陰合銀,リース,金融・金利,,83.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=finance lease; position=0.44; growth=investment,https://www.gogin.co.jp,revenue_share_unknown,,B,finalized
+2,3156,レスター,半導体,AI・半導体,,95.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Semiconductors; direct=semiconductor; position=0.03; growth=development,https://www.restargp.com,,,A,finalized
+5,5036,5036.T,生成AI,AI・半導体,,71.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=生成AI; count=1; pos=0.95,https://www.jbs.co.jp | https://www.jbs.co.jp/solution/category/globalbusiness | https://www.jbs.co.jp/corp,revenue_share_unknown,,B,finalized
+7,6752,6752.T,再生医療,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://holdings.panasonic,revenue_share_unknown,,C,finalized
+10,8361,大垣共立,金利上昇メリット,金融・金利,,64.0,有力関連,B,chatgpt_discretion_macro_context,direct=banking; position=0.14; growth=investment,https://www.okb.co.jp,macro_sensitivity_required,,B,finalized
+4,4346,4346.T,eコマース,内需・消費,,83.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=e-commerce; position=0.49; growth=investment,https://www.nexyzgroup.jp,revenue_share_unknown,,B,finalized
+9,7776,7776.T,医薬品関連,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.cellseed.com | https://www.cellseed.com/business/ | https://www.cellseed.com/business/cellsheet/,revenue_share_unknown,,C,finalized
+2,269A,Ｓａｐｅｅｔ,IT関連,デジタル・サービス,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Software - Infrastructure; adjacent=software/cloud service; growth=development/new business,https://sapeet.com,,,A,finalized
+1,2169,2169.T,IoT,設備投資・機械,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.cds-japan.jp | https://www.cds-japan.jp/ja/corporate/ | https://www.cds-japan.jp/ja/corporate/overview/,,,C,finalized
+5,4521,4521.T,再生医療,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kaken.co.jp | https://www.kaken.co.jp/company/outlook.html | https://www.kaken.co.jp/company/business/,revenue_share_unknown,,C,finalized
+7,6594,ニデック,ロボット,AI・半導体,,66.0,有力関連,B,chatgpt_confirmed_official_context,direct=robot/robotics/robotic; position=0.59; growth=develops,https://www.nidec.com,revenue_share_unknown,,B,finalized
+10,8349,東北銀,地方銀行,金融・金利,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Banks - Regional; adjacent=banking; growth=development/investment,https://www.tohoku-bank.co.jp,revenue_share_unknown,,A,finalized
+6,5801,古河電,アルミニウム,資源・素材,,83.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=aluminum; position=0.44; growth=development,https://www.furukawa.co.jp,revenue_share_unknown,,B,finalized
+6,5844,京都ＦＧ,地方銀行,金融・金利,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Banks - Regional; adjacent=banking; growth=investment,https://www.kyoto-fg.co.jp,revenue_share_unknown,,A,finalized
+9,7752,7752.T,IT関連,デジタル・サービス,,71.0,有力関連,B,chatgpt_confirmed_official_context,adjacent=software; official=IT; count=89; pos=0.04,https://www.ricoh.com | https://www.ricoh.com/about | https://www.ricoh.com/about/facts,revenue_share_unknown,,B,finalized
+7,6507,シンフォニア,防衛,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.sinfo-t.jp | https://www.sinfo-t.jp/business/,revenue_share_unknown,,C,finalized
+1,2108,甜菜糖,食品,内需・消費,,88.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Confectioners; official=食品; count=6; pos=0.04,https://www.nitten.co.jp,,,A,finalized
+4,4060,4060.T,IT関連,デジタル・サービス,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Software - Application; adjacent=software; growth=develops; official=IT; count=6; pos=0.06,https://rakumo.com | https://rakumo.com/price/rakumo-initial-support/ | https://rakumo.com/casestudy/mos/,,,A,finalized
+2,3172,3172.T,倉庫,物流・海運,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.tealifeir.com,,,C,finalized
+5,4882,4882.T,創薬,医療・ヘルスケア,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=drug discovery; position=0.03; growth=develops/development; official=創薬; count=4; pos=0.11,https://www.ppmx.com,revenue_share_unknown,,A,finalized
+11,9876,9876.T,小売り,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.cox-online.co.jp,revenue_share_unknown,,C,finalized
+9,7951,ヤマハ,自動車部材・部品,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.yamaha.com,revenue_share_unknown,,C,finalized
+4,4366,ダイトーケミ,半導体部材・部品,AI・半導体,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=semiconductor; growth=development/research,https://www.daitochemix.co.jp | https://www.daitochemix.co.jp/news/3746/,revenue_share_unknown,,C,finalized
+9,8012,長瀬産,自動車部材・部品,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nagase.co.jp,revenue_share_unknown,,C,finalized
+9,7610,7610.T,ゲーム関連,デジタル・サービス,,80.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=video game; position=0.49,https://www.tay2.co.jp,revenue_share_unknown,,B,finalized
+5,5240,ｍｏｎｏＡＩ,クラウドコンピューティング,デジタル・サービス,,71.0,有力関連,B,chatgpt_confirmed_official_context,adjacent=cloud; official=クラウド; count=1; pos=0.44,https://monoai.co.jp | https://monoai.co.jp/company | https://monoai.co.jp/_OtherPage/Education/index.html,revenue_share_unknown,,B,finalized
+9,7512,7512.T,小売り,内需・消費,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Department Stores; direct=retail business/supermarket; position=0.09; growth=focuses,https://www.aeon-hokkaido.jp | https://www.aeon-hokkaido.jp/corporation/ | https://www.aeon-hokkaido.jp/corporation/profile/,revenue_share_unknown,,A,finalized
+4,3946,トーモク,円高メリット,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_macro_context,事業概要に直接根拠を確認できず,https://www.tomoku.co.jp | https://www.tomoku.co.jp/about/history-business/ | https://www.tomoku.co.jp/about/history-business/cardboard/,macro_sensitivity_required,,C,finalized
+8,7255,7255.T,工作機械,設備投資・機械,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=machine tool; position=0.13; official=工作機械; count=43; pos=0.00,https://www.sakurai-net.co.jp | https://sakurai-net.co.jp/company/kaisyagaiyou/ | https://sakurai-net.co.jp/service/,revenue_share_unknown,,A,finalized
+8,6845,6845.T,ロボット,AI・半導体,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=automation; growth=development,https://www.azbil.com,revenue_share_unknown,,C,finalized
+11,9225,ブリッジＧ,クラウドコンピューティング,デジタル・サービス,,87.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=クラウド; count=3; pos=0.50,https://www.bridge-group.co.jp | https://bridge-group.co.jp/service/ | https://bridge-group.co.jp/about/,revenue_share_unknown,,A,finalized
+8,7352,7352.T,IT関連,デジタル・サービス,,71.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=IT; count=19; pos=0.12,https://twostone-s.com,revenue_share_unknown,,B,finalized
+7,6504,富士電機,鉄道関連,物流・海運,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=rail; growth=develops,https://www.fujielectric.com,revenue_share_unknown,,C,finalized
+7,6433,ヒーハイスト,ロボット,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.hephaist.co.jp,revenue_share_unknown,,C,finalized
+1,1939,1939.T,リース,金融・金利,,42.7,補助関連,B,user_approved_structured_v6,ユーザー承認によりv6値を通過,https://s.kabutan.jp/themes/%E3%83%AA%E3%83%BC%E3%82%B9/?market=all,,,B,finalized
+2,2986,2986.T,不動産関連,不動産・建設,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Real Estate Services; direct=real estate business/real estate brokerage; position=0.07; growth=development/investment; official=不動産; count=8; pos=0.80,https://lahd.co.jp | https://lahd.co.jp/company | https://lahd.co.jp/business,,,A,finalized
+1,1870,1870.T,国土強靱化,防衛・国土強靱化,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=civil engineering; growth=development/investment,https://www.yahagi.co.jp,,,C,finalized
+10,8370,紀陽銀,地方銀行,金融・金利,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Banks - Regional; adjacent=banking; growth=investment,https://www.kiyobank.co.jp,revenue_share_unknown,,A,finalized
+10,9025,9025.T,陸運,物流・海運,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=transportation,https://www.konoike.net,revenue_share_unknown,,C,finalized
+7,6464,6464.T,自動車部材・部品,自動車・モビリティ,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=vehicle,https://www.tsubaki-nakashima.com | https://tsubaki-nakashima.com/jp/industry/medical/ | https://tsubaki-nakashima.com/jp/industry/consumer/,revenue_share_unknown,,C,finalized
+7,6418,6418.T,円安メリット,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_macro_context,事業概要に直接根拠を確認できず,https://www.jcm-hq.co.jp | https://www.jcm-hq.co.jp/ja/business.html | https://www.jcm-hq.co.jp/ja/products.html,macro_sensitivity_required,,C,finalized
+2,3132,マクニカＨＤ,サイバーセキュリティ,防衛・国土強靱化,,80.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=cybersecurity; position=0.43,https://holdings.macnica.co.jp,,,B,finalized
+10,8381,山陰合銀,金利上昇メリット,金融・金利,,64.0,有力関連,B,chatgpt_discretion_macro_context,direct=banking; position=0.08; growth=investment,https://www.gogin.co.jp,macro_sensitivity_required,,B,finalized
+7,6507,シンフォニア,自動車部材・部品,自動車・モビリティ,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=automotive/vehicle,https://www.sinfo-t.jp | https://www.sinfo-t.jp/business/,revenue_share_unknown,,C,finalized
+8,7078,ＩＮＣＨＤ,デジタルトランスフォーメーション,デジタル・サービス,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=DX/デジタルトランスフォーメーション; count=15; pos=0.15,https://www.inclusive.co.jp | https://inclusive.co.jp/services/ | https://inclusive.co.jp/about-us/,revenue_share_unknown,,A,finalized
+10,8750,8750.T,金利上昇メリット,金融・金利,,38.0,ノイズ候補,C,chatgpt_discretion_macro_context,adjacent=insurance,https://www.daiichilife-group.com,macro_sensitivity_required,,C,finalized
+11,9876,9876.T,eコマース,内需・消費,,83.0,主力テーマ,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=EC; count=1; pos=0.16,https://www.cox-online.co.jp,revenue_share_unknown,,B,finalized
+6,5367,ニッカトー,半導体製造装置,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nikkato.co.jp | https://www.nikkato.co.jp/company/outline.php | https://www.nikkato.co.jp/product/,revenue_share_unknown,,C,finalized
+10,8871,8871.T,ホテル,内需・消費,,66.0,有力関連,B,chatgpt_confirmed_official_context,direct=hotel business; position=0.63; growth=development,https://www.goldcrest.co.jp,revenue_share_unknown,,B,finalized
+7,6594,ニデック,自動車部材・部品,自動車・モビリティ,,87.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=automotive components; position=0.36; growth=develops,https://www.nidec.com,revenue_share_unknown,,A,finalized
+4,4192,4192.T,デジタルトランスフォーメーション,デジタル・サービス,,88.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=DX; count=3; pos=0.19,https://spiderplus.co.jp | https://spiderplus.co.jp/about-us/ | https://spiderplus.co.jp/about-us/profile/,revenue_share_unknown,,A,finalized
+6,5711,三菱マ,光ファイバー,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.mmc.co.jp,revenue_share_unknown,,C,finalized
+11,9709,ＮＣＳ＆Ａ,マイナンバー,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://ncsa.jp | https://ncsa.jp/it-services | https://ncsa.jp/it-services/service,revenue_share_unknown,,C,finalized
+7,6707,サンケン,太陽光発電関連,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.sanken-ele.co.jp,revenue_share_unknown,,C,finalized
+1,2326,2326.T,サブスクリプション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.daj.jp,,,C,finalized
+10,8200,8200.T,宅配,物流・海運,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.ringerhut.co.jp,revenue_share_unknown,,C,finalized
+3,3788,3788.T,IoT,設備投資・機械,,71.0,有力関連,B,chatgpt_confirmed_official_context,direct= iot; position=0.62; official=IoT; count=2; pos=0.61,https://www.gmogshd.com | https://www.gmogshd.com/news/news-17306/,,,B,finalized
+5,4498,サイバトラス,人工知能,AI・半導体,,88.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=AI; count=3; pos=0.16,https://www.cybertrust.co.jp | https://www.cybertrust.co.jp/corporate/,revenue_share_unknown,,A,finalized
+4,436A,436A.T,クラウドコンピューティング,デジタル・サービス,,88.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=cloud service/cloud system; position=0.41; growth=development,https://www.cybersolutions.co.jp,revenue_share_unknown,,A,finalized
+3,3407,旭化成,防衛,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.asahi-kasei.com | https://www.asahi-kasei.com/company/about | https://www.asahi-kasei.com/company/business,,,C,finalized
+1,2388,2388.T,リース,金融・金利,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.wedge-hd.com,,,C,finalized
+1,2384,2384.T,物流,物流・海運,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Integrated Freight & Logistics; direct=logistics business/logistics services; position=0.01; growth=develops/development; official=物流; count=67; pos=0.01,https://www.sbs-group.co.jp | https://www.sbs-group.co.jp/sbshlds/company/ | https://www.sbs-group.co.jp/sbshlds/company/profile/,,,A,finalized
+2,3153,八洲電機,データセンター,データセンター・電力,,63.0,有力関連,B,chatgpt_confirmed_official_context,direct=data center; position=0.52,https://www.yashimadenki.co.jp,,,B,finalized
+1,1813,1813.T,国土強靱化,防衛・国土強靱化,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=civil engineering,https://www.fudotetra.co.jp,,,C,finalized
+5,5248,テクノロジー,デジタルトランスフォーメーション,デジタル・サービス,,83.0,主力テーマ,B,chatgpt_confirmed_official_context,direct= dx ; position=0.47; growth=develops/development,https://technologies-group.co.jp,revenue_share_unknown,,B,finalized
+3,3569,3569.T,宇宙開発関連,防衛・国土強靱化,,80.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=satellite; position=0.44,https://www.seiren.com,,,B,finalized
+3,3446,Ｊテック・Ｃ,バイオテクノロジー関連,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.j-tec.co.jp | https://www.j-tec.co.jp/company-profile/outline/ | https://www.j-tec.co.jp/business/,,,C,finalized
+11,9831,9831.T,蓄電池,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.yamada-holdings.jp,revenue_share_unknown,,C,finalized
+10,8226,理経,ドローン,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.rikei.co.jp | https://www.rikei.co.jp/solution/ | https://www.rikei.co.jp/mail_magazine/,revenue_share_unknown,,C,finalized
+6,5533,5533.T,マンション関連,不動産・建設,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=condominium; position=0.28; growth=development; official=マンション; count=26; pos=0.01,https://www.elitz-holdings.co.jp | https://www.elitz-holdings.co.jp/company/corporate.html | https://www.elitz-holdings.co.jp/group/,revenue_share_unknown,,A,finalized
+6,5724,アサカ理研,金,資源・素材,84.76,75.4,有力関連,B,structured_revenue_v6,"（四半期連結包括利益計算書）
+- 7 -
+㈱アサカ理研 （5724） 2026年９月期 第３四半期決算短信
+（３）四半期連結財務諸表に関する注記事項
+（継続企業の前提に関する注記）
+該当事項はありません。
+（四半期連結財務諸表の作成に特有の会計処理に関する注記）
+（税金費用の計算）
+税金費用については、当第３四半期連結会計期間を含む連結会計年度の税引前当期純利益に対する税効果会計適
+用後の実効税率を合理的に見積り、税引前四半期純利益に当該見積実効税率を乗じて計算しております。
+- 8 -
+㈱アサカ理研 （5724） 2026年９月期 第３四半期決算短信
+（単位：千円）
+報告セグメント その他
+（注）１
+合計
+（注）２貴金属事業 環境事業 システム事業 計
+売上高
+顧客との契約から生
+じる収益 5,299,280 902,517 151,727 6,353,526 14,265 6,367,791
+外部顧客への売上高 5,299,280 902,517 151,727 6,353,526 14,265 6,367,791
+セグメント間の内部
+売上高又は振替高 － 390 － 390 24",https://www.asaka.co.jp/investor/accounts/files/b3001bc7e53ba5ee2c7a9eca169dfd3ab0352ddd.pdf,structured_segment_v6_needs_final_qa,貴金属事業,B,finalized
+9,7901,7901.T,デジタルトランスフォーメーション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.matsumoto-inc.co.jp | https://www.matsumoto-inc.co.jp/service | https://www.matsumoto-inc.co.jp/about,revenue_share_unknown,,C,finalized
+3,3393,3393.T,クラウドコンピューティング,デジタル・サービス,,74.0,有力関連,B,chatgpt_confirmed_official_context,adjacent=cloud/saas; growth=focuses/investment; official=クラウド; count=1; pos=0.27,https://www.startiaholdings.com,,,B,finalized
+5,4811,ドリムアーツ,クラウドコンピューティング,デジタル・サービス,,83.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=cloud service; position=0.45; growth=developing/development,https://www.dreamarts.co.jp,revenue_share_unknown,,B,finalized
+9,8002,丸紅,レアアース,資源・素材,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.marubeni.com,revenue_share_unknown,,C,finalized
+10,8876,8876.T,不動産関連,不動産・建設,,71.0,有力関連,B,chatgpt_confirmed_official_context,adjacent=real estate/property management; growth=research; official=不動産; count=8; pos=0.27,https://www.relo.jp | https://www.relo.jp/about/service.html | https://www.relo.jp/about/history.html,revenue_share_unknown,,B,finalized
+2,3133,3133.T,小売り,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://kaihan.co.jp | https://kaihan.co.jp/service/ | https://kaihan.co.jp/service/food/,,,C,finalized
+5,5256,フュージック,IoT,設備投資・機械,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,direct= iot; position=0.25; growth=development; official=IoT; count=7; pos=0.02,https://fusic.co.jp | https://fusic.co.jp/service/space | https://fusic.co.jp/product,revenue_share_unknown,,A,finalized
+7,6561,6561.T,ホテル,内需・消費,,57.0,補助関連,C,chatgpt_discretion_existing_context,direct=operates hotels; position=0.80; growth=development; official=ホテル; count=3; pos=0.47,https://hanatourjapan.jp | https://hanatourjapan.jp/business01 | https://hanatourjapan.jp/introduce01,revenue_share_unknown,,C,finalized
+11,9511,沖縄電,風力発電,GX・エネルギー,,54.0,補助関連,C,chatgpt_discretion_existing_context,direct=wind power; position=0.90,https://www.okiden.co.jp,revenue_share_unknown,,C,finalized
+10,8152,8152.T,食品,内需・消費,,57.0,補助関連,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず; official=食品; count=3; pos=0.20,https://www.somar.co.jp,revenue_share_unknown,,C,finalized
+10,8150,三信電,半導体,AI・半導体,,100.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Semiconductors; direct=semiconductor/integrated circuit/microcontroller; position=0.09; growth=develops/development; official=半導体; count=8; pos=0.04,https://www.sanshin.co.jp | https://www.sanshin.co.jp/company/ | https://www.sanshin.co.jp/solution/application/,revenue_share_unknown,,A,finalized
+8,6824,6824.T,宇宙開発関連,防衛・国土強靱化,,92.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=宇宙開発/ロケット; count=4; pos=0.04,https://www.new-cosmos.co.jp | https://www.new-cosmos.co.jp/industrial/ | https://www.new-cosmos.co.jp/industrial/download/,revenue_share_unknown,,A,finalized
+3,3843,フリービット,SaaS,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://freebit.com,,,C,finalized
+9,7731,ニコン,ロボット,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nikon.com,revenue_share_unknown,,C,finalized
+5,5034,ウネリー,デジタルトランスフォーメーション,デジタル・サービス,,83.0,主力テーマ,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=DX; count=1; pos=0.05,https://www.unerry.co.jp | https://www.unerry.co.jp/company/ | https://www.unerry.co.jp/company,revenue_share_unknown,,B,finalized
+2,3113,3113.T,キャッシュレス決済,金融・金利,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://univahld.com | https://univahld.com/company/ | https://univahld.com/business/,,,C,finalized
+5,5258,5258.T,サブスクリプション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.tm-nets.com | https://www.tm-nets.com/company/aboutus/ | https://www.tm-nets.com/company/overview/,revenue_share_unknown,,C,finalized
+6,6023,6023.T,脱炭素,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.d-infi.com,revenue_share_unknown,,C,finalized
+5,4591,4591.T,バイオテクノロジー関連,医療・ヘルスケア,,95.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Biotechnology; direct=biotechnology/biotech; growth=develops/development,https://www.ribomic.com,revenue_share_unknown,,A,finalized
+3,3405,3405.T,防衛,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kuraray.com | https://www.kuraray.com/global-en/company/ | https://www.kuraray.com/global-en/sustainability/3p/psa/,,,C,finalized
+4,4443,Ｓａｎｓａｎ,SaaS,デジタル・サービス,,88.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Software - Application,https://www.corp-sansan.com | https://www.corp-sansan.com/service | https://www.corp-sansan.com/company,revenue_share_unknown,,A,finalized
+4,4047,関電化,水素,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kantodenka.co.jp | https://www.kantodenka.co.jp/product_new/ | https://www.kantodenka.co.jp/product/gas/,,,C,finalized
+9,8023,ＤＡＩＫＯＸ,サイバーセキュリティ,防衛・国土強靱化,,87.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=security software; position=0.49; growth=development; official=情報セキュリティ; count=4; pos=0.54,https://www.daiko-xtech.co.jp | https://www.daiko-xtech.co.jp/event/c/product-introduction/ | https://www.daiko-xtech.co.jp/company/detail/,revenue_share_unknown,,A,finalized
+1,1921,1921.T,不動産関連,不動産・建設,,51.0,補助関連,B,user_approved_structured_v6,ユーザー承認によりv6値を通過,https://s.kabutan.jp/themes/%E4%B8%8D%E5%8B%95%E7%94%A3%E9%96%A2%E9%80%A3/?market=all,,,B,finalized
+8,6955,6955.T,蓄電池,GX・エネルギー,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=battery,https://www.fdk.co.jp,revenue_share_unknown,,C,finalized
+2,3185,3185.T,eコマース,内需・消費,,83.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=e-commerce; position=0.55; official=EC; count=1; pos=0.19,https://www.dreamv.co.jp,,,B,finalized
+1,2349,エヌアイデイ,人工知能,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nid.co.jp,,,C,finalized
+4,4026,4026.T,宇宙開発関連,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.konoshima.co.jp,,,C,finalized
+7,6266,タツモ,半導体製造装置,AI・半導体,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Semiconductor Equipment & Materials; direct=semiconductor manufacturing equipment/semiconductor equipment; position=0.08; growth=development; official=半導体製造装置; count=8; pos=0.00,https://tazmo.co.jp | https://tazmo.co.jp/products | https://tazmo.co.jp/category/products-info/,revenue_share_unknown,,A,finalized
+2,2667,イメージワン,データセンター,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.imageone.co.jp | https://www.imageone.co.jp/company/ | https://www.imageone.co.jp/company/about/,,,C,finalized
+10,8783,ａｂｃ,インバウンド,内需・消費,,43.0,補助関連,C,chatgpt_discretion_macro_context,adjacent=restaurant; growth=develops/research,https://www.gfa.co.jp,macro_sensitivity_required,,C,finalized
+3,3683,サイバーリン,eコマース,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.cyber-l.co.jp | https://www.cyber-l.co.jp/service/ | https://www.cyber-l.co.jp/service/aspsystem/,,,C,finalized
+11,9433,ＫＤＤＩ,光ファイバー,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kddi.com,revenue_share_unknown,,C,finalized
+7,6578,6578.T,太陽光発電関連,GX・エネルギー,,54.0,補助関連,C,chatgpt_discretion_existing_context,direct=solar power; position=0.73,https://www.correc.co.jp | https://www.correc.co.jp/service/ | https://www.correc.co.jp/company/,revenue_share_unknown,,C,finalized
+8,7269,7269.T,空飛ぶクルマ,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.suzuki.co.jp,revenue_share_unknown,,C,finalized
+4,4381,ビープラッツ,サブスクリプション,デジタル・サービス,,95.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=subscription service/subscription business; position=0.04; official=サブスクリプション/月額; count=53; pos=0.00,https://www.bplats.co.jp | https://www.bplats.co.jp/corporate/bplatsprofile/ | https://www.bplats.co.jp/news/2026/03/ai-monetization/,revenue_share_unknown,,A,finalized
+1,173A,ハンモック,クラウドコンピューティング,デジタル・サービス,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,adjacent=cloud; growth=develops/development; official=クラウド/クラウドサービス; count=18; pos=0.02,https://www.hammock.jp | https://www.hammock.jp/products/ | https://www.hammock.jp/dxocr/,,,A,finalized
+3,3402,東レ,風力発電,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.toray.co.jp,,,C,finalized
+10,8202,8202.T,インバウンド,内需・消費,,48.0,補助関連,C,chatgpt_discretion_macro_context,adjacent=duty-free/restaurant; growth=develops; official=インバウンド/訪日外国人; count=3; pos=0.80,https://www.laox.co.jp | https://www.laox.co.jp/corporate/business01/ | https://www.laox.co.jp/corporate/business02/,macro_sensitivity_required,,C,finalized
+1,1959,クラフティア,防災,防衛・国土強靱化,,80.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=disaster prevention; position=0.40,https://www.kraftia.co.jp | https://www.kraftia.co.jp/company/ | https://www.kraftia.co.jp/company/about.html,,,B,finalized
+11,9254,ラバブルＭＧ,SaaS,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.lmg.co.jp | https://www.lmg.co.jp/about/outline/ | https://www.lmg.co.jp/business/,revenue_share_unknown,,C,finalized
+5,463A,463A.T,ホテル,内需・消費,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=hotel,https://www.intellex-hd.co.jp,revenue_share_unknown,,C,finalized
+8,6788,6788.T,再生医療,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nihon-trim.co.jp | https://www.nihon-trim.co.jp/company/ | https://www.nihon-trim.co.jp/company/outline/,revenue_share_unknown,,C,finalized
+8,7208,7208.T,自動車部材・部品,自動車・モビリティ,,83.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=auto parts; growth=development,https://kanemitsu.co.jp | https://kanemitsu.co.jp/products | https://kanemitsu.co.jp/company,revenue_share_unknown,,B,finalized
+7,6508,6508.T,下水道,防衛・国土強靱化,,63.0,有力関連,B,chatgpt_confirmed_official_context,direct=sewerage/sewage/wastewater; position=0.53,https://www.meidensha.com | https://www.meidensha.com/corporate/ | https://www.meidensha.com/corporate/corp_09/,revenue_share_unknown,,B,finalized
+3,3284,3284.T,不動産関連,不動産・建設,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=real estate; growth=development/investment,https://www.hoosiers.co.jp | https://www.hoosiers.co.jp/company/,,,C,finalized
+7,622A,,SaaS,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://s.kabutan.jp/themes/SaaS/?market=all,revenue_share_unknown,,C,finalized
+6,6111,,機械,設備投資・機械,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://s.kabutan.jp/themes/%E6%A9%9F%E6%A2%B0/?market=all,revenue_share_unknown,,C,finalized
+10,8967,,物流,物流・海運,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=logistics; growth=investment,https://8967.jp,revenue_share_unknown,,C,finalized
+10,8601,8601.T,ネット銀行,金融・金利,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=banking; growth=research/investment,https://www.daiwa-grp.jp,revenue_share_unknown,,C,finalized
+5,5133,5133.T,クラウドコンピューティング,デジタル・サービス,,66.0,有力関連,B,chatgpt_confirmed_official_context,direct=cloud service; position=0.60; growth=development,https://www.terilogy-hd.com | https://www.terilogy-hd.com/company/index.html | https://www.terilogy-hd.com/company/profile/index.html,revenue_share_unknown,,B,finalized
+11,9508,九州電,送電,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kyuden.co.jp,revenue_share_unknown,,C,finalized
+3,3565,アセンテック,人工知能,AI・半導体,,83.0,主力テーマ,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=AI; count=2; pos=0.13,https://www.ascentech.co.jp,,,B,finalized
+5,4662,フォーカス,IT関連,デジタル・サービス,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Information Technology Services; direct=information technology/it services; position=0.02; growth=development/investment; official=IT; count=18; pos=0.05,https://www.focus-s.com | https://www.focus-s.com/company | https://www.focus-s.com/company/profile,revenue_share_unknown,,A,finalized
+7,6482,6482.T,FA関連,設備投資・機械,,93.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=factory automation; position=0.16; growth=development,https://www.yushincompany.jp,revenue_share_unknown,,A,finalized
+3,3907,シリコンスタ,IT関連,デジタル・サービス,,71.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=IT; count=6; pos=0.09,https://www.siliconstudio.co.jp | https://www.siliconstudio.co.jp/products-service/ | https://www.siliconstudio.co.jp/corporate/,,,B,finalized
+10,8802,菱地所,物流,物流・海運,,57.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=logistics; growth=develops/investment; official=物流; count=3; pos=0.06,https://www.mec.co.jp,revenue_share_unknown,,C,finalized
+5,5036,5036.T,IT関連,デジタル・サービス,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Software - Infrastructure; adjacent=software/cloud service; growth=develops; official=IT; count=44; pos=0.02,https://www.jbs.co.jp | https://www.jbs.co.jp/solution/category/globalbusiness | https://www.jbs.co.jp/corp,revenue_share_unknown,,A,finalized
+3,3837,3837.T,サイバーセキュリティ,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://adniss.jp,,,C,finalized
+8,7359,7359.T,IT関連,デジタル・サービス,,71.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=IT; count=5; pos=0.26,https://tokyo-tsushin.com | https://tokyo-tsushin.com/company/ | https://tokyo-tsushin.com/business/,revenue_share_unknown,,B,finalized
+11,9501,東電ＨＤ,風力発電,GX・エネルギー,,93.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=wind power; position=0.19; growth=development/investment,https://www.tepco.co.jp,revenue_share_unknown,,A,finalized
+8,6762,ＴＤＫ,全固体電池,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.tdk.com/en/index.html,revenue_share_unknown,,C,finalized
+1,1795,1795.T,建設,不動産・建設,,88.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Engineering & Construction; adjacent=construction,https://www.masaru-co.jp,,,A,finalized
+9,7804,7804.T,ゲーム関連,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.bandp.co.jp | https://www.bandp.co.jp/ar/ | https://www.bandp.co.jp/company/,revenue_share_unknown,,C,finalized
+7,6590,芝浦,半導体,AI・半導体,,96.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Semiconductor Equipment & Materials; direct=semiconductor; position=0.07; growth=developing; official=半導体; count=8; pos=0.03,https://www.shibaura.co.jp | https://www.shibaura.co.jp/company/ | https://www.shibaura.co.jp/company/info.html,revenue_share_unknown,,A,finalized
+9,7795,7795.T,物流,物流・海運,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kyoritsu-hd.co.jp,revenue_share_unknown,,C,finalized
+5,4563,4563.T,バイオテクノロジー関連,医療・ヘルスケア,,96.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Biotechnology; direct=biotechnology/biotech; growth=develops/development,https://www.anges.co.jp,revenue_share_unknown,,A,finalized
+1,1951,エクシオＧ,防災,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.exeo.co.jp,,,C,finalized
+3,3908,コラボス,人工知能,AI・半導体,,74.0,有力関連,B,chatgpt_confirmed_official_context,direct= ai ; position=0.78; growth=develops; official=AI; count=2; pos=0.43,https://www.collabos.com,,,B,finalized
+4,4440,ヴィッツ,MaaS,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.witz-inc.co.jp | https://www.witz-inc.co.jp/company/overview | https://www.witz-inc.co.jp/business,revenue_share_unknown,,C,finalized
+7,6376,6376.T,アンモニア,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nikkiso.co.jp,revenue_share_unknown,,C,finalized
+4,4078,4078.T,医薬品関連,医療・ヘルスケア,,54.0,補助関連,C,chatgpt_discretion_existing_context,direct=pharmaceutical/pharma; position=0.73,https://www.sakai-chem.co.jp,,,C,finalized
+9,7599,7599.T,サブスクリプション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.idom-inc.com | https://idom-inc.com/ir/company/biz_development/ | https://idom-inc.com/recruit/after-sales-service/,revenue_share_unknown,,C,finalized
+3,3848,3848.T,SaaS,デジタル・サービス,,92.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Software - Application; official=SaaS; count=4; pos=0.02,https://www.dal.co.jp | https://www.dal.co.jp/products/ | https://www.dal.co.jp/products/support/css.html,,,A,finalized
+6,5541,大平金,鉄鋼,資源・素材,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=steel,https://www.pacific-metals.co.jp,revenue_share_unknown,,C,finalized
+10,8835,8835.T,不動産関連,不動産・建設,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=real estate,https://www.taiheiyo.net,revenue_share_unknown,,C,finalized
+11,9412,9412.T,宇宙開発関連,防衛・国土強靱化,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=space business/satellite; position=0.03; growth=investment,https://www.skyperfectjsat.space | https://www.skyperfectjsat.space/jp/news/20260805_4,revenue_share_unknown,,A,finalized
+11,9723,9723.T,インバウンド,内需・消費,,42.0,補助関連,C,chatgpt_discretion_macro_context,adjacent=hotel/restaurant,https://www.kyotohotel.co.jp | https://www.kyotohotel.co.jp/member/,macro_sensitivity_required,,C,finalized
+11,9331,9331.T,生成AI,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://caster.co.jp | https://caster.co.jp/about | https://caster.co.jp/service,revenue_share_unknown,,C,finalized
+8,7357,7357.T,クラウドコンピューティング,デジタル・サービス,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,adjacent=cloud; growth=develops/development; official=クラウド; count=12; pos=0.13,https://www.geo-code.co.jp | https://www.geo-code.co.jp/company/info/ | https://www.geo-code.co.jp/organic-marketing/,revenue_share_unknown,,A,finalized
+2,3123,3123.T,不動産関連,不動産・建設,,71.0,有力関連,B,chatgpt_confirmed_official_context,adjacent=real estate; official=不動産; count=11; pos=0.01,https://www.saibo.co.jp,,,B,finalized
+11,9713,9713.T,宅配,物流・海運,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.rihga.co.jp | https://www.rihga.co.jp/members/rihga-members,revenue_share_unknown,,C,finalized
+11,9837,9837.T,自動車部材・部品,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.morito.co.jp,revenue_share_unknown,,C,finalized
+7,6481,ＴＨＫ,設備投資,設備投資・機械,,54.0,補助関連,C,chatgpt_discretion_existing_context,direct=industrial machinery; position=0.69,https://www.thk.com,revenue_share_unknown,,C,finalized
+1,231A,,建設,不動産・建設,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://s.kabutan.jp/themes/%E5%BB%BA%E8%A8%AD/?market=all,,,C,finalized
+11,9433,ＫＤＤＩ,MaaS,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kddi.com,revenue_share_unknown,,C,finalized
+6,5843,5843.T,不動産関連,不動産・建設,,57.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=real estate; official=不動産; count=2; pos=0.17,https://www.nipponinsure.jp | https://www.nipponinsure.jp/business/others/ | https://www.nipponinsure.jp/payment/,revenue_share_unknown,,C,finalized
+8,7203,トヨタ,フィジカルAI,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://global.toyota,revenue_share_unknown,,C,finalized
+8,6779,日電波,データセンター,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.ndk.com | https://www.ndk.com/products/,revenue_share_unknown,,C,finalized
+8,6994,指月電,電力設備投資関連,データセンター・電力,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=electrical equipment,https://www.shizuki.co.jp | https://www.shizuki.co.jp/products/ | https://www.shizuki.co.jp/information/,revenue_share_unknown,,C,finalized
+8,6836,6836.T,サブスクリプション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.plathome.co.jp | https://www.plathome.co.jp/product/ | https://www.plathome.co.jp/support/,revenue_share_unknown,,C,finalized
+2,3204,トーア紡,自動車部材・部品,自動車・モビリティ,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=automotive; growth=development,https://www.toabo.co.jp | https://www.toabo.co.jp/corporate/ | https://www.toabo.co.jp/service/,,,C,finalized
+3,341A,341A.T,国土強靱化,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.toyokoh.com | https://www.toyokoh.com/about/ | https://www.toyokoh.com/news/20260820-2/,,,C,finalized
+11,9709,ＮＣＳ＆Ａ,SaaS,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://ncsa.jp | https://ncsa.jp/it-services | https://ncsa.jp/it-services/service,revenue_share_unknown,,C,finalized
+3,3382,セブン＆アイ,eコマース,内需・消費,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=internet shopping; growth=development,https://www.7andi.com,,,C,finalized
+5,5202,5202.T,サーバー冷却,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nsg.com | https://www.nsg.com/en/media/ir-updates/announcements-2025/cdp-climate-change-a-list-company | https://www.nsg.com/Investors/Contact/IR News Alert Service,revenue_share_unknown,,C,finalized
+1,1925,大和ハウス,防災,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.daiwahouse.co.jp,,,C,finalized
+8,7202,7202.T,水素,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.isuzu.co.jp,revenue_share_unknown,,C,finalized
+9,7752,7752.T,全固体電池,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.ricoh.com | https://www.ricoh.com/about | https://www.ricoh.com/about/facts,revenue_share_unknown,,C,finalized
+9,8002,丸紅,空飛ぶクルマ,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.marubeni.com,revenue_share_unknown,,C,finalized
+1,2349,エヌアイデイ,クラウドコンピューティング,デジタル・サービス,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=cloud; growth=development,https://www.nid.co.jp,,,C,finalized
+8,6988,日東電,自動運転車,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nitto.com/jp/en,revenue_share_unknown,,C,finalized
+10,9008,9008.T,不動産関連,不動産・建設,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=real estate,https://www.keio.co.jp,revenue_share_unknown,,C,finalized
+9,7643,7643.T,生活防衛,内需・消費,,38.0,ノイズ候補,C,chatgpt_discretion_macro_context,adjacent=supermarket,https://www.daiichi-d.co.jp | https://www.daiichi-d.co.jp/post_event/post_event-21825 | https://www.daiichi-d.co.jp/post_event/post_event-21830,macro_sensitivity_required,,C,finalized
+4,4216,旭有機材,半導体製造装置,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.asahi-yukizai.co.jp,revenue_share_unknown,,C,finalized
+7,6229,6229.T,アンモニア,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://okm-net.jp/index.php,revenue_share_unknown,,C,finalized
+9,7793,7793.T,デジタルトランスフォーメーション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://imagemagic.jp,revenue_share_unknown,,C,finalized
+3,3878,巴川コーポ,半導体製造装置,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.tomoegawa.co.jp,,,C,finalized
+9,8052,8052.T,機械,設備投資・機械,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=equipment/machine,https://www.tsubaki.co.jp,revenue_share_unknown,,C,finalized
+9,7859,7859.T,円安メリット,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_macro_context,事業概要に直接根拠を確認できず,https://www.almedio.co.jp | https://www.almedio.co.jp/cp/ | https://www.almedio.co.jp/cp/profile/,macro_sensitivity_required,,C,finalized
+6,5491,5491.T,鉄鋼,資源・素材,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=steel,https://www.nipponkinzoku.co.jp | https://www.nipponkinzoku.co.jp/corporate | https://www.nipponkinzoku.co.jp/corporate/company-profile,revenue_share_unknown,,C,finalized
+6,5979,,耐震化,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://s.kabutan.jp/themes/%E8%80%90%E9%9C%87%E5%8C%96/?market=all,revenue_share_unknown,,C,finalized
+6,5597,5597.T,サブスクリプション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.blue-i.co.jp,revenue_share_unknown,,C,finalized
+10,8804,東建物,データセンター,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.tatemono.com,revenue_share_unknown,,C,finalized
+1,1812,1812.T,ロボット,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kajima.co.jp,,,C,finalized
+2,3088,3088.T,小売り,内需・消費,,45.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=retail/stores; growth=development,https://www.matsukiyococokara.com,,,C,finalized
+6,5955,ワイズＨＤ,レアメタル,資源・素材,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kk-yamashina.co.jp | https://www.kk-yamashina.co.jp/product/index.html | https://www.kk-yamashina.co.jp/test-service/index.html,revenue_share_unknown,,C,finalized
+8,6899,6899.T,自動車部材・部品,自動車・モビリティ,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=automotive/vehicle,https://www.asti.co.jp,revenue_share_unknown,,C,finalized
+8,7189,西日本ＦＨ,eコマース,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nnfh.co.jp,revenue_share_unknown,,C,finalized
+7,6459,6459.T,外食,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.drk.co.jp,revenue_share_unknown,,C,finalized
+7,6757,6757.T,宅配,物流・海運,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.osg-nandemonet.co.jp,revenue_share_unknown,,C,finalized
+7,6282,6282.T,耐震化,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.oiles.co.jp,revenue_share_unknown,,C,finalized
+1,2436,共同ＰＲ,デジタルトランスフォーメーション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kyodo-pr.co.jp | https://www.kyodo-pr.co.jp/services/ | https://www.kyodo-pr.co.jp/about/,,,C,finalized
+11,9536,9536.T,不動産関連,不動産・建設,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=real estate; growth=development/investment,https://www.saibugas.co.jp,revenue_share_unknown,,C,finalized
+1,1942,関電工,データセンター,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kandenko.co.jp,,,C,finalized
+8,6862,ミナトＨＤ,デジタルトランスフォーメーション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.minato.co.jp | https://www.minato.co.jp/corporate/ | https://www.minato.co.jp/corporate/outline/,revenue_share_unknown,,C,finalized
+10,9023,9023.T,不動産関連,不動産・建設,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.tokyometro.jp/index.html,revenue_share_unknown,,C,finalized
+10,8242,8242.T,宅配,物流・海運,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=delivery service,https://www.h2o-retailing.co.jp | https://www.h2o-retailing.co.jp/ja/company.html,revenue_share_unknown,,C,finalized
+3,3726,3726.T,小売り,内需・消費,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=retail/stores,https://www.4cs-holdings.co.jp | https://www.4cs-holdings.co.jp/company | https://www.4cs-holdings.co.jp/company/about,,,C,finalized
+6,590A,590A.T,IT関連,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://giftee.co.jp | https://giftee.co.jp/company/ | https://giftee.co.jp/business/,revenue_share_unknown,,C,finalized
+6,5821,平河ヒューテ,自動車部材・部品,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.hewtech.co.jp | https://www.hewtech.co.jp/products/cable.html | https://www.hewtech.co.jp/device/,revenue_share_unknown,,C,finalized
+3,3697,3697.T,ゲーム関連,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.shiftinc.jp,,,C,finalized
+1,2359,2359.T,マイナンバー,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.core.co.jp | https://www.core.co.jp/service | https://www.core.co.jp/service/future,,,C,finalized
+7,6268,ナブテスコ,サービスロボット,設備投資・機械,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=robot,https://www.nabtesco.com | https://www.nabtesco.com/about/company/ | https://www.nabtesco.com/about/company/overview/,revenue_share_unknown,,C,finalized
+10,8585,8585.T,フィンテック,金融・金利,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.orico.co.jp,revenue_share_unknown,,C,finalized
+7,6469,6469.T,防衛,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.hsk.co.jp | https://www.hsk.co.jp/ja/company.html | https://www.hsk.co.jp/ja/introduction.html,revenue_share_unknown,,C,finalized
+6,5619,5619.T,デジタルトランスフォーメーション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.mrso.co.jp,revenue_share_unknown,,C,finalized
+11,9505,北陸電,再生可能エネルギー,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.rikuden.co.jp | https://www.rikuden.co.jp/electricity_service/ | https://www.rikuden.co.jp/business_areas/index.html,revenue_share_unknown,,C,finalized
+7,6482,6482.T,サービスロボット,設備投資・機械,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=robot; growth=development,https://www.yushincompany.jp,revenue_share_unknown,,C,finalized
+3,3626,ＴＩＳＩ,生成AI,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.tisi.jp,,,C,finalized
+9,7911,ＴＯＰＰＡＮ,マイナンバー,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.holdings.toppan.com,revenue_share_unknown,,C,finalized
+4,4293,セプテニＨＤ,IT関連,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.septeni-holdings.co.jp,revenue_share_unknown,,C,finalized
+7,6301,6301.T,蓄電池,GX・エネルギー,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=battery; growth=development,https://www.komatsu.jp | https://www.komatsu.jp/ja/aboutus/profile | https://www.komatsu.jp/ja/industries-we-support,revenue_share_unknown,,C,finalized
+7,6588,6588.T,キャッシュレス決済,金融・金利,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.toshibatec.co.jp | https://www.toshibatec.co.jp/product/ | https://www.toshibatec.co.jp/product/dataservice/,revenue_share_unknown,,C,finalized
+3,3690,イルグルム,サブスクリプション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://yrglm.co.jp | https://yrglm.co.jp/release/11626/,,,C,finalized
+2,3099,3099.T,インバウンド,内需・消費,,42.0,補助関連,C,chatgpt_discretion_macro_context,adjacent=restaurant; growth=development/investment,https://www.imhds.co.jp | https://www.imhds.co.jp/content/imhds/corporate/company/ | https://www.imhds.co.jp/content/imhds/corporate/business/,macro_sensitivity_required,,C,finalized
+6,5817,ＪＭＡＣＳ,送電,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.jmacs-j.co.jp | https://www.jmacs-j.co.jp/company/ | https://www.jmacs-j.co.jp/product/cable/,revenue_share_unknown,,C,finalized
+1,2134,北浜ＣＰ,不動産関連,不動産・建設,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://kitahamabank.co.jp | https://kitahamabank.co.jp/category/movie/,,,C,finalized
+5,5020,ＥＮＥＯＳ,電気自動車関連,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.hd.eneos.co.jp,revenue_share_unknown,,C,finalized
+9,8053,住友商,水素,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.sumitomocorp.com | https://www.sumitomocorp.com/en/global/business | https://www.sumitomocorp.com/en/global/business/division-summary/,revenue_share_unknown,,C,finalized
+7,6740,6740.T,自動車部材・部品,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.j-display.com,revenue_share_unknown,,C,finalized
+11,9368,9368.T,物流,物流・海運,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=logistics; growth=development,https://www.kimura-unity.co.jp,revenue_share_unknown,,C,finalized
+11,9509,北海電,風力発電,GX・エネルギー,,57.0,補助関連,C,chatgpt_discretion_existing_context,direct=wind power; position=0.93; growth=development,https://www.hepco.co.jp,revenue_share_unknown,,C,finalized
+5,5241,,航空,物流・海運,,0.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業会社ではないため事業関連度の対象外,https://s.kabutan.jp/themes/%E8%88%AA%E7%A9%BA/?market=all,non_operating_security,,C,finalized
+9,8001,伊藤忠,水素,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.itochu.co.jp,revenue_share_unknown,,C,finalized
+5,4814,ネクスウェア,ドローン,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nextware.co.jp | https://www.nextware.co.jp/corporate/ | https://www.nextware.co.jp/corporate/outline/,revenue_share_unknown,,C,finalized
+10,9159,9159.T,サブスクリプション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://w-tokyo.co.jp | https://w-tokyo.co.jp/about | https://w-tokyo.co.jp/service,revenue_share_unknown,,C,finalized
+7,6473,6473.T,スマートグリッド,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.jtekt.co.jp | https://www.jtekt.co.jp/products/ | https://www.jtekt.co.jp/products/automotive/,revenue_share_unknown,,C,finalized
+8,6845,6845.T,サーバー冷却,データセンター・電力,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=air conditioning; growth=development,https://www.azbil.com,revenue_share_unknown,,C,finalized
+7,6584,三桜工,サーバー冷却,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.sanoh.com,revenue_share_unknown,,C,finalized
+4,4018,,デジタルトランスフォーメーション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://s.kabutan.jp/themes/%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/?market=all,,,C,finalized
+11,9969,9969.T,介護関連,医療・ヘルスケア,,57.0,補助関連,C,chatgpt_discretion_existing_context,direct=elderly care; position=0.72; growth=development,https://www.shokubun.co.jp,revenue_share_unknown,,C,finalized
+4,4478,4478.T,サブスクリプション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://corp.freee.co.jp,revenue_share_unknown,,C,finalized
+11,9248,9248.T,国土強靱化,防衛・国土強靱化,,46.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=civil engineering/bridge; growth=development/research,https://www.pdt-g.co.jp,revenue_share_unknown,,C,finalized
+7,6597,ＨＰＣシス,サーバー冷却,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.hpc.co.jp | https://www.hpc.co.jp/company/ | https://www.hpc.co.jp/product/hardware_list/gpgpu/,revenue_share_unknown,,C,finalized
+7,6724,エプソン,3Dプリンター,設備投資・機械,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.epson.jp,revenue_share_unknown,,C,finalized
+4,4410,ハリマ化成Ｇ,半導体部材・部品,AI・半導体,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=semiconductor/electronic material,https://www.harima.co.jp,revenue_share_unknown,,C,finalized
+7,6594,ニデック,自動運転車,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nidec.com,revenue_share_unknown,,C,finalized
+5,4685,菱友システム,SaaS,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.ryoyu.co.jp,revenue_share_unknown,,C,finalized
+7,6503,三菱電,電子政府,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.mitsubishielectric.com | https://www.mitsubishielectric.com/en/about/ | https://www.mitsubishielectric.com/en/sustainability/social-challenges/,revenue_share_unknown,,C,finalized
+7,6653,正興電,スマートグリッド,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.seiko-denki.co.jp | https://www.seiko-denki.co.jp/company/ | https://www.seiko-denki.co.jp/company/about/,revenue_share_unknown,,C,finalized
+8,6997,6997.T,自動車部材・部品,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.chemi-con.co.jp | https://www.chemi-con.co.jp/products/list-condenser.php | https://www.chemi-con.co.jp/faq/,revenue_share_unknown,,C,finalized
+7,6656,インスペック,医療機器,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.inspec21.com | https://www.inspec21.com/contact/products/,revenue_share_unknown,,C,finalized
+11,9532,大ガス,生成AI,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.osakagas.co.jp,revenue_share_unknown,,C,finalized
+5,4826,ＣＩＪ,フィジカルAI,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.cij.co.jp | https://www.cij.co.jp/pro-sol/ | https://www.cij.co.jp/company/,revenue_share_unknown,,C,finalized
+1,1431,リブワーク,サブスクリプション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.libwork.co.jp | https://www.libwork.co.jp/company/ | https://www.libwork.co.jp/profile/,,,C,finalized
+7,6289,6289.T,耐震化,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.giken.com/ja/,revenue_share_unknown,,C,finalized
+2,3106,クラボウ,バイオテクノロジー関連,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kurabo.co.jp | https://www.kurabo.co.jp/news/company/ | https://www.kurabo.co.jp/news/products/,,,C,finalized
+7,6265,コンバム,半導体製造装置,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.convum.co.jp,revenue_share_unknown,,C,finalized

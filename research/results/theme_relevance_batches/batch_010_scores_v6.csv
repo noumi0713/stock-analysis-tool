@@ -1,0 +1,935 @@
+﻿batch,stock_code,long_name,theme_name,cluster,revenue_share_pct,revenue_exposure_score,directness_score,growth_relevance_score,relevance_score,band,confidence,review_flag,score_source,segment_names,share_basis,source_url,evidence
+10,8117,Central Automotive Products Ltd.,自動車部材・部品,自動車・モビリティ,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8119,Sanyei Corporation,防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8125,"Wakita & Co.,LTD.",不動産関連,不動産・建設,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8125,"Wakita & Co.,LTD.",介護関連,医療・ヘルスケア,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8125,"Wakita & Co.,LTD.",建設機械,設備投資・機械,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8129,"Toho Holdings Co., Ltd.",医薬品関連,医療・ヘルスケア,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8131,"Mitsuuroko Group Holdings Co.,Ltd.",マンション関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8131,"Mitsuuroko Group Holdings Co.,Ltd.",再生可能エネルギー,GX・エネルギー,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8131,"Mitsuuroko Group Holdings Co.,Ltd.",太陽光発電関連,GX・エネルギー,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8131,"Mitsuuroko Group Holdings Co.,Ltd.",風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8132,"Sinanen Holdings Co., Ltd.",再生可能エネルギー,GX・エネルギー,,,82.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8132,"Sinanen Holdings Co., Ltd.",太陽光発電関連,GX・エネルギー,,,82.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8133,"Itochu Enex Co.,Ltd.",アンモニア,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8133,"Itochu Enex Co.,Ltd.",太陽光発電関連,GX・エネルギー,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8133,"Itochu Enex Co.,Ltd.",電力会社,データセンター・電力,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8133,"Itochu Enex Co.,Ltd.",風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8136,"Sanrio Company, Ltd.",インバウンド,内需・消費,,,42.0,40.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8136,"Sanrio Company, Ltd.",サービスロボット,設備投資・機械,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8137,Sun-Wa Technos Corporation,FA関連,設備投資・機械,,,82.0,74.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8137,Sun-Wa Technos Corporation,ロボット,AI・半導体,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8138,Sankyo Kasei Corporation,半導体部材・部品,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8138,Sankyo Kasei Corporation,自動車部材・部品,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8141,"Shinko Shoji Co., Ltd.",半導体,AI・半導体,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8141,"Shinko Shoji Co., Ltd.",半導体商社,AI・半導体,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8141,"Shinko Shoji Co., Ltd.",自動車部材・部品,自動車・モビリティ,,,46.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8142,"Toho Co., Ltd.",外食,内需・消費,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8143,"Lapine Co., Ltd.",小売り,内需・消費,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8145,,倉庫,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8147,"Tomita Co., Ltd.",FA関連,設備投資・機械,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8147,"Tomita Co., Ltd.",ロボット,AI・半導体,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8147,"Tomita Co., Ltd.",工作機械,設備投資・機械,,,100.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8150,"Sanshin Electronics Co., Ltd.",半導体,AI・半導体,,,100.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8150,"Sanshin Electronics Co., Ltd.",半導体商社,AI・半導体,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8151,TOYO Corporation,サイバーセキュリティ,防衛・国土強靱化,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8151,TOYO Corporation,ロボット,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8151,TOYO Corporation,水素,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8151,TOYO Corporation,自動車製造装置,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8151,TOYO Corporation,自動運転車,自動車・モビリティ,,,58.0,60.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8151,TOYO Corporation,量子コンピューター,AI・半導体,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8151,TOYO Corporation,防衛,防衛・国土強靱化,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8151,TOYO Corporation,電気自動車関連,自動車・モビリティ,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8152,SOMAR Corporation,自動車部材・部品,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8152,SOMAR Corporation,電気自動車関連,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8152,SOMAR Corporation,食品,内需・消費,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8153,"Mos Food Services, Inc.",外食,内需・消費,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8153,"Mos Food Services, Inc.",宅配,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8154,"Kaga Electronics Co.,Ltd.",半導体,AI・半導体,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8154,"Kaga Electronics Co.,Ltd.",半導体商社,AI・半導体,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8154,"Kaga Electronics Co.,Ltd.",自動車部材・部品,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8157,"Tsuzuki Denki Co., Ltd.",IT関連,デジタル・サービス,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8157,"Tsuzuki Denki Co., Ltd.",IoT,設備投資・機械,,,87.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8157,"Tsuzuki Denki Co., Ltd.",SaaS,デジタル・サービス,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8157,"Tsuzuki Denki Co., Ltd.",エッジコンピューティング,AI・半導体,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8157,"Tsuzuki Denki Co., Ltd.",クラウドコンピューティング,デジタル・サービス,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8157,"Tsuzuki Denki Co., Ltd.",サイバーセキュリティ,防衛・国土強靱化,,,85.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8157,"Tsuzuki Denki Co., Ltd.",デジタルトランスフォーメーション,デジタル・サービス,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8157,"Tsuzuki Denki Co., Ltd.",人工知能,AI・半導体,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8157,"Tsuzuki Denki Co., Ltd.",生成AI,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8159,"Tachibana Eletech Co., Ltd.",FA関連,設備投資・機械,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8159,"Tachibana Eletech Co., Ltd.",ロボット,AI・半導体,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8159,"Tachibana Eletech Co., Ltd.",半導体,AI・半導体,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8159,"Tachibana Eletech Co., Ltd.",半導体商社,AI・半導体,,,46.0,34.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8159,"Tachibana Eletech Co., Ltd.",受変電設備,データセンター・電力,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8159,"Tachibana Eletech Co., Ltd.",機械,設備投資・機械,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8160,"Kisoji Co., Ltd.",外食,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8163,"SRS Holdings Co.,Ltd.",外食,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8167,"Retail Partners Co., Ltd.",生活防衛,内需・消費,,,42.0,30.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8173,Joshin Corporation,インバウンド,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8173,Joshin Corporation,小売り,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8173,Joshin Corporation,生活防衛,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8179,"ROYAL HOLDINGS Co., Ltd.",ホテル,内需・消費,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8179,"ROYAL HOLDINGS Co., Ltd.",外食,内需・消費,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8181,"Totenko Co., Ltd.",外食,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8185,"Chiyoda Co., Ltd.",eコマース,内需・消費,,,85.0,91.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8185,"Chiyoda Co., Ltd.",小売り,内需・消費,,,66.0,66.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8190,,宅配,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8190,,食品,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8194,Life Corporation,宅配,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8194,Life Corporation,小売り,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8198,"Maxvalu Tokai Co.,Ltd.",小売り,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8200,"Ringer Hut Co.,Ltd.",外食,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8200,"Ringer Hut Co.,Ltd.",宅配,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8202,"Laox Holdings CO.,LTD.",eコマース,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8202,"Laox Holdings CO.,LTD.",インバウンド,内需・消費,,,48.0,48.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8202,"Laox Holdings CO.,LTD.",小売り,内需・消費,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8202,"Laox Holdings CO.,LTD.",食品,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8203,Mr Max Holdings Ltd.,小売り,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8203,Mr Max Holdings Ltd.,物流,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8203,Mr Max Holdings Ltd.,生活防衛,内需・消費,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8203,Mr Max Holdings Ltd.,食品,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8207,"Ten Allied Co.,Ltd.",外食,内需・消費,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8214,AOKI Holdings Inc.,小売り,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8217,"Okuwa Co., Ltd.",生活防衛,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8218,"Komeri Co.,Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8218,"Komeri Co.,Ltd.",小売り,内需・消費,,,46.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8219,"Aoyama Trading Co., Ltd.",外食,内需・消費,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8225,"Takachiho Co.,Ltd.",インバウンド,内需・消費,,,46.0,34.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8225,"Takachiho Co.,Ltd.",外食,内需・消費,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8225,"Takachiho Co.,Ltd.",小売り,内需・消費,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8225,"Takachiho Co.,Ltd.",旅行,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8226,Rikei Corporation,3Dプリンター,設備投資・機械,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8226,Rikei Corporation,IT関連,デジタル・サービス,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8226,Rikei Corporation,ドローン,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8226,Rikei Corporation,光ファイバー,データセンター・電力,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8226,Rikei Corporation,半導体商社,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8226,Rikei Corporation,防災,防衛・国土強靱化,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8226,Rikei Corporation,防衛,防衛・国土強靱化,,,85.0,91.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8233,"Takashimaya Company, Limited",インバウンド,内需・消費,,,42.0,40.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8233,"Takashimaya Company, Limited",小売り,内需・消費,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8237,"Matsuya Co., Ltd.",インバウンド,内需・消費,,,42.0,30.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8237,"Matsuya Co., Ltd.",小売り,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8242,H2O Retailing Corporation,インバウンド,内需・消費,,,42.0,30.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8242,H2O Retailing Corporation,宅配,物流・海運,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8242,H2O Retailing Corporation,小売り,内需・消費,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8244,"Kintetsu Department Store Co., Ltd.",インバウンド,内需・消費,,,42.0,30.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8244,"Kintetsu Department Store Co., Ltd.",小売り,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8247,"Daiwa Co.,Ltd.",インバウンド,内需・消費,,,42.0,30.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8247,"Daiwa Co.,Ltd.",ホテル,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8247,"Daiwa Co.,Ltd.",小売り,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8252,"Marui Group Co., Ltd.",インバウンド,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8252,"Marui Group Co., Ltd.",キャッシュレス決済,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8252,"Marui Group Co., Ltd.",フィンテック,金融・金利,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8252,"Marui Group Co., Ltd.",小売り,内需・消費,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8253,"Credit Saison Co., Ltd.",キャッシュレス決済,金融・金利,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8253,"Credit Saison Co., Ltd.",フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8260,"Izutsuya Co., Ltd.",インバウンド,内需・消費,,,42.0,30.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8267,"Aeon Co., Ltd.",キャッシュレス決済,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8267,"Aeon Co., Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8267,"Aeon Co., Ltd.",小売り,内需・消費,,,100.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8267,"Aeon Co., Ltd.",生活防衛,内需・消費,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8273,"Izumi Co., Ltd.",外食,内需・消費,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8273,"Izumi Co., Ltd.",小売り,内需・消費,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8275,Forval Corporation,マイナンバー,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8275,Forval Corporation,太陽光発電関連,GX・エネルギー,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8276,"Heiwado Co.,Ltd.",外食,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8276,"Heiwado Co.,Ltd.",小売り,内需・消費,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8278,"Fuji Co., Ltd.",外食,内需・消費,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8278,"Fuji Co., Ltd.",小売り,内需・消費,,,100.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8281,"Xebio Holdings Co., Ltd.",生活防衛,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8282,K's Holdings Corporation,インバウンド,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8282,K's Holdings Corporation,小売り,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8282,K's Holdings Corporation,生活防衛,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8285,"Mitani Sangyo Co., Ltd.",データセンター,データセンター・電力,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8285,"Mitani Sangyo Co., Ltd.",教育ICT,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8285,"Mitani Sangyo Co., Ltd.",自動車部材・部品,自動車・モビリティ,,,82.0,74.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8291,"Nissan Tokyo Sales Holdings Co., Ltd.",リース,金融・金利,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8303,"SBI Shinsei Bank, Limited",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8303,"SBI Shinsei Bank, Limited",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8304,"Aozora Bank, Ltd.",ネット銀行,金融・金利,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8304,"Aozora Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8306,"Mitsubishi UFJ Financial Group, Inc.",キャッシュレス決済,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8306,"Mitsubishi UFJ Financial Group, Inc.",フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8306,"Mitsubishi UFJ Financial Group, Inc.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8306,"Mitsubishi UFJ Financial Group, Inc.",証券,金融・金利,,,86.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8306,"Mitsubishi UFJ Financial Group, Inc.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8306,"Mitsubishi UFJ Financial Group, Inc.",銀行,金融・金利,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8308,"Resona Holdings, Inc.",キャッシュレス決済,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8308,"Resona Holdings, Inc.",フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8308,"Resona Holdings, Inc.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8308,"Resona Holdings, Inc.",金利上昇メリット,金融・金利,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8308,"Resona Holdings, Inc.",銀行,金融・金利,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8309,"Sumitomo Mitsui Trust Group, Inc.",ネット銀行,金融・金利,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8309,"Sumitomo Mitsui Trust Group, Inc.",不動産ファンド,不動産・建設,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8309,"Sumitomo Mitsui Trust Group, Inc.",金利上昇メリット,金融・金利,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8309,"Sumitomo Mitsui Trust Group, Inc.",銀行,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8316,"Sumitomo Mitsui Financial Group, Inc.",キャッシュレス決済,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8316,"Sumitomo Mitsui Financial Group, Inc.",ネット銀行,金融・金利,,,42.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8316,"Sumitomo Mitsui Financial Group, Inc.",フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8316,"Sumitomo Mitsui Financial Group, Inc.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8316,"Sumitomo Mitsui Financial Group, Inc.",証券,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8316,"Sumitomo Mitsui Financial Group, Inc.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8316,"Sumitomo Mitsui Financial Group, Inc.",銀行,金融・金利,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8331,"The Chiba Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8331,"The Chiba Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8331,"The Chiba Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8334,"The Gunma Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8334,"The Gunma Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8334,"The Gunma Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8336,"The Musashino Bank, Ltd.",地方銀行,金融・金利,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8336,"The Musashino Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8336,"The Musashino Bank, Ltd.",銀行,金融・金利,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8337,"The Chiba Kogyo Bank, Ltd.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8337,"The Chiba Kogyo Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8337,"The Chiba Kogyo Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8337,"The Chiba Kogyo Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8338,"Tsukuba Bank, Ltd.",地方銀行,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8338,"Tsukuba Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8338,"Tsukuba Bank, Ltd.",銀行,金融・金利,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8341,"The 77 Bank, Ltd.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8341,"The 77 Bank, Ltd.",地方銀行,金融・金利,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8341,"The 77 Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8341,"The 77 Bank, Ltd.",銀行,金融・金利,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8343,"The Akita Bank, Ltd.",eコマース,内需・消費,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8343,"The Akita Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8343,"The Akita Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8343,"The Akita Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8344,"The Yamagata Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8344,"The Yamagata Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8344,"The Yamagata Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8345,"The Bank of Iwate, Ltd.",リース,金融・金利,,,82.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8345,"The Bank of Iwate, Ltd.",再生可能エネルギー,GX・エネルギー,,,58.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8345,"The Bank of Iwate, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8345,"The Bank of Iwate, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8345,"The Bank of Iwate, Ltd.",銀行,金融・金利,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8346,"The Toho Bank, Ltd.",地方銀行,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8346,"The Toho Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8346,"The Toho Bank, Ltd.",銀行,金融・金利,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8349,"The Tohoku Bank, Ltd.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8349,"The Tohoku Bank, Ltd.",地方銀行,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8349,"The Tohoku Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8349,"The Tohoku Bank, Ltd.",銀行,金融・金利,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8354,"Fukuoka Financial Group, Inc.",ネット銀行,金融・金利,,,42.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8354,"Fukuoka Financial Group, Inc.",地方銀行,金融・金利,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8354,"Fukuoka Financial Group, Inc.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8354,"Fukuoka Financial Group, Inc.",銀行,金融・金利,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8358,Suruga Bank Ltd.,地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8358,Suruga Bank Ltd.,金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8358,Suruga Bank Ltd.,銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8359,"Hachijuni Nagano Bank, Ltd.",リース,金融・金利,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8359,"Hachijuni Nagano Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8359,"Hachijuni Nagano Bank, Ltd.",証券,金融・金利,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8359,"Hachijuni Nagano Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8359,"Hachijuni Nagano Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8360,"The Yamanashi Chuo Bank,Ltd.",地方銀行,金融・金利,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8360,"The Yamanashi Chuo Bank,Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8360,"The Yamanashi Chuo Bank,Ltd.",銀行,金融・金利,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8361,"The Ogaki Kyoritsu Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8361,"The Ogaki Kyoritsu Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8361,"The Ogaki Kyoritsu Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8362,"The Fukui Bank, Ltd.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8362,"The Fukui Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8362,"The Fukui Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8362,"The Fukui Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8364,"The Shimizu Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8364,"The Shimizu Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8364,"The Shimizu Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8365,"The Bank of Toyama, Ltd.",地方銀行,金融・金利,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8365,"The Bank of Toyama, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8365,"The Bank of Toyama, Ltd.",銀行,金融・金利,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8366,"The Shiga Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8366,"The Shiga Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8366,"The Shiga Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8367,"The Nanto Bank, Ltd.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8367,"The Nanto Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8367,"The Nanto Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8367,"The Nanto Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8368,"The Hyakugo Bank, Ltd.",リース,金融・金利,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8368,"The Hyakugo Bank, Ltd.",地方銀行,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8368,"The Hyakugo Bank, Ltd.",金利上昇メリット,金融・金利,,,46.0,46.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8368,"The Hyakugo Bank, Ltd.",銀行,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8370,"The Kiyo Bank, Ltd.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8370,"The Kiyo Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8370,"The Kiyo Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8370,"The Kiyo Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8377,"Hokuhoku Financial Group, Inc.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8377,"Hokuhoku Financial Group, Inc.",地方銀行,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8377,"Hokuhoku Financial Group, Inc.",証券,金融・金利,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8377,"Hokuhoku Financial Group, Inc.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8377,"Hokuhoku Financial Group, Inc.",銀行,金融・金利,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8381,"The San-in Godo Bank,Ltd.",リース,金融・金利,,,82.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8381,"The San-in Godo Bank,Ltd.",再生可能エネルギー,GX・エネルギー,,,66.0,66.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8381,"The San-in Godo Bank,Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8381,"The San-in Godo Bank,Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8381,"The San-in Godo Bank,Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8381,"The San-in Godo Bank,Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8383,"The Tottori Bank, Ltd.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8383,"The Tottori Bank, Ltd.",地方銀行,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8383,"The Tottori Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8383,"The Tottori Bank, Ltd.",銀行,金融・金利,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8386,"The Hyakujushi Bank, Ltd.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8386,"The Hyakujushi Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8386,"The Hyakujushi Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8386,"The Hyakujushi Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8387,"The Shikoku Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8387,"The Shikoku Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8387,"The Shikoku Bank, Ltd.",銀行,金融・金利,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8388,"The Awa Bank, Ltd.",eコマース,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8388,"The Awa Bank, Ltd.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8388,"The Awa Bank, Ltd.",地方銀行,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8388,"The Awa Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8388,"The Awa Bank, Ltd.",銀行,金融・金利,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8392,"The Oita Bank, Ltd.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8392,"The Oita Bank, Ltd.",地方銀行,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8392,"The Oita Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8392,"The Oita Bank, Ltd.",銀行,金融・金利,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8393,"The Miyazaki Bank, Ltd.",リース,金融・金利,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8393,"The Miyazaki Bank, Ltd.",地方銀行,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8393,"The Miyazaki Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8393,"The Miyazaki Bank, Ltd.",銀行,金融・金利,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8395,The Bank of Saga Ltd.,地方銀行,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8395,The Bank of Saga Ltd.,金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8395,The Bank of Saga Ltd.,銀行,金融・金利,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8398,,リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8398,,地方銀行,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8398,,金利上昇メリット,金融・金利,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,会社公式サイトURL未取得
+10,8398,,銀行,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8399,"Bank of The Ryukyus, Limited",MaaS,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8399,"Bank of The Ryukyus, Limited",リース,金融・金利,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8399,"Bank of The Ryukyus, Limited",地方銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8399,"Bank of The Ryukyus, Limited",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8399,"Bank of The Ryukyus, Limited",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8410,"Seven Bank, Ltd.",インバウンド,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8410,"Seven Bank, Ltd.",ネット銀行,金融・金利,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8410,"Seven Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8411,"Mizuho Financial Group, Inc.",キャッシュレス決済,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8411,"Mizuho Financial Group, Inc.",フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8411,"Mizuho Financial Group, Inc.",マイナンバー,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8411,"Mizuho Financial Group, Inc.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8411,"Mizuho Financial Group, Inc.",証券,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8411,"Mizuho Financial Group, Inc.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8411,"Mizuho Financial Group, Inc.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8416,"The Bank Of Kochi, Ltd.",地方銀行,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8416,"The Bank Of Kochi, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8416,"The Bank Of Kochi, Ltd.",銀行,金融・金利,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8418,"Yamaguchi Financial Group, Inc.",リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8418,"Yamaguchi Financial Group, Inc.",地方銀行,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8418,"Yamaguchi Financial Group, Inc.",証券,金融・金利,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8418,"Yamaguchi Financial Group, Inc.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8418,"Yamaguchi Financial Group, Inc.",銀行,金融・金利,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8424,"Fuyo General Lease Co., Ltd.",SaaS,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8424,"Fuyo General Lease Co., Ltd.",クラウドコンピューティング,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8424,"Fuyo General Lease Co., Ltd.",デジタルトランスフォーメーション,デジタル・サービス,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8424,"Fuyo General Lease Co., Ltd.",リース,金融・金利,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8425,"Mizuho Leasing Company, Limited",サブスクリプション,デジタル・サービス,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8425,"Mizuho Leasing Company, Limited",リース,金融・金利,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8425,"Mizuho Leasing Company, Limited",太陽光発電関連,GX・エネルギー,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8439,Tokyo Century Corporation,サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8439,Tokyo Century Corporation,データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8439,Tokyo Century Corporation,ホテル,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8439,Tokyo Century Corporation,リース,金融・金利,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8439,Tokyo Century Corporation,不動産関連,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8439,Tokyo Century Corporation,再生可能エネルギー,GX・エネルギー,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8439,Tokyo Century Corporation,太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8439,Tokyo Century Corporation,空飛ぶクルマ,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8439,Tokyo Century Corporation,蓄電池,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8473,"SBI Holdings, Inc.",ネット銀行,金融・金利,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8473,"SBI Holdings, Inc.",フィンテック,金融・金利,,,66.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8473,"SBI Holdings, Inc.",保険,金融・金利,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8473,"SBI Holdings, Inc.",証券,金融・金利,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8508,"J Trust Co., Ltd.",不動産関連,不動産・建設,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8508,"J Trust Co., Ltd.",銀行,金融・金利,,,66.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8518,"Japan Asia Investment Co., Ltd.",介護関連,医療・ヘルスケア,,,82.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8518,"Japan Asia Investment Co., Ltd.",再生可能エネルギー,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8518,"Japan Asia Investment Co., Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8518,"Japan Asia Investment Co., Ltd.",物流,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8522,"The Bank of Nagoya, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8522,"The Bank of Nagoya, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8522,"The Bank of Nagoya, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8524,"North Pacific Bank,Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8524,"North Pacific Bank,Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8524,"North Pacific Bank,Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8537,"The Taiko Bank, Ltd.",地方銀行,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8537,"The Taiko Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8537,"The Taiko Bank, Ltd.",銀行,金融・金利,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8541,"The Ehime Bank, Ltd.",リース,金融・金利,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8541,"The Ehime Bank, Ltd.",地方銀行,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8541,"The Ehime Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8542,"Tomato Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8542,"Tomato Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8542,"Tomato Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8544,"The Keiyo Bank, Ltd.",地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8544,"The Keiyo Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8544,"The Keiyo Bank, Ltd.",銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8550,"The Tochigi Bank, Ltd.",地方銀行,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8550,"The Tochigi Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8550,"The Tochigi Bank, Ltd.",銀行,金融・金利,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8551,"The Kita-Nippon Bank, Ltd.",地方銀行,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8551,"The Kita-Nippon Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8551,"The Kita-Nippon Bank, Ltd.",銀行,金融・金利,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8554,,地方銀行,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8554,,金利上昇メリット,金融・金利,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,会社公式サイトURL未取得
+10,8554,,銀行,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8558,"The Towa Bank, Ltd.",地方銀行,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8558,"The Towa Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8558,"The Towa Bank, Ltd.",銀行,金融・金利,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8559,,地方銀行,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8559,,金利上昇メリット,金融・金利,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,会社公式サイトURL未取得
+10,8559,,銀行,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8560,,地方銀行,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8560,,金利上昇メリット,金融・金利,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,会社公式サイトURL未取得
+10,8560,,銀行,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8562,"The Fukushima Bank, Ltd.",地方銀行,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8562,"The Fukushima Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8562,"The Fukushima Bank, Ltd.",銀行,金融・金利,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8563,"The Daito Bank, Ltd.",地方銀行,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8563,"The Daito Bank, Ltd.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8563,"The Daito Bank, Ltd.",銀行,金融・金利,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8566,"Ricoh Leasing Company, Ltd.",リース,金融・金利,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8570,"AEON Financial Service Co., Ltd.",ネット銀行,金融・金利,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8570,"AEON Financial Service Co., Ltd.",保険,金融・金利,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8570,"AEON Financial Service Co., Ltd.",銀行,金融・金利,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8584,"JACCS Co., Ltd.",キャッシュレス決済,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8585,Orient Corporation,キャッシュレス決済,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8585,Orient Corporation,フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8591,ORIX Corporation,インバウンド,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8591,ORIX Corporation,クラウドコンピューティング,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8591,ORIX Corporation,フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8591,ORIX Corporation,リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8591,ORIX Corporation,全固体電池,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8591,ORIX Corporation,再生可能エネルギー,GX・エネルギー,,,66.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8591,ORIX Corporation,空飛ぶクルマ,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8591,ORIX Corporation,銀行,金融・金利,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8591,ORIX Corporation,風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8593,Mitsubishi HC Capital Inc.,リース,金融・金利,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8593,Mitsubishi HC Capital Inc.,再生可能エネルギー,GX・エネルギー,,,66.0,66.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8593,Mitsubishi HC Capital Inc.,太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8594,,リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8594,,不動産関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,8596,"Kyushu Leasing Service Co., Ltd.",リース,金融・金利,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8596,"Kyushu Leasing Service Co., Ltd.",不動産関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8596,"Kyushu Leasing Service Co., Ltd.",太陽光発電関連,GX・エネルギー,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8600,"TOMONY Holdings, Inc.",地方銀行,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8600,"TOMONY Holdings, Inc.",金利上昇メリット,金融・金利,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8600,"TOMONY Holdings, Inc.",銀行,金融・金利,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8601,Daiwa Securities Group Inc.,ネット銀行,金融・金利,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8601,Daiwa Securities Group Inc.,フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8601,Daiwa Securities Group Inc.,証券,金融・金利,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8604,"Nomura Holdings, Inc.",フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8604,"Nomura Holdings, Inc.",証券,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8609,Okasan Securities Group Inc.,証券,金融・金利,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8613,"Marusan Securities Co., Ltd.",証券,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8614,"Toyo Securities Co., Ltd.",証券,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8616,"Tokai Tokyo Financial Holdings, Inc.",証券,金融・金利,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8617,"The Kosei Securities Co., Ltd.",証券,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8622,"Mito Securities Co., Ltd.",証券,金融・金利,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8624,"Ichiyoshi Securities Co., Ltd.",証券,金融・金利,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8628,"Matsui Securities Co., Ltd.",証券,金融・金利,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8630,"Sompo Holdings, Inc.",ホームヘルスケア,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8630,"Sompo Holdings, Inc.",介護関連,医療・ヘルスケア,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8630,"Sompo Holdings, Inc.",保険,金融・金利,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8630,"Sompo Holdings, Inc.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8630,"Sompo Holdings, Inc.",防災,防衛・国土強靱化,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8697,"Japan Exchange Group, Inc.",マイナンバー,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8697,"Japan Exchange Group, Inc.",証券,金融・金利,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8698,"Monex Group, Inc.",証券,金融・金利,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8699,"HS Holdings Co., Ltd.",銀行,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8700,"Maruhachi Securities Co., Ltd.",証券,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8704,"Traders Holdings Co.,Ltd.",フィンテック,金融・金利,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8704,"Traders Holdings Co.,Ltd.",再生可能エネルギー,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8704,"Traders Holdings Co.,Ltd.",証券,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8705,"Nissan Securities Group Co., Ltd.",金,資源・素材,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8706,"Kyokuto Securities Co., Ltd.",証券,金融・金利,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8707,"IwaiCosmo Holdings, Inc.",証券,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8708,"Aizawa Securities Group Co., Ltd.",証券,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8713,FIDEA Holdings Co. Ltd.,リース,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8713,FIDEA Holdings Co. Ltd.,地方銀行,金融・金利,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8713,FIDEA Holdings Co. Ltd.,金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8713,FIDEA Holdings Co. Ltd.,銀行,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8714,"Senshu Ikeda Holdings, Inc.",リース,金融・金利,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8714,"Senshu Ikeda Holdings, Inc.",地方銀行,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8714,"Senshu Ikeda Holdings, Inc.",証券,金融・金利,,,58.0,58.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8714,"Senshu Ikeda Holdings, Inc.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8714,"Senshu Ikeda Holdings, Inc.",銀行,金融・金利,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8715,"Anicom Holdings, Inc.",eコマース,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8715,"Anicom Holdings, Inc.",保険,金融・金利,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8715,"Anicom Holdings, Inc.",金利上昇メリット,金融・金利,,,42.0,42.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8725,"MS&AD Insurance Group Holdings, Inc.",MaaS,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8725,"MS&AD Insurance Group Holdings, Inc.",保険,金融・金利,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8725,"MS&AD Insurance Group Holdings, Inc.",再生医療,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8725,"MS&AD Insurance Group Holdings, Inc.",金利上昇メリット,金融・金利,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8725,"MS&AD Insurance Group Holdings, Inc.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8729,Sony Financial Group Inc.,ネット銀行,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8729,Sony Financial Group Inc.,介護関連,医療・ヘルスケア,,,58.0,58.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8729,Sony Financial Group Inc.,保険,金融・金利,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8729,Sony Financial Group Inc.,銀行,金融・金利,,,46.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8737,Akatsuki Corp.,不動産関連,不動産・建設,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8737,Akatsuki Corp.,証券,金融・金利,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8739,"SPARX Group Co., Ltd.",スマートグリッド,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8739,"SPARX Group Co., Ltd.",証券,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8739,"SPARX Group Co., Ltd.",量子コンピューター,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8742,"Kobayashi Yoko Co., Ltd.",不動産関連,不動産・建設,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8742,"Kobayashi Yoko Co., Ltd.",金,資源・素材,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8747,"Yutaka Trusty Securities Co., Ltd.",金,資源・素材,,,82.0,74.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8750,"Daiichi Life Group, Inc.",保険,金融・金利,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8750,"Daiichi Life Group, Inc.",金利上昇メリット,金融・金利,,,42.0,30.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8766,"Tokio Marine Holdings, Inc.",保険,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8766,"Tokio Marine Holdings, Inc.",再生可能エネルギー,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8766,"Tokio Marine Holdings, Inc.",脱炭素,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8766,"Tokio Marine Holdings, Inc.",金利上昇メリット,金融・金利,,,66.0,58.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8766,"Tokio Marine Holdings, Inc.",防災,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8769,"Advantage Risk Management Co., Ltd.",保険,金融・金利,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8772,"Asax Co., Ltd.",不動産関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8783,"abc Co., Ltd.",インバウンド,内需・消費,,,42.0,44.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8783,"abc Co., Ltd.",サイバーセキュリティ,防衛・国土強靱化,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8783,"abc Co., Ltd.",データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8783,"abc Co., Ltd.",フィジカルAI,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8783,"abc Co., Ltd.",ホテル,内需・消費,,,42.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8783,"abc Co., Ltd.",不動産ファンド,不動産・建設,,,46.0,48.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8783,"abc Co., Ltd.",外食,内需・消費,,,86.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8789,FinTech Global Incorporated,不動産関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8793,NEC Capital Solutions Limited,リース,金融・金利,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8795,"T&D Holdings, Inc.",リース,金融・金利,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8795,"T&D Holdings, Inc.",保険,金融・金利,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8795,"T&D Holdings, Inc.",金利上昇メリット,金融・金利,,,42.0,40.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8798,"Advance Create Co., Ltd.",保険,金融・金利,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8798,"Advance Create Co., Ltd.",金利上昇メリット,金融・金利,,,66.0,56.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8801,"Mitsui Fudosan Co., Ltd.",MaaS,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8801,"Mitsui Fudosan Co., Ltd.",ホテル,内需・消費,,,58.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8801,"Mitsui Fudosan Co., Ltd.",マンション関連,不動産・建設,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8801,"Mitsui Fudosan Co., Ltd.",不動産関連,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8801,"Mitsui Fudosan Co., Ltd.",住宅関連,不動産・建設,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8801,"Mitsui Fudosan Co., Ltd.",倉庫,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8801,"Mitsui Fudosan Co., Ltd.",再開発,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8801,"Mitsui Fudosan Co., Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8801,"Mitsui Fudosan Co., Ltd.",物流,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8802,"Mitsubishi Estate Co., Ltd.",データセンター,データセンター・電力,,,82.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8802,"Mitsubishi Estate Co., Ltd.",ホテル,内需・消費,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8802,"Mitsubishi Estate Co., Ltd.",マンション関連,不動産・建設,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8802,"Mitsubishi Estate Co., Ltd.",不動産関連,不動産・建設,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8802,"Mitsubishi Estate Co., Ltd.",住宅関連,不動産・建設,,,82.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8802,"Mitsubishi Estate Co., Ltd.",倉庫,物流・海運,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8802,"Mitsubishi Estate Co., Ltd.",再開発,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8802,"Mitsubishi Estate Co., Ltd.",物流,物流・海運,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8802,"Mitsubishi Estate Co., Ltd.",空飛ぶクルマ,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8803,"Heiwa Real Estate Co., Ltd.",不動産関連,不動産・建設,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8803,"Heiwa Real Estate Co., Ltd.",再開発,不動産・建設,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8804,"Tokyo Tatemono Co., Ltd.",データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8804,"Tokyo Tatemono Co., Ltd.",ホテル,内需・消費,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8804,"Tokyo Tatemono Co., Ltd.",マンション関連,不動産・建設,,,82.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8804,"Tokyo Tatemono Co., Ltd.",不動産関連,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8818,"Keihanshin Building Co., Ltd.",データセンター,データセンター・電力,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8818,"Keihanshin Building Co., Ltd.",不動産関連,不動産・建設,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8830,"Sumitomo Realty & Development Co., Ltd.",ホテル,内需・消費,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8830,"Sumitomo Realty & Development Co., Ltd.",マンション関連,不動産・建設,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8830,"Sumitomo Realty & Development Co., Ltd.",不動産関連,不動産・建設,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8830,"Sumitomo Realty & Development Co., Ltd.",住宅関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8830,"Sumitomo Realty & Development Co., Ltd.",再開発,不動産・建設,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8835,Taiheiyo Kouhatsu Incorporated,不動産関連,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8835,Taiheiyo Kouhatsu Incorporated,建設,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8836,RISE Inc.,不動産関連,不動産・建設,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8841,"TOC Co., Ltd.",不動産関連,不動産・建設,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8841,"TOC Co., Ltd.",医薬品関連,医療・ヘルスケア,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8844,"Cosmos Initia Co., Ltd.",インバウンド,内需・消費,,,42.0,42.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8844,"Cosmos Initia Co., Ltd.",ホテル,内需・消費,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8844,"Cosmos Initia Co., Ltd.",マンション関連,不動産・建設,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8844,"Cosmos Initia Co., Ltd.",不動産関連,不動産・建設,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8844,"Cosmos Initia Co., Ltd.",住宅関連,不動産・建設,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8848,Leopalace21 Corporation,ホテル,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8848,Leopalace21 Corporation,マンション関連,不動産・建設,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8848,Leopalace21 Corporation,介護関連,医療・ヘルスケア,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8848,Leopalace21 Corporation,太陽光発電関連,GX・エネルギー,,,82.0,74.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8850,Starts Corporation Inc.,ホテル,内需・消費,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8850,Starts Corporation Inc.,マンション関連,不動産・建設,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8850,Starts Corporation Inc.,不動産関連,不動産・建設,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8850,Starts Corporation Inc.,介護関連,医療・ヘルスケア,,,85.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8850,Starts Corporation Inc.,住宅関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8850,Starts Corporation Inc.,建設,不動産・建設,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8860,Fuji Corporation Limited,不動産関連,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8860,Fuji Corporation Limited,住宅関連,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8864,"Airport Facilities Co., Ltd.",不動産関連,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8864,"Airport Facilities Co., Ltd.",水道関連,防衛・国土強靱化,,,91.0,93.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8864,"Airport Facilities Co., Ltd.",航空,物流・海運,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8869,Meiwa Estate Company Limited,マンション関連,不動産・建設,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8869,Meiwa Estate Company Limited,不動産関連,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8871,"GOLDCREST Co.,Ltd.",ホテル,内需・消費,,,66.0,66.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8871,"GOLDCREST Co.,Ltd.",マンション関連,不動産・建設,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8871,"GOLDCREST Co.,Ltd.",不動産関連,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8876,"Relo Group, Inc.",ホテル,内需・消費,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8876,"Relo Group, Inc.",不動産関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8877,Eslead Corporation,マンション関連,不動産・建設,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8877,Eslead Corporation,不動産関連,不動産・建設,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8881,"NISSHIN GROUP HOLDINGS Company, Limited",マンション関連,不動産・建設,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8881,"NISSHIN GROUP HOLDINGS Company, Limited",不動産関連,不動産・建設,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8887,"SYLA Holdings Co., Ltd.",マンション関連,不動産・建設,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8887,"SYLA Holdings Co., Ltd.",不動産関連,不動産・建設,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8887,"SYLA Holdings Co., Ltd.",建設,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8891,"AMG Holdings Co.,Ltd.",マンション関連,不動産・建設,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8891,"AMG Holdings Co.,Ltd.",不動産関連,不動産・建設,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8891,"AMG Holdings Co.,Ltd.",住宅関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8892,ES-CON JAPAN Ltd.,インバウンド,内需・消費,,,42.0,44.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8892,ES-CON JAPAN Ltd.,ホテル,内需・消費,,,42.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8892,ES-CON JAPAN Ltd.,マンション関連,不動産・建設,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8892,ES-CON JAPAN Ltd.,不動産関連,不動産・建設,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8894,"Revolution Co., Ltd.",不動産テック,不動産・建設,,,90.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8894,"Revolution Co., Ltd.",不動産関連,不動産・建設,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8897,"MIRARTH HOLDINGS,Inc.",ホテル,内需・消費,,,58.0,60.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8897,"MIRARTH HOLDINGS,Inc.",マンション関連,不動産・建設,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8897,"MIRARTH HOLDINGS,Inc.",不動産関連,不動産・建設,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8897,"MIRARTH HOLDINGS,Inc.",住宅関連,不動産・建設,,,42.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8897,"MIRARTH HOLDINGS,Inc.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8898,Century21 Real Estate of Japan Ltd,マンション関連,不動産・建設,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8898,Century21 Real Estate of Japan Ltd,不動産関連,不動産・建設,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8904,"Avantia Co., Ltd.",マンション関連,不動産・建設,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8904,"Avantia Co., Ltd.",不動産関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8904,"Avantia Co., Ltd.",住宅関連,不動産・建設,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8904,"Avantia Co., Ltd.",建設,不動産・建設,,,82.0,74.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8908,"Mainichi Comnet Co., Ltd.",不動産関連,不動産・建設,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8908,"Mainichi Comnet Co., Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8908,"Mainichi Comnet Co., Ltd.",旅行,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8912,Area Quest Inc.,不動産関連,不動産・建設,0.10,0.1,90.0,82.0,39.4,ノイズ候補,B,structured_segment_v6_needs_final_qa,structured_segment_v6,不動産ソリューション事業,external_customer_sales_table_v6,https://www.area-quest.com/wp-content/uploads/2026/08/2026年6月期決算短信（全文）.pdf,"現金同等物の期末残高 421,410 386,012
+- 13 -
+株式会社エリアクエスト（8912） 2026年6月期 決算短信
+（５）連結財務諸表に関する注記事項
+（継続企業の前提に関する注記）
+該当事項はありません。
+（セグメント情報等の注記）
+【セグメント情報】
+前連結会計年度（自 2024年７月１日 至 2025年６月30日）及び当連結会計年度（自 2025年７月１日 
+至 2026年６月30日）
+当社グループは、不動産ソリューション事業の単一セグメントであるため、記載を省略しております。
+【関連情報】
+前連結会計年度（自 2024年７月１日 至 2025年６月30日）
+１．製品及びサービスごとの情報
+ 当社グループは、不動産ソリューション事業の単一セグメントであり、当該事業の外部顧客への売上高
+が連結損益計算書の売上の90%超であるため記載を省略しております。
+２．地域ごとの情報
+(1）売上高
+ 本邦以外の外部顧客への売上高がないため、該当事項はありません。
+(2）有形固定資産
+ 本邦以外に所在している有形固定資産がないため、該当事項はありません。
+３．主要な顧客ごとの情報"
+10,8914,"Arealink Co., Ltd.",不動産関連,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8914,"Arealink Co., Ltd.",倉庫,物流・海運,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8917,"First Juken Co., Ltd.",マンション関連,不動産・建設,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8917,"First Juken Co., Ltd.",不動産関連,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8917,"First Juken Co., Ltd.",住宅関連,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8918,"LAND Co., Ltd.",不動産関連,不動産・建設,,,94.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8918,"LAND Co., Ltd.",再生可能エネルギー,GX・エネルギー,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8918,"LAND Co., Ltd.",太陽光発電関連,GX・エネルギー,,,58.0,60.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8919,"KATITAS CO., Ltd.",不動産テック,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8919,"KATITAS CO., Ltd.",不動産関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8919,"KATITAS CO., Ltd.",住宅関連,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8920,"Tosho Co., Ltd.",ホテル,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8920,"Tosho Co., Ltd.",マンション関連,不動産・建設,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8923,Tosei Corporation,ホテル,内需・消費,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8923,Tosei Corporation,不動産ファンド,不動産・建設,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8923,Tosei Corporation,不動産関連,不動産・建設,,,90.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8923,Tosei Corporation,住宅関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8927,"Meiho Enterprise Co., Ltd.",不動産関連,不動産・建設,,,100.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8928,Anabuki Kosan Inc.,インバウンド,内需・消費,,,42.0,40.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8928,Anabuki Kosan Inc.,ホテル,内需・消費,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8928,Anabuki Kosan Inc.,マンション関連,不動産・建設,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8928,Anabuki Kosan Inc.,不動産関連,不動産・建設,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8928,Anabuki Kosan Inc.,介護関連,医療・ヘルスケア,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8928,Anabuki Kosan Inc.,旅行,内需・消費,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8931,Wadakohsan Corporation,マンション関連,不動産・建設,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8931,Wadakohsan Corporation,不動産関連,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8931,Wadakohsan Corporation,住宅関連,不動産・建設,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8934,"Sun Frontier Fudousan Co., Ltd.",インバウンド,内需・消費,,,46.0,44.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,8934,"Sun Frontier Fudousan Co., Ltd.",ホテル,内需・消費,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8934,"Sun Frontier Fudousan Co., Ltd.",不動産関連,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8935,"FJ Next Holdings Co., Ltd.",マンション関連,不動産・建設,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8935,"FJ Next Holdings Co., Ltd.",不動産関連,不動産・建設,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8935,"FJ Next Holdings Co., Ltd.",建設,不動産・建設,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8938,"GLOME Holdings,Inc.",不動産関連,不動産・建設,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8944,"Land Business Co.,Ltd.",マンション関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8944,"Land Business Co.,Ltd.",不動産関連,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8944,"Land Business Co.,Ltd.",外食,内需・消費,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8945,SUNNEXTA GROUP Inc.,不動産関連,不動産・建設,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8946,Asian Star Co.,マンション関連,不動産・建設,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8967,"Japan Logistics Fund, Inc.",物流,物流・海運,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8985,Japan Hotel REIT Investment Corporation,ホテル,内需・消費,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8995,"Makoto Construction Co,Ltd",住宅関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8996,"HouseFreedom Co.,Ltd.",不動産関連,不動産・建設,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8996,"HouseFreedom Co.,Ltd.",住宅関連,不動産・建設,,,46.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8999,Grandy House Corporation,不動産関連,不動産・建設,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,8999,Grandy House Corporation,住宅関連,不動産・建設,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9001,"Tobu Railway Co., Ltd.",インバウンド,内需・消費,,,42.0,42.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9001,"Tobu Railway Co., Ltd.",ホテル,内需・消費,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9001,"Tobu Railway Co., Ltd.",不動産関連,不動産・建設,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9001,"Tobu Railway Co., Ltd.",鉄道関連,物流・海運,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9003,"Sotetsu Holdings, Inc.",インバウンド,内需・消費,,,42.0,30.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9003,"Sotetsu Holdings, Inc.",ホテル,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9003,"Sotetsu Holdings, Inc.",不動産関連,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9003,"Sotetsu Holdings, Inc.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9003,"Sotetsu Holdings, Inc.",鉄道関連,物流・海運,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9005,Tokyu Corporation,MaaS,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9005,Tokyu Corporation,ホテル,内需・消費,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9005,Tokyu Corporation,不動産関連,不動産・建設,,,66.0,66.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9005,Tokyu Corporation,介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9005,Tokyu Corporation,再開発,不動産・建設,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9005,Tokyu Corporation,空飛ぶクルマ,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9005,Tokyu Corporation,鉄道関連,物流・海運,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9006,Keikyu Corporation,ホテル,内需・消費,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9006,Keikyu Corporation,不動産関連,不動産・建設,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9006,Keikyu Corporation,介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9006,Keikyu Corporation,鉄道関連,物流・海運,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9007,"Odakyu Electric Railway Co., Ltd.",MaaS,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9007,"Odakyu Electric Railway Co., Ltd.",ホテル,内需・消費,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9007,"Odakyu Electric Railway Co., Ltd.",不動産関連,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9007,"Odakyu Electric Railway Co., Ltd.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9007,"Odakyu Electric Railway Co., Ltd.",鉄道関連,物流・海運,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9008,Keio Corporation,インバウンド,内需・消費,,,46.0,34.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9008,Keio Corporation,ホテル,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9008,Keio Corporation,不動産関連,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9008,Keio Corporation,介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9008,Keio Corporation,鉄道関連,物流・海運,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9009,"Keisei Electric Railway Co., Ltd.",インバウンド,内需・消費,,,46.0,34.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9009,"Keisei Electric Railway Co., Ltd.",不動産関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9009,"Keisei Electric Railway Co., Ltd.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9009,"Keisei Electric Railway Co., Ltd.",鉄道関連,物流・海運,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9010,"Fuji Kyuko Co., Ltd.",インバウンド,内需・消費,,,46.0,34.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9010,"Fuji Kyuko Co., Ltd.",旅行,内需・消費,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9010,"Fuji Kyuko Co., Ltd.",鉄道関連,物流・海運,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9012,"Chichibu Railway Co., Ltd.",不動産関連,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9012,"Chichibu Railway Co., Ltd.",鉄道関連,物流・海運,,,97.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9017,"Niigata Kotsu Co., Ltd.",ホテル,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9017,"Niigata Kotsu Co., Ltd.",不動産関連,不動産・建設,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9017,"Niigata Kotsu Co., Ltd.",旅行,内需・消費,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,MaaS,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,インバウンド,内需・消費,,,46.0,44.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,キャッシュレス決済,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,ホテル,内需・消費,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,再生可能エネルギー,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,再開発,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,国土強靱化,防衛・国土強靱化,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,旅行,内需・消費,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,水素,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,鉄道関連,物流・海運,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9020,East Japan Railway Company,風力発電,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9021,West Japan Railway Company,インバウンド,内需・消費,,,50.0,48.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9021,West Japan Railway Company,キャッシュレス決済,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9021,West Japan Railway Company,ホテル,内需・消費,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9021,West Japan Railway Company,介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9021,West Japan Railway Company,旅行,内需・消費,,,46.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9021,West Japan Railway Company,鉄道関連,物流・海運,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9022,Central Japan Railway Company,インバウンド,内需・消費,,,42.0,40.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9022,Central Japan Railway Company,旅行,内需・消費,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9022,Central Japan Railway Company,鉄道関連,物流・海運,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9023,"Tokyo Metro Co., Ltd.",不動産関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9023,"Tokyo Metro Co., Ltd.",再開発,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9023,"Tokyo Metro Co., Ltd.",鉄道関連,物流・海運,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9024,Seibu Holdings Inc.,ホテル,内需・消費,,,86.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9024,Seibu Holdings Inc.,不動産関連,不動産・建設,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9024,Seibu Holdings Inc.,再開発,不動産・建設,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9024,Seibu Holdings Inc.,建設,不動産・建設,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9024,Seibu Holdings Inc.,鉄道関連,物流・海運,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9025,"Konoike Transport Co.,Ltd.",倉庫,物流・海運,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9025,"Konoike Transport Co.,Ltd.",医療機器,医療・ヘルスケア,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9025,"Konoike Transport Co.,Ltd.",物流,物流・海運,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9025,"Konoike Transport Co.,Ltd.",鉄鋼,資源・素材,,,85.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9025,"Konoike Transport Co.,Ltd.",陸運,物流・海運,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9027,,倉庫,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9027,,物流,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9027,,陸運,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9028,"ZERO Co., Ltd.",MaaS,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9028,"ZERO Co., Ltd.",陸運,物流・海運,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9029,"Higashi Holdings Co., Ltd.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9029,"Higashi Holdings Co., Ltd.",倉庫,物流・海運,,,46.0,34.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9029,"Higashi Holdings Co., Ltd.",物流,物流・海運,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9029,"Higashi Holdings Co., Ltd.",陸運,物流・海運,,,46.0,34.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9031,"Nishi-Nippon Railroad Co., Ltd.",ホテル,内需・消費,,,58.0,58.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9031,"Nishi-Nippon Railroad Co., Ltd.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9031,"Nishi-Nippon Railroad Co., Ltd.",住宅関連,不動産・建設,,,82.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9031,"Nishi-Nippon Railroad Co., Ltd.",物流,物流・海運,,,66.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9031,"Nishi-Nippon Railroad Co., Ltd.",鉄道関連,物流・海運,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9033,"Hiroshima Electric Railway Co.,Ltd.",不動産関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9033,"Hiroshima Electric Railway Co.,Ltd.",建設,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9033,"Hiroshima Electric Railway Co.,Ltd.",鉄道関連,物流・海運,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9034,"NANSO Transport Co.,Ltd.",不動産関連,不動産・建設,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9034,"NANSO Transport Co.,Ltd.",倉庫,物流・海運,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9034,"NANSO Transport Co.,Ltd.",建設,不動産・建設,,,58.0,54.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9034,"NANSO Transport Co.,Ltd.",物流,物流・海運,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9034,"NANSO Transport Co.,Ltd.",陸運,物流・海運,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9035,,不動産関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9035,,陸運,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9036,"Tohbu Network Co., Ltd.",アンモニア,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9036,"Tohbu Network Co., Ltd.",不動産関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9036,"Tohbu Network Co., Ltd.",水素,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9036,"Tohbu Network Co., Ltd.",物流,物流・海運,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9036,"Tohbu Network Co., Ltd.",陸運,物流・海運,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9037,"Hamakyorex Co., Ltd.",物流,物流・海運,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9037,"Hamakyorex Co., Ltd.",陸運,物流・海運,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9039,"Sakai Moving Service Co.,Ltd.",陸運,物流・海運,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9040,,物流,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9040,,陸運,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9041,"Kintetsu Group Holdings Co.,Ltd.",インバウンド,内需・消費,,,46.0,34.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9041,"Kintetsu Group Holdings Co.,Ltd.",不動産関連,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9041,"Kintetsu Group Holdings Co.,Ltd.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9041,"Kintetsu Group Holdings Co.,Ltd.",旅行,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9041,"Kintetsu Group Holdings Co.,Ltd.",鉄道関連,物流・海運,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9042,"Hankyu Hanshin Holdings, Inc.",不動産関連,不動産・建設,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9042,"Hankyu Hanshin Holdings, Inc.",鉄道関連,物流・海運,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9044,"NANKAI Co., Ltd.",インバウンド,内需・消費,,,42.0,40.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9044,"NANKAI Co., Ltd.",不動産関連,不動産・建設,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9044,"NANKAI Co., Ltd.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9044,"NANKAI Co., Ltd.",旅行,内需・消費,,,66.0,66.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9044,"NANKAI Co., Ltd.",鉄道関連,物流・海運,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9045,"Keihan Holdings Co., Ltd.",インバウンド,内需・消費,,,42.0,30.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9045,"Keihan Holdings Co., Ltd.",ホテル,内需・消費,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9045,"Keihan Holdings Co., Ltd.",マンション関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9045,"Keihan Holdings Co., Ltd.",不動産関連,不動産・建設,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9045,"Keihan Holdings Co., Ltd.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9045,"Keihan Holdings Co., Ltd.",旅行,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9045,"Keihan Holdings Co., Ltd.",鉄道関連,物流・海運,,,91.0,83.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9046,"Kobe Electric Railway Co., Ltd.",不動産関連,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9046,"Kobe Electric Railway Co., Ltd.",介護関連,医療・ヘルスケア,,,82.0,74.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9046,"Kobe Electric Railway Co., Ltd.",鉄道関連,物流・海運,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9048,"Nagoya Railroad Co., Ltd.",マンション関連,不動産・建設,,,82.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9048,"Nagoya Railroad Co., Ltd.",介護関連,医療・ヘルスケア,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9048,"Nagoya Railroad Co., Ltd.",鉄道関連,物流・海運,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9049,"Keifuku Electric Railroad Co.,Ltd.",インバウンド,内需・消費,,,42.0,30.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9049,"Keifuku Electric Railroad Co.,Ltd.",ホテル,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9049,"Keifuku Electric Railroad Co.,Ltd.",不動産関連,不動産・建設,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9049,"Keifuku Electric Railroad Co.,Ltd.",鉄道関連,物流・海運,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9051,"Senkon Logistics Co., Ltd.",倉庫,物流・海運,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9051,"Senkon Logistics Co., Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9051,"Senkon Logistics Co., Ltd.",物流,物流・海運,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9051,"Senkon Logistics Co., Ltd.",陸運,物流・海運,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9052,"Sanyo Electric Railway Co.,Ltd.",不動産関連,不動産・建設,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9052,"Sanyo Electric Railway Co.,Ltd.",外食,内需・消費,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9052,"Sanyo Electric Railway Co.,Ltd.",鉄道関連,物流・海運,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9057,"Enshu Truck Co.,Ltd.",倉庫,物流・海運,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9057,"Enshu Truck Co.,Ltd.",物流,物流・海運,,,92.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9057,"Enshu Truck Co.,Ltd.",陸運,物流・海運,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9059,"Kanda Holdings Co.,Ltd.",物流,物流・海運,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9059,"Kanda Holdings Co.,Ltd.",陸運,物流・海運,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9060,Japan Logistic Systems Corp.,倉庫,物流・海運,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9060,Japan Logistic Systems Corp.,物流,物流・海運,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9060,Japan Logistic Systems Corp.,陸運,物流・海運,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9063,"Okayamaken Freight Transportation Co., Ltd.",物流,物流・海運,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9063,"Okayamaken Freight Transportation Co., Ltd.",陸運,物流・海運,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9064,"Yamato Holdings Co., Ltd.",クラウドコンピューティング,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9064,"Yamato Holdings Co., Ltd.",宅配,物流・海運,,,86.0,88.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9064,"Yamato Holdings Co., Ltd.",物流,物流・海運,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9064,"Yamato Holdings Co., Ltd.",空飛ぶクルマ,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9064,"Yamato Holdings Co., Ltd.",陸運,物流・海運,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9065,Sankyu Inc.,物流,物流・海運,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9065,Sankyu Inc.,陸運,物流・海運,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9068,"Maruzen Showa Unyu Co., Ltd.",陸運,物流・海運,,,82.0,74.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9069,"SENKO Group Holdings Co., Ltd.",ホテル,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9069,"SENKO Group Holdings Co., Ltd.",介護関連,医療・ヘルスケア,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9069,"SENKO Group Holdings Co., Ltd.",物流,物流・海運,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9069,"SENKO Group Holdings Co., Ltd.",陸運,物流・海運,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9072,"NIKKON Holdings Co.,Ltd.",倉庫,物流・海運,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9072,"NIKKON Holdings Co.,Ltd.",物流,物流・海運,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9072,"NIKKON Holdings Co.,Ltd.",陸運,物流・海運,,,46.0,44.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9073,"Kyogoku unyu shoji Co., Ltd.",倉庫,物流・海運,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9073,"Kyogoku unyu shoji Co., Ltd.",港湾運送,物流・海運,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9073,"Kyogoku unyu shoji Co., Ltd.",物流,物流・海運,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9073,"Kyogoku unyu shoji Co., Ltd.",陸運,物流・海運,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9074,"Japan Oil Transportation Co., Ltd.",太陽光発電関連,GX・エネルギー,,,58.0,46.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9074,"Japan Oil Transportation Co., Ltd.",陸運,物流・海運,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9075,"Fukuyama Transporting Co., Ltd.",物流,物流・海運,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9075,"Fukuyama Transporting Co., Ltd.",陸運,物流・海運,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9076,"Seino Holdings Co., Ltd.",物流,物流・海運,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9076,"Seino Holdings Co., Ltd.",陸運,物流・海運,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9081,"Kanagawa Chuo Kotsu Co., Ltd.",自動運転車,自動車・モビリティ,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9081,"Kanagawa Chuo Kotsu Co., Ltd.",陸運,物流・海運,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9082,"Daiwa Motor Transportation Co., Ltd.",マンション関連,不動産・建設,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9082,"Daiwa Motor Transportation Co., Ltd.",不動産関連,不動産・建設,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9082,"Daiwa Motor Transportation Co., Ltd.",陸運,物流・海運,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9083,"Shinki Bus Co.,Ltd.",MaaS,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9083,"Shinki Bus Co.,Ltd.",不動産関連,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9083,"Shinki Bus Co.,Ltd.",介護関連,医療・ヘルスケア,,,58.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9083,"Shinki Bus Co.,Ltd.",陸運,物流・海運,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9085,,ホテル,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9085,,建設,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9085,,陸運,物流・海運,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9087,Takase Corporation,倉庫,物流・海運,,,85.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9087,Takase Corporation,物流,物流・海運,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9087,Takase Corporation,陸運,物流・海運,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9090,AZ-COM MARUWA Holdings Inc.,物流,物流・海運,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9090,AZ-COM MARUWA Holdings Inc.,陸運,物流・海運,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9101,Nippon Yusen Kabushiki Kaisha,アンモニア,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9101,Nippon Yusen Kabushiki Kaisha,データセンター,データセンター・電力,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9101,Nippon Yusen Kabushiki Kaisha,円安メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9101,Nippon Yusen Kabushiki Kaisha,海運,物流・海運,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9104,"Mitsui O.S.K. Lines, Ltd.",アンモニア,GX・エネルギー,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9104,"Mitsui O.S.K. Lines, Ltd.",円安メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9104,"Mitsui O.S.K. Lines, Ltd.",海運,物流・海運,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9107,"Kawasaki Kisen Kaisha, Ltd.",円安メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9107,"Kawasaki Kisen Kaisha, Ltd.",海運,物流・海運,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9110,"NS United Kaiun Kaisha, Ltd.",円安メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9110,"NS United Kaiun Kaisha, Ltd.",海運,物流・海運,,,97.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9115,"Meiji Shipping Group Co., Ltd.",ホテル,内需・消費,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9115,"Meiji Shipping Group Co., Ltd.",介護関連,医療・ヘルスケア,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9115,"Meiji Shipping Group Co., Ltd.",円安メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9115,"Meiji Shipping Group Co., Ltd.",海運,物流・海運,,,97.0,100.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9119,"Iino Kaiun Kaisha, Ltd.",アンモニア,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9119,"Iino Kaiun Kaisha, Ltd.",円安メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9119,"Iino Kaiun Kaisha, Ltd.",太陽光発電関連,GX・エネルギー,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9119,"Iino Kaiun Kaisha, Ltd.",海運,物流・海運,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9127,"Tamai Steamship Co., Ltd.",アルミニウム,資源・素材,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9127,"Tamai Steamship Co., Ltd.",海運,物流・海運,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9130,"Kyoei Tanker Co., Ltd.",円安メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9130,"Kyoei Tanker Co., Ltd.",海運,物流・海運,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9142,Kyushu Railway Company,インバウンド,内需・消費,,,46.0,34.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9142,Kyushu Railway Company,ホテル,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9142,Kyushu Railway Company,外食,内需・消費,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9142,Kyushu Railway Company,建設,不動産・建設,,,91.0,83.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9142,Kyushu Railway Company,旅行,内需・消費,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9142,Kyushu Railway Company,鉄道関連,物流・海運,,,92.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9143,"SG Holdings Co.,Ltd.",宅配,物流・海運,,,72.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9143,"SG Holdings Co.,Ltd.",物流,物流・海運,,,90.0,92.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9143,"SG Holdings Co.,Ltd.",陸運,物流・海運,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9145,"Being Holdings Co., Ltd.",不動産関連,不動産・建設,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9145,"Being Holdings Co., Ltd.",保険,金融・金利,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9145,"Being Holdings Co., Ltd.",倉庫,物流・海運,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9145,"Being Holdings Co., Ltd.",物流,物流・海運,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9147,"Nippon Express Holdings, Inc.",物流,物流・海運,,,94.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9147,"Nippon Express Holdings, Inc.",陸運,物流・海運,,,42.0,40.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9158,CUC Inc.,ホームヘルスケア,医療・ヘルスケア,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9158,CUC Inc.,不動産関連,不動産・建設,,,42.0,42.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9158,CUC Inc.,介護関連,医療・ヘルスケア,,,94.0,98.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9159,W TOKYO Inc.,サブスクリプション,デジタル・サービス,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9160,"ON THE PAGE, Inc.",eコマース,内需・消費,,,92.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9163,Nareru Group Inc.,デジタルトランスフォーメーション,デジタル・サービス,,,91.0,97.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9163,Nareru Group Inc.,建設,不動産・建設,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9165,"Qualtec Co.,Ltd.",全固体電池,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9165,"Qualtec Co.,Ltd.",半導体部材・部品,AI・半導体,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9165,"Qualtec Co.,Ltd.",電気自動車関連,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9166,GENDA Inc.,ゲーム関連,デジタル・サービス,,,90.0,96.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9168,"Rise Consulting Group, Inc.",デジタルトランスフォーメーション,デジタル・サービス,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9168,"Rise Consulting Group, Inc.",フィンテック,金融・金利,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9170,,下水道,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9170,,建設,不動産・建設,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9170,,水道関連,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,会社公式サイトURL未取得
+10,9171,"Kuribayashi Steamship Co., Ltd.",ホテル,内需・消費,,,92.0,84.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9171,"Kuribayashi Steamship Co., Ltd.",海運,物流・海運,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9171,"Kuribayashi Steamship Co., Ltd.",陸運,物流・海運,,,46.0,34.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9173,"Tokai Kisen Co., Ltd.",ホテル,内需・消費,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9173,"Tokai Kisen Co., Ltd.",旅行,内需・消費,,,72.0,68.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9173,"Tokai Kisen Co., Ltd.",海運,物流・海運,,,94.0,90.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9193,"Tokyo Kisen Co.,Ltd.",旅行,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9193,"Tokyo Kisen Co.,Ltd.",海運,物流・海運,,,90.0,82.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9193,"Tokyo Kisen Co.,Ltd.",防災,防衛・国土強靱化,,,86.0,78.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9201,"Japan Airlines Co., Ltd.",インバウンド,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9201,"Japan Airlines Co., Ltd.",円高メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9201,"Japan Airlines Co., Ltd.",旅行,内需・消費,,,42.0,30.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9201,"Japan Airlines Co., Ltd.",空飛ぶクルマ,自動車・モビリティ,,,66.0,56.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9201,"Japan Airlines Co., Ltd.",航空,物流・海運,,,94.0,86.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9202,ANA Holdings Inc.,インバウンド,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9202,ANA Holdings Inc.,ドローン,防衛・国土強靱化,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9202,ANA Holdings Inc.,円高メリット,内需・消費,,,8.0,5.0,,未確定,C,macro_sensitivity_required,macro_unknown,,,,売上セグメントとテーマを直接対応できず
+10,9202,ANA Holdings Inc.,旅行,内需・消費,,,92.0,94.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9202,ANA Holdings Inc.,空飛ぶクルマ,自動車・モビリティ,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9202,ANA Holdings Inc.,航空,物流・海運,,,97.0,99.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9204,Skymark Airlines Inc.,旅行,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9204,Skymark Airlines Inc.,航空,物流・海運,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9206,Star Flyer Inc.,旅行,内需・消費,,,8.0,5.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず
+10,9206,Star Flyer Inc.,航空,物流・海運,,,97.0,89.0,,未確定,C,revenue_share_unknown,unknown,,,,売上セグメントとテーマを直接対応できず

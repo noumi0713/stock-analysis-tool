@@ -1,0 +1,10 @@
+{
+  "batch": 9,
+  "stocks": 300,
+  "stock_theme_pairs": 817,
+  "validated_segment_rows": 94,
+  "mapped_theme_pairs": 13,
+  "unknown_theme_pairs": 803,
+  "rule": "one coherent official revenue table per stock; newest valid table; broad themes aggregate direct segments; specific themes never inherit broad shares",
+  "status": "research_candidate_v6"
+}

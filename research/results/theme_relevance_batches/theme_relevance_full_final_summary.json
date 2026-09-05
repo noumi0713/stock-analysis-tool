@@ -1,0 +1,50 @@
+{
+  "status": "complete",
+  "source_memberships": 10870,
+  "finalized_rows": 10870,
+  "unique_stocks": 3298,
+  "source_unique_stocks": 3298,
+  "trial_rows": 29,
+  "unfinalized": 0,
+  "key_match_source": true,
+  "bands": {
+    "ノイズ候補": 4587,
+    "主力テーマ": 4184,
+    "有力関連": 949,
+    "補助関連": 1150
+  },
+  "confidence": {
+    "C": 5693,
+    "A": 3484,
+    "B": 1693
+  },
+  "decision_sources": {
+    "chatgpt_discretion_macro_context": 464,
+    "chatgpt_confirmed_official_context": 4854,
+    "chatgpt_discretion_existing_context": 5303,
+    "user_approved_structured_v6": 24,
+    "chatgpt_discretion_manual_web": 132,
+    "user_approved_manual_override": 2,
+    "approved_structured_v6": 5,
+    "manual_official_business_override": 1,
+    "structured_revenue_v6": 56,
+    "trial_chatgpt_research_v0_1": 29
+  },
+  "batch_counts": {
+    "1": 955,
+    "2": 769,
+    "3": 979,
+    "0": 29,
+    "4": 1131,
+    "5": 992,
+    "6": 1061,
+    "7": 1251,
+    "8": 1019,
+    "9": 817,
+    "10": 913,
+    "11": 954
+  },
+  "revenue_share_disclosed_rows": 61,
+  "lower_confidence_rows": 5693,
+  "rule": "Disclosed revenue share is never fabricated. Structured official revenue takes precedence; otherwise official-company context and ChatGPT discretion finalize relevance 0-100. Existing user-approved/manual QA overrides are preserved."
+}
