@@ -1,0 +1,90 @@
+name: Attention research v3 discovery
+
+on:
+  workflow_dispatch:
+    inputs:
+      ifis_path:
+        description: Manual IFIS TOP30 CSV path
+        required: true
+      minkabu_path:
+        description: Manual Minkabu POPULAR/RISING theme-stock snapshot CSV path
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  discovery:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Run v3 unit tests
+        env:
+          PYTHONPATH: research
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest -q research/test_attention_research_pipeline_v3.py
+      - name: Validate manual snapshots
+        env:
+          IFIS_PATH: ${{ inputs.ifis_path }}
+          MINKABU_PATH: ${{ inputs.minkabu_path }}
+        run: |
+          test -s "$IFIS_PATH"
+          test -s "$MINKABU_PATH"
+      - name: Discover cross-source attention candidates
+        env:
+          IFIS_PATH: ${{ inputs.ifis_path }}
+          MINKABU_PATH: ${{ inputs.minkabu_path }}
+        run: |
+          python research/attention_discovery_stage.py \
+            --ifis "$IFIS_PATH" \
+            --minkabu "$MINKABU_PATH" \
+            --master research/results/theme_relevance_batches/theme_relevance_full_final.csv \
+            --top-n 30 \
+            --min-theme-relevance 40 \
+            --out-dir research/results/attention_research_v3
+      - name: Prepare evidence watch
+        run: |
+          python research/prepare_attention_watch.py \
+            --input research/results/attention_research_v3/attention_discovery_candidates.csv \
+            --out research/results/attention_research_v3/attention_watch.json
+      - name: Collect supplementary point-in-time news context
+        run: |
+          python research/collect_ifis_candidate_news.py \
+            --watch research/results/attention_research_v3/attention_watch.json \
+            --out research/results/attention_research_v3/candidate_news.json
+      - name: Validate discovery outputs
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          p = Path('research/results/attention_research_v3')
+          summary = json.loads((p / 'attention_discovery_summary.json').read_text(encoding='utf-8'))
+          rows = list(csv.DictReader((p / 'attention_discovery_candidates.csv').open(encoding='utf-8-sig')))
+          news = json.loads((p / 'candidate_news.json').read_text(encoding='utf-8'))
+          assert summary['status'] == 'complete'
+          assert summary['stage'] == 'ATTENTION_DISCOVERY_ONLY'
+          assert summary['discovered_count'] == len(rows) > 0
+          assert all(r['buy_decision'] == 'NOT_EVALUATED' for r in rows)
+          assert all(float(r['theme_relevance_score']) >= 40 for r in rows)
+          assert news['candidate_count'] == len(rows)
+          print(json.dumps({'discovered': len(rows), 'news_candidates': news['candidate_count']}, ensure_ascii=False, indent=2))
+          PY
+      - name: Commit research discovery outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/attention_research_v3
+          if git diff --cached --quiet; then
+            echo "No output changes"
+          else
+            git commit -m "Update attention research v3 discovery"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
