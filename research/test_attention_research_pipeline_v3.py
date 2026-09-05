@@ -51,12 +51,16 @@ def test_material_stage_runs_before_technical_and_preserves_semantic_review():
 
 
 def test_final_three_classes_and_timing_first_ranking():
-    discovery = [{"ifis_rank":"10","stock_code":"A001","company_name":"A","best_theme":"AI","attention_stage_status":"DISCOVERED","minkabu_attention_type":"RISING","theme_relevance_score":"95"},{"ifis_rank":"1","stock_code":"B001","company_name":"B","best_theme":"AI","attention_stage_status":"DISCOVERED","minkabu_attention_type":"RISING","theme_relevance_score":"95"},{"ifis_rank":"2","stock_code":"C001","company_name":"C","best_theme":"AI","attention_stage_status":"DISCOVERED","minkabu_attention_type":"POPULAR","theme_relevance_score":"95"}]
+    discovery = [
+        {"ifis_rank":"10","stock_code":"A001","company_name":"A","best_theme":"AI","attention_stage_status":"DISCOVERED","minkabu_attention_type":"RISING","theme_relevance_score":"95","theme_price_change_1d_pct":"1.5","theme_price_change_5d_pct":"3.0"},
+        {"ifis_rank":"1","stock_code":"B001","company_name":"B","best_theme":"AI","attention_stage_status":"DISCOVERED","minkabu_attention_type":"RISING","theme_relevance_score":"95","theme_price_change_1d_pct":"2.0","theme_price_change_5d_pct":"5.0"},
+        {"ifis_rank":"2","stock_code":"C001","company_name":"C","best_theme":"AI","attention_stage_status":"DISCOVERED","minkabu_attention_type":"POPULAR","theme_relevance_score":"95","theme_price_change_1d_pct":"1.0","theme_price_change_5d_pct":"2.0"},
+    ]
     materials = [{"stock_code":"A001","review_status":"REVIEWED","material_class":"STRONG","material_continuity":"STRUCTURAL_OR_SPECIFIC"},{"stock_code":"B001","review_status":"REVIEWED","material_class":"STRONG","material_continuity":"STRUCTURAL_OR_SPECIFIC"},{"stock_code":"C001","review_status":"REVIEWED","material_class":"NEGATIVE","material_continuity":"NONE"}]
     technical = {"items":[
-        {"stock_code":"A001","technical_status":"BUY_NOW","latest_market_date":"2026-09-04","latest_close":100,"discovery_metrics":{"return_1d_pct":1,"return_5d_pct":3,"ma25_deviation_pct":2,"rsi14":58,"volume_ratio20":1.5},"latest_metrics":{"rsi14":60,"ma25_deviation_pct":3,"return_5d_pct":4,"return_10d_pct":5,"return_20d_pct":8,"volume_ratio20":1.6,"upper_wick_ratio":0.1,"overheat_score":10,"atr14_pct":3}},
-        {"stock_code":"B001","technical_status":"WAIT_FIRST_PULLBACK","latest_market_date":"2026-09-04","latest_close":130,"discovery_metrics":{"return_1d_pct":8,"return_5d_pct":15,"ma25_deviation_pct":13,"rsi14":76,"volume_ratio20":5.5},"latest_metrics":{"rsi14":72,"ma25_deviation_pct":12,"return_5d_pct":15,"return_10d_pct":18,"return_20d_pct":22,"volume_ratio20":3,"upper_wick_ratio":0.2,"overheat_score":45,"atr14_pct":4}},
-        {"stock_code":"C001","technical_status":"BUY_NOW","latest_market_date":"2026-09-04","latest_close":90,"discovery_metrics":{"return_1d_pct":0,"return_5d_pct":0,"ma25_deviation_pct":0,"rsi14":50,"volume_ratio20":2},"latest_metrics":{"rsi14":50,"ma25_deviation_pct":0,"return_5d_pct":0,"return_10d_pct":0,"return_20d_pct":0,"volume_ratio20":2,"upper_wick_ratio":0.1,"overheat_score":0,"atr14_pct":2}}
+        {"stock_code":"A001","technical_status":"BUY_NOW","latest_market_date":"2026-09-04","latest_close":100,"discovery_metrics":{"return_1d_pct":1,"return_5d_pct":3,"ma25_deviation_pct":2,"rsi14":58,"volume_ratio20":1.5},"latest_metrics":{"rsi14":60,"ma25_deviation_pct":3,"return_5d_pct":4,"return_10d_pct":5,"return_20d_pct":8,"volume_ratio20":1.6,"upper_wick_ratio":0.1,"overheat_score":10,"atr14_pct":3,"float_turnover_pct":18}},
+        {"stock_code":"B001","technical_status":"WAIT_FIRST_PULLBACK","latest_market_date":"2026-09-04","latest_close":130,"discovery_metrics":{"return_1d_pct":8,"return_5d_pct":15,"ma25_deviation_pct":13,"rsi14":76,"volume_ratio20":5.5},"latest_metrics":{"rsi14":72,"ma25_deviation_pct":12,"return_5d_pct":15,"return_10d_pct":18,"return_20d_pct":22,"volume_ratio20":3,"upper_wick_ratio":0.2,"overheat_score":45,"atr14_pct":4,"float_turnover_pct":35}},
+        {"stock_code":"C001","technical_status":"BUY_NOW","latest_market_date":"2026-09-04","latest_close":90,"discovery_metrics":{"return_1d_pct":0,"return_5d_pct":0,"ma25_deviation_pct":0,"rsi14":50,"volume_ratio20":2},"latest_metrics":{"rsi14":50,"ma25_deviation_pct":0,"return_5d_pct":0,"return_10d_pct":0,"return_20d_pct":0,"volume_ratio20":2,"upper_wick_ratio":0.1,"overheat_score":0,"atr14_pct":2,"float_turnover_pct":10}}
     ]}
     rows = combine(discovery, materials, technical); by_code = {x["stock_code"]:x for x in rows}
     assert by_code["A001"]["entry_class"] == "BUY_NOW"
@@ -65,3 +69,13 @@ def test_final_three_classes_and_timing_first_ranking():
     assert by_code["C001"]["entry_class"] == "OVERHEAT_SKIP"
     assert rows[0]["stock_code"] == "A001"
     assert set(x["entry_class"] for x in rows) == {"BUY_NOW","WAIT_FIRST_PULLBACK","OVERHEAT_SKIP"}
+
+
+def test_buy_now_requires_theme_price_trend_and_float_turnover_evidence():
+    discovery = [{"ifis_rank":"1","stock_code":"D001","company_name":"D","best_theme":"AI","attention_stage_status":"DISCOVERED","minkabu_attention_type":"RISING","theme_relevance_score":"95","theme_price_change_1d_pct":"","theme_price_change_5d_pct":""}]
+    materials = [{"stock_code":"D001","review_status":"REVIEWED","material_class":"STRONG","material_continuity":"STRUCTURAL_OR_SPECIFIC"}]
+    technical = {"items":[{"stock_code":"D001","technical_status":"BUY_NOW","discovery_metrics":{"return_1d_pct":1,"return_5d_pct":2,"ma25_deviation_pct":2,"rsi14":58,"volume_ratio20":1.5},"latest_metrics":{"rsi14":60,"ma25_deviation_pct":3,"return_5d_pct":4,"return_10d_pct":5,"return_20d_pct":8,"volume_ratio20":1.6,"upper_wick_ratio":0.1,"overheat_score":10,"atr14_pct":3,"float_turnover_pct":None}}]}
+    rows = combine(discovery, materials, technical)
+    assert rows[0]["entry_class"] == "WAIT_FIRST_PULLBACK"
+    assert "theme price trend is not evaluable" in rows[0]["entry_reasons"]
+    assert "float turnover must be evaluable" in rows[0]["entry_reasons"]
