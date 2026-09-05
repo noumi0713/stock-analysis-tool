@@ -10,9 +10,12 @@ on:
   push:
     branches:
       - research/first-pullback-watch-prototype
+      - research/ifis-first-pullback-bridge
     paths:
       - research/ifis_theme_relevance_filter.py
       - research/test_ifis_theme_relevance_filter.py
+      - research/prepare_ifis_first_pullback_watch.py
+      - research/test_prepare_ifis_first_pullback_watch.py
       - research/data/ifis_manual_input_sample.csv
       - research/data/ifis_manual_input.csv
       - .github/workflows/ifis-theme-relevance-filter.yml
@@ -37,7 +40,9 @@ jobs:
           PYTHONPATH: research
         run: |
           python -m pip install --quiet pytest
-          python -m pytest -q research/test_ifis_theme_relevance_filter.py
+          python -m pytest -q \
+            research/test_ifis_theme_relevance_filter.py \
+            research/test_prepare_ifis_first_pullback_watch.py
 
       - name: Join manual IFIS candidates to finalized theme master
         env:
@@ -49,17 +54,36 @@ jobs:
             --master research/results/theme_relevance_batches/theme_relevance_full_final.csv \
             --out-dir research/results/ifis_theme_filter
 
+      - name: Prepare first-pullback watch candidates
+        run: |
+          python research/prepare_ifis_first_pullback_watch.py \
+            --input research/results/ifis_theme_filter/latest_candidates.csv \
+            --out-dir research/results/ifis_theme_filter
+
       - name: Validate outputs
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          p = Path('research/results/ifis_theme_filter/latest_summary.json')
-          s = json.loads(p.read_text(encoding='utf-8'))
-          assert s['status'] == 'complete'
-          assert s['candidate_count'] > 0
-          assert s['mapped_candidates'] + s['unmapped_candidates'] == s['candidate_count']
-          print(json.dumps(s, ensure_ascii=False, indent=2))
+
+          summary = json.loads(Path('research/results/ifis_theme_filter/latest_summary.json').read_text(encoding='utf-8'))
+          watch = json.loads(Path('research/results/ifis_theme_filter/first_pullback_watch_candidates.json').read_text(encoding='utf-8'))
+
+          assert summary['status'] == 'complete'
+          assert summary['candidate_count'] > 0
+          assert summary['mapped_candidates'] + summary['unmapped_candidates'] == summary['candidate_count']
+          assert watch['status'] == 'complete'
+          assert watch['primary_count'] > 0
+          assert watch['primary_count'] + watch['reference_count'] + watch['rejected_count'] == summary['candidate_count']
+          assert watch['excluded_inputs'] == ['Minkabu']
+          print(json.dumps({
+              'filter': summary,
+              'watch_counts': {
+                  'primary': watch['primary_count'],
+                  'reference': watch['reference_count'],
+                  'rejected': watch['rejected_count'],
+              },
+          }, ensure_ascii=False, indent=2))
           PY
 
       - name: Commit research outputs
@@ -70,6 +94,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No output changes"
           else
-            git commit -m "Update IFIS theme relevance filter outputs"
+            git commit -m "Update IFIS first-pullback bridge outputs"
             git push origin HEAD:${{ github.ref_name }}
           fi
