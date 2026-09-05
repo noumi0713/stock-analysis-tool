@@ -1,0 +1,25 @@
+{
+  "status": "complete",
+  "input_file": "research/data/ifis_manual_input_sample.csv",
+  "master_file": "research/results/theme_relevance_batches/theme_relevance_full_final.csv",
+  "candidate_count": 10,
+  "mapped_candidates": 10,
+  "unmapped_candidates": 0,
+  "candidate_class_counts": {
+    "CORE": 8,
+    "STRONG": 1,
+    "SUPPORT": 1
+  },
+  "snapshot_at_values": [
+    "2026-09-04T01:20:00+09:00"
+  ],
+  "filter_rule": {
+    "CORE": "best theme relevance >= 80",
+    "STRONG": "60 <= best theme relevance < 80",
+    "SUPPORT": "40 <= best theme relevance < 60",
+    "NOISE": "all mapped theme relevance < 40",
+    "UNMAPPED": "stock code absent from completed 124-theme master"
+  },
+  "ordering_rule": "Preserve IFIS rank as the primary attention order; theme relevance is a transparent filter, not a trading score.",
+  "ifis_collection_rule": "Manual paste/input only. This pipeline does not scrape IFIS."
+}
