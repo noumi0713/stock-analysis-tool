@@ -10,6 +10,9 @@ on:
       - research/run_ifis_first_pullback_monitor.py
       - research/test_first_pullback_watch_engine_v2.py
       - research/test_run_ifis_first_pullback_monitor.py
+      - research/combine_ifis_research_watch.py
+      - research/test_combine_ifis_research_watch.py
+      - research/results/ifis_theme_filter/candidate_news_reviewed.csv
       - .github/workflows/ifis-first-pullback-monitor.yml
 
 permissions:
@@ -35,7 +38,8 @@ jobs:
           python -m pip install --quiet pytest
           python -m pytest -q \
             research/test_first_pullback_watch_engine_v2.py \
-            research/test_run_ifis_first_pullback_monitor.py
+            research/test_run_ifis_first_pullback_monitor.py \
+            research/test_combine_ifis_research_watch.py
 
       - name: Run point-in-time technical monitor
         env:
@@ -46,37 +50,53 @@ jobs:
             --watch research/results/ifis_theme_filter/first_pullback_watch_candidates.json \
             --out research/results/ifis_theme_filter/technical_monitor.json
 
+      - name: Combine semantic catalysts and technical state
+        env:
+          PYTHONPATH: research
+        run: |
+          test -f research/results/ifis_theme_filter/candidate_news_reviewed.csv
+          python research/combine_ifis_research_watch.py \
+            --review research/results/ifis_theme_filter/candidate_news_reviewed.csv \
+            --technical research/results/ifis_theme_filter/technical_monitor.json \
+            --out-dir research/results/ifis_theme_filter
+
       - name: Validate monitor output
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          p = Path('research/results/ifis_theme_filter/technical_monitor.json')
-          x = json.loads(p.read_text(encoding='utf-8'))
-          assert x['status'] == 'complete'
-          assert x['candidate_count'] > 0
-          assert x['ok_count'] + x['error_count'] == x['candidate_count']
-          assert x['actionability'] == 'RESEARCH_ONLY_PENDING_CATALYST_REVIEW'
+          tech = json.loads(Path('research/results/ifis_theme_filter/technical_monitor.json').read_text(encoding='utf-8'))
+          final = json.loads(Path('research/results/ifis_theme_filter/research_watch_final.json').read_text(encoding='utf-8'))
+          assert tech['status'] == 'complete'
+          assert tech['candidate_count'] > 0
+          assert tech['ok_count'] + tech['error_count'] == tech['candidate_count']
+          assert final['status'] == 'complete'
+          assert final['actionability'] == 'RESEARCH_ONLY'
+          assert final['count'] == tech['candidate_count']
           print(json.dumps({
-              'candidate_count': x['candidate_count'],
-              'ok_count': x['ok_count'],
-              'error_count': x['error_count'],
-              'statuses': [
-                  {'rank': i.get('ifis_rank'), 'code': i.get('stock_code'), 'status': i.get('technical_status')}
-                  for i in x['items']
+              'candidate_count': tech['candidate_count'],
+              'ok_count': tech['ok_count'],
+              'error_count': tech['error_count'],
+              'disposition_counts': final['disposition_counts'],
+              'final': [
+                  {'rank': i['ifis_rank'], 'code': i['stock_code'], 'catalyst': i['catalyst_gate'], 'technical': i['technical_status'], 'disposition': i['research_disposition']}
+                  for i in final['items']
               ],
           }, ensure_ascii=False, indent=2))
           PY
 
-      - name: Commit technical monitor output
+      - name: Commit research watch outputs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/results/ifis_theme_filter/technical_monitor.json
+          git add \
+            research/results/ifis_theme_filter/technical_monitor.json \
+            research/results/ifis_theme_filter/research_watch_final.json \
+            research/results/ifis_theme_filter/research_watch_final.csv
           if git diff --cached --quiet; then
             echo "No output changes"
           else
-            git commit -m "Update IFIS first-pullback technical monitor"
+            git commit -m "Update IFIS final research watch"
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin HEAD:${GITHUB_REF_NAME}
           fi
