@@ -1,0 +1,125 @@
+name: Theme relevance complete remaining
+
+on:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - "research/theme_relevance_complete_remaining.txt"
+
+permissions:
+  contents: write
+
+env:
+  OUTDIR: research/results/theme_relevance_batches
+
+jobs:
+  generate:
+    name: batch-${{ matrix.batch }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 7
+      matrix:
+        batch: [5, 6, 7, 8, 9, 10, 11]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install --disable-pip-version-check -q yfinance requests beautifulsoup4 pypdf
+      - name: Fetch 124-theme source branch
+        run: git fetch origin research/volume-top100-overheat:refs/remotes/origin/research/volume-top100-overheat
+      - name: Generate batch through v6
+        shell: bash
+        run: |
+          B=${{ matrix.batch }}
+          python research/build_theme_relevance_batch.py --batch "$B" --size 300
+          python research/collect_theme_relevance_profiles.py --batch "$B" --workers 4
+          python research/collect_official_site_evidence.py --batch "$B" --workers 4
+          python research/score_theme_relevance_v3.py --batch "$B"
+          python research/prepare_theme_relevance_context.py --batch "$B"
+          python research/collect_revenue_mix_v6.py --batch "$B" --workers 10
+          python research/test_revenue_mix_v6.py
+          python research/score_theme_relevance_v6.py --batch "$B"
+      - name: Package batch outputs
+        shell: bash
+        run: |
+          printf -v P "%03d" ${{ matrix.batch }}
+          mkdir -p artifact
+          cp $OUTDIR/batch_${P}_memberships.csv artifact/
+          cp $OUTDIR/batch_${P}_stocks.csv artifact/
+          cp $OUTDIR/batch_${P}_profiles.csv artifact/
+          cp $OUTDIR/batch_${P}_official_evidence.csv artifact/
+          cp $OUTDIR/batch_${P}_scores_v3.csv artifact/
+          cp $OUTDIR/batch_${P}_context.csv artifact/
+          cp $OUTDIR/batch_${P}_segments_v6.csv artifact/
+          cp $OUTDIR/batch_${P}_revenue_mix_v6.csv artifact/
+          cp $OUTDIR/batch_${P}_revenue_mix_v6_summary.json artifact/
+          cp $OUTDIR/batch_${P}_scores_v6.csv artifact/
+          cp $OUTDIR/batch_${P}_score_summary_v3.json artifact/
+          cp $OUTDIR/batch_${P}_score_summary_v6.json artifact/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: theme-relevance-batch-${{ matrix.batch }}
+          path: artifact
+          retention-days: 1
+
+  merge-finalize:
+    name: merge-and-finalize
+    needs: generate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: theme-relevance-batch-*
+          path: downloaded
+          merge-multiple: false
+      - name: Merge generated batch files
+        shell: bash
+        run: |
+          mkdir -p "$OUTDIR"
+          find downloaded -type f -maxdepth 2 -print
+          find downloaded -type f -maxdepth 2 -exec cp {} "$OUTDIR"/ \;
+      - name: Fetch source and finalize full universe
+        shell: bash
+        run: |
+          git fetch origin research/volume-top100-overheat:refs/remotes/origin/research/volume-top100-overheat
+          python research/finalize_all_theme_relevance.py
+      - name: Commit complete universe
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for B in 005 006 007 008 009 010 011; do
+            git add "$OUTDIR"/batch_${B}_memberships.csv \
+                    "$OUTDIR"/batch_${B}_stocks.csv \
+                    "$OUTDIR"/batch_${B}_profiles.csv \
+                    "$OUTDIR"/batch_${B}_official_evidence.csv \
+                    "$OUTDIR"/batch_${B}_scores_v3.csv \
+                    "$OUTDIR"/batch_${B}_context.csv \
+                    "$OUTDIR"/batch_${B}_segments_v6.csv \
+                    "$OUTDIR"/batch_${B}_revenue_mix_v6.csv \
+                    "$OUTDIR"/batch_${B}_revenue_mix_v6_summary.json \
+                    "$OUTDIR"/batch_${B}_scores_v6.csv \
+                    "$OUTDIR"/batch_${B}_score_summary_v3.json \
+                    "$OUTDIR"/batch_${B}_score_summary_v6.json
+          done
+          git add "$OUTDIR"/theme_relevance_full_final.csv \
+                  "$OUTDIR"/theme_relevance_full_final_summary.json \
+                  "$OUTDIR"/theme_relevance_full_qa_sample.csv \
+                  "$OUTDIR"/theme_relevance_full_theme_stats.csv
+          git commit -m "Complete full 124-theme relevance universe"
+          git pull --rebase origin research/first-pullback-watch-prototype
+          git push
