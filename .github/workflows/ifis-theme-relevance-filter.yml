@@ -10,12 +10,13 @@ on:
   push:
     branches:
       - research/first-pullback-watch-prototype
-      - research/ifis-first-pullback-bridge
     paths:
       - research/ifis_theme_relevance_filter.py
       - research/test_ifis_theme_relevance_filter.py
       - research/prepare_ifis_first_pullback_watch.py
       - research/test_prepare_ifis_first_pullback_watch.py
+      - research/collect_ifis_candidate_news.py
+      - research/test_collect_ifis_candidate_news.py
       - research/data/ifis_manual_input_sample.csv
       - research/data/ifis_manual_input.csv
       - .github/workflows/ifis-theme-relevance-filter.yml
@@ -42,7 +43,8 @@ jobs:
           python -m pip install --quiet pytest
           python -m pytest -q \
             research/test_ifis_theme_relevance_filter.py \
-            research/test_prepare_ifis_first_pullback_watch.py
+            research/test_prepare_ifis_first_pullback_watch.py \
+            research/test_collect_ifis_candidate_news.py
 
       - name: Join manual IFIS candidates to finalized theme master
         env:
@@ -60,6 +62,12 @@ jobs:
             --input research/results/ifis_theme_filter/latest_candidates.csv \
             --out-dir research/results/ifis_theme_filter
 
+      - name: Collect point-in-time news context
+        run: |
+          python research/collect_ifis_candidate_news.py \
+            --watch research/results/ifis_theme_filter/first_pullback_watch_candidates.json \
+            --out research/results/ifis_theme_filter/candidate_news.json
+
       - name: Validate outputs
         run: |
           python - <<'PY'
@@ -68,6 +76,7 @@ jobs:
 
           summary = json.loads(Path('research/results/ifis_theme_filter/latest_summary.json').read_text(encoding='utf-8'))
           watch = json.loads(Path('research/results/ifis_theme_filter/first_pullback_watch_candidates.json').read_text(encoding='utf-8'))
+          news = json.loads(Path('research/results/ifis_theme_filter/candidate_news.json').read_text(encoding='utf-8'))
 
           assert summary['status'] == 'complete'
           assert summary['candidate_count'] > 0
@@ -76,13 +85,14 @@ jobs:
           assert watch['primary_count'] > 0
           assert watch['primary_count'] + watch['reference_count'] + watch['rejected_count'] == summary['candidate_count']
           assert watch['excluded_inputs'] == ['Minkabu']
+          assert news['status'] == 'complete'
+          assert news['candidate_count'] == watch['primary_count']
+          assert all(x['semantic_catalyst_status'] == 'PENDING_CHATGPT_REVIEW' for x in news['candidates'])
           print(json.dumps({
-              'filter': summary,
-              'watch_counts': {
-                  'primary': watch['primary_count'],
-                  'reference': watch['reference_count'],
-                  'rejected': watch['rejected_count'],
-              },
+              'filter_count': summary['candidate_count'],
+              'primary_watch': watch['primary_count'],
+              'reference_watch': watch['reference_count'],
+              'news_candidates': news['candidate_count'],
           }, ensure_ascii=False, indent=2))
           PY
 
@@ -94,6 +104,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No output changes"
           else
-            git commit -m "Update IFIS first-pullback bridge outputs"
+            git commit -m "Update IFIS relevance and point-in-time news outputs"
             git push origin HEAD:${{ github.ref_name }}
           fi
