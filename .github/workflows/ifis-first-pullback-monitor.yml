@@ -1,0 +1,80 @@
+name: IFIS first-pullback technical monitor
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - research/first_pullback_watch_engine_v2.py
+      - research/run_ifis_first_pullback_monitor.py
+      - research/test_first_pullback_watch_engine_v2.py
+      - research/test_run_ifis_first_pullback_monitor.py
+      - .github/workflows/ifis-first-pullback-monitor.yml
+
+permissions:
+  contents: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Run monitor tests
+        env:
+          PYTHONPATH: research
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest -q \
+            research/test_first_pullback_watch_engine_v2.py \
+            research/test_run_ifis_first_pullback_monitor.py
+
+      - name: Run point-in-time technical monitor
+        env:
+          PYTHONPATH: research
+        run: |
+          test -f research/results/ifis_theme_filter/first_pullback_watch_candidates.json
+          python research/run_ifis_first_pullback_monitor.py \
+            --watch research/results/ifis_theme_filter/first_pullback_watch_candidates.json \
+            --out research/results/ifis_theme_filter/technical_monitor.json
+
+      - name: Validate monitor output
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('research/results/ifis_theme_filter/technical_monitor.json')
+          x = json.loads(p.read_text(encoding='utf-8'))
+          assert x['status'] == 'complete'
+          assert x['candidate_count'] > 0
+          assert x['ok_count'] + x['error_count'] == x['candidate_count']
+          assert x['actionability'] == 'RESEARCH_ONLY_PENDING_CATALYST_REVIEW'
+          print(json.dumps({
+              'candidate_count': x['candidate_count'],
+              'ok_count': x['ok_count'],
+              'error_count': x['error_count'],
+              'statuses': [
+                  {'rank': i.get('ifis_rank'), 'code': i.get('stock_code'), 'status': i.get('technical_status')}
+                  for i in x['items']
+              ],
+          }, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Commit technical monitor output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/ifis_theme_filter/technical_monitor.json
+          if git diff --cached --quiet; then
+            echo "No output changes"
+          else
+            git commit -m "Update IFIS first-pullback technical monitor"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
