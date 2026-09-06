@@ -87,7 +87,8 @@ jobs:
           assert final['count'] == discovery['discovered_count']
           assert all(x['entry_class'] in allowed for x in final['items'])
           assert all('trading_score' not in x and 'buy_score' not in x for x in final['items'])
-          assert 'Attention magnitude itself is not rewarded twice' in final['ranking_rule']
+          assert 'IFIS attention rank is only a final tie-breaker' in final['ranking_rule']
+          assert 'Minkabu is not used' in final['buy_now_evidence_rule']
           print(json.dumps({'count': final['count'], 'class_counts': final['class_counts']}, ensure_ascii=False, indent=2))
           PY
       - name: Commit research final outputs
@@ -98,7 +99,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No output changes"
           else
-            git commit -m "Update attention research v3 final classification"
+            git commit -m "Update IFIS-only attention final classification"
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin HEAD:${GITHUB_REF_NAME}
           fi
