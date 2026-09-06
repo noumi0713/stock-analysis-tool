@@ -1,0 +1,37 @@
+name: Theme daily score 124 3y
+
+on:
+  push:
+    branches:
+      - research/theme-daily-score-124-3y
+    paths:
+      - 'research/theme_daily_score_124_3y.py'
+      - '.github/workflows/theme-daily-score-124-3y.yml'
+  workflow_dispatch:
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check pandas numpy
+      - name: Run daily 124-theme backtest
+        run: |
+          mkdir -p research-output
+          python research/theme_daily_score_124_3y.py \
+            --data-dir dashboard-data/technical-backtest-3y \
+            --memberships research/data/theme_members_124.csv \
+            --output-json research-output/theme-daily-score-124-3y.json \
+            --output-md research-output/theme-daily-score-124-3y.md \
+            --output-csv research-output/theme-daily-score-124-3y-entry-events.csv
+      - name: Show summary
+        run: cat research-output/theme-daily-score-124-3y.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: theme-daily-score-124-3y
+          path: research-output/
