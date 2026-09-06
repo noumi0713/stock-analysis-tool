@@ -1,0 +1,25 @@
+name: Theme daily rank late August
+on:
+  push:
+    branches: [research/theme-daily-score-124-3y]
+    paths: [.github/workflows/theme-daily-rank-late-august.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  rank:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check pandas numpy yfinance
+      - name: Compute 2026-08-24 to 2026-08-28 rankings
+        run: python research/theme_daily_rank_late_august.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: late-august-theme-rankings
+          path: research-output/late-august-theme-rankings.csv
