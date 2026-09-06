@@ -2,6 +2,13 @@ name: Theme ABC dashboard daily
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - feature/theme-abc-dashboard-auto
+    paths:
+      - 'research/theme_dashboard_snapshot.py'
+      - 'theme-dashboard/**'
+      - '.github/workflows/theme-dashboard-daily.yml'
   schedule:
     # 16:20 JST, Monday-Friday. Japan has no DST.
     - cron: '20 7 * * 1-5'
