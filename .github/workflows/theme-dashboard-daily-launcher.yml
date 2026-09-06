@@ -3,9 +3,11 @@ name: Theme ABC dashboard daily launcher
 on:
   workflow_dispatch:
   schedule:
-    # 16:20 JST, Monday-Friday. The job itself preserves the previous certified
-    # snapshot if Yahoo data is incomplete or if the latest market day is absent.
+    # 16:20 / 17:20 / 18:20 JST, Monday-Friday.
+    # The later two runs act as automatic retries when Yahoo daily data is late.
     - cron: '20 7 * * 1-5'
+    - cron: '20 8 * * 1-5'
+    - cron: '20 9 * * 1-5'
 
 permissions:
   contents: write
