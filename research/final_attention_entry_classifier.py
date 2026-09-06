@@ -63,26 +63,14 @@ def extreme_overheat(latest: dict) -> list[str]:
     return reasons
 
 
-def theme_price_is_rising(discovery: dict) -> tuple[bool, str]:
-    d1 = as_float(discovery.get("theme_price_change_1d_pct"), None)
-    d5 = as_float(discovery.get("theme_price_change_5d_pct"), None)
-    if d1 is None and d5 is None:
-        return False, "theme price trend is not evaluable"
-    if (d1 is not None and d1 > 0.0) or (d5 is not None and d5 > 0.0):
-        return True, "theme price trend is positive"
-    return False, "theme price trend is not positive"
-
-
-def can_buy_now(discovery: dict, material: dict, tech_status: str, latest: dict):
+def can_buy_now(material: dict, tech_status: str, latest: dict):
     if material.get("material_class") != "STRONG":
         return False, ["strong positive material is required"]
     if tech_status not in TECH_ACTIONABLE:
         return False, [f"technical state {tech_status} is not actionable"]
 
-    theme_ok, theme_reason = theme_price_is_rising(discovery)
     turnover = metric(latest, "float_turnover_pct", None)
     conditions = [
-        (theme_ok, theme_reason),
         (metric(latest, "rsi14", 100.0) <= 68.0, "RSI <= 68"),
         (metric(latest, "ma25_deviation_pct", 999.0) <= 8.0, "25MA deviation <= 8%"),
         (metric(latest, "return_5d_pct", 999.0) <= 10.0, "5-day return <= 10%"),
@@ -118,10 +106,10 @@ def classify_one(discovery: dict, material: dict, tech: dict) -> dict:
         entry = OVERHEAT_SKIP
         reasons.extend(extreme)
     else:
-        buyable, failed = can_buy_now(discovery, material, tech_status, latest)
+        buyable, failed = can_buy_now(material, tech_status, latest)
         if buyable:
             entry = BUY_NOW
-            reasons.append("strong material + cross-source attention + rising theme + limited price overheat")
+            reasons.append("strong material + IFIS attention + relevant theme membership + limited price overheat")
             if seq == "ATTENTION_BEFORE_PRICE_OVERHEAT":
                 reasons.append("attention/price sequence proxy is favorable")
         else:
@@ -134,19 +122,12 @@ def classify_one(discovery: dict, material: dict, tech: dict) -> dict:
     overheat = metric(latest, "overheat_score", 999.0)
     ma_dev = metric(latest, "ma25_deviation_pct", 999.0)
     ret5 = metric(latest, "return_5d_pct", 999.0)
-    theme1 = as_float(discovery.get("theme_price_change_1d_pct"), None)
-    theme5 = as_float(discovery.get("theme_price_change_5d_pct"), None)
     return {
         "ifis_rank": int(float(discovery.get("ifis_rank") or 999999)),
         "stock_code": discovery.get("stock_code", ""),
         "company_name": discovery.get("company_name", ""),
         "best_theme": discovery.get("best_theme", ""),
-        "minkabu_attention_type": discovery.get("minkabu_attention_type", ""),
-        "minkabu_theme_rank": discovery.get("minkabu_theme_rank", ""),
-        "minkabu_relevance": discovery.get("minkabu_relevance", ""),
         "theme_relevance_score": discovery.get("theme_relevance_score", ""),
-        "theme_price_change_1d_pct": theme1,
-        "theme_price_change_5d_pct": theme5,
         "material_class": material.get("material_class", ""),
         "material_continuity": material.get("material_continuity", ""),
         "catalyst_type": material.get("catalyst_type", ""),
@@ -227,9 +208,9 @@ def main() -> None:
         "final_classes": LABEL_JA,
         "count": len(rows),
         "class_counts": counts,
-        "ranking_rule": "No composite buy score. Rank by final class, then lower technical overheat, lower positive 25MA deviation, lower 5-day price rise, then original IFIS rank. Attention magnitude itself is not rewarded twice.",
-        "buy_now_evidence_rule": "BUY_NOW also requires a positive supplied theme price trend and an evaluable, non-extreme float turnover; missing either evidence downgrades to WAIT_FIRST_PULLBACK rather than being assumed favorable.",
-        "causality_warning": "attention_price_sequence_proxy is a timing proxy, not proof of causality. It flags likely late attention when the price/volume move was already large at discovery.",
+        "ranking_rule": "No composite buy score. Rank by final class, then lower technical overheat, lower positive 25MA deviation, lower 5-day price rise, then original IFIS rank. IFIS attention rank is only a final tie-breaker.",
+        "buy_now_evidence_rule": "BUY_NOW requires strong reviewed material, actionable technical state, limited overheat and an evaluable non-extreme float turnover. Minkabu is not used.",
+        "causality_warning": "attention_price_sequence_proxy is a timing proxy, not proof of causality. It flags likely late IFIS attention when the price/volume move was already large at discovery.",
         "items": rows,
     }
     (out / "attention_entry_final.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
