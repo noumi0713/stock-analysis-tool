@@ -6,6 +6,7 @@ on:
       - research/crowd-psychology-3y-backtest
     paths:
       - "momentum5d/scripts/backtest_crowd_psychology.py"
+      - "momentum5d/scripts/backtest_crowd_psychology_v2.py"
       - ".github/workflows/crowd-psychology-3y-backtest.yml"
       - "dashboard-data/technical-backtest-3y/**"
   workflow_dispatch:
@@ -27,21 +28,21 @@ jobs:
       - name: Run 3-year all-TSE holdout backtest
         run: |
           mkdir -p research-output
-          python momentum5d/scripts/backtest_crowd_psychology.py \
+          python momentum5d/scripts/backtest_crowd_psychology_v2.py \
             --data-dir dashboard-data/technical-backtest-3y \
-            --output-json research-output/crowd-psychology-backtest.json \
-            --output-md research-output/crowd-psychology-backtest.md
+            --output-json research-output/crowd-psychology-backtest-v2.json \
+            --output-md research-output/crowd-psychology-backtest-v2.md
 
       - name: Show summary
         if: always()
         run: |
-          if [ -f research-output/crowd-psychology-backtest.md ]; then
-            cat research-output/crowd-psychology-backtest.md
+          if [ -f research-output/crowd-psychology-backtest-v2.md ]; then
+            cat research-output/crowd-psychology-backtest-v2.md
           fi
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: crowd-psychology-3y-backtest
+          name: crowd-psychology-3y-backtest-v2
           path: research-output/
           if-no-files-found: warn
