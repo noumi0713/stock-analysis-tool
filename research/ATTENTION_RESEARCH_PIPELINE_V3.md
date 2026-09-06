@@ -5,33 +5,34 @@ Production trading strategy remains frozen.
 
 ## Goal
 
-Detect stocks where investor attention is starting to rise, verify why attention increased, then decide whether price timing is still favorable. IFIS and Minkabu attention are **discovery inputs**, not independent buy confirmations.
+Use IFIS access acceleration to discover stocks receiving fresh investor attention, verify why attention increased, then decide whether price timing is still favorable. Minkabu is not used in this pipeline.
 
-## Stage 1 — Attention discovery only
+## Stage 1 — IFIS attention discovery only
 
 Inputs:
 
 - IFIS attention increase TOP30, supplied manually as CSV. IFIS scraping remains prohibited.
-- Minkabu POPULAR / RISING theme snapshot, supplied as CSV.
-- Minkabu stock-theme relevance when available.
 - Finalized 124-theme relevance master derived from Kabutan theme membership.
 
 A stock is discovered only when:
 
 1. it is in IFIS top N (default 30),
-2. it belongs to a Minkabu POPULAR or RISING theme in the supplied snapshot,
-3. the same stock-theme pair exists in the finalized Kabutan-derived 124-theme master,
-4. finalized 124-theme relevance is at least 40 (`SUPPORT` or better).
+2. it exists in the finalized 124-theme master,
+3. at least one finalized theme relevance score is 40 or more (`SUPPORT` or better).
 
-Sub-40 `NOISE` matches remain in `attention_discovery_matches.csv` for research comparison but do not enter the candidate list. Minkabu relevance is preserved as a raw research field; no unvalidated threshold is imposed on it yet.
+Sub-40 `NOISE` themes remain in `attention_discovery_themes.csv` for research comparison but do not qualify the stock by themselves.
 
-No trading score or buy decision is created in this stage. IFIS attention and Minkabu attention are not double-counted.
+No trading score or buy decision is created in this stage. Theme relevance is a membership/directness gate, not a second attention signal.
 
-Output: `attention_discovery_candidates.csv` and `attention_discovery_matches.csv`.
+Outputs:
+
+- `attention_discovery_candidates.csv`
+- `attention_discovery_themes.csv`
+- `attention_discovery_summary.json`
 
 ## Stage 2 — Material before technical
 
-Every discovered stock requires a semantic material review using only information safely available at the attention snapshot.
+Every discovered stock requires a semantic material review using only information safely available at the IFIS attention snapshot.
 
 Material classes:
 
@@ -66,7 +67,7 @@ The system also records an `attention_price_sequence_proxy`:
 - `AMBIGUOUS`
 - `PRICE_MOVE_PRECEDED_ATTENTION_OR_LATE`
 
-This is a timing proxy, **not proof of causality**. Its purpose is to catch cases where price/volume had already run before the attention snapshot.
+This is a timing proxy, not proof of causality. Its purpose is to catch cases where price/volume had already run before the IFIS snapshot.
 
 ## Final three classes
 
@@ -76,20 +77,20 @@ Research prototype requirements include:
 
 - material class `STRONG`,
 - technical state `BUY_NOW` or `FIRST_PULLBACK_SIGNAL`,
-- supplied theme price trend is positive on either 1-day or 5-day change,
 - RSI <= 68,
 - MA25 deviation <= 8%,
 - 5-day return <= 10%,
 - 20-day return <= 25%,
 - volume ratio between 1.2x and 5x,
 - upper-wick ratio <= 0.35,
-- float turnover is evaluable and <= 60%.
+- float turnover must be evaluable,
+- float turnover <= 60%.
 
-Missing theme-price or float-turnover evidence is **not assumed favorable**. It downgrades an otherwise valid case to `WAIT_FIRST_PULLBACK` until the evidence is available.
+There is no Minkabu theme-price requirement.
 
 ### WAIT_FIRST_PULLBACK — 初押し待ち
 
-Strong material remains valid but current timing or required evidence is not clean enough. This includes already-extended stocks, pullback-forming stocks, cases where attention appears late relative to the price move, and otherwise valid stocks lacking theme-price or float-turnover evidence for a strict `BUY_NOW` decision.
+Strong material remains valid but current timing is not clean enough. This includes already-extended stocks, pullback-forming stocks, cases where IFIS attention appears late relative to the price move, or cases with missing required float-turnover evidence.
 
 ### OVERHEAT_SKIP — 過熱・見送り
 
@@ -103,7 +104,7 @@ Includes weak/negative/absent materials, lookahead-unsafe evidence, invalidated 
 - long upper wick >= 0.50,
 - daily float turnover >= 100% when evaluable.
 
-These thresholds are **research parameters**, not changes to the frozen production strategy.
+These thresholds are research parameters, not changes to the frozen production strategy.
 
 ## Ranking rule
 
@@ -117,11 +118,11 @@ Sort in this order:
 4. lower 5-day price rise,
 5. original IFIS rank.
 
-This intentionally ranks "attention is rising but price is least overheated" above "most viewed".
+This intentionally ranks "IFIS attention is rising but price is least overheated" above "highest IFIS rank" when timing quality differs.
 
 ## Lookahead rules
 
-- Current theme relevance master must not be retroactively applied to historical backtests.
+- Current theme relevance master must not be retroactively applied to older historical backtests unless its relevance state is valid for that date.
 - Catalyst data must be available at the discovery timestamp.
-- Same-day catalyst dates without a timestamp are treated as ambiguous and rejected when the attention snapshot is earlier that day.
+- Same-day catalyst dates without a timestamp are treated as ambiguous and rejected when the IFIS snapshot is earlier that day.
 - All research outputs remain `RESEARCH_ONLY` until out-of-sample and forward validation are completed.
