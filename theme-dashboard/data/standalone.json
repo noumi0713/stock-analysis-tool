@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.0",
+  "market_date": "2026-09-04",
+  "updated_at": "2026-09-07T08:26:49+09:00",
+  "quality": {
+    "complete": true,
+    "certified": true,
+    "expected_stock_count": 3183,
+    "latest_stock_count": 3183,
+    "latest_stock_coverage_pct": 100.0,
+    "theme_count": 124,
+    "eligible_theme_count": 124,
+    "min_stock_coverage_pct": 95.0,
+    "min_eligible_theme_count": 120,
+    "history_source_end": "2026-08-21",
+    "standalone_excluded_by_broad_theme_rise": 124
+  },
+  "items": [
+    {
+      "rank": 1,
+      "ticker": "520A.T",
+      "code": "520A",
+      "name": "520A.T",
+      "standalone_score": 99.45,
+      "return_1d_pct": 12.32,
+      "return_5d_pct": 32.88,
+      "best_theme_return_5d_pct": -1.58,
+      "theme_excess_5d_pct": 34.46,
+      "turnover_ratio_1d_to_20d": 66.46,
+      "themes": [
+        "食品"
+      ],
+      "standalone_reason": "stock_positive_and_outperforming_all_associated_themes; broad-theme-rises excluded"
+    },
+    {
+      "rank": 2,
+      "ticker": "4583.T",
+      "code": "4583",
+      "name": "4583.T",
+      "standalone_score": 99.42,
+      "return_1d_pct": 36.59,
+      "return_5d_pct": 31.76,
+      "best_theme_return_5d_pct": -2.3,
+      "theme_excess_5d_pct": 34.07,
+      "turnover_ratio_1d_to_20d": 58.62,
+      "themes": [
+        "食品"
+      ],
+      "standalone_reason": "stock_positive_and_outperforming_all_associated_themes; broad-theme-rises excluded"
+    },
+    {
+      "rank": 3,
+      "ticker": "7689.T",
+      "code": "7689",
+      "name": "7689.T",
+      "standalone_score": 99.41,
+      "return_1d_pct": 26.58,
+      "return_5d_pct": 27.0,
+      "best_theme_return_5d_pct": -0.47,
+      "theme_excess_5d_pct": 27.47,
+      "turnover_ratio_1d_to_20d": 149.85,
+      "themes": [
+        "食品"
+      ],
+      "standalone_reason": "stock_positive_and_outperforming_all_associated_themes; broad-theme-rises excluded"
+    },
+    {
+      "rank": 4,
+      "ticker": "3653.T",
+      "code": "3653",
+      "name": "モルフォ",
+      "standalone_score": 99.35,
+      "return_1d_pct": 4.87,
+      "return_5d_pct": 55.47,
+      "best_theme_return_5d_pct": -0.58,
+      "theme_excess_5d_pct": 56.05,
+      "turnover_ratio_1d_to_20d": 568.78,
+      "themes": [
+        "食品"
+      ],
+      "standalone_reason": "stock_positive_and_outperforming_all_associated_themes; broad-theme-rises excluded"
+    },
+    {
+      "rank": 5,
+      "ticker": "3645.T",
+      "code": "3645",
+      "name": "3645.T",
+      "standalone_score": 99.27,
+      "return_1d_pct": 19.76,
+      "return_5d_pct": 23.17,
+      "best_theme_return_5d_pct": -1.09,
+      "theme_excess_5d_pct": 24.26,
+      "turnover_ratio_1d_to_20d": 238.41,
+      "themes": [
+        "食品"
+      ],
+      "standalone_reason": "stock_positive_and_outperforming_all_associated_themes; broad-theme-rises excluded"
+    },
+    {
+      "rank": 6,
+      "ticker": "338A.T",
+      "code": "338A",
+      "name": "338A.T",
+      "standalone_score": 98.86,
+      "return_1d_pct": 7.11,
+      "return_5d_pct": 22.99,
+      "best_theme_return_5d_pct": -0.66,
+      "theme_excess_5d_pct": 23.66,
+      "turnover_ratio_1d_to_20d": 49.96,
+      "themes": [
+        "食品"
+      ],
+      "standalone_reason": "stock_positive_and_outperforming_all_associated_themes; broad-theme-rises excluded"
+    },
+    {
+      "rank": 7,
+      "ticker": "7694.T",
+      "code": "7694",
+      "name": "いつも",
+      "standalone_score": 98.58,
+      "return_1d_pct": 6.47,
+      "return_5d_pct": 21.82,
+      "best_theme_return_5d_pct": -0.27,
+      "theme_excess_5d_pct": 22.09,
+      "turnover_ratio_1d_to_20d": 26.43,
+      "themes": [
+        "食品"
+      ],
+      "standalone_reason": "stock_positive_and_outperforming_all_associated_themes; broad-theme-rises excluded"
+    },
+    {
+      "rank": 8,
+      "ticker": "604A.T",
+      "code": "604A",
+      "name": "604A.T",
+      "standalone_score": 98.51,
+      "return_1d_pct": 8.73,
+      "return_5d_pct": 21.0,
+      "best_theme_return_5d_pct": 0.48,
+      "theme_excess_5d_pct": 20.52,
+      "turnover_ratio_1d_to_20d": 10.69,
+      "themes": [
+        "食品"
+      ],
+      "standalone_reason": "stock_positive_and_outperforming_all_associated_themes; broad-theme-rises excluded"
+    },
+    {
+      "rank": 9,
+      "ticker": "4598.T",
+      "code": "4598",
+      "name": "4598.T",
+      "standalone_score": 97.96,
+      "return_1d_pct": 9.01,
+      "return_5d_pct": 15.24,
+      "best_theme_return_5d_pct": -1.58,
+      "theme_excess_5d_pct": 16.82,
+      "turnover_ratio_1d_to_20d": 21.64,
+      "themes": [
+        "食品"
+      ],
+      "standalone_reason": "stock_positive_and_outperforming_all_associated_themes; broad-theme-rises excluded"
+    },
+    {
+      "rank": 10,
+      "ticker": "4088.T",
+      "code": "4088",
+      "name": "エアウォータ",
+      "standalone_score": 97.86,
+      "return_1d_pct": 5.95,
+      "return_5d_pct": 20.16,
+      "best_theme_return_5d_pct": -0.68,
+      "theme_excess_5d_pct": 20.84,
+      "turnover_ratio_1d_to_20d": 4.84,
+      "themes": [
+        "食品"
+      ],
+      "standalone_reason": "stock_positive_and_outperforming_all_associated_themes; broad-theme-rises excluded"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "attempted_at": "2026-09-07T08:26:49+09:00",
+  "market_date": "2026-09-04",
+  "previous_certified_market_date": null,
+  "result": "CERTIFIED",
+  "quality": {
+    "complete": true,
+    "certified": true,
+    "expected_stock_count": 3183,
+    "latest_stock_count": 3183,
+    "latest_stock_coverage_pct": 100.0,
+    "theme_count": 124,
+    "eligible_theme_count": 124,
+    "min_stock_coverage_pct": 95.0,
+    "min_eligible_theme_count": 120,
+    "history_source_end": "2026-08-21",
+    "standalone_excluded_by_broad_theme_rise": 124
+  }
+}
