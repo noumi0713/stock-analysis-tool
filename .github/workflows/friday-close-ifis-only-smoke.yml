@@ -1,0 +1,107 @@
+name: Friday close IFIS-only smoke replay
+
+on:
+  push:
+    branches:
+      - research/first-pullback-watch-prototype
+    paths:
+      - .github/workflows/friday-close-ifis-only-smoke.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Run IFIS-only unit tests
+        env:
+          PYTHONPATH: research
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest -q research/test_attention_research_pipeline_v3.py
+      - name: Discover Friday IFIS candidates without Minkabu
+        run: |
+          python research/attention_discovery_stage.py \
+            --ifis research/data/ifis_manual_input_sample.csv \
+            --master research/results/theme_relevance_batches/theme_relevance_full_final.csv \
+            --top-n 30 \
+            --min-theme-relevance 40 \
+            --out-dir research/results/attention_research_v3
+      - name: Build material stage
+        run: |
+          python research/material_attention_classifier.py \
+            --discovery research/results/attention_research_v3/attention_discovery_candidates.csv \
+            --review research/results/ifis_theme_filter/candidate_news_reviewed.csv \
+            --out-dir research/results/attention_research_v3
+      - name: Prepare IFIS-only technical watch
+        run: |
+          python research/prepare_attention_watch.py \
+            --input research/results/attention_research_v3/attention_discovery_candidates.csv \
+            --out research/results/attention_research_v3/attention_watch.json
+      - name: Calculate Friday-close technical state
+        env:
+          PYTHONPATH: research
+        run: |
+          python research/run_attention_technical_monitor.py \
+            --watch research/results/attention_research_v3/attention_watch.json \
+            --out research/results/attention_research_v3/technical_monitor.json
+      - name: Build final IFIS-only classification
+        env:
+          PYTHONPATH: research
+        run: |
+          python research/final_attention_entry_classifier.py \
+            --discovery research/results/attention_research_v3/attention_discovery_candidates.csv \
+            --material research/results/attention_research_v3/material_stage.csv \
+            --technical research/results/attention_research_v3/technical_monitor.json \
+            --out-dir research/results/attention_research_v3
+      - name: Build Friday-close replay summary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('research/results/attention_research_v3')
+          discovery = json.loads((p/'attention_discovery_summary.json').read_text(encoding='utf-8'))
+          tech = json.loads((p/'technical_monitor.json').read_text(encoding='utf-8'))
+          final = json.loads((p/'attention_entry_final.json').read_text(encoding='utf-8'))
+          assert discovery['discovered_count'] == 10
+          assert tech['candidate_count'] == 10
+          assert final['count'] == 10
+          assert all('minkabu' not in json.dumps(x, ensure_ascii=False).lower() for x in final['items'])
+          payload = {
+            'status': 'complete',
+            'scope': 'RESEARCH_ONLY',
+            'test_type': '2026-09-04 Friday-close IFIS-only smoke replay',
+            'decision_market_date': '2026-09-04',
+            'ifis_snapshot_at': '2026-09-04T01:20:00+09:00',
+            'minkabu_used': False,
+            'discovery_count': discovery['discovered_count'],
+            'technical_ok_count': tech['ok_count'],
+            'technical_error_count': tech['error_count'],
+            'class_counts': final['class_counts'],
+            'items': final['items'],
+            'note': 'IFIS ranking is the attention input. The 124-theme relevance master is only a theme-membership/directness gate. Material review precedes technical timing. No Minkabu data is used.'
+          }
+          (p/'friday_close_ifis_only_2026-09-04.json').write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding='utf-8')
+          print(json.dumps({'discovered': payload['discovery_count'], 'class_counts': payload['class_counts']}, ensure_ascii=False, indent=2))
+          PY
+      - name: Commit Friday-close IFIS-only replay
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/results/attention_research_v3
+          if git diff --cached --quiet; then
+            echo "No output changes"
+          else
+            git commit -m "Record Friday-close IFIS-only smoke replay"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
