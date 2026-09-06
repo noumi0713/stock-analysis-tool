@@ -6,9 +6,6 @@ on:
       ifis_path:
         description: Manual IFIS TOP30 CSV path
         required: true
-      minkabu_path:
-        description: Manual Minkabu POPULAR/RISING theme-stock snapshot CSV path
-        required: true
 
 permissions:
   contents: write
@@ -30,21 +27,17 @@ jobs:
         run: |
           python -m pip install --quiet pytest
           python -m pytest -q research/test_attention_research_pipeline_v3.py
-      - name: Validate manual snapshots
+      - name: Validate manual IFIS snapshot
         env:
           IFIS_PATH: ${{ inputs.ifis_path }}
-          MINKABU_PATH: ${{ inputs.minkabu_path }}
         run: |
           test -s "$IFIS_PATH"
-          test -s "$MINKABU_PATH"
-      - name: Discover cross-source attention candidates
+      - name: Discover IFIS theme candidates
         env:
           IFIS_PATH: ${{ inputs.ifis_path }}
-          MINKABU_PATH: ${{ inputs.minkabu_path }}
         run: |
           python research/attention_discovery_stage.py \
             --ifis "$IFIS_PATH" \
-            --minkabu "$MINKABU_PATH" \
             --master research/results/theme_relevance_batches/theme_relevance_full_final.csv \
             --top-n 30 \
             --min-theme-relevance 40 \
@@ -69,11 +62,12 @@ jobs:
           rows = list(csv.DictReader((p / 'attention_discovery_candidates.csv').open(encoding='utf-8-sig')))
           news = json.loads((p / 'candidate_news.json').read_text(encoding='utf-8'))
           assert summary['status'] == 'complete'
-          assert summary['stage'] == 'ATTENTION_DISCOVERY_ONLY'
+          assert summary['stage'] == 'IFIS_THEME_DISCOVERY_ONLY'
           assert summary['discovered_count'] == len(rows) > 0
           assert all(r['buy_decision'] == 'NOT_EVALUATED' for r in rows)
           assert all(float(r['theme_relevance_score']) >= 40 for r in rows)
           assert news['candidate_count'] == len(rows)
+          assert 'Minkabu' not in summary['rule'] or 'not an input' in summary['rule']
           print(json.dumps({'discovered': len(rows), 'news_candidates': news['candidate_count']}, ensure_ascii=False, indent=2))
           PY
       - name: Commit research discovery outputs
@@ -84,7 +78,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No output changes"
           else
-            git commit -m "Update attention research v3 discovery"
+            git commit -m "Update IFIS-only attention research discovery"
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin HEAD:${GITHUB_REF_NAME}
           fi
