@@ -1,7 +1,7 @@
 {
-  "attempted_at": "2026-09-07T08:26:49+09:00",
+  "attempted_at": "2026-09-07T08:29:15+09:00",
   "market_date": "2026-09-04",
-  "previous_certified_market_date": null,
+  "previous_certified_market_date": "2026-09-04",
   "result": "CERTIFIED",
   "quality": {
     "complete": true,
