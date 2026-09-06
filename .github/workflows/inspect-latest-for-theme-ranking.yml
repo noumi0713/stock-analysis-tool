@@ -1,0 +1,36 @@
+name: Inspect latest for theme ranking
+on:
+  push:
+    branches: [research/theme-daily-score-124-3y]
+    paths: [.github/workflows/inspect-latest-for-theme-ranking.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inspect latest.json
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('dashboard-data/latest.json')
+          print('size',p.stat().st_size)
+          x=json.loads(p.read_text(encoding='utf-8'))
+          print('type',type(x).__name__)
+          if isinstance(x,dict):
+              print('keys',list(x)[:50])
+              for k,v in x.items():
+                  print('KEY',k,'TYPE',type(v).__name__)
+                  if isinstance(v,dict): print(' subkeys',list(v)[:30])
+                  elif isinstance(v,list):
+                      print(' len',len(v),'sample',v[:2])
+                  else: print(' val',str(v)[:500])
+                  if k in ('stocks','bars','data','prices','records','items'): 
+                      print('candidate_sample',str(v)[:4000])
+          PY
