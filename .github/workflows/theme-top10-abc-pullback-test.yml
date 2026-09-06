@@ -1,0 +1,27 @@
+name: Theme Top10 ABC pullback test
+on:
+  push:
+    branches: [research/theme-daily-score-124-3y]
+    paths:
+      - research/theme_top10_abc_pullback_test.py
+      - .github/workflows/theme-top10-abc-pullback-test.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check pandas numpy
+      - name: Run ABC test
+        run: python research/theme_top10_abc_pullback_test.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: theme-top10-abc-pullback-test
+          path: research-output/theme-top10-abc-pullback-test.json
