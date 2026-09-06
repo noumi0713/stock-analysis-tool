@@ -1,6 +1,0 @@
-snapshot_at,attention_type,theme_rank,theme_name,stock_code,company_name,minkabu_relevance,theme_price_change_1d_pct,theme_price_change_5d_pct,input_note
-2026-09-04T15:30:00+09:00,POPULAR,1,自動運転車,3653,モルフォ,,0.65,,2026-09-04 Friday-close popular-theme smoke-test snapshot; exact cross-source membership verified
-2026-09-04T15:30:00+09:00,POPULAR,1,自動運転車,6904,原田工業,,0.65,,2026-09-04 Friday-close popular-theme smoke-test snapshot; exact cross-source membership verified
-2026-09-04T15:30:00+09:00,POPULAR,9,ドローン,3653,モルフォ,,0.14,,2026-09-04 Friday-close popular-theme smoke-test snapshot; exact cross-source membership verified
-2026-09-04T15:30:00+09:00,POPULAR,11,人工知能,3653,モルフォ,,0.65,,2026-09-04 Friday-close popular-theme smoke-test snapshot; exact cross-source membership verified
-2026-09-04T15:30:00+09:00,POPULAR,18,電力会社,603A,アイ・グリッド・ソリューションズ,,0.28,,2026-09-04 Friday-close popular-theme smoke-test snapshot; exact cross-source membership verified
