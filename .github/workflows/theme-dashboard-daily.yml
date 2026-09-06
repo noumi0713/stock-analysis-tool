@@ -7,7 +7,8 @@ on:
       - feature/theme-abc-dashboard-auto
     paths:
       - 'research/theme_dashboard_snapshot.py'
-      - 'theme-dashboard/**'
+      - 'theme-dashboard/index.html'
+      - 'theme-dashboard/chatgpt.txt'
       - '.github/workflows/theme-dashboard-daily.yml'
   schedule:
     # 16:20 JST, Monday-Friday. Japan has no DST.
@@ -57,6 +58,7 @@ jobs:
             echo "No dashboard data changes"
           else
             git commit -m "Update certified theme dashboard snapshot"
+            git pull --rebase origin feature/theme-abc-dashboard-auto
             git push origin HEAD:feature/theme-abc-dashboard-auto
           fi
 
