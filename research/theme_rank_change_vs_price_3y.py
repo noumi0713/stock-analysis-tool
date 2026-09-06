@@ -108,7 +108,9 @@ def pearson(x,y):
 def spearman(x,y):
     x=np.asarray(x,float); y=np.asarray(y,float); ok=np.isfinite(x)&np.isfinite(y)
     if ok.sum()<3: return None
-    return round(float(pd.Series(x[ok]).corr(pd.Series(y[ok]),method='spearman')),4)
+    xr=pd.Series(x[ok]).rank(method='average').to_numpy()
+    yr=pd.Series(y[ok]).rank(method='average').to_numpy()
+    return round(float(np.corrcoef(xr,yr)[0,1]),4)
 
 
 def bucket(delta):
@@ -177,7 +179,6 @@ def main():
         for h in (5,10,20): corr[f'fwd{h}']={'pearson':pearson(flat_delta,fwd[h][valid]),'spearman':spearman(flat_delta,fwd[h][valid])}
         out['windows'][str(k)]={'correlations':corr,'buckets':win}
 
-    # Entry/exit transitions for top10/top20
     trans={}
     for n in (10,20):
         inside=eligible&(rank<=n)
