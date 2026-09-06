@@ -1,5 +1,11 @@
 Theme ABC Dashboard machine-readable endpoints
 
+Preferred fetch order:
+1. ./data/chatgpt_snapshot.json
+2. Verify quality.certified=true and market_date.
+3. Use theme_index for named-theme lookups outside TOP10/A/B/C.
+4. Use split endpoints only when a smaller payload is preferable.
+
 Primary snapshot:
 ./data/chatgpt_snapshot.json
 
