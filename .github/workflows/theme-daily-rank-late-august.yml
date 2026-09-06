@@ -1,8 +1,8 @@
 name: Theme daily rank late August
 on:
   push:
-    branches: [research/theme-daily-score-124-3y]
-    paths: [.github/workflows/theme-daily-rank-late-august.yml]
+    branches: ['research/theme-daily-score-124-3y']
+    paths: ['.github/workflows/theme-daily-rank-late-august.yml']
   workflow_dispatch:
 permissions:
   contents: read
