@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>テーマ強度ダッシュボード</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111;background:#f5f6f8}
+body{margin:0}.wrap{max-width:1100px;margin:auto;padding:16px}.head{display:flex;gap:12px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}.meta{font-size:13px;color:#555}.tabs{display:flex;gap:8px;overflow:auto;margin:18px 0}.tab{border:0;border-radius:999px;padding:10px 16px;background:#e4e7eb;font-weight:700;white-space:nowrap}.tab.active{background:#111;color:#fff}.panel{display:none}.panel.active{display:block}.card{background:#fff;border-radius:14px;padding:14px 16px;margin:10px 0;box-shadow:0 1px 3px #00000014}.theme-line{display:grid;grid-template-columns:56px 1fr repeat(4,minmax(70px,auto));gap:10px;align-items:center}.rank{font-size:22px;font-weight:800}.name{font-size:18px;font-weight:800}.small{font-size:12px;color:#666}.up{font-weight:700}.drivers{margin-top:12px;border-top:1px solid #eee;padding-top:10px}.drivers table,.main-table{width:100%;border-collapse:collapse;background:#fff}.drivers th,.drivers td,.main-table th,.main-table td{padding:8px;border-bottom:1px solid #eee;text-align:right;font-size:13px}.drivers th:nth-child(2),.drivers td:nth-child(2),.drivers th:nth-child(3),.drivers td:nth-child(3),.main-table th:nth-child(2),.main-table td:nth-child(2){text-align:left}.quality{padding:10px 12px;border-radius:10px;background:#fff}.ok{border-left:5px solid #222}.ng{border-left:5px solid #999}.pill{display:inline-block;padding:3px 7px;border-radius:999px;background:#eceff2;font-size:11px;margin-left:5px}.empty{padding:24px;background:#fff;border-radius:12px;color:#666}@media(max-width:720px){.theme-line{grid-template-columns:44px 1fr 64px 64px}.hide-mobile{display:none}.name{font-size:16px}.wrap{padding:12px}.drivers{overflow:auto}.main-table{min-width:650px}.scroll{overflow:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head"><div><h1>テーマ強度ダッシュボード</h1><div class="meta" id="meta">読み込み中...</div></div><div class="quality" id="quality"></div></div>
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-tab="top10">TOP10</button>
+    <button class="tab" data-tab="A">A 強テーマ</button>
+    <button class="tab" data-tab="B">B 押し目</button>
+    <button class="tab" data-tab="C">C 急低下</button>
+    <button class="tab" data-tab="standalone">単独</button>
+  </div>
+  <section id="top10" class="panel active"></section>
+  <section id="A" class="panel"></section>
+  <section id="B" class="panel"></section>
+  <section id="C" class="panel"></section>
+  <section id="standalone" class="panel"></section>
+</div>
+<script>
+const pct=v=>v==null?'—':`${v>0?'+':''}${Number(v).toFixed(2)}%`;
+const num=v=>v==null?'—':Number(v).toFixed(1);
+function driverTable(rows){if(!rows?.length)return '<div class="small">牽引銘柄なし</div>';return `<div class="drivers"><div class="small">牽引度TOP5</div><div class="scroll"><table><thead><tr><th>#</th><th>コード</th><th>銘柄</th><th>牽引度</th><th>1日</th><th>5日</th><th>テーマ超過</th><th>売買代金比</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${x.driver_rank}</td><td>${x.code}</td><td>${x.name}</td><td>${x.driver_score??'—'}</td><td>${pct(x.return_1d_pct)}</td><td>${pct(x.return_5d_pct)}</td><td>${pct(x.theme_excess_5d_pct)}</td><td>${x.turnover_ratio_1d_to_20d??'—'}x</td></tr>`).join('')}</tbody></table></div></div>`}
+function themeCard(x){const ch=x.rank_change_1d==null?'—':`${x.rank_change_1d>0?'↑':x.rank_change_1d<0?'↓':'→'}${Math.abs(x.rank_change_1d)}`;return `<details class="card"><summary class="theme-line"><div class="rank">${x.rank}</div><div><div class="name">${x.theme}${x.status?`<span class="pill">${x.status}</span>`:''}</div><div class="small">前日 ${x.prev_rank??'—'}位 / 5日前 ${x.rank_5d_ago??'—'}位</div></div><div><div class="small">変動</div><div class="up">${ch}</div></div><div><div class="small">スコア</div><b>${num(x.score)}</b></div><div class="hide-mobile"><div class="small">5日</div><b>${pct(x.return_5d_pct)}</b></div><div class="hide-mobile"><div class="small">上昇比率</div><b>${x.breadth_positive_5d_pct??'—'}%</b></div></summary>${driverTable(x.drivers)}</details>`}
+function renderThemeList(el, rows){el.innerHTML=rows?.length?rows.map(themeCard).join(''):'<div class="empty">該当テーマなし</div>'}
+function renderStandalone(el, rows){if(!rows?.length){el.innerHTML='<div class="empty">該当銘柄なし</div>';return;}el.innerHTML=`<div class="scroll"><table class="main-table"><thead><tr><th>#</th><th>銘柄</th><th>コード</th><th>スコア</th><th>1日</th><th>5日</th><th>テーマ超過</th><th>売買代金比</th><th>所属テーマ</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${x.rank}</td><td>${x.name}</td><td>${x.code}</td><td>${x.standalone_score??'—'}</td><td>${pct(x.return_1d_pct)}</td><td>${pct(x.return_5d_pct)}</td><td>${pct(x.theme_excess_5d_pct)}</td><td>${x.turnover_ratio_1d_to_20d??'—'}x</td><td>${(x.themes||[]).join(' / ')}</td></tr>`).join('')}</tbody></table></div>`}
+async function load(){const r=await fetch('./data/chatgpt_snapshot.json',{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);const d=await r.json();document.getElementById('meta').textContent=`市場日 ${d.market_date} / 更新 ${d.updated_at}`;const q=d.quality||{};document.getElementById('quality').className=`quality ${q.certified?'ok':'ng'}`;document.getElementById('quality').textContent=q.certified?`認証済み ${q.latest_stock_coverage_pct}% / ${q.eligible_theme_count}テーマ`:`未認証 ${q.latest_stock_coverage_pct??'—'}% / ${q.eligible_theme_count??'—'}テーマ`;renderThemeList(document.getElementById('top10'),d.top10);renderThemeList(document.getElementById('A'),d.A);renderThemeList(document.getElementById('B'),d.B);renderThemeList(document.getElementById('C'),d.C);renderStandalone(document.getElementById('standalone'),d.standalone)}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active')});
+load().catch(e=>{document.getElementById('meta').textContent='データ取得失敗';document.getElementById('quality').textContent=e.message});
+</script>
+</body>
+</html>
