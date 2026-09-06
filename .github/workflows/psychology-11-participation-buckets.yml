@@ -1,0 +1,42 @@
+name: Psychology 11 participation buckets
+
+on:
+  push:
+    branches:
+      - research/crowd-psychology-3y-backtest
+    paths:
+      - "momentum5d/scripts/test_psychology_11_participation_buckets.py"
+      - ".github/workflows/psychology-11-participation-buckets.yml"
+      - "dashboard-data/technical-backtest-3y/**"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check pandas numpy
+      - name: Run participation bucket comparison
+        run: |
+          mkdir -p research-output
+          python momentum5d/scripts/test_psychology_11_participation_buckets.py \
+            --data-dir dashboard-data/technical-backtest-3y \
+            --output-json research-output/psychology-11-participation-buckets.json \
+            --output-md research-output/psychology-11-participation-buckets.md
+      - name: Show summary
+        if: always()
+        run: |
+          if [ -f research-output/psychology-11-participation-buckets.md ]; then
+            cat research-output/psychology-11-participation-buckets.md
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: psychology-11-participation-buckets
+          path: research-output/
+          if-no-files-found: warn
