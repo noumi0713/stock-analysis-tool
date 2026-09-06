@@ -1,0 +1,26 @@
+Theme ABC Dashboard machine-readable endpoints
+
+Primary snapshot:
+./data/chatgpt_snapshot.json
+
+Split endpoints:
+./data/top10.json
+./data/a.json
+./data/b.json
+./data/c.json
+./data/standalone.json
+./data/update_status.json
+
+Schema notes:
+- market_date: Tokyo Stock Exchange market date represented by the snapshot.
+- updated_at: generation timestamp in Asia/Tokyo.
+- quality.certified=true is required before using the snapshot for analysis.
+- top10: current 124-theme score ranks 1-10.
+- A: current Top10 and previous trading day also Top10.
+- B: current rank 11-30 and Top10 at least once in prior 5 trading days.
+- C: current rank 31+ and Top10 at least once in prior 5 trading days.
+- theme_index: lookup table for all currently eligible themes, including themes outside A/B/C/TOP10.
+- drivers: top five constituent stocks by deterministic within-theme driver score.
+- standalone: stocks rising independently while broad theme rises are excluded.
+
+When answering from this data, always state market_date and verify quality.certified first.
