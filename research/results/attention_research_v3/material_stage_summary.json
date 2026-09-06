@@ -1,0 +1,13 @@
+{
+  "status": "complete",
+  "stage": "MATERIAL_BEFORE_TECHNICAL",
+  "count": 10,
+  "material_class_counts": {
+    "WEAK": 2,
+    "STRONG": 4,
+    "NONE": 3,
+    "NEGATIVE": 1
+  },
+  "rule": "Attention is not interpreted as buying demand. Positive materials are semantically reviewed before entry timing; negative, absent, weak, or lookahead-unsafe catalysts cannot qualify for BUY_NOW.",
+  "lookahead_rule": "Catalyst information must be safely available by the attention snapshot; same-day date-only timestamps are rejected as ambiguous."
+}

@@ -1,0 +1,11 @@
+﻿ifis_rank,stock_code,company_name,snapshot_at,ifis_attention_score,attention_stage_status,eligible_theme_count,best_theme,theme_relevance_score,theme_relevance_band,theme_relevance_confidence,candidate_class,float_shares,buy_decision
+1,6654,不二電機工業,2026-09-04T01:20:00+09:00,,DISCOVERED,2,電力設備投資関連,93.0,主力テーマ,A,CORE,,NOT_EVALUATED
+2,7066,ピアズ,2026-09-04T01:20:00+09:00,,DISCOVERED,2,デジタルトランスフォーメーション,76.0,有力関連,B,STRONG,,NOT_EVALUATED
+3,5039,キットアライブ,2026-09-04T01:20:00+09:00,,DISCOVERED,3,クラウドコンピューティング,97.0,主力テーマ,A,CORE,,NOT_EVALUATED
+4,6904,原田工業,2026-09-04T01:20:00+09:00,,DISCOVERED,2,自動車部材・部品,93.0,主力テーマ,A,CORE,,NOT_EVALUATED
+5,3653,モルフォ,2026-09-04T01:20:00+09:00,,DISCOVERED,7,人工知能,95.0,主力テーマ,A,CORE,,NOT_EVALUATED
+6,603A,アイ・グリッド・ソリューションズ,2026-09-04T01:20:00+09:00,,DISCOVERED,5,再生可能エネルギー,97.0,主力テーマ,A,CORE,,NOT_EVALUATED
+7,6745,ホーチキ,2026-09-04T01:20:00+09:00,,DISCOVERED,1,防災,96.0,主力テーマ,A,CORE,,NOT_EVALUATED
+8,8746,unbanked,2026-09-04T01:20:00+09:00,,DISCOVERED,1,金,90.0,主力テーマ,A,CORE,,NOT_EVALUATED
+9,7864,フジシールインターナショナル,2026-09-04T01:20:00+09:00,,DISCOVERED,1,機械,51.0,補助関連,A,SUPPORT,,NOT_EVALUATED
+10,6996,ニチコン,2026-09-04T01:20:00+09:00,,DISCOVERED,4,蓄電池,88.0,主力テーマ,A,CORE,,NOT_EVALUATED

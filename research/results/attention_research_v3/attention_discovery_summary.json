@@ -1,0 +1,16 @@
+{
+  "status": "complete",
+  "stage": "IFIS_THEME_DISCOVERY_ONLY",
+  "ifis_top_n": 30,
+  "min_theme_relevance": 40.0,
+  "ifis_candidate_count": 10,
+  "discovered_count": 10,
+  "not_discovered_count": 0,
+  "theme_row_count": 29,
+  "decision_counts": {
+    "DISCOVERED": 10
+  },
+  "rule": "Discover when an IFIS top-N stock exists in the finalized Kabutan-derived 124-theme master and has at least one finalized theme relevance score of 40 or more. Minkabu is not an input. No buy/sell decision or composite trading score is created.",
+  "ranking_rule": "Preserve original IFIS rank in the discovery stage. Theme relevance is a transparent membership/directness gate, not a second attention signal.",
+  "lookahead_rule": "Historical validation must use theme relevance information valid for the discovery date; do not retroactively apply a future relevance master."
+}
