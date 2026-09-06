@@ -31,9 +31,9 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: python -m pip install --disable-pip-version-check pandas numpy yfinance
+        run: python -m pip install --disable-pip-version-check pandas numpy yfinance exchange_calendars
 
-      - name: Build certified snapshot
+      - name: Build candidate snapshot
         id: snapshot
         shell: bash
         run: |
@@ -42,6 +42,35 @@ jobs:
           code=$?
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           exit 0
+
+      - name: Verify latest completed TSE session
+        id: freshness
+        if: steps.snapshot.outputs.exit_code == '0'
+        shell: bash
+        run: |
+          set +e
+          python research/validate_theme_dashboard_freshness.py
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Restore previous certified snapshot when stale
+        if: steps.snapshot.outputs.exit_code == '0' && steps.freshness.outputs.exit_code != '0'
+        shell: bash
+        run: |
+          for f in \
+            theme-dashboard/data/chatgpt_snapshot.json \
+            theme-dashboard/data/top10.json \
+            theme-dashboard/data/a.json \
+            theme-dashboard/data/b.json \
+            theme-dashboard/data/c.json \
+            theme-dashboard/data/standalone.json; do
+            if git ls-files --error-unmatch "$f" >/dev/null 2>&1; then
+              git restore "$f"
+            else
+              rm -f "$f"
+            fi
+          done
 
       - name: Commit dashboard data to feature branch
         shell: bash
@@ -52,13 +81,13 @@ jobs:
           if git diff --cached --quiet; then
             echo "No dashboard data changes"
           else
-            git commit -m "Update certified theme dashboard snapshot"
+            git commit -m "Update theme dashboard data status"
             git pull --rebase origin feature/theme-abc-dashboard-auto
             git push origin HEAD:feature/theme-abc-dashboard-auto
           fi
 
-      - name: Fail workflow when quality gate failed
-        if: steps.snapshot.outputs.exit_code != '0'
+      - name: Fail workflow when quality or freshness gate failed
+        if: steps.snapshot.outputs.exit_code != '0' || (steps.freshness.outcome == 'success' && steps.freshness.outputs.exit_code != '0')
         run: |
-          echo "Theme dashboard quality gate failed; previous certified snapshot was preserved."
+          echo "Theme dashboard was not certified for the latest completed TSE session; previous certified snapshot was preserved."
           exit 1
