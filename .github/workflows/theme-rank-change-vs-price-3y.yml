@@ -1,0 +1,27 @@
+name: Theme rank change vs price 3y
+on:
+  push:
+    branches: [research/theme-daily-score-124-3y]
+    paths:
+      - research/theme_rank_change_vs_price_3y.py
+      - .github/workflows/theme-rank-change-vs-price-3y.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check pandas numpy
+      - name: Run analysis
+        run: python research/theme_rank_change_vs_price_3y.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: theme-rank-change-vs-price-3y
+          path: research-output/theme-rank-change-vs-price-3y.json
