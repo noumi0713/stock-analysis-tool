@@ -7,6 +7,7 @@ on:
     paths:
       - "momentum5d/scripts/backtest_crowd_psychology.py"
       - "momentum5d/scripts/backtest_crowd_psychology_v2.py"
+      - "momentum5d/scripts/test_psychology_participation.py"
       - ".github/workflows/crowd-psychology-3y-backtest.yml"
       - "dashboard-data/technical-backtest-3y/**"
   workflow_dispatch:
@@ -33,16 +34,26 @@ jobs:
             --output-json research-output/crowd-psychology-backtest-v2.json \
             --output-md research-output/crowd-psychology-backtest-v2.md
 
+      - name: Run participation sensitivity test
+        run: |
+          python momentum5d/scripts/test_psychology_participation.py \
+            --data-dir dashboard-data/technical-backtest-3y \
+            --output-json research-output/psychology-participation-test.json \
+            --output-md research-output/psychology-participation-test.md
+
       - name: Show summary
         if: always()
         run: |
           if [ -f research-output/crowd-psychology-backtest-v2.md ]; then
             cat research-output/crowd-psychology-backtest-v2.md
           fi
+          if [ -f research-output/psychology-participation-test.md ]; then
+            cat research-output/psychology-participation-test.md
+          fi
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: crowd-psychology-3y-backtest-v2
+          name: crowd-psychology-3y-backtest-v3
           path: research-output/
           if-no-files-found: warn
