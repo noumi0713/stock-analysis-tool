@@ -1,0 +1,84 @@
+name: steps5-to10-research
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [step4-common-features]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: steps5-to10-research
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    defaults:
+      run:
+        working-directory: momentum5d
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: momentum5d/pyproject.toml
+      - name: Install dependencies
+        run: pip install -e .
+      - name: Restore certified STEP1, STEP3, and STEP4 inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p data/market_history
+          for item in "step1-equity-features.yml:step1-equity-features" "step3-large-move-events.yml:step3-large-move-events" "step4-common-features.yml:step4-common-features"; do
+            workflow=${item%%:*}
+            artifact=${item##*:}
+            run=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow "$workflow" --status success -L 1 --json databaseId --jq '.[0].databaseId // empty')
+            test -n "$run"
+            gh run download "$run" --repo "$GITHUB_REPOSITORY" -n "$artifact" -D data/market_history
+          done
+      - name: Build STEP5 through STEP10
+        id: research
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python scripts/build_steps5_to10.py --to-step 10
+      - name: Upload certified research artifacts
+        if: steps.research.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: steps5-to10-research
+          path: |
+            momentum5d/data/market_history/analysis/step5_control_comparison/
+            momentum5d/data/market_history/analysis/step6_univariate/
+            momentum5d/data/market_history/analysis/step7_condition_combinations/
+            momentum5d/data/market_history/analysis/step8_regime_analysis/
+            momentum5d/data/market_history/analysis/step9_entry_timing/
+            momentum5d/data/market_history/analysis/step10_exit_analysis/
+            momentum5d/data/market_history/quality/step5_report.json
+            momentum5d/data/market_history/quality/step6_report.json
+            momentum5d/data/market_history/quality/step7_report.json
+            momentum5d/data/market_history/quality/step8_report.json
+            momentum5d/data/market_history/quality/step9_report.json
+            momentum5d/data/market_history/quality/step10_report.json
+            momentum5d/data/market_history/quality/STEP11_PROMPT.md
+          retention-days: 90
+          compression-level: 0
+          if-no-files-found: error
+      - name: Upload failure evidence
+        if: steps.research.outcome != 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: steps5-to10-failed-${{ github.run_id }}
+          path: momentum5d/data/market_history/quality/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Enforce quality gate
+        if: steps.research.outcome != 'success'
+        run: exit 1
