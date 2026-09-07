@@ -1,0 +1,87 @@
+name: step3-large-move-events
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/step3-large-move-events.yml'
+      - 'momentum5d/scripts/build_step3_events.py'
+  workflow_dispatch:
+  workflow_run:
+    workflows: [step2-forward-targets]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: step3-large-move-events
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    defaults:
+      run:
+        working-directory: momentum5d
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: momentum5d/pyproject.toml
+
+      - name: Install dependencies
+        run: pip install -e .
+
+      - name: Restore certified STEP1 and STEP2 inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p data/market_history
+          step1_run=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow step1-equity-features.yml --status success -L 1 --json databaseId --jq '.[0].databaseId // empty')
+          step2_run=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow step2-forward-targets.yml --status success -L 1 --json databaseId --jq '.[0].databaseId // empty')
+          test -n "$step1_run"
+          test -n "$step2_run"
+          gh run download "$step1_run" --repo "$GITHUB_REPOSITORY" -n step1-equity-features -D data/market_history
+          gh run download "$step2_run" --repo "$GITHUB_REPOSITORY" -n step2-forward-targets -D data/market_history
+          test "$(python -c 'import json; print(json.load(open("data/market_history/quality/step1_report.json"))["quality"])')" = PASS
+          test "$(python -c 'import json; print(json.load(open("data/market_history/quality/step2_report.json"))["quality"])')" = PASS
+
+      - name: Build STEP3 large-move events
+        id: step3
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python scripts/build_step3_events.py
+
+      - name: Upload STEP3 certified artifact
+        if: steps.step3.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step3-large-move-events
+          path: |
+            momentum5d/data/market_history/targets/large_move_events/
+            momentum5d/data/market_history/quality/step3_report.json
+            momentum5d/data/market_history/quality/STEP4_PROMPT.md
+          retention-days: 90
+          compression-level: 0
+          if-no-files-found: error
+
+      - name: Upload STEP3 failure evidence
+        if: steps.step3.outcome != 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step3-failed-${{ github.run_id }}
+          path: momentum5d/data/market_history/quality/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Enforce STEP3 quality gate
+        if: steps.step3.outcome != 'success'
+        run: exit 1
