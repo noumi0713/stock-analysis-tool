@@ -103,6 +103,19 @@ def discover_universe(repo_root: Path, explicit: str = "") -> tuple[pd.DataFrame
 
             def walk(x: Any) -> None:
                 if isinstance(x, dict):
+                    # Several dashboard payloads store the ticker as the key
+                    # of a stock record instead of as a value inside it.
+                    # The old walker missed those records and consequently
+                    # discarded their available sector classification.
+                    for key, value in x.items():
+                        key_ticker = str(key).strip().upper()
+                        if TICKER_RE.match(key_ticker) and isinstance(value, dict):
+                            rows.append({
+                                "ticker": key_ticker,
+                                "name": str(value.get("name", value.get("company_name", ""))),
+                                "sector": str(value.get("sector_17_name", value.get("sector", value.get("industry", ""))) or ""),
+                                "source": str(latest),
+                            })
                     vals = {str(v).strip().upper() for v in x.values() if isinstance(v, str)}
                     ticker = next((v for v in vals if TICKER_RE.match(v)), None)
                     if ticker:
@@ -110,7 +123,7 @@ def discover_universe(repo_root: Path, explicit: str = "") -> tuple[pd.DataFrame
                         name = ""
                         for k, v in x.items():
                             lk = str(k).lower()
-                            if isinstance(v, str) and lk in {"sector", "industry", "sector_name", "industry_name", "業種"}:
+                            if isinstance(v, str) and lk in {"sector", "industry", "sector_name", "sector_17_name", "industry_name", "業種"}:
                                 sector = v
                             if isinstance(v, str) and lk in {"name", "company_name", "銘柄名"}:
                                 name = v
@@ -133,7 +146,17 @@ def discover_universe(repo_root: Path, explicit: str = "") -> tuple[pd.DataFrame
                 if raw:
                     rows.append({"ticker": raw if raw.endswith(".T") else raw + ".T", "name": "", "sector": "", "source": str(prime)})
 
-    df = pd.DataFrame(rows).drop_duplicates("ticker") if rows else pd.DataFrame(columns=["ticker", "name", "sector", "source"])
+    if rows:
+        df = pd.DataFrame(rows)
+        df["_has_sector"] = df["sector"].fillna("").astype(str).str.strip().ne("")
+        df["_has_name"] = df["name"].fillna("").astype(str).str.strip().ne("")
+        df = (
+            df.sort_values(["ticker", "_has_sector", "_has_name"], ascending=[True, False, False])
+            .drop_duplicates("ticker")
+            .drop(columns=["_has_sector", "_has_name"])
+        )
+    else:
+        df = pd.DataFrame(columns=["ticker", "name", "sector", "source"])
     df = df[df["ticker"].astype(str).str.match(TICKER_RE)].sort_values("ticker").reset_index(drop=True)
     if len(df) < 3000:
         risks.append(f"current universe has only {len(df)} TSE-style tickers; full-TSE coverage is not proven")
