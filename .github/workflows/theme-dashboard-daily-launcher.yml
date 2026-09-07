@@ -86,6 +86,13 @@ jobs:
             git push origin HEAD:feature/theme-abc-dashboard-auto
           fi
 
+      - name: Mirror public dashboard branch
+        shell: bash
+        run: |
+          git fetch origin feature/theme-abc-dashboard-auto
+          git reset --hard origin/feature/theme-abc-dashboard-auto
+          git push --force-with-lease origin HEAD:theme-dashboard-live
+
       - name: Fail workflow when quality or freshness gate failed
         if: steps.snapshot.outputs.exit_code != '0' || (steps.freshness.outcome == 'success' && steps.freshness.outputs.exit_code != '0')
         run: |
