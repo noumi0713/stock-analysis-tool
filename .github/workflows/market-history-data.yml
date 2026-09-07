@@ -9,6 +9,12 @@ on:
         default: bootstrap
         type: choice
         options: [bootstrap, update]
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/market-history-data.yml'
+      - 'momentum5d/scripts/build_market_history.py'
+      - 'momentum5d/config/market_history_tickers.json'
   schedule:
     - cron: '30 9 * * 1-5'
 
@@ -56,7 +62,9 @@ jobs:
         env:
           PYTHONUNBUFFERED: '1'
         run: |
+          mkdir -p data
           mode='${{ inputs.mode }}'
+          if [ "$GITHUB_EVENT_NAME" = push ]; then mode=bootstrap; fi
           if [ -z "$mode" ]; then mode=update; fi
           if [ "$mode" = update ] && [ ! -d data/market_history/raw/equities ]; then mode=bootstrap; fi
           python scripts/build_market_history.py --mode "$mode" --batch-size 150
