@@ -1,0 +1,85 @@
+name: step5-v2-control-comparison
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/step5-v2-control-comparison.yml'
+      - 'momentum5d/scripts/build_step5_v2.py'
+      - 'momentum5d/tests/test_step5_v2.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: step5-v2-control-comparison
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    defaults:
+      run:
+        working-directory: momentum5d
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: momentum5d/pyproject.toml
+      - name: Install dependencies
+        run: pip install -e . pytest
+      - name: Test STEP5 V2 boundary logic
+        run: pytest -q tests/test_step5_v2.py
+      - name: Restore pinned certified inputs and old STEP5 evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p data/market_history
+          gh run download 34125934863 --repo "$GITHUB_REPOSITORY" -n step1-equity-features -D data/market_history
+          gh run download 34136008099 --repo "$GITHUB_REPOSITORY" -n step3-large-move-events -D data/market_history
+          gh run download 34141766255 --repo "$GITHUB_REPOSITORY" -n step4-common-features -D data/market_history
+          gh run download 34141904278 --repo "$GITHUB_REPOSITORY" -n steps5-to10-research -D data/market_history
+          test "$(python -c 'import json; print(json.load(open("data/market_history/quality/step1_report.json"))["quality"])')" = PASS
+          test "$(python -c 'import json; print(json.load(open("data/market_history/quality/step3_report.json"))["quality"])')" = PASS
+          test "$(python -c 'import json; print(json.load(open("data/market_history/quality/step4_report.json"))["quality"])')" = PASS
+      - name: Build STEP5 V2 only
+        id: step5v2
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python scripts/build_step5_v2.py --verify-reproducibility
+      - name: Upload certified STEP5 V2 artifact
+        if: steps.step5v2.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step5-v2-control-comparison
+          path: |
+            momentum5d/data/market_history/analysis/step5_control_comparison_v2/
+            momentum5d/data/market_history/quality/step5_v2_report.json
+            momentum5d/data/market_history/quality/STEP5_V2_REPORT.md
+            momentum5d/data/market_history/quality/STEP6_V2_PROMPT.md
+            momentum5d/data/market_history/quality/STEP6_TO_STEP11_INVALIDATED_BY_STEP5_V1.md
+          retention-days: 90
+          compression-level: 0
+          if-no-files-found: error
+      - name: Upload STEP5 V2 failure evidence
+        if: steps.step5v2.outcome != 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step5-v2-failed-${{ github.run_id }}
+          path: |
+            momentum5d/data/market_history/analysis/step5_control_comparison_v2/
+            momentum5d/data/market_history/quality/step5_v2_report.json
+            momentum5d/data/market_history/quality/STEP5_V2_REPORT.md
+            momentum5d/data/market_history/quality/STEP6_TO_STEP11_INVALIDATED_BY_STEP5_V1.md
+          retention-days: 90
+          compression-level: 0
+          if-no-files-found: warn
+      - name: Enforce STEP5 V2 quality gate
+        if: steps.step5v2.outcome != 'success'
+        run: exit 1
