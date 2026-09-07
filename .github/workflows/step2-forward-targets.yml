@@ -1,6 +1,11 @@
 name: step2-forward-targets
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/step2-forward-targets.yml'
+      - 'momentum5d/scripts/build_step2_targets.py'
   workflow_dispatch:
   workflow_run:
     workflows: [step1-equity-features]
