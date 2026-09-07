@@ -1,0 +1,25 @@
+{
+  "indexes": {
+    "nikkei225": {"ticker": "^N225", "name": "Nikkei 225"},
+    "topix": {"ticker": "^TOPX", "name": "TOPIX", "allow_unavailable": true},
+    "tse_growth_250": {"ticker": "^TSEMOTHERS", "name": "TSE Growth Market 250 Index", "allow_unavailable": true},
+    "topix_core30": {"ticker": null, "name": "TOPIX Core30", "allow_unavailable": true},
+    "topix_small": {"ticker": null, "name": "TOPIX Small", "allow_unavailable": true}
+  },
+  "external": {
+    "usd_jpy": {"ticker": "JPY=X", "name": "USD/JPY"},
+    "us10y": {"ticker": "^TNX", "name": "CBOE Interest Rate 10 Year T No"},
+    "us2y": {"ticker": "^IRX", "name": "13 Week Treasury Bill proxy - NOT US 2Y", "allow_unavailable": true, "disabled": true},
+    "sp500": {"ticker": "^GSPC", "name": "S&P 500"},
+    "nasdaq_composite": {"ticker": "^IXIC", "name": "NASDAQ Composite"},
+    "nasdaq100": {"ticker": "^NDX", "name": "NASDAQ-100"},
+    "sox": {"ticker": "^SOX", "name": "PHLX Semiconductor Index"},
+    "vix": {"ticker": "^VIX", "name": "CBOE Volatility Index"},
+    "dow": {"ticker": "^DJI", "name": "Dow Jones Industrial Average"}
+  },
+  "notes": [
+    "No substitute ticker is used when an exact requested index is unavailable.",
+    "US 2Y yield is deliberately disabled until an exact verified source/ticker is configured.",
+    "Ticker identity is quality-checked and availability is reported explicitly."
+  ]
+}
