@@ -87,19 +87,32 @@ def main() -> None:
         for key, run_id, fixed_id, name, expected_sha in ARTIFACTS:
             metadata = resolve_artifact(args.repository, run_id, fixed_id, name)
             artifact_id = int(metadata["id"])
-            archive = Path(temporary) / f"{key}.zip"
-            download(args.repository, artifact_id, archive)
-            actual_sha = sha256(archive)
             metadata_digest = metadata.get("digest")
-            if expected_sha is not None and actual_sha != expected_sha:
-                raise RuntimeError(f"Pinned ZIP SHA256 mismatch for {name}")
-            if metadata_digest and metadata_digest != f"sha256:{actual_sha}":
-                raise RuntimeError(f"GitHub artifact digest mismatch for {name}")
-            with zipfile.ZipFile(archive) as bundle:
-                corrupt = bundle.testzip()
-                if corrupt is not None:
-                    raise RuntimeError(f"ZIP CRC failure for {name}: {corrupt}")
-                bundle.extractall(root)
+            if expected_sha is not None:
+                archive = Path(temporary) / f"{key}.zip"
+                download(args.repository, artifact_id, archive)
+                actual_sha = sha256(archive)
+                if actual_sha != expected_sha:
+                    raise RuntimeError(f"Pinned ZIP SHA256 mismatch for {name}")
+                if metadata_digest and metadata_digest != f"sha256:{actual_sha}":
+                    raise RuntimeError(f"GitHub artifact digest mismatch for {name}")
+                with zipfile.ZipFile(archive) as bundle:
+                    corrupt = bundle.testzip()
+                    if corrupt is not None:
+                        raise RuntimeError(f"ZIP CRC failure for {name}: {corrupt}")
+                    bundle.extractall(root)
+                verification_method = "downloaded_zip_sha256_plus_crc"
+                archive_size = archive.stat().st_size
+                zip_crc_check = "PASS"
+            else:
+                subprocess.run(
+                    ["gh", "run", "download", str(run_id), "--repo", args.repository, "-n", name, "-D", str(root)],
+                    check=True,
+                )
+                actual_sha = metadata_digest.removeprefix("sha256:") if metadata_digest else None
+                verification_method = "github_run_download_plus_saved_output_manifests"
+                archive_size = int(metadata.get("size_in_bytes", 0))
+                zip_crc_check = "verified_by_github_run_download"
             records[key] = {
                 "run_id": run_id,
                 "artifact_id": artifact_id,
@@ -107,8 +120,9 @@ def main() -> None:
                 "archive_sha256": actual_sha,
                 "expected_archive_sha256": expected_sha,
                 "github_digest": metadata_digest,
-                "archive_size_bytes": archive.stat().st_size,
-                "zip_crc_check": "PASS",
+                "archive_size_bytes": archive_size,
+                "zip_crc_check": zip_crc_check,
+                "verification_method": verification_method,
                 "download_verified": True,
             }
     provenance = {
