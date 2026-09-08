@@ -1,0 +1,98 @@
+name: step11-v2-contaminated-validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/step11-v2-contaminated-validation.yml'
+      - 'momentum5d/scripts/restore_step11_certified_inputs.py'
+      - 'momentum5d/scripts/freeze_step11_v2_candidate.py'
+      - 'momentum5d/scripts/build_step11_v2.py'
+      - 'momentum5d/tests/test_step11_v2.py'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/step11-v2-contaminated-validation.yml'
+      - 'momentum5d/scripts/restore_step11_certified_inputs.py'
+      - 'momentum5d/scripts/freeze_step11_v2_candidate.py'
+      - 'momentum5d/scripts/build_step11_v2.py'
+      - 'momentum5d/tests/test_step11_v2.py'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: step11-v2-contaminated-validation
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    defaults:
+      run:
+        working-directory: momentum5d
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: momentum5d/pyproject.toml
+      - name: Install dependencies
+        run: pip install -e . pytest
+      - name: Test STEP11 V2 invariants
+        run: pytest -q tests/test_step11_v2.py
+      - name: Restore pinned certified STEP1, STEP7 V2, and STEP10 V2 inputs
+        id: restore
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/restore_step11_certified_inputs.py
+      - name: Freeze one candidate before reading 2025-09-08 onward values
+        id: freeze
+        if: steps.restore.outcome == 'success'
+        continue-on-error: true
+        run: python scripts/freeze_step11_v2_candidate.py
+      - name: Build STEP11 V2 contaminated validation only
+        id: step11v2
+        if: steps.restore.outcome == 'success' && steps.freeze.outcome == 'success'
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python scripts/build_step11_v2.py --verify-reproducibility
+      - name: Upload STEP11 V2 contaminated validation artifact
+        if: steps.restore.outcome == 'success' && steps.freeze.outcome == 'success' && steps.step11v2.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step11-v2-contaminated-validation
+          path: |
+            momentum5d/data/market_history/analysis/step11_contaminated_validation_v2/
+            momentum5d/data/market_history/frozen/step11_v2_candidate/
+            momentum5d/data/market_history/quality/step11_candidate_freeze.json
+            momentum5d/data/market_history/quality/step11_v2_report.json
+            momentum5d/data/market_history/quality/STEP11_V2_REPORT.md
+            momentum5d/data/market_history/quality/STEP12_V2_PROMPT.md
+            momentum5d/data/market_history/quality/step11_input_provenance.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Upload failed STEP11 V2 diagnostics
+        if: always() && (steps.restore.outcome != 'success' || steps.freeze.outcome != 'success' || steps.step11v2.outcome != 'success')
+        uses: actions/upload-artifact@v4
+        with:
+          name: step11-v2-contaminated-validation-failed
+          path: |
+            momentum5d/data/market_history/analysis/step11_contaminated_validation_v2/
+            momentum5d/data/market_history/frozen/step11_v2_candidate/
+            momentum5d/data/market_history/quality/step11_candidate_freeze.json
+            momentum5d/data/market_history/quality/step11_v2_report.json
+            momentum5d/data/market_history/quality/STEP11_V2_REPORT.md
+            momentum5d/data/market_history/quality/STEP12_V2_PROMPT.md
+            momentum5d/data/market_history/quality/step11_input_provenance.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Enforce STEP11 V2 PASS
+        if: always() && (steps.restore.outcome != 'success' || steps.freeze.outcome != 'success' || steps.step11v2.outcome != 'success')
+        run: exit 1
