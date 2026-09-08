@@ -1,0 +1,79 @@
+name: step8-v2-regime-analysis
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/step8-v2-regime-analysis.yml'
+      - 'momentum5d/scripts/build_step8_v2.py'
+      - 'momentum5d/tests/test_step8_v2.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: step8-v2-regime-analysis
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    defaults:
+      run:
+        working-directory: momentum5d
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: momentum5d/pyproject.toml
+      - name: Install dependencies
+        run: pip install -e . pytest
+      - name: Test STEP8 V2 invariants
+        run: pytest -q tests/test_step8_v2.py
+      - name: Restore pinned certified STEP7 V2 and STEP6 V2 inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p data/market_history
+          gh run download 34185770982 --repo "$GITHUB_REPOSITORY" -n step7-v2-condition-combinations -D data/market_history
+          gh run download 34183481958 --repo "$GITHUB_REPOSITORY" -n step6-v2-univariate -D data/market_history
+          test "$(python -c 'import json; print(json.load(open("data/market_history/quality/step7_v2_report.json"))["quality"])')" = PASS
+      - name: Build STEP8 V2 only
+        id: step8v2
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python scripts/build_step8_v2.py --verify-reproducibility
+      - name: Upload certified STEP8 V2 artifact
+        if: steps.step8v2.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step8-v2-regime-analysis
+          path: |
+            momentum5d/data/market_history/analysis/step8_regime_analysis_v2/
+            momentum5d/data/market_history/quality/step8_v2_report.json
+            momentum5d/data/market_history/quality/STEP8_V2_REPORT.md
+            momentum5d/data/market_history/quality/STEP9_V2_PROMPT.md
+          retention-days: 90
+          compression-level: 0
+          if-no-files-found: error
+      - name: Upload STEP8 V2 failure evidence
+        if: steps.step8v2.outcome != 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step8-v2-failed-${{ github.run_id }}
+          path: |
+            momentum5d/data/market_history/analysis/step8_regime_analysis_v2/
+            momentum5d/data/market_history/quality/step8_v2_report.json
+            momentum5d/data/market_history/quality/STEP8_V2_REPORT.md
+          retention-days: 90
+          compression-level: 0
+          if-no-files-found: warn
+      - name: Enforce STEP8 V2 quality gate
+        if: steps.step8v2.outcome != 'success'
+        run: exit 1
