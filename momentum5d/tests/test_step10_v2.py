@@ -54,11 +54,21 @@ def test_exit_definitions_are_fixed() -> None:
 def test_time_exit_uses_ticker_row_and_fixed_cost() -> None:
     prices = series()
     prices["adj_close"][40] = 110.0
+    prices["adj_high"][40] = 110.5
     result = simulate_one(entry(), "time_20_close", prices)
     assert result["exit_evaluation_available"]
     assert result["holding_sessions"] == 20
     assert np.isclose(result["gross_return"], 0.10)
     assert np.isclose(result["net_return"], 0.096)
+    assert 0 < result["profit_capture_ratio"] <= 1
+
+
+def test_profit_capture_is_missing_for_a_losing_trade() -> None:
+    prices = series()
+    prices["adj_close"][40] = 90.0
+    result = simulate_one(entry(), "time_20_close", prices)
+    assert result["gross_return"] < 0
+    assert np.isnan(result["profit_capture_ratio"])
 
 
 def test_close_below_ma20_uses_only_trailing_adjusted_closes() -> None:
