@@ -8,6 +8,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import time
 import zipfile
 from pathlib import Path
 
@@ -53,11 +54,23 @@ def resolve_artifact(repository: str, run_id: int, artifact_id: int | None, name
 
 
 def download(repository: str, artifact_id: int, destination: Path) -> None:
-    with destination.open("wb") as handle:
-        subprocess.run(
-            ["gh", "api", "-H", "Accept: application/vnd.github+json", f"/repos/{repository}/actions/artifacts/{artifact_id}/zip"],
-            check=True, stdout=handle,
-        )
+    last_error: subprocess.CalledProcessError | None = None
+    for attempt in range(1, 5):
+        destination.unlink(missing_ok=True)
+        try:
+            with destination.open("wb") as handle:
+                subprocess.run(
+                    ["gh", "api", "-H", "Accept: application/vnd.github+json", f"/repos/{repository}/actions/artifacts/{artifact_id}/zip"],
+                    check=True, stdout=handle,
+                )
+            return
+        except subprocess.CalledProcessError as error:
+            last_error = error
+            destination.unlink(missing_ok=True)
+            if attempt < 4:
+                time.sleep(5 * attempt)
+    assert last_error is not None
+    raise last_error
 
 
 def main() -> None:
