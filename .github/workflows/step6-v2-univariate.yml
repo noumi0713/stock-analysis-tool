@@ -1,0 +1,81 @@
+name: step6-v2-univariate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/step6-v2-univariate.yml'
+      - 'momentum5d/scripts/build_step6_v2.py'
+      - 'momentum5d/tests/test_step6_v2.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: step6-v2-univariate
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    defaults:
+      run:
+        working-directory: momentum5d
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: momentum5d/pyproject.toml
+      - name: Install dependencies
+        run: pip install -e . pytest
+      - name: Test STEP6 V2 invariants
+        run: pytest -q tests/test_step6_v2.py
+      - name: Restore pinned certified inputs and old STEP6 audit evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p data/market_history
+          gh run download 34141766255 --repo "$GITHUB_REPOSITORY" -n step4-common-features -D data/market_history
+          gh run download 34167716647 --repo "$GITHUB_REPOSITORY" -n step5-v2-control-comparison -D data/market_history
+          gh run download 34141904278 --repo "$GITHUB_REPOSITORY" -n steps5-to10-research -D data/market_history
+          test "$(python -c 'import json; print(json.load(open("data/market_history/quality/step4_report.json"))["quality"])')" = PASS
+          test "$(python -c 'import json; print(json.load(open("data/market_history/quality/step5_v2_report.json"))["quality"])')" = PASS
+      - name: Build STEP6 V2 only
+        id: step6v2
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python scripts/build_step6_v2.py --verify-reproducibility
+      - name: Upload certified STEP6 V2 artifact
+        if: steps.step6v2.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step6-v2-univariate
+          path: |
+            momentum5d/data/market_history/analysis/step6_univariate_v2/
+            momentum5d/data/market_history/quality/step6_v2_report.json
+            momentum5d/data/market_history/quality/STEP6_V2_REPORT.md
+            momentum5d/data/market_history/quality/STEP7_V2_PROMPT.md
+          retention-days: 90
+          compression-level: 0
+          if-no-files-found: error
+      - name: Upload STEP6 V2 failure evidence
+        if: steps.step6v2.outcome != 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step6-v2-failed-${{ github.run_id }}
+          path: |
+            momentum5d/data/market_history/analysis/step6_univariate_v2/
+            momentum5d/data/market_history/quality/step6_v2_report.json
+            momentum5d/data/market_history/quality/STEP6_V2_REPORT.md
+          retention-days: 90
+          compression-level: 0
+          if-no-files-found: warn
+      - name: Enforce STEP6 V2 quality gate
+        if: steps.step6v2.outcome != 'success'
+        run: exit 1
