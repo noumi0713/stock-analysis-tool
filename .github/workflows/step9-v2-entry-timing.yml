@@ -1,0 +1,92 @@
+name: step9-v2-entry-timing
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/step9-v2-entry-timing.yml'
+      - 'momentum5d/scripts/build_step9_v2.py'
+      - 'momentum5d/scripts/step9_certification_gate.py'
+      - 'momentum5d/scripts/restore_step9_certified_inputs.py'
+      - 'momentum5d/tests/test_step9_v2.py'
+      - 'momentum5d/tests/test_step9_certification_gate.py'
+      - 'momentum5d/audit/step9_previous_input_fail_report.*'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: step9-v2-entry-timing
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    defaults:
+      run:
+        working-directory: momentum5d
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: momentum5d/pyproject.toml
+      - name: Install dependencies
+        run: pip install -e . pytest
+      - name: Test STEP9 V2 invariants
+        run: pytest -q tests/test_step9_v2.py tests/test_step9_certification_gate.py
+      - name: Preserve the previous input-certification FAIL audit
+        run: |
+          mkdir -p data/market_history/quality
+          cp audit/step9_previous_input_fail_report.json data/market_history/quality/step9_v2_report_PREVIOUS_INPUT_FAIL.json
+          cp audit/STEP9_PREVIOUS_INPUT_FAIL_REPORT.md data/market_history/quality/STEP9_V2_REPORT_PREVIOUS_INPUT_FAIL.md
+      - name: Restore pinned certified STEP1, STEP2, STEP6 V2, STEP7 V2, and STEP8 V2 inputs
+        id: restore
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/restore_step9_certified_inputs.py
+      - name: Build STEP9 V2 only
+        id: step9v2
+        if: steps.restore.outcome == 'success'
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python scripts/build_step9_v2.py --verify-reproducibility
+      - name: Upload certified STEP9 V2 artifact
+        if: steps.restore.outcome == 'success' && steps.step9v2.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step9-v2-entry-timing
+          path: |
+            momentum5d/data/market_history/analysis/step9_entry_timing_v2/
+            momentum5d/data/market_history/quality/step9_v2_report.json
+            momentum5d/data/market_history/quality/STEP9_V2_REPORT.md
+            momentum5d/data/market_history/quality/STEP10_V2_PROMPT.md
+            momentum5d/data/market_history/quality/step9_input_provenance.json
+            momentum5d/data/market_history/quality/step9_v2_report_PREVIOUS_INPUT_FAIL.json
+            momentum5d/data/market_history/quality/STEP9_V2_REPORT_PREVIOUS_INPUT_FAIL.md
+          if-no-files-found: error
+          retention-days: 90
+      - name: Upload failed STEP9 V2 diagnostics
+        if: always() && (steps.restore.outcome != 'success' || steps.step9v2.outcome != 'success')
+        uses: actions/upload-artifact@v4
+        with:
+          name: step9-v2-entry-timing-failed
+          path: |
+            momentum5d/data/market_history/analysis/step9_entry_timing_v2/
+            momentum5d/data/market_history/quality/step9_v2_report.json
+            momentum5d/data/market_history/quality/STEP9_V2_REPORT.md
+            momentum5d/data/market_history/quality/STEP10_V2_PROMPT.md
+            momentum5d/data/market_history/quality/step9_input_provenance.json
+            momentum5d/data/market_history/quality/step9_v2_report_PREVIOUS_INPUT_FAIL.json
+            momentum5d/data/market_history/quality/STEP9_V2_REPORT_PREVIOUS_INPUT_FAIL.md
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Enforce STEP9 V2 PASS
+        if: always() && (steps.restore.outcome != 'success' || steps.step9v2.outcome != 'success')
+        run: exit 1
