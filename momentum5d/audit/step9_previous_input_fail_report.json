@@ -1,0 +1,14 @@
+{
+  "step": 9,
+  "version": 2,
+  "status": "STEP9 V2 FAIL - stopped before performance evaluation",
+  "quality": "FAIL",
+  "failure_stage": "input_certification",
+  "analysis_executed": false,
+  "reason": "The local STEP1 and STEP2 test fixtures did not match the pinned certified GitHub Actions originals.",
+  "untrusted_directory": "step9-test-fixtures-UNTRUSTED",
+  "untrusted_data_used_for_analysis": false,
+  "performance_metrics_measured": false,
+  "step10_executed": false,
+  "completion_statement": null
+}
