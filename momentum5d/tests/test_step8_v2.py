@@ -39,6 +39,16 @@ def test_summary_uses_valid_combination_rows_and_case_control_base() -> None:
     assert result["base_event_rate"] == 0.5
 
 
+def test_non_evaluable_lift_keeps_reason() -> None:
+    outcomes = pd.Series([1, 0]).to_numpy()
+    group = pd.Series([True, True]).to_numpy()
+    valid = pd.Series([True, True]).to_numpy()
+    selected = pd.Series([False, False]).to_numpy()
+    result = MODULE.summarize_mask(outcomes, group, valid, selected)
+    assert result["lift"] is None
+    assert result["analysis_unavailable_reason"] == "no_rows_matched_fixed_combination"
+
+
 def test_no_regime_optimization_or_cross_environment_definition() -> None:
     assert MODULE.MAIN_BUCKET == "d-5_to_d-1"
     assert MODULE.HOLDOUT_START == pd.Timestamp("2025-09-08")
@@ -56,3 +66,13 @@ def test_zero_formation_lift_is_not_an_infinite_retention() -> None:
     )
     assert pd.isna(retention.iloc[0])
     assert retention.iloc[1] == 2.0
+
+
+def test_unavailable_lift_reason_is_preserved() -> None:
+    outcomes = pd.Series([1, 0]).to_numpy()
+    group = pd.Series([True, True]).to_numpy()
+    valid = pd.Series([True, True]).to_numpy()
+    selected = pd.Series([False, False]).to_numpy()
+    result = MODULE.summarize_mask(outcomes, group, valid, selected)
+    assert result["lift"] is None
+    assert result["analysis_unavailable_reason"] == "no_rows_matched_fixed_combination"

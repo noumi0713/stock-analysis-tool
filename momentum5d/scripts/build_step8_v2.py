@@ -251,6 +251,16 @@ def summarize_mask(
     base_events = int(outcomes[valid_group].sum())
     event_rate = finite(condition_events / condition_rows) if condition_rows else None
     base_rate = finite(base_events / valid_rows) if valid_rows else None
+    if total_rows == 0:
+        analysis_unavailable_reason = "no_samples_in_environment_regime"
+    elif valid_rows == 0:
+        analysis_unavailable_reason = "no_valid_combination_rows"
+    elif condition_rows == 0:
+        analysis_unavailable_reason = "no_rows_matched_fixed_combination"
+    elif not base_rate:
+        analysis_unavailable_reason = "case_control_base_event_rate_zero"
+    else:
+        analysis_unavailable_reason = None
     return {
         "total_rows": total_rows,
         "valid_rows": valid_rows,
@@ -263,6 +273,7 @@ def summarize_mask(
         "base_event_rate": base_rate,
         "lift": finite(event_rate / base_rate) if event_rate is not None and base_rate else None,
         "missing_reason": "one_or_more_component_features_missing; retained without imputation" if total_rows > valid_rows else None,
+        "analysis_unavailable_reason": analysis_unavailable_reason,
     }
 
 
@@ -598,6 +609,8 @@ def build_once(root: Path, stage: Path) -> dict[str, Any]:
         "environment_sample_rows": int(len(sample_regimes)),
         "environment_valid_rows": int((sample_regimes.regime != "unknown").sum()),
         "environment_unknown_rows": int(len(unknown)),
+        "analysis_unavailable_cells": int(metrics.analysis_unavailable_reason.notna().sum()),
+        "analysis_unavailable_by_reason": metrics.analysis_unavailable_reason.dropna().value_counts().sort_index().to_dict(),
         "unknown_by_environment_period": env_counts.to_dict("records"),
         "environment_summary": environment_summary(sample_regimes, metrics),
         "combination_regime_metric_rows": int(len(metrics)),
