@@ -54,20 +54,26 @@ def resolve_artifact(repository: str, run_id: int, artifact_id: int | None, name
 
 
 def download(repository: str, artifact_id: int, destination: Path) -> None:
+    token = os.environ.get("GH_TOKEN")
+    if not token:
+        raise RuntimeError("GH_TOKEN is required for pinned artifact restoration")
     last_error: subprocess.CalledProcessError | None = None
-    for attempt in range(1, 5):
-        destination.unlink(missing_ok=True)
+    api_url = f"https://api.github.com/repos/{repository}/actions/artifacts/{artifact_id}/zip"
+    for attempt in range(1, 7):
         try:
-            with destination.open("wb") as handle:
-                subprocess.run(
-                    ["gh", "api", "-H", "Accept: application/vnd.github+json", f"/repos/{repository}/actions/artifacts/{artifact_id}/zip"],
-                    check=True, stdout=handle,
-                )
+            subprocess.run([
+                "curl", "--fail", "--location", "--silent", "--show-error",
+                "--retry", "8", "--retry-all-errors", "--retry-delay", "3",
+                "--continue-at", "-", "--output", str(destination),
+                "--header", f"Authorization: Bearer {token}",
+                "--header", "Accept: application/vnd.github+json",
+                "--header", "X-GitHub-Api-Version: 2022-11-28",
+                api_url,
+            ], check=True)
             return
         except subprocess.CalledProcessError as error:
             last_error = error
-            destination.unlink(missing_ok=True)
-            if attempt < 4:
+            if attempt < 6:
                 time.sleep(5 * attempt)
     assert last_error is not None
     raise last_error
@@ -88,31 +94,21 @@ def main() -> None:
             metadata = resolve_artifact(args.repository, run_id, fixed_id, name)
             artifact_id = int(metadata["id"])
             metadata_digest = metadata.get("digest")
-            if expected_sha is not None:
-                archive = Path(temporary) / f"{key}.zip"
-                download(args.repository, artifact_id, archive)
-                actual_sha = sha256(archive)
-                if actual_sha != expected_sha:
-                    raise RuntimeError(f"Pinned ZIP SHA256 mismatch for {name}")
-                if metadata_digest and metadata_digest != f"sha256:{actual_sha}":
-                    raise RuntimeError(f"GitHub artifact digest mismatch for {name}")
-                with zipfile.ZipFile(archive) as bundle:
-                    corrupt = bundle.testzip()
-                    if corrupt is not None:
-                        raise RuntimeError(f"ZIP CRC failure for {name}: {corrupt}")
-                    bundle.extractall(root)
-                verification_method = "downloaded_zip_sha256_plus_crc"
-                archive_size = archive.stat().st_size
-                zip_crc_check = "PASS"
-            else:
-                subprocess.run(
-                    ["gh", "run", "download", str(run_id), "--repo", args.repository, "-n", name, "-D", str(root)],
-                    check=True,
-                )
-                actual_sha = metadata_digest.removeprefix("sha256:") if metadata_digest else None
-                verification_method = "github_run_download_plus_saved_output_manifests"
-                archive_size = int(metadata.get("size_in_bytes", 0))
-                zip_crc_check = "verified_by_github_run_download"
+            archive = Path(temporary) / f"{key}.zip"
+            download(args.repository, artifact_id, archive)
+            actual_sha = sha256(archive)
+            if expected_sha is not None and actual_sha != expected_sha:
+                raise RuntimeError(f"Pinned ZIP SHA256 mismatch for {name}")
+            if metadata_digest and metadata_digest != f"sha256:{actual_sha}":
+                raise RuntimeError(f"GitHub artifact digest mismatch for {name}")
+            with zipfile.ZipFile(archive) as bundle:
+                corrupt = bundle.testzip()
+                if corrupt is not None:
+                    raise RuntimeError(f"ZIP CRC failure for {name}: {corrupt}")
+                bundle.extractall(root)
+            verification_method = "resumable_downloaded_zip_sha256_plus_crc"
+            archive_size = archive.stat().st_size
+            zip_crc_check = "PASS"
             records[key] = {
                 "run_id": run_id,
                 "artifact_id": artifact_id,
