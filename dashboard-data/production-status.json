@@ -2,11 +2,11 @@
   "schema_version": 1,
   "status": "failed",
   "complete": false,
-  "market_date": "2026-09-07",
-  "calculation_completed_at": "2026-09-07T13:46:42.744117+00:00",
-  "git_commit_id": "833c386aad73d5458ad147b5e59d133f5699256c",
+  "market_date": "2026-09-08",
+  "calculation_completed_at": "2026-09-08T12:07:15.252534+00:00",
+  "git_commit_id": "77efbd41c71c1164ee93aaa5d235bc8d7858752d",
   "errors": [
-    "workflow_failed:34129219190"
+    "workflow_failed:34224234594"
   ],
   "publication": {
     "status": "blocked",

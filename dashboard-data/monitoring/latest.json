@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "market_date": "2026-09-07",
+  "market_date": "2026-09-08",
   "status": "failed",
   "data_download": "unknown",
   "signal_counts": {
@@ -12,7 +12,7 @@
     "first_pullback": "processing_failed"
   },
   "anomalies": [
-    "workflow_failed:34129219190"
+    "workflow_failed:34224234594"
   ],
   "publication": "blocked",
   "stale_result_fallback_allowed": false
