@@ -122,7 +122,8 @@ def restore(work):
             z.extractall(target)
         origins[label] = {"metadata": meta, "run_head_sha": state["head_sha"], "zip_sha256": digest}
     # Original execution log authenticates successful tests and both independent state chains.
-    logs = subprocess.check_output(["gh", "api", f"repos/{REPO}/actions/jobs/102323788013/logs"]).decode()
+    # Capture as data, never render terminal control bytes. Test logs contain ANSI colour.
+    logs = subprocess.check_output(["gh", "api", "--allow-escape-sequences", f"repos/{REPO}/actions/jobs/102323788013/logs"]).decode()
     assert "14 passed" in logs
     report = json.loads((work / "baseline/quality/report.json").read_text())
     checkpoint_lines = [line for line in logs.splitlines() if '{"half": ' in line]
@@ -473,10 +474,12 @@ def main():
     if a.restore:
         restore(work)
     auth = authenticate(work)
+    print("Pinned inputs authenticated; beginning formation-only run 1", flush=True)
     dump(quality / "input_authentication.json", auth)
     before = {label: manifest(work / label) for label in PINS}
     dump(quality / "input_hashes_before.json", before)
     first = run(work, root / "run_1")
+    print("Run 1 finished; beginning independent formation-only run 2", flush=True)
     second = run(work, root / "run_2")
     m1, m2 = manifest(root / "run_1"), manifest(root / "run_2")
     after = {label: manifest(work / label) for label in PINS}
