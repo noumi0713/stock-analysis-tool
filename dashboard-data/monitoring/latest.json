@@ -12,7 +12,7 @@
     "first_pullback": "processing_failed"
   },
   "anomalies": [
-    "workflow_failed:34350222293"
+    "workflow_failed:34350891120"
   ],
   "publication": "blocked",
   "stale_result_fallback_allowed": false
