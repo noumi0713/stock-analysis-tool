@@ -99,6 +99,18 @@ def gh(path):
     return json.loads(subprocess.check_output(["gh", "api", f"repos/{REPO}/{path}"]))
 
 
+def checkpoint_records(logs):
+    records = []
+    for line in logs.splitlines():
+        try:
+            value = json.loads(line[line.index("{"):])
+        except (ValueError, json.JSONDecodeError):
+            continue
+        if isinstance(value, dict) and "half" in value and "checkpoint_sha256" in value:
+            records.append(value)
+    return records
+
+
 def restore(work):
     origins = {}
     for label, (run, artifact, name, digest) in PINS.items():
@@ -126,9 +138,9 @@ def restore(work):
     logs = subprocess.check_output(["gh", "api", "--allow-escape-sequences", f"repos/{REPO}/actions/jobs/102323788013/logs"]).decode()
     assert "14 passed" in logs
     report = json.loads((work / "baseline/quality/report.json").read_text())
-    checkpoint_lines = [line for line in logs.splitlines() if '{"half": ' in line]
+    checkpoints = checkpoint_records(logs)
     for core in report["core_processing"]:
-        assert sum(core["checkpoint_sha256"] in line for line in checkpoint_lines) == 2
+        assert sum(core["checkpoint_sha256"] == item["checkpoint_sha256"] for item in checkpoints) == 2
     origins["baseline"]["independent_state_chains_verified_in_original_log"] = True
     dump(work / "origins.json", origins)
 

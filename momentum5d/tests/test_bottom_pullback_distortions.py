@@ -106,3 +106,10 @@ def test_no_future_frame_permitted():
     p.loc[len(p)-1, "Date"] = pd.Timestamp("2024-01-01")
     with pytest.raises(AssertionError):
         m.build_samples(p, meta, labels, resets)
+
+
+def test_checkpoint_log_ignores_nested_final_report():
+    logs = '\n'.join(['timestamp {"half": 1, "checkpoint_sha256": "abc"}',
+                      'timestamp {"half": 1, "checkpoint_sha256": "abc"}',
+                      'timestamp {"quality": "PASS", "core_processing": [{"half": 1, "checkpoint_sha256": "abc"}]}'])
+    assert len(m.checkpoint_records(logs)) == 2
