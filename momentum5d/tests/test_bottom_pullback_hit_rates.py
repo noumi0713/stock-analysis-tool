@@ -168,3 +168,16 @@ def test_exact_percent_barrier_rounding():
     p = bp.Outcome(signal())
     p.step(bar(0, o=100., h=109.999))
     assert not p.row["hit_10"]
+
+
+def test_split_sql_and_source_row_conservation(tmp_path):
+    source = tmp_path / "certified_input/features/equity_daily_features"
+    source.mkdir(parents=True)
+    raw = frame(detection_path()).drop(columns=["session", "half"])
+    raw.to_parquet(source / "test_only.parquet", index=False)
+    result = bp.split(tmp_path)
+    assert sum(h["rows"] for h in result["halves"]) == len(raw)
+    first = pd.read_parquet(tmp_path / "halves/half_1.parquet")
+    second = pd.read_parquet(tmp_path / "halves/half_2.parquet")
+    assert first.Date.max() < second.Date.min()
+    assert second.session.min() == first.session.max() + 1

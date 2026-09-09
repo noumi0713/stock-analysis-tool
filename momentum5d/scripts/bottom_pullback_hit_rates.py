@@ -324,8 +324,8 @@ def split(root):
     for half, op in [(1, "<="), (2, ">")]:
         path = root / f"halves/half_{half}.parquet"
         sql = f'''SELECT CAST(s.Ticker AS VARCHAR) Ticker, CAST(s.Date AS DATE) Date,
-             CAST(s.Open AS DOUBLE) Open, CAST(s.High AS DOUBLE) High,
-             CAST(s.Low AS DOUBLE) Low, CAST(s.Close AS DOUBLE) Close,
+             CAST(s."Open" AS DOUBLE) AS "Open", CAST(s."High" AS DOUBLE) AS "High",
+             CAST(s."Low" AS DOUBLE) AS "Low", CAST(s."Close" AS DOUBLE) AS "Close",
              CAST(s."Adj Close" AS DOUBLE) "Adj Close", CAST(s.Volume AS DOUBLE) Volume,
              d.session, {half} half FROM src s JOIN sessions d ON CAST(s.Date AS DATE)=d.Date
              WHERE CAST(s.Date AS DATE) {op} DATE '{mid}' ORDER BY Ticker,Date'''
