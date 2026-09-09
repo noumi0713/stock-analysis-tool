@@ -13,6 +13,7 @@ import pickle
 import subprocess
 import sys
 import zipfile
+import importlib.metadata
 from collections import deque
 from pathlib import Path
 
@@ -460,6 +461,7 @@ def main():
     if before != manifest(root / "certified_input", "*"):
         raise RuntimeError("Certified inputs changed")
     report = {"quality": "PASS", "execution": "completed", "untouched_oos": False,
+              "library_versions": {k: importlib.metadata.version(k) for k in ["numpy", "pandas", "pyarrow", "duckdb"]},
               "selection_or_optimization_performed": False,
               "specification_sha256": sha(root / "quality/frozen_specification.json"),
               "split": split_report, **first, "output_parquet_sha256": a,
