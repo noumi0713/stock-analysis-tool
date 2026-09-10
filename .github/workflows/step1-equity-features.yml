@@ -1,0 +1,186 @@
+name: step1-equity-features
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [market-history-data]
+    types: [completed]
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: step1-equity-features
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    defaults:
+      run:
+        working-directory: momentum5d
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: momentum5d/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore certified market-history input
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p data/market_history
+          run_id=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow market-history-data.yml --status success -L 1 --json databaseId --jq '.[0].databaseId // empty')
+          test -n "$run_id"
+          gh run download "$run_id" --repo "$GITHUB_REPOSITORY" -n market-history-certified -D data/market_history
+          test -f data/market_history/quality/report.json
+          test "$(python -c 'import json; print(json.load(open("data/market_history/quality/report.json"))["status"])')" = PASS
+
+      - name: Build STEP1 feature master
+        id: step1
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python scripts/build_step1_features.py
+
+      - name: Upload STEP1 certified artifact
+        if: steps.step1.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step1-equity-features
+          path: |
+            momentum5d/data/market_history/features/equity_daily_features/
+            momentum5d/data/market_history/quality/step1_report.json
+            momentum5d/data/market_history/quality/STEP2_PROMPT.md
+          retention-days: 90
+          compression-level: 0
+          if-no-files-found: error
+
+      - name: Build permanent GitHub-sized technical shards
+        if: steps.step1.outcome == 'success'
+        run: |
+          rm -rf ../technical-data-7y-publish
+          python - <<'PY'
+          import datetime as dt
+          import hashlib
+          import json
+          from pathlib import Path
+          import duckdb
+
+          src = Path('data/market_history/features/equity_daily_features/part.parquet').resolve()
+          report_path = Path('data/market_history/quality/step1_report.json').resolve()
+          out = Path('../technical-data-7y-publish').resolve()
+          data_out = out / 'equity_daily_features'
+          data_out.mkdir(parents=True, exist_ok=True)
+
+          report = json.loads(report_path.read_text(encoding='utf-8'))
+          oldest = str(report['period']['oldest'])
+          latest = str(report['period']['latest'])
+          if report.get('quality') != 'PASS':
+              raise SystemExit('STEP1 quality is not PASS')
+          span = (dt.date.fromisoformat(latest) - dt.date.fromisoformat(oldest)).days
+          if span < 365 * 6 + 300:
+              raise SystemExit(f'long-term span is too short: {oldest}..{latest} ({span} days)')
+
+          con = duckdb.connect()
+          con.execute("SET memory_limit='2GB'")
+          src_sql = str(src).replace("'", "''")
+          out_sql = str(data_out).replace("'", "''")
+          con.execute(f"""
+              COPY (
+                SELECT *,
+                  year(Date)::INTEGER AS archive_year,
+                  substr(Ticker, 1, 1) AS ticker_bucket
+                FROM read_parquet('{src_sql}')
+              ) TO '{out_sql}'
+              (FORMAT PARQUET, COMPRESSION ZSTD,
+               PARTITION_BY (archive_year, ticker_bucket),
+               ROW_GROUP_SIZE 100000)
+          """)
+          con.close()
+
+          files = []
+          oversized = []
+          for p in sorted(data_out.rglob('*.parquet')):
+              size = p.stat().st_size
+              if size >= 95 * 1024 * 1024:
+                  oversized.append((str(p.relative_to(out)), size))
+              h = hashlib.sha256()
+              with p.open('rb') as f:
+                  for chunk in iter(lambda: f.read(1024 * 1024), b''):
+                      h.update(chunk)
+              files.append({'path': str(p.relative_to(out)), 'size_bytes': size, 'sha256': h.hexdigest()})
+          if not files:
+              raise SystemExit('no technical shards produced')
+          if oversized:
+              raise SystemExit(f'GitHub-size limit risk: {oversized[:5]}')
+
+          manifest = {
+              'dataset': 'technical-data-7y',
+              'purpose': 'Permanent latest-only certified technical feature master for ChatGPT analysis',
+              'source': 'STEP1 certified equity feature master',
+              'quality': report.get('quality'),
+              'period': report.get('period'),
+              'tickers': report.get('tickers'),
+              'trading_days': report.get('trading_days'),
+              'rows': report.get('rows'),
+              'feature_count': report.get('feature_count'),
+              'input_fingerprint': report.get('input_fingerprint'),
+              'residual_risks': report.get('residual_risks'),
+              'partitioning': ['archive_year', 'ticker_bucket'],
+              'files': files,
+          }
+          (out / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8')
+          (out / 'README.md').write_text(
+              '# Certified 7-year technical data\n\n'
+              'This branch is a latest-only distribution snapshot. Historical publication commits are intentionally not retained.\n\n'
+              f"Period: {oldest} to {latest}\n\n"
+              f"Tickers: {report.get('tickers')}\n\n"
+              f"Rows: {report.get('rows')}\n\n"
+              f"Technical/context features: {report.get('feature_count')}\n\n"
+              'Use manifest.json for file hashes, partition layout and known residual risks.\n',
+              encoding='utf-8',
+          )
+          print(json.dumps({
+              'period': manifest['period'], 'tickers': manifest['tickers'],
+              'rows': manifest['rows'], 'feature_count': manifest['feature_count'],
+              'shards': len(files), 'total_bytes': sum(x['size_bytes'] for x in files),
+              'max_shard_bytes': max(x['size_bytes'] for x in files),
+          }, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Publish permanent latest-only technical dataset
+        if: steps.step1.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd ../technical-data-7y-publish
+          git init -b technical-data-7y
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git add --all
+          git commit -m 'Publish certified 7-year technical data snapshot'
+          git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin HEAD:technical-data-7y
+
+      - name: Upload STEP1 failure evidence
+        if: steps.step1.outcome != 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: step1-failed-${{ github.run_id }}
+          path: momentum5d/data/market_history/quality/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Enforce STEP1 quality gate
+        if: steps.step1.outcome != 'success'
+        run: exit 1
