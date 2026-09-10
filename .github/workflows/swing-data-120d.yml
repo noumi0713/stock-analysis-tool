@@ -1,0 +1,88 @@
+name: 日本株120営業日データ更新
+
+on:
+  workflow_dispatch:
+  schedule:
+    # After TSE close, then retry delayed provider data. UTC = JST - 9.
+    - cron: '30 8 * * 1-5'
+    - cron: '30 10 * * 1-5'
+  push:
+    branches: [main]
+    paths:
+      - 'swing_data/**'
+      - 'tests/swing_data/**'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: swing-data-120d
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: swing_data/requirements.txt
+      - run: python -m pip install -r swing_data/requirements.txt pytest
+      - name: Verify collector contracts
+        run: python -m pytest tests/swing_data -q
+      - name: Restore published data without touching code branches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git ls-remote --exit-code --heads origin swing-data-120d-latest; then
+            git fetch origin swing-data-120d-latest
+            git worktree add --detach public-data FETCH_HEAD
+          else
+            mkdir public-data
+            cd public-data
+            git init -b swing-data-120d-latest
+            git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          fi
+          mkdir -p swing_data/runtime
+          if [ -f public-data/universe.csv ] && [ -f public-data/manifest.json ]; then
+            cp public-data/universe.csv swing_data/runtime/universe_cache.csv
+            python -c 'import json,pathlib; p=pathlib.Path("swing_data/runtime/universe_cache.json"); p.write_text(json.dumps(json.load(open("public-data/manifest.json")).get("universe",{})))'
+          fi
+      - name: Fetch completed sessions
+        id: collect
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python -m swing_data.collector
+      - name: Prepare readable site data and failure status
+        if: always() && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
+        run: python -m swing_data.publish --source swing_data/runtime --target public-data
+      - name: Publish latest-only data snapshot
+        if: always() && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd public-data
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout --orphan latest-snapshot
+          git rm -rf --cached . >/dev/null 2>&1 || true
+          git add --all
+          git commit -m 'Publish latest 120-session data snapshot'
+          git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin HEAD:swing-data-120d-latest
+      - name: Retain run evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swing-120d-${{ github.run_id }}
+          path: swing_data/runtime/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Mark failed collection
+        if: steps.collect.outcome == 'failure'
+        run: exit 1
