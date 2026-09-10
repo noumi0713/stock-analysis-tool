@@ -101,10 +101,9 @@ jobs:
           pyarrow>=18,<22
           yfinance>=1.5.1,<2
           EOF
-          sed -i 's/^          //' clean-main/momentum5d/requirements.txt
 
-          # Preserve the already-hardened STEP1 publication workflow, but make
-          # it independent of the deleted Momentum application package.
+          # Preserve the hardened STEP1 publication workflow, but make it
+          # independent of the deleted Momentum application package.
           cp .github/workflows/step1-equity-features.yml clean-main/.github/workflows/step1-equity-features.yml
           sed -i 's#cache-dependency-path: momentum5d/pyproject.toml#cache-dependency-path: momentum5d/requirements.txt#' clean-main/.github/workflows/step1-equity-features.yml
           sed -i 's#run: pip install -e \.#run: pip install -r requirements.txt#' clean-main/.github/workflows/step1-equity-features.yml
@@ -154,7 +153,7 @@ jobs:
                 - name: Restore prior certified dataset for incremental update
                   if: github.event_name == 'schedule' || inputs.mode == 'update'
                   env:
-                    GH_TOKEN: ${{ github.token }}
+                    GH_TOKEN: __GITHUB_TOKEN_EXPR__
                   run: |
                     mkdir -p data/market_history
                     run_id=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow market-history-data.yml --status success -L 1 --json databaseId --jq '.[0].databaseId // empty')
@@ -189,7 +188,7 @@ jobs:
                   env:
                     PYTHONUNBUFFERED: '1'
                   run: |
-                    mode='${{ inputs.mode }}'
+                    mode='__INPUT_MODE_EXPR__'
                     if [ -z "$mode" ]; then mode=update; fi
                     if [ "$mode" = update ] && [ ! -d data/market_history/raw/equities ]; then mode=bootstrap; fi
                     python scripts/build_market_history.py --mode "$mode" --universe-file data/tse_universe.csv --batch-size 150
@@ -208,7 +207,7 @@ jobs:
                   if: steps.build.outcome != 'success'
                   uses: actions/upload-artifact@v4
                   with:
-                    name: market-history-failed-${{ github.run_id }}
+                    name: market-history-failed-__RUN_ID_EXPR__
                     path: momentum5d/data/market_history/
                     retention-days: 30
                     compression-level: 6
@@ -218,7 +217,16 @@ jobs:
                   if: steps.build.outcome != 'success'
                   run: exit 1
           EOF
-          sed -i 's/^          //' clean-main/.github/workflows/market-history-data.yml
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('clean-main/.github/workflows/market-history-data.yml')
+          s = p.read_text(encoding='utf-8')
+          dollar = '$'
+          s = s.replace('__GITHUB_TOKEN_EXPR__', dollar + '{{ github.token }}')
+          s = s.replace('__INPUT_MODE_EXPR__', dollar + '{{ inputs.mode }}')
+          s = s.replace('__RUN_ID_EXPR__', dollar + '{{ github.run_id }}')
+          p.write_text(s, encoding='utf-8')
+          PY
 
           cat > clean-main/README.md <<'EOF'
           # stock-analysis-tool
@@ -230,7 +238,6 @@ jobs:
 
           `main` contains only the collectors, quality checks, publication workflows and tests required to maintain those assets. Legacy sites, research branches and historical backtest outputs were removed intentionally.
           EOF
-          sed -i 's/^          //' clean-main/README.md
 
           find clean-main -maxdepth 4 -type f | sort
 
@@ -243,6 +250,11 @@ jobs:
             clean-main/momentum5d/scripts/build_step1_features.py
           grep -F 'eq_start = asof - timedelta(days=366 * 7 + 15)' clean-main/momentum5d/scripts/build_market_history.py
           grep -F 'ref: main' clean-main/.github/workflows/swing-data-120d.yml
+          grep -F '${{ github.token }}' clean-main/.github/workflows/market-history-data.yml
+          if grep -R -F 'feature/swing-120d-data' clean-main/.github/workflows; then
+            echo 'clean workflows still reference deleted source branch'
+            exit 1
+          fi
 
       - name: Replace main with clean root commit
         env:
