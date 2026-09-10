@@ -1,0 +1,118 @@
+name: market-history-data
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly full-history maintenance after the Friday session.
+    # UTC Friday 21:00 = JST Saturday 06:00.
+    - cron: '0 21 * * 5'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: market-history-data
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    defaults:
+      run:
+        working-directory: momentum5d
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: momentum5d/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore prior certified raw dataset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p data/market_history
+          run_id=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow market-history-data.yml --status success -L 1 --json databaseId --jq '.[0].databaseId // empty')
+          if [ -n "$run_id" ]; then
+            gh run download "$run_id" --repo "$GITHUB_REPOSITORY" -n market-history-certified -D data/market_history || true
+          fi
+
+      - name: Prepare current TSE universe from retained 120-day data
+        run: |
+          mkdir -p data
+          git fetch origin swing-data-120d-latest
+          git show FETCH_HEAD:universe.csv > data/universe_source.csv
+          python - <<'PY'
+          import pandas as pd
+          df = pd.read_csv('data/universe_source.csv', dtype=str)
+          required = {'ticker', 'company_name', 'sector17'}
+          missing = required - set(df.columns)
+          if missing:
+              raise SystemExit(f'missing universe columns: {sorted(missing)}')
+          out = df[['ticker', 'company_name', 'sector17']].rename(
+              columns={'company_name': 'name', 'sector17': 'sector'}
+          )
+          out = out.dropna(subset=['ticker']).drop_duplicates('ticker').sort_values('ticker')
+          if len(out) < 3000:
+              raise SystemExit(f'universe too small: {len(out)}')
+          out.to_csv('data/tse_universe.csv', index=False)
+          print({'tickers': len(out)})
+          PY
+
+      - name: Choose safe update mode
+        id: mode
+        run: |
+          mode=bootstrap
+          if [ -f data/market_history/raw/universe.parquet ] && [ -d data/market_history/raw/equities ]; then
+            if python - <<'PY'
+          import pandas as pd
+          current = set(pd.read_csv('data/tse_universe.csv', dtype=str)['ticker'].dropna())
+          prior = set(pd.read_parquet('data/market_history/raw/universe.parquet', columns=['ticker'])['ticker'].dropna())
+          if current != prior:
+              raise SystemExit(1)
+          print({'universe_unchanged': True, 'tickers': len(current)})
+          PY
+            then
+              mode=update
+            fi
+          fi
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "selected mode: $mode"
+
+      - name: Build and quality-check seven-year history
+        id: build
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python scripts/build_market_history.py --mode "${{ steps.mode.outputs.mode }}" --universe-file data/tse_universe.csv --batch-size 150
+
+      - name: Upload certified raw dataset
+        if: steps.build.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-history-certified
+          path: momentum5d/data/market_history/
+          retention-days: 90
+          compression-level: 6
+          if-no-files-found: error
+
+      - name: Upload failure evidence
+        if: steps.build.outcome != 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-history-failed-${{ github.run_id }}
+          path: momentum5d/data/market_history/
+          retention-days: 30
+          compression-level: 6
+          if-no-files-found: warn
+
+      - name: Enforce quality gate
+        if: steps.build.outcome != 'success'
+        run: exit 1
