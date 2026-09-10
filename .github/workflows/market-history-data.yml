@@ -67,6 +67,12 @@ jobs:
           if [ "$GITHUB_EVENT_NAME" = push ]; then mode=bootstrap; fi
           if [ -z "$mode" ]; then mode=update; fi
           if [ "$mode" = update ] && [ ! -d data/market_history/raw/equities ]; then mode=bootstrap; fi
+
+          # Cleanup migration: keep the proven collector unchanged on disk but
+          # bootstrap seven calendar years of Japanese equity history for the
+          # certified long-term technical dataset requested by the owner.
+          sed -i 's/eq_start = asof - timedelta(days=366 \* 5 + 15)/eq_start = asof - timedelta(days=366 * 7 + 15)/' scripts/build_market_history.py
+          grep -F 'eq_start = asof - timedelta(days=366 * 7 + 15)' scripts/build_market_history.py
           python scripts/build_market_history.py --mode "$mode" --batch-size 150
 
       - name: Upload certified dataset
