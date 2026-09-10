@@ -1,0 +1,328 @@
+name: repository-cleanup-v2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.cleanup/go-v2'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: repository-cleanup-v2
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Fetch retained branches and 120-day source
+        run: |
+          git fetch origin \
+            swing-data-120d-latest:refs/remotes/origin/swing-data-120d-latest \
+            technical-data-7y:refs/remotes/origin/technical-data-7y \
+            feature/swing-120d-data:refs/remotes/origin/feature/swing-120d-data
+
+      - name: Hard safety gate
+        run: |
+          git show refs/remotes/origin/technical-data-7y:manifest.json > /tmp/technical_manifest.json
+          git show refs/remotes/origin/swing-data-120d-latest:manifest.json > /tmp/swing_manifest.json
+          python - <<'PY'
+          import datetime as dt
+          import json
+
+          tech = json.load(open('/tmp/technical_manifest.json', encoding='utf-8'))
+          swing = json.load(open('/tmp/swing_manifest.json', encoding='utf-8'))
+
+          if tech.get('dataset') != 'technical-data-7y' or tech.get('quality') != 'PASS':
+              raise SystemExit('ABORT: certified technical-data-7y is missing or not PASS')
+          period = tech.get('period') or {}
+          oldest = dt.date.fromisoformat(period['oldest'])
+          latest = dt.date.fromisoformat(period['latest'])
+          span = (latest - oldest).days
+          if span < 365 * 6 + 300:
+              raise SystemExit(f'ABORT: long-term period is too short: {oldest}..{latest}')
+          if int(tech.get('tickers') or 0) < 3000:
+              raise SystemExit('ABORT: technical ticker count is too low')
+          if int(tech.get('rows') or 0) < 4_000_000:
+              raise SystemExit('ABORT: technical row count is too low')
+          if int(tech.get('feature_count') or 0) < 100:
+              raise SystemExit('ABORT: technical feature count is too low')
+          shards = tech.get('files') or []
+          if len(shards) < 20:
+              raise SystemExit('ABORT: technical shard manifest is incomplete')
+          if any(not x.get('sha256') or not x.get('path') for x in shards):
+              raise SystemExit('ABORT: technical shard hashes are incomplete')
+
+          if int(swing.get('window_sessions') or 0) != 120:
+              raise SystemExit('ABORT: swing snapshot is not 120 sessions')
+          if int(swing.get('ready_count') or 0) < 3000:
+              raise SystemExit('ABORT: swing ready_count is too low')
+          if swing.get('market_quality') != 'PASS':
+              raise SystemExit('ABORT: swing market quality is not PASS')
+          if swing.get('required_market_failures'):
+              raise SystemExit('ABORT: required swing markets are missing')
+
+          print(json.dumps({
+              'technical_period': [str(oldest), str(latest)],
+              'technical_span_days': span,
+              'technical_tickers': tech.get('tickers'),
+              'technical_rows': tech.get('rows'),
+              'technical_features': tech.get('feature_count'),
+              'technical_shards': len(shards),
+              'swing_ready': swing.get('ready_count'),
+              'swing_market_quality': swing.get('market_quality'),
+          }, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Assemble minimal main tree
+        run: |
+          rm -rf clean-main
+          mkdir -p clean-main/.github/workflows clean-main/momentum5d/scripts clean-main/momentum5d/config
+
+          # Retain the complete 120-day collector and its regression tests.
+          git archive refs/remotes/origin/feature/swing-120d-data swing_data tests/swing_data | tar -x -C clean-main
+          git show refs/remotes/origin/feature/swing-120d-data:.github/workflows/swing-data-120d.yml > clean-main/.github/workflows/swing-data-120d.yml
+          sed -i 's/branches: \[feature\/swing-120d-data\]/branches: [main]/' clean-main/.github/workflows/swing-data-120d.yml
+          sed -i 's/ref: feature\/swing-120d-data/ref: main/' clean-main/.github/workflows/swing-data-120d.yml
+
+          # Retain only the long-term raw collector and certified STEP1 feature builder.
+          cp momentum5d/scripts/build_market_history.py clean-main/momentum5d/scripts/
+          cp momentum5d/scripts/build_step1_features.py clean-main/momentum5d/scripts/
+          cp momentum5d/config/market_history_tickers.json clean-main/momentum5d/config/
+          sed -i 's/eq_start = asof - timedelta(days=366 \* 5 + 15)/eq_start = asof - timedelta(days=366 * 7 + 15)/' clean-main/momentum5d/scripts/build_market_history.py
+          sed -i 's/(q_eq, "5y", "all discovered TSE tickers")/(q_eq, "7y", "all discovered TSE tickers")/' clean-main/momentum5d/scripts/build_market_history.py
+
+          cat > clean-main/momentum5d/requirements.txt <<'EOF'
+          duckdb>=1.2,<2
+          numpy>=1.26
+          pandas>=2.2,<3
+          pyarrow>=18,<22
+          yfinance>=1.5.1,<2
+          EOF
+
+          # Reuse the tested STEP1 workflow, removing the deleted application-package dependency.
+          cp .github/workflows/step1-equity-features.yml clean-main/.github/workflows/step1-equity-features.yml
+          sed -i 's#cache-dependency-path: momentum5d/pyproject.toml#cache-dependency-path: momentum5d/requirements.txt#' clean-main/.github/workflows/step1-equity-features.yml
+          sed -i 's#run: pip install -e \.#run: pip install -r requirements.txt#' clean-main/.github/workflows/step1-equity-features.yml
+
+          cat > clean-main/.github/workflows/market-history-data.yml <<'EOF'
+          name: market-history-data
+
+          on:
+            workflow_dispatch:
+            schedule:
+              # Weekly full-history maintenance after the Friday session.
+              # UTC Friday 21:00 = JST Saturday 06:00.
+              - cron: '0 21 * * 5'
+
+          permissions:
+            contents: read
+            actions: read
+
+          concurrency:
+            group: market-history-data
+            cancel-in-progress: false
+
+          jobs:
+            build:
+              runs-on: ubuntu-latest
+              timeout-minutes: 330
+              defaults:
+                run:
+                  working-directory: momentum5d
+              steps:
+                - uses: actions/checkout@v4
+
+                - uses: actions/setup-python@v5
+                  with:
+                    python-version: '3.12'
+                    cache: pip
+                    cache-dependency-path: momentum5d/requirements.txt
+
+                - name: Install dependencies
+                  run: pip install -r requirements.txt
+
+                - name: Restore prior certified raw dataset
+                  env:
+                    GH_TOKEN: __GITHUB_TOKEN_EXPR__
+                  run: |
+                    mkdir -p data/market_history
+                    run_id=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow market-history-data.yml --status success -L 1 --json databaseId --jq '.[0].databaseId // empty')
+                    if [ -n "$run_id" ]; then
+                      gh run download "$run_id" --repo "$GITHUB_REPOSITORY" -n market-history-certified -D data/market_history || true
+                    fi
+
+                - name: Prepare current TSE universe from retained 120-day data
+                  run: |
+                    mkdir -p data
+                    git fetch origin swing-data-120d-latest
+                    git show FETCH_HEAD:universe.csv > data/universe_source.csv
+                    python - <<'PY'
+                    import pandas as pd
+                    df = pd.read_csv('data/universe_source.csv', dtype=str)
+                    required = {'ticker', 'company_name', 'sector17'}
+                    missing = required - set(df.columns)
+                    if missing:
+                        raise SystemExit(f'missing universe columns: {sorted(missing)}')
+                    out = df[['ticker', 'company_name', 'sector17']].rename(
+                        columns={'company_name': 'name', 'sector17': 'sector'}
+                    )
+                    out = out.dropna(subset=['ticker']).drop_duplicates('ticker').sort_values('ticker')
+                    if len(out) < 3000:
+                        raise SystemExit(f'universe too small: {len(out)}')
+                    out.to_csv('data/tse_universe.csv', index=False)
+                    print({'tickers': len(out)})
+                    PY
+
+                - name: Choose safe update mode
+                  id: mode
+                  run: |
+                    mode=bootstrap
+                    if [ -f data/market_history/raw/universe.parquet ] && [ -d data/market_history/raw/equities ]; then
+                      if python - <<'PY'
+                    import pandas as pd
+                    current = set(pd.read_csv('data/tse_universe.csv', dtype=str)['ticker'].dropna())
+                    prior = set(pd.read_parquet('data/market_history/raw/universe.parquet', columns=['ticker'])['ticker'].dropna())
+                    if current != prior:
+                        raise SystemExit(1)
+                    print({'universe_unchanged': True, 'tickers': len(current)})
+                    PY
+                      then
+                        mode=update
+                      fi
+                    fi
+                    echo "mode=$mode" >> "$GITHUB_OUTPUT"
+                    echo "selected mode: $mode"
+
+                - name: Build and quality-check seven-year history
+                  id: build
+                  continue-on-error: true
+                  env:
+                    PYTHONUNBUFFERED: '1'
+                  run: python scripts/build_market_history.py --mode "__MODE_EXPR__" --universe-file data/tse_universe.csv --batch-size 150
+
+                - name: Upload certified raw dataset
+                  if: steps.build.outcome == 'success'
+                  uses: actions/upload-artifact@v4
+                  with:
+                    name: market-history-certified
+                    path: momentum5d/data/market_history/
+                    retention-days: 90
+                    compression-level: 6
+                    if-no-files-found: error
+
+                - name: Upload failure evidence
+                  if: steps.build.outcome != 'success'
+                  uses: actions/upload-artifact@v4
+                  with:
+                    name: market-history-failed-__RUN_ID_EXPR__
+                    path: momentum5d/data/market_history/
+                    retention-days: 30
+                    compression-level: 6
+                    if-no-files-found: warn
+
+                - name: Enforce quality gate
+                  if: steps.build.outcome != 'success'
+                  run: exit 1
+          EOF
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('clean-main/.github/workflows/market-history-data.yml')
+          s = p.read_text(encoding='utf-8')
+          dollar = '$'
+          s = s.replace('__GITHUB_TOKEN_EXPR__', dollar + '{{ github.token }}')
+          s = s.replace('__MODE_EXPR__', dollar + '{{ steps.mode.outputs.mode }}')
+          s = s.replace('__RUN_ID_EXPR__', dollar + '{{ github.run_id }}')
+          p.write_text(s, encoding='utf-8')
+          PY
+
+          cat > clean-main/README.md <<'EOF'
+          # stock-analysis-tool
+
+          このリポジトリは、今後使うデータ基盤だけに整理しています。
+
+          - `swing-data-120d-latest`: 日本株120営業日の最新サイト・分析データ。更新ごとに履歴を積み上げず、最新スナップショットだけを保持します。
+          - `technical-data-7y`: 認証済み7年テクニカル特徴量。年×銘柄コード先頭桁でParquet分割し、各ファイルのSHA256を `manifest.json` に記録します。
+          - `main`: 上記2データを維持するための取得コード、品質検査、GitHub Actions、120日取得テストだけを保持します。
+
+          旧サイト、旧バックテスト成果物、研究用STEP群、試作ブランチは削除対象です。
+          EOF
+
+          find clean-main -maxdepth 4 -type f | sort
+
+      - name: Validate minimal main before replacement
+        run: |
+          python -m pip install -r clean-main/swing_data/requirements.txt pytest
+          PYTHONPATH=clean-main python -m pytest clean-main/tests/swing_data -q
+          python -m py_compile \
+            clean-main/momentum5d/scripts/build_market_history.py \
+            clean-main/momentum5d/scripts/build_step1_features.py
+          grep -F 'eq_start = asof - timedelta(days=366 * 7 + 15)' clean-main/momentum5d/scripts/build_market_history.py
+          grep -F '(q_eq, "7y", "all discovered TSE tickers")' clean-main/momentum5d/scripts/build_market_history.py
+          grep -F 'ref: main' clean-main/.github/workflows/swing-data-120d.yml
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('clean-main/.github/workflows/market-history-data.yml').read_text(encoding='utf-8')
+          needle = '$' + '{{ github.token }}'
+          if needle not in text:
+              raise SystemExit('generated workflow lost the GitHub token expression')
+          if 'feature/swing-120d-data' in text:
+              raise SystemExit('generated market workflow still depends on obsolete branch')
+          PY
+          if grep -R -F 'feature/swing-120d-data' clean-main/.github/workflows; then
+            echo 'clean workflows still reference obsolete source branch'
+            exit 1
+          fi
+
+      - name: Replace main with a new root commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd clean-main
+          git init -b main
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git add --all
+          git commit -m 'Reset repository to retained 120-day and 7-year data infrastructure'
+          git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin HEAD:main
+
+      - name: Delete obsolete branches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          auth="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          failures=0
+          while read -r branch; do
+            case "$branch" in
+              main|swing-data-120d-latest|technical-data-7y) continue ;;
+            esac
+            echo "Deleting obsolete branch: $branch"
+            if ! git -c "http.extraHeader=$auth" push origin --delete "$branch"; then
+              echo "Could not delete $branch"
+              failures=$((failures+1))
+            fi
+          done < <(git ls-remote --heads origin | sed 's#.*refs/heads/##' | sort)
+          echo "branch_delete_failures=$failures"
+          if [ "$failures" -ne 0 ]; then
+            exit 1
+          fi
+
+      - name: Verify final branch set
+        run: |
+          branches=$(git ls-remote --heads origin | sed 's#.*refs/heads/##' | sort)
+          printf '%s\n' "$branches"
+          unexpected=$(printf '%s\n' "$branches" | grep -Ev '^(main|swing-data-120d-latest|technical-data-7y)$' || true)
+          if [ -n "$unexpected" ]; then
+            echo "Unexpected branches remain:"
+            echo "$unexpected"
+            exit 1
+          fi
