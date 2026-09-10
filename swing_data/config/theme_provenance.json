@@ -1,0 +1,26 @@
+{
+  "sources": [
+    {
+      "file": "theme_catalog.csv",
+      "repository": "noumi0713/stock-analysis-tool",
+      "commit": "739c98159df09e1c2bbefb5edc09714c2be2abec",
+      "path": "research/theme_catalog_124.csv",
+      "sha256": "6f606f7060ae2ee016b8d91d28e99a6635b5846ba974cb29c417119db5dad70c"
+    },
+    {
+      "file": "theme_members.csv",
+      "repository": "noumi0713/stock-analysis-tool",
+      "commit": "739c98159df09e1c2bbefb5edc09714c2be2abec",
+      "path": "research/data/theme_members_124.csv",
+      "sha256": "7112fe90d2893d0dbe91499c66b9bca1d74b243318a19a6d6b0b561e04daea66"
+    },
+    {
+      "file": "theme_relevance.csv",
+      "repository": "noumi0713/stock-analysis-tool",
+      "commit": "94a882c2068323ffa4d0c7ef0aab6c11d9737cb9",
+      "path": "research/results/theme_relevance_batches/theme_relevance_full_final.csv",
+      "sha256": "cd888093db59eb29a0d1762153da21e1fbe42f0faa79280587ec8ac9f528a501"
+    }
+  ],
+  "note": "Existing classifications and relevance values are inherited, not newly verified. Relevance confidence and evidence are preserved. Current membership is not a historical point-in-time classification."
+}

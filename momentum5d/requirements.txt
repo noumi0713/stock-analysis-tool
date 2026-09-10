@@ -1,0 +1,5 @@
+duckdb>=1.2,<2
+numpy>=1.26
+pandas>=2.2,<3
+pyarrow>=18,<26
+yfinance>=1.5.1,<2

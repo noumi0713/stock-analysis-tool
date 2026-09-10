@@ -1,0 +1,109 @@
+[
+  {
+    "ticker": "^N225",
+    "name": "日経平均",
+    "calendar": "XTKS",
+    "kind": "index",
+    "required": true,
+    "source": "yfinance",
+    "field_mode": "ohlc",
+    "unit": "index_points"
+  },
+  {
+    "ticker": "^TOPX",
+    "name": "TOPIX",
+    "calendar": "XTKS",
+    "kind": "index",
+    "required": true,
+    "source": "tradingview_public",
+    "field_mode": "ohlc",
+    "unit": "index_points",
+    "provider_symbol": "TSE:TOPIX",
+    "identity_name": "TOPIX",
+    "note": "TradingView公開チャートの遅延TOPIX現物指数OHLC。正規シンボル・指数種別・取引所・時間帯を検証し、終了済み東証営業日だけを使用。ETF・先物ではない。"
+  },
+  {
+    "ticker": "^TSEMOTHERS",
+    "name": "東証グロース市場250",
+    "calendar": "XTKS",
+    "kind": "index",
+    "required": true,
+    "source": "tradingview_public",
+    "provider_symbol": "TSE:MOS",
+    "note": "TradingView公開チャートの20分遅延指数OHLC。指数名・取引所・時間帯を検証。終了済み東証営業日だけを使用。ETF・先物ではない。",
+    "field_mode": "ohlc",
+    "unit": "index_points"
+  },
+  {
+    "ticker": "JPY=X",
+    "name": "ドル円（Yahoo日次終値）",
+    "calendar": "FX",
+    "kind": "fx",
+    "required": true,
+    "source": "yfinance",
+    "field_mode": "close_only",
+    "unit": "JPY_per_USD",
+    "note": "提供元の日付を使用し進行中の当日を除外。始値・高値・安値は未使用。OHLC不整合は別記録。"
+  },
+  {
+    "ticker": "^TNX",
+    "name": "米国10年国債利回り（Yahoo表示値・%）",
+    "calendar": "XNYS",
+    "kind": "yield",
+    "required": true,
+    "source": "yfinance",
+    "field_mode": "ohlc",
+    "unit": "percent"
+  },
+  {
+    "ticker": "JP10Y",
+    "name": "日本10年国債利回り",
+    "calendar": "XTKS",
+    "kind": "yield",
+    "required": true,
+    "note": "財務省・10年コンスタントマチュリティー金利（%）。翌営業日9:30頃公表。新発10年債の取引値とは区別。",
+    "source": "mof",
+    "field_mode": "close_only",
+    "unit": "percent"
+  },
+  {
+    "ticker": "^GSPC",
+    "name": "S&P500",
+    "calendar": "XNYS",
+    "kind": "index",
+    "required": false,
+    "source": "yfinance",
+    "field_mode": "ohlc",
+    "unit": "index_points"
+  },
+  {
+    "ticker": "^IXIC",
+    "name": "NASDAQ総合",
+    "calendar": "XNYS",
+    "kind": "index",
+    "required": false,
+    "source": "yfinance",
+    "field_mode": "ohlc",
+    "unit": "index_points"
+  },
+  {
+    "ticker": "^SOX",
+    "name": "SOX",
+    "calendar": "XNYS",
+    "kind": "index",
+    "required": false,
+    "source": "yfinance",
+    "field_mode": "ohlc",
+    "unit": "index_points"
+  },
+  {
+    "ticker": "^VIX",
+    "name": "VIX",
+    "calendar": "XNYS",
+    "kind": "index",
+    "required": false,
+    "source": "cboe",
+    "field_mode": "ohlc",
+    "unit": "index_points"
+  }
+]
