@@ -39,6 +39,7 @@ def publish(source: Path, target: Path) -> None:
         old.unlink()
     for raw in run.glob("market_*.raw.csv"):
         shutil.copy2(raw, target / raw.name)
+    shutil.copy2(Path(__file__).with_name("indicators.py"), target / "indicators.py")
     stocks = target / "stocks"
     if stocks.exists():
         shutil.rmtree(stocks)
@@ -56,8 +57,10 @@ def publish(source: Path, target: Path) -> None:
         close = frame.adj_close
         summary.append({"ticker":ticker, "code":code, "name":names.get(ticker,ticker), "date":frame.date.iloc[-1],
                         "close":float(frame.close.iloc[-1]), "rows":len(frame), "themes":themes.get(code,[]),
-                        "return_5d_pct":float((close.iloc[-1]/close.iloc[-6]-1)*100),
-                        "return_20d_pct":float((close.iloc[-1]/close.iloc[-21]-1)*100),
+                        "adj_close_latest":float(close.iloc[-1]),
+                        "adj_close_5d_ago":float(close.iloc[-6]),
+                        "adj_close_20d_ago":float(close.iloc[-21]),
+                        "supplemental_url":f"{PUBLIC}/supplemental/{code}.json",
                         "ohlcv_url":f"{PUBLIC}/stocks/{code}.csv"})
         frame.to_csv(stocks / f"{code}.csv", index=False)
         links.append(f"- {code} {names.get(ticker,ticker)} — [120営業日OHLCV]({PUBLIC}/stocks/{code}.csv)")
@@ -71,11 +74,13 @@ def publish(source: Path, target: Path) -> None:
             f"2. [全対象の取得結果]({PUBLIC}/stock_status.csv)と[市場系列の欠損]({PUBLIC}/market_status.json)を確認する。\n"
             f"3. [全銘柄の120日CSV]({PUBLIC}/equities_120d.csv)または[分析一式ZIP]({PUBLIC}/chatgpt_120d.zip)を取得し数値処理する。\n"
             f"4. [テーマ所属と関連度]({PUBLIC}/theme_members.csv)、[テーマ推移]({PUBLIC}/themes_120d.csv)、[市場データ]({PUBLIC}/markets_120d.csv)を参照する。\n"
-            "5. 5〜10営業日のスイング候補を裁量で選び、最新IR・ニュースを別途検索する。固定パターンで絞り込まない。\n\n"
+            f"5. [信用需給・空売り・決算・業績修正・時価総額/浮動株・コンセンサスEPS]({PUBLIC}/supplemental.json)と[追加データの取得状況・定義]({PUBLIC}/supplemental_status.json)を読む。各銘柄は supplemental/銘柄コード.json。\n"
+            f"6. [計算プログラム]({PUBLIC}/indicators.py)でRSI14・ATR14・MA5/10/20/25/60/75・TOPIX相対強度5/20/60日・売買代金比を120日の生データから毎回計算する。指標値は保存されない。\n"
+            "7. 5〜10営業日のスイング候補を裁量で選び、最新IR・ニュースを検索する。固定パターンで絞り込まない。\n\n"
             "ファイルをユーザーに毎日添付してもらう必要はありません。このURLから取得してください。\n"
             "ページの一部分や一覧の要約だけを読んで、全銘柄の120日分を確認したと表現しないこと。\n"
             "取得・処理した銘柄数と未確認数を必ず明記すること。ブラウザーの省略表示に注意すること。\n"
-            "ニュース、IR、理論株価、売買判断は未生成です。データ収集と分析済みを混同しないこと。\n\n"
+            "開示の自動収集と、IR本文の確認・上方修正の確定・理論株価・売買判断を混同しないこと。未取得はゼロや材料なしではない。\n\n"
             f"[価格調整・集計の注意]({PUBLIC}/READ_ME.txt) / [一覧JSON]({PUBLIC}/stocks.json)\n\n"
             "## 各銘柄の全120日\n\n" + "\n".join(links) + "\n")
     (target / "index.md").write_text(text, encoding="utf-8")

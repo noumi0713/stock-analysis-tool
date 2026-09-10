@@ -256,7 +256,7 @@ def export_bundle(run_dir: Path, prices: pd.DataFrame, partial: pd.DataFrame, re
         "日本10年金利は財務省のコンスタントマチュリティー金利（%）、翌営業日9:30頃公表。新発債利回りとは別定義。\n"
         "利回りの差分はpercentage point、100倍でbp。価格リターンと混同しない。\n"
         "120日の入力から計算できる日次騰落率は119日分。初日は騰落率未計算。\n"
-        "判断・検索の基準日時はmanifestのanalysis_as_ofを使用。ニュース・IR・財務の自動取得は本システムの対象外。\n",
+        "判断・検索の基準日時はmanifestのanalysis_as_ofを使用。追加需給・決算・業績修正・資本・EPSはsupplemental.jsonとsupplemental_status.jsonを参照。値の有無・時点・取得状態を確認。\n",
         encoding="utf-8")
     files = sorted(p for p in run_dir.iterdir() if p.is_file())
     atomic_json(run_dir / "sha256.json", {p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in files})
