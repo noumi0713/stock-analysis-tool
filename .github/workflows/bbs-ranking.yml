@@ -1,0 +1,72 @@
+name: Yahoo掲示板投稿ランキング日次更新
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 07:20 JST every day. This fixed snapshot is the day's analysis universe.
+    - cron: '20 22 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'swing_data/bbs_ranking.py'
+      - 'tests/swing_data/test_bbs_ranking.py'
+      - '.github/workflows/bbs-ranking.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: swing-data-publication
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: swing_data/requirements.txt
+      - run: python -m pip install -r swing_data/requirements.txt pytest
+      - name: Verify ranking contracts
+        run: python -m pytest tests/swing_data/test_bbs_ranking.py -q
+      - name: Restore published data history
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git ls-remote --exit-code --heads origin swing-data-120d-latest; then
+            git fetch origin swing-data-120d-latest
+            git worktree add --detach public-data FETCH_HEAD
+          else
+            mkdir public-data
+            cd public-data
+            git init -b swing-data-120d-latest
+            git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          fi
+      - name: Fetch all daily message-board ranks
+        id: ranking
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python -m swing_data.bbs_ranking --target public-data
+      - name: Publish ranking status and history
+        if: always() && (steps.ranking.outcome == 'success' || steps.ranking.outcome == 'failure')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd public-data
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout --orphan latest-snapshot
+          git rm -rf --cached . >/dev/null 2>&1 || true
+          git add --all
+          git commit -m 'Publish daily Yahoo message-board ranking'
+          git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin HEAD:swing-data-120d-latest
+      - name: Mark ranking collection failure
+        if: steps.ranking.outcome == 'failure'
+        run: exit 1

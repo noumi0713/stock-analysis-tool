@@ -125,7 +125,8 @@ def test_collection_to_site_handoff_and_manifest_hashes(tmp_path):
     result = json.loads((target / "stocks.json").read_text())
     assert len(result["stocks"]) == 2
     assert len(pd.read_csv(target / "stocks/7203.csv")) == 120
-    assert "stock_status.csv" in (target / "index.md").read_text()
+    index = (target / "index.md").read_text()
+    assert "stock_status.csv" in index and "bbs_ranking_status.json" in index
     with zipfile.ZipFile(target / "chatgpt_120d.zip") as archive:
         hashes = json.loads(archive.read("sha256.json"))
         for filename, expected in hashes.items():

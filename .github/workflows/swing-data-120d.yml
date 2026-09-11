@@ -16,8 +16,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: swing-data-120d
-  cancel-in-progress: true
+  group: swing-data-publication
+  cancel-in-progress: false
 
 jobs:
   update:
