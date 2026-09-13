@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "run_id": "20260911T233530-4298bd00",
+  "analysis_as_of": "2026-09-11T23:35:30.178038+09:00",
+  "completed_at": "2026-09-11T23:44:39.982986+09:00",
+  "expected_equity_date": "2026-09-11",
+  "window_start": "2026-03-19",
+  "window_sessions": 120,
+  "quality": "PARTIAL",
+  "stock_quality": "PARTIAL",
+  "universe": {
+    "status": "fetched",
+    "scope": "tse_domestic_common",
+    "source": "https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xlsx",
+    "source_date": "20260831",
+    "downloaded_at": "2026-09-11T23:35:31.311528+09:00",
+    "excluded_share_classes": [
+      {
+        "コード": "25935",
+        "銘柄名": "伊藤園第１種優先株式"
+      },
+      {
+        "コード": "50765",
+        "銘柄名": "インフロニア・ホールディングス第１回社債型種類株式"
+      },
+      {
+        "コード": "75505",
+        "銘柄名": "ゼンショーホールディングス第１回社債型種類株式"
+      },
+      {
+        "コード": "92015",
+        "銘柄名": "日本航空株式会社第１回社債型種類株式"
+      },
+      {
+        "コード": "92025",
+        "銘柄名": "ＡＮＡホールディングス第１回社債型種類株式"
+      },
+      {
+        "コード": "94345",
+        "銘柄名": "ソフトバンク第１回社債型種類株式"
+      },
+      {
+        "コード": "94346",
+        "銘柄名": "ソフトバンク第２回社債型種類株式"
+      }
+    ]
+  },
+  "target_count": 3700,
+  "ready_count": 3286,
+  "stock_status_counts": {
+    "ready": 3286,
+    "zero_volume": 338,
+    "invalid_rows": 54,
+    "insufficient_history": 22
+  },
+  "rows": 394320,
+  "theme_count": 124,
+  "cluster_count": 13,
+  "theme_provenance": {
+    "sources": [
+      {
+        "file": "theme_catalog.csv",
+        "repository": "noumi0713/stock-analysis-tool",
+        "commit": "739c98159df09e1c2bbefb5edc09714c2be2abec",
+        "path": "research/theme_catalog_124.csv",
+        "sha256": "6f606f7060ae2ee016b8d91d28e99a6635b5846ba974cb29c417119db5dad70c"
+      },
+      {
+        "file": "theme_members.csv",
+        "repository": "noumi0713/stock-analysis-tool",
+        "commit": "739c98159df09e1c2bbefb5edc09714c2be2abec",
+        "path": "research/data/theme_members_124.csv",
+        "sha256": "7112fe90d2893d0dbe91499c66b9bca1d74b243318a19a6d6b0b561e04daea66"
+      },
+      {
+        "file": "theme_relevance.csv",
+        "repository": "noumi0713/stock-analysis-tool",
+        "commit": "94a882c2068323ffa4d0c7ef0aab6c11d9737cb9",
+        "path": "research/results/theme_relevance_batches/theme_relevance_full_final.csv",
+        "sha256": "cd888093db59eb29a0d1762153da21e1fbe42f0faa79280587ec8ac9f528a501"
+      }
+    ],
+    "note": "Existing classifications and relevance values are inherited, not newly verified. Relevance confidence and evidence are preserved. Current membership is not a historical point-in-time classification.",
+    "classification_note": "現在の所属を使った参考集計。過去時点の所属や検証済み予測力を意味しない。関連度は既存値をそのまま掲載し、選別・重みに使わない。"
+  },
+  "market_quality": "PASS",
+  "required_market_failures": [],
+  "provider": "Equities: Yahoo Finance via yfinance; markets: source recorded per series",
+  "selection": "none: all current TSE domestic common stocks",
+  "missing_markets": [],
+  "supplemental_quality": "PARTIAL",
+  "supplemental_status_url": "supplemental_status.json"
+}

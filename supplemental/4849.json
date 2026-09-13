@@ -1,0 +1,410 @@
+{
+  "code": "4849",
+  "run_id": "20260911T233530-4298bd00",
+  "attempted_at": "2026-09-11T23:44:53.584440+09:00",
+  "coverage": {
+    "margin": "JPX weekly share balances, five available weeks. Absent code is unknown, not zero.",
+    "short_positions": "Disclosure events, not complete current holdings. Public reporting threshold generally 0.5%; below-threshold exit reports may appear. Never sum as total institutional shorts. Initial history starts at available current-month files.",
+    "earnings_calendar": "Company schedules in the available JPX workbooks only; absent date does not mean no imminent earnings.",
+    "guidance_revisions": "TDnet available 31-day archive initially, then retained daily. Matched XBRL previous/current forecast facts where available; otherwise title-only/unconfirmed. Read IR for corporate-action comparability. Not consensus revisions.",
+    "capital": "Yahoo snapshot; floatShares is not JPX FFW. Unknown effective date stays unknown.",
+    "consensus_eps": "Provider current/7/30/60/90-day EPS snapshots by fiscal end and currency, with analyst revision counts. Missing is not no change; not point-in-time backtest data.",
+    "technicals": "Calculated from current 120-session raw inputs in memory on reading; no saved indicator values."
+  },
+  "source_status": {
+    "margin": {
+      "status": "fetched",
+      "record_count": 18479,
+      "covered_codes": 3696,
+      "fetched_at": "2026-09-11T23:44:53.584440+09:00"
+    },
+    "short_positions": {
+      "status": "fetched",
+      "record_count": 9173,
+      "covered_codes": 1388,
+      "fetched_at": "2026-09-11T23:44:53.584440+09:00"
+    },
+    "earnings_calendar": {
+      "status": "fetched",
+      "record_count": 640,
+      "covered_codes": 640,
+      "fetched_at": "2026-09-11T23:44:53.584440+09:00"
+    },
+    "guidance_revisions": {
+      "status": "fetched",
+      "record_count": 156,
+      "covered_codes": 152,
+      "fetched_at": "2026-09-11T23:44:53.584440+09:00"
+    },
+    "capital": {
+      "status": "partial",
+      "available_count": 3539,
+      "target_count": 3700,
+      "attempted_count": 0
+    },
+    "consensus_eps": {
+      "status": "partial",
+      "available_count": 1461,
+      "target_count": 3700,
+      "attempted_count": 0
+    }
+  },
+  "margin": [
+    {
+      "code": "4849",
+      "as_of": "2026-08-07",
+      "published_on": "2026-08-12",
+      "sell_shares": 159700,
+      "buy_shares": 80400,
+      "general_sell_shares": 46100,
+      "standard_sell_shares": 113600,
+      "general_buy_shares": 53300,
+      "standard_buy_shares": 27100,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026080700.pdf"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-08-14",
+      "published_on": "2026-08-18",
+      "sell_shares": 192300,
+      "buy_shares": 74700,
+      "general_sell_shares": 46100,
+      "standard_sell_shares": 146200,
+      "general_buy_shares": 43200,
+      "standard_buy_shares": 31500,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026081400.pdf"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-08-21",
+      "published_on": "2026-08-25",
+      "sell_shares": 143700,
+      "buy_shares": 73200,
+      "general_sell_shares": 46300,
+      "standard_sell_shares": 97400,
+      "general_buy_shares": 43400,
+      "standard_buy_shares": 29800,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026082100.pdf"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-08-28",
+      "published_on": "2026-09-01",
+      "sell_shares": 100400,
+      "buy_shares": 73500,
+      "general_sell_shares": 46400,
+      "standard_sell_shares": 54000,
+      "general_buy_shares": 37600,
+      "standard_buy_shares": 35900,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026082800.pdf"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-09-04",
+      "published_on": "2026-09-08",
+      "sell_shares": 108900,
+      "buy_shares": 63200,
+      "general_sell_shares": 47600,
+      "standard_sell_shares": 61300,
+      "general_buy_shares": 32600,
+      "standard_buy_shares": 30600,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026090400.pdf"
+    }
+  ],
+  "short_positions": [
+    {
+      "code": "4849",
+      "as_of": "2026-08-28",
+      "published_on": "2026-09-01",
+      "holder": "MERRILL LYNCH INTERNATIONAL",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.016,
+      "short_shares": 799421.0,
+      "previous_as_of": "2026-08-27",
+      "previous_short_ratio": 0.0164,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001val0-att/20260901_Short_Positions.xls"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-08-31",
+      "published_on": "2026-09-02",
+      "holder": "Barclays Capital Securities Ltd",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0085,
+      "short_shares": 422800.0,
+      "previous_as_of": "2026-08-24",
+      "previous_short_ratio": 0.0091,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001vd50-att/20260902_Short_Positions.xls"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-08-31",
+      "published_on": "2026-09-02",
+      "holder": "MERRILL LYNCH INTERNATIONAL",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0165,
+      "short_shares": 824721.0,
+      "previous_as_of": "2026-08-28",
+      "previous_short_ratio": 0.016,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001vd50-att/20260902_Short_Positions.xls"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-09-01",
+      "published_on": "2026-09-03",
+      "holder": "Barclays Capital Securities Ltd",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0079,
+      "short_shares": 393400.0,
+      "previous_as_of": "2026-08-31",
+      "previous_short_ratio": 0.0085,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001vg1p-att/20260903_Short_Positions.xls"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-09-01",
+      "published_on": "2026-09-03",
+      "holder": "MERRILL LYNCH INTERNATIONAL",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0168,
+      "short_shares": 835321.0,
+      "previous_as_of": "2026-08-31",
+      "previous_short_ratio": 0.0165,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001vg1p-att/20260903_Short_Positions.xls"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-09-02",
+      "published_on": "2026-09-04",
+      "holder": "MERRILL LYNCH INTERNATIONAL",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0171,
+      "short_shares": 853421.0,
+      "previous_as_of": "2026-09-01",
+      "previous_short_ratio": 0.0168,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001vifu-att/20260904_Short_Positions.xls"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-09-03",
+      "published_on": "2026-09-07",
+      "holder": "MERRILL LYNCH INTERNATIONAL",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0173,
+      "short_shares": 864821.0,
+      "previous_as_of": "2026-09-02",
+      "previous_short_ratio": 0.0171,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001xtu8-att/20260907_Short_Positions.xls"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-09-04",
+      "published_on": "2026-09-08",
+      "holder": "MERRILL LYNCH INTERNATIONAL",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0179,
+      "short_shares": 892121.0,
+      "previous_as_of": "2026-09-03",
+      "previous_short_ratio": 0.0173,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001xy17-att/20260908_Short_Positions.xls"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-09-07",
+      "published_on": "2026-09-09",
+      "holder": "MERRILL LYNCH INTERNATIONAL",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0184,
+      "short_shares": 917221.0,
+      "previous_as_of": "2026-09-04",
+      "previous_short_ratio": 0.0179,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001y1gb-att/20260909_Short_Positions.xls"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-09-08",
+      "published_on": "2026-09-10",
+      "holder": "MERRILL LYNCH INTERNATIONAL",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0185,
+      "short_shares": 920621.0,
+      "previous_as_of": "2026-09-07",
+      "previous_short_ratio": 0.0184,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001y3h8-att/20260910_Short_Positions.xls"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-09-09",
+      "published_on": "2026-09-11",
+      "holder": "Barclays Capital Securities Ltd",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0059,
+      "short_shares": 297000.0,
+      "previous_as_of": "2026-09-01",
+      "previous_short_ratio": 0.0079,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001y85n-att/20260911_Short_Positions.xls"
+    },
+    {
+      "code": "4849",
+      "as_of": "2026-09-09",
+      "published_on": "2026-09-11",
+      "holder": "MERRILL LYNCH INTERNATIONAL",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0182,
+      "short_shares": 905321.0,
+      "previous_as_of": "2026-09-08",
+      "previous_short_ratio": 0.0185,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001y85n-att/20260911_Short_Positions.xls"
+    }
+  ],
+  "earnings_calendar": [],
+  "guidance_revisions": [],
+  "fundamentals": [
+    {
+      "code": "4849",
+      "observed_at": "2026-09-11T15:44:25.125190+09:00",
+      "provider": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/quote/4849.T/analysis/",
+      "market_cap": 60563730432.0,
+      "currency": "JPY",
+      "shares_outstanding": 37781493.0,
+      "float_shares": 15119776.0,
+      "float_definition": "provider floatShares; not JPX free-float weight",
+      "market_price_at": 1789108200,
+      "consensus_periods": [
+        {
+          "period": "0q",
+          "end_date": "2026-09-30",
+          "currency": null,
+          "number_of_analysts": null,
+          "estimate": {
+            "avg": null,
+            "low": null,
+            "high": null,
+            "yearAgoEps": null
+          },
+          "eps_trend": {
+            "current": null,
+            "7daysAgo": null,
+            "30daysAgo": null,
+            "60daysAgo": null,
+            "90daysAgo": null
+          },
+          "eps_revisions": {
+            "upLast7days": null,
+            "upLast30days": null,
+            "downLast7days": null,
+            "downLast30days": null
+          }
+        },
+        {
+          "period": "+1q",
+          "end_date": "2026-12-31",
+          "currency": null,
+          "number_of_analysts": null,
+          "estimate": {
+            "avg": null,
+            "low": null,
+            "high": null,
+            "yearAgoEps": null
+          },
+          "eps_trend": {
+            "current": null,
+            "7daysAgo": null,
+            "30daysAgo": null,
+            "60daysAgo": null,
+            "90daysAgo": null
+          },
+          "eps_revisions": {
+            "upLast7days": null,
+            "upLast30days": null,
+            "downLast7days": null,
+            "downLast30days": null
+          }
+        },
+        {
+          "period": "0y",
+          "end_date": "2027-03-31",
+          "currency": "JPY",
+          "number_of_analysts": 4.0,
+          "estimate": {
+            "avg": 171.895,
+            "low": 138.72,
+            "high": 198.6,
+            "yearAgoEps": 66.42
+          },
+          "eps_trend": {
+            "current": 171.895,
+            "7daysAgo": 157.995,
+            "30daysAgo": 143.95,
+            "60daysAgo": 133.2688,
+            "90daysAgo": 143.52667
+          },
+          "eps_revisions": {
+            "upLast7days": 3.0,
+            "upLast30days": 3.0,
+            "downLast7days": null,
+            "downLast30days": 0.0
+          }
+        },
+        {
+          "period": "+1y",
+          "end_date": "2028-03-31",
+          "currency": "JPY",
+          "number_of_analysts": 4.0,
+          "estimate": {
+            "avg": 110.805,
+            "low": 93.2,
+            "high": 138.2,
+            "yearAgoEps": 171.895
+          },
+          "eps_trend": {
+            "current": 110.805,
+            "7daysAgo": 97.13811,
+            "30daysAgo": 81.25842,
+            "60daysAgo": 81.25842,
+            "90daysAgo": 97.20842
+          },
+          "eps_revisions": {
+            "upLast7days": 3.0,
+            "upLast30days": 3.0,
+            "downLast7days": null,
+            "downLast30days": 0.0
+          }
+        }
+      ],
+      "consensus_status": "available",
+      "capital_status": "available"
+    }
+  ],
+  "fundamental_status": [
+    {
+      "code": "4849",
+      "status": "cached_today"
+    }
+  ]
+}

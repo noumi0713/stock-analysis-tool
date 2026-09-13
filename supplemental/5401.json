@@ -1,0 +1,270 @@
+{
+  "code": "5401",
+  "run_id": "20260911T233530-4298bd00",
+  "attempted_at": "2026-09-11T23:44:53.584440+09:00",
+  "coverage": {
+    "margin": "JPX weekly share balances, five available weeks. Absent code is unknown, not zero.",
+    "short_positions": "Disclosure events, not complete current holdings. Public reporting threshold generally 0.5%; below-threshold exit reports may appear. Never sum as total institutional shorts. Initial history starts at available current-month files.",
+    "earnings_calendar": "Company schedules in the available JPX workbooks only; absent date does not mean no imminent earnings.",
+    "guidance_revisions": "TDnet available 31-day archive initially, then retained daily. Matched XBRL previous/current forecast facts where available; otherwise title-only/unconfirmed. Read IR for corporate-action comparability. Not consensus revisions.",
+    "capital": "Yahoo snapshot; floatShares is not JPX FFW. Unknown effective date stays unknown.",
+    "consensus_eps": "Provider current/7/30/60/90-day EPS snapshots by fiscal end and currency, with analyst revision counts. Missing is not no change; not point-in-time backtest data.",
+    "technicals": "Calculated from current 120-session raw inputs in memory on reading; no saved indicator values."
+  },
+  "source_status": {
+    "margin": {
+      "status": "fetched",
+      "record_count": 18479,
+      "covered_codes": 3696,
+      "fetched_at": "2026-09-11T23:44:53.584440+09:00"
+    },
+    "short_positions": {
+      "status": "fetched",
+      "record_count": 9173,
+      "covered_codes": 1388,
+      "fetched_at": "2026-09-11T23:44:53.584440+09:00"
+    },
+    "earnings_calendar": {
+      "status": "fetched",
+      "record_count": 640,
+      "covered_codes": 640,
+      "fetched_at": "2026-09-11T23:44:53.584440+09:00"
+    },
+    "guidance_revisions": {
+      "status": "fetched",
+      "record_count": 156,
+      "covered_codes": 152,
+      "fetched_at": "2026-09-11T23:44:53.584440+09:00"
+    },
+    "capital": {
+      "status": "partial",
+      "available_count": 3539,
+      "target_count": 3700,
+      "attempted_count": 0
+    },
+    "consensus_eps": {
+      "status": "partial",
+      "available_count": 1461,
+      "target_count": 3700,
+      "attempted_count": 0
+    }
+  },
+  "margin": [
+    {
+      "code": "5401",
+      "as_of": "2026-08-07",
+      "published_on": "2026-08-12",
+      "sell_shares": 3870600,
+      "buy_shares": 34316700,
+      "general_sell_shares": 415100,
+      "standard_sell_shares": 3455500,
+      "general_buy_shares": 18048800,
+      "standard_buy_shares": 16267900,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026080700.pdf"
+    },
+    {
+      "code": "5401",
+      "as_of": "2026-08-14",
+      "published_on": "2026-08-18",
+      "sell_shares": 3890400,
+      "buy_shares": 35439800,
+      "general_sell_shares": 449700,
+      "standard_sell_shares": 3440700,
+      "general_buy_shares": 18034300,
+      "standard_buy_shares": 17405500,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026081400.pdf"
+    },
+    {
+      "code": "5401",
+      "as_of": "2026-08-21",
+      "published_on": "2026-08-25",
+      "sell_shares": 3164200,
+      "buy_shares": 36993300,
+      "general_sell_shares": 405300,
+      "standard_sell_shares": 2758900,
+      "general_buy_shares": 19006500,
+      "standard_buy_shares": 17986800,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026082100.pdf"
+    },
+    {
+      "code": "5401",
+      "as_of": "2026-08-28",
+      "published_on": "2026-09-01",
+      "sell_shares": 3459900,
+      "buy_shares": 35456900,
+      "general_sell_shares": 435600,
+      "standard_sell_shares": 3024300,
+      "general_buy_shares": 18463900,
+      "standard_buy_shares": 16993000,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026082800.pdf"
+    },
+    {
+      "code": "5401",
+      "as_of": "2026-09-04",
+      "published_on": "2026-09-08",
+      "sell_shares": 3272000,
+      "buy_shares": 35751900,
+      "general_sell_shares": 390900,
+      "standard_sell_shares": 2881100,
+      "general_buy_shares": 17743800,
+      "standard_buy_shares": 18008100,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026090400.pdf"
+    }
+  ],
+  "short_positions": [
+    {
+      "code": "5401",
+      "as_of": "2026-09-01",
+      "published_on": "2026-09-03",
+      "holder": "BNP Paribas Financial Markets SNC",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.012,
+      "short_shares": 64728861.0,
+      "previous_as_of": "2026-08-10",
+      "previous_short_ratio": 0.0111,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001vg1p-att/20260903_Short_Positions.xls"
+    },
+    {
+      "code": "5401",
+      "as_of": "2026-09-03",
+      "published_on": "2026-09-07",
+      "holder": "GOLDMAN SACHS INTERNATIONAL",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0131,
+      "short_shares": 70870828.0,
+      "previous_as_of": "2026-08-25",
+      "previous_short_ratio": 0.012,
+      "notes": "顧客取引に係るヘッジポジション及びETFの場合は当該ETFの設定を伴う空売りを含む",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001xtu8-att/20260907_Short_Positions.xls"
+    }
+  ],
+  "earnings_calendar": [],
+  "guidance_revisions": [],
+  "fundamentals": [
+    {
+      "code": "5401",
+      "observed_at": "2026-09-11T15:44:25.125190+09:00",
+      "provider": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/quote/5401.T/analysis/",
+      "market_cap": 3587328180224.0,
+      "currency": "JPY",
+      "shares_outstanding": 5226293989.0,
+      "float_shares": 5211966622.0,
+      "float_definition": "provider floatShares; not JPX free-float weight",
+      "market_price_at": 1789108200,
+      "consensus_periods": [
+        {
+          "period": "0q",
+          "end_date": "2026-09-30",
+          "currency": "JPY",
+          "number_of_analysts": 1.0,
+          "estimate": {
+            "avg": 15.92704,
+            "low": 15.92704,
+            "high": 15.92704,
+            "yearAgoEps": 3.156
+          },
+          "eps_trend": {
+            "current": 15.92704,
+            "7daysAgo": 15.92704,
+            "30daysAgo": 0.0,
+            "60daysAgo": 12.05599,
+            "90daysAgo": 2.75991
+          },
+          "eps_revisions": {
+            "upLast7days": 0.0,
+            "upLast30days": 0.0,
+            "downLast7days": null,
+            "downLast30days": 0.0
+          }
+        },
+        {
+          "period": "+1q",
+          "end_date": "2026-12-31",
+          "currency": "JPY",
+          "number_of_analysts": 1.0,
+          "estimate": {
+            "avg": 17.49244,
+            "low": 17.49244,
+            "high": 17.49244,
+            "yearAgoEps": 13.08
+          },
+          "eps_trend": {
+            "current": 17.49244,
+            "7daysAgo": 17.49244,
+            "30daysAgo": 0.0,
+            "60daysAgo": 17.49104,
+            "90daysAgo": 1.819
+          },
+          "eps_revisions": {
+            "upLast7days": 0.0,
+            "upLast30days": 0.0,
+            "downLast7days": null,
+            "downLast30days": 0.0
+          }
+        },
+        {
+          "period": "0y",
+          "end_date": "2027-03-31",
+          "currency": "JPY",
+          "number_of_analysts": 8.0,
+          "estimate": {
+            "avg": 56.40188,
+            "low": 46.29503,
+            "high": 65.3,
+            "yearAgoEps": 65.18
+          },
+          "eps_trend": {
+            "current": 56.40188,
+            "7daysAgo": 53.41358,
+            "30daysAgo": 53.58,
+            "60daysAgo": 58.25241,
+            "90daysAgo": 63.22281
+          },
+          "eps_revisions": {
+            "upLast7days": 0.0,
+            "upLast30days": 2.0,
+            "downLast7days": null,
+            "downLast30days": 1.0
+          }
+        },
+        {
+          "period": "+1y",
+          "end_date": "2028-03-31",
+          "currency": "JPY",
+          "number_of_analysts": 9.0,
+          "estimate": {
+            "avg": 68.26758,
+            "low": 57.2,
+            "high": 87.48823,
+            "yearAgoEps": 56.40188
+          },
+          "eps_trend": {
+            "current": 68.26758,
+            "7daysAgo": 67.76758,
+            "30daysAgo": 68.95839,
+            "60daysAgo": 73.79871,
+            "90daysAgo": 72.27269
+          },
+          "eps_revisions": {
+            "upLast7days": 1.0,
+            "upLast30days": 2.0,
+            "downLast7days": null,
+            "downLast30days": 1.0
+          }
+        }
+      ],
+      "consensus_status": "available",
+      "capital_status": "available"
+    }
+  ],
+  "fundamental_status": [
+    {
+      "code": "5401",
+      "status": "cached_today"
+    }
+  ]
+}

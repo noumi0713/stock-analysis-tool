@@ -1,0 +1,14 @@
+{
+  "state": "partial",
+  "run_id": "20260911T233530-4298bd00",
+  "started_at": "2026-09-11T23:35:30.178038+09:00",
+  "processed": 3700,
+  "total": 3700,
+  "expected_date": "2026-09-11",
+  "phase": "市場・テーマ集計",
+  "ready": 3286,
+  "heartbeat_at": "2026-09-11T23:44:35.433718+09:00",
+  "completed_at": "2026-09-11T23:44:39.982986+09:00",
+  "quality": "PARTIAL",
+  "error": null
+}
