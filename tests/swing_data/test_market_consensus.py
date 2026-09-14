@@ -99,6 +99,9 @@ def write_inputs(target):
     (target / "bbs_ranking_status.json").write_text(
         '{"status":"success","ranking_date":"2026-09-14"}', encoding="utf-8"
     )
+    (target / "manifest.json").write_text(
+        '{"expected_equity_date":"2026-09-14"}', encoding="utf-8"
+    )
     prices = []
     for i in range(20):
         prices.append({
@@ -125,7 +128,18 @@ def test_collect_writes_latest_history_status_and_deduplicates(tmp_path):
     assert len(history) == 1
 
 
+def test_collect_uses_completed_equity_session_after_midnight(tmp_path):
+    write_inputs(tmp_path)
+    now = datetime(2026, 9, 15, 0, 30, tzinfo=JST)
+    result = collect(tmp_path, now=now, fetcher=lambda code: snapshot(), max_workers=1)
+    assert result["status"] == "success"
+    assert result["ranking_date"] == "2026-09-14"
+
+
 def test_collect_refuses_previous_day_ranking(tmp_path):
+    (tmp_path / "manifest.json").write_text(
+        '{"expected_equity_date":"2026-09-14"}', encoding="utf-8"
+    )
     (tmp_path / "bbs_ranking_status.json").write_text(
         '{"status":"success","ranking_date":"2026-09-13"}', encoding="utf-8"
     )

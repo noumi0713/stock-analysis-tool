@@ -244,7 +244,11 @@ def collect(target, *, now=None, fetcher=yahoo_snapshot, max_workers=3):
     retrieved_at = now.isoformat()
     status_path = target / "market_consensus_status.json"
     status = read_json(target / "bbs_ranking_status.json")
-    expected_date = now.date().isoformat()
+    manifest = read_json(target / "manifest.json")
+    # "Analysis day" is the completed equity session, not the wall-clock day.
+    # This matters for delayed/manual runs after midnight JST and still forbids
+    # substituting a ranking from a different market session.
+    expected_date = manifest.get("expected_equity_date") or now.date().isoformat()
     if status.get("status") != "success" or status.get("ranking_date") != expected_date:
         result = {
             "status": "failed", "reason": "当日の掲示板ランキング取得失敗",
