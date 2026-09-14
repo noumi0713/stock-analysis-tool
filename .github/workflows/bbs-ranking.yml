@@ -36,6 +36,7 @@ jobs:
       - name: Verify ranking contracts
         run: python -m pytest tests/swing_data/test_bbs_ranking.py -q
       - name: Restore published data history
+        if: github.event_name != 'push'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -49,13 +50,14 @@ jobs:
             git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
           fi
       - name: Fetch popular and derive rising message-board ranks
+        if: github.event_name != 'push'
         id: ranking
         continue-on-error: true
         env:
           PYTHONUNBUFFERED: '1'
         run: python -m swing_data.bbs_ranking --target public-data
       - name: Publish ranking status and history
-        if: always() && (steps.ranking.outcome == 'success' || steps.ranking.outcome == 'failure')
+        if: github.event_name != 'push' && always() && (steps.ranking.outcome == 'success' || steps.ranking.outcome == 'failure')
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -68,5 +70,5 @@ jobs:
           git commit -m 'Publish daily Yahoo message-board ranking'
           git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin HEAD:swing-data-120d-latest
       - name: Mark ranking collection failure
-        if: steps.ranking.outcome == 'failure'
+        if: github.event_name != 'push' && steps.ranking.outcome == 'failure'
         run: exit 1
