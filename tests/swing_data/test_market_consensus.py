@@ -123,6 +123,8 @@ def test_collect_writes_latest_history_status_and_deduplicates(tmp_path):
     latest = pd.read_csv(tmp_path / "market_consensus_latest.csv")
     assert latest.loc[0, "classification"] == "強気"
     assert latest.loc[0, "bear_price"] == 105
+    assert latest.loc[0, "next_year_eps_30d"] == 12
+    assert round(latest.loc[0, "next_year_eps_change_pct"], 2) == 8.33
     collect(tmp_path, now=now, fetcher=lambda code: snapshot(), max_workers=1)
     history = pd.read_csv(tmp_path / "market_consensus_history.csv")
     assert len(history) == 1
