@@ -133,7 +133,7 @@ def test_collect_uses_completed_equity_session_after_midnight(tmp_path):
     now = datetime(2026, 9, 15, 0, 30, tzinfo=JST)
     result = collect(tmp_path, now=now, fetcher=lambda code: snapshot(), max_workers=1)
     assert result["status"] == "success"
-    assert result["analysis_date"] == "2026-09-14"
+    assert result["ranking_date"] == "2026-09-14"
 
 
 def test_collect_refuses_previous_day_ranking(tmp_path):
