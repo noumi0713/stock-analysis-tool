@@ -71,6 +71,13 @@ jobs:
         env:
           PYTHONUNBUFFERED: '1'
         run: python -m swing_data.supplemental --target public-data
+      - name: Collect top-100 market consensus
+        id: consensus
+        if: always() && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python -m swing_data.market_consensus --target public-data
       - name: Publish latest-only data snapshot
         if: always() && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
         env:
@@ -94,6 +101,9 @@ jobs:
           if-no-files-found: warn
       - name: Mark failed supplemental execution
         if: steps.supplemental.outcome == 'failure'
+        run: exit 1
+      - name: Mark failed market consensus execution
+        if: steps.consensus.outcome == 'failure'
         run: exit 1
       - name: Mark failed collection
         if: steps.collect.outcome == 'failure'
