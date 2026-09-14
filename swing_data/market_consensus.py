@@ -30,6 +30,7 @@ COLUMNS = [
     "recommendation_key", "recommendation_mean", "analyst_count",
     "current_year_end", "current_year_eps", "current_year_eps_30d",
     "current_year_eps_change_pct", "next_year_end", "next_year_eps",
+    "next_year_eps_30d", "next_year_eps_change_pct",
     "classification", "classification_score", "data_quality", "data_note",
     "bear_price", "base_price", "bull_price", "scenario_price_method",
     "source_url", "data_reference_date", "retrieved_at",
@@ -286,6 +287,7 @@ def collect(target, *, now=None, fetcher=yahoo_snapshot, max_workers=3):
         bear, base, bull, method = scenario_prices(snapshot, price, local.get("atr14"), valid_targets)
         current_year, next_year = snapshot["current_year"], snapshot["next_year"]
         eps_move = eps_change(current_year["eps"], current_year["eps_30d"])
+        next_eps_move = eps_change(next_year["eps"], next_year["eps_30d"])
         target_upside = (
             (snapshot["target_mean"] / price - 1) * 100
             if price and snapshot.get("target_mean") is not None and not issues else None
@@ -307,6 +309,8 @@ def collect(target, *, now=None, fetcher=yahoo_snapshot, max_workers=3):
             "current_year_eps_30d": current_year["eps_30d"],
             "current_year_eps_change_pct": eps_move,
             "next_year_end": next_year["end_date"], "next_year_eps": next_year["eps"],
+            "next_year_eps_30d": next_year["eps_30d"],
+            "next_year_eps_change_pct": next_eps_move,
             "classification": classification, "classification_score": score,
             "data_quality": "invalid" if issues else "insufficient" if insufficient else "complete",
             "data_note": ";".join(notes) if notes else "complete",
