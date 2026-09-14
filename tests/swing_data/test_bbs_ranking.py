@@ -63,7 +63,7 @@ def test_missing_day_is_not_treated_as_previous_day_or_continuous_streak():
 
 def test_derived_rising_and_union_keep_both_rank_dimensions():
     rows = [
-        ["2026-09-10", 4, "1111", "A", "東証PRM", 100, "x", "x"],
+        ["2026-09-10", 2, "1111", "A", "東証PRM", 100, "x", "x"],
         ["2026-09-10", 1, "2222", "B", "東証PRM", 200, "x", "x"],
         ["2026-09-11", 1, "1111", "A", "東証PRM", 101, "x", "x"],
         ["2026-09-11", 2, "3333", "C", "東証GRT", 300, "x", "x"],
