@@ -1,4 +1,4 @@
-"""Collect consensus for the union of daily popular and rising BBS top lists.
+"""Collect and classify Yahoo Finance consensus for the daily BBS top 100.
 
 Consensus data are provider snapshots, not trading signals or point-in-time backtest
 data. Missing observations never become neutral. When analyst price targets are
@@ -24,8 +24,7 @@ from swing_data.collector import atomic_json, read_json
 
 JST = ZoneInfo("Asia/Tokyo")
 COLUMNS = [
-    "date", "rank", "popular_rank", "rising_rank", "ranking_sources",
-    "stock_code", "stock_name", "market",
+    "date", "rank", "stock_code", "stock_name", "market",
     "current_price", "price_source", "provider_price", "provider_price_date",
     "target_low", "target_mean", "target_high", "target_upside_pct",
     "recommendation_key", "recommendation_mean", "analyst_count",
@@ -259,13 +258,8 @@ def collect(target, *, now=None, fetcher=yahoo_snapshot, max_workers=3):
         atomic_json(status_path, result)
         (target / "market_consensus_latest.csv").unlink(missing_ok=True)
         raise RuntimeError(result["reason"])
-    universe_path = target / "bbs_ranking_universe_latest.csv"
-    ranking_path = universe_path if universe_path.exists() else target / "bbs_ranking_latest.csv"
-    ranking = pd.read_csv(ranking_path, dtype={"stock_code": str})
-    ranking = ranking.sort_values("rank")
-    if ranking_path.name == "bbs_ranking_latest.csv":
-        ranking = ranking.head(100)
-    ranking = ranking.drop_duplicates("stock_code", keep="first")
+    ranking = pd.read_csv(target / "bbs_ranking_latest.csv", dtype={"stock_code": str})
+    ranking = ranking.sort_values("rank").head(100)
     if ranking.empty or ranking["date"].astype(str).nunique() != 1 or str(ranking.iloc[0]["date"]) != expected_date:
         raise RuntimeError("当日の掲示板ランキング取得失敗")
     codes = ranking["stock_code"].tolist()
@@ -300,11 +294,8 @@ def collect(target, *, now=None, fetcher=yahoo_snapshot, max_workers=3):
         )
         notes = issues + insufficient
         rows.append({
-            "date": expected_date, "rank": int(source["rank"]),
-            "popular_rank": source.get("popular_rank", source.get("rank")),
-            "rising_rank": source.get("rising_rank"),
-            "ranking_sources": source.get("ranking_sources", "popular"),
-            "stock_code": code, "stock_name": source["stock_name"], "market": source["market"],
+            "date": expected_date, "rank": int(source["rank"]), "stock_code": code,
+            "stock_name": source["stock_name"], "market": source["market"],
             "current_price": price,
             "price_source": "published_stock_close" if local.get("date") == expected_date else "provider_snapshot",
             "provider_price": snapshot.get("provider_price"),
@@ -340,7 +331,6 @@ def collect(target, *, now=None, fetcher=yahoo_snapshot, max_workers=3):
     quality_counts = latest["data_quality"].value_counts().to_dict()
     result = {
         "status": "success", "ranking_date": expected_date, "target_count": len(latest),
-        "ranking_source_file": ranking_path.name,
         "fetch_success_count": len(latest) - len(errors), "fetch_failure_count": len(errors),
         "classification_counts": counts, "quality_counts": quality_counts,
         "unclassifiable_count": counts.get("判定不能", 0),
@@ -381,7 +371,7 @@ def collect(target, *, now=None, fetcher=yahoo_snapshot, max_workers=3):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="掲示板の人気・急上昇ランキング和集合の市場コンセンサスを保存")
+    parser = argparse.ArgumentParser(description="掲示板ランキング上位100銘柄の市場コンセンサスを保存")
     parser.add_argument("--target", type=Path, required=True)
     args = parser.parse_args()
     try:
