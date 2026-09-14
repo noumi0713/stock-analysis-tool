@@ -64,13 +64,6 @@ jobs:
       - name: Prepare readable site data and failure status
         if: always() && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
         run: python -m swing_data.publish --source swing_data/runtime --target public-data
-      - name: Collect supply, events, capital and EPS observations
-        id: supplemental
-        if: always() && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
-        continue-on-error: true
-        env:
-          PYTHONUNBUFFERED: '1'
-        run: python -m swing_data.supplemental --target public-data
       - name: Collect top-100 market consensus
         id: consensus
         if: always() && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
@@ -78,6 +71,13 @@ jobs:
         env:
           PYTHONUNBUFFERED: '1'
         run: python -m swing_data.market_consensus --target public-data
+      - name: Collect supply, events, capital and EPS observations
+        id: supplemental
+        if: always() && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
+        continue-on-error: true
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python -m swing_data.supplemental --target public-data
       - name: Publish latest-only data snapshot
         if: always() && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
         env:
