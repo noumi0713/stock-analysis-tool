@@ -96,6 +96,14 @@ def write_inputs(target):
         "source_updated_at": "2026-09-14T09:00:00+09:00",
         "collected_at": "2026-09-14T09:05:00+09:00",
     }]).to_csv(target / "bbs_ranking_latest.csv", index=False)
+    pd.DataFrame([{
+        "date": "2026-09-14", "rank": 1, "popular_rank": 5,
+        "rising_rank": 2, "ranking_sources": "popular+derived_rising",
+        "stock_code": "7203", "stock_name": "トヨタ自動車(株)",
+        "market": "東証PRM", "price": 100,
+        "source_updated_at": "2026-09-14T09:00:00+09:00",
+        "collected_at": "2026-09-14T09:05:00+09:00",
+    }]).to_csv(target / "bbs_ranking_universe_latest.csv", index=False)
     (target / "bbs_ranking_status.json").write_text(
         '{"status":"success","ranking_date":"2026-09-14"}', encoding="utf-8"
     )
@@ -120,8 +128,11 @@ def test_collect_writes_latest_history_status_and_deduplicates(tmp_path):
     result = collect(tmp_path, now=now, fetcher=lambda code: snapshot(), max_workers=1)
     assert result["status"] == "success"
     assert result["target_count"] == 1
+    assert result["ranking_source_file"] == "bbs_ranking_universe_latest.csv"
     latest = pd.read_csv(tmp_path / "market_consensus_latest.csv")
     assert latest.loc[0, "classification"] == "強気"
+    assert latest.loc[0, "popular_rank"] == 5
+    assert latest.loc[0, "rising_rank"] == 2
     assert latest.loc[0, "bear_price"] == 105
     assert latest.loc[0, "next_year_eps_30d"] == 12
     assert round(latest.loc[0, "next_year_eps_change_pct"], 2) == 8.33
