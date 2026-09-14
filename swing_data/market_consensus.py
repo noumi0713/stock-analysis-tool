@@ -9,11 +9,13 @@ from __future__ import annotations
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
+import hashlib
 import json
 import math
 from pathlib import Path
 import time
 from zoneinfo import ZoneInfo
+from zipfile import ZIP_DEFLATED, ZipFile
 
 import pandas as pd
 
@@ -336,6 +338,27 @@ def collect(target, *, now=None, fetcher=yahoo_snapshot, max_workers=3):
         "scenario_rule": "Analyst low/mean/high when valid; otherwise current close +/-2 ATR14 (or +/-10%) labelled non-consensus.",
     }
     atomic_json(status_path, result)
+    artifact_names = [
+        "market_consensus_latest.csv",
+        "market_consensus_history.csv",
+        "market_consensus_status.json",
+    ]
+    hash_path = target / "sha256.json"
+    if hash_path.exists():
+        hashes = read_json(hash_path)
+        for name in artifact_names:
+            hashes[name] = hashlib.sha256((target / name).read_bytes()).hexdigest()
+        atomic_json(hash_path, hashes)
+    bundle = target / "chatgpt_120d.zip"
+    if bundle.exists():
+        temp = target / "chatgpt_120d.consensus.tmp.zip"
+        with ZipFile(bundle) as old_zip, ZipFile(temp, "w", ZIP_DEFLATED) as new_zip:
+            for entry in old_zip.infolist():
+                if entry.filename not in artifact_names:
+                    new_zip.writestr(entry, old_zip.read(entry.filename))
+            for name in artifact_names:
+                new_zip.write(target / name, name)
+        temp.replace(bundle)
     return result
 
 
