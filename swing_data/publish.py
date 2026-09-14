@@ -71,7 +71,7 @@ def publish(source: Path, target: Path) -> None:
             f"全対象 {latest['target_count']} 銘柄、120日適格 {latest['ready_count']} 銘柄。売買条件による選別なし。\n\n"
             "## 読む順番\n\n"
             f"1. [当日のYahoo掲示板ランキング取得状態]({PUBLIC}/bbs_ranking_status.json)を確認する。status=successかつranking_dateが分析当日でなければ分析を中止し、取得失敗と報告する。前日の順位を代用しない。\n"
-            f"2. [当日のランキング全順位]({PUBLIC}/bbs_ranking_latest.csv)と[順位変化・3日/5日推移]({PUBLIC}/bbs_ranking_trends.csv)を取得する。分析母集団は当日のランクイン銘柄だけとする。[全日次履歴]({PUBLIC}/bbs_ranking_history.csv)と[圏外退出履歴]({PUBLIC}/bbs_ranking_exits.csv)も参照できる。\n"
+            f"2. [人気・派生急上昇の統合母集団]({PUBLIC}/bbs_ranking_universe_latest.csv)を取得する。[人気順位]({PUBLIC}/bbs_ranking_popular_latest.csv)・[人気順位変動]({PUBLIC}/bbs_ranking_popular_trends.csv)と[派生急上昇順位]({PUBLIC}/bbs_ranking_rising_latest.csv)・[急上昇順位変動]({PUBLIC}/bbs_ranking_rising_trends.csv)を別々に確認する。[統合日次履歴]({PUBLIC}/bbs_ranking_universe_history.csv)も参照できる。派生急上昇は公式アプリ順位ではない。\n"
             f"3. [上位100銘柄の市場コンセンサス]({PUBLIC}/market_consensus_latest.csv)、[日次履歴]({PUBLIC}/market_consensus_history.csv)、[取得状態]({PUBLIC}/market_consensus_status.json)を確認する。判定不能時のATR価格は市場目標株価ではない。\n"
             f"4. [最新の株価更新結果]({PUBLIC}/update_status.json)と[データ定義・品質]({PUBLIC}/manifest.json)、[全対象の取得結果]({PUBLIC}/stock_status.csv)、[市場系列の欠損]({PUBLIC}/market_status.json)を確認する。\n"
             f"5. ランキング母集団に該当する銘柄だけ、[全銘柄の120日CSV]({PUBLIC}/equities_120d.csv)または[分析一式ZIP]({PUBLIC}/chatgpt_120d.zip)から抽出し数値処理する。\n"
