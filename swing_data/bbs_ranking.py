@@ -27,6 +27,22 @@ HISTORY_COLUMNS = [
     "date", "rank", "stock_code", "stock_name", "market", "price",
     "source_updated_at", "collected_at",
 ]
+RISING_COLUMNS = HISTORY_COLUMNS + ["surge_score", "derivation_method"]
+TREND_FIELDS = [
+    "rank", "previous_rank", "rank_change", "new_entry",
+    "rank_history_3d", "rank_history_5d", "consecutive_days", "best_rank",
+]
+UNIVERSE_COLUMNS = [
+    "date", "rank", "stock_code", "stock_name", "market", "price",
+    "popular_rank", "popular_previous_rank", "popular_rank_change",
+    "popular_new_entry", "popular_rank_history_3d", "popular_rank_history_5d",
+    "popular_consecutive_days", "popular_best_rank",
+    "rising_rank", "rising_previous_rank", "rising_rank_change",
+    "rising_new_entry", "rising_rank_history_3d", "rising_rank_history_5d",
+    "rising_consecutive_days", "rising_best_rank", "ranking_sources",
+    "source_updated_at", "collected_at",
+]
+RISING_METHOD = "derived_from_popular_rank_change; new_entry_baseline=list_size_plus_1"
 
 
 def atomic_csv(path: Path, frame: pd.DataFrame) -> None:
@@ -218,6 +234,81 @@ def build_trends(history: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     return pd.DataFrame(output, columns=trend_columns), pd.DataFrame(exits, columns=exit_columns)
 
 
+def derive_rising(popular_trends: pd.DataFrame) -> pd.DataFrame:
+    """Build a reproducible rising list from changes in the official web ranking.
+
+    Yahoo's official post-count rising list is app-only. This derived list is
+    deliberately labelled and never represented as the official app ranking.
+    """
+    if popular_trends.empty:
+        return pd.DataFrame(columns=RISING_COLUMNS)
+    comparable = (
+        popular_trends["previous_rank"].notna().any()
+        or popular_trends["new_entry"].fillna(False).astype(bool).any()
+    )
+    if not comparable:
+        return pd.DataFrame(columns=RISING_COLUMNS)
+    baseline = int(popular_trends["rank"].max()) + 1
+    rows = []
+    for row in popular_trends.to_dict("records"):
+        prior = row.get("previous_rank")
+        if pd.notna(prior):
+            score = int(prior) - int(row["rank"])
+        elif bool(row.get("new_entry")):
+            score = baseline - int(row["rank"])
+        else:
+            score = None
+        rows.append({
+            key: row.get(key) for key in HISTORY_COLUMNS if key != "rank"
+        } | {
+            "rank": 0,
+            "surge_score": score,
+            "derivation_method": RISING_METHOD,
+        })
+    frame = pd.DataFrame(rows)
+    frame["_missing"] = frame["surge_score"].isna()
+    frame = frame.sort_values(
+        ["_missing", "surge_score", "stock_code"],
+        ascending=[True, False, True],
+        kind="stable",
+    ).drop(columns="_missing").reset_index(drop=True)
+    frame["rank"] = range(1, len(frame) + 1)
+    return frame[RISING_COLUMNS]
+
+
+def build_union(popular_trends: pd.DataFrame, rising_trends: pd.DataFrame) -> pd.DataFrame:
+    records: dict[str, dict] = {}
+    for prefix, frame in (("popular", popular_trends), ("rising", rising_trends)):
+        for row in frame.to_dict("records"):
+            code = str(row["stock_code"])
+            item = records.setdefault(code, {
+                "date": row["date"], "stock_code": code,
+                "stock_name": row["stock_name"], "market": row["market"],
+                "price": row["price"], "source_updated_at": row["source_updated_at"],
+                "collected_at": row["collected_at"],
+            })
+            for field in TREND_FIELDS:
+                value = row.get(field)
+                item[f"{prefix}_{field}"] = value
+    output = []
+    for item in records.values():
+        sources = []
+        if pd.notna(item.get("popular_rank")):
+            sources.append("popular")
+        if pd.notna(item.get("rising_rank")):
+            sources.append("derived_rising")
+        item["ranking_sources"] = "+".join(sources)
+        output.append(item)
+    output.sort(key=lambda row: (
+        int(row["popular_rank"]) if pd.notna(row.get("popular_rank")) else 10**9,
+        int(row["rising_rank"]) if pd.notna(row.get("rising_rank")) else 10**9,
+        row["stock_code"],
+    ))
+    for index, row in enumerate(output, 1):
+        row["rank"] = index
+    return pd.DataFrame(output, columns=UNIVERSE_COLUMNS)
+
+
 def collect(target: Path, *, now: datetime | None = None, fetcher=fetch_snapshot) -> dict:
     target = Path(target)
     target.mkdir(parents=True, exist_ok=True)
@@ -228,40 +319,131 @@ def collect(target: Path, *, now: datetime | None = None, fetcher=fetch_snapshot
         snapshot, meta = fetcher(now=now)
         if meta["ranking_date"] != now.date().isoformat():
             raise RuntimeError(f"Yahooランキングが当日更新ではありません: {meta['ranking_date']}")
-        daily = target / "bbs_ranking" / "daily" / f"{meta['ranking_date']}.csv"
-        if not daily.exists():
-            atomic_csv(daily, snapshot)
-        saved = pd.read_csv(daily, dtype={"stock_code":str})
-        saved_source_updated_at = str(saved.source_updated_at.iloc[0])
-        files = sorted((target / "bbs_ranking" / "daily").glob("*.csv"))
-        history = pd.concat([pd.read_csv(path, dtype={"stock_code":str}) for path in files], ignore_index=True)
-        history = history.sort_values(["date", "rank"]).drop_duplicates(["date", "stock_code"], keep="first")
-        trends, exits = build_trends(history)
-        atomic_csv(target / "bbs_ranking_history.csv", history[HISTORY_COLUMNS])
-        atomic_csv(target / "bbs_ranking_latest.csv", saved[HISTORY_COLUMNS])
-        atomic_csv(target / "bbs_ranking_trends.csv", trends)
-        atomic_csv(target / "bbs_ranking_exits.csv", exits)
+
+        # The legacy daily directory remains the immutable source of the official
+        # web post-count (popular) ranking.
+        popular_daily = target / "bbs_ranking" / "daily" / f"{meta['ranking_date']}.csv"
+        if not popular_daily.exists():
+            atomic_csv(popular_daily, snapshot)
+        popular_saved = pd.read_csv(popular_daily, dtype={"stock_code":str})
+        saved_source_updated_at = str(popular_saved.source_updated_at.iloc[0])
+        popular_files = sorted((target / "bbs_ranking" / "daily").glob("*.csv"))
+        popular_history = pd.concat(
+            [pd.read_csv(path, dtype={"stock_code":str}) for path in popular_files],
+            ignore_index=True,
+        )
+        popular_history = popular_history.sort_values(["date", "rank"]).drop_duplicates(
+            ["date", "stock_code"], keep="first"
+        )
+        popular_trends, popular_exits = build_trends(popular_history)
+
+        # Yahoo documents the official rising ranking as app-only. Until an
+        # authorized machine-readable source exists, record a separately named
+        # derived ranking based only on changes in the official popular list.
+        rising_today = derive_rising(popular_trends)
+        rising_daily = target / "bbs_ranking" / "rising" / "daily" / f"{meta['ranking_date']}.csv"
+        if not rising_daily.exists() and not rising_today.empty:
+            atomic_csv(rising_daily, rising_today)
+        rising_files = sorted((target / "bbs_ranking" / "rising" / "daily").glob("*.csv"))
+        if rising_files:
+            rising_history = pd.concat(
+                [pd.read_csv(path, dtype={"stock_code":str}) for path in rising_files],
+                ignore_index=True,
+            )
+            rising_history = rising_history.sort_values(["date", "rank"]).drop_duplicates(
+                ["date", "stock_code"], keep="first"
+            )
+            rising_trends, rising_exits = build_trends(rising_history[HISTORY_COLUMNS])
+            latest_extra = rising_history[
+                rising_history.date.astype(str) == str(rising_trends.date.iloc[0])
+            ][["date", "stock_code", "surge_score", "derivation_method"]] if not rising_trends.empty else pd.DataFrame()
+            if not latest_extra.empty:
+                rising_trends = rising_trends.merge(
+                    latest_extra, on=["date", "stock_code"], how="left"
+                )
+        else:
+            rising_history = pd.DataFrame(columns=RISING_COLUMNS)
+            rising_trends, rising_exits = build_trends(
+                pd.DataFrame(columns=HISTORY_COLUMNS)
+            )
+
+        universe = build_union(popular_trends, rising_trends)
+        universe_daily = target / "bbs_ranking" / "universe" / "daily" / f"{meta['ranking_date']}.csv"
+        if not universe_daily.exists():
+            atomic_csv(universe_daily, universe)
+        universe_history_path = target / "bbs_ranking_universe_history.csv"
+        old_universe = (
+            pd.read_csv(universe_history_path, dtype={"stock_code":str})
+            if universe_history_path.exists()
+            else pd.DataFrame(columns=UNIVERSE_COLUMNS)
+        )
+        universe_history = pd.concat([old_universe, universe], ignore_index=True)
+        universe_history = universe_history.drop_duplicates(
+            ["date", "stock_code"], keep="last"
+        ).sort_values(["date", "rank"])
+
+        # Backward-compatible names continue to mean the official popular list.
+        for name, frame in {
+            "bbs_ranking_history.csv": popular_history[HISTORY_COLUMNS],
+            "bbs_ranking_latest.csv": popular_saved[HISTORY_COLUMNS],
+            "bbs_ranking_trends.csv": popular_trends,
+            "bbs_ranking_exits.csv": popular_exits,
+            "bbs_ranking_popular_history.csv": popular_history[HISTORY_COLUMNS],
+            "bbs_ranking_popular_latest.csv": popular_saved[HISTORY_COLUMNS],
+            "bbs_ranking_popular_trends.csv": popular_trends,
+            "bbs_ranking_popular_exits.csv": popular_exits,
+            "bbs_ranking_rising_history.csv": rising_history[RISING_COLUMNS],
+            "bbs_ranking_rising_latest.csv": rising_today[RISING_COLUMNS],
+            "bbs_ranking_rising_trends.csv": rising_trends,
+            "bbs_ranking_rising_exits.csv": rising_exits,
+            "bbs_ranking_universe_latest.csv": universe,
+            "bbs_ranking_universe_history.csv": universe_history[UNIVERSE_COLUMNS],
+        }.items():
+            atomic_csv(target / name, frame)
+
         result = {
             "status":"success",
             "ranking_date":meta["ranking_date"],
             "source_updated_at":saved_source_updated_at,
             "collected_at":now.isoformat(),
-            "row_count":len(saved),
+            "row_count":len(popular_saved),
+            "universe_count":len(universe),
+            "ranking_types":["popular", "derived_rising"],
+            "popular":{
+                "status":"success", "row_count":len(popular_saved),
+                "total_pages":meta["total_pages"],
+                "source_url":SOURCE_URL + "?market=all&term=daily",
+            },
+            "rising":{
+                "status":"success" if not rising_today.empty else "insufficient_history",
+                "row_count":len(rising_today),
+                "source_kind":"derived",
+                "derivation_method":RISING_METHOD,
+                "official_app_ranking_collected":False,
+                "note":"Yahoo official rising ranking is app-only; this is a derived rank, not the official app list.",
+            },
             "total_pages":meta["total_pages"],
-            "history_days":int(history.date.nunique()),
+            "history_days":int(popular_history.date.nunique()),
             "source_url":SOURCE_URL + "?market=all&term=daily",
             "used_previous_day":False,
         }
         atomic_json(status_path, result)
         return result
     except Exception as exc:
-        for name in ["bbs_ranking_latest.csv", "bbs_ranking_trends.csv"]:
+        for name in [
+            "bbs_ranking_latest.csv", "bbs_ranking_trends.csv",
+            "bbs_ranking_popular_latest.csv", "bbs_ranking_popular_trends.csv",
+            "bbs_ranking_rising_latest.csv", "bbs_ranking_rising_trends.csv",
+            "bbs_ranking_universe_latest.csv",
+        ]:
             (target / name).unlink(missing_ok=True)
-        result = {"status":"failed", "attempted_at":now.isoformat(), "error":str(exc)[:500],
-                  "source_url":SOURCE_URL + "?market=all&term=daily", "used_previous_day":False}
+        result = {
+            "status":"failed", "attempted_at":now.isoformat(), "error":str(exc)[:500],
+            "source_url":SOURCE_URL + "?market=all&term=daily",
+            "used_previous_day":False,
+        }
         atomic_json(status_path, result)
         raise
-
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Yahoo掲示板投稿ランキングを日次保存")
