@@ -1,9 +1,9 @@
-name: Yahoo掲示板投稿ランキング日次更新
+name: Yahoo掲示板人気・急上昇ランキング日次更新
 
 on:
   workflow_dispatch:
   schedule:
-    # 07:20 JST every day. This fixed snapshot is the day's analysis universe.
+    # 07:20 JST every day. Record popular ranks and reproducible derived rising ranks.
     - cron: '20 22 * * *'
   push:
     branches: [main]
@@ -48,7 +48,7 @@ jobs:
             git init -b swing-data-120d-latest
             git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
           fi
-      - name: Fetch all daily message-board ranks
+      - name: Fetch popular and derive rising message-board ranks
         id: ranking
         continue-on-error: true
         env:
