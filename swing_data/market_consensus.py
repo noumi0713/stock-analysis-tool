@@ -1,4 +1,4 @@
-"""Collect and classify Yahoo Finance consensus for the daily BBS top 100.
+"""Collect consensus for the union of daily popular and rising BBS top lists.
 
 Consensus data are provider snapshots, not trading signals or point-in-time backtest
 data. Missing observations never become neutral. When analyst price targets are
@@ -381,7 +381,7 @@ def collect(target, *, now=None, fetcher=yahoo_snapshot, max_workers=3):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="掲示板ランキング上位100銘柄の市場コンセンサスを保存")
+    parser = argparse.ArgumentParser(description="掲示板の人気・急上昇ランキング和集合の市場コンセンサスを保存")
     parser.add_argument("--target", type=Path, required=True)
     args = parser.parse_args()
     try:
