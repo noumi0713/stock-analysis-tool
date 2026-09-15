@@ -1,12 +1,14 @@
 """Weekly analyst-consensus snapshots for the full JPX domestic common-stock universe.
 
-The automated provider is Yahoo Finance via the existing yfinance quoteSummary
-adapter. MarketScreener is intentionally not scraped in bulk because its terms
-restrict downloading/reuse of site contents without prior permission.
-
-This module supports sharded collection for GitHub Actions and writes one dated
-CSV snapshot plus a latest CSV and status JSON. Historical records are retained
-as weekly files to avoid an ever-growing monolithic CSV.
+Yahoo Finance is collected directly. Licensed IFIS and QUICK feeds are merged
+when normalized provider files are supplied by the workflow. Composite reference
+prices are calculated from valid provider triplets only:
+  weak   = mean(provider low targets)
+  normal = mean(provider mean targets)
+  strong = mean(provider high targets)
+Three sources are preferred. Two sources are accepted so QUICK non-coverage does
+not remove a stock. One source alone is labelled insufficient and is not emitted
+as a composite. Missing values are never replaced by zero.
 """
 from __future__ import annotations
 
@@ -22,6 +24,9 @@ import pandas as pd
 
 from swing_data.bbs_ranking import atomic_csv
 from swing_data.collector import atomic_json
+from swing_data.licensed_consensus import (
+    composite_targets, load_ifis_normalized, load_quick_normalized,
+)
 from swing_data.market_consensus import eps_change, unavailable_snapshot, yahoo_snapshot
 
 JST = ZoneInfo("Asia/Tokyo")
@@ -37,6 +42,15 @@ COLUMNS = [
     "next_year_eps_30d", "next_year_eps_change_pct", "target_mean_wow_pct",
     "current_year_eps_wow_pct", "next_year_eps_wow_pct", "analyst_count_change",
     "fetch_status", "data_quality", "error", "source_url", "retrieved_at",
+    "yahoo_target_low", "yahoo_target_mean", "yahoo_target_high",
+    "yahoo_analyst_count",
+    "ifis_target_low", "ifis_target_mean", "ifis_target_high", "ifis_analyst_count",
+    "ifis_base_date", "ifis_source_url",
+    "quick_target_low", "quick_target_mean", "quick_target_high", "quick_analyst_count",
+    "quick_base_date", "quick_source_url",
+    "weak_reference_price", "normal_reference_price", "strong_reference_price",
+    "composite_source_count", "composite_sources", "composite_quality",
+    "composite_mean_wow_pct",
 ]
 
 
@@ -107,6 +121,18 @@ def _row(meta: dict, snapshot: dict, *, snapshot_date: str, retrieved_at: str, e
         "error": error,
         "source_url": snapshot.get("source_url"),
         "retrieved_at": retrieved_at,
+        "yahoo_target_low": snapshot.get("target_low"),
+        "yahoo_target_mean": mean,
+        "yahoo_target_high": snapshot.get("target_high"),
+        "yahoo_analyst_count": snapshot.get("analyst_count"),
+        "ifis_target_low": None, "ifis_target_mean": None, "ifis_target_high": None,
+        "ifis_analyst_count": None, "ifis_base_date": None, "ifis_source_url": None,
+        "quick_target_low": None, "quick_target_mean": None, "quick_target_high": None,
+        "quick_analyst_count": None, "quick_base_date": None, "quick_source_url": None,
+        "weak_reference_price": None, "normal_reference_price": None,
+        "strong_reference_price": None, "composite_source_count": 0,
+        "composite_sources": "", "composite_quality": "insufficient_sources",
+        "composite_mean_wow_pct": None,
     }
 
 
@@ -169,18 +195,18 @@ def _pct_change(current, prior):
 def apply_week_over_week(latest: pd.DataFrame, previous: pd.DataFrame | None) -> pd.DataFrame:
     if previous is None or previous.empty:
         return latest
-    fields = {
-        "target_mean": "target_mean_wow_pct",
-        "current_year_eps": "current_year_eps_wow_pct",
-        "next_year_eps": "next_year_eps_wow_pct",
-    }
     prev = previous.set_index("stock_code")
     for i, row in latest.iterrows():
         code = row["stock_code"]
         if code not in prev.index:
             continue
         prior = prev.loc[code]
-        for source, dest in fields.items():
+        for source, dest in {
+            "target_mean": "target_mean_wow_pct",
+            "current_year_eps": "current_year_eps_wow_pct",
+            "next_year_eps": "next_year_eps_wow_pct",
+            "normal_reference_price": "composite_mean_wow_pct",
+        }.items():
             latest.at[i, dest] = _pct_change(row.get(source), prior.get(source))
         try:
             a = float(row.get("analyst_count"))
@@ -192,7 +218,43 @@ def apply_week_over_week(latest: pd.DataFrame, previous: pd.DataFrame | None) ->
     return latest
 
 
-def merge_shards(universe_path: Path, shards_dir: Path, target: Path, *, now: datetime | None = None) -> dict:
+def merge_licensed_sources(latest: pd.DataFrame, ifis_path: Path | None, quick_path: Path | None) -> pd.DataFrame:
+    ifis = load_ifis_normalized(ifis_path)
+    quick = load_quick_normalized(quick_path)
+    if not ifis.empty:
+        latest = latest.merge(ifis, on="stock_code", how="left", suffixes=("", "_licensed_ifis"))
+        for col in ["ifis_target_low", "ifis_target_mean", "ifis_target_high", "ifis_analyst_count", "ifis_base_date", "ifis_source_url"]:
+            alt = col + "_licensed_ifis"
+            if alt in latest:
+                latest[col] = latest[alt].combine_first(latest[col])
+                latest = latest.drop(columns=[alt])
+    if not quick.empty:
+        latest = latest.merge(quick, on="stock_code", how="left", suffixes=("", "_licensed_quick"))
+        for col in ["quick_target_low", "quick_target_mean", "quick_target_high", "quick_analyst_count", "quick_base_date", "quick_source_url"]:
+            alt = col + "_licensed_quick"
+            if alt in latest:
+                latest[col] = latest[alt].combine_first(latest[col])
+                latest = latest.drop(columns=[alt])
+    for i, row in latest.iterrows():
+        composite = composite_targets(row.to_dict(), minimum_sources=2)
+        latest.at[i, "weak_reference_price"] = composite["target_low"]
+        latest.at[i, "normal_reference_price"] = composite["target_mean"]
+        latest.at[i, "strong_reference_price"] = composite["target_high"]
+        latest.at[i, "composite_source_count"] = composite["composite_source_count"]
+        latest.at[i, "composite_sources"] = composite["composite_sources"]
+        latest.at[i, "composite_quality"] = composite["composite_quality"]
+    return latest
+
+
+def merge_shards(
+    universe_path: Path,
+    shards_dir: Path,
+    target: Path,
+    *,
+    ifis_path: Path | None = None,
+    quick_path: Path | None = None,
+    now: datetime | None = None,
+) -> dict:
     now = (now or datetime.now(JST)).astimezone(JST)
     snapshot_date = now.date().isoformat()
     retrieved_at = now.isoformat()
@@ -216,6 +278,7 @@ def merge_shards(universe_path: Path, shards_dir: Path, target: Path, *, now: da
 
     latest["snapshot_date"] = snapshot_date
     latest["retrieved_at"] = latest["retrieved_at"].fillna(retrieved_at)
+    latest = merge_licensed_sources(latest, ifis_path, quick_path)
 
     target = Path(target)
     snapshots = target / "weekly_consensus"
@@ -226,26 +289,40 @@ def merge_shards(universe_path: Path, shards_dir: Path, target: Path, *, now: da
         previous = pd.read_csv(sorted(previous_files)[-1], dtype={"stock_code": str})
 
     latest = apply_week_over_week(latest, previous)
+    for col in COLUMNS:
+        if col not in latest:
+            latest[col] = None
     atomic_csv(snapshots / f"{snapshot_date}.csv", latest[COLUMNS])
     atomic_csv(target / "weekly_consensus_latest.csv", latest[COLUMNS])
 
+    quality_counts = latest["composite_quality"].value_counts(dropna=False).to_dict()
     result = {
         "status": "success",
         "snapshot_date": snapshot_date,
-        "provider": PROVIDER,
-        "provider_method": PROVIDER_METHOD,
+        "providers": ["Yahoo Finance", "IFIS", "QUICK"],
+        "composite_rule": {
+            "weak": "mean of available provider low target prices",
+            "normal": "mean of available provider mean target prices",
+            "strong": "mean of available provider high target prices",
+            "minimum_sources": 2,
+            "quick_missing_policy": "continue with Yahoo+IFIS when both are valid",
+            "one_source_policy": "insufficient_sources; no composite price",
+        },
         "universe_count": len(universe),
-        "success_count": int((latest["fetch_status"] == "success").sum()),
-        "failure_count": int((latest["fetch_status"] == "failed").sum()),
-        "complete_target_count": int((latest["data_quality"] == "complete_targets").sum()),
-        "quality_counts": latest["data_quality"].value_counts().to_dict(),
+        "yahoo_success_count": int((latest["fetch_status"] == "success").sum()),
+        "ifis_covered_count": int(latest["ifis_target_mean"].notna().sum()),
+        "quick_covered_count": int(latest["quick_target_mean"].notna().sum()),
+        "three_source_count": int((latest["composite_quality"] == "three_source").sum()),
+        "two_source_count": int((latest["composite_quality"] == "two_source").sum()),
+        "insufficient_source_count": int((latest["composite_quality"] == "insufficient_sources").sum()),
+        "composite_quality_counts": quality_counts,
         "previous_snapshot_date": sorted(previous_files)[-1].stem if previous_files else None,
         "retrieved_at": retrieved_at,
-        "market_screener_bulk_scraping": "disabled_due_to_terms",
         "notes": [
-            "MarketScreener は全銘柄の自動大量取得には使用しない。",
-            "目標株価は1年程度のアナリストコンセンサスであり、5〜10営業日の利確目標ではない。",
-            "欠損は0や中立に置換しない。",
+            "IFIS/QUICK are licensed sources; missing credentials or coverage remain missing.",
+            "QUICK target range is aggregated from current broker target-price rows, not invented from earnings consensus.",
+            "Analyst target prices are not 5-10 business-day profit targets.",
+            "Missing values are never replaced by zero or neutral.",
         ],
     }
     atomic_json(target / "weekly_consensus_status.json", result)
@@ -273,6 +350,8 @@ def main():
     merge.add_argument("--universe", required=True)
     merge.add_argument("--shards", required=True)
     merge.add_argument("--target", required=True)
+    merge.add_argument("--ifis")
+    merge.add_argument("--quick")
 
     args = parser.parse_args()
     if args.command == "collect":
@@ -282,7 +361,11 @@ def main():
             max_workers=args.max_workers,
         )
     else:
-        result = merge_shards(Path(args.universe), Path(args.shards), Path(args.target))
+        result = merge_shards(
+            Path(args.universe), Path(args.shards), Path(args.target),
+            ifis_path=Path(args.ifis) if args.ifis else None,
+            quick_path=Path(args.quick) if args.quick else None,
+        )
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
