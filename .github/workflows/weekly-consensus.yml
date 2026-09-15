@@ -36,7 +36,7 @@ jobs:
           git fetch origin swing-data-120d-latest
           mkdir -p weekly-input
           git show FETCH_HEAD:universe.csv > weekly-input/universe.csv
-      - name: Collect one consensus shard
+      - name: Collect one Yahoo consensus shard
         env:
           PYTHONUNBUFFERED: '1'
         run: |
@@ -77,14 +77,48 @@ jobs:
         run: |
           git fetch origin swing-data-120d-latest
           git worktree add --detach public-data FETCH_HEAD
-      - name: Merge weekly snapshot
+
+      # Licensed providers are not scraped from public web pages. Set these
+      # repository secrets only after obtaining the appropriate vendor license.
+      # Each URL must return the normalized CSV schema documented in
+      # swing_data/licensed_consensus.py. AUTH_HEADER is optional and should
+      # contain the complete header value, e.g. "Authorization: Bearer ...".
+      - name: Fetch licensed IFIS and QUICK normalized feeds
+        env:
+          IFIS_FEED_URL: ${{ secrets.IFIS_CONSENSUS_NORMALIZED_URL }}
+          IFIS_AUTH_HEADER: ${{ secrets.IFIS_CONSENSUS_AUTH_HEADER }}
+          QUICK_FEED_URL: ${{ secrets.QUICK_TARGET_NORMALIZED_URL }}
+          QUICK_AUTH_HEADER: ${{ secrets.QUICK_TARGET_AUTH_HEADER }}
+        run: |
+          mkdir -p licensed-inputs
+          fetch_optional() {
+            name="$1"; url="$2"; auth="$3"
+            if [ -z "$url" ]; then
+              echo "$name feed not configured; leaving it missing."
+              return 0
+            fi
+            if [ -n "$auth" ]; then
+              curl --retry 3 --retry-all-errors -fsSL -H "$auth" "$url" -o "licensed-inputs/$name.csv"
+            else
+              curl --retry 3 --retry-all-errors -fsSL "$url" -o "licensed-inputs/$name.csv"
+            fi
+          }
+          fetch_optional ifis "$IFIS_FEED_URL" "$IFIS_AUTH_HEADER"
+          fetch_optional quick "$QUICK_FEED_URL" "$QUICK_AUTH_HEADER"
+
+      - name: Merge weekly three-source snapshot
         env:
           PYTHONUNBUFFERED: '1'
         run: |
-          python -m swing_data.weekly_consensus merge \
-            --universe public-data/universe.csv \
-            --shards weekly-shards \
+          args=(
+            --universe public-data/universe.csv
+            --shards weekly-shards
             --target public-data
+          )
+          if [ -s licensed-inputs/ifis.csv ]; then args+=(--ifis licensed-inputs/ifis.csv); fi
+          if [ -s licensed-inputs/quick.csv ]; then args+=(--quick licensed-inputs/quick.csv); fi
+          python -m swing_data.weekly_consensus merge "${args[@]}"
+
       - name: Publish weekly consensus history
         env:
           GH_TOKEN: ${{ github.token }}
@@ -97,6 +131,6 @@ jobs:
             echo 'No weekly consensus changes.'
             exit 0
           fi
-          git commit -m 'Publish weekly full-universe consensus snapshot'
+          git commit -m 'Publish weekly full-universe three-source consensus snapshot'
           git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" \
             push origin HEAD:swing-data-120d-latest
