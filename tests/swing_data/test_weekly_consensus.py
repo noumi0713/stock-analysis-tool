@@ -60,7 +60,8 @@ def test_sharded_collection_and_week_over_week_merge(tmp_path):
     result = merge_shards(universe, shards, target, now=now)
     assert result["status"] == "success"
     assert result["universe_count"] == 2
-    assert result["complete_target_count"] == 2
+    assert result["yahoo_success_count"] == 2
+    assert result["insufficient_source_count"] == 2
 
     latest = pd.read_csv(target / "weekly_consensus_latest.csv", dtype={"stock_code": str})
     assert set(latest["stock_code"]) == {"4506", "7203"}
@@ -68,3 +69,7 @@ def test_sharded_collection_and_week_over_week_merge(tmp_path):
     assert latest["current_year_eps_wow_pct"].round(2).tolist() == [25.0, 25.0]
     assert latest["next_year_eps_wow_pct"].round(2).tolist() == [20.0, 20.0]
     assert (latest["data_quality"] == "complete_targets").all()
+    assert (latest["composite_quality"] == "insufficient_sources").all()
+    assert latest["weak_reference_price"].isna().all()
+    assert latest["normal_reference_price"].isna().all()
+    assert latest["strong_reference_price"].isna().all()
