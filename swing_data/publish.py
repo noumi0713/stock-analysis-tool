@@ -10,12 +10,14 @@ import shutil
 import pandas as pd
 
 from swing_data.collector import atomic_json, read_json
+from swing_data.analysis_access import access_document
 
 PUBLIC = "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest"
 
 
 def publish(source: Path, target: Path) -> None:
     target.mkdir(parents=True, exist_ok=True)
+    (target / "analysis_access.md").write_text(access_document(), encoding="utf-8")
     status = read_json(source / "status.json")
     latest = read_json(source / "latest.json")
     if status:
@@ -69,6 +71,8 @@ def publish(source: Path, target: Path) -> None:
             f"分析基準日時: {latest['analysis_as_of']}\n\n"
             f"株価対象日: {latest['expected_equity_date']} / 品質: {latest['quality']} / 必須市場系列: {latest.get('market_quality', '未評価')}\n\n"
             f"全対象 {latest['target_count']} 銘柄、120日適格 {latest['ready_count']} 銘柄。売買条件による選別なし。\n\n"
+            f"[取得経路・全東証分析の入口]({PUBLIC}/analysis_access.md)\n\n"
+            "以下はランキング内分析の手順です。全東証指定時は上記入口を優先し、ランキングによる制限を適用しません。\n\n"
             "## 読む順番\n\n"
             f"1. [当日のYahoo掲示板ランキング取得状態]({PUBLIC}/bbs_ranking_status.json)を確認する。status=successかつranking_dateが分析当日でなければ分析を中止し、取得失敗と報告する。前日の順位を代用しない。\n"
             f"2. [当日のランキング全順位]({PUBLIC}/bbs_ranking_latest.csv)と[順位変化・3日/5日推移]({PUBLIC}/bbs_ranking_trends.csv)を取得する。分析母集団は当日のランクイン銘柄だけとする。[全日次履歴]({PUBLIC}/bbs_ranking_history.csv)と[圏外退出履歴]({PUBLIC}/bbs_ranking_exits.csv)も参照できる。\n"
