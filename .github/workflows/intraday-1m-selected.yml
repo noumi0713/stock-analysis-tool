@@ -1,0 +1,73 @@
+name: Selected tickers 1-minute data
+
+on:
+  workflow_dispatch:
+    inputs:
+      tickers:
+        description: "Ticker codes (space/comma separated, e.g. 7203,6758,130A)"
+        required: true
+        type: string
+      days:
+        description: "Recent period to fetch"
+        required: true
+        default: "7"
+        type: choice
+        options:
+          - "1"
+          - "2"
+          - "3"
+          - "4"
+          - "5"
+          - "6"
+          - "7"
+      session:
+        description: "Trading session"
+        required: true
+        default: "morning"
+        type: choice
+        options:
+          - morning
+          - full
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: swing_data/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r swing_data/requirements.txt
+
+      - name: Fetch selected 1-minute bars
+        run: |
+          python -m swing_data.intraday_1m \
+            --tickers "${{ inputs.tickers }}" \
+            --days "${{ inputs.days }}" \
+            --session "${{ inputs.session }}" \
+            --output-dir intraday_1m_output
+
+      - name: Show manifest
+        if: always()
+        run: |
+          if [ -f intraday_1m_output/manifest.json ]; then
+            cat intraday_1m_output/manifest.json
+          fi
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: intraday-1m-${{ github.run_id }}
+          path: intraday_1m_output/
+          if-no-files-found: warn
+          retention-days: 30
