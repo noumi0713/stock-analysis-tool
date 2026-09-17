@@ -1,0 +1,88 @@
+name: Multi intraday high-low smoke test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/multi-intraday-smoke.yml'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: pip install yfinance==1.7.0 pandas>=2.2
+      - name: Analyze
+        run: |
+          python - <<'PY'
+          import pandas as pd, yfinance as yf, json
+          from zoneinfo import ZoneInfo
+
+          tickers = ["5803.T","9984.T","285A.T","3498.T","8306.T","2788.T"]
+          out = []
+          summaries = []
+          for t in tickers:
+              df = yf.Ticker(t).history(period="max", interval="1m", auto_adjust=False, prepost=False, actions=False)
+              if df is None or df.empty:
+                  summaries.append({"Ticker":t,"Error":"no data"})
+                  continue
+              idx = pd.DatetimeIndex(df.index)
+              if idx.tz is None:
+                  idx = idx.tz_localize("Asia/Tokyo")
+              else:
+                  idx = idx.tz_convert("Asia/Tokyo")
+              df = df.copy()
+              df.index = idx
+              m = df.between_time("09:00","11:30", inclusive="both").copy()
+              dates = sorted(pd.Index(m.index.strftime("%Y-%m-%d")).unique())[-5:]
+              m = m[m.index.strftime("%Y-%m-%d").isin(dates)]
+              low_mins, high_mins = [], []
+              for d in dates:
+                  g = m[m.index.strftime("%Y-%m-%d")==d]
+                  if g.empty: continue
+                  lows = pd.to_numeric(g["Low"], errors="coerce")
+                  highs = pd.to_numeric(g["High"], errors="coerce")
+                  lp, hp = float(lows.min()), float(highs.max())
+                  lts = g.index[lows == lp][0]
+                  hts = g.index[highs == hp][0]
+                  low_min = lts.hour*60+lts.minute
+                  high_min = hts.hour*60+hts.minute
+                  low_mins.append(low_min); high_mins.append(high_min)
+                  out.append({
+                      "Ticker":t,"Date":d,
+                      "Low":lp,"LowTime":lts.strftime("%H:%M"),
+                      "High":hp,"HighTime":hts.strftime("%H:%M"),
+                      "Order":"LOW->HIGH" if lts < hts else ("HIGH->LOW" if hts < lts else "SAME_MINUTE")
+                  })
+              if low_mins:
+                  summaries.append({
+                      "Ticker":t,
+                      "Observations":len(low_mins),
+                      "MedianLowTime":f"{int(pd.Series(low_mins).median())//60:02d}:{int(pd.Series(low_mins).median())%60:02d}",
+                      "MeanLowTime":f"{int(round(pd.Series(low_mins).mean()))//60:02d}:{int(round(pd.Series(low_mins).mean()))%60:02d}",
+                      "MedianHighTime":f"{int(pd.Series(high_mins).median())//60:02d}:{int(pd.Series(high_mins).median())%60:02d}",
+                      "MeanHighTime":f"{int(round(pd.Series(high_mins).mean()))//60:02d}:{int(round(pd.Series(high_mins).mean()))%60:02d}",
+                      "LowBeforeHigh":sum(1 for r in out if r["Ticker"]==t and r["Order"]=="LOW->HIGH"),
+                      "HighBeforeLow":sum(1 for r in out if r["Ticker"]==t and r["Order"]=="HIGH->LOW"),
+                  })
+          daily = pd.DataFrame(out)
+          summary = pd.DataFrame(summaries)
+          daily.to_csv("multi_intraday_daily.csv", index=False, encoding="utf-8-sig")
+          summary.to_csv("multi_intraday_summary.csv", index=False, encoding="utf-8-sig")
+          print("=== DAILY ===")
+          print(daily.to_csv(index=False))
+          print("=== SUMMARY ===")
+          print(summary.to_csv(index=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: multi-intraday-smoke
+          path: |
+            multi_intraday_daily.csv
+            multi_intraday_summary.csv
+          retention-days: 3
