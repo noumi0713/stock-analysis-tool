@@ -56,11 +56,24 @@ jobs:
             --session "${{ inputs.session }}" \
             --output-dir intraday_1m_output
 
+      - name: Aggregate morning-low timing statistics
+        run: |
+          python -m swing_data.intraday_stats \
+            --input intraday_1m_output/morning_low_summary.csv \
+            --output-dir intraday_1m_output
+
       - name: Show manifest
         if: always()
         run: |
           if [ -f intraday_1m_output/manifest.json ]; then
             cat intraday_1m_output/manifest.json
+          fi
+
+      - name: Show morning-low statistics
+        if: always()
+        run: |
+          if [ -f intraday_1m_output/morning_low_statistics.csv ]; then
+            cat intraday_1m_output/morning_low_statistics.csv
           fi
 
       - name: Upload results
