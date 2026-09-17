@@ -1,0 +1,54 @@
+name: SBG intraday smoke test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/sbg-intraday-smoke.yml'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r swing_data/requirements.txt
+
+      - name: Fetch SBG 1-minute data
+        run: |
+          python -m swing_data.intraday_1m \
+            --tickers 9984 \
+            --days 7 \
+            --session morning \
+            --output-dir intraday_1m_output
+
+      - name: Aggregate statistics
+        run: |
+          python -m swing_data.intraday_stats \
+            --input intraday_1m_output/morning_low_summary.csv \
+            --output-dir intraday_1m_output
+
+      - name: Print results
+        run: |
+          echo '=== morning_low_summary.csv ==='
+          cat intraday_1m_output/morning_low_summary.csv
+          echo '=== morning_low_statistics.csv ==='
+          cat intraday_1m_output/morning_low_statistics.csv
+          echo '=== morning_low_5min_distribution.csv ==='
+          cat intraday_1m_output/morning_low_5min_distribution.csv
+
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbg-intraday-smoke
+          path: intraday_1m_output/
+          retention-days: 3
