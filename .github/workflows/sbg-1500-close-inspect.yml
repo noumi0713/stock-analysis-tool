@@ -1,0 +1,42 @@
+name: SBG 1500 to close inspect
+
+on:
+  push:
+    branches:
+      - analysis/sbg-1500-1530-20260918
+    paths:
+      - '.github/workflows/sbg-1500-close-inspect.yml'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install yfinance==1.7.0 pandas>=2.2
+      - name: Analyze
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          import yfinance as yf
+          df = yf.Ticker("9984.T").history(period="max", interval="1m", auto_adjust=False, prepost=False, actions=False)
+          idx = pd.DatetimeIndex(df.index)
+          idx = idx.tz_localize("Asia/Tokyo") if idx.tz is None else idx.tz_convert("Asia/Tokyo")
+          df = df.copy(); df.index = idx
+          for d in ["2026-09-16","2026-09-17"]:
+              g = df[df.index.strftime("%Y-%m-%d") == d]
+              b = g[g.index.strftime("%H:%M") == "15:00"]
+              if b.empty:
+                  print(d,"NO1500")
+                  continue
+              buy_open=float(b.iloc[0]["Open"])
+              buy_close=float(b.iloc[0]["Close"])
+              last=g.iloc[-1]
+              last_ts=g.index[-1]
+              close=float(last["Close"])
+              print(f"{d},Open1500={buy_open},Close1500={buy_close},LastTime={last_ts.strftime('%H:%M')},FinalClose={close},RetOpen={((close/buy_open)-1)*100:.4f},RetClose={((close/buy_close)-1)*100:.4f}")
+              print(g.tail(5)[["Open","High","Low","Close"]].to_string())
+          PY
