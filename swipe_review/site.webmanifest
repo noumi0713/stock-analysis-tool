@@ -1,0 +1,16 @@
+{
+  "name": "株スワイプ",
+  "short_name": "株スワイプ",
+  "start_url": "/swipe",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0d0f13",
+  "theme_color": "#101114",
+  "icons": [
+    {
+      "src": "/swipe_review/icons/shiba-stock-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
