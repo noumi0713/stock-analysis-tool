@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#101114" />
+  <title>掲示板100 スワイプ選別</title>
+  <link rel="stylesheet" href="/swipe_review/styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">掲示板ランキング100位まで</div>
+        <h1>スワイプ選別</h1>
+      </div>
+      <div class="header-actions">
+        <button id="undoBtn" class="ghost" disabled>戻す</button>
+      </div>
+    </header>
+
+    <section class="status-row">
+      <span id="dateLabel">--</span>
+      <span id="progressLabel">0 / 100</span>
+      <span id="syncLabel" class="sync local">ローカル保存</span>
+    </section>
+
+    <section id="loading" class="loading">
+      <div class="spinner"></div>
+      <div id="loadingText">ランキングと120日データを読み込み中…</div>
+    </section>
+
+    <section id="emptyState" class="empty hidden">
+      <strong>今日の100銘柄は仕分け済みです</strong>
+      <div id="summaryText"></div>
+      <button id="reviewBtn" class="primary">仕分け済みを見直す</button>
+    </section>
+
+    <section id="deck" class="deck hidden">
+      <article id="card" class="card">
+        <div id="noOverlay" class="swipe-overlay no">興味なし</div>
+        <div id="yesOverlay" class="swipe-overlay yes">興味あり</div>
+
+        <div class="stock-head">
+          <div>
+            <div class="stock-title-line">
+              <span id="stockCode" class="stock-code">----</span>
+              <span id="recommendBadge" class="badge recommend hidden">おすすめ</span>
+            </div>
+            <div id="stockName" class="stock-name">--</div>
+          </div>
+          <div class="price-block">
+            <div id="closePrice" class="price">--</div>
+            <div id="dayChange" class="day-change">--</div>
+          </div>
+        </div>
+
+        <div class="meta-grid">
+          <div><span>掲示板</span><b id="bbsRank">--位</b></div>
+          <div><span>5日騰落</span><b id="fiveDay">--</b></div>
+          <div><span>出来高</span><b id="volumeValue">--</b></div>
+          <div><span>RSI14</span><b id="rsiValue">--</b></div>
+        </div>
+
+        <div class="chart-block">
+          <div class="chart-title">日足・移動平均</div>
+          <canvas id="priceChart"></canvas>
+        </div>
+        <div class="chart-block small">
+          <div class="chart-title">出来高</div>
+          <canvas id="volumeChart"></canvas>
+        </div>
+        <div class="chart-block small">
+          <div class="chart-title">RSI</div>
+          <canvas id="rsiChart"></canvas>
+        </div>
+
+        <div class="hint">
+          <span>← 興味なし</span>
+          <span>右へフリックで興味あり →</span>
+        </div>
+      </article>
+    </section>
+
+    <nav id="decisionBar" class="decision-bar hidden">
+      <button id="rejectBtn" class="decision reject">← 興味なし</button>
+      <button id="interestBtn" class="decision interest">興味あり →</button>
+    </nav>
+
+    <section class="counts">
+      <div><span>興味あり</span><b id="interestedCount">0</b></div>
+      <div><span>興味なし</span><b id="rejectedCount">0</b></div>
+      <div><span>未仕分け</span><b id="remainingCount">0</b></div>
+    </section>
+  </main>
+
+  <script src="/swipe_review/app.js" defer></script>
+</body>
+</html>

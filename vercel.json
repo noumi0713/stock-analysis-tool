@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/swipe_review/index.html" },
+    { "source": "/swipe", "destination": "/swipe_review/index.html" }
+  ]
+}
