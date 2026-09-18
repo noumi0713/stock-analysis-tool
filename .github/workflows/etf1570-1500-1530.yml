@@ -1,0 +1,43 @@
+name: 1570 1500 to 1530 return
+
+on:
+  push:
+    branches:
+      - analysis/1570-am-20260918
+    paths:
+      - '.github/workflows/etf1570-1500-1530.yml'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install yfinance==1.7.0 pandas>=2.2
+      - name: Analyze
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          import yfinance as yf
+
+          df = yf.Ticker("1570.T").history(period="max", interval="1m", auto_adjust=False, prepost=False, actions=False)
+          idx = pd.DatetimeIndex(df.index)
+          idx = idx.tz_localize("Asia/Tokyo") if idx.tz is None else idx.tz_convert("Asia/Tokyo")
+          df = df.copy()
+          df.index = idx
+
+          for d in ["2026-09-16","2026-09-17"]:
+              g = df[df.index.strftime("%Y-%m-%d") == d]
+              g1500 = g[g.index.strftime("%H:%M") == "15:00"]
+              g1530 = g[g.index.strftime("%H:%M") == "15:30"]
+              if g1500.empty or g1530.empty:
+                  print(d, "missing")
+                  continue
+              buy = float(g1500.iloc[0]["Open"])
+              close = float(g1530.iloc[0]["Close"])
+              ret = (close/buy - 1)*100
+              print(f"{d},Buy1500={buy},Close1530={close},ReturnPct={ret:.4f}")
+          PY
