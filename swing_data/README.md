@@ -33,6 +33,26 @@ https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-
 
 スイング候補の分析母集団は、`bbs_ranking_status.json` が当日 success のときの `bbs_ranking_latest.csv` 掲載銘柄だけです。順位は注目度であり買いシグナルではありません。順位上昇と120日価格・出来高・売買代金・テクニカル・相対強度・IR・ニュースを合わせ、過熱銘柄を除外します。
 
+### 掲示板100銘柄のスワイプ選別
+
+120日データ更新時に、当日の掲示板ランキング1〜100位をスワイプ画面用の母集団として
+`swipe_review_universe.json` に組み込みます。ランキング取得が失敗・日付不整合の場合は
+`swipe_review_status.json` を `not_ready` にし、前日のランキングで代用しません。
+
+表示順は5営業日騰落率の高い順です。ただし派生指標を保存する方針には戻さず、
+JSONには各銘柄の直近6営業日の `adj_close` を保存し、画面側で
+`最新adj_close / 5営業日前adj_close - 1` を計算して並べ替えます。
+RSI・MAなども従来どおり120日生データから画面表示時に計算します。
+
+- 右フリック: 興味あり
+- 左フリック: 興味なし
+- ユーザー仕分け: `swipe-decisions` ブランチの `swipe_review/data/YYYY-MM-DD.json`
+- チャッピー推奨: 同ブランチの `swipe_review/recommendations/YYYY-MM-DD.json`
+- 推奨銘柄は画面で「おすすめ」と表示
+
+興味あり/なしはユーザーの裁量ラベルで、売買シグナル・期待値・勝率の証明ではありません。
+分析時はこのラベルを選好として参照しつつ、120日価格、需給、イベント、地合い、材料を独立に再評価します。
+
 ## ローカル実行
 
 ```bash
