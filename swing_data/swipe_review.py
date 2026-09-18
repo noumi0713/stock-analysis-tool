@@ -204,3 +204,15 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
     atomic_json(target / "swipe_review_universe.json", payload)
     atomic_json(target / "swipe_review_status.json", status)
     return status
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--target", type=Path, required=True)
+    args = parser.parse_args()
+    manifest = _read_json(args.target / "manifest.json")
+    price_date = manifest.get("expected_equity_date")
+    result = build_swipe_review(args.target, price_date=str(price_date) if price_date else None)
+    print(json.dumps(result, ensure_ascii=False))
