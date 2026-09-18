@@ -19,6 +19,9 @@ PUBLIC = "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-
 def publish(source: Path, target: Path) -> None:
     target.mkdir(parents=True, exist_ok=True)
     (target / "analysis_access.md").write_text(access_document(), encoding="utf-8")
+    icon = Path(__file__).with_name("site_assets") / "apple-touch-icon.png"
+    if icon.exists():
+        shutil.copy2(icon, target / "apple-touch-icon.png")
     status = read_json(source / "status.json")
     latest = read_json(source / "latest.json")
     if status:
