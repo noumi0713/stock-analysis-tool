@@ -16,7 +16,6 @@
       </div>
       <div class="header-actions">
         <button id="undoBtn" class="ghost" disabled>戻す</button>
-        <button id="syncBtn" class="ghost">同期設定</button>
       </div>
     </header>
 
@@ -93,18 +92,6 @@
       <div><span>興味なし</span><b id="rejectedCount">0</b></div>
       <div><span>未仕分け</span><b id="remainingCount">0</b></div>
     </section>
-
-    <dialog id="syncDialog">
-      <form method="dialog">
-        <h2>チャッピー共有同期</h2>
-        <p>Vercel 側の <code>SWIPE_WRITE_KEY</code> と同じ同期キーを入力します。キーはこの端末内だけに保存されます。</p>
-        <input id="syncKeyInput" type="password" autocomplete="off" placeholder="同期キー" />
-        <div class="dialog-actions">
-          <button value="cancel" class="ghost">キャンセル</button>
-          <button id="saveSyncKey" value="default" class="primary">保存</button>
-        </div>
-      </form>
-    </dialog>
   </main>
 
   <script src="/swipe_review/app.js" defer></script>
