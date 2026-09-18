@@ -11,6 +11,7 @@ import pandas as pd
 
 from swing_data.collector import atomic_json, read_json
 from swing_data.analysis_access import access_document
+from swing_data.swipe_review import build_swipe_review
 
 PUBLIC = "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest"
 
@@ -67,6 +68,7 @@ def publish(source: Path, target: Path) -> None:
         frame.to_csv(stocks / f"{code}.csv", index=False)
         links.append(f"- {code} {names.get(ticker,ticker)} — [120営業日OHLCV]({PUBLIC}/stocks/{code}.csv)")
     atomic_json(target / "stocks.json", {"run_id":latest["run_id"], "stocks":summary, "selection":"none"})
+    build_swipe_review(target, price_date=str(latest.get("expected_equity_date") or ""))
     text = ("# 日本株120営業日・チャッピー分析用\n\n"
             f"分析基準日時: {latest['analysis_as_of']}\n\n"
             f"株価対象日: {latest['expected_equity_date']} / 品質: {latest['quality']} / 必須市場系列: {latest.get('market_quality', '未評価')}\n\n"
@@ -82,7 +84,9 @@ def publish(source: Path, target: Path) -> None:
             f"6. [テーマ所属と関連度]({PUBLIC}/theme_members.csv)、[テーマ推移]({PUBLIC}/themes_120d.csv)、[市場データ]({PUBLIC}/markets_120d.csv)を参照する。\n"
             f"7. [信用需給・空売り・決算・業績修正・時価総額/浮動株・コンセンサスEPS]({PUBLIC}/supplemental.json)と[追加データの取得状況・定義]({PUBLIC}/supplemental_status.json)を読む。各銘柄は supplemental/銘柄コード.json。\n"
             f"8. [計算プログラム]({PUBLIC}/indicators.py)でRSI14・ATR14・MA5/10/20/25/60/75・TOPIX相対強度5/20/60日・売買代金比を120日の生データから毎回計算する。指標値は保存されない。\n"
-            "9. 掲示板順位の高さだけで選ばず、順位上昇、出来高・売買代金、株価位置、材料、過熱度、地合いを総合評価する。急騰しすぎた銘柄を除外し、5〜10営業日の候補を選ぶ。\n\n"
+            f"9. [スワイプ選別母集団]({PUBLIC}/swipe_review_universe.json)と[スワイプ選別状態]({PUBLIC}/swipe_review_status.json)を確認する。母集団は当日掲示板ランキング100位まで。画面表示順は直近6営業日の調整後終値から5営業日騰落率をその場で計算して降順にする。\n"
+            "10. ユーザーの左右フリック結果はswipe-decisionsブランチの日付別JSONを読む。興味あり/なしはユーザー選好であり、売買シグナルや期待値の証明として扱わない。チャッピー推奨はrecommendationsの日付別JSONで管理し、画面に「おすすめ」と表示する。\n"
+            "11. 掲示板順位の高さだけで選ばず、順位上昇、出来高・売買代金、株価位置、材料、過熱度、地合いを総合評価する。急騰しすぎた銘柄を除外し、5〜10営業日の候補を選ぶ。\n\n"
             "ファイルをユーザーに毎日添付してもらう必要はありません。このURLから取得してください。\n"
             "ページの一部分や一覧の要約だけを読んで、全銘柄の120日分を確認したと表現しないこと。\n"
             "取得・処理した銘柄数と未確認数を必ず明記すること。ブラウザーの省略表示に注意すること。\n"

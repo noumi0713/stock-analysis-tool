@@ -56,6 +56,9 @@ jobs:
         env:
           PYTHONUNBUFFERED: '1'
         run: python -m swing_data.bbs_ranking --target public-data
+      - name: Rebuild swipe review universe
+        if: github.event_name != 'push' && always() && (steps.ranking.outcome == 'success' || steps.ranking.outcome == 'failure')
+        run: python -m swing_data.swipe_review --target public-data
       - name: Publish ranking status and history
         if: github.event_name != 'push' && always() && (steps.ranking.outcome == 'success' || steps.ranking.outcome == 'failure')
         env:

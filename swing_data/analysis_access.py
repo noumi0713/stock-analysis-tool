@@ -1,6 +1,7 @@
 """Small, transport-independent entry point for analysis data."""
 PUBLIC = "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest"
 BLOB = "https://github.com/noumi0713/stock-analysis-tool/blob/swing-data-120d-latest"
+SWIPE = "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swipe-decisions/swipe_review"
 
 
 def access_document():
@@ -31,6 +32,17 @@ PARTIALは全銘柄取得済みを意味しない。欠損・履歴不足・未�
 bbs_ranking_latest.csv・bbs_ranking_trends.csvを必須とする。
 現在の収録数と実際の処理数を区別する。IPOは取得できた日足を使い、不足指標は算定不能とする。
 
+## スワイプ選別
+- [当日100銘柄のスワイプ母集団](PUBLIC/swipe_review_universe.json)
+- [スワイプ母集団の状態](PUBLIC/swipe_review_status.json)
+- ユーザー仕分け: SWIPE/data/YYYY-MM-DD.json
+- チャッピー推奨: SWIPE/recommendations/YYYY-MM-DD.json
+
+母集団は当日のYahoo掲示板投稿ランキング1〜100位のみ。5営業日騰落率は保存せず、
+母集団JSON内の直近6営業日の調整後終値から読み込み時に計算して降順表示する。
+興味あり/なしはユーザーの裁量ラベルであり、買いシグナルや収益優位性として扱わない。
+チャッピー推奨も候補フラグであり、最終判断では120日価格・需給・材料・地合いを再確認する。
+
 ## 生データ
 - [全銘柄CSV](PUBLIC/equities_120d.csv)
 - [ZIP](PUBLIC/chatgpt_120d.zip)
@@ -43,4 +55,4 @@ bbs_ranking_latest.csv・bbs_ranking_trends.csvを必須とする。
 終値×出来高は売買代金の推計であり純資金流入ではない。
 テーマ所属は出典・基準日を確認する。掲示板本文と最新IRは別途取得・検証する。
 目標株価・理論株価・短期利確目標を区別する。
-""".replace("PUBLIC", PUBLIC).replace("BLOB", BLOB)
+""".replace("PUBLIC", PUBLIC).replace("BLOB", BLOB).replace("SWIPE", SWIPE)
