@@ -1,0 +1,63 @@
+name: SBG post-1430 low time test
+
+on:
+  push:
+    branches:
+      - analysis/sbg-post1430
+    paths:
+      - '.github/workflows/sbg-post1430.yml'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install yfinance==1.7.0 pandas>=2.2
+      - name: Analyze completed sessions
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          import yfinance as yf
+
+          t = "9984.T"
+          df = yf.Ticker(t).history(period="max", interval="1m", auto_adjust=False, prepost=False, actions=False)
+          if df is None or df.empty:
+              raise SystemExit("no data")
+
+          idx = pd.DatetimeIndex(df.index)
+          idx = idx.tz_localize("Asia/Tokyo") if idx.tz is None else idx.tz_convert("Asia/Tokyo")
+          df = df.copy()
+          df.index = idx
+
+          post = df.between_time("14:30", "15:30", inclusive="both").copy()
+          today = pd.Timestamp.now(tz="Asia/Tokyo").strftime("%Y-%m-%d")
+          dates = [d for d in sorted(pd.Index(post.index.strftime("%Y-%m-%d")).unique()) if d < today][-5:]
+
+          lowmins = []
+          print("Date,Price1430,Post1430Low,LowTime,DrawdownPct,Post1430High,HighTime,Close1530,CloseFrom1430Pct")
+          for d in dates:
+              g = post[post.index.strftime("%Y-%m-%d") == d]
+              if g.empty:
+                  continue
+              p1430 = float(g.iloc[0]["Open"])
+              lows = pd.to_numeric(g["Low"], errors="coerce")
+              highs = pd.to_numeric(g["High"], errors="coerce")
+              lp = float(lows.min())
+              hp = float(highs.max())
+              lts = g.index[lows == lp][0]
+              hts = g.index[highs == hp][0]
+              close = float(g.iloc[-1]["Close"])
+              dd = (lp / p1430 - 1) * 100
+              cret = (close / p1430 - 1) * 100
+              lowmins.append(lts.hour * 60 + lts.minute)
+              print(f"{d},{p1430},{lp},{lts.strftime('%H:%M')},{dd:.3f},{hp},{hts.strftime('%H:%M')},{close},{cret:.3f}")
+
+          med = int(pd.Series(lowmins).median())
+          mean = int(round(pd.Series(lowmins).mean()))
+          print(f"MedianPost1430LowTime={med//60:02d}:{med%60:02d}")
+          print(f"MeanPost1430LowTime={mean//60:02d}:{mean%60:02d}")
+          PY
