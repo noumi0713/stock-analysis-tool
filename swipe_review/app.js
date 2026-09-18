@@ -111,9 +111,15 @@
   }
 
   async function loadIntegratedUniverse() {
-    const j=await fetchJson(`${RAW_BASE}/swipe_review_universe.json?t=${Date.now()}`);
-    if(j.status!=="success" || !Array.isArray(j.items) || !j.items.length) {
-      throw new Error("120日データ側のスワイプ母集団が未準備です");
+    const stamp=Date.now();
+    const [j,rankStatus]=await Promise.all([
+      fetchJson(`${RAW_BASE}/swipe_review_universe.json?t=${stamp}`),
+      fetchJson(`${RAW_BASE}/bbs_ranking_status.json?t=${stamp}`)
+    ]);
+    const sameDate=String(j.ranking_date||"")===String(rankStatus.ranking_date||"");
+    if(j.status!=="success" || rankStatus.status!=="success" || rankStatus.used_previous_day===true ||
+       !sameDate || !Array.isArray(j.items) || !j.items.length) {
+      throw new Error("当日の120日データ側スワイプ母集団が未準備です");
     }
     state.date=String(j.ranking_date||"");
     return j.items.slice(0,100).map(candidateFromFeed);
