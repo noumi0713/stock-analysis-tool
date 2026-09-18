@@ -6,15 +6,19 @@ Yahoo掲示板ランキング当日100位までを母集団にし、各銘柄を
 - 右フリック: 興味あり
 - 左フリック: 興味なし
 - 表示順: 5営業日騰落率の高い順
-- 5営業日騰落率: 最新終値 / 5営業日前終値 - 1
+- 5営業日騰落率: 日本株120日データの直近6営業日 `adj_close` から画面側で計算
+- 母集団入力: `swing-data-120d-latest/swipe_review_universe.json`
 - 当日ランキングに存在する銘柄は、価格データ欠損でも母集団から除外せず末尾に残します
 - 端末内には即時保存し、サーバー同期成功後は `swipe-decisions` ブランチへJSON保存します
 - ChatGPT推奨銘柄は当日 recommendation JSON に入れると「おすすめ」バッジを表示します
 
 ## 入力データ
 `swing-data-120d-latest` ブランチ:
-- `bbs_ranking_latest.csv`
-- `stocks/<code>.csv`
+- `swipe_review_universe.json`（当日の掲示板100位まで＋直近6営業日の調整後終値）
+- `swipe_review_status.json`
+- `stocks/<code>.csv`（表示中の銘柄だけ120日分を遅延読込）
+
+母集団JSONが未生成の移行期間だけ、従来の `bbs_ranking_latest.csv` + 個別CSV読込へフォールバックします。
 
 ## ユーザー仕分け出力
 `swipe-decisions` ブランチ:
