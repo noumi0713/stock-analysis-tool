@@ -1,0 +1,50 @@
+name: SBG post-1330 high time test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sbg-post1330.yml'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install yfinance==1.7.0 pandas>=2.2
+      - name: Analyze completed afternoons
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          import yfinance as yf
+
+          t = "9984.T"
+          df = yf.Ticker(t).history(period="max", interval="1m", auto_adjust=False, prepost=False, actions=False)
+          idx = pd.DatetimeIndex(df.index)
+          idx = idx.tz_localize("Asia/Tokyo") if idx.tz is None else idx.tz_convert("Asia/Tokyo")
+          df = df.copy(); df.index = idx
+          aft = df.between_time("13:30","15:30",inclusive="both").copy()
+          today = pd.Timestamp.now(tz="Asia/Tokyo").strftime("%Y-%m-%d")
+          dates = [d for d in sorted(pd.Index(aft.index.strftime("%Y-%m-%d")).unique()) if d < today][-5:]
+          mins=[]
+          print("Date,Price1330,Post1330High,HighTime,ReturnPct,Close1530,CloseFrom1330Pct")
+          for d in dates:
+              g = aft[aft.index.strftime("%Y-%m-%d")==d]
+              if g.empty: continue
+              p1330=float(g.iloc[0]["Open"])
+              highs=pd.to_numeric(g["High"],errors="coerce")
+              hp=float(highs.max()); hts=g.index[highs==hp][0]
+              close=float(g.iloc[-1]["Close"])
+              ret=(hp/p1330-1)*100
+              cret=(close/p1330-1)*100
+              mins.append(hts.hour*60+hts.minute)
+              print(f"{d},{p1330},{hp},{hts.strftime('%H:%M')},{ret:.3f},{close},{cret:.3f}")
+          if mins:
+              med=int(pd.Series(mins).median()); mean=int(round(pd.Series(mins).mean()))
+              print(f"MedianPost1330HighTime={med//60:02d}:{med%60:02d}")
+              print(f"MeanPost1330HighTime={mean//60:02d}:{mean%60:02d}")
+          PY
