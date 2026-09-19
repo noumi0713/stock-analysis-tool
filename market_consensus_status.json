@@ -1,0 +1,410 @@
+{
+  "status": "success",
+  "ranking_date": "2026-09-18",
+  "target_count": 96,
+  "fetch_success_count": 0,
+  "fetch_failure_count": 96,
+  "classification_counts": {
+    "判定不能": 96
+  },
+  "quality_counts": {
+    "invalid": 96
+  },
+  "unclassifiable_count": 96,
+  "failed_codes": [
+    {
+      "stock_code": "1357",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "1540",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "1570",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "1783",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "186A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "2134",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "215A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "2160",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "219A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "2586",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "278A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "285A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "2914",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "2962",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "3103",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "3133",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "3260",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "3350",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "336A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "3436",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "3498",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "3656",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "3659",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "3823",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "3905",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "3907",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "3997",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4052",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4062",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4075",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4392",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4436",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4440",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4565",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4575",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4588",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4592",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4593",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4594",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "464A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4755",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4813",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "485A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4875",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4889",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4894",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "4935",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "5016",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "5131",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "5253",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "5542",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "5706",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "5721",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "5801",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "5802",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "5803",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "581A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "593A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "6203",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "621A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "6232",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "623A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "625A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "627A",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "6330",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "6525",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "6613",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "6740",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "6857",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "6862",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "6920",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "6976",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "6981",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "6993",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "7011",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "7012",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "7013",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "7201",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "7203",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "7532",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "7776",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "7777",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "7936",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "7974",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "8035",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "8105",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "8136",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "8267",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "8303",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "8306",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "8316",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "8411",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "8766",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "9432",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "9501",
+      "error": "HTTPError: HTTP Error 401: "
+    },
+    {
+      "stock_code": "9984",
+      "error": "HTTPError: HTTP Error 401: "
+    }
+  ],
+  "retrieved_at": "2026-09-19T08:38:48.528795+09:00",
+  "elapsed_seconds": 7.58,
+  "classification_rule": {
+    "minimum_analysts": 3,
+    "bullish": "at least 2 of target upside >=10%, buy rating, EPS 30d change >=5%",
+    "bearish": "at least 2 of target upside <=-10%, sell rating, EPS 30d change <=-5%",
+    "base": "otherwise, only when required data pass",
+    "missing_or_suspicious": "判定不能"
+  },
+  "scenario_rule": "Analyst low/mean/high when valid; otherwise current close +/-2 ATR14 (or +/-10%) labelled non-consensus."
+}

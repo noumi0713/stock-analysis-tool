@@ -1,0 +1,4077 @@
+{
+  "status": "success",
+  "ranking_date": "2026-09-19",
+  "price_date": "2026-09-18",
+  "population_limit": 100,
+  "sort_instruction": "recent_pricesの最終adj_close / 6本前adj_close - 1 を画面で計算し降順",
+  "items": [
+    {
+      "bbs_rank": 1,
+      "stock_code": "285A",
+      "stock_name": "キオクシアホールディングス(株)",
+      "market": "東証PRM",
+      "ranking_price": 54570.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 54030.0,
+          "close": 54030.0,
+          "volume": 28051100.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 50590.0,
+          "close": 50590.0,
+          "volume": 28534900.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 51750.0,
+          "close": 51750.0,
+          "volume": 29060500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 50780.0,
+          "close": 50780.0,
+          "volume": 27253000.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 49880.0,
+          "close": 49880.0,
+          "volume": 25108400.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 54570.0,
+          "close": 54570.0,
+          "volume": 34475500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/285A.csv"
+    },
+    {
+      "bbs_rank": 2,
+      "stock_code": "3905",
+      "stock_name": "データセクション(株)",
+      "market": "東証GRT",
+      "ranking_price": 1542.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1547.0,
+          "close": 1547.0,
+          "volume": 1606200.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1483.0,
+          "close": 1483.0,
+          "volume": 1924800.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1509.0,
+          "close": 1509.0,
+          "volume": 985500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1446.0,
+          "close": 1446.0,
+          "volume": 1856600.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1438.0,
+          "close": 1438.0,
+          "volume": 1019800.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1542.0,
+          "close": 1542.0,
+          "volume": 2558700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3905.csv"
+    },
+    {
+      "bbs_rank": 3,
+      "stock_code": "9984",
+      "stock_name": "ソフトバンクグループ(株)",
+      "market": "東証PRM",
+      "ranking_price": 6315.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 6540.0,
+          "close": 6540.0,
+          "volume": 69041500.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 5839.0,
+          "close": 5839.0,
+          "volume": 66654500.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 6279.0,
+          "close": 6279.0,
+          "volume": 80534700.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 6183.0,
+          "close": 6183.0,
+          "volume": 67198800.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 6247.0,
+          "close": 6247.0,
+          "volume": 62284400.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 6315.0,
+          "close": 6315.0,
+          "volume": 90291700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9984.csv"
+    },
+    {
+      "bbs_rank": 4,
+      "stock_code": "5016",
+      "stock_name": "ＪＸ金属(株)",
+      "market": "東証PRM",
+      "ranking_price": 3574.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 3695.0,
+          "close": 3695.0,
+          "volume": 16352700.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 3617.0,
+          "close": 3617.0,
+          "volume": 15808200.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 3654.0,
+          "close": 3654.0,
+          "volume": 13778500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 3652.0,
+          "close": 3652.0,
+          "volume": 10176500.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 3500.0,
+          "close": 3500.0,
+          "volume": 20593000.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 3574.0,
+          "close": 3574.0,
+          "volume": 20679000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5016.csv"
+    },
+    {
+      "bbs_rank": 5,
+      "stock_code": "8306",
+      "stock_name": "(株)三菱ＵＦＪフィナンシャル・グループ",
+      "market": "東証PRM",
+      "ranking_price": 3620.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 3661.0,
+          "close": 3661.0,
+          "volume": 51100200.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 3720.0,
+          "close": 3720.0,
+          "volume": 36515300.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 3668.0,
+          "close": 3668.0,
+          "volume": 41635100.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 3655.0,
+          "close": 3655.0,
+          "volume": 33677700.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 3652.0,
+          "close": 3652.0,
+          "volume": 38746600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 3620.0,
+          "close": 3620.0,
+          "volume": 51333500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8306.csv"
+    },
+    {
+      "bbs_rank": 6,
+      "stock_code": "3350",
+      "stock_name": "(株)メタプラネット",
+      "market": "東証STD",
+      "ranking_price": 243.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 249.0,
+          "close": 249.0,
+          "volume": 12541600.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 247.0,
+          "close": 247.0,
+          "volume": 17035500.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 251.0,
+          "close": 251.0,
+          "volume": 18693800.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 235.0,
+          "close": 235.0,
+          "volume": 17809800.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 238.0,
+          "close": 238.0,
+          "volume": 12595800.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 243.0,
+          "close": 243.0,
+          "volume": 41001000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3350.csv"
+    },
+    {
+      "bbs_rank": 7,
+      "stock_code": "485A",
+      "stock_name": "(株)パワーエックス",
+      "market": "東証GRT",
+      "ranking_price": 2404.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 2145.0,
+          "close": 2145.0,
+          "volume": 22036200.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 2267.0,
+          "close": 2267.0,
+          "volume": 17655500.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 2400.0,
+          "close": 2400.0,
+          "volume": 18432100.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 2085.0,
+          "close": 2085.0,
+          "volume": 16812900.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 2117.0,
+          "close": 2117.0,
+          "volume": 10071200.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 2404.0,
+          "close": 2404.0,
+          "volume": 16192000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/485A.csv"
+    },
+    {
+      "bbs_rank": 8,
+      "stock_code": "5721",
+      "stock_name": "エスクリプトエナジー(株)",
+      "market": "東証STD",
+      "ranking_price": 54.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 53.0,
+          "close": 53.0,
+          "volume": 953100.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 53.0,
+          "close": 53.0,
+          "volume": 991400.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 53.0,
+          "close": 53.0,
+          "volume": 399000.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 54.0,
+          "close": 54.0,
+          "volume": 639400.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 53.0,
+          "close": 53.0,
+          "volume": 318700.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 54.0,
+          "close": 54.0,
+          "volume": 4343400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5721.csv"
+    },
+    {
+      "bbs_rank": 9,
+      "stock_code": "4588",
+      "stock_name": "オンコリスバイオファーマ(株)",
+      "market": "東証GRT",
+      "ranking_price": 6770.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 5740.0,
+          "close": 5740.0,
+          "volume": 1738400.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 6160.0,
+          "close": 6160.0,
+          "volume": 2308900.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 6390.0,
+          "close": 6390.0,
+          "volume": 1972900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 5800.0,
+          "close": 5800.0,
+          "volume": 4264200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 6300.0,
+          "close": 6300.0,
+          "volume": 2396900.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 6770.0,
+          "close": 6770.0,
+          "volume": 2730600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4588.csv"
+    },
+    {
+      "bbs_rank": 10,
+      "stock_code": "3103",
+      "stock_name": "ユニチカ(株)",
+      "market": "東証STD",
+      "ranking_price": 1518.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1470.0,
+          "close": 1470.0,
+          "volume": 4309200.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1380.0,
+          "close": 1380.0,
+          "volume": 4112700.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1367.0,
+          "close": 1367.0,
+          "volume": 3494600.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1462.0,
+          "close": 1462.0,
+          "volume": 7878200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1479.0,
+          "close": 1479.0,
+          "volume": 6643200.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1518.0,
+          "close": 1518.0,
+          "volume": 6998600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3103.csv"
+    },
+    {
+      "bbs_rank": 11,
+      "stock_code": "6740",
+      "stock_name": "(株)ジャパンディスプレイ",
+      "market": "東証PRM",
+      "ranking_price": 49.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 47.0,
+          "close": 47.0,
+          "volume": 12071300.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 46.0,
+          "close": 46.0,
+          "volume": 4094600.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 46.0,
+          "close": 46.0,
+          "volume": 2233500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 46.0,
+          "close": 46.0,
+          "volume": 2755100.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 51.0,
+          "close": 51.0,
+          "volume": 20907000.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 49.0,
+          "close": 49.0,
+          "volume": 20875300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6740.csv"
+    },
+    {
+      "bbs_rank": 12,
+      "stock_code": "593A",
+      "stock_name": "(株)ティアフォー",
+      "market": "東証GRT",
+      "ranking_price": 1977.0,
+      "recent_prices": [],
+      "price_data_issue": "stock_csv_missing",
+      "ohlcv_path": "stocks/593A.csv"
+    },
+    {
+      "bbs_rank": 13,
+      "stock_code": "627A",
+      "stock_name": "ａｋｉｐｐａ(株)",
+      "market": "東証STD",
+      "ranking_price": 1037.0,
+      "recent_prices": [],
+      "price_data_issue": "stock_csv_missing",
+      "ohlcv_path": "stocks/627A.csv"
+    },
+    {
+      "bbs_rank": 14,
+      "stock_code": "278A",
+      "stock_name": "Ｔｅｒｒａ　Ｄｒｏｎｅ(株)",
+      "market": "東証GRT",
+      "ranking_price": 19740.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 21000.0,
+          "close": 21000.0,
+          "volume": 1995500.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 20310.0,
+          "close": 20310.0,
+          "volume": 1498200.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 18980.0,
+          "close": 18980.0,
+          "volume": 2228400.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 17270.0,
+          "close": 17270.0,
+          "volume": 1080000.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 19010.0,
+          "close": 19010.0,
+          "volume": 1756700.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 19740.0,
+          "close": 19740.0,
+          "volume": 1767600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/278A.csv"
+    },
+    {
+      "bbs_rank": 15,
+      "stock_code": "5803",
+      "stock_name": "(株)フジクラ",
+      "market": "東証PRM",
+      "ranking_price": 4952.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 4982.0,
+          "close": 4982.0,
+          "volume": 38396400.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 4834.0,
+          "close": 4834.0,
+          "volume": 35382300.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 4744.0,
+          "close": 4744.0,
+          "volume": 31474800.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 4839.0,
+          "close": 4839.0,
+          "volume": 26196900.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 4867.0,
+          "close": 4867.0,
+          "volume": 30234600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 4952.0,
+          "close": 4952.0,
+          "volume": 37410000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5803.csv"
+    },
+    {
+      "bbs_rank": 16,
+      "stock_code": "3260",
+      "stock_name": "(株)エスポア",
+      "market": "名証NXT",
+      "ranking_price": 70.0,
+      "recent_prices": [],
+      "price_data_issue": "stock_csv_missing",
+      "ohlcv_path": "stocks/3260.csv"
+    },
+    {
+      "bbs_rank": 17,
+      "stock_code": "2160",
+      "stock_name": "(株)ジーエヌアイグループ",
+      "market": "東証GRT",
+      "ranking_price": 3250.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 2897.0,
+          "close": 2897.0,
+          "volume": 787000.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 2928.0,
+          "close": 2928.0,
+          "volume": 872100.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 2895.0,
+          "close": 2895.0,
+          "volume": 765900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 2831.0,
+          "close": 2831.0,
+          "volume": 1017400.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 2993.0,
+          "close": 2993.0,
+          "volume": 1082600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 3250.0,
+          "close": 3250.0,
+          "volume": 2270400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/2160.csv"
+    },
+    {
+      "bbs_rank": 18,
+      "stock_code": "6203",
+      "stock_name": "豊和工業(株)",
+      "market": "東証STD",
+      "ranking_price": 2538.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 2844.0,
+          "close": 2844.0,
+          "volume": 16738800.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 2344.0,
+          "close": 2344.0,
+          "volume": 18337800.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 2476.0,
+          "close": 2476.0,
+          "volume": 20482200.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 2135.0,
+          "close": 2135.0,
+          "volume": 5930400.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 2409.0,
+          "close": 2409.0,
+          "volume": 9216500.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 2538.0,
+          "close": 2538.0,
+          "volume": 5081800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6203.csv"
+    },
+    {
+      "bbs_rank": 19,
+      "stock_code": "6976",
+      "stock_name": "太陽誘電(株)",
+      "market": "東証PRM",
+      "ranking_price": 9375.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 9209.0,
+          "close": 9209.0,
+          "volume": 31494700.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 8714.0,
+          "close": 8714.0,
+          "volume": 25803500.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 9197.0,
+          "close": 9197.0,
+          "volume": 34475900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 9364.0,
+          "close": 9364.0,
+          "volume": 28604300.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 9000.0,
+          "close": 9000.0,
+          "volume": 26019400.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 9375.0,
+          "close": 9375.0,
+          "volume": 25919200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6976.csv"
+    },
+    {
+      "bbs_rank": 20,
+      "stock_code": "4875",
+      "stock_name": "メディシノバ",
+      "market": "東証STD外国",
+      "ranking_price": 485.0,
+      "recent_prices": [],
+      "price_data_issue": "stock_csv_missing",
+      "ohlcv_path": "stocks/4875.csv"
+    },
+    {
+      "bbs_rank": 21,
+      "stock_code": "8316",
+      "stock_name": "(株)三井住友フィナンシャルグループ",
+      "market": "東証PRM",
+      "ranking_price": 6830.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 6911.0,
+          "close": 6911.0,
+          "volume": 14515300.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 7030.0,
+          "close": 7030.0,
+          "volume": 10316500.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 6842.0,
+          "close": 6842.0,
+          "volume": 13158600.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 6842.0,
+          "close": 6842.0,
+          "volume": 10220100.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 6878.0,
+          "close": 6878.0,
+          "volume": 10236000.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 6830.0,
+          "close": 6830.0,
+          "volume": 18987300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8316.csv"
+    },
+    {
+      "bbs_rank": 22,
+      "stock_code": "4594",
+      "stock_name": "ブライトパス・バイオ(株)",
+      "market": "東証GRT",
+      "ranking_price": 61.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 57.0,
+          "close": 57.0,
+          "volume": 2193700.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 58.0,
+          "close": 58.0,
+          "volume": 903600.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 60.0,
+          "close": 60.0,
+          "volume": 1084200.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 57.0,
+          "close": 57.0,
+          "volume": 2597600.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 57.0,
+          "close": 57.0,
+          "volume": 1506300.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 61.0,
+          "close": 61.0,
+          "volume": 2768300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4594.csv"
+    },
+    {
+      "bbs_rank": 23,
+      "stock_code": "5801",
+      "stock_name": "古河電気工業(株)",
+      "market": "東証PRM",
+      "ranking_price": 3901.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 3981.0,
+          "close": 3981.0,
+          "volume": 23237900.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 3845.0,
+          "close": 3845.0,
+          "volume": 22796400.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 3719.0,
+          "close": 3719.0,
+          "volume": 22958800.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 3812.0,
+          "close": 3812.0,
+          "volume": 17118100.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 3763.0,
+          "close": 3763.0,
+          "volume": 23256200.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 3901.0,
+          "close": 3901.0,
+          "volume": 21047200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5801.csv"
+    },
+    {
+      "bbs_rank": 24,
+      "stock_code": "6857",
+      "stock_name": "(株)アドバンテスト",
+      "market": "東証PRM",
+      "ranking_price": 32050.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 31720.0,
+          "close": 31720.0,
+          "volume": 11096600.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 31080.0,
+          "close": 31080.0,
+          "volume": 8111300.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 30160.0,
+          "close": 30160.0,
+          "volume": 8444200.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 30700.0,
+          "close": 30700.0,
+          "volume": 6536400.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 30240.0,
+          "close": 30240.0,
+          "volume": 7233400.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 32050.0,
+          "close": 32050.0,
+          "volume": 10817700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6857.csv"
+    },
+    {
+      "bbs_rank": 25,
+      "stock_code": "3823",
+      "stock_name": "ＴＨＥ　ＷＨＹ　ＨＯＷ　ＤＯ　ＣＯＭＰＡＮＹ(株)",
+      "market": "東証STD",
+      "ranking_price": 42.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 31.0,
+          "close": 31.0,
+          "volume": 708600.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 32.0,
+          "close": 32.0,
+          "volume": 310400.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 53.0,
+          "close": 53.0,
+          "volume": 47483200.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 52.0,
+          "close": 52.0,
+          "volume": 32673400.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 44.0,
+          "close": 44.0,
+          "volume": 13706200.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 42.0,
+          "close": 42.0,
+          "volume": 8523200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3823.csv"
+    },
+    {
+      "bbs_rank": 26,
+      "stock_code": "4052",
+      "stock_name": "フィーチャ(株)",
+      "market": "東証GRT",
+      "ranking_price": 985.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1118.0,
+          "close": 1118.0,
+          "volume": 10826300.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 938.0,
+          "close": 938.0,
+          "volume": 4446100.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 948.0,
+          "close": 948.0,
+          "volume": 4445200.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 832.0,
+          "close": 832.0,
+          "volume": 1579600.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 850.0,
+          "close": 850.0,
+          "volume": 2634100.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 985.0,
+          "close": 985.0,
+          "volume": 7540000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4052.csv"
+    },
+    {
+      "bbs_rank": 27,
+      "stock_code": "8411",
+      "stock_name": "(株)みずほフィナンシャルグループ",
+      "market": "東証PRM",
+      "ranking_price": 8495.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 8654.0,
+          "close": 8654.0,
+          "volume": 10993400.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 8790.0,
+          "close": 8790.0,
+          "volume": 7786400.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 8598.0,
+          "close": 8598.0,
+          "volume": 8521300.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 8566.0,
+          "close": 8566.0,
+          "volume": 6671500.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 8549.0,
+          "close": 8549.0,
+          "volume": 7487300.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 8495.0,
+          "close": 8495.0,
+          "volume": 11135300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8411.csv"
+    },
+    {
+      "bbs_rank": 28,
+      "stock_code": "2134",
+      "stock_name": "北浜キャピタルパートナーズ(株)",
+      "market": "東証STD",
+      "ranking_price": 17.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 20.0,
+          "close": 20.0,
+          "volume": 4355600.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 19.0,
+          "close": 19.0,
+          "volume": 1640400.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 19.0,
+          "close": 19.0,
+          "volume": 607400.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 18.0,
+          "close": 18.0,
+          "volume": 4724900.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 18.0,
+          "close": 18.0,
+          "volume": 1695500.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 17.0,
+          "close": 17.0,
+          "volume": 5087300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/2134.csv"
+    },
+    {
+      "bbs_rank": 29,
+      "stock_code": "8136",
+      "stock_name": "(株)サンリオ",
+      "market": "東証PRM",
+      "ranking_price": 1207.5,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1188.5,
+          "close": 1188.5,
+          "volume": 14760400.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1236.0,
+          "close": 1236.0,
+          "volume": 21243800.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1220.0,
+          "close": 1220.0,
+          "volume": 15782900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1191.0,
+          "close": 1191.0,
+          "volume": 19644100.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1238.5,
+          "close": 1238.5,
+          "volume": 18281600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1207.5,
+          "close": 1207.5,
+          "volume": 13233000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8136.csv"
+    },
+    {
+      "bbs_rank": 30,
+      "stock_code": "7777",
+      "stock_name": "(株)スリー・ディー・マトリックス",
+      "market": "東証GRT",
+      "ranking_price": 448.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 379.0,
+          "close": 379.0,
+          "volume": 10700000.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 408.0,
+          "close": 408.0,
+          "volume": 7758600.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 407.0,
+          "close": 407.0,
+          "volume": 4162000.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 433.0,
+          "close": 433.0,
+          "volume": 5262800.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 433.0,
+          "close": 433.0,
+          "volume": 4056500.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 448.0,
+          "close": 448.0,
+          "volume": 5510100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7777.csv"
+    },
+    {
+      "bbs_rank": 31,
+      "stock_code": "5131",
+      "stock_name": "リンカーズ(株)",
+      "market": "東証GRT",
+      "ranking_price": 185.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 113.0,
+          "close": 113.0,
+          "volume": 71500.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 163.0,
+          "close": 163.0,
+          "volume": 154700.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 213.0,
+          "close": 213.0,
+          "volume": 7330500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 210.0,
+          "close": 210.0,
+          "volume": 45805200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 189.0,
+          "close": 189.0,
+          "volume": 8239100.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 185.0,
+          "close": 185.0,
+          "volume": 15219900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5131.csv"
+    },
+    {
+      "bbs_rank": 32,
+      "stock_code": "6613",
+      "stock_name": "(株)ＱＤレーザ",
+      "market": "東証GRT",
+      "ranking_price": 2085.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1964.0,
+          "close": 1964.0,
+          "volume": 1234900.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1971.0,
+          "close": 1971.0,
+          "volume": 1182400.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1995.0,
+          "close": 1995.0,
+          "volume": 1273900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 2060.0,
+          "close": 2060.0,
+          "volume": 1955900.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1962.0,
+          "close": 1962.0,
+          "volume": 1504300.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 2085.0,
+          "close": 2085.0,
+          "volume": 1965500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6613.csv"
+    },
+    {
+      "bbs_rank": 33,
+      "stock_code": "9432",
+      "stock_name": "ＮＴＴ(株)",
+      "market": "東証PRM",
+      "ranking_price": 177.3,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 175.6999969482422,
+          "close": 175.6999969482422,
+          "volume": 209324600.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 178.3000030517578,
+          "close": 178.3000030517578,
+          "volume": 197564900.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 178.10000610351562,
+          "close": 178.10000610351562,
+          "volume": 159657500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 177.10000610351562,
+          "close": 177.10000610351562,
+          "volume": 152906500.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 180.0,
+          "close": 180.0,
+          "volume": 171846200.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 177.3000030517578,
+          "close": 177.3000030517578,
+          "volume": 251021300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9432.csv"
+    },
+    {
+      "bbs_rank": 34,
+      "stock_code": "2962",
+      "stock_name": "(株)テクニスコ",
+      "market": "東証STD",
+      "ranking_price": 2231.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1768.0,
+          "close": 1768.0,
+          "volume": 199700.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1818.0,
+          "close": 1818.0,
+          "volume": 282600.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1718.0,
+          "close": 1718.0,
+          "volume": 208700.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1707.0,
+          "close": 1707.0,
+          "volume": 168300.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1831.0,
+          "close": 1831.0,
+          "volume": 295600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 2231.0,
+          "close": 2231.0,
+          "volume": 1918200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/2962.csv"
+    },
+    {
+      "bbs_rank": 35,
+      "stock_code": "6981",
+      "stock_name": "(株)村田製作所",
+      "market": "東証PRM",
+      "ranking_price": 7763.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 7352.0,
+          "close": 7352.0,
+          "volume": 23574100.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 7167.0,
+          "close": 7167.0,
+          "volume": 21152100.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 7399.0,
+          "close": 7399.0,
+          "volume": 20483200.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 7633.0,
+          "close": 7633.0,
+          "volume": 20484200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 7431.0,
+          "close": 7431.0,
+          "volume": 18812300.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 7763.0,
+          "close": 7763.0,
+          "volume": 23568900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6981.csv"
+    },
+    {
+      "bbs_rank": 36,
+      "stock_code": "581A",
+      "stock_name": "ＧＯ(株)",
+      "market": "東証GRT",
+      "ranking_price": 3170.0,
+      "recent_prices": [],
+      "price_data_issue": "stock_csv_missing",
+      "ohlcv_path": "stocks/581A.csv"
+    },
+    {
+      "bbs_rank": 37,
+      "stock_code": "4062",
+      "stock_name": "イビデン(株)",
+      "market": "東証PRM",
+      "ranking_price": 19555.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 19560.0,
+          "close": 19560.0,
+          "volume": 8459000.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 19140.0,
+          "close": 19140.0,
+          "volume": 8612400.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 19115.0,
+          "close": 19115.0,
+          "volume": 7107000.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 18950.0,
+          "close": 18950.0,
+          "volume": 6582500.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 18475.0,
+          "close": 18475.0,
+          "volume": 8663100.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 19555.0,
+          "close": 19555.0,
+          "volume": 9800900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4062.csv"
+    },
+    {
+      "bbs_rank": 38,
+      "stock_code": "1570",
+      "stock_name": "(NEXT FUNDS)日経平均レバレッジ上場投信",
+      "market": "東証ETF",
+      "ranking_price": 66860.0,
+      "recent_prices": [],
+      "price_data_issue": "stock_csv_missing",
+      "ohlcv_path": "stocks/1570.csv"
+    },
+    {
+      "bbs_rank": 39,
+      "stock_code": "8105",
+      "stock_name": "Ｂｉｔｃｏｉｎ　Ｊａｐａｎ(株)",
+      "market": "東証STD",
+      "ranking_price": 77.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 76.0,
+          "close": 76.0,
+          "volume": 857600.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 76.0,
+          "close": 76.0,
+          "volume": 788300.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 74.0,
+          "close": 74.0,
+          "volume": 436500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 74.0,
+          "close": 74.0,
+          "volume": 865100.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 75.0,
+          "close": 75.0,
+          "volume": 1608400.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 77.0,
+          "close": 77.0,
+          "volume": 2967400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8105.csv"
+    },
+    {
+      "bbs_rank": 40,
+      "stock_code": "7011",
+      "stock_name": "三菱重工業(株)",
+      "market": "東証PRM",
+      "ranking_price": 3879.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 3705.0,
+          "close": 3705.0,
+          "volume": 13750300.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 3761.0,
+          "close": 3761.0,
+          "volume": 10108700.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 3701.0,
+          "close": 3701.0,
+          "volume": 36099500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 3737.0,
+          "close": 3737.0,
+          "volume": 14376000.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 3887.0,
+          "close": 3887.0,
+          "volume": 20985600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 3879.0,
+          "close": 3879.0,
+          "volume": 16950000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7011.csv"
+    },
+    {
+      "bbs_rank": 41,
+      "stock_code": "6920",
+      "stock_name": "レーザーテック(株)",
+      "market": "東証PRM",
+      "ranking_price": 39090.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 34570.0,
+          "close": 34570.0,
+          "volume": 3010300.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 34480.0,
+          "close": 34480.0,
+          "volume": 2861500.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 35590.0,
+          "close": 35590.0,
+          "volume": 3200000.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 35750.0,
+          "close": 35750.0,
+          "volume": 2444200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 35960.0,
+          "close": 35960.0,
+          "volume": 3766300.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 39090.0,
+          "close": 39090.0,
+          "volume": 4719500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6920.csv"
+    },
+    {
+      "bbs_rank": 42,
+      "stock_code": "6862",
+      "stock_name": "ミナトホールディングス(株)",
+      "market": "東証STD",
+      "ranking_price": 5180.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 4310.0,
+          "close": 4310.0,
+          "volume": 294200.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 4120.0,
+          "close": 4120.0,
+          "volume": 270900.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 4170.0,
+          "close": 4170.0,
+          "volume": 149500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 4355.0,
+          "close": 4355.0,
+          "volume": 208100.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 4480.0,
+          "close": 4480.0,
+          "volume": 167600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 5180.0,
+          "close": 5180.0,
+          "volume": 506000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6862.csv"
+    },
+    {
+      "bbs_rank": 43,
+      "stock_code": "3656",
+      "stock_name": "ＫＬａｂ(株)",
+      "market": "東証PRM",
+      "ranking_price": 185.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 175.0,
+          "close": 175.0,
+          "volume": 1987000.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 174.0,
+          "close": 174.0,
+          "volume": 1488800.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 179.0,
+          "close": 179.0,
+          "volume": 1336300.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 178.0,
+          "close": 178.0,
+          "volume": 1069500.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 184.0,
+          "close": 184.0,
+          "volume": 1457400.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 185.0,
+          "close": 185.0,
+          "volume": 1510900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3656.csv"
+    },
+    {
+      "bbs_rank": 44,
+      "stock_code": "336A",
+      "stock_name": "ダイナミックマッププラットフォーム(株)",
+      "market": "東証GRT",
+      "ranking_price": 1360.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1403.0,
+          "close": 1403.0,
+          "volume": 4610900.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1363.0,
+          "close": 1363.0,
+          "volume": 2715300.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1315.0,
+          "close": 1315.0,
+          "volume": 1212000.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1263.0,
+          "close": 1263.0,
+          "volume": 1737700.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1340.0,
+          "close": 1340.0,
+          "volume": 1743000.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1360.0,
+          "close": 1360.0,
+          "volume": 1180100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/336A.csv"
+    },
+    {
+      "bbs_rank": 45,
+      "stock_code": "6330",
+      "stock_name": "東洋エンジニアリング(株)",
+      "market": "東証PRM",
+      "ranking_price": 2908.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 2736.0,
+          "close": 2736.0,
+          "volume": 9534500.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 2651.0,
+          "close": 2651.0,
+          "volume": 7356300.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 2694.0,
+          "close": 2694.0,
+          "volume": 7056300.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 2706.0,
+          "close": 2706.0,
+          "volume": 5817300.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 2803.0,
+          "close": 2803.0,
+          "volume": 7922400.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 2908.0,
+          "close": 2908.0,
+          "volume": 7500300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6330.csv"
+    },
+    {
+      "bbs_rank": 46,
+      "stock_code": "4075",
+      "stock_name": "ブレインズテクノロジー(株)",
+      "market": "東証GRT",
+      "ranking_price": 1591.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1204.0,
+          "close": 1204.0,
+          "volume": 219300.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1155.0,
+          "close": 1155.0,
+          "volume": 228000.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1343.0,
+          "close": 1343.0,
+          "volume": 2007700.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1409.0,
+          "close": 1409.0,
+          "volume": 3106800.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1291.0,
+          "close": 1291.0,
+          "volume": 1294700.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1591.0,
+          "close": 1591.0,
+          "volume": 1901300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4075.csv"
+    },
+    {
+      "bbs_rank": 47,
+      "stock_code": "7974",
+      "stock_name": "任天堂(株)",
+      "market": "東証PRM",
+      "ranking_price": 8339.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 8093.0,
+          "close": 8093.0,
+          "volume": 9954600.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 8268.0,
+          "close": 8268.0,
+          "volume": 9454300.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 8118.0,
+          "close": 8118.0,
+          "volume": 7686000.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 8126.0,
+          "close": 8126.0,
+          "volume": 4574300.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 8475.0,
+          "close": 8475.0,
+          "volume": 7644500.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 8339.0,
+          "close": 8339.0,
+          "volume": 6274100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7974.csv"
+    },
+    {
+      "bbs_rank": 48,
+      "stock_code": "5253",
+      "stock_name": "カバー(株)",
+      "market": "東証GRT",
+      "ranking_price": 1603.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1600.0,
+          "close": 1600.0,
+          "volume": 964500.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1662.0,
+          "close": 1662.0,
+          "volume": 791700.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1634.0,
+          "close": 1634.0,
+          "volume": 847600.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1607.0,
+          "close": 1607.0,
+          "volume": 936900.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1652.0,
+          "close": 1652.0,
+          "volume": 939600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1603.0,
+          "close": 1603.0,
+          "volume": 955800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5253.csv"
+    },
+    {
+      "bbs_rank": 49,
+      "stock_code": "623A",
+      "stock_name": "(株)ベルテックス",
+      "market": "東証STD",
+      "ranking_price": 562.0,
+      "recent_prices": [],
+      "price_data_issue": "stock_csv_missing",
+      "ohlcv_path": "stocks/623A.csv"
+    },
+    {
+      "bbs_rank": 50,
+      "stock_code": "4755",
+      "stock_name": "楽天グループ(株)",
+      "market": "東証PRM",
+      "ranking_price": 708.3,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 716.2999877929688,
+          "close": 716.2999877929688,
+          "volume": 12169700.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 733.7999877929688,
+          "close": 733.7999877929688,
+          "volume": 13448900.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 733.5999755859375,
+          "close": 733.5999755859375,
+          "volume": 10169400.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 714.7000122070312,
+          "close": 714.7000122070312,
+          "volume": 13189000.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 714.2999877929688,
+          "close": 714.2999877929688,
+          "volume": 11142600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 708.2999877929688,
+          "close": 708.2999877929688,
+          "volume": 17981800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4755.csv"
+    },
+    {
+      "bbs_rank": 51,
+      "stock_code": "7203",
+      "stock_name": "トヨタ自動車(株)",
+      "market": "東証PRM",
+      "ranking_price": 3025.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 3031.0,
+          "close": 3031.0,
+          "volume": 27282400.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 3025.0,
+          "close": 3025.0,
+          "volume": 22994300.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 3021.0,
+          "close": 3021.0,
+          "volume": 19958900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 3016.0,
+          "close": 3016.0,
+          "volume": 17508600.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 3034.0,
+          "close": 3034.0,
+          "volume": 20929600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 3025.0,
+          "close": 3025.0,
+          "volume": 46568200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7203.csv"
+    },
+    {
+      "bbs_rank": 52,
+      "stock_code": "621A",
+      "stock_name": "(株)オーディオストック",
+      "market": "東証GRT",
+      "ranking_price": 1360.0,
+      "recent_prices": [],
+      "price_data_issue": "stock_csv_missing",
+      "ohlcv_path": "stocks/621A.csv"
+    },
+    {
+      "bbs_rank": 53,
+      "stock_code": "9501",
+      "stock_name": "東京電力ホールディングス(株)",
+      "market": "東証PRM",
+      "ranking_price": 549.7,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 540.9000244140625,
+          "close": 540.9000244140625,
+          "volume": 35803900.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 538.0999755859375,
+          "close": 538.0999755859375,
+          "volume": 30892200.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 529.7999877929688,
+          "close": 529.7999877929688,
+          "volume": 27307600.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 544.0,
+          "close": 544.0,
+          "volume": 33670300.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 556.2000122070312,
+          "close": 556.2000122070312,
+          "volume": 34374800.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 549.7000122070312,
+          "close": 549.7000122070312,
+          "volume": 37951300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9501.csv"
+    },
+    {
+      "bbs_rank": 54,
+      "stock_code": "8267",
+      "stock_name": "イオン(株)",
+      "market": "東証PRM",
+      "ranking_price": 1313.5,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1332.5,
+          "close": 1332.5,
+          "volume": 14151400.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1366.0,
+          "close": 1366.0,
+          "volume": 8402400.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1351.0,
+          "close": 1351.0,
+          "volume": 6245800.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1328.5,
+          "close": 1328.5,
+          "volume": 10162200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1348.0,
+          "close": 1348.0,
+          "volume": 8377900.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1313.5,
+          "close": 1313.5,
+          "volume": 18536200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8267.csv"
+    },
+    {
+      "bbs_rank": 55,
+      "stock_code": "7013",
+      "stock_name": "(株)ＩＨＩ",
+      "market": "東証PRM",
+      "ranking_price": 2852.5,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 2665.0,
+          "close": 2665.0,
+          "volume": 12286100.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 2723.0,
+          "close": 2723.0,
+          "volume": 10161000.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 2772.5,
+          "close": 2772.5,
+          "volume": 17329100.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 2779.5,
+          "close": 2779.5,
+          "volume": 10025600.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 2842.5,
+          "close": 2842.5,
+          "volume": 13112400.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 2852.5,
+          "close": 2852.5,
+          "volume": 11010400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7013.csv"
+    },
+    {
+      "bbs_rank": 56,
+      "stock_code": "1357",
+      "stock_name": "(NEXT FUNDS) 日経ダブルインバース上場投信",
+      "market": "東証ETF",
+      "ranking_price": 2818.0,
+      "recent_prices": [],
+      "price_data_issue": "stock_csv_missing",
+      "ohlcv_path": "stocks/1357.csv"
+    },
+    {
+      "bbs_rank": 57,
+      "stock_code": "5706",
+      "stock_name": "三井金属(株)",
+      "market": "東証PRM",
+      "ranking_price": 22795.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 23240.0,
+          "close": 23240.0,
+          "volume": 1866500.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 22825.0,
+          "close": 22825.0,
+          "volume": 1357000.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 22805.0,
+          "close": 22805.0,
+          "volume": 1116200.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 22760.0,
+          "close": 22760.0,
+          "volume": 774400.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 21235.0,
+          "close": 21235.0,
+          "volume": 1859400.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 22795.0,
+          "close": 22795.0,
+          "volume": 2635600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5706.csv"
+    },
+    {
+      "bbs_rank": 58,
+      "stock_code": "3133",
+      "stock_name": "(株)海帆",
+      "market": "東証GRT",
+      "ranking_price": 51.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 62.0,
+          "close": 62.0,
+          "volume": 292800.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 60.0,
+          "close": 60.0,
+          "volume": 280600.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 60.0,
+          "close": 60.0,
+          "volume": 610100.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 57.0,
+          "close": 57.0,
+          "volume": 642300.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 52.0,
+          "close": 52.0,
+          "volume": 1645000.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 51.0,
+          "close": 51.0,
+          "volume": 877900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3133.csv"
+    },
+    {
+      "bbs_rank": 59,
+      "stock_code": "7012",
+      "stock_name": "川崎重工業(株)",
+      "market": "東証PRM",
+      "ranking_price": 2404.5,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 2319.0,
+          "close": 2319.0,
+          "volume": 11489600.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 2351.0,
+          "close": 2351.0,
+          "volume": 9038600.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 2372.0,
+          "close": 2372.0,
+          "volume": 17581900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 2388.5,
+          "close": 2388.5,
+          "volume": 11167200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 2421.0,
+          "close": 2421.0,
+          "volume": 11028700.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 2404.5,
+          "close": 2404.5,
+          "volume": 10860700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7012.csv"
+    },
+    {
+      "bbs_rank": 60,
+      "stock_code": "186A",
+      "stock_name": "(株)アストロスケールホールディングス",
+      "market": "東証GRT",
+      "ranking_price": 1153.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1010.0,
+          "close": 1010.0,
+          "volume": 2717100.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1020.0,
+          "close": 1020.0,
+          "volume": 5162300.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1007.0,
+          "close": 1007.0,
+          "volume": 3848000.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1045.0,
+          "close": 1045.0,
+          "volume": 3873800.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1069.0,
+          "close": 1069.0,
+          "volume": 3400100.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1153.0,
+          "close": 1153.0,
+          "volume": 4816300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/186A.csv"
+    },
+    {
+      "bbs_rank": 61,
+      "stock_code": "6525",
+      "stock_name": "(株)ＫＯＫＵＳＡＩ　ＥＬＥＣＴＲＩＣ",
+      "market": "東証PRM",
+      "ranking_price": 8884.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 8162.0,
+          "close": 8162.0,
+          "volume": 7710700.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 8000.0,
+          "close": 8000.0,
+          "volume": 7807800.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 8228.0,
+          "close": 8228.0,
+          "volume": 7817400.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 8512.0,
+          "close": 8512.0,
+          "volume": 9389400.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 8284.0,
+          "close": 8284.0,
+          "volume": 7065000.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 8884.0,
+          "close": 8884.0,
+          "volume": 10246600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6525.csv"
+    },
+    {
+      "bbs_rank": 62,
+      "stock_code": "7201",
+      "stock_name": "日産自動車(株)",
+      "market": "東証PRM",
+      "ranking_price": 312.3,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 311.70001220703125,
+          "close": 311.70001220703125,
+          "volume": 35789500.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 313.20001220703125,
+          "close": 313.20001220703125,
+          "volume": 19305100.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 312.6000061035156,
+          "close": 312.6000061035156,
+          "volume": 19010800.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 313.79998779296875,
+          "close": 313.79998779296875,
+          "volume": 22010700.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 312.70001220703125,
+          "close": 312.70001220703125,
+          "volume": 26831200.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 312.29998779296875,
+          "close": 312.29998779296875,
+          "volume": 34335400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7201.csv"
+    },
+    {
+      "bbs_rank": 63,
+      "stock_code": "4592",
+      "stock_name": "サンバイオ(株)",
+      "market": "東証GRT",
+      "ranking_price": 948.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 922.0,
+          "close": 922.0,
+          "volume": 554900.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 948.0,
+          "close": 948.0,
+          "volume": 667800.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 906.0,
+          "close": 906.0,
+          "volume": 1374900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 877.0,
+          "close": 877.0,
+          "volume": 1543800.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 916.0,
+          "close": 916.0,
+          "volume": 654100.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 948.0,
+          "close": 948.0,
+          "volume": 1008800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4592.csv"
+    },
+    {
+      "bbs_rank": 64,
+      "stock_code": "4593",
+      "stock_name": "(株)ヘリオス",
+      "market": "東証GRT",
+      "ranking_price": 304.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 284.0,
+          "close": 284.0,
+          "volume": 1150100.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 287.0,
+          "close": 287.0,
+          "volume": 1514100.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 289.0,
+          "close": 289.0,
+          "volume": 1206500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 288.0,
+          "close": 288.0,
+          "volume": 1197300.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 297.0,
+          "close": 297.0,
+          "volume": 3258900.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 304.0,
+          "close": 304.0,
+          "volume": 2033800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4593.csv"
+    },
+    {
+      "bbs_rank": 65,
+      "stock_code": "625A",
+      "stock_name": "(株)Ｓｋｙｆａｌｌ",
+      "market": "東証GRT",
+      "ranking_price": 1555.0,
+      "recent_prices": [],
+      "price_data_issue": "stock_csv_missing",
+      "ohlcv_path": "stocks/625A.csv"
+    },
+    {
+      "bbs_rank": 66,
+      "stock_code": "219A",
+      "stock_name": "Ｈｅａｒｔｓｅｅｄ(株)",
+      "market": "東証GRT",
+      "ranking_price": 2662.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 2271.0,
+          "close": 2271.0,
+          "volume": 284200.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 2442.0,
+          "close": 2442.0,
+          "volume": 549300.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 2435.0,
+          "close": 2435.0,
+          "volume": 512400.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 2420.0,
+          "close": 2420.0,
+          "volume": 335000.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 2460.0,
+          "close": 2460.0,
+          "volume": 482900.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 2662.0,
+          "close": 2662.0,
+          "volume": 814100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/219A.csv"
+    },
+    {
+      "bbs_rank": 67,
+      "stock_code": "215A",
+      "stock_name": "(株)タイミー",
+      "market": "東証GRT",
+      "ranking_price": 1322.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1300.0,
+          "close": 1300.0,
+          "volume": 11337000.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1380.0,
+          "close": 1380.0,
+          "volume": 4860100.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1316.0,
+          "close": 1316.0,
+          "volume": 3419900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1287.0,
+          "close": 1287.0,
+          "volume": 2715100.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1319.0,
+          "close": 1319.0,
+          "volume": 2056900.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1322.0,
+          "close": 1322.0,
+          "volume": 1827600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/215A.csv"
+    },
+    {
+      "bbs_rank": 68,
+      "stock_code": "4889",
+      "stock_name": "(株)レナサイエンス",
+      "market": "東証GRT",
+      "ranking_price": 1193.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1150.0,
+          "close": 1150.0,
+          "volume": 230400.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1156.0,
+          "close": 1156.0,
+          "volume": 279400.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1148.0,
+          "close": 1148.0,
+          "volume": 84200.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1138.0,
+          "close": 1138.0,
+          "volume": 155100.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1152.0,
+          "close": 1152.0,
+          "volume": 205800.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1193.0,
+          "close": 1193.0,
+          "volume": 170700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4889.csv"
+    },
+    {
+      "bbs_rank": 69,
+      "stock_code": "5802",
+      "stock_name": "住友電気工業(株)",
+      "market": "東証PRM",
+      "ranking_price": 2080.5,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 2077.5,
+          "close": 2077.5,
+          "volume": 14578800.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 2007.5,
+          "close": 2007.5,
+          "volume": 20175800.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1995.0,
+          "close": 1995.0,
+          "volume": 18106900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 2046.5,
+          "close": 2046.5,
+          "volume": 14096200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 2052.5,
+          "close": 2052.5,
+          "volume": 18463300.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 2080.5,
+          "close": 2080.5,
+          "volume": 19348200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5802.csv"
+    },
+    {
+      "bbs_rank": 70,
+      "stock_code": "4894",
+      "stock_name": "クオリプス(株)",
+      "market": "東証GRT",
+      "ranking_price": 5820.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 5260.0,
+          "close": 5260.0,
+          "volume": 47700.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 5820.0,
+          "close": 5820.0,
+          "volume": 183600.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 5740.0,
+          "close": 5740.0,
+          "volume": 79100.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 5630.0,
+          "close": 5630.0,
+          "volume": 108100.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 5780.0,
+          "close": 5780.0,
+          "volume": 69900.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 5820.0,
+          "close": 5820.0,
+          "volume": 91700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4894.csv"
+    },
+    {
+      "bbs_rank": 71,
+      "stock_code": "4440",
+      "stock_name": "(株)ヴィッツ",
+      "market": "東証STD",
+      "ranking_price": 2459.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 2624.0,
+          "close": 2624.0,
+          "volume": 5767900.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 2135.0,
+          "close": 2135.0,
+          "volume": 1453700.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 2185.0,
+          "close": 2185.0,
+          "volume": 4714000.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 2114.0,
+          "close": 2114.0,
+          "volume": 765200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 2110.0,
+          "close": 2110.0,
+          "volume": 752700.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 2459.0,
+          "close": 2459.0,
+          "volume": 2462300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4440.csv"
+    },
+    {
+      "bbs_rank": 72,
+      "stock_code": "3659",
+      "stock_name": "(株)ネクソン",
+      "market": "東証PRM",
+      "ranking_price": 3200.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 3070.0,
+          "close": 3070.0,
+          "volume": 2745300.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 3137.0,
+          "close": 3137.0,
+          "volume": 3274000.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 3177.0,
+          "close": 3177.0,
+          "volume": 3163300.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 3124.0,
+          "close": 3124.0,
+          "volume": 2515800.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 3128.0,
+          "close": 3128.0,
+          "volume": 2182400.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 3200.0,
+          "close": 3200.0,
+          "volume": 10834900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3659.csv"
+    },
+    {
+      "bbs_rank": 73,
+      "stock_code": "4565",
+      "stock_name": "ネクセラファーマ(株)",
+      "market": "東証PRM",
+      "ranking_price": 1299.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1204.0,
+          "close": 1204.0,
+          "volume": 1530300.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1222.0,
+          "close": 1222.0,
+          "volume": 929900.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1233.0,
+          "close": 1233.0,
+          "volume": 766000.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1195.0,
+          "close": 1195.0,
+          "volume": 806700.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1266.0,
+          "close": 1266.0,
+          "volume": 1095200.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1299.0,
+          "close": 1299.0,
+          "volume": 1799200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4565.csv"
+    },
+    {
+      "bbs_rank": 74,
+      "stock_code": "7532",
+      "stock_name": "(株)パン・パシフィック・インターナショナルホールディングス",
+      "market": "東証PRM",
+      "ranking_price": 713.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 726.0999755859375,
+          "close": 726.0999755859375,
+          "volume": 22135200.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 734.5999755859375,
+          "close": 734.5999755859375,
+          "volume": 16889200.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 727.2999877929688,
+          "close": 727.2999877929688,
+          "volume": 13061700.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 719.5999755859375,
+          "close": 719.5999755859375,
+          "volume": 12644700.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 726.7000122070312,
+          "close": 726.7000122070312,
+          "volume": 18596200.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 713.0,
+          "close": 713.0,
+          "volume": 20670400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7532.csv"
+    },
+    {
+      "bbs_rank": 75,
+      "stock_code": "3907",
+      "stock_name": "シリコンスタジオ(株)",
+      "market": "東証STD",
+      "ranking_price": 2070.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 2116.0,
+          "close": 2116.0,
+          "volume": 203100.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1955.0,
+          "close": 1955.0,
+          "volume": 304500.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1956.0,
+          "close": 1956.0,
+          "volume": 168100.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 2013.0,
+          "close": 2013.0,
+          "volume": 196800.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 2161.0,
+          "close": 2161.0,
+          "volume": 496900.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 2070.0,
+          "close": 2070.0,
+          "volume": 439900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3907.csv"
+    },
+    {
+      "bbs_rank": 76,
+      "stock_code": "3664",
+      "stock_name": "(株)ＷＩＺＥ",
+      "market": "東証GRT",
+      "ranking_price": 23.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 26.0,
+          "close": 26.0,
+          "volume": 45495800.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 25.0,
+          "close": 25.0,
+          "volume": 33260400.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 25.0,
+          "close": 25.0,
+          "volume": 39698900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 22.0,
+          "close": 22.0,
+          "volume": 34877300.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 23.0,
+          "close": 23.0,
+          "volume": 6596600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 23.0,
+          "close": 23.0,
+          "volume": 41835600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3664.csv"
+    },
+    {
+      "bbs_rank": 77,
+      "stock_code": "6232",
+      "stock_name": "(株)ＡＣＳＬ",
+      "market": "東証GRT",
+      "ranking_price": 1398.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1303.0,
+          "close": 1303.0,
+          "volume": 1644000.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1262.0,
+          "close": 1262.0,
+          "volume": 775100.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1229.0,
+          "close": 1229.0,
+          "volume": 743200.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1224.0,
+          "close": 1224.0,
+          "volume": 547200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1359.0,
+          "close": 1359.0,
+          "volume": 2457400.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1398.0,
+          "close": 1398.0,
+          "volume": 1945800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6232.csv"
+    },
+    {
+      "bbs_rank": 78,
+      "stock_code": "7776",
+      "stock_name": "(株)セルシード",
+      "market": "東証GRT",
+      "ranking_price": 229.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 222.0,
+          "close": 222.0,
+          "volume": 114200.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 223.0,
+          "close": 223.0,
+          "volume": 105000.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 226.0,
+          "close": 226.0,
+          "volume": 97300.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 220.0,
+          "close": 220.0,
+          "volume": 88200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 223.0,
+          "close": 223.0,
+          "volume": 138200.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 229.0,
+          "close": 229.0,
+          "volume": 189900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7776.csv"
+    },
+    {
+      "bbs_rank": 79,
+      "stock_code": "3997",
+      "stock_name": "(株)トレードワークス",
+      "market": "東証STD",
+      "ranking_price": 438.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 388.0,
+          "close": 388.0,
+          "volume": 49800.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 403.0,
+          "close": 403.0,
+          "volume": 208100.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 407.0,
+          "close": 407.0,
+          "volume": 68300.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 415.0,
+          "close": 415.0,
+          "volume": 139900.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 438.0,
+          "close": 438.0,
+          "volume": 396700.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 438.0,
+          "close": 438.0,
+          "volume": 1338900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3997.csv"
+    },
+    {
+      "bbs_rank": 80,
+      "stock_code": "1783",
+      "stock_name": "(株)ｆａｎｔａｓｉｓｔａ",
+      "market": "東証STD",
+      "ranking_price": 71.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 78.0,
+          "close": 78.0,
+          "volume": 9675900.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 77.0,
+          "close": 77.0,
+          "volume": 12836300.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 68.0,
+          "close": 68.0,
+          "volume": 4459500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 68.0,
+          "close": 68.0,
+          "volume": 4477100.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 68.0,
+          "close": 68.0,
+          "volume": 1654600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 71.0,
+          "close": 71.0,
+          "volume": 3823300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/1783.csv"
+    },
+    {
+      "bbs_rank": 81,
+      "stock_code": "4575",
+      "stock_name": "(株)キャンバス",
+      "market": "東証GRT",
+      "ranking_price": 757.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 734.0,
+          "close": 734.0,
+          "volume": 176700.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 739.0,
+          "close": 739.0,
+          "volume": 138800.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 735.0,
+          "close": 735.0,
+          "volume": 81400.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 719.0,
+          "close": 719.0,
+          "volume": 93300.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 739.0,
+          "close": 739.0,
+          "volume": 108600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 757.0,
+          "close": 757.0,
+          "volume": 123100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4575.csv"
+    },
+    {
+      "bbs_rank": 82,
+      "stock_code": "4392",
+      "stock_name": "ＦＩＧ(株)",
+      "market": "東証PRM",
+      "ranking_price": 982.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 980.0,
+          "close": 980.0,
+          "volume": 1230900.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 950.0,
+          "close": 950.0,
+          "volume": 1217500.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 981.0,
+          "close": 981.0,
+          "volume": 1169700.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 945.0,
+          "close": 945.0,
+          "volume": 786400.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 964.0,
+          "close": 964.0,
+          "volume": 949300.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 982.0,
+          "close": 982.0,
+          "volume": 747100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4392.csv"
+    },
+    {
+      "bbs_rank": 83,
+      "stock_code": "3825",
+      "stock_name": "(株)リミックスポイント",
+      "market": "東証STD",
+      "ranking_price": 231.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 218.0,
+          "close": 218.0,
+          "volume": 1265700.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 225.0,
+          "close": 225.0,
+          "volume": 897100.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 225.0,
+          "close": 225.0,
+          "volume": 1178100.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 222.0,
+          "close": 222.0,
+          "volume": 805200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 226.0,
+          "close": 226.0,
+          "volume": 547100.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 231.0,
+          "close": 231.0,
+          "volume": 1050600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3825.csv"
+    },
+    {
+      "bbs_rank": 84,
+      "stock_code": "464A",
+      "stock_name": "(株)ＱＰＳホールディングス",
+      "market": "東証GRT",
+      "ranking_price": 1775.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1625.0,
+          "close": 1625.0,
+          "volume": 1208700.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1649.0,
+          "close": 1649.0,
+          "volume": 1094000.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1670.0,
+          "close": 1670.0,
+          "volume": 860500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1676.0,
+          "close": 1676.0,
+          "volume": 892400.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1691.0,
+          "close": 1691.0,
+          "volume": 970600.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1775.0,
+          "close": 1775.0,
+          "volume": 1551500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/464A.csv"
+    },
+    {
+      "bbs_rank": 85,
+      "stock_code": "8035",
+      "stock_name": "東京エレクトロン(株)",
+      "market": "東証PRM",
+      "ranking_price": 53110.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 51460.0,
+          "close": 51460.0,
+          "volume": 3852700.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 50930.0,
+          "close": 50930.0,
+          "volume": 2717900.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 50650.0,
+          "close": 50650.0,
+          "volume": 3588300.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 51690.0,
+          "close": 51690.0,
+          "volume": 2036500.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 50970.0,
+          "close": 50970.0,
+          "volume": 2795000.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 53110.0,
+          "close": 53110.0,
+          "volume": 4010900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8035.csv"
+    },
+    {
+      "bbs_rank": 86,
+      "stock_code": "5542",
+      "stock_name": "新報国マテリアル(株)",
+      "market": "東証STD",
+      "ranking_price": 1236.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 896.0,
+          "close": 896.0,
+          "volume": 12100.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 890.0,
+          "close": 890.0,
+          "volume": 4800.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 889.0,
+          "close": 889.0,
+          "volume": 5800.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 999.0,
+          "close": 999.0,
+          "volume": 48600.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1149.0,
+          "close": 1149.0,
+          "volume": 589000.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1236.0,
+          "close": 1236.0,
+          "volume": 500300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5542.csv"
+    },
+    {
+      "bbs_rank": 87,
+      "stock_code": "8303",
+      "stock_name": "(株)ＳＢＩ新生銀行",
+      "market": "東証PRM",
+      "ranking_price": 1637.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1568.5,
+          "close": 1568.5,
+          "volume": 2721600.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1630.0,
+          "close": 1630.0,
+          "volume": 5379700.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1609.0,
+          "close": 1609.0,
+          "volume": 2716300.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1592.5,
+          "close": 1592.5,
+          "volume": 2546200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1620.0,
+          "close": 1620.0,
+          "volume": 3251300.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1637.0,
+          "close": 1637.0,
+          "volume": 4780200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8303.csv"
+    },
+    {
+      "bbs_rank": 88,
+      "stock_code": "2354",
+      "stock_name": "(株)ＹＥ　ＤＩＧＩＴＡＬ",
+      "market": "東証STD",
+      "ranking_price": 1352.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1329.0,
+          "close": 1329.0,
+          "volume": 395300.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1294.0,
+          "close": 1294.0,
+          "volume": 472000.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1303.0,
+          "close": 1303.0,
+          "volume": 207900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1282.0,
+          "close": 1282.0,
+          "volume": 223200.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1329.0,
+          "close": 1329.0,
+          "volume": 469800.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1352.0,
+          "close": 1352.0,
+          "volume": 457300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/2354.csv"
+    },
+    {
+      "bbs_rank": 89,
+      "stock_code": "7936",
+      "stock_name": "(株)アシックス",
+      "market": "東証PRM",
+      "ranking_price": 4066.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 3989.0,
+          "close": 3989.0,
+          "volume": 5030200.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 4071.0,
+          "close": 4071.0,
+          "volume": 4667600.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 4115.0,
+          "close": 4115.0,
+          "volume": 4597900.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 4013.0,
+          "close": 4013.0,
+          "volume": 4311800.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 4097.0,
+          "close": 4097.0,
+          "volume": 4821500.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 4066.0,
+          "close": 4066.0,
+          "volume": 5769900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7936.csv"
+    },
+    {
+      "bbs_rank": 90,
+      "stock_code": "604A",
+      "stock_name": "(株)ビーエイブル",
+      "market": "東証STD",
+      "ranking_price": 1410.0,
+      "recent_prices": [],
+      "price_data_issue": "stock_csv_missing",
+      "ohlcv_path": "stocks/604A.csv"
+    },
+    {
+      "bbs_rank": 91,
+      "stock_code": "290A",
+      "stock_name": "(株)Ｓｙｎｓｐｅｃｔｉｖｅ",
+      "market": "東証GRT",
+      "ranking_price": 1563.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 1419.0,
+          "close": 1419.0,
+          "volume": 766100.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 1435.0,
+          "close": 1435.0,
+          "volume": 513700.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 1414.0,
+          "close": 1414.0,
+          "volume": 597400.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 1429.0,
+          "close": 1429.0,
+          "volume": 1338600.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 1429.0,
+          "close": 1429.0,
+          "volume": 863900.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 1563.0,
+          "close": 1563.0,
+          "volume": 2017700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/290A.csv"
+    },
+    {
+      "bbs_rank": 92,
+      "stock_code": "4583",
+      "stock_name": "(株)カイオム・バイオサイエンス",
+      "market": "東証GRT",
+      "ranking_price": 103.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 86.0,
+          "close": 86.0,
+          "volume": 2580500.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 87.0,
+          "close": 87.0,
+          "volume": 1469600.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 88.0,
+          "close": 88.0,
+          "volume": 1016500.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 88.0,
+          "close": 88.0,
+          "volume": 1116000.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 94.0,
+          "close": 94.0,
+          "volume": 1787400.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 103.0,
+          "close": 103.0,
+          "volume": 2524100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4583.csv"
+    },
+    {
+      "bbs_rank": 93,
+      "stock_code": "2586",
+      "stock_name": "(株)フルッタフルッタ",
+      "market": "東証GRT",
+      "ranking_price": 64.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 70.0,
+          "close": 70.0,
+          "volume": 746400.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 69.0,
+          "close": 69.0,
+          "volume": 652500.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 69.0,
+          "close": 69.0,
+          "volume": 420100.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 68.0,
+          "close": 68.0,
+          "volume": 362600.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 66.0,
+          "close": 66.0,
+          "volume": 1512300.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 64.0,
+          "close": 64.0,
+          "volume": 960400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/2586.csv"
+    },
+    {
+      "bbs_rank": 94,
+      "stock_code": "1540",
+      "stock_name": "純金上場信託(現物国内保管型)",
+      "market": "東証ETF",
+      "ranking_price": 20720.0,
+      "recent_prices": [],
+      "price_data_issue": "stock_csv_missing",
+      "ohlcv_path": "stocks/1540.csv"
+    },
+    {
+      "bbs_rank": 95,
+      "stock_code": "8798",
+      "stock_name": "(株)アドバンスクリエイト",
+      "market": "東証PRM",
+      "ranking_price": 174.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 133.0,
+          "close": 133.0,
+          "volume": 40900.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 136.0,
+          "close": 136.0,
+          "volume": 37500.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 137.0,
+          "close": 137.0,
+          "volume": 11400.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 137.0,
+          "close": 137.0,
+          "volume": 13500.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 136.0,
+          "close": 136.0,
+          "volume": 34500.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 174.0,
+          "close": 174.0,
+          "volume": 2096500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8798.csv"
+    },
+    {
+      "bbs_rank": 96,
+      "stock_code": "4259",
+      "stock_name": "(株)エクサウィザーズ",
+      "market": "東証GRT",
+      "ranking_price": 955.0,
+      "recent_prices": [
+        {
+          "date": "2026-09-11",
+          "adj_close": 814.0,
+          "close": 814.0,
+          "volume": 848500.0
+        },
+        {
+          "date": "2026-09-14",
+          "adj_close": 842.0,
+          "close": 842.0,
+          "volume": 769800.0
+        },
+        {
+          "date": "2026-09-15",
+          "adj_close": 883.0,
+          "close": 883.0,
+          "volume": 1354800.0
+        },
+        {
+          "date": "2026-09-16",
+          "adj_close": 874.0,
+          "close": 874.0,
+          "volume": 632700.0
+        },
+        {
+          "date": "2026-09-17",
+          "adj_close": 912.0,
+          "close": 912.0,
+          "volume": 1248100.0
+        },
+        {
+          "date": "2026-09-18",
+          "adj_close": 955.0,
+          "close": 955.0,
+          "volume": 1961500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4259.csv"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "latest": "../weekly_consensus_latest.csv",
+  "status": "../weekly_consensus_status.json",
+  "snapshot_date": "2026-09-15",
+  "snapshots": [
+    "2026-09-15.csv"
+  ]
+}

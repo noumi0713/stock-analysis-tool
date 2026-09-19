@@ -1,0 +1,14 @@
+{
+  "state": "failed",
+  "run_id": "20260915T015200-c4e41636",
+  "started_at": "2026-09-15T01:52:00.772288+09:00",
+  "processed": 3700,
+  "total": 3700,
+  "expected_date": "2026-09-14",
+  "phase": "市場・テーマ集計",
+  "ready": 0,
+  "heartbeat_at": "2026-09-15T02:12:59.446948+09:00",
+  "completed_at": "2026-09-15T02:13:12.111460+09:00",
+  "quality": "FAIL",
+  "error": null
+}

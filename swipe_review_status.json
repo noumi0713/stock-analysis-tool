@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "ranking_date": "2026-09-19",
+  "price_date": "2026-09-18",
+  "population": "Yahoo掲示板投稿ランキング当日1〜100位",
+  "population_limit": 100,
+  "display_sort": "画面で直近6営業日の調整後終値から5営業日騰落率を計算し降順",
+  "technical_indicators_persisted": false,
+  "count": 96,
+  "priced_count": 84,
+  "decision_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swipe-decisions/swipe_review/data/2026-09-19.json",
+  "recommendation_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swipe-decisions/swipe_review/recommendations/2026-09-19.json",
+  "note": "母集団は当日掲示板ランキング1〜100位のみ。5営業日騰落率・RSI等は画面/分析時に生データから計算します。"
+}

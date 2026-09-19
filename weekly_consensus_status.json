@@ -1,0 +1,35 @@
+{
+  "status": "success",
+  "snapshot_date": "2026-09-15",
+  "providers": [
+    "Yahoo Finance",
+    "IFIS",
+    "QUICK"
+  ],
+  "composite_rule": {
+    "weak": "mean of available provider low target prices",
+    "normal": "mean of available provider mean target prices",
+    "strong": "mean of available provider high target prices",
+    "minimum_sources": 2,
+    "quick_missing_policy": "continue with Yahoo+IFIS when both are valid",
+    "one_source_policy": "insufficient_sources; no composite price"
+  },
+  "universe_count": 3700,
+  "yahoo_success_count": 3700,
+  "ifis_covered_count": 0,
+  "quick_covered_count": 0,
+  "three_source_count": 0,
+  "two_source_count": 0,
+  "insufficient_source_count": 3700,
+  "composite_quality_counts": {
+    "insufficient_sources": 3700
+  },
+  "previous_snapshot_date": null,
+  "retrieved_at": "2026-09-15T12:59:08.720594+09:00",
+  "notes": [
+    "IFIS/QUICK are licensed sources; missing credentials or coverage remain missing.",
+    "QUICK target range is aggregated from current broker target-price rows, not invented from earnings consensus.",
+    "Analyst target prices are not 5-10 business-day profit targets.",
+    "Missing values are never replaced by zero or neutral."
+  ]
+}
