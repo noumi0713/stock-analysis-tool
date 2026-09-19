@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "snapshot_date": "2026-09-15",
+  "snapshot_date": "2026-09-19",
   "providers": [
     "Yahoo Finance",
     "IFIS",
@@ -24,8 +24,8 @@
   "composite_quality_counts": {
     "insufficient_sources": 3700
   },
-  "previous_snapshot_date": null,
-  "retrieved_at": "2026-09-15T12:59:08.720594+09:00",
+  "previous_snapshot_date": "2026-09-15",
+  "retrieved_at": "2026-09-19T14:27:21.573518+09:00",
   "notes": [
     "IFIS/QUICK are licensed sources; missing credentials or coverage remain missing.",
     "QUICK target range is aggregated from current broker target-price rows, not invented from earnings consensus.",
