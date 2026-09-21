@@ -87,7 +87,7 @@ def publish(source: Path, target: Path) -> None:
             f"6. [テーマ所属と関連度]({PUBLIC}/theme_members.csv)、[テーマ推移]({PUBLIC}/themes_120d.csv)、[市場データ]({PUBLIC}/markets_120d.csv)を参照する。\n"
             f"7. [信用需給・空売り・決算・業績修正・時価総額/浮動株・コンセンサスEPS]({PUBLIC}/supplemental.json)と[追加データの取得状況・定義]({PUBLIC}/supplemental_status.json)を読む。各銘柄は supplemental/銘柄コード.json。\n"
             f"8. [計算プログラム]({PUBLIC}/indicators.py)でRSI14・ATR14・MA5/10/20/25/60/75・TOPIX相対強度5/20/60日・売買代金比を120日の生データから毎回計算する。指標値は保存されない。\n"
-            f"9. [スワイプ選別母集団]({PUBLIC}/swipe_review_universe.json)と[スワイプ選別状態]({PUBLIC}/swipe_review_status.json)を確認する。母集団は当日掲示板ランキング100位まで。画面表示順は直近6営業日の調整後終値から5営業日騰落率をその場で計算して降順にする。\n"
+            f"9. [スワイプ選別母集団]({PUBLIC}/swipe_review_universe.json)と[スワイプ選別状態]({PUBLIC}/swipe_review_status.json)を確認する。母集団は全東証銘柄の最新取引日出来高ランキング上位100銘柄。画面表示順は直近6営業日の調整後終値から5営業日騰落率をその場で計算して降順にする。\n"
             "10. ユーザーの左右フリック結果はswipe-decisionsブランチの日付別JSONを読む。興味あり/なしはユーザー選好であり、売買シグナルや期待値の証明として扱わない。チャッピー推奨はrecommendationsの日付別JSONで管理し、画面に「おすすめ」と表示する。\n"
             "11. 掲示板順位の高さだけで選ばず、順位上昇、出来高・売買代金、株価位置、材料、過熱度、地合いを総合評価する。急騰しすぎた銘柄を除外し、5〜10営業日の候補を選ぶ。\n\n"
             "ファイルをユーザーに毎日添付してもらう必要はありません。このURLから取得してください。\n"

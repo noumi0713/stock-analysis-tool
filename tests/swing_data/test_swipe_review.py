@@ -5,25 +5,26 @@ from pathlib import Path
 
 import pandas as pd
 
-from swing_data.swipe_review import build_swipe_review
+from swing_data.swipe_review import POPULATION_TYPE, build_swipe_review
 
 
-def _write_stock(path: Path, code: str, start: float = 100.0) -> None:
+def _write_stock(path: Path, code: str, latest_volume: float, *, latest_date: str = "2026-09-18") -> None:
+    days = ["2026-09-11", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", latest_date]
     rows = []
-    for i in range(6):
+    for i, date in enumerate(days):
         rows.append(
             {
-                "date": f"2026-09-{10+i:02d}",
+                "date": date,
                 "ticker": f"{code}.T",
-                "open": start + i,
-                "high": start + i + 2,
-                "low": start + i - 1,
-                "close": start + i + 1,
-                "volume": 1000 + i,
-                "adj_close": start + i + 1,
-                "adj_open": start + i,
-                "adj_high": start + i + 2,
-                "adj_low": start + i - 1,
+                "open": 100 + i,
+                "high": 102 + i,
+                "low": 99 + i,
+                "close": 101 + i,
+                "volume": latest_volume if i == 5 else 1000 + i,
+                "adj_close": 101 + i,
+                "adj_open": 100 + i,
+                "adj_high": 102 + i,
+                "adj_low": 99 + i,
                 "dividends": 0,
                 "stock_splits": 0,
             }
@@ -31,94 +32,61 @@ def _write_stock(path: Path, code: str, start: float = 100.0) -> None:
     pd.DataFrame(rows).to_csv(path / f"{code}.csv", index=False)
 
 
-def test_build_swipe_review_success(tmp_path: Path):
-    (tmp_path / "stocks").mkdir()
-    (tmp_path / "bbs_ranking_status.json").write_text(
-        json.dumps({"status": "success", "ranking_date": "2026-09-18"}),
-        encoding="utf-8",
-    )
+def _write_universe(path: Path, rows: list[tuple[str, str]]) -> None:
     pd.DataFrame(
-        [
-            {
-                "date": "2026-09-18",
-                "rank": 1,
-                "stock_code": "1111",
-                "stock_name": "A",
-                "market": "東証PRM",
-                "price": 105,
-            },
-            {
-                "date": "2026-09-18",
-                "rank": 2,
-                "stock_code": "2222",
-                "stock_name": "B",
-                "market": "東証GRT",
-                "price": 205,
-            },
-        ]
-    ).to_csv(tmp_path / "bbs_ranking_latest.csv", index=False)
-    _write_stock(tmp_path / "stocks", "1111")
-    _write_stock(tmp_path / "stocks", "2222", 200)
+        [{"stock_code": code, "ticker": f"{code}.T", "company_name": name, "sector17": "テスト"} for code, name in rows]
+    ).to_csv(path / "universe.csv", index=False)
+
+
+def test_build_swipe_review_ranks_latest_volume_descending(tmp_path: Path):
+    (tmp_path / "stocks").mkdir()
+    _write_universe(tmp_path, [("1111", "A"), ("2222", "B"), ("3333", "C")])
+    _write_stock(tmp_path / "stocks", "1111", 3_000)
+    _write_stock(tmp_path / "stocks", "2222", 9_000)
+    _write_stock(tmp_path / "stocks", "3333", 6_000)
 
     status = build_swipe_review(tmp_path, price_date="2026-09-18")
     assert status["status"] == "success"
-    assert status["count"] == 2
-    assert status["priced_count"] == 2
+    assert status["population_type"] == POPULATION_TYPE
+    assert status["count"] == 3
 
     payload = json.loads((tmp_path / "swipe_review_universe.json").read_text(encoding="utf-8"))
-    assert [x["stock_code"] for x in payload["items"]] == ["1111", "2222"]
-    assert len(payload["items"][0]["recent_prices"]) == 6
+    assert [x["stock_code"] for x in payload["items"]] == ["2222", "3333", "1111"]
+    assert [x["volume_rank"] for x in payload["items"]] == [1, 2, 3]
+    assert payload["items"][0]["ranking_volume"] == 9_000
     assert "five_day_return_pct" not in payload["items"][0]
     assert status["technical_indicators_persisted"] is False
 
 
-def test_build_swipe_review_rejects_stale_latest(tmp_path: Path):
+def test_build_swipe_review_limits_population_to_100(tmp_path: Path):
     (tmp_path / "stocks").mkdir()
-    (tmp_path / "bbs_ranking_status.json").write_text(
-        json.dumps({"status": "success", "ranking_date": "2026-09-18"}),
-        encoding="utf-8",
-    )
-    pd.DataFrame(
-        [
-            {
-                "date": "2026-09-17",
-                "rank": 1,
-                "stock_code": "1111",
-                "stock_name": "A",
-                "market": "東証PRM",
-                "price": 105,
-            }
-        ]
-    ).to_csv(tmp_path / "bbs_ranking_latest.csv", index=False)
+    members = [(f"{code:04d}", f"Company {code}") for code in range(1000, 1101)]
+    _write_universe(tmp_path, members)
+    for index, (code, _) in enumerate(members):
+        _write_stock(tmp_path / "stocks", code, 10_000 + index)
 
     status = build_swipe_review(tmp_path, price_date="2026-09-18")
+    payload = json.loads((tmp_path / "swipe_review_universe.json").read_text(encoding="utf-8"))
+    assert status["count"] == 100
+    assert len(payload["items"]) == 100
+    assert payload["items"][0]["stock_code"] == "1100"
+    assert payload["items"][-1]["stock_code"] == "1001"
+
+
+def test_build_swipe_review_excludes_stale_or_missing_latest_data(tmp_path: Path):
+    (tmp_path / "stocks").mkdir()
+    _write_universe(tmp_path, [("1111", "Current"), ("2222", "Stale"), ("3333", "Missing")])
+    _write_stock(tmp_path / "stocks", "1111", 5_000)
+    _write_stock(tmp_path / "stocks", "2222", 99_000, latest_date="2026-09-17")
+
+    status = build_swipe_review(tmp_path, price_date="2026-09-18")
+    payload = json.loads((tmp_path / "swipe_review_universe.json").read_text(encoding="utf-8"))
+    assert status["status"] == "success"
+    assert [x["stock_code"] for x in payload["items"]] == ["1111"]
+
+
+def test_build_swipe_review_requires_price_date(tmp_path: Path):
+    status = build_swipe_review(tmp_path)
     assert status["status"] == "not_ready"
     payload = json.loads((tmp_path / "swipe_review_universe.json").read_text(encoding="utf-8"))
     assert payload["items"] == []
-
-
-def test_build_swipe_review_keeps_missing_price_member(tmp_path: Path):
-    (tmp_path / "stocks").mkdir()
-    (tmp_path / "bbs_ranking_status.json").write_text(
-        json.dumps({"status": "success", "ranking_date": "2026-09-18"}),
-        encoding="utf-8",
-    )
-    pd.DataFrame(
-        [
-            {
-                "date": "2026-09-18",
-                "rank": 1,
-                "stock_code": "3333",
-                "stock_name": "Missing",
-                "market": "東証STD",
-                "price": 300,
-            }
-        ]
-    ).to_csv(tmp_path / "bbs_ranking_latest.csv", index=False)
-
-    status = build_swipe_review(tmp_path, price_date="2026-09-18")
-    assert status["count"] == 1
-    assert status["priced_count"] == 0
-    payload = json.loads((tmp_path / "swipe_review_universe.json").read_text(encoding="utf-8"))
-    assert payload["items"][0]["stock_code"] == "3333"
-    assert payload["items"][0]["price_data_issue"] == "stock_csv_missing"

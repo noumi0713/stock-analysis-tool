@@ -1,7 +1,8 @@
 """Build the swipe-review input from the published 120-session snapshot.
 
-This module persists only raw/recent price observations needed by the UI.
-It deliberately does not persist technical indicators or derived returns.
+The swipe population is the 100 TSE stocks with the highest raw trading
+volume on the latest completed equity session. Derived returns and technical
+indicators remain UI-time calculations.
 """
 from __future__ import annotations
 
@@ -17,24 +18,26 @@ DECISION_PUBLIC = (
     "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/"
     "swipe-decisions/swipe_review"
 )
+POPULATION_TYPE = "latest_daily_volume_top_100"
 
 
 def _status_payload(
     *,
     status: str,
-    ranking_date: str | None,
     price_date: str | None,
     count: int,
     priced_count: int,
     note: str,
 ) -> dict[str, Any]:
-    date_part = ranking_date or "YYYY-MM-DD"
+    date_part = price_date or "YYYY-MM-DD"
     return {
         "status": status,
-        "ranking_date": ranking_date,
+        "ranking_date": price_date,
         "price_date": price_date,
-        "population": "Yahoo掲示板投稿ランキング当日1〜100位",
+        "population_type": POPULATION_TYPE,
+        "population": "全東証・最新取引日の出来高ランキング上位100銘柄",
         "population_limit": 100,
+        "ranking_metric": "最新取引日の未調整出来高（株）",
         "display_sort": "画面で直近6営業日の調整後終値から5営業日騰落率を計算し降順",
         "technical_indicators_persisted": False,
         "count": count,
@@ -96,108 +99,114 @@ def _recent_prices(stock_file: Path) -> tuple[list[dict[str, Any]], str | None]:
     return rows, None
 
 
+def _write_not_ready(target: Path, *, price_date: str | None, note: str) -> dict[str, Any]:
+    status = _status_payload(
+        status="not_ready",
+        price_date=price_date,
+        count=0,
+        priced_count=0,
+        note=note,
+    )
+    atomic_json(target / "swipe_review_status.json", status)
+    atomic_json(
+        target / "swipe_review_universe.json",
+        {
+            "status": "not_ready",
+            "ranking_date": price_date,
+            "price_date": price_date,
+            "population_type": POPULATION_TYPE,
+            "items": [],
+        },
+    )
+    return status
+
+
 def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str, Any]:
-    """Create swipe_review_universe.json and swipe_review_status.json in target."""
+    """Create the latest-volume swipe universe and status files in target."""
     target = Path(target)
-    ranking_status = _read_json(target / "bbs_ranking_status.json")
-    ranking_date = ranking_status.get("ranking_date")
+    price_date = str(price_date).strip() if price_date else None
+    if not price_date:
+        return _write_not_ready(
+            target,
+            price_date=None,
+            note="最新取引日を確認できないため、出来高ランキングを作成しません。",
+        )
 
-    if ranking_status.get("status") != "success":
-        status = _status_payload(
-            status="not_ready",
-            ranking_date=ranking_date,
+    universe_file = target / "universe.csv"
+    if not universe_file.exists():
+        return _write_not_ready(
+            target,
             price_date=price_date,
-            count=0,
-            priced_count=0,
-            note="当日の掲示板ランキング取得が成功していないため、母集団を作成しません。",
+            note="universe.csv がないため、出来高ランキングを作成しません。",
         )
-        atomic_json(target / "swipe_review_status.json", status)
-        atomic_json(
-            target / "swipe_review_universe.json",
-            {"status": "not_ready", "ranking_date": ranking_date, "items": []},
-        )
-        return status
-
-    ranking_file = target / "bbs_ranking_latest.csv"
-    if not ranking_file.exists():
-        status = _status_payload(
-            status="not_ready",
-            ranking_date=ranking_date,
+    try:
+        universe = pd.read_csv(universe_file, dtype=str).fillna("")
+    except Exception:
+        return _write_not_ready(
+            target,
             price_date=price_date,
-            count=0,
-            priced_count=0,
-            note="bbs_ranking_latest.csv がありません。前日データでは代用しません。",
+            note="universe.csv を読み込めないため、出来高ランキングを作成しません。",
         )
-        atomic_json(target / "swipe_review_status.json", status)
-        atomic_json(
-            target / "swipe_review_universe.json",
-            {"status": "not_ready", "ranking_date": ranking_date, "items": []},
+    if not {"stock_code", "company_name"}.issubset(universe.columns):
+        return _write_not_ready(
+            target,
+            price_date=price_date,
+            note="universe.csv の必須列がないため、出来高ランキングを作成しません。",
         )
-        return status
 
-    ranking = pd.read_csv(ranking_file, dtype={"stock_code": str}).fillna("")
-    if "date" in ranking.columns and not ranking.empty:
-        file_dates = {str(v) for v in ranking["date"].tolist() if str(v)}
-        if ranking_date and file_dates and file_dates != {str(ranking_date)}:
-            status = _status_payload(
-                status="not_ready",
-                ranking_date=ranking_date,
-                price_date=price_date,
-                count=0,
-                priced_count=0,
-                note="ランキングstatusとlatest CSVの日付が一致しません。前日データでは代用しません。",
-            )
-            atomic_json(target / "swipe_review_status.json", status)
-            atomic_json(
-                target / "swipe_review_universe.json",
-                {"status": "not_ready", "ranking_date": ranking_date, "items": []},
-            )
-            return status
-
-    ranking["rank"] = pd.to_numeric(ranking["rank"], errors="coerce")
-    ranking = ranking[(ranking["rank"] >= 1) & (ranking["rank"] <= 100)].copy()
-    ranking = ranking.sort_values("rank").drop_duplicates("stock_code", keep="first").head(100)
-
-    items: list[dict[str, Any]] = []
-    priced_count = 0
-    for row in ranking.itertuples(index=False):
-        code = str(row.stock_code).strip()
+    candidates: list[dict[str, Any]] = []
+    for row in universe.drop_duplicates("stock_code", keep="first").itertuples(index=False):
+        code = str(row.stock_code).strip().upper()
+        if not code:
+            continue
         recent, issue = _recent_prices(target / "stocks" / f"{code}.csv")
-        if len(recent) >= 6:
-            priced_count += 1
-        item = {
-            "bbs_rank": int(row.rank),
-            "stock_code": code,
-            "stock_name": str(getattr(row, "stock_name", "")),
-            "market": str(getattr(row, "market", "")),
-            "ranking_price": (
-                float(getattr(row, "price"))
-                if str(getattr(row, "price", "")).strip()
-                and pd.notna(pd.to_numeric(getattr(row, "price"), errors="coerce"))
-                else None
-            ),
-            "recent_prices": recent,
-            "price_data_issue": issue,
-            "ohlcv_path": f"stocks/{code}.csv",
-        }
-        items.append(item)
+        if not recent or recent[-1]["date"] != price_date:
+            continue
+        latest = recent[-1]
+        candidates.append(
+            {
+                "stock_code": code,
+                "stock_name": str(getattr(row, "company_name", "")),
+                "market": "",
+                "sector": str(getattr(row, "sector17", "")),
+                "ranking_price": latest["close"],
+                "ranking_volume": latest["volume"],
+                "recent_prices": recent,
+                "price_data_issue": issue,
+                "ohlcv_path": f"stocks/{code}.csv",
+            }
+        )
 
+    candidates.sort(key=lambda item: (-item["ranking_volume"], item["stock_code"]))
+    items = candidates[:100]
+    for rank, item in enumerate(items, start=1):
+        item["volume_rank"] = rank
+
+    if not items:
+        return _write_not_ready(
+            target,
+            price_date=price_date,
+            note="最新取引日と一致する出来高データがないため、母集団を作成しません。",
+        )
+
+    priced_count = sum(len(item["recent_prices"]) >= 6 for item in items)
     status = _status_payload(
         status="success",
-        ranking_date=str(ranking_date) if ranking_date is not None else None,
         price_date=price_date,
         count=len(items),
         priced_count=priced_count,
         note=(
-            "母集団は当日掲示板ランキング1〜100位のみ。"
+            "母集団は全東証銘柄のうち最新取引日の出来高上位100銘柄。"
             "5営業日騰落率・RSI等は画面/分析時に生データから計算します。"
         ),
     )
     payload = {
         "status": "success",
-        "ranking_date": status["ranking_date"],
+        "ranking_date": price_date,
         "price_date": price_date,
+        "population_type": POPULATION_TYPE,
         "population_limit": 100,
+        "ranking_metric": "latest_session_volume_descending",
         "sort_instruction": "recent_pricesの最終adj_close / 6本前adj_close - 1 を画面で計算し降順",
         "items": items,
     }
