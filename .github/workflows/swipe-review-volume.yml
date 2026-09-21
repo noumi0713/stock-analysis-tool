@@ -1,4 +1,4 @@
-name: スワイプ出来高ランキング再構築
+name: スワイプ売買代金ランキング再構築
 
 on:
   workflow_dispatch:
@@ -38,7 +38,7 @@ jobs:
         run: |
           git fetch origin swing-data-120d-latest
           git worktree add --detach public-data FETCH_HEAD
-      - name: Rebuild latest-volume swipe universe
+      - name: Rebuild latest-trading-value swipe universe
         run: python -m swing_data.swipe_review --target public-data
       - name: Publish rebuilt swipe universe
         env:
@@ -50,5 +50,5 @@ jobs:
           git checkout --orphan latest-snapshot
           git rm -rf --cached . >/dev/null 2>&1 || true
           git add --all
-          git commit -m 'Rebuild swipe universe from latest daily volume'
+          git commit -m 'Rebuild swipe universe from latest trading value'
           git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin HEAD:swing-data-120d-latest

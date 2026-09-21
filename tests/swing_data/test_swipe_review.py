@@ -8,7 +8,14 @@ import pandas as pd
 from swing_data.swipe_review import POPULATION_TYPE, build_swipe_review
 
 
-def _write_stock(path: Path, code: str, latest_volume: float, *, latest_date: str = "2026-09-18") -> None:
+def _write_stock(
+    path: Path,
+    code: str,
+    latest_volume: float,
+    *,
+    latest_close: float = 106,
+    latest_date: str = "2026-09-18",
+) -> None:
     days = ["2026-09-11", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", latest_date]
     rows = []
     for i, date in enumerate(days):
@@ -19,9 +26,9 @@ def _write_stock(path: Path, code: str, latest_volume: float, *, latest_date: st
                 "open": 100 + i,
                 "high": 102 + i,
                 "low": 99 + i,
-                "close": 101 + i,
+                "close": latest_close if i == 5 else 101 + i,
                 "volume": latest_volume if i == 5 else 1000 + i,
-                "adj_close": 101 + i,
+                "adj_close": latest_close if i == 5 else 101 + i,
                 "adj_open": 100 + i,
                 "adj_high": 102 + i,
                 "adj_low": 99 + i,
@@ -38,12 +45,12 @@ def _write_universe(path: Path, rows: list[tuple[str, str]]) -> None:
     ).to_csv(path / "universe.csv", index=False)
 
 
-def test_build_swipe_review_ranks_latest_volume_descending(tmp_path: Path):
+def test_build_swipe_review_ranks_estimated_trading_value_descending(tmp_path: Path):
     (tmp_path / "stocks").mkdir()
     _write_universe(tmp_path, [("1111", "A"), ("2222", "B"), ("3333", "C")])
-    _write_stock(tmp_path / "stocks", "1111", 3_000)
-    _write_stock(tmp_path / "stocks", "2222", 9_000)
-    _write_stock(tmp_path / "stocks", "3333", 6_000)
+    _write_stock(tmp_path / "stocks", "1111", 10_000, latest_close=100)
+    _write_stock(tmp_path / "stocks", "2222", 9_000, latest_close=200)
+    _write_stock(tmp_path / "stocks", "3333", 6_000, latest_close=400)
 
     status = build_swipe_review(tmp_path, price_date="2026-09-18")
     assert status["status"] == "success"
@@ -51,9 +58,9 @@ def test_build_swipe_review_ranks_latest_volume_descending(tmp_path: Path):
     assert status["count"] == 3
 
     payload = json.loads((tmp_path / "swipe_review_universe.json").read_text(encoding="utf-8"))
-    assert [x["stock_code"] for x in payload["items"]] == ["2222", "3333", "1111"]
-    assert [x["volume_rank"] for x in payload["items"]] == [1, 2, 3]
-    assert payload["items"][0]["ranking_volume"] == 9_000
+    assert [x["stock_code"] for x in payload["items"]] == ["3333", "2222", "1111"]
+    assert [x["trading_value_rank"] for x in payload["items"]] == [1, 2, 3]
+    assert payload["items"][0]["ranking_trading_value"] == 2_400_000
     assert "five_day_return_pct" not in payload["items"][0]
     assert status["technical_indicators_persisted"] is False
 

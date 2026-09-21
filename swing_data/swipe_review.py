@@ -1,8 +1,8 @@
 """Build the swipe-review input from the published 120-session snapshot.
 
-The swipe population is the 100 TSE stocks with the highest raw trading
-volume on the latest completed equity session. Derived returns and technical
-indicators remain UI-time calculations.
+The swipe population is the 100 TSE stocks with the highest estimated trading
+value (latest close times volume) on the latest completed equity session.
+Derived returns and technical indicators remain UI-time calculations.
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ DECISION_PUBLIC = (
     "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/"
     "swipe-decisions/swipe_review"
 )
-POPULATION_TYPE = "latest_daily_volume_top_100"
+POPULATION_TYPE = "latest_daily_trading_value_top_100"
 
 
 def _status_payload(
@@ -35,9 +35,9 @@ def _status_payload(
         "ranking_date": price_date,
         "price_date": price_date,
         "population_type": POPULATION_TYPE,
-        "population": "全東証・最新取引日の出来高ランキング上位100銘柄",
+        "population": "全東証・最新取引日の売買代金ランキング上位100銘柄",
         "population_limit": 100,
-        "ranking_metric": "最新取引日の未調整出来高（株）",
+        "ranking_metric": "最新終値×出来高による推計売買代金（円）",
         "display_sort": "画面で直近6営業日の調整後終値から5営業日騰落率を計算し降順",
         "technical_indicators_persisted": False,
         "count": count,
@@ -129,7 +129,7 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
         return _write_not_ready(
             target,
             price_date=None,
-            note="最新取引日を確認できないため、出来高ランキングを作成しません。",
+            note="最新取引日を確認できないため、売買代金ランキングを作成しません。",
         )
 
     universe_file = target / "universe.csv"
@@ -137,7 +137,7 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
         return _write_not_ready(
             target,
             price_date=price_date,
-            note="universe.csv がないため、出来高ランキングを作成しません。",
+            note="universe.csv がないため、売買代金ランキングを作成しません。",
         )
     try:
         universe = pd.read_csv(universe_file, dtype=str).fillna("")
@@ -145,13 +145,13 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
         return _write_not_ready(
             target,
             price_date=price_date,
-            note="universe.csv を読み込めないため、出来高ランキングを作成しません。",
+            note="universe.csv を読み込めないため、売買代金ランキングを作成しません。",
         )
     if not {"stock_code", "company_name"}.issubset(universe.columns):
         return _write_not_ready(
             target,
             price_date=price_date,
-            note="universe.csv の必須列がないため、出来高ランキングを作成しません。",
+            note="universe.csv の必須列がないため、売買代金ランキングを作成しません。",
         )
 
     candidates: list[dict[str, Any]] = []
@@ -170,23 +170,23 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
                 "market": "",
                 "sector": str(getattr(row, "sector17", "")),
                 "ranking_price": latest["close"],
-                "ranking_volume": latest["volume"],
+                "ranking_trading_value": latest["close"] * latest["volume"],
                 "recent_prices": recent,
                 "price_data_issue": issue,
                 "ohlcv_path": f"stocks/{code}.csv",
             }
         )
 
-    candidates.sort(key=lambda item: (-item["ranking_volume"], item["stock_code"]))
+    candidates.sort(key=lambda item: (-item["ranking_trading_value"], item["stock_code"]))
     items = candidates[:100]
     for rank, item in enumerate(items, start=1):
-        item["volume_rank"] = rank
+        item["trading_value_rank"] = rank
 
     if not items:
         return _write_not_ready(
             target,
             price_date=price_date,
-            note="最新取引日と一致する出来高データがないため、母集団を作成しません。",
+            note="最新取引日と一致する売買代金データがないため、母集団を作成しません。",
         )
 
     priced_count = sum(len(item["recent_prices"]) >= 6 for item in items)
@@ -196,7 +196,7 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
         count=len(items),
         priced_count=priced_count,
         note=(
-            "母集団は全東証銘柄のうち最新取引日の出来高上位100銘柄。"
+            "母集団は全東証銘柄のうち最新終値×出来高で算出した推計売買代金上位100銘柄。"
             "5営業日騰落率・RSI等は画面/分析時に生データから計算します。"
         ),
     )
@@ -206,7 +206,7 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
         "price_date": price_date,
         "population_type": POPULATION_TYPE,
         "population_limit": 100,
-        "ranking_metric": "latest_session_volume_descending",
+        "ranking_metric": "latest_close_times_volume_descending",
         "sort_instruction": "recent_pricesの最終adj_close / 6本前adj_close - 1 を画面で計算し降順",
         "items": items,
     }
