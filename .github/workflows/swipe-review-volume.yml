@@ -1,0 +1,54 @@
+name: スワイプ出来高ランキング再構築
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'swing_data/swipe_review.py'
+      - 'tests/swing_data/test_swipe_review.py'
+      - '.github/workflows/swipe-review-volume.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: swipe-review-volume-publication
+  cancel-in-progress: true
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: swing_data/requirements.txt
+      - run: python -m pip install -r swing_data/requirements.txt pytest
+      - name: Verify swipe review contracts
+        run: python -m pytest tests/swing_data/test_swipe_review.py -q
+      - name: Restore latest published data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch origin swing-data-120d-latest
+          git worktree add --detach public-data FETCH_HEAD
+      - name: Rebuild latest-volume swipe universe
+        run: python -m swing_data.swipe_review --target public-data
+      - name: Publish rebuilt swipe universe
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd public-data
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout --orphan latest-snapshot
+          git rm -rf --cached . >/dev/null 2>&1 || true
+          git add --all
+          git commit -m 'Rebuild swipe universe from latest daily volume'
+          git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin HEAD:swing-data-120d-latest
