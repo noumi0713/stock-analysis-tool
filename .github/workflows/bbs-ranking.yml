@@ -3,8 +3,8 @@ name: Yahoo掲示板投稿ランキング日次更新
 on:
   workflow_dispatch:
   schedule:
-    # 07:20 JST every day. This fixed snapshot is the day's analysis universe.
-    - cron: '20 22 * * *'
+    # 17:00 JST every day. This fixed snapshot is the day's analysis universe.
+    - cron: '0 8 * * *'
   push:
     branches: [main]
     paths:
