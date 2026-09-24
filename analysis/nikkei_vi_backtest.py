@@ -233,6 +233,19 @@ for tp in [1.5,2,2.5,3,3.5]:
                    "time_exits":sum(x["why"]=="time" for x in t)})
 tpgrid=sorted(tpgrid,key=lambda z:z["avg"],reverse=True)
 
+period_split={}
+for name,mask in {
+ "core_us-3_jp+3":(d.dus_bp<=-3)&(d.djp_bp<=3),
+ "strict_us-5_jp+3":(d.dus_bp<=-5)&(d.djp_bp<=3),
+ "core_nvi25_30":(d.dus_bp<=-3)&(d.djp_bp<=3)&(d.nvi>=25)&(d.nvi<30),
+ "core_nvi30_35":(d.dus_bp<=-3)&(d.djp_bp<=3)&(d.nvi>=30)&(d.nvi<35),
+ "core_nvi35plus":(d.dus_bp<=-3)&(d.djp_bp<=3)&(d.nvi>=35),
+}.items():
+    period_split[name]={
+      "before_2026_07_01":{str(k):stats(d[mask & (d.date<"2026-07-01")],k) for k in [3,4,5]},
+      "from_2026_07_01":{str(k):stats(d[mask & (d.date>="2026-07-01")],k) for k in [3,4,5]}
+    }
+
 result={
  "method":{
    "entry":"Nikkei 225 close on signal date",
@@ -253,7 +266,8 @@ result={
  "named_rules":named,
  "top_grid_4d":grid[:20],
  "rule_A_dynamic_exits_max5d":dynamic,
- "rule_A_tp_sl_max5d":tpgrid[:15]
+ "rule_A_tp_sl_max5d":tpgrid[:15],
+ "period_split":period_split
 }
 OUT.parent.mkdir(parents=True,exist_ok=True)
 OUT.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
