@@ -1,0 +1,31 @@
+name: Nikkei VI 120d backtest
+
+on:
+  push:
+    branches:
+      - analysis/nikkei-vi-backtest-20260924
+    paths:
+      - 'analysis/nikkei_vi_backtest.py'
+
+permissions:
+  contents: read
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pandas requests
+      - name: Run no-lookahead Nikkei VI backtest
+        run: python analysis/nikkei_vi_backtest.py | tee nikkei_vi_backtest.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nikkei-vi-backtest
+          path: |
+            analysis/nikkei_vi_backtest_result.json
+            nikkei_vi_backtest.log
+          retention-days: 7
