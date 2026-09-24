@@ -152,6 +152,18 @@ for name,args in specs.items():
                  "stats":{str(k):stats(x,k) for k in [1,2,3,4,5,7,10]},
                  "dates":x.date.tolist()}
 
+extra_masks={
+ "G_us-3_jp+3_noNVI":(d.dus_bp<=-3)&(d.djp_bp<=3),
+ "H_us-5_jp+3_noNVI":(d.dus_bp<=-5)&(d.djp_bp<=3),
+ "I_us-3_jp+3_nvi25_30":(d.dus_bp<=-3)&(d.djp_bp<=3)&(d.nvi>=25)&(d.nvi<30),
+ "J_us-5_jp+3_nvi25_30":(d.dus_bp<=-5)&(d.djp_bp<=3)&(d.nvi>=25)&(d.nvi<30),
+ "K_us-3_jp+3_nvi30_35":(d.dus_bp<=-3)&(d.djp_bp<=3)&(d.nvi>=30)&(d.nvi<35),
+ "L_us-3_jp+3_nvi35plus":(d.dus_bp<=-3)&(d.djp_bp<=3)&(d.nvi>=35),
+}
+for name,mask in extra_masks.items():
+    x=d[mask]
+    named[name]={"rule":name,"stats":{str(k):stats(x,k) for k in [1,2,3,4,5,7,10]},"dates":x.date.tolist()}
+
 grid=[]
 for uth in [0,-3,-5]:
   for jth in [0,3,5,999]:
