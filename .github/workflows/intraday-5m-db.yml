@@ -46,6 +46,12 @@ jobs:
             --lookback-days "${LOOKBACK_DAYS:-7}" \
             --include-today
 
+      - name: Audit coverage and consistency
+        run: |
+          python -m swing_data.intraday_5m_quality \
+            --db "$RUNNER_TEMP/intraday_5m.sqlite" \
+            --report "$RUNNER_TEMP/intraday_5m_quality.json"
+
       - name: Publish latest validated snapshot
         env:
           GH_TOKEN: ${{ github.token }}
@@ -54,12 +60,13 @@ jobs:
           cd "$RUNNER_TEMP/intraday-5m-publish"
           cp "$RUNNER_TEMP/intraday_5m.sqlite" .
           cp "$RUNNER_TEMP/intraday_5m_report.json" .
+          cp "$RUNNER_TEMP/intraday_5m_quality.json" .
           printf '# Intraday 5-minute database\n\nLatest SQLite snapshot. See intraday_5m_report.json for collection results.\n' > README.md
           git init -b intraday-5m-data
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
-          git add README.md intraday_5m.sqlite intraday_5m_report.json
+          git add README.md intraday_5m.sqlite intraday_5m_report.json intraday_5m_quality.json
           git commit -m 'Publish 5-minute database snapshot'
           git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" \
             push --force origin HEAD:intraday-5m-data
@@ -69,5 +76,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: intraday-5m-failed-${{ github.run_id }}
-          path: ${{ runner.temp }}/intraday_5m_report.json
+          path: |
+            ${{ runner.temp }}/intraday_5m_report.json
+            ${{ runner.temp }}/intraday_5m_quality.json
           if-no-files-found: ignore
