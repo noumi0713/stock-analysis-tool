@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "ranking_date": "2026-09-25",
+  "price_date": "2026-09-25",
+  "population_type": "latest_daily_trading_value_top_100",
+  "population": "全東証・最新取引日の売買代金ランキング上位100銘柄",
+  "population_limit": 100,
+  "ranking_metric": "最新終値×出来高による推計売買代金（円）",
+  "display_sort": "画面で直近6営業日の調整後終値から5営業日騰落率を計算し降順",
+  "technical_indicators_persisted": false,
+  "count": 100,
+  "priced_count": 100,
+  "decision_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swipe-decisions/swipe_review/data/2026-09-25.json",
+  "recommendation_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swipe-decisions/swipe_review/recommendations/2026-09-25.json",
+  "note": "母集団は全東証銘柄のうち最新終値×出来高で算出した推計売買代金上位100銘柄。5営業日騰落率・RSI等は画面/分析時に生データから計算します。"
+}

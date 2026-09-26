@@ -1,0 +1,416 @@
+{
+  "observation_date": "2026-09-15",
+  "equity_date": "2026-09-14",
+  "original_rule_sha256": "eb027f2bf5a94c29adc0c8e365b46d26cf1783d595ded93c269cfa85355c77a2",
+  "adjustment": "Separate Japan observation day from completed equity date. Classification and validation functions unchanged. Provider reference timestamp unknown; left blank.",
+  "status": {
+    "status": "success",
+    "ranking_date": "2026-09-15",
+    "target_count": 96,
+    "fetch_success_count": 0,
+    "fetch_failure_count": 96,
+    "classification_counts": {
+      "判定不能": 96
+    },
+    "quality_counts": {
+      "invalid": 96
+    },
+    "unclassifiable_count": 96,
+    "failed_codes": [
+      {
+        "stock_code": "1357",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "1570",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "1605",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "1783",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "186A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "2134",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "215A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "2160",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "218A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "219A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "2315",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "278A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "285A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "3070",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "3103",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "3195",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "3350",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "336A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "338A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "3444",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "3653",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "3656",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "3823",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "3825",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "3903",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "3905",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4052",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4062",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4180",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4392",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4440",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4506",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4564",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4575",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4588",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4592",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4755",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4813",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "485A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4883",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4889",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "4894",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "5016",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "5031",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "5131",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "5253",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "5706",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "5721",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "5801",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "5802",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "5803",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "593A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "603A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "604A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6085",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "618A",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6191",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6203",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6227",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6330",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6356",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6525",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6613",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6702",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6740",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6838",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6857",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6920",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6976",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6981",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "6993",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "7011",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "7012",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "7013",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "7201",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "7203",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "7719",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "7777",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "7974",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "8035",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "8105",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "8136",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "8267",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "8303",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "8306",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "8316",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "8411",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "8604",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "8729",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "8766",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "8848",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "9235",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "9432",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "9501",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "9502",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      },
+      {
+        "stock_code": "9984",
+        "error": "YFRateLimitError: Too Many Requests. Rate limited. Try after a while."
+      }
+    ],
+    "retrieved_at": "2026-09-15T08:11:40.502392+09:00",
+    "elapsed_seconds": 58.7,
+    "classification_rule": {
+      "minimum_analysts": 3,
+      "bullish": "at least 2 of target upside >=10%, buy rating, EPS 30d change >=5%",
+      "bearish": "at least 2 of target upside <=-10%, sell rating, EPS 30d change <=-5%",
+      "base": "otherwise, only when required data pass",
+      "missing_or_suspicious": "判定不能"
+    },
+    "scenario_rule": "Analyst low/mean/high when valid; otherwise current close +/-2 ATR14 (or +/-10%) labelled non-consensus."
+  }
+}

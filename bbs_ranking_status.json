@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "ranking_date": "2026-09-26",
+  "source_updated_at": "2026-09-26T21:12:00+09:00",
+  "collected_at": "2026-09-26T21:43:42.989126+09:00",
+  "row_count": 93,
+  "total_pages": 2,
+  "history_days": 16,
+  "source_url": "https://finance.yahoo.co.jp/stocks/ranking/bbs?market=all&term=daily",
+  "used_previous_day": false
+}
