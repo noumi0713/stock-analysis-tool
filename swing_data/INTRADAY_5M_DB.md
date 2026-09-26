@@ -21,6 +21,16 @@ python -m swing_data.intraday_5m_db --lookback-days 59 --db intraday_5m.sqlite -
 sqlite3 intraday_5m.sqlite 'SELECT ticker,trading_date,low,first_low_time,bar_count FROM daily_lows ORDER BY trading_date DESC,ticker LIMIT 20;'
 ```
 
-Yahoo/yfinance の過去の日中足は約60暦日に制限されます。過去1～3年を今すぐ復元する仕組みではなく、これから毎日蓄積します。Yahooの取得失敗、仕様変更、無償データの欠落は起こり得ます。品質監視と予測モデルは次の段階で作ります。
+Yahoo/yfinance の過去の日中足は約60暦日に制限されます。過去1～3年を今すぐ復元する仕組みではなく、これから毎日蓄積します。Yahooの取得失敗、仕様変更、無償データの欠落は起こり得ます。予測モデルは別の段階で作ります。
+
+## 品質チェック
+
+引け後の収集に続き、東証営業日カレンダーに照らした最新営業日の有無、直近10営業日の66個の5分枠、日次集計との一致、価格・出来高、SQLite整合性を確認します。`intraday_5m_quality.json` に銘柄・日付・理由・重要度を出します。`FAIL` が1件でもあれば公開を停止し、失敗レポートをActionsのArtifactに残します。`WARN` は公開し、分析時に要確認です。
+
+前日終値から当日始値まで35%以上の変化は `possible_corporate_action` として警告します。これは株式分割の確定判定ではありません。値幅制限、併合、その他の企業行動、データ誤りもあり得るため、未調整株価のまま手動確認してください。売買停止日は足がないため欠損として停止します。停止理由を確認してから対象銘柄の扱いを決めます。
+
+```bash
+python -m swing_data.intraday_5m_quality --db intraday_5m.sqlite --report intraday_5m_quality.json
+```
 
 データブランチは現在のリポジトリ内です。対象銘柄を大幅に増やす前に、容量・利用条件を確認して専用ストレージに移してください。
