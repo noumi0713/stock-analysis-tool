@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: morning-0815-snapshot
@@ -50,6 +51,7 @@ jobs:
           fi
 
       - name: Append frozen record without overwriting a prior day
+        id: archive
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -86,6 +88,22 @@ jobs:
           git commit -m "Freeze 08:15 snapshot ${relative_path##*/}"
           git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" \
             push origin HEAD:morning-0815-snapshots
+
+      - name: Notify the repository owner of a frozen forecast or failure
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          ARCHIVE_OUTCOME: ${{ steps.archive.outcome }}
+        run: |
+          trade_date=$(TZ=Asia/Tokyo date +%F)
+          pick_args=()
+          if [ "$ARCHIVE_OUTCOME" = success ]; then
+            pick_file=$(find "$RUNNER_TEMP/morning-picks" -name "${trade_date}.json" -print -quit 2>/dev/null || true)
+            if [ -n "$pick_file" ]; then
+              pick_args=(--picks "$pick_file")
+            fi
+          fi
+          python -m swing_data.intraday_notice --trade-date "$trade_date" "${pick_args[@]}"
 
       - name: Upload diagnostic artifact if archive fails
         if: failure()

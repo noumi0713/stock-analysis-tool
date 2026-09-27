@@ -1,6 +1,10 @@
 name: Intraday 5-minute database
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/intraday-5m-db.yml'
   workflow_dispatch:
     inputs:
       lookback_days:
@@ -8,6 +12,7 @@ on:
         required: false
         default: "59"
   schedule:
+    - cron: '15 19 * * 0-4' # 04:15 JST, bootstrap only while the data branch is absent
     - cron: '45 7 * * 1-5' # 16:45 JST, after the Tokyo close
 
 permissions:
@@ -31,28 +36,47 @@ jobs:
       - run: pip install -r swing_data/requirements.txt
 
       - name: Restore last permanent snapshot if present
+        id: restore
+        env:
+          EARLY_BOOTSTRAP: ${{ github.event.schedule == '15 19 * * 0-4' }}
         run: |
           if git fetch origin refs/heads/intraday-5m-data:refs/remotes/origin/intraday-5m-data; then
+            if [ "$EARLY_BOOTSTRAP" = true ]; then
+              echo 'skip=true' >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
             git show origin/intraday-5m-data:intraday_5m.sqlite > "$RUNNER_TEMP/intraday_5m.sqlite"
+          else
+            echo 'BOOTSTRAP=1' >> "$GITHUB_ENV"
           fi
 
       - name: Collect completed sessions
+        if: steps.restore.outputs.skip != 'true'
         env:
           LOOKBACK_DAYS: ${{ inputs.lookback_days }}
         run: |
+          if [ -z "$LOOKBACK_DAYS" ]; then
+            if [ "$BOOTSTRAP" = 1 ] || [ "${{ github.event_name }}" = push ]; then
+              LOOKBACK_DAYS=59
+            else
+              LOOKBACK_DAYS=7
+            fi
+          fi
           python -m swing_data.intraday_5m_db \
             --db "$RUNNER_TEMP/intraday_5m.sqlite" \
             --report "$RUNNER_TEMP/intraday_5m_report.json" \
-            --lookback-days "${LOOKBACK_DAYS:-7}" \
+            --lookback-days "$LOOKBACK_DAYS" \
             --include-today
 
       - name: Audit coverage and consistency
+        if: steps.restore.outputs.skip != 'true'
         run: |
           python -m swing_data.intraday_5m_quality \
             --db "$RUNNER_TEMP/intraday_5m.sqlite" \
             --report "$RUNNER_TEMP/intraday_5m_quality.json"
 
       - name: Publish latest validated snapshot
+        if: steps.restore.outputs.skip != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
