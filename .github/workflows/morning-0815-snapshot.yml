@@ -39,6 +39,16 @@ jobs:
             --quality "$RUNNER_TEMP/intraday_5m_quality.json" \
             --output-dir "$RUNNER_TEMP/morning-snapshots"
 
+      - name: Select provisional fixed-time trades before the cutoff
+        run: |
+          snapshot_file=$(find "$RUNNER_TEMP/morning-snapshots" -name '*.json' -print -quit 2>/dev/null || true)
+          if [ -n "$snapshot_file" ]; then
+            python -m swing_data.intraday_selector \
+              --snapshot "$snapshot_file" \
+              --db "$RUNNER_TEMP/intraday_5m.sqlite" \
+              --output-dir "$RUNNER_TEMP/morning-picks"
+          fi
+
       - name: Append frozen record without overwriting a prior day
         env:
           GH_TOKEN: ${{ github.token }}
@@ -59,13 +69,20 @@ jobs:
           fi
           relative_path=${snapshot_file#"$RUNNER_TEMP/morning-snapshots/"}
           test ! -e "$archive/$relative_path"
+          pick_file="$RUNNER_TEMP/morning-picks/$relative_path"
+          test -f "$pick_file"
+          test ! -e "$archive/picks/$relative_path"
           mkdir -p "$(dirname "$archive/$relative_path")"
+          mkdir -p "$(dirname "$archive/picks/$relative_path")"
           cp "$snapshot_file" "$archive/$relative_path"
+          cp "$pick_file" "$archive/picks/$relative_path"
           cd "$archive"
           sha256sum "$relative_path" > "$relative_path.sha256"
+          sha256sum "picks/$relative_path" > "picks/$relative_path.sha256"
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add "$relative_path" "$relative_path.sha256"
+          git add "$relative_path" "$relative_path.sha256" \
+            "picks/$relative_path" "picks/$relative_path.sha256"
           git commit -m "Freeze 08:15 snapshot ${relative_path##*/}"
           git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" \
             push origin HEAD:morning-0815-snapshots
@@ -75,5 +92,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: morning-snapshot-failed-${{ github.run_id }}
-          path: ${{ runner.temp }}/morning-snapshots/
+          path: |
+            ${{ runner.temp }}/morning-snapshots/
+            ${{ runner.temp }}/morning-picks/
           if-no-files-found: ignore
