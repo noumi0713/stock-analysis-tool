@@ -13,7 +13,7 @@ NOW = datetime(2026, 9, 28, 16, 0, tzinfo=intraday_ledger.JST)
 
 def inputs(day=DATE, orders=None, status="PROVISIONAL_PICKS"):
     snapshot = {"trading_date": day, "cutoff_jst": f"{day}T08:15:00+09:00",
-                "completed_at_jst": f"{day}T08:06:00+09:00"}
+                "completed_at_jst": f"{day}T08:06:00+09:00", "status": "READY"}
     snapshot_bytes = json.dumps(snapshot).encode()
     picks = {"trade_date": day, "generated_at_jst": f"{day}T08:10:00+09:00",
              "status": status, "snapshot_sha256": hashlib.sha256(snapshot_bytes).hexdigest(),
@@ -76,6 +76,20 @@ def test_no_trade_and_cutoff_guards(tmp_path):
     late["generated_at_jst"] = f"{DATE}T08:16:00+09:00"
     with pytest.raises(ValueError, match="cutoff"):
         intraday_ledger.append_day(tmp_path / "late", json.dumps(late).encode(), snapshot, db, now=NOW)
+
+
+def test_broken_morning_input_is_not_counted_as_zero_pnl(tmp_path):
+    db = tmp_path / "bars.sqlite"
+    picks, snapshot_raw = inputs(status="NO_TRADE")
+    snapshot = json.loads(snapshot_raw)
+    snapshot["status"] = "INCOMPLETE"
+    snapshot_raw = json.dumps(snapshot).encode()
+    pick = json.loads(picks)
+    pick["snapshot_sha256"] = hashlib.sha256(snapshot_raw).hexdigest()
+    _, summary = intraday_ledger.append_day(tmp_path / "ledger", json.dumps(pick).encode(),
+                                             snapshot_raw, db, now=NOW)
+    assert summary["unsettled_dates"] == [DATE]
+    assert summary["performance"] is None
 
 
 def test_missing_session_blocks_continuous_metrics_and_hash_tampering(tmp_path):
