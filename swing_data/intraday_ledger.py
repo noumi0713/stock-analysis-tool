@@ -161,6 +161,12 @@ def append_day(archive: Path, picks_bytes: bytes, snapshot_bytes: bytes, db_path
         raise ValueError("No unsettled record to amend")
     events = json.loads(events_bytes) if events_bytes else None
     report = settle(picks, picks_bytes, snapshot, snapshot_bytes, db_path, events)
+    if snapshot.get("status") != "READY":
+        # A failed data feed is not a successful strategic abstention. Keep the
+        # day's audit record, but block continuous performance calculations.
+        report.update(status="UNSETTLED", proxy_total_pnl_jpy=None,
+                      reason="Morning input snapshot was not READY")
+        report.pop("proxy_final_assets_jpy", None)
     if report["status"] not in {"NO_TRADE", "ESTIMATED_COMPLETE", "UNSETTLED"}:
         raise ValueError("Unknown execution status")
     if report["status"] == "UNSETTLED" and not report.get("reason"):
