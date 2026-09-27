@@ -1,0 +1,90 @@
+name: Review fixed-time order execution
+
+on:
+  workflow_dispatch:
+    inputs:
+      trade_date:
+        description: "Tokyo trading date (YYYY-MM-DD)"
+        required: true
+        type: string
+      market_events_json:
+        description: "Optional verified quote/halt/limit events JSON"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: swing_data/requirements.txt
+      - run: pip install -r swing_data/requirements.txt
+
+      - name: Validate date and restore archived inputs
+        env:
+          TRADE_DATE: ${{ inputs.trade_date }}
+        run: |
+          python - <<'PY'
+          import datetime, os, re
+          value = os.environ['TRADE_DATE']
+          assert re.fullmatch(r'\d{4}-\d{2}-\d{2}', value), 'Use YYYY-MM-DD'
+          datetime.date.fromisoformat(value)
+          PY
+          git fetch origin refs/heads/morning-0815-snapshots:refs/remotes/origin/morning-0815-snapshots
+          git fetch origin refs/heads/intraday-5m-data:refs/remotes/origin/intraday-5m-data
+          relative="${TRADE_DATE:0:4}/${TRADE_DATE:5:2}/${TRADE_DATE}.json"
+          git show "origin/morning-0815-snapshots:$relative" > "$RUNNER_TEMP/morning.json"
+          git show "origin/morning-0815-snapshots:picks/$relative" > "$RUNNER_TEMP/picks.json"
+          git show origin/intraday-5m-data:intraday_5m.sqlite > "$RUNNER_TEMP/intraday_5m.sqlite"
+
+      - name: Prepare optional verified market events
+        env:
+          MARKET_EVENTS_JSON: ${{ inputs.market_events_json }}
+          TRADE_DATE: ${{ inputs.trade_date }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          raw = os.environ.get('MARKET_EVENTS_JSON', '').strip()
+          if raw:
+              data = json.loads(raw)
+              if data.get('trading_date') != os.environ['TRADE_DATE']:
+                  raise SystemExit('Market-event date mismatch')
+              Path(os.environ['RUNNER_TEMP'], 'verified_events.json').write_text(raw, encoding='utf-8')
+          PY
+
+      - name: Calculate estimated execution
+        id: simulate
+        continue-on-error: true
+        run: |
+          event_args=()
+          if [ -f "$RUNNER_TEMP/verified_events.json" ]; then
+            event_args=(--market-events "$RUNNER_TEMP/verified_events.json")
+          fi
+          python -m swing_data.intraday_execution \
+            --picks "$RUNNER_TEMP/picks.json" \
+            --snapshot "$RUNNER_TEMP/morning.json" \
+            --db "$RUNNER_TEMP/intraday_5m.sqlite" \
+            "${event_args[@]}" \
+            --output "$RUNNER_TEMP/execution.json"
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: execution-review-${{ inputs.trade_date }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/execution.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Fail when execution cannot be assessed
+        if: steps.simulate.outcome == 'failure'
+        run: exit 1
