@@ -31,6 +31,6 @@ python -m swing_data.intraday_execution \
   --market-events verified_events.json --output execution.json
 ```
 
-イベント情報がなければ `--market-events` は省略できます。`ESTIMATED_COMPLETE` は全注文について計算可能という意味で、実約定の確定ではありません。`UNSETTLED` は損益を集計しません。取引所の板・約定履歴・ブローカーの注文履歴がない限り、実際の約定可否は断定できません。これは期間外バックテストや台帳の前段に使う評価部品です。
+イベント情報がなければ `--market-events` は省略できます。`ESTIMATED_COMPLETE` は全注文について計算可能という意味で、実約定の確定ではありません。`UNSETTLED` は損益を集計しません。取引所の板・約定履歴・ブローカーの注文履歴がない限り、実際の約定可否は断定できません。結果は勝負台帳に記録します。
 
 GitHub Actions の **Review fixed-time order execution** を手動実行し、取引日を入力すると、朝の保存済みJSONと最新の5分足DBを読み取って同じ判定を行います。必要なら確認済みイベントJSONを入力します。結果は30日保存のArtifactでダウンロードできます。判定不能ならActionは失敗として表示され、理由は出力できた `execution.json` に記録されます。過去の日の価格データが現在のDBに残っていない場合、判定はできません。
