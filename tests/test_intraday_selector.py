@@ -16,7 +16,7 @@ def fixture_db(path, n=60, negative_validation=False):
     with sqlite3.connect(path) as db:
         db.executescript(intraday_5m_db.SCHEMA)
         for i, date in enumerate(dates):
-            slope = -0.05 if negative_validation and i >= n - 15 else 0.05
+            slope = -0.05 if negative_validation and i >= max(7, int(n * .70)) else 0.05
             bars = []
             for j, clock in enumerate(intraday_5m_quality.EXPECTED_TIMES):
                 price = 100 + j * slope
@@ -52,7 +52,7 @@ def test_positive_holdout_generates_sized_timed_pick(tmp_path):
     assert pick["reserved_cash_jpy"] <= 1_000_000
     assert pick["validation_net_lower_bound_pct"] > 0
     assert pick["buy_time_jst"] < pick["sell_time_jst"]
-    assert result["diagnostics"]["9984.T"]["validation_days"] >= 15
+    assert result["diagnostics"]["9984.T"]["validation_days"] >= 3
 
 
 def test_out_of_sample_loss_or_small_sample_abstains(tmp_path):
@@ -60,10 +60,19 @@ def test_out_of_sample_loss_or_small_sample_abstains(tmp_path):
     fixture_db(path, negative_validation=True)
     assert run(snapshot_for(path), path)["status"] == "NO_TRADE"
     smaller = tmp_path / "small.sqlite"
-    fixture_db(smaller, n=49)
+    fixture_db(smaller, n=9)
     result = run(snapshot_for(smaller), smaller)
     assert result["status"] == "NO_TRADE"
-    assert "49 complete" in result["diagnostics"]["9984.T"]
+    assert "9 complete" in result["diagnostics"]["9984.T"]
+
+
+def test_ten_sessions_are_enough_to_fit(tmp_path):
+    path = tmp_path / "ten.sqlite"
+    fixture_db(path, n=10)
+    result = run(snapshot_for(path), path)
+    assert result["status"] == "PROVISIONAL_PICKS"
+    assert result["diagnostics"]["9984.T"]["train_days"] == 7
+    assert result["diagnostics"]["9984.T"]["validation_days"] == 3
 
 
 def test_future_rows_cannot_enter_training_and_input_hash_is_required(tmp_path):
