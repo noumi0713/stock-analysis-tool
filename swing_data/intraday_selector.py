@@ -23,8 +23,8 @@ CAPITAL = 2_000_000
 MAX_PER_TICKER = 1_000_000
 MAX_POSITIONS = 3
 COST_PCT = 0.20  # round trip: fees and an assumed allowance for market-order slippage
-MIN_TRAIN = 35
-MIN_VALIDATION = 15
+MIN_TRAIN = 7
+MIN_VALIDATION = 3
 
 
 def valid_sessions(db: sqlite3.Connection, ticker: str, cutoff: str,
@@ -63,7 +63,7 @@ def returns_for_pair(days: list[tuple[str, dict[str, float]]],
 def fit_one(days: list[tuple[str, dict[str, float]]]) -> dict | None:
     if len(days) < MIN_TRAIN + MIN_VALIDATION:
         return None
-    split = max(MIN_TRAIN, int(len(days) * 0.75))
+    split = max(MIN_TRAIN, int(len(days) * 0.70))
     if len(days) - split < MIN_VALIDATION:
         split = len(days) - MIN_VALIDATION
     training, validation = days[:split], days[split:]
@@ -135,7 +135,8 @@ def select(snapshot: dict, snapshot_bytes: bytes, db_path: Path,
             days = valid_sessions(db, ticker, snapshot["trading_date"])
             fitted = fit_one(days)
             if fitted is None:
-                output["diagnostics"][ticker] = f"Only {len(days)} complete historical sessions; need 50"
+                output["diagnostics"][ticker] = (f"Only {len(days)} complete historical sessions; "
+                                                 f"need {MIN_TRAIN + MIN_VALIDATION}")
                 continue
             output["diagnostics"][ticker] = fitted
             if fitted["score_pct"] > 0:
