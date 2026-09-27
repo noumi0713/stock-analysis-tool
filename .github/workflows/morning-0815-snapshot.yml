@@ -3,7 +3,7 @@ name: Freeze pre-08:15 market snapshot
 on:
   workflow_dispatch:
   schedule:
-    - cron: '5 23 * * 0-4' # 08:05 JST on Monday-Friday
+    - cron: '30 22 * * 0-4' # 07:30 JST on Monday-Friday; 08:15 is the hard cutoff
 
 permissions:
   contents: write
