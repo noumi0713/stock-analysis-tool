@@ -99,8 +99,9 @@ jobs:
           pick_args=()
           if [ "$ARCHIVE_OUTCOME" = success ]; then
             pick_file=$(find "$RUNNER_TEMP/morning-picks" -name "${trade_date}.json" -print -quit 2>/dev/null || true)
-            if [ -n "$pick_file" ]; then
-              pick_args=(--picks "$pick_file")
+            snapshot_file=$(find "$RUNNER_TEMP/morning-snapshots" -name "${trade_date}.json" -print -quit 2>/dev/null || true)
+            if [ -n "$pick_file" ] && [ -n "$snapshot_file" ]; then
+              pick_args=(--picks "$pick_file" --snapshot "$snapshot_file")
             fi
           fi
           python -m swing_data.intraday_notice --trade-date "$trade_date" "${pick_args[@]}"
