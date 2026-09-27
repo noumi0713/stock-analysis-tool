@@ -30,7 +30,9 @@ jobs:
           pick_args=()
           if git fetch origin refs/heads/morning-0815-snapshots:refs/remotes/origin/morning-0815-snapshots; then
             if git show "origin/morning-0815-snapshots:picks/$relative" > "$RUNNER_TEMP/picks.json"; then
-              pick_args=(--picks "$RUNNER_TEMP/picks.json")
+              if git show "origin/morning-0815-snapshots:$relative" > "$RUNNER_TEMP/morning.json"; then
+                pick_args=(--picks "$RUNNER_TEMP/picks.json" --snapshot "$RUNNER_TEMP/morning.json")
+              fi
             fi
           fi
           python -m swing_data.intraday_notice --trade-date "$trade_date" "${pick_args[@]}"

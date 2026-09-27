@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -45,10 +46,33 @@ def issue_text(trade_date: str, picks: dict | None) -> str:
     return "\n".join(lines)
 
 
-def publish(trade_date: str, picks_path: Path | None) -> str:
+def verified_picks(trade_date: str, picks_path: Path | None,
+                   snapshot_path: Path | None) -> dict | None:
+    if not picks_path or not picks_path.is_file() or not snapshot_path or not snapshot_path.is_file():
+        return None
+    raw = snapshot_path.read_bytes()
+    snapshot, picks = json.loads(raw), json.loads(picks_path.read_bytes())
+    if snapshot.get("trading_date") != trade_date or picks.get("trade_date") != trade_date:
+        return None
+    if snapshot.get("status") != "READY" or picks.get("snapshot_sha256") != hashlib.sha256(raw).hexdigest():
+        return None
+    try:
+        cutoff = datetime.fromisoformat(snapshot["cutoff_jst"])
+        issued = datetime.fromisoformat(picks["generated_at_jst"])
+        completed = datetime.fromisoformat(snapshot["completed_at_jst"])
+        if (cutoff.utcoffset() is None or issued.utcoffset() is None or completed.utcoffset() is None or
+            issued > cutoff or completed > cutoff):
+            return None
+    except (KeyError, ValueError, TypeError):
+        return None
+    return picks
+
+
+def publish(trade_date: str, picks_path: Path | None,
+            snapshot_path: Path | None = None) -> str:
     if not xcals.get_calendar("XTKS").is_session(date.fromisoformat(trade_date)):
         return "SKIP_NON_SESSION"
-    picks = json.loads(picks_path.read_text(encoding="utf-8")) if picks_path and picks_path.is_file() else None
+    picks = verified_picks(trade_date, picks_path, snapshot_path)
     title = f"Intraday forecast {trade_date}"
     # Search both open and closed issues so a rerun cannot create another notice.
     for issue in api("GET", "/issues?" + urlencode({"state": "all", "per_page": 100})):
@@ -64,8 +88,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--trade-date", required=True)
     parser.add_argument("--picks", type=Path)
+    parser.add_argument("--snapshot", type=Path)
     args = parser.parse_args()
-    print(publish(args.trade_date, args.picks))
+    print(publish(args.trade_date, args.picks, args.snapshot))
     return 0
 
 
