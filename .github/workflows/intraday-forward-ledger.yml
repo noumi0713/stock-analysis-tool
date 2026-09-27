@@ -1,0 +1,120 @@
+name: Record forward-test contest outcome
+
+on:
+  workflow_dispatch:
+    inputs:
+      trade_date:
+        description: "Tokyo trading date (YYYY-MM-DD), after the close"
+        required: true
+        type: string
+      market_events_json:
+        description: "Optional manually verified quote/halt/limit events JSON"
+        required: false
+        type: string
+      amend_unsettled:
+        description: "Append a revision to an unsettled day using event evidence"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: intraday-forward-ledger
+  cancel-in-progress: false
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: swing_data/requirements.txt
+      - run: pip install -r swing_data/requirements.txt
+
+      - name: Read frozen morning inputs and closing bars
+        env:
+          TRADE_DATE: ${{ inputs.trade_date }}
+        run: |
+          python - <<'PY'
+          import datetime, os, re
+          value = os.environ['TRADE_DATE']
+          assert re.fullmatch(r'\d{4}-\d{2}-\d{2}', value), 'Use YYYY-MM-DD'
+          datetime.date.fromisoformat(value)
+          PY
+          git fetch origin refs/heads/morning-0815-snapshots:refs/remotes/origin/morning-0815-snapshots
+          git fetch origin refs/heads/intraday-5m-data:refs/remotes/origin/intraday-5m-data
+          relative="${TRADE_DATE:0:4}/${TRADE_DATE:5:2}/${TRADE_DATE}.json"
+          git show "origin/morning-0815-snapshots:$relative" > "$RUNNER_TEMP/morning.json"
+          git show "origin/morning-0815-snapshots:picks/$relative" > "$RUNNER_TEMP/picks.json"
+          git show origin/intraday-5m-data:intraday_5m.sqlite > "$RUNNER_TEMP/intraday_5m.sqlite"
+
+      - name: Prepare optional event evidence
+        env:
+          MARKET_EVENTS_JSON: ${{ inputs.market_events_json }}
+          TRADE_DATE: ${{ inputs.trade_date }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          raw = os.environ.get('MARKET_EVENTS_JSON', '').strip()
+          if raw:
+              data = json.loads(raw)
+              if data.get('trading_date') != os.environ['TRADE_DATE']:
+                  raise SystemExit('Market-event date mismatch')
+              Path(os.environ['RUNNER_TEMP'], 'verified_events.json').write_text(raw, encoding='utf-8')
+          PY
+
+      - name: Append an outcome revision and regenerate summary
+        env:
+          TRADE_DATE: ${{ inputs.trade_date }}
+          AMEND_UNSETTLED: ${{ inputs.amend_unsettled }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          archive="$RUNNER_TEMP/forward-ledger"
+          if git fetch origin refs/heads/intraday-forward-ledger:refs/remotes/origin/intraday-forward-ledger; then
+            git worktree add --detach "$archive" refs/remotes/origin/intraday-forward-ledger
+          else
+            mkdir -p "$archive"
+            cd "$archive"
+            git init -b intraday-forward-ledger
+            git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+            cd "$GITHUB_WORKSPACE"
+          fi
+          event_args=()
+          if [ -f "$RUNNER_TEMP/verified_events.json" ]; then
+            event_args=(--market-events "$RUNNER_TEMP/verified_events.json")
+          fi
+          amend_args=()
+          if [ "$AMEND_UNSETTLED" = true ]; then
+            amend_args=(--amend-unsettled)
+          fi
+          python -m swing_data.intraday_ledger \
+            --picks "$RUNNER_TEMP/picks.json" \
+            --snapshot "$RUNNER_TEMP/morning.json" \
+            --db "$RUNNER_TEMP/intraday_5m.sqlite" \
+            --archive "$archive" \
+            "${event_args[@]}" "${amend_args[@]}"
+          cd "$archive"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add days summary.json
+          git commit -m "Record forward test ${TRADE_DATE}"
+          git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" \
+            push origin HEAD:intraday-forward-ledger
+
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forward-ledger-${{ inputs.trade_date }}-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/forward-ledger/summary.json
+            ${{ runner.temp }}/forward-ledger/days/
+          if-no-files-found: ignore
+          retention-days: 30
