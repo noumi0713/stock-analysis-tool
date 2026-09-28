@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "trade_date": "2026-09-29",
+  "submission_type": "user_requested_special_after_0815",
+  "submitted_at_jst": "2026-09-29T08:31:39+09:00",
+  "standard_0815_contest_eligible": false,
+  "status": "EXPERIMENTAL_PICK_WITH_FAILED_QUALITY",
+  "recommendation": {
+    "ticker": "7936.T",
+    "shares": 100,
+    "buy_time_jst": "10:30",
+    "sell_time_jst": "14:30",
+    "order_style": "paper_only_fixed_time",
+    "sizing_reference_jpy": 4169,
+    "reserved_cash_at_20pct_gap_jpy": 500280
+  },
+  "evidence": {
+    "source_branch": "intraday-5m-data",
+    "source_commit": "3dda38572f98c72596e4a704206a68992a951e1b",
+    "database_sha256": "660be99de7a08aa5c84cb9de4a76e657e5c1c927639f9f520bf768be052b40f6",
+    "quality_status": "FAIL",
+    "valid_nonconsecutive_sessions": 12,
+    "training_sessions": 8,
+    "validation_sessions": 4,
+    "validation_net_lower_bound_pct": -0.005488626726001922,
+    "score_pct": -0.005488626726001922,
+    "latest_observed_session": "2026-09-28",
+    "latest_observed_1520_price_jpy": 4169
+  },
+  "caveat": "Requested experimental nomination despite failed ten-consecutive-session quality and negative score; no valid 08:15 forecast exists. Do not count as a standard contest trade."
+}
