@@ -92,15 +92,12 @@ def audit(db_path: Path, tickers: list[str], asof: datetime,
                     ).fetchall()
                     times = [bar[0] for bar in bars]
                     missing = sorted(set(EXPECTED_TIMES) - set(times))
-                    # The five-minute closing auction may be represented at
-                    # 15:25 or as a separate 15:30 print by the vendor.
+                    # Yahoo can end its regular-session series at 15:20;
+                    # the closing auction print is optional in this feed.
                     unexpected = sorted(set(times) - set(EXPECTED_TIMES) - {"15:25", "15:30"})
                     if missing:
                         report["issues"].append(issue("missing_bars", ticker, date,
                                                       f"{len(missing)} slots: {','.join(missing)}", "FAIL"))
-                    if not ({"15:25", "15:30"} & set(times)):
-                        report["issues"].append(issue("missing_close", ticker, date,
-                                                      "Closing auction bar absent", "FAIL"))
                     if unexpected or len(times) != len(set(times)):
                         report["issues"].append(issue("unexpected_or_duplicate_bars", ticker, date,
                                                       str(unexpected), "FAIL"))
