@@ -46,6 +46,9 @@ jobs:
               exit 0
             fi
             git show origin/intraday-5m-data:intraday_5m.sqlite > "$RUNNER_TEMP/intraday_5m.sqlite"
+            if ! git show origin/intraday-5m-data:intraday_5m_quality.json | python -c 'import json,sys; sys.exit(json.load(sys.stdin).get("status") != "PASS")'; then
+              echo 'REPAIR_COVERAGE=1' >> "$GITHUB_ENV"
+            fi
           else
             echo 'BOOTSTRAP=1' >> "$GITHUB_ENV"
           fi
@@ -56,7 +59,7 @@ jobs:
           LOOKBACK_DAYS: ${{ inputs.lookback_days }}
         run: |
           if [ -z "$LOOKBACK_DAYS" ]; then
-            if [ "$BOOTSTRAP" = 1 ] || [ "${{ github.event_name }}" = push ]; then
+            if [ "$BOOTSTRAP" = 1 ] || [ "${REPAIR_COVERAGE:-0}" = 1 ] || [ "${{ github.event_name }}" = push ]; then
               LOOKBACK_DAYS=59
             else
               LOOKBACK_DAYS=7
@@ -69,13 +72,15 @@ jobs:
             --include-today
 
       - name: Audit coverage and consistency
+        id: audit
+        continue-on-error: true
         if: steps.restore.outputs.skip != 'true'
         run: |
           python -m swing_data.intraday_5m_quality \
             --db "$RUNNER_TEMP/intraday_5m.sqlite" \
             --report "$RUNNER_TEMP/intraday_5m_quality.json"
 
-      - name: Publish latest validated snapshot
+      - name: Publish snapshot with explicit quality status
         if: steps.restore.outputs.skip != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
@@ -94,6 +99,12 @@ jobs:
           git commit -m 'Publish 5-minute database snapshot'
           git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" \
             push --force origin HEAD:intraday-5m-data
+
+      - name: Fail the run when coverage is incomplete
+        if: steps.audit.outcome == 'failure'
+        run: |
+          echo 'The DB was preserved with a FAIL quality report; morning selection remains blocked.'
+          exit 1
 
       - name: Upload diagnostic report on failure
         if: failure()
