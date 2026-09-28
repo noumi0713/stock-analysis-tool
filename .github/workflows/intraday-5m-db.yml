@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/intraday-5m-db.yml'
+      - 'swing_data/intraday_5m_db.py'
+      - 'swing_data/intraday_5m_quality.py'
+      - 'swing_data/config/intraday_5m_tickers.json'
   workflow_dispatch:
     inputs:
       lookback_days:
