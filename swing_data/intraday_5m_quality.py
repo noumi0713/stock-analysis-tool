@@ -17,7 +17,7 @@ JST = ZoneInfo("Asia/Tokyo")
 EXPECTED_TIMES = tuple(
     f"{h:02d}:{m:02d}"
     for h, start, end in ((9, 0, 60), (10, 0, 60), (11, 0, 30),
-                           (12, 30, 60), (13, 0, 60), (14, 0, 60), (15, 0, 30))
+                           (12, 30, 60), (13, 0, 60), (14, 0, 60), (15, 0, 25))
     for m in range(start, end, 5)
 )
 
@@ -92,10 +92,15 @@ def audit(db_path: Path, tickers: list[str], asof: datetime,
                     ).fetchall()
                     times = [bar[0] for bar in bars]
                     missing = sorted(set(EXPECTED_TIMES) - set(times))
-                    unexpected = sorted(set(times) - set(EXPECTED_TIMES) - {"15:30"})
+                    # The five-minute closing auction may be represented at
+                    # 15:25 or as a separate 15:30 print by the vendor.
+                    unexpected = sorted(set(times) - set(EXPECTED_TIMES) - {"15:25", "15:30"})
                     if missing:
                         report["issues"].append(issue("missing_bars", ticker, date,
                                                       f"{len(missing)} slots: {','.join(missing)}", "FAIL"))
+                    if not ({"15:25", "15:30"} & set(times)):
+                        report["issues"].append(issue("missing_close", ticker, date,
+                                                      "Closing auction bar absent", "FAIL"))
                     if unexpected or len(times) != len(set(times)):
                         report["issues"].append(issue("unexpected_or_duplicate_bars", ticker, date,
                                                       str(unexpected), "FAIL"))
