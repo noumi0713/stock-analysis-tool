@@ -77,6 +77,16 @@ def fetch(symbol: str, lookback_days: int, attempts: int = 3) -> pd.DataFrame:
     raise RuntimeError(f"{symbol}: {last_error}")
 
 
+def fetch_session(symbol: str, session_date: str) -> pd.DataFrame:
+    """Retry one omitted session with a narrow vendor query."""
+    start = datetime.fromisoformat(session_date).date()
+    return yf.Ticker(symbol).history(
+        start=start.isoformat(), end=(start + timedelta(days=1)).isoformat(),
+        interval="5m", auto_adjust=False, prepost=False,
+        actions=False, repair=False, raise_errors=True,
+    )
+
+
 def normalized_days(frame: pd.DataFrame, today: str, include_today: bool):
     frame = frame.copy()
     index = pd.DatetimeIndex(frame.index)
@@ -135,6 +145,10 @@ def store_day(db: sqlite3.Connection, ticker: str, date: str, group: pd.DataFram
 
 def collect(db_path: Path, tickers: list[str], lookback_days: int,
             include_today: bool = False) -> dict:
+    # A broad Yahoo query has omitted otherwise available complete sessions.
+    # Query absent recent dates individually before declaring quality failure.
+    from .intraday_5m_quality import expected_sessions
+
     db_path.parent.mkdir(parents=True, exist_ok=True)
     report = {"generated_at_jst": datetime.now(JST).isoformat(), "source": "yfinance",
               "interval": "5m", "auto_adjust": False, "lookback_calendar_days": lookback_days,
@@ -144,6 +158,7 @@ def collect(db_path: Path, tickers: list[str], lookback_days: int,
     include_today = include_today and datetime.now(JST).time() >= datetime.strptime(
         "15:40", "%H:%M"
     ).time()
+    recent = expected_sessions(datetime.now(JST), 10)
     with sqlite3.connect(db_path) as db:
         db.executescript(SCHEMA)
         for ticker in tickers:
@@ -158,6 +173,24 @@ def collect(db_path: Path, tickers: list[str], lookback_days: int,
                     item["rows_written"] += len(group)
             except Exception as exc:
                 item["error"] = str(exc)
+            have = {row[0] for row in db.execute(
+                "SELECT trading_date FROM daily_lows WHERE ticker=?", (ticker,)
+            )}
+            for date in recent:
+                if date in have:
+                    continue
+                try:
+                    for fetched_date, group in normalized_days(
+                        fetch_session(ticker, date), datetime.now(JST).date().isoformat(),
+                        include_today
+                    ):
+                        if fetched_date != date:
+                            continue
+                        store_day(db, ticker, date, group)
+                        item["days_written"] += 1
+                        item["rows_written"] += len(group)
+                except Exception as exc:
+                    item.setdefault("repair_errors", {})[date] = str(exc)
             report["results"].append(item)
         report["total_days"] = db.execute("SELECT COUNT(*) FROM daily_lows").fetchone()[0]
         report["total_bars"] = db.execute("SELECT COUNT(*) FROM bars").fetchone()[0]
