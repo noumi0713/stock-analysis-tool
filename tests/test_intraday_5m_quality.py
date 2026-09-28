@@ -39,6 +39,20 @@ def test_complete_db_passes_and_skips_weekend(tmp_path):
     assert report["issues"] == []
 
 
+def test_closing_auction_at_1530_without_1525_is_complete(tmp_path):
+    path = tmp_path / "bars.sqlite"
+    make_db(path)
+    with sqlite3.connect(path) as db:
+        for date in ("2026-09-24", "2026-09-25"):
+            day = bars(date)
+            day = day.drop(day.index[-1])
+            auction = day.iloc[-1].copy()
+            day.loc[pd.Timestamp(f"{date} 15:30", tz="Asia/Tokyo")] = auction
+            intraday_5m_db.store_day(db, "9984.T", date, day)
+    report = intraday_5m_quality.audit(path, ["9984.T"], ASOF, lookback_sessions=2)
+    assert report["status"] == "PASS"
+
+
 def test_missing_bar_and_summary_mismatch_block_publication(tmp_path):
     path = tmp_path / "bars.sqlite"
     make_db(path)
