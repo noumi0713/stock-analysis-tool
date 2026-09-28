@@ -53,6 +53,17 @@ def test_closing_auction_at_1530_without_1525_is_complete(tmp_path):
     assert report["status"] == "PASS"
 
 
+def test_feed_ending_at_1520_is_complete(tmp_path):
+    path = tmp_path / "bars.sqlite"
+    make_db(path)
+    with sqlite3.connect(path) as db:
+        for date in ("2026-09-24", "2026-09-25"):
+            day = bars(date)
+            intraday_5m_db.store_day(db, "9984.T", date, day.iloc[:-1])
+    report = intraday_5m_quality.audit(path, ["9984.T"], ASOF, lookback_sessions=2)
+    assert report["status"] == "PASS"
+
+
 def test_missing_bar_and_summary_mismatch_block_publication(tmp_path):
     path = tmp_path / "bars.sqlite"
     make_db(path)
