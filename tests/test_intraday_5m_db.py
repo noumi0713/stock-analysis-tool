@@ -3,7 +3,7 @@ import sqlite3
 
 import pandas as pd
 
-from swing_data import intraday_5m_db as subject
+from swing_data import intraday_5m_db as subject, intraday_5m_quality
 
 
 def sample_bars(day: date, low: float = 90.0):
@@ -19,6 +19,8 @@ def test_collect_replaces_existing_day_and_keeps_history(tmp_path, monkeypatch):
     yesterday = date.today() - timedelta(days=1)
     previous = yesterday - timedelta(days=1)
     first = pd.concat([sample_bars(previous), sample_bars(yesterday)])
+    monkeypatch.setattr(intraday_5m_quality, "expected_sessions",
+                        lambda *args: [previous.isoformat(), yesterday.isoformat()])
     monkeypatch.setattr(subject, "fetch", lambda *args, **kwargs: first)
     target = tmp_path / "test.sqlite"
     report = subject.collect(target, ["9984.T"], 7)
@@ -33,6 +35,22 @@ def test_collect_replaces_existing_day_and_keeps_history(tmp_path, monkeypatch):
     with sqlite3.connect(target) as db:
         assert db.execute("SELECT low,first_low_time FROM daily_lows WHERE trading_date=?",
                           (yesterday.isoformat(),)).fetchone() == (85, "09:35")
+
+
+def test_collect_repairs_omitted_session_with_narrow_query(tmp_path, monkeypatch):
+    recent = date.today() - timedelta(days=2)
+    missing = recent - timedelta(days=1)
+    monkeypatch.setattr(intraday_5m_quality, "expected_sessions",
+                        lambda *args: [missing.isoformat(), recent.isoformat()])
+    monkeypatch.setattr(subject, "fetch", lambda *args, **kwargs: sample_bars(recent))
+    requested = []
+    def narrow(symbol, day):
+        requested.append((symbol, day))
+        return sample_bars(missing)
+    monkeypatch.setattr(subject, "fetch_session", narrow)
+    report = subject.collect(tmp_path / "repaired.sqlite", ["9984.T"], 7)
+    assert report["total_days"] == 2
+    assert requested == [("9984.T", missing.isoformat())]
 
 
 def test_incomplete_and_future_day_are_skipped():
