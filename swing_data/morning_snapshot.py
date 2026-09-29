@@ -15,6 +15,7 @@ import pandas as pd
 import yfinance as yf
 
 from .intraday_5m_db import read_tickers
+from .intraday_5m_quality import EXPECTED_TIMES
 
 JST = ZoneInfo("Asia/Tokyo")
 NY = ZoneInfo("America/New_York")
@@ -116,26 +117,56 @@ def domestic_context(db_path: Path, quality_path: Path, tickers: list[str],
     if not db_path.is_file() or not quality_path.is_file():
         raise ValueError("5-minute DB or its quality report is missing")
     quality = json.loads(quality_path.read_text(encoding="utf-8"))
-    if quality.get("status") != "PASS" or quality.get("expected_latest_session") != expected_date:
-        raise ValueError("5-minute DB quality is not PASS for the latest completed session")
+    if (quality.get("status") not in ("PASS", "WARN", "FAIL") or
+            quality.get("expected_latest_session") != expected_date):
+        raise ValueError("5-minute DB quality report is absent or for the wrong session")
+    if any(x.get("severity") == "FAIL" and x.get("ticker") == "ALL"
+           for x in quality.get("issues", [])):
+        raise ValueError("5-minute DB has a global integrity/audit failure")
+    blocked_days = {(x.get("ticker"), x.get("date"))
+                    for x in quality.get("issues", []) if x.get("severity") == "FAIL"}
+    calendar = xcals.get_calendar("XTKS")
     result = {"database_sha256": hashlib.sha256(db_path.read_bytes()).hexdigest(),
               "quality_sha256": hashlib.sha256(quality_path.read_bytes()).hexdigest(),
-              "session_date": expected_date, "tickers": {}}
+              "quality_status": quality["status"], "session_date": expected_date,
+              "tickers": {}, "excluded_tickers": {}}
     with sqlite3.connect(f"file:{db_path.resolve()}?mode=ro", uri=True) as db:
+        if db.execute("PRAGMA integrity_check").fetchone()[0] != "ok":
+            raise ValueError("5-minute DB integrity check failed")
         for ticker in tickers:
             rows = db.execute(
                 "SELECT trading_date,open,high,low,close FROM daily_lows "
                 "WHERE ticker=? AND trading_date<=? ORDER BY trading_date DESC LIMIT 250",
                 (ticker, expected_date),
             ).fetchall()
-            if not rows or rows[0][0] != expected_date:
-                raise ValueError(f"{ticker}: prior daily data missing")
+            if not rows:
+                result["excluded_tickers"][ticker] = "No usable historical session"
+                continue
+            latest = rows[0][0]
+            age = len(calendar.sessions_in_range(latest, expected_date)) - 1
+            if age > 1 or age < 0:
+                result["excluded_tickers"][ticker] = f"Latest session {latest} is {age} trading days stale"
+                continue
+            if (ticker, latest) in blocked_days:
+                result["excluded_tickers"][ticker] = f"Session {latest} failed quality audit"
+                continue
+            bars = db.execute(
+                "SELECT bar_time,open,close,volume FROM bars WHERE ticker=? AND trading_date=? "
+                "ORDER BY bar_time", (ticker, latest)
+            ).fetchall()
+            clocks = [bar[0] for bar in bars]
+            if (not set(EXPECTED_TIMES).issubset(clocks) or
+                    len(clocks) != len(set(clocks)) or len(bars) != db.execute(
+                        "SELECT bar_count FROM daily_lows WHERE ticker=? AND trading_date=?",
+                        (ticker, latest)).fetchone()[0] or
+                    bars[0][1] != rows[0][1] or bars[-1][2] != rows[0][4]):
+                result["excluded_tickers"][ticker] = "Prior session bars are incomplete or inconsistent"
+                continue
             rows.reverse()
             current = rows[-1]
-            vol = db.execute("SELECT SUM(volume) FROM bars WHERE ticker=? AND trading_date=?",
-                             (ticker, expected_date)).fetchone()[0]
+            vol = sum(bar[3] for bar in bars)
             result["tickers"][ticker] = {
-                "date": expected_date, "open": float(current[1]),
+                "date": latest, "staleness_sessions": age, "open": float(current[1]),
                 "high": float(current[2]), "low": float(current[3]),
                 "close": float(current[4]), "volume": vol,
                 **daily_indicators(rows),
@@ -158,7 +189,7 @@ def build_snapshot(now: datetime, fetch=fetch_history, db_path: Path | None = No
     snapshot = {"schema_version": 1, "trading_date": local.date().isoformat(),
                 "cutoff_jst": f"{local.date()}T08:15:00+09:00",
                 "started_at_jst": local.isoformat(), "prior_tse_session": previous,
-                "series": {}, "domestic": None, "errors": {}}
+                "series": {}, "domestic": None, "errors": {}, "warnings": {}}
     for name, symbol in US_SERIES.items():
         try:
             value = us_daily(fetch(symbol, "1d"), clock())
@@ -166,14 +197,14 @@ def build_snapshot(now: datetime, fetch=fetch_history, db_path: Path | None = No
                           "fetched_at_jst": clock().astimezone(JST).isoformat()})
             snapshot["series"][name] = value
         except Exception as exc:
-            snapshot["errors"][name] = str(exc)
+            snapshot["warnings"][name] = str(exc)
     try:
         value = fx_latest(fetch("JPY=X", "5m"), clock())
         value.update({"provider": "Yahoo Finance via yfinance", "symbol": "JPY=X",
                       "fetched_at_jst": clock().astimezone(JST).isoformat()})
         snapshot["series"]["usd_jpy"] = value
     except Exception as exc:
-        snapshot["errors"]["usd_jpy"] = str(exc)
+        snapshot["warnings"]["usd_jpy"] = str(exc)
 
     try:
         if db_path is None or quality_path is None or tickers is None:

@@ -34,7 +34,8 @@ def snapshot_for(db):
             "completed_at_jst": "2026-09-28T08:06:00+09:00", "status": "READY",
             "domestic": {"database_sha256": hashlib.sha256(db.read_bytes()).hexdigest(),
                          "session_date": "2026-09-25",
-                         "tickers": {"9984.T": {"close": 100, "volume": 2_000_000}}}}
+                         "tickers": {"9984.T": {"date": "2026-09-25", "staleness_sessions": 0,
+                                                  "close": 100, "volume": 2_000_000}}}}
 
 
 def run(snapshot, db, now=ASOF):
@@ -73,6 +74,19 @@ def test_ten_sessions_are_enough_to_fit(tmp_path):
     assert result["status"] == "PROVISIONAL_PICKS"
     assert result["diagnostics"]["9984.T"]["train_days"] == 7
     assert result["diagnostics"]["9984.T"]["validation_days"] == 3
+
+
+def test_one_missing_prior_session_halves_ticker_cap(tmp_path):
+    path = tmp_path / "stale.sqlite"
+    fixture_db(path, n=10)
+    snapshot = snapshot_for(path)
+    snapshot["domestic"]["quality_status"] = "FAIL"
+    snapshot["domestic"]["tickers"]["9984.T"]["staleness_sessions"] = 1
+    result = run(snapshot, path)
+    assert result["status"] == "PROVISIONAL_PICKS"
+    assert result["source_quality_status"] == "FAIL"
+    assert result["recommendations"][0]["reserved_cash_jpy"] <= 500_000
+    assert result["recommendations"][0]["staleness_sessions"] == 1
 
 
 def test_future_rows_cannot_enter_training_and_input_hash_is_required(tmp_path):

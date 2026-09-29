@@ -121,6 +121,8 @@ def select(snapshot: dict, snapshot_bytes: bytes, db_path: Path,
     if domestic.get("session_date") != snapshot.get("prior_tse_session"):
         output["reason"] = "Prior session is not verified"
         return output
+    output["source_quality_status"] = domestic.get("quality_status", "UNKNOWN")
+    output["excluded_tickers"] = domestic.get("excluded_tickers", {})
 
     candidates = []
     with sqlite3.connect(f"file:{db_path.resolve()}?mode=ro", uri=True) as db:
@@ -133,6 +135,9 @@ def select(snapshot: dict, snapshot_bytes: bytes, db_path: Path,
                 output["diagnostics"][ticker] = "Prior turnover below JPY 150 million"
                 continue
             days = valid_sessions(db, ticker, snapshot["trading_date"])
+            if not days or days[-1][0] != context.get("date") or context.get("staleness_sessions", 0) > 1:
+                output["diagnostics"][ticker] = "Latest usable session lacks a full set of bars"
+                continue
             fitted = fit_one(days)
             if fitted is None:
                 output["diagnostics"][ticker] = (f"Only {len(days)} complete historical sessions; "
@@ -150,7 +155,8 @@ def select(snapshot: dict, snapshot_bytes: bytes, db_path: Path,
         # A 20% overnight gap reserve prevents using the full cash balance
         # against yesterday's price. An even larger actual gap may still reject.
         reference_price = context["close"] * 1.20
-        shares = math.floor(min(MAX_PER_TICKER, remaining) / (reference_price * 100)) * 100
+        ticker_cap = MAX_PER_TICKER // 2 if context.get("staleness_sessions", 0) else MAX_PER_TICKER
+        shares = math.floor(min(ticker_cap, remaining) / (reference_price * 100)) * 100
         if shares < 100:
             output["diagnostics"][ticker] = "Positive score, but no affordable 100-share lot"
             continue
@@ -161,6 +167,8 @@ def select(snapshot: dict, snapshot_bytes: bytes, db_path: Path,
             "buy_time_jst": fitted["buy_time"], "sell_time_jst": fitted["sell_time"],
             "sizing_reference_jpy": reference_price,
             "reserved_cash_jpy": reserved,
+            "reference_session_date": context["date"],
+            "staleness_sessions": context.get("staleness_sessions", 0),
             "validation_net_lower_bound_pct": fitted["validation_net_lower_bound_pct"],
             "score_pct": fitted["score_pct"],
         })
