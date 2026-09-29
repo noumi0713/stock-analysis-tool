@@ -1,6 +1,12 @@
 name: Freeze pre-08:15 market snapshot
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/morning-0815-snapshot.yml'
+      - 'swing_data/morning_snapshot.py'
+      - 'swing_data/intraday_selector.py'
   workflow_dispatch:
   schedule:
     - cron: '30 22 * * 0-4' # 07:30 JST on Monday-Friday; 08:15 is the hard cutoff
