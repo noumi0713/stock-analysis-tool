@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "trading_date": "2026-09-30",
+  "cutoff_jst": "2026-09-30T08:15:00+09:00",
+  "started_at_jst": "2026-09-30T07:56:25.031243+09:00",
+  "prior_tse_session": "2026-09-29",
+  "series": {
+    "sp500": {
+      "value": 7670.83984375,
+      "session_date": "2026-09-29",
+      "available_after_jst": "2026-09-30T06:15:00+09:00",
+      "provider": "Yahoo Finance via yfinance",
+      "symbol": "^GSPC",
+      "fetched_at_jst": "2026-09-30T07:56:25.706442+09:00"
+    },
+    "nasdaq": {
+      "value": 26797.541015625,
+      "session_date": "2026-09-29",
+      "available_after_jst": "2026-09-30T06:15:00+09:00",
+      "provider": "Yahoo Finance via yfinance",
+      "symbol": "^IXIC",
+      "fetched_at_jst": "2026-09-30T07:56:25.759692+09:00"
+    },
+    "semiconductor": {
+      "value": 12629.1611328125,
+      "session_date": "2026-09-29",
+      "available_after_jst": "2026-09-30T06:15:00+09:00",
+      "provider": "Yahoo Finance via yfinance",
+      "symbol": "^SOX",
+      "fetched_at_jst": "2026-09-30T07:56:25.819059+09:00"
+    },
+    "vix": {
+      "value": 16.040000915527344,
+      "session_date": "2026-09-29",
+      "available_after_jst": "2026-09-30T06:15:00+09:00",
+      "provider": "Yahoo Finance via yfinance",
+      "symbol": "^VIX",
+      "fetched_at_jst": "2026-09-30T07:56:25.884808+09:00"
+    },
+    "usd_jpy": {
+      "value": 157.343994140625,
+      "observed_at_jst": "2026-09-30T07:55:00+09:00",
+      "provider": "Yahoo Finance via yfinance",
+      "symbol": "JPY=X",
+      "fetched_at_jst": "2026-09-30T07:56:25.960487+09:00"
+    }
+  },
+  "domestic": {
+    "database_sha256": "6add65b59ef09cffa9330325d97e056a16755d3a07f478e7410e8ee825061c00",
+    "quality_sha256": "2493a63d26c934a23cc68b28bd512cf53de9a8f8ad825edd80ec7a308e3efc94",
+    "quality_status": "FAIL",
+    "session_date": "2026-09-29",
+    "tickers": {
+      "7936.T": {
+        "date": "2026-09-28",
+        "staleness_sessions": 1,
+        "open": 4189.0,
+        "high": 4239.0,
+        "low": 4150.0,
+        "close": 4169.0,
+        "volume": 3038300,
+        "previous_return_pct": 1.8817204301075252,
+        "five_day_return_pct": -7.314361938639391,
+        "ma25_deviation_pct": null,
+        "rsi14": null,
+        "atr14": null
+      },
+      "485A.T": {
+        "date": "2026-09-28",
+        "staleness_sessions": 1,
+        "open": 2118.0,
+        "high": 2175.0,
+        "low": 2001.0,
+        "close": 2035.0,
+        "volume": 6439500,
+        "previous_return_pct": -9.875996457041625,
+        "five_day_return_pct": 14.39010680157391,
+        "ma25_deviation_pct": null,
+        "rsi14": null,
+        "atr14": null
+      },
+      "464A.T": {
+        "date": "2026-09-28",
+        "staleness_sessions": 1,
+        "open": 1755.0,
+        "high": 1760.0,
+        "low": 1695.0,
+        "close": 1698.0,
+        "volume": 638900,
+        "previous_return_pct": -2.804808242701773,
+        "five_day_return_pct": -1.1065812463599278,
+        "ma25_deviation_pct": null,
+        "rsi14": null,
+        "atr14": null
+      },
+      "6203.T": {
+        "date": "2026-09-28",
+        "staleness_sessions": 1,
+        "open": 2344.0,
+        "high": 2540.0,
+        "low": 2306.0,
+        "close": 2431.0,
+        "volume": 1946100,
+        "previous_return_pct": -0.49119934506753893,
+        "five_day_return_pct": 65.48672566371681,
+        "ma25_deviation_pct": null,
+        "rsi14": 90.05235602094241,
+        "atr14": 143.53061224489798
+      },
+      "6613.T": {
+        "date": "2026-09-28",
+        "staleness_sessions": 1,
+        "open": 2250.0,
+        "high": 2325.0,
+        "low": 2184.0,
+        "close": 2187.0,
+        "volume": 1352900,
+        "previous_return_pct": 0.0,
+        "five_day_return_pct": 4.741379310344818,
+        "ma25_deviation_pct": null,
+        "rsi14": null,
+        "atr14": null
+      },
+      "9984.T": {
+        "date": "2026-09-28",
+        "staleness_sessions": 1,
+        "open": 6210.0,
+        "high": 6409.0,
+        "low": 6178.0,
+        "close": 6244.0,
+        "volume": 50676900,
+        "previous_return_pct": 1.2650016217969462,
+        "five_day_return_pct": 11.73944166070151,
+        "ma25_deviation_pct": null,
+        "rsi14": null,
+        "atr14": null
+      },
+      "5803.T": {
+        "date": "2026-09-28",
+        "staleness_sessions": 1,
+        "open": 4983.0,
+        "high": 5075.0,
+        "low": 4918.0,
+        "close": 4962.0,
+        "volume": 23079800,
+        "previous_return_pct": 0.730816077953711,
+        "five_day_return_pct": -11.519258202567762,
+        "ma25_deviation_pct": null,
+        "rsi14": null,
+        "atr14": null
+      },
+      "8306.T": {
+        "date": "2026-09-28",
+        "staleness_sessions": 1,
+        "open": 3710.0,
+        "high": 3740.0,
+        "low": 3693.0,
+        "close": 3713.0,
+        "volume": 31175100,
+        "previous_return_pct": 3.6861211951968675,
+        "five_day_return_pct": 0.9790590155017709,
+        "ma25_deviation_pct": null,
+        "rsi14": null,
+        "atr14": null
+      },
+      "1570.T": {
+        "date": "2026-09-28",
+        "staleness_sessions": 1,
+        "open": 69740.0,
+        "high": 70840.0,
+        "low": 68620.0,
+        "close": 68640.0,
+        "volume": 2047890,
+        "previous_return_pct": -1.2231975823859598,
+        "five_day_return_pct": 0.8521892447840074,
+        "ma25_deviation_pct": null,
+        "rsi14": null,
+        "atr14": null
+      }
+    },
+    "excluded_tickers": {
+      "5131.T": "Session 2026-09-28 failed quality audit"
+    }
+  },
+  "errors": {},
+  "warnings": {},
+  "completed_at_jst": "2026-09-30T07:56:25.967969+09:00",
+  "status": "READY"
+}
