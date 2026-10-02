@@ -13,7 +13,9 @@ from typing import Any
 import pandas as pd
 
 from swing_data.collector import atomic_json
-from swing_data.pattern_candidates import detect, RULES, VERSION
+from swing_data.pattern_candidates import detect, SHAPE_VERSION
+VERSION = SHAPE_VERSION
+RULES = {"reference": "キオクシア2026-06-04〜2026-10-02・120暦日（82営業日）の固定見本", "similarity": "調整後終値の形状相関0.85以上、直近20本の相関0.65以上、標準化誤差0.55以下、値幅比0.5〜2、最高値・最安値の時期差20%以内", "warning": "暫定の形状比較。買い推奨・底打ち確定・上昇確率を意味しません。"}
 
 DECISION_PUBLIC = (
     "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/"
@@ -36,8 +38,9 @@ def _status_payload(
         "ranking_date": price_date,
         "price_date": price_date,
         "population_type": POPULATION_TYPE,
-        "population": "売買代金上位100銘柄＋三角持ち合い上抜け・底打ち候補",
-        "population_limit": 100,
+        "population": "売買代金上位100銘柄＋キオクシア類似形状候補",
+        "population_limit": None,
+        "base_population_limit": 100,
         "ranking_metric": "最新終値×出来高による推計売買代金（円）",
         "display_sort": "画面で直近6営業日の調整後終値から5営業日騰落率を計算し降順",
         "technical_indicators_persisted": False,
@@ -180,10 +183,11 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
             }
         )
 
+    reference = _read_json(Path(__file__).parent / "config/kioxia_shape_reference_20261002.json")
     pattern_items = []
     for item in candidates:
         frame = pd.read_csv(target / item["ohlcv_path"])
-        signals = detect(frame, price_date)
+        signals = detect(frame, price_date, reference) if item["stock_code"] != "285A" else []
         item["pattern_signals"] = signals
         item["candidate_sources"] = ["pattern"] if signals else []
         if signals:
@@ -199,7 +203,7 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
     atomic_json(target / "pattern_candidates.json", {
         "status": "success", "price_date": price_date, "rule_version": VERSION,
         "rules": RULES, "scanned_count": len(candidates), "count": len(pattern_items),
-        "reference_code": "285A", "reference_matches": next((x["pattern_signals"] for x in candidates if x["stock_code"] == "285A"), []),
+        "reference_template": reference, "reference_code": "285A", "reference_matches": next((x["pattern_signals"] for x in candidates if x["stock_code"] == "285A"), []),
         "items": pattern_items,
     })
 
@@ -217,7 +221,7 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
         count=len(items),
         priced_count=priced_count,
         note=(
-            "売買代金上位100銘柄に、直近3営業日の三角持ち合い上抜け・底打ち候補を追加。候補は買い推奨ではありません。"
+            "売買代金上位100銘柄に、キオクシアの120暦日チャートに近い形状候補を追加。候補は買い推奨ではありません。"
             "5営業日騰落率・RSI等は画面/分析時に生データから計算します。"
         ),
     )
@@ -228,9 +232,11 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
         "ranking_date": price_date,
         "price_date": price_date,
         "population_type": POPULATION_TYPE,
-        "population_limit": 100,
+        "population_limit": None,
+        "base_population_limit": 100,
         "ranking_metric": "latest_close_times_volume_descending",
         "sort_instruction": "recent_pricesの最終adj_close / 6本前adj_close - 1 を画面で計算し降順",
+        "reference_template": reference,
         "items": items,
     }
     atomic_json(target / "swipe_review_universe.json", payload)

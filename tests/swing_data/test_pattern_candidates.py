@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from swing_data.pattern_candidates import detect, prepare, pivots
+from swing_data.pattern_candidates import detect_triggers as detect, prepare, pivots
 
 
 def triangle_frame():
@@ -30,3 +30,13 @@ def test_triangle_breakout_requires_volume_and_fresh_data():
 def test_invalid_ohlc_is_not_screened():
     f=triangle_frame(); f.loc[100,'adj_low']=120
     assert prepare(f,f.date.iloc[-1]) is None
+
+
+def test_similarity_accepts_reference_and_rejects_opposite_shape():
+    from swing_data.pattern_candidates import shape_similarity
+    f=triangle_frame(); start=(pd.Timestamp(f.date.iloc[-1])-pd.Timedelta(days=120)).date().isoformat(); reference={'adj_close':f.loc[f.date>=start,'adj_close'].tolist()}
+    assert shape_similarity(f,f.date.iloc[-1],reference)['matches']
+    bad=f.copy()
+    for k in ['adj_open','adj_high','adj_low','adj_close','close']: bad[k]=200-f[k]
+    bad[['adj_high','adj_low']]=bad[['adj_low','adj_high']].to_numpy()
+    assert not shape_similarity(bad,bad.date.iloc[-1],reference)['matches']

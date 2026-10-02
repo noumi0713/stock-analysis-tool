@@ -79,7 +79,7 @@ def bottom(f,t):
     return {'kind':'bottom_reversal','label':'底打ち・戻り高値突破候補','formation_start':str(p.date.iloc[0]),'signal_date':str(f.date.iloc[t]),'bottom_date':str(p.date.iloc[idx]),'resistance':round(level,4),'invalidation_level':round(trough,4),'preceding_drawdown_pct':round((trough/peak-1)*100,2)}
 
 
-def detect(frame,price_date):
+def detect_triggers(frame,price_date):
     f=prepare(frame,price_date)
     if f is None: return []
     result=[]
@@ -94,3 +94,33 @@ def detect(frame,price_date):
                 candidate.update(volume_ratio=round(vol_ratio,3),average_trading_value_20d=round(liquidity),as_of=price_date,rule_version=VERSION,validated=False)
                 result.append(candidate)
     return result
+
+
+# The template is frozen. Similarity is descriptive, not a probability of profit.
+SHAPE_VERSION = 'kioxia-120-calendar-days-v1'
+def shape_similarity(frame, price_date, reference):
+    f=prepare(frame,price_date)
+    if f is None or not reference: return None
+    start=(pd.Timestamp(price_date)-pd.Timedelta(days=120)).date().isoformat()
+    p=f[f.date>=start]
+    if len(p)<70 or pd.Timestamp(p.date.iloc[0])>pd.Timestamp(start)+pd.Timedelta(days=7): return None
+    a=np.log(np.asarray(reference['adj_close'],dtype=float))
+    b=np.log(p.adj_close.to_numpy())
+    if a.std()<=1e-10 or b.std()<=1e-10: return None
+    b=np.interp(np.linspace(0,1,len(a)),np.linspace(0,1,len(b)),b)
+    corr=float(np.corrcoef(a,b)[0,1]); recent=float(np.corrcoef(a[-20:],b[-20:])[0,1])
+    rmse=float(np.sqrt(np.mean(((a-a.mean())/a.std()-(b-b.mean())/b.std())**2)))
+    ratio=float(np.ptp(b)/np.ptp(a)); peak_gap=abs(int(a.argmax())-int(b.argmax()))/len(a)
+    low_gap=abs(int(a.argmin())-int(b.argmin()))/len(a)
+    passed=corr>=.85 and recent>=.65 and rmse<=.55 and .5<=ratio<=2 and peak_gap<=.2 and low_gap<=.2
+    return {'matches':passed,'correlation':round(corr,4),'recent_20_correlation':round(recent,4),'normalized_rmse':round(rmse,4),'amplitude_ratio':round(ratio,4),'peak_timing_gap':round(peak_gap,4),'bottom_timing_gap':round(low_gap,4),'comparison_start':str(p.date.iloc[0]),'comparison_end':price_date,'comparison_sessions':len(p)}
+
+
+def detect(frame,price_date,reference=None):
+    similarity=shape_similarity(frame,price_date,reference)
+    if not similarity or not similarity['matches']: return []
+    f=prepare(frame,price_date)
+    liquidity=float((f.close*f.volume).tail(20).mean())
+    if liquidity<150_000_000: return []
+    triggers=detect_triggers(frame,price_date)
+    return [{'kind':'kioxia_similar_shape','label':'キオクシア類似形状・監視候補','signal_date':price_date,'as_of':price_date,'rule_version':SHAPE_VERSION,'validated':False,'similarity':similarity,'trigger_labels':[x['label'] for x in triggers],'trigger_signals':triggers,'average_trading_value_20d':round(liquidity)}]
