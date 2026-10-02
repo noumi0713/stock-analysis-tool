@@ -1,0 +1,673 @@
+{
+  "generated_at_jst": "2026-10-02T23:10:35.191046+09:00",
+  "expected_latest_session": "2026-10-02",
+  "lookback_sessions": 10,
+  "status": "FAIL",
+  "issues": [
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "7936.T",
+      "date": "2026-09-16",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "7936.T",
+      "date": "2026-09-17",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "7936.T",
+      "date": "2026-09-18",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "7936.T",
+      "date": "2026-09-25",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "7936.T",
+      "date": "2026-09-29",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "7936.T",
+      "date": "2026-10-01",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "7936.T",
+      "date": "2026-10-02",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "stale",
+      "severity": "FAIL",
+      "ticker": "7936.T",
+      "date": "2026-10-02",
+      "detail": "Latest completed session absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "485A.T",
+      "date": "2026-09-16",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "485A.T",
+      "date": "2026-09-17",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "485A.T",
+      "date": "2026-09-18",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "485A.T",
+      "date": "2026-09-25",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "485A.T",
+      "date": "2026-09-29",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "485A.T",
+      "date": "2026-09-30",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "485A.T",
+      "date": "2026-10-01",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "485A.T",
+      "date": "2026-10-02",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "stale",
+      "severity": "FAIL",
+      "ticker": "485A.T",
+      "date": "2026-10-02",
+      "detail": "Latest completed session absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "464A.T",
+      "date": "2026-09-16",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "464A.T",
+      "date": "2026-09-17",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "464A.T",
+      "date": "2026-09-18",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "464A.T",
+      "date": "2026-09-29",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "464A.T",
+      "date": "2026-09-30",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "464A.T",
+      "date": "2026-10-01",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "464A.T",
+      "date": "2026-10-02",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "stale",
+      "severity": "FAIL",
+      "ticker": "464A.T",
+      "date": "2026-10-02",
+      "detail": "Latest completed session absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5131.T",
+      "date": "2026-09-16",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5131.T",
+      "date": "2026-09-17",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5131.T",
+      "date": "2026-09-18",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5131.T",
+      "date": "2026-09-25",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5131.T",
+      "date": "2026-09-29",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5131.T",
+      "date": "2026-10-01",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5131.T",
+      "date": "2026-10-02",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "stale",
+      "severity": "FAIL",
+      "ticker": "5131.T",
+      "date": "2026-10-02",
+      "detail": "Latest completed session absent"
+    },
+    {
+      "type": "possible_corporate_action",
+      "severity": "WARN",
+      "ticker": "5131.T",
+      "date": "2026-09-24",
+      "detail": "open / previous close=1.411"
+    },
+    {
+      "type": "missing_bars",
+      "severity": "FAIL",
+      "ticker": "5131.T",
+      "date": "2026-09-28",
+      "detail": "3 slots: 10:35,13:55,14:20"
+    },
+    {
+      "type": "missing_bars",
+      "severity": "FAIL",
+      "ticker": "5131.T",
+      "date": "2026-09-30",
+      "detail": "1 slots: 10:15"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6203.T",
+      "date": "2026-09-16",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6203.T",
+      "date": "2026-09-17",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6203.T",
+      "date": "2026-09-18",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6203.T",
+      "date": "2026-09-25",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6203.T",
+      "date": "2026-09-29",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6203.T",
+      "date": "2026-09-30",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6203.T",
+      "date": "2026-10-01",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6203.T",
+      "date": "2026-10-02",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "stale",
+      "severity": "FAIL",
+      "ticker": "6203.T",
+      "date": "2026-10-02",
+      "detail": "Latest completed session absent"
+    },
+    {
+      "type": "possible_corporate_action",
+      "severity": "WARN",
+      "ticker": "6203.T",
+      "date": "2026-09-24",
+      "detail": "open / previous close=1.659"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6613.T",
+      "date": "2026-09-16",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6613.T",
+      "date": "2026-09-17",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6613.T",
+      "date": "2026-09-18",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6613.T",
+      "date": "2026-09-25",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6613.T",
+      "date": "2026-09-29",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6613.T",
+      "date": "2026-09-30",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6613.T",
+      "date": "2026-10-01",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "6613.T",
+      "date": "2026-10-02",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "stale",
+      "severity": "FAIL",
+      "ticker": "6613.T",
+      "date": "2026-10-02",
+      "detail": "Latest completed session absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "9984.T",
+      "date": "2026-09-16",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "9984.T",
+      "date": "2026-09-18",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "9984.T",
+      "date": "2026-09-24",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "9984.T",
+      "date": "2026-09-29",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "9984.T",
+      "date": "2026-09-30",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "9984.T",
+      "date": "2026-10-02",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "stale",
+      "severity": "FAIL",
+      "ticker": "9984.T",
+      "date": "2026-10-02",
+      "detail": "Latest completed session absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5803.T",
+      "date": "2026-09-16",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5803.T",
+      "date": "2026-09-17",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5803.T",
+      "date": "2026-09-18",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5803.T",
+      "date": "2026-09-25",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5803.T",
+      "date": "2026-09-29",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5803.T",
+      "date": "2026-09-30",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5803.T",
+      "date": "2026-10-01",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "5803.T",
+      "date": "2026-10-02",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "stale",
+      "severity": "FAIL",
+      "ticker": "5803.T",
+      "date": "2026-10-02",
+      "detail": "Latest completed session absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "8306.T",
+      "date": "2026-09-16",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "8306.T",
+      "date": "2026-09-17",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "8306.T",
+      "date": "2026-09-18",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "8306.T",
+      "date": "2026-09-25",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "8306.T",
+      "date": "2026-09-29",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "8306.T",
+      "date": "2026-09-30",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "8306.T",
+      "date": "2026-10-01",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "8306.T",
+      "date": "2026-10-02",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "stale",
+      "severity": "FAIL",
+      "ticker": "8306.T",
+      "date": "2026-10-02",
+      "detail": "Latest completed session absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "1570.T",
+      "date": "2026-09-16",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "1570.T",
+      "date": "2026-09-17",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "1570.T",
+      "date": "2026-09-18",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "1570.T",
+      "date": "2026-09-29",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "1570.T",
+      "date": "2026-10-01",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "missing_session",
+      "severity": "FAIL",
+      "ticker": "1570.T",
+      "date": "2026-10-02",
+      "detail": "Expected trading date absent"
+    },
+    {
+      "type": "stale",
+      "severity": "FAIL",
+      "ticker": "1570.T",
+      "date": "2026-10-02",
+      "detail": "Latest completed session absent"
+    }
+  ],
+  "tickers": {
+    "7936.T": {
+      "first_date": "2026-08-03",
+      "last_date": "2026-09-30",
+      "stored_days": 13
+    },
+    "485A.T": {
+      "first_date": "2026-08-03",
+      "last_date": "2026-09-28",
+      "stored_days": 9
+    },
+    "464A.T": {
+      "first_date": "2026-08-03",
+      "last_date": "2026-09-28",
+      "stored_days": 13
+    },
+    "5131.T": {
+      "first_date": "2026-08-25",
+      "last_date": "2026-09-30",
+      "stored_days": 5
+    },
+    "6203.T": {
+      "first_date": "2026-08-03",
+      "last_date": "2026-09-28",
+      "stored_days": 15
+    },
+    "6613.T": {
+      "first_date": "2026-08-03",
+      "last_date": "2026-09-28",
+      "stored_days": 12
+    },
+    "9984.T": {
+      "first_date": "2026-08-03",
+      "last_date": "2026-10-01",
+      "stored_days": 11
+    },
+    "5803.T": {
+      "first_date": "2026-08-03",
+      "last_date": "2026-09-28",
+      "stored_days": 7
+    },
+    "8306.T": {
+      "first_date": "2026-08-03",
+      "last_date": "2026-09-28",
+      "stored_days": 11
+    },
+    "1570.T": {
+      "first_date": "2026-08-03",
+      "last_date": "2026-09-30",
+      "stored_days": 10
+    }
+  },
+  "issue_counts": {
+    "FAIL": 85,
+    "WARN": 2
+  }
+}
