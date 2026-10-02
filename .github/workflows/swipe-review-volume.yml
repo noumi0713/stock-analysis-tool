@@ -6,6 +6,8 @@ on:
     branches: [main]
     paths:
       - 'swing_data/swipe_review.py'
+      - 'swing_data/pattern_candidates.py'
+      - 'tests/swing_data/test_pattern_candidates.py'
       - 'tests/swing_data/test_swipe_review.py'
       - '.github/workflows/swipe-review-volume.yml'
 
@@ -13,8 +15,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: swipe-review-volume-publication
-  cancel-in-progress: true
+  group: swing-data-publication
+  cancel-in-progress: false
 
 jobs:
   rebuild:
@@ -31,7 +33,7 @@ jobs:
           cache-dependency-path: swing_data/requirements.txt
       - run: python -m pip install -r swing_data/requirements.txt pytest
       - name: Verify swipe review contracts
-        run: python -m pytest tests/swing_data/test_swipe_review.py -q
+        run: python -m pytest tests/swing_data/test_swipe_review.py tests/swing_data/test_pattern_candidates.py -q
       - name: Restore latest published data
         env:
           GH_TOKEN: ${{ github.token }}

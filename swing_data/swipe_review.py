@@ -2,7 +2,7 @@
 
 The swipe population is the 100 TSE stocks with the highest estimated trading
 value (latest close times volume) on the latest completed equity session.
-Derived returns and technical indicators remain UI-time calculations.
+Adds causal pattern monitoring candidates; derived returns remain UI-time calculations.
 """
 from __future__ import annotations
 
@@ -13,12 +13,13 @@ from typing import Any
 import pandas as pd
 
 from swing_data.collector import atomic_json
+from swing_data.pattern_candidates import detect, RULES, VERSION
 
 DECISION_PUBLIC = (
     "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/"
     "swipe-decisions/swipe_review"
 )
-POPULATION_TYPE = "latest_daily_trading_value_top_100"
+POPULATION_TYPE = "trading_value_top_100_plus_pattern_candidates"
 
 
 def _status_payload(
@@ -35,11 +36,13 @@ def _status_payload(
         "ranking_date": price_date,
         "price_date": price_date,
         "population_type": POPULATION_TYPE,
-        "population": "全東証・最新取引日の売買代金ランキング上位100銘柄",
+        "population": "売買代金上位100銘柄＋三角持ち合い上抜け・底打ち候補",
         "population_limit": 100,
         "ranking_metric": "最新終値×出来高による推計売買代金（円）",
         "display_sort": "画面で直近6営業日の調整後終値から5営業日騰落率を計算し降順",
         "technical_indicators_persisted": False,
+        "pattern_rule_version": VERSION,
+        "pattern_signals_validated": False,
         "count": count,
         "priced_count": priced_count,
         "decision_url": f"{DECISION_PUBLIC}/data/{date_part}.json",
@@ -177,10 +180,28 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
             }
         )
 
+    pattern_items = []
+    for item in candidates:
+        frame = pd.read_csv(target / item["ohlcv_path"])
+        signals = detect(frame, price_date)
+        item["pattern_signals"] = signals
+        item["candidate_sources"] = ["pattern"] if signals else []
+        if signals:
+            pattern_items.append(item)
     candidates.sort(key=lambda item: (-item["ranking_trading_value"], item["stock_code"]))
-    items = candidates[:100]
-    for rank, item in enumerate(items, start=1):
+    for rank, item in enumerate(candidates, start=1):
         item["trading_value_rank"] = rank
+        if rank <= 100:
+            item["candidate_sources"].insert(0, "trading_value_top_100")
+    top = candidates[:100]
+    top_codes = {x["stock_code"] for x in top}
+    items = top + [x for x in pattern_items if x["stock_code"] not in top_codes]
+    atomic_json(target / "pattern_candidates.json", {
+        "status": "success", "price_date": price_date, "rule_version": VERSION,
+        "rules": RULES, "scanned_count": len(candidates), "count": len(pattern_items),
+        "reference_code": "285A", "reference_matches": next((x["pattern_signals"] for x in candidates if x["stock_code"] == "285A"), []),
+        "items": pattern_items,
+    })
 
     if not items:
         return _write_not_ready(
@@ -196,10 +217,12 @@ def build_swipe_review(target: Path, price_date: str | None = None) -> dict[str,
         count=len(items),
         priced_count=priced_count,
         note=(
-            "母集団は全東証銘柄のうち最新終値×出来高で算出した推計売買代金上位100銘柄。"
+            "売買代金上位100銘柄に、直近3営業日の三角持ち合い上抜け・底打ち候補を追加。候補は買い推奨ではありません。"
             "5営業日騰落率・RSI等は画面/分析時に生データから計算します。"
         ),
     )
+    status["pattern_count"] = len(pattern_items)
+    status["pattern_added_count"] = len(items) - len(top)
     payload = {
         "status": "success",
         "ranking_date": price_date,
