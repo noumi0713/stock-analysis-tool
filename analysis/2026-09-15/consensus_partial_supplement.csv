@@ -1,0 +1,4 @@
+stock_code,provider,data_reference_date,retrieved_at,source_url,rating_mean,rating_scale,rating_count,bps,currency,classification,data_note
+4506,IFIS,2026-09-14,2026-09-15T08:32:24.858259+09:00,https://kabuyoho.ifis.co.jp/index.php?action=tp1&bcode=4506&sa=report_pbr,3.8,5 strong to 1 weak; not Yahoo scale,6,911,JPY,判定不能,Partial supplement only; targets and fiscal EPS not completed
+8306,IFIS,2026-09-14,2026-09-15T08:32:35.429637+09:00,https://kabuyoho.ifis.co.jp/index.php?action=tp1&bcode=8306&sa=report_pbr,4.7,5 strong to 1 weak; not Yahoo scale,10,2017,JPY,判定不能,Partial supplement only; targets and fiscal EPS not completed
+6702,IFIS,2026-09-14,2026-09-15T08:32:46.795281+09:00,https://kabuyoho.ifis.co.jp/index.php?action=tp1&bcode=6702&sa=report_pbr,4.4,5 strong to 1 weak; not Yahoo scale,13,1173,JPY,判定不能,Partial supplement only; targets and fiscal EPS not completed

@@ -1,0 +1,21 @@
+{
+  "status": "success",
+  "ranking_date": "2026-10-02",
+  "price_date": "2026-10-02",
+  "population_type": "trading_value_top_100_plus_pattern_candidates",
+  "population": "売買代金上位100銘柄＋キオクシア類似形状候補",
+  "population_limit": null,
+  "base_population_limit": 100,
+  "ranking_metric": "最新終値×出来高による推計売買代金（円）",
+  "display_sort": "画面で直近6営業日の調整後終値から5営業日騰落率を計算し降順",
+  "technical_indicators_persisted": false,
+  "pattern_rule_version": "kioxia-120-calendar-days-v1",
+  "pattern_signals_validated": false,
+  "count": 102,
+  "priced_count": 102,
+  "decision_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swipe-decisions/swipe_review/data/2026-10-02.json",
+  "recommendation_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swipe-decisions/swipe_review/recommendations/2026-10-02.json",
+  "note": "売買代金上位100銘柄に、キオクシアの120暦日チャートに近い形状候補を追加。候補は買い推奨ではありません。5営業日騰落率・RSI等は画面/分析時に生データから計算します。",
+  "pattern_count": 2,
+  "pattern_added_count": 2
+}

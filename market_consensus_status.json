@@ -1,0 +1,29 @@
+{
+  "status": "success",
+  "ranking_date": "2026-10-02",
+  "target_count": 97,
+  "fetch_success_count": 97,
+  "fetch_failure_count": 0,
+  "classification_counts": {
+    "判定不能": 57,
+    "強気": 21,
+    "基本": 19
+  },
+  "quality_counts": {
+    "insufficient": 42,
+    "complete": 40,
+    "invalid": 15
+  },
+  "unclassifiable_count": 57,
+  "failed_codes": [],
+  "retrieved_at": "2026-10-03T01:57:19.680750+09:00",
+  "elapsed_seconds": 3.34,
+  "classification_rule": {
+    "minimum_analysts": 3,
+    "bullish": "at least 2 of target upside >=10%, buy rating, EPS 30d change >=5%",
+    "bearish": "at least 2 of target upside <=-10%, sell rating, EPS 30d change <=-5%",
+    "base": "otherwise, only when required data pass",
+    "missing_or_suspicious": "判定不能"
+  },
+  "scenario_rule": "Analyst low/mean/high when valid; otherwise current close +/-2 ATR14 (or +/-10%) labelled non-consensus."
+}
