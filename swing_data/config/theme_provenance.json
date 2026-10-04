@@ -22,5 +22,52 @@
       "sha256": "cd888093db59eb29a0d1762153da21e1fbe42f0faa79280587ec8ac9f528a501"
     }
   ],
-  "note": "Existing classifications and relevance values are inherited, not newly verified. Relevance confidence and evidence are preserved. Current membership is not a historical point-in-time classification."
+  "refreshes": [
+    {
+      "date": "2026-10-04",
+      "membership_source": "https://s.kabutan.jp/themes/",
+      "business_search_cross_check": "https://jigyou-v2.kabu-trendpro.com/",
+      "business_search_scope": "top 20 results per theme; cross-check only",
+      "jpx_list_source": "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html",
+      "jpx_list_as_of": "2026-08-31",
+      "before": {
+        "stocks": 3298,
+        "memberships": 10870
+      },
+      "after": {
+        "stocks": 3284,
+        "memberships": 10891,
+        "themes": 124,
+        "clusters": 13,
+        "etf_etn_memberships": 0
+      },
+      "changes": {
+        "added_memberships": 76,
+        "removed_memberships": 55,
+        "removed_etf_etn_memberships": 8,
+        "new_relevance_status": "pending_review"
+      },
+      "initial_pullback_holdout": {
+        "price_start": "2023-08-21",
+        "price_end": "2026-08-21",
+        "holdout_start": "2025-02-10",
+        "entry": "next_session_open",
+        "horizon_sessions": 15,
+        "transaction_cost": 0.002,
+        "signals": 1217,
+        "method": "3_hierarchical",
+        "before": {
+          "target_5pct_hit_rate": 0.5390304026294166,
+          "mean_net_return": 0.02084994088629502,
+          "mean_max_adverse_excursion": -0.04559254783826493
+        },
+        "after": {
+          "target_5pct_hit_rate": 0.5406737880032868,
+          "mean_net_return": 0.020694128163793197,
+          "mean_max_adverse_excursion": -0.04553687790504719
+        }
+      }
+    }
+  ],
+  "note": "Existing relevance values are preserved. New memberships remain pending_review until separately verified. Current membership is not a historical point-in-time classification."
 }

@@ -2,8 +2,6 @@
 1,1301,極洋,円高メリット,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_macro_context,事業概要に直接根拠を確認できず,https://www.kyokuyo.co.jp,macro_sensitivity_required,,C,finalized
 1,130A,130A.T,創薬,医療・ヘルスケア,,96.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Biotechnology; direct=drug discovery; position=0.20; growth=development/commercialization; official=創薬; count=17; pos=0.38,https://www.veritasinsilico.com | https://www.veritasinsilico.com/jp/ir/news/news-262975785800273316.html | https://www.veritasinsilico.com/jp/about.html,,,A,finalized
 1,130A,130A.T,医薬品関連,医療・ヘルスケア,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,adjacent=drug discovery; growth=development/commercialization; official=医薬品/製薬/医薬; count=31; pos=0.54,https://www.veritasinsilico.com | https://www.veritasinsilico.com/jp/ir/news/news-262975785800273316.html | https://www.veritasinsilico.com/jp/about.html,,,A,finalized
-1,1326,,金,資源・素材,,100.0,主力テーマ,A,chatgpt_confirmed_official_context,投資商品としてテーマ価格へ直接連動,https://s.kabutan.jp/themes/%E9%87%91/?market=all,non_operating_security,,A,finalized
-1,1328,,金,資源・素材,,100.0,主力テーマ,A,chatgpt_confirmed_official_context,投資商品としてテーマ価格へ直接連動,https://s.kabutan.jp/themes/%E9%87%91/?market=all,non_operating_security,,A,finalized
 1,1332,ニッスイ,円高メリット,内需・消費,,38.0,ノイズ候補,C,chatgpt_discretion_macro_context,adjacent=import/export,https://www.nissui.co.jp | https://www.nissui.co.jp/product/index.html | https://www.nissui.co.jp/product/surimi.html,macro_sensitivity_required,,C,finalized
 1,1333,Ｕｍｉｏｓ,介護関連,医療・ヘルスケア,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=nursing care; position=0.41; official=介護; count=8; pos=0.01,https://www.umios.com/jp | https://www.umios.com/jp/products/ | https://www.umios.com/jp/products/prodlist?c=5,,,A,finalized
 1,1333,Ｕｍｉｏｓ,円高メリット,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_macro_context,事業概要に直接根拠を確認できず,https://www.umios.com/jp | https://www.umios.com/jp/products/ | https://www.umios.com/jp/products/prodlist?c=5,macro_sensitivity_required,,C,finalized
@@ -144,7 +142,6 @@
 1,153A,153A.T,サイバーセキュリティ,防衛・国土強靱化,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=サイバーセキュリティ/情報セキュリティ; count=8; pos=0.19,https://www.caulis.jp | https://www.caulis.jp/ | https://www.caulis.jp/about/,,,A,finalized
 1,153A,153A.T,証券,金融・金利,,22.0,ノイズ候補,C,chatgpt_discretion_manual_web,金融不正検知は関連するが証券業そのものではない,https://caulis.jp/about/company/,,,C,finalized
 1,153A,153A.T,銀行,金融・金利,,71.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=銀行; count=5; pos=0.07,https://www.caulis.jp | https://www.caulis.jp/ | https://www.caulis.jp/about/,,,B,finalized
-1,1540,,金,資源・素材,,100.0,主力テーマ,A,chatgpt_confirmed_official_context,投資商品としてテーマ価格へ直接連動,https://s.kabutan.jp/themes/%E9%87%91/?market=all,non_operating_security,,A,finalized
 1,155A,情報戦略テク,IT関連,デジタル・サービス,,95.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Information Technology Services; direct=information technology; growth=development; official=IT; count=31; pos=0.01,https://www.is-tech.co.jp | https://www.is-tech.co.jp/service/ | https://www.is-tech.co.jp/company/,,,A,finalized
 1,155A,情報戦略テク,クラウドコンピューティング,デジタル・サービス,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=クラウド; count=6; pos=0.56,https://www.is-tech.co.jp | https://www.is-tech.co.jp/service/ | https://www.is-tech.co.jp/company/,,,A,finalized
 1,155A,情報戦略テク,サイバーセキュリティ,防衛・国土強靱化,,74.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=情報セキュリティ; count=1; pos=0.86,https://www.is-tech.co.jp | https://www.is-tech.co.jp/service/ | https://www.is-tech.co.jp/company/,,,B,finalized
@@ -177,7 +174,6 @@
 1,166A,166A.T,不動産関連,不動産・建設,,93.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=real estate business; position=0.05; growth=develops/investment; official=不動産; count=1; pos=0.26,https://tasuki-holdings.co.jp | https://tasuki-holdings.co.jp/company,,,A,finalized
 1,166A,166A.T,住宅関連,不動産・建設,,80.0,主力テーマ,B,chatgpt_discretion_manual_web,住宅不動産開発が基幹事業との結びつきが強い,https://tasuki-holdings.co.jp/beyond2033/,,,B,finalized
 1,166A,166A.T,生成AI,AI・半導体,,62.0,有力関連,B,chatgpt_discretion_manual_web,生成AI・AI活用を不動産DXおよび投資先とのシナジー領域として推進,https://tasuki-holdings.co.jp/ventures/,,,B,finalized
-1,1672,,金,資源・素材,,100.0,主力テーマ,A,chatgpt_confirmed_official_context,投資商品としてテーマ価格へ直接連動,https://s.kabutan.jp/themes/%E9%87%91/?market=all,non_operating_security,,A,finalized
 1,167A,リョー菱ＨＤ,IoT,設備投資・機械,,72.0,有力関連,B,chatgpt_discretion_manual_web,半導体・ICTソリューションの延長でIoT領域への事業直接性が高い,https://www.rr-hds.co.jp/,,,B,finalized
 1,167A,リョー菱ＨＤ,サイバーセキュリティ,防衛・国土強靱化,,78.0,有力関連,B,chatgpt_discretion_manual_web,製造業・車載向けセキュリティソリューションを事業として直接提供,https://www.rr-hds.co.jp/business/security/,,,B,finalized
 1,167A,リョー菱ＨＤ,人工知能,AI・半導体,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=AI; count=11; pos=0.13,https://www.rr-hds.co.jp | https://www.rr-hds.co.jp/company/ | https://www.rr-hds.co.jp/company/profile/,,,A,finalized
@@ -186,8 +182,6 @@
 1,167A,リョー菱ＨＤ,自動車部材・部品,自動車・モビリティ,,58.0,補助関連,B,chatgpt_discretion_manual_web,車載向け半導体・機器ソリューションを扱うが完成部品メーカーではない,https://www.rr-hds.co.jp/business/security/,,,B,finalized
 1,167A,リョー菱ＨＤ,自動運転車,自動車・モビリティ,,45.0,補助関連,C,chatgpt_discretion_manual_web,車載領域との接点はあるが自動運転そのものの売上寄与は不明,https://www.rr-hds.co.jp/business/security/,,,C,finalized
 1,168A,168A.T,eコマース,内需・消費,,63.0,有力関連,B,chatgpt_confirmed_official_context,direct=e-commerce; position=0.58,https://www.itamiarts.co.jp,,,B,finalized
-1,1692,,アルミニウム,資源・素材,,100.0,主力テーマ,A,chatgpt_confirmed_official_context,投資商品としてテーマ価格へ直接連動,https://s.kabutan.jp/themes/%E3%82%A2%E3%83%AB%E3%83%9F%E3%83%8B%E3%82%A6%E3%83%A0/?market=all,non_operating_security,,A,finalized
-1,1693,,銅,資源・素材,,100.0,主力テーマ,A,chatgpt_confirmed_official_context,投資商品としてテーマ価格へ直接連動,https://s.kabutan.jp/themes/%E9%8A%85/?market=all,non_operating_security,,A,finalized
 1,1711,1711.T,再生可能エネルギー,GX・エネルギー,,93.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Utilities - Renewable; direct=renewable energy; position=0.03; official=再生可能エネルギー; count=10; pos=0.02,https://shodensya.com | https://shodensya.com/service | https://shodensya.com/service/ppa,,,A,finalized
 1,1711,1711.T,太陽光発電関連,GX・エネルギー,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=solar power; position=0.15; official=太陽光発電; count=23; pos=0.03,https://shodensya.com | https://shodensya.com/service | https://shodensya.com/service/ppa,,,A,finalized
 1,1711,1711.T,省エネ関連,GX・エネルギー,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=energy saving; position=0.05; official=省エネ/省エネルギー; count=24; pos=0.01,https://shodensya.com | https://shodensya.com/service | https://shodensya.com/service/ppa,,,A,finalized
@@ -441,9 +435,6 @@
 1,1904,1904.T,建設,不動産・建設,,92.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Building Products & Equipment; direct=construction business; position=0.51,https://www.taisei-oncho.co.jp,,,A,finalized
 1,1905,1905.T,住宅関連,不動産・建設,,71.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=住宅; count=8; pos=0.32,https://www.tenox.co.jp | https://www.tenox.co.jp/wordpress/company/,,,B,finalized
 1,1905,1905.T,国土強靱化,防衛・国土強靱化,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=civil engineering,https://www.tenox.co.jp | https://www.tenox.co.jp/wordpress/company/,,,C,finalized
-1,1909,1909.T,機械,設備投資・機械,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=equipment,https://www.ndc-group.co.jp,,,C,finalized
-1,1909,1909.T,設備投資,設備投資・機械,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=equipment,https://www.ndc-group.co.jp,,,C,finalized
-1,1909,1909.T,防災,防衛・国土強靱化,,95.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=disaster prevention/fire alarm; position=0.07,https://www.ndc-group.co.jp,,,A,finalized
 1,190A,190A.T,バイオテクノロジー関連,医療・ヘルスケア,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Biotechnology; direct=biotechnology/biotech; position=0.06; growth=develops/development,https://www.chordiatherapeutics.com | https://www.chordiatherapeutics.com/ja/company.html,,,A,finalized
 1,190A,190A.T,創薬,医療・ヘルスケア,,88.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Biotechnology,https://www.chordiatherapeutics.com | https://www.chordiatherapeutics.com/ja/company.html,,,A,finalized
 1,1911,1911.T,住宅関連,不動産・建設,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Residential Construction; direct=housing business/residential construction; position=0.14; growth=develops/development,https://sfc.jp,,,A,finalized
@@ -520,7 +511,6 @@
 1,1945,東京エネシス,太陽光発電関連,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.qtes.co.jp,,,C,finalized
 1,1945,東京エネシス,電力設備投資関連,データセンター・電力,,84.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=substation; position=0.25,https://www.qtes.co.jp,,,B,finalized
 1,1946,1946.T,電力設備投資関連,データセンター・電力,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=electrical equipment/power plant,https://www.toenec.co.jp,,,C,finalized
-1,1948,1948.T,電力設備投資関連,データセンター・電力,,93.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=power transmission; position=0.16; growth=research,https://www.kk-kodensha.co.jp,,,A,finalized
 1,194A,194A.T,サブスクリプション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.wolveshand.jp,,,C,finalized
 1,194A,194A.T,創薬,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.wolveshand.jp,,,C,finalized
 1,194A,194A.T,医療機器,医療・ヘルスケア,,58.0,補助関連,C,chatgpt_discretion_existing_context,direct=medical equipment; position=0.83; growth=development/research,https://www.wolveshand.jp,,,C,finalized
@@ -626,8 +616,6 @@
 1,2002,日清粉Ｇ,食品,内需・消費,,92.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Packaged Foods; direct=packaged foods; official=食品; count=5; pos=0.11,https://www.nisshin.com,,,A,finalized
 1,2003,2003.T,外食,内需・消費,,63.0,有力関連,B,chatgpt_confirmed_official_context,direct=restaurant; position=0.56,https://www.nittofuji.co.jp | https://www.nittofuji.co.jp/pr/ | https://www.nittofuji.co.jp/co/,,,B,finalized
 1,2003,2003.T,食品,内需・消費,,88.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Farm Products; official=食品; count=1; pos=0.44,https://www.nittofuji.co.jp | https://www.nittofuji.co.jp/pr/ | https://www.nittofuji.co.jp/co/,,,A,finalized
-1,2036,,金,資源・素材,,100.0,主力テーマ,A,chatgpt_confirmed_official_context,投資商品としてテーマ価格へ直接連動,https://s.kabutan.jp/themes/%E9%87%91/?market=all,non_operating_security,,A,finalized
-1,2037,,金,資源・素材,,100.0,主力テーマ,A,chatgpt_confirmed_official_context,投資商品としてテーマ価格へ直接連動,https://s.kabutan.jp/themes/%E9%87%91/?market=all,non_operating_security,,A,finalized
 1,2053,中部飼,円高メリット,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_macro_context,事業概要に直接根拠を確認できず,https://www.chubushiryo.co.jp | https://www.chubushiryo.co.jp/company/index.html,macro_sensitivity_required,,C,finalized
 1,2058,,食品,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://s.kabutan.jp/themes/%E9%A3%9F%E5%93%81/?market=all,,,C,finalized
 1,205A,205A.T,住宅関連,不動産・建設,,92.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Residential Construction; direct=residential construction; official=住宅; count=25; pos=0.03,https://logos-holdings.jp | https://logos-holdings.jp/company/ | https://logos-holdings.jp/business/,,,A,finalized
@@ -2514,7 +2502,6 @@ EDINET提出書類
 3,3778,さくらネット,生成AI,AI・半導体,,71.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=生成AI/LLM; count=2; pos=0.38,https://www.sakura.ad.jp | https://www.sakura.ad.jp/services/ | https://www.sakura.ad.jp/corporate/,,,B,finalized
 3,377A,,デジタルトランスフォーメーション,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://s.kabutan.jp/themes/%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/?market=all,,,C,finalized
 3,377A,,保険,金融・金利,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://s.kabutan.jp/themes/%E4%BF%9D%E9%99%BA/?market=all,,,C,finalized
-3,3787,3787.T,IT関連,デジタル・サービス,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Software - Application; adjacent=software; growth=develops; official=IT; count=1; pos=0.31,https://www.tmath.co.jp,,,A,finalized
 3,3788,3788.T,IT関連,デジタル・サービス,4.58,44.2,補助関連,B,structured_revenue_v6,"一環として、対象者に
 支給した特別退職金であります。
 GMOグローバルサイン・ホールディングス株式会社(3788) 2026年12月期 第２四半期（中間期）決算短信
@@ -2713,10 +2700,6 @@ GMOグローバルサイン・ホールディングス株式会社(3788) 2026年
 3,3854,3854.T,eコマース,内需・消費,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=EC; count=16; pos=0.02,https://www.ill.co.jp | https://www.ill.co.jp/message/ | https://www.ill.co.jp/business/,,,A,finalized
 3,3854,3854.T,クラウドコンピューティング,デジタル・サービス,,84.0,主力テーマ,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=クラウド; count=3; pos=0.26,https://www.ill.co.jp | https://www.ill.co.jp/message/ | https://www.ill.co.jp/business/,,,B,finalized
 3,3854,3854.T,デジタルトランスフォーメーション,デジタル・サービス,,84.0,主力テーマ,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=DX; count=3; pos=0.22,https://www.ill.co.jp | https://www.ill.co.jp/message/ | https://www.ill.co.jp/business/,,,B,finalized
-3,3856,3856.T,再生可能エネルギー,GX・エネルギー,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=renewable energy; position=0.07; growth=development; official=再生可能エネルギー/再エネ/グリーンエネルギー; count=39; pos=0.01,https://www.abalance.co.jp | https://www.abalance.co.jp/v1/aboutus/ | https://www.abalance.co.jp/v1/business/,,,A,finalized
-3,3856,3856.T,太陽光発電関連,GX・エネルギー,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=solar power; position=0.26; growth=development; official=太陽光発電/太陽光発電所/ソーラー/太陽光発電関連; count=30; pos=0.04,https://www.abalance.co.jp | https://www.abalance.co.jp/v1/aboutus/ | https://www.abalance.co.jp/v1/business/,,,A,finalized
-3,3856,3856.T,建設機械,設備投資・機械,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=construction machinery/construction equipment; position=0.10; growth=development; official=建設機械; count=3; pos=0.16,https://www.abalance.co.jp | https://www.abalance.co.jp/v1/aboutus/ | https://www.abalance.co.jp/v1/business/,,,A,finalized
-3,3856,3856.T,風力発電,GX・エネルギー,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=風力発電/風力発電所; count=6; pos=0.28,https://www.abalance.co.jp | https://www.abalance.co.jp/v1/aboutus/ | https://www.abalance.co.jp/v1/business/,,,A,finalized
 3,3858,ユビＡＩ,IT関連,デジタル・サービス,,96.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Software - Infrastructure; direct=software development; position=0.26; growth=develops/developing; official=IT; count=36; pos=0.03,https://www.ubiquitous-ai.com | https://www.ubiquitous-ai.com/products/ | https://www.ubiquitous-ai.com/industries/,,,A,finalized
 3,3858,ユビＡＩ,IoT,設備投資・機械,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,direct= iot; position=0.18; growth=develops/developing; official=IoT; count=19; pos=0.07,https://www.ubiquitous-ai.com | https://www.ubiquitous-ai.com/products/ | https://www.ubiquitous-ai.com/industries/,,,A,finalized
 3,3858,ユビＡＩ,MaaS,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.ubiquitous-ai.com | https://www.ubiquitous-ai.com/products/ | https://www.ubiquitous-ai.com/industries/,,,C,finalized
@@ -3571,13 +3554,6 @@ GMOグローバルサイン・ホールディングス株式会社(3788) 2026年
 4,4307,野村総研,防災,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nri.com,revenue_share_unknown,,C,finalized
 4,4307,野村総研,電子政府,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nri.com,revenue_share_unknown,,C,finalized
 4,4308,4308.T,IT関連,デジタル・サービス,,57.0,補助関連,C,chatgpt_discretion_existing_context,direct=software development/system integration; position=0.78; growth=development; official=IT; count=3; pos=0.49,https://www.stream.co.jp | https://www.stream.co.jp/service/ | https://www.stream.co.jp/service/live/live/,revenue_share_unknown,,C,finalized
-4,4316,ビーマップ,IT関連,デジタル・サービス,,100.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Information Technology Services; direct=information technology/software development/system integration; position=0.03; growth=develops/development; official=IT; count=2; pos=0.85,https://www.bemap.co.jp,revenue_share_unknown,,A,finalized
-4,4316,ビーマップ,インバウンド,内需・消費,,42.0,補助関連,C,chatgpt_discretion_macro_context,adjacent=restaurant; growth=develops/development,https://www.bemap.co.jp,macro_sensitivity_required,,C,finalized
-4,4316,ビーマップ,クラウドコンピューティング,デジタル・サービス,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=cloud; growth=develops/development,https://www.bemap.co.jp,revenue_share_unknown,,C,finalized
-4,4316,ビーマップ,ドローン,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.bemap.co.jp,revenue_share_unknown,,C,finalized
-4,4316,ビーマップ,フィジカルAI,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.bemap.co.jp,revenue_share_unknown,,C,finalized
-4,4316,ビーマップ,鉄道関連,物流・海運,,93.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=railway; position=0.19; growth=develops/development,https://www.bemap.co.jp,revenue_share_unknown,,A,finalized
-4,4316,ビーマップ,防衛,防衛・国土強靱化,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.bemap.co.jp,revenue_share_unknown,,C,finalized
 4,431A,ユーソナー,IT関連,デジタル・サービス,,95.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Information Technology Services; direct=information technology; growth=development,https://usonar.co.jp,revenue_share_unknown,,A,finalized
 4,431A,ユーソナー,SaaS,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://usonar.co.jp,revenue_share_unknown,,C,finalized
 4,431A,ユーソナー,クラウドコンピューティング,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://usonar.co.jp,revenue_share_unknown,,C,finalized
@@ -4490,8 +4466,6 @@ GMOグローバルサイン・ホールディングス株式会社(3788) 2026年
 5,479A,ＰＲＯＮＩ,デジタルトランスフォーメーション,デジタル・サービス,,84.0,主力テーマ,B,chatgpt_confirmed_official_context,direct= dx ; position=0.28,https://www.proni.co.jp,revenue_share_unknown,,B,finalized
 5,479A,ＰＲＯＮＩ,人工知能,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.proni.co.jp,revenue_share_unknown,,C,finalized
 5,479A,ＰＲＯＮＩ,生成AI,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.proni.co.jp,revenue_share_unknown,,C,finalized
-5,4800,4800.T,IT関連,デジタル・サービス,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.oricon.jp,revenue_share_unknown,,C,finalized
-5,4800,4800.T,eコマース,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.oricon.jp,revenue_share_unknown,,C,finalized
 5,4809,4809.T,太陽光発電関連,GX・エネルギー,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=solar,https://www.paraca.co.jp | https://paraca.co.jp/corporate/ | https://paraca.co.jp/corporate/info/,revenue_share_unknown,,C,finalized
 5,480A,リブコンサル,デジタルトランスフォーメーション,デジタル・サービス,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=DX; count=7; pos=0.03,https://www.libcon.co.jp | https://www.libcon.co.jp/solution/ai/generative-ai-newbizdev/ | https://www.libcon.co.jp/solution/newbusiness/,revenue_share_unknown,,A,finalized
 5,480A,リブコンサル,人工知能,AI・半導体,,94.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=AI; count=83; pos=0.00,https://www.libcon.co.jp | https://www.libcon.co.jp/solution/ai/generative-ai-newbizdev/ | https://www.libcon.co.jp/solution/newbusiness/,revenue_share_unknown,,A,finalized
@@ -4937,8 +4911,6 @@ GMOグローバルサイン・ホールディングス株式会社(3788) 2026年
 5,5201,ＡＧＣ,半導体,AI・半導体,,87.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=semiconductor; position=0.38; growth=development,https://www.agc.com,revenue_share_unknown,,A,finalized
 5,5201,ＡＧＣ,半導体部材・部品,AI・半導体,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=semiconductor; growth=development,https://www.agc.com,revenue_share_unknown,,C,finalized
 5,5201,ＡＧＣ,自動車部材・部品,自動車・モビリティ,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=automotive; growth=development,https://www.agc.com,revenue_share_unknown,,C,finalized
-5,5202,5202.T,サーバー冷却,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nsg.com | https://www.nsg.com/en/media/ir-updates/announcements-2025/cdp-climate-change-a-list-company | https://www.nsg.com/Investors/Contact/IR News Alert Service,revenue_share_unknown,,C,finalized
-5,5202,5202.T,自動車部材・部品,自動車・モビリティ,,80.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=auto parts,https://www.nsg.com | https://www.nsg.com/en/media/ir-updates/announcements-2025/cdp-climate-change-a-list-company | https://www.nsg.com/Investors/Contact/IR News Alert Service,revenue_share_unknown,,B,finalized
 5,520A,520A.T,バイオテクノロジー関連,医療・ヘルスケア,,96.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Biotechnology; direct=biotechnology/biotech; growth=develops/developing,https://www.j-pharma.com | https://www.j-pharma.com/company/ | https://www.j-pharma.com/business/,revenue_share_unknown,,A,finalized
 5,520A,520A.T,創薬,医療・ヘルスケア,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Biotechnology; official=創薬; count=16; pos=0.00,https://www.j-pharma.com | https://www.j-pharma.com/company/ | https://www.j-pharma.com/business/,revenue_share_unknown,,A,finalized
 5,520A,520A.T,医薬品関連,医療・ヘルスケア,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=pharmaceutical/pharma; position=0.00; growth=develops/developing; official=医薬品/製薬/医薬; count=37; pos=0.28,https://www.j-pharma.com | https://www.j-pharma.com/company/ | https://www.j-pharma.com/business/,revenue_share_unknown,,A,finalized
@@ -7012,11 +6984,6 @@ Field・機能
 7,6484,6484.T,水道関連,防衛・国土強靱化,,54.0,補助関連,C,chatgpt_discretion_existing_context,direct=water supply; position=0.72,https://www.kvk.co.jp | https://www.kvk.co.jp/corporate/outline/index.html | https://www.kvk.co.jp/corporate/map/index.html,revenue_share_unknown,,C,finalized
 7,6485,6485.T,機械,設備投資・機械,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=equipment,https://www.qso.co.jp | https://www.qso.co.jp/product.html | https://www.qso.co.jp/corporate.html,revenue_share_unknown,,C,finalized
 7,6485,6485.T,水道関連,防衛・国土強靱化,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=water supply/waterworks; position=0.11; official=水道/上水道; count=52; pos=0.00,https://www.qso.co.jp | https://www.qso.co.jp/product.html | https://www.qso.co.jp/corporate.html,revenue_share_unknown,,A,finalized
-7,6486,イーグル工,半導体製造装置,AI・半導体,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=semiconductor,https://www.ekkeagle.com | https://www.ekkeagle.com/jp/about/car | https://www.ekkeagle.com/jp/about/general,revenue_share_unknown,,C,finalized
-7,6486,イーグル工,原子力発電,GX・エネルギー,,71.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=原子力発電; count=2; pos=0.91,https://www.ekkeagle.com | https://www.ekkeagle.com/jp/about/car | https://www.ekkeagle.com/jp/about/general,revenue_share_unknown,,B,finalized
-7,6486,イーグル工,宇宙開発関連,防衛・国土強靱化,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=aerospace,https://www.ekkeagle.com | https://www.ekkeagle.com/jp/about/car | https://www.ekkeagle.com/jp/about/general,revenue_share_unknown,,C,finalized
-7,6486,イーグル工,建設機械,設備投資・機械,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=construction machinery; position=0.19; official=建設機械; count=16; pos=0.01,https://www.ekkeagle.com | https://www.ekkeagle.com/jp/about/car | https://www.ekkeagle.com/jp/about/general,revenue_share_unknown,,A,finalized
-7,6486,イーグル工,自動車部材・部品,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.ekkeagle.com | https://www.ekkeagle.com/jp/about/car | https://www.ekkeagle.com/jp/about/general,revenue_share_unknown,,C,finalized
 7,6488,6488.T,水素,GX・エネルギー,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.yoshitake.jp,revenue_share_unknown,,C,finalized
 7,6488,6488.T,設備投資,設備投資・機械,,57.0,補助関連,C,chatgpt_discretion_existing_context,direct=industrial machinery/production equipment; position=0.73; growth=expansion,https://www.yoshitake.jp,revenue_share_unknown,,C,finalized
 7,6490,ＰＩＬＬＡＲ,半導体製造装置,AI・半導体,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=semiconductor; growth=develops,https://www.pillar.co.jp,revenue_share_unknown,,C,finalized
@@ -8594,9 +8561,6 @@ Field・機能
 8,7238,7238.T,自動車部材・部品,自動車・モビリティ,,80.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=auto parts,https://www.akebono-brake.com,revenue_share_unknown,,B,finalized
 8,7238,7238.T,鉄道関連,物流・海運,,90.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=railway; position=0.15,https://www.akebono-brake.com,revenue_share_unknown,,A,finalized
 8,7239,7239.T,自動車部材・部品,自動車・モビリティ,,84.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=auto parts; official=自動車部品; count=2; pos=0.28,https://www.tachi-s.co.jp,revenue_share_unknown,,B,finalized
-8,7240,7240.T,水素,GX・エネルギー,,71.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=水素; count=2; pos=0.25,https://www.nokgrp.com,revenue_share_unknown,,B,finalized
-8,7240,7240.T,自動車部材・部品,自動車・モビリティ,,80.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=auto parts,https://www.nokgrp.com,revenue_share_unknown,,B,finalized
-8,7240,7240.T,自動車電子化,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.nokgrp.com,revenue_share_unknown,,C,finalized
 8,7241,7241.T,ロボット,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.futabasangyo.com | https://www.futabasangyo.com/technology/product/ | https://www.futabasangyo.com/technology/future/,revenue_share_unknown,,C,finalized
 8,7241,7241.T,自動車部材・部品,自動車・モビリティ,,98.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=automotive parts/auto parts; position=0.05; official=自動車部品; count=6; pos=0.02,https://www.futabasangyo.com | https://www.futabasangyo.com/technology/product/ | https://www.futabasangyo.com/technology/future/,revenue_share_unknown,,A,finalized
 8,7242,7242.T,建設機械,設備投資・機械,,85.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=construction machinery/excavator; position=0.43; official=建設機械; count=1; pos=0.20,https://www.kyb.co.jp | https://www.kyb.co.jp/kybclub/index.html | https://www.kyb.co.jp/company/,revenue_share_unknown,,A,finalized
@@ -8618,9 +8582,6 @@ Field・機能
 8,7254,7254.T,空飛ぶクルマ,自動車・モビリティ,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.uvc.co.jp | https://www.uvc.co.jp/news/tag/business_product_technology | https://www.uvc.co.jp/product/,revenue_share_unknown,,C,finalized
 8,7254,7254.T,自動車部材・部品,自動車・モビリティ,,80.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=auto parts,https://www.uvc.co.jp | https://www.uvc.co.jp/news/tag/business_product_technology | https://www.uvc.co.jp/product/,revenue_share_unknown,,B,finalized
 8,7254,7254.T,電気自動車関連,自動車・モビリティ,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=EV; count=17; pos=0.01,https://www.uvc.co.jp | https://www.uvc.co.jp/news/tag/business_product_technology | https://www.uvc.co.jp/product/,revenue_share_unknown,,A,finalized
-8,7255,7255.T,工作機械,設備投資・機械,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=machine tool; position=0.13; official=工作機械; count=43; pos=0.00,https://www.sakurai-net.co.jp | https://sakurai-net.co.jp/company/kaisyagaiyou/ | https://sakurai-net.co.jp/service/,revenue_share_unknown,,A,finalized
-8,7255,7255.T,自動車製造装置,自動車・モビリティ,,38.0,ノイズ候補,C,chatgpt_discretion_existing_context,adjacent=production line,https://www.sakurai-net.co.jp | https://sakurai-net.co.jp/company/kaisyagaiyou/ | https://sakurai-net.co.jp/service/,revenue_share_unknown,,C,finalized
-8,7255,7255.T,自動車部材・部品,自動車・モビリティ,,80.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=auto parts,https://www.sakurai-net.co.jp | https://sakurai-net.co.jp/company/kaisyagaiyou/ | https://sakurai-net.co.jp/service/,revenue_share_unknown,,B,finalized
 8,7256,7256.T,自動車部材・部品,自動車・モビリティ,,80.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=auto parts,https://www.kasai.co.jp,revenue_share_unknown,,B,finalized
 8,7259,7259.T,サービスロボット,設備投資・機械,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.aisin.com,revenue_share_unknown,,C,finalized
 8,7259,7259.T,ロボット,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.aisin.com,revenue_share_unknown,,C,finalized
@@ -8890,8 +8851,6 @@ Field・機能
 9,7421,7421.T,外食,内需・消費,,92.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Restaurants; direct=restaurant; position=0.10,https://www.kappa-create.co.jp | https://www.kappa-create.co.jp/company/ | https://www.kappa-create.co.jp/company/profile.html,revenue_share_unknown,,A,finalized
 9,7421,7421.T,生活防衛,内需・消費,,38.0,ノイズ候補,C,chatgpt_discretion_macro_context,adjacent=supermarket,https://www.kappa-create.co.jp | https://www.kappa-create.co.jp/company/ | https://www.kappa-create.co.jp/company/profile.html,macro_sensitivity_required,,C,finalized
 9,7425,7425.T,太陽光発電関連,GX・エネルギー,,63.0,有力関連,B,chatgpt_confirmed_official_context,direct=solar power; position=0.63,https://www.hatsuho.co.jp,revenue_share_unknown,,B,finalized
-9,7426,7426.T,住宅関連,不動産・建設,,71.0,有力関連,B,chatgpt_confirmed_official_context,direct=residential construction; position=0.61; official=住宅; count=19; pos=0.03,https://www.yamadai.com | https://www.yamadai.com/company/ | https://www.yamadai.com/company/overview/,revenue_share_unknown,,B,finalized
-9,7426,7426.T,建設,不動産・建設,,71.0,有力関連,B,chatgpt_confirmed_official_context,adjacent=construction; official=建設; count=10; pos=0.03,https://www.yamadai.com | https://www.yamadai.com/company/ | https://www.yamadai.com/company/overview/,revenue_share_unknown,,B,finalized
 9,7433,伯東,バイオテクノロジー関連,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.hakuto.co.jp,revenue_share_unknown,,C,finalized
 9,7433,伯東,半導体,AI・半導体,,90.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=semiconductor; position=0.16; official=半導体; count=1; pos=0.71,https://www.hakuto.co.jp,revenue_share_unknown,,A,finalized
 9,7433,伯東,半導体製造装置,AI・半導体,,84.0,主力テーマ,B,chatgpt_confirmed_official_context,direct=semiconductor equipment; position=0.39,https://www.hakuto.co.jp,revenue_share_unknown,,B,finalized
@@ -9168,7 +9127,6 @@ Field・機能
 9,7702,7702.T,医療機器,医療・ヘルスケア,,90.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=medical device; position=0.06,https://www.jms.cc,revenue_share_unknown,,A,finalized
 9,7707,7707.T,バイオテクノロジー関連,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.pss.co.jp,revenue_share_unknown,,C,finalized
 9,7707,7707.T,再生医療,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.pss.co.jp,revenue_share_unknown,,C,finalized
-9,7709,7709.T,円安メリット,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_macro_context,事業概要に直接根拠を確認できず,https://www.kubotek.com,macro_sensitivity_required,,C,finalized
 9,7711,助川電気,半導体製造装置,AI・半導体,,41.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=semiconductor; growth=research,https://www.sukegawadenki.co.jp,revenue_share_unknown,,C,finalized
 9,7711,助川電気,原子力発電,GX・エネルギー,,57.0,補助関連,C,chatgpt_discretion_existing_context,direct=nuclear power; position=0.93; growth=research,https://www.sukegawadenki.co.jp,revenue_share_unknown,,C,finalized
 9,7711,助川電気,核融合発電,GX・エネルギー,,71.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=核融合; count=2; pos=0.69,https://www.sukegawadenki.co.jp,revenue_share_unknown,,B,finalized
@@ -10904,8 +10862,6 @@ Field・機能
 11,9219,ギックス,データ分析・解析,AI・半導体,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.gixo.jp,revenue_share_unknown,,C,finalized
 11,9220,9220.T,介護関連,医療・ヘルスケア,,93.0,主力テーマ,A,chatgpt_confirmed_official_context,industry=Medical Care Facilities; direct=nursing care; position=0.06; official=介護/介護サービス; count=147; pos=0.00,https://www.fb-kaigo.co.jp | https://www.fb-kaigo.co.jp/service | https://www.fb-kaigo.co.jp/facility,revenue_share_unknown,,A,finalized
 11,9221,9221.T,脱炭素,GX・エネルギー,,83.0,主力テーマ,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=カーボンニュートラル; count=1; pos=0.04,https://www.fuluhashi.co.jp | https://www.fuluhashi.co.jp/corpinfo.html | https://www.fuluhashi.co.jp/business.html,revenue_share_unknown,,B,finalized
-11,9223,9223.T,住宅関連,不動産・建設,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.asnova.co.jp | https://www.asnova.co.jp/service/ | https://www.asnova.co.jp/about/profile/,revenue_share_unknown,,C,finalized
-11,9223,9223.T,建設,不動産・建設,,57.0,補助関連,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず; official=建設; count=2; pos=0.56,https://www.asnova.co.jp | https://www.asnova.co.jp/service/ | https://www.asnova.co.jp/about/profile/,revenue_share_unknown,,C,finalized
 11,9225,ブリッジＧ,クラウドコンピューティング,デジタル・サービス,,87.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=クラウド; count=3; pos=0.50,https://www.bridge-group.co.jp | https://bridge-group.co.jp/service/ | https://bridge-group.co.jp/about/,revenue_share_unknown,,A,finalized
 11,9225,ブリッジＧ,データベース,デジタル・サービス,,92.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=データベース; count=1; pos=0.11,https://www.bridge-group.co.jp | https://bridge-group.co.jp/service/ | https://bridge-group.co.jp/about/,revenue_share_unknown,,A,finalized
 11,9227,マイクロ波,レアメタル,資源・素材,,83.0,主力テーマ,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=レアメタル; count=1; pos=0.17,https://mwcc.jp | https://mwcc.jp/dps/ | https://mwcc.jp/business/,revenue_share_unknown,,B,finalized
@@ -11433,17 +11389,6 @@ Field・機能
 11,9507,四国電,電力会社,データセンター・電力,,59.0,補助関連,C,chatgpt_discretion_existing_context,direct=electric utility; position=0.69; growth=development/research,https://www.yonden.co.jp,revenue_share_unknown,,C,finalized
 11,9507,四国電,電力設備投資関連,データセンター・電力,,74.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=送配電; count=2; pos=0.66,https://www.yonden.co.jp,revenue_share_unknown,,B,finalized
 11,9507,四国電,風力発電,GX・エネルギー,,92.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=風力発電/風力発電所; count=4; pos=0.09,https://www.yonden.co.jp,revenue_share_unknown,,A,finalized
-11,9508,九州電,スマートグリッド,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kyuden.co.jp,revenue_share_unknown,,C,finalized
-11,9508,九州電,データセンター,データセンター・電力,,58.0,補助関連,C,chatgpt_discretion_existing_context,direct=data center; position=0.77; growth=develops/development,https://www.kyuden.co.jp,revenue_share_unknown,,C,finalized
-11,9508,九州電,介護関連,医療・ヘルスケア,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kyuden.co.jp,revenue_share_unknown,,C,finalized
-11,9508,九州電,円高メリット,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_macro_context,事業概要に直接根拠を確認できず,https://www.kyuden.co.jp,macro_sensitivity_required,,C,finalized
-11,9508,九州電,原子力発電,GX・エネルギー,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=原子力発電; count=47; pos=0.24,https://www.kyuden.co.jp,revenue_share_unknown,,A,finalized
-11,9508,九州電,太陽光発電関連,GX・エネルギー,,71.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=太陽光発電; count=2; pos=0.26,https://www.kyuden.co.jp,revenue_share_unknown,,B,finalized
-11,9508,九州電,脱炭素,GX・エネルギー,,91.0,主力テーマ,A,chatgpt_confirmed_official_context,adjacent=renewable energy; growth=develops/development; official=脱炭素/カーボンニュートラル; count=7; pos=0.08,https://www.kyuden.co.jp,revenue_share_unknown,,A,finalized
-11,9508,九州電,送電,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.kyuden.co.jp,revenue_share_unknown,,C,finalized
-11,9508,九州電,電力会社,データセンター・電力,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=power generation; growth=develops/development,https://www.kyuden.co.jp,revenue_share_unknown,,C,finalized
-11,9508,九州電,電力設備投資関連,データセンター・電力,,42.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=electrical equipment; growth=develops/development,https://www.kyuden.co.jp,revenue_share_unknown,,C,finalized
-11,9508,九州電,風力発電,GX・エネルギー,,71.0,有力関連,B,chatgpt_confirmed_official_context,事業概要に直接根拠を確認できず; official=風力発電; count=2; pos=0.26,https://www.kyuden.co.jp,revenue_share_unknown,,B,finalized
 11,9509,北海電,スマートグリッド,データセンター・電力,,7.0,ノイズ候補,C,chatgpt_discretion_existing_context,事業概要に直接根拠を確認できず,https://www.hepco.co.jp,revenue_share_unknown,,C,finalized
 11,9509,北海電,データセンター,データセンター・電力,,66.0,有力関連,B,chatgpt_confirmed_official_context,direct=data center; position=0.58; growth=development,https://www.hepco.co.jp,revenue_share_unknown,,B,finalized
 11,9509,北海電,円高メリット,内需・消費,,7.0,ノイズ候補,C,chatgpt_discretion_macro_context,事業概要に直接根拠を確認できず,https://www.hepco.co.jp,macro_sensitivity_required,,C,finalized
@@ -12267,3 +12212,79 @@ Field・機能
 11,9996,9996.T,外食,内需・消費,,85.0,主力テーマ,A,chatgpt_confirmed_official_context,direct=restaurant/food service; position=0.41; official=外食; count=2; pos=0.29,https://www.satoh-web.co.jp | https://www.satoh-web.co.jp/company/ | https://www.satoh-web.co.jp/business/,revenue_share_unknown,,A,finalized
 11,9996,9996.T,小売り,内需・消費,,54.0,補助関連,C,chatgpt_discretion_existing_context,direct=supermarket; position=0.86,https://www.satoh-web.co.jp | https://www.satoh-web.co.jp/company/ | https://www.satoh-web.co.jp/business/,revenue_share_unknown,,C,finalized
 11,9997,9997.T,ホテル,内需・消費,,45.0,補助関連,C,chatgpt_discretion_existing_context,adjacent=hotel/accommodation; growth=development,https://www.belluna.co.jp,revenue_share_unknown,,C,finalized
+refresh_2026-10-04,2327,日鉄ソリューションズ,AIエージェント,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/AI%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88/?market=all,,,,pending_review
+refresh_2026-10-04,652A,トグルホールディングス,AIエージェント,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/AI%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88/?market=all,,,,pending_review
+refresh_2026-10-04,648A,ルクレ,IT関連,デジタル・サービス,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/IT%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,652A,トグルホールディングス,IT関連,デジタル・サービス,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/IT%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,6027,弁護士ドットコム,SaaS,デジタル・サービス,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/SaaS/?market=all,,,,pending_review
+refresh_2026-10-04,652A,トグルホールディングス,SaaS,デジタル・サービス,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/SaaS/?market=all,,,,pending_review
+refresh_2026-10-04,2429,ワールドホールディングス,eコマース,内需・消費,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/e%E3%82%B3%E3%83%9E%E3%83%BC%E3%82%B9/?market=all,,,,pending_review
+refresh_2026-10-04,2138,クルーズ,インバウンド,内需・消費,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%82%A4%E3%83%B3%E3%83%90%E3%82%A6%E3%83%B3%E3%83%89/?market=all,,,,pending_review
+refresh_2026-10-04,648A,ルクレ,クラウドコンピューティング,デジタル・サービス,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0/?market=all,,,,pending_review
+refresh_2026-10-04,648A,ルクレ,サブスクリプション,デジタル・サービス,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%82%B5%E3%83%96%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3/?market=all,,,,pending_review
+refresh_2026-10-04,642A,キューデンホールディングス,スマートグリッド,データセンター・電力,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%82%B0%E3%83%AA%E3%83%83%E3%83%89/?market=all,,,,pending_review
+refresh_2026-10-04,4287,ジャストプランニング,デジタルトランスフォーメーション,デジタル・サービス,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/?market=all,,,,pending_review
+refresh_2026-10-04,648A,ルクレ,デジタルトランスフォーメーション,デジタル・サービス,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B9%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/?market=all,,,,pending_review
+refresh_2026-10-04,642A,キューデンホールディングス,データセンター,データセンター・電力,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC/?market=all,,,,pending_review
+refresh_2026-10-04,3537,昭栄薬品,ドローン,防衛・国土強靱化,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%89%E3%83%AD%E3%83%BC%E3%83%B3/?market=all,,,,pending_review
+refresh_2026-10-04,6203,豊和工業,ドローン,防衛・国土強靱化,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%89%E3%83%AD%E3%83%BC%E3%83%B3/?market=all,,,,pending_review
+refresh_2026-10-04,7590,タカショー,ドローン,防衛・国土強靱化,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%89%E3%83%AD%E3%83%BC%E3%83%B3/?market=all,,,,pending_review
+refresh_2026-10-04,653A,ＭａｂＧｅｎｅｓｉｓ,バイオテクノロジー関連,医療・ヘルスケア,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%90%E3%82%A4%E3%82%AA%E3%83%86%E3%82%AF%E3%83%8E%E3%83%AD%E3%82%B8%E3%83%BC%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,5821,平河ヒューテック,フィジカルAI,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%95%E3%82%A3%E3%82%B8%E3%82%AB%E3%83%ABAI/?market=all,,,,pending_review
+refresh_2026-10-04,6317,北川鉄工所,フィジカルAI,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%95%E3%82%A3%E3%82%B8%E3%82%AB%E3%83%ABAI/?market=all,,,,pending_review
+refresh_2026-10-04,6471,日本精工,フィジカルAI,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%95%E3%82%A3%E3%82%B8%E3%82%AB%E3%83%ABAI/?market=all,,,,pending_review
+refresh_2026-10-04,6592,マブチモーター,フィジカルAI,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%95%E3%82%A3%E3%82%B8%E3%82%AB%E3%83%ABAI/?market=all,,,,pending_review
+refresh_2026-10-04,2138,クルーズ,ホテル,内需・消費,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%9B%E3%83%86%E3%83%AB/?market=all,,,,pending_review
+refresh_2026-10-04,8869,明和地所,ホテル,内需・消費,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%9B%E3%83%86%E3%83%AB/?market=all,,,,pending_review
+refresh_2026-10-04,640A,ＡＳＮＯＶＡ　Ｃｏｍｐａｎｉｅｓ,マンション関連,不動産・建設,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%9E%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%B3%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,5821,平河ヒューテック,ロボット,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all,,,,pending_review
+refresh_2026-10-04,6317,北川鉄工所,ロボット,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/?market=all,,,,pending_review
+refresh_2026-10-04,652A,トグルホールディングス,不動産テック,不動産・建設,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E4%B8%8D%E5%8B%95%E7%94%A3%E3%83%86%E3%83%83%E3%82%AF/?market=all,,,,pending_review
+refresh_2026-10-04,2138,クルーズ,不動産関連,不動産・建設,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E4%B8%8D%E5%8B%95%E7%94%A3%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,652A,トグルホールディングス,不動産関連,不動産・建設,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E4%B8%8D%E5%8B%95%E7%94%A3%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,648A,ルクレ,人工知能,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E4%BA%BA%E5%B7%A5%E7%9F%A5%E8%83%BD/?market=all,,,,pending_review
+refresh_2026-10-04,652A,トグルホールディングス,人工知能,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E4%BA%BA%E5%B7%A5%E7%9F%A5%E8%83%BD/?market=all,,,,pending_review
+refresh_2026-10-04,642A,キューデンホールディングス,介護関連,医療・ヘルスケア,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E4%BB%8B%E8%AD%B7%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,3280,エストラスト,住宅関連,不動産・建設,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E4%BD%8F%E5%AE%85%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,640A,ＡＳＮＯＶＡ　Ｃｏｍｐａｎｉｅｓ,住宅関連,不動産・建設,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E4%BD%8F%E5%AE%85%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,2429,ワールドホールディングス,倉庫,物流・海運,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%80%89%E5%BA%AB/?market=all,,,,pending_review
+refresh_2026-10-04,2735,ワッツ,円高メリット,内需・消費,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%86%86%E9%AB%98%E3%83%A1%E3%83%AA%E3%83%83%E3%83%88/?market=all,,,,pending_review
+refresh_2026-10-04,642A,キューデンホールディングス,円高メリット,内需・消費,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%86%86%E9%AB%98%E3%83%A1%E3%83%AA%E3%83%83%E3%83%88/?market=all,,,,pending_review
+refresh_2026-10-04,642A,キューデンホールディングス,再生可能エネルギー,GX・エネルギー,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%86%8D%E7%94%9F%E5%8F%AF%E8%83%BD%E3%82%A8%E3%83%8D%E3%83%AB%E3%82%AE%E3%83%BC/?market=all,,,,pending_review
+refresh_2026-10-04,652A,トグルホールディングス,再開発,不動産・建設,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%86%8D%E9%96%8B%E7%99%BA/?market=all,,,,pending_review
+refresh_2026-10-04,653A,ＭａｂＧｅｎｅｓｉｓ,創薬,医療・ヘルスケア,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%89%B5%E8%96%AC/?market=all,,,,pending_review
+refresh_2026-10-04,653A,ＭａｂＧｅｎｅｓｉｓ,医薬品関連,医療・ヘルスケア,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%8C%BB%E8%96%AC%E5%93%81%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,6113,アマダ,半導体製造装置,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%8D%8A%E5%B0%8E%E4%BD%93%E8%A3%BD%E9%80%A0%E8%A3%85%E7%BD%AE/?market=all,,,,pending_review
+refresh_2026-10-04,641A,ＮＯＫ　Ｇｒｏｕｐ,半導体製造装置,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%8D%8A%E5%B0%8E%E4%BD%93%E8%A3%BD%E9%80%A0%E8%A3%85%E7%BD%AE/?market=all,,,,pending_review
+refresh_2026-10-04,5301,東海カーボン,半導体部材・部品,AI・半導体,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%8D%8A%E5%B0%8E%E4%BD%93%E9%83%A8%E6%9D%90%E3%83%BB%E9%83%A8%E5%93%81/?market=all,,,,pending_review
+refresh_2026-10-04,642A,キューデンホールディングス,原子力発電,GX・エネルギー,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%8E%9F%E5%AD%90%E5%8A%9B%E7%99%BA%E9%9B%BB/?market=all,,,,pending_review
+refresh_2026-10-04,642A,キューデンホールディングス,太陽光発電関連,GX・エネルギー,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%A4%AA%E9%99%BD%E5%85%89%E7%99%BA%E9%9B%BB%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,641A,ＮＯＫ　Ｇｒｏｕｐ,宇宙開発関連,防衛・国土強靱化,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%AE%87%E5%AE%99%E9%96%8B%E7%99%BA%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,2735,ワッツ,小売り,内需・消費,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%B0%8F%E5%A3%B2%E3%82%8A/?market=all,,,,pending_review
+refresh_2026-10-04,3175,エー・ピーホールディングス,小売り,内需・消費,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%B0%8F%E5%A3%B2%E3%82%8A/?market=all,,,,pending_review
+refresh_2026-10-04,3193,エターナルホスピタリティグループ,小売り,内需・消費,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%B0%8F%E5%A3%B2%E3%82%8A/?market=all,,,,pending_review
+refresh_2026-10-04,3197,すかいらーくホールディングス,小売り,内需・消費,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%B0%8F%E5%A3%B2%E3%82%8A/?market=all,,,,pending_review
+refresh_2026-10-04,3391,ツルハホールディングス,小売り,内需・消費,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%B0%8F%E5%A3%B2%E3%82%8A/?market=all,,,,pending_review
+refresh_2026-10-04,640A,ＡＳＮＯＶＡ　Ｃｏｍｐａｎｉｅｓ,建設,不動産・建設,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%BB%BA%E8%A8%AD/?market=all,,,,pending_review
+refresh_2026-10-04,648A,ルクレ,建設DX,不動産・建設,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%BB%BA%E8%A8%ADDX/?market=all,,,,pending_review
+refresh_2026-10-04,641A,ＮＯＫ　Ｇｒｏｕｐ,建設機械,設備投資・機械,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E5%BB%BA%E8%A8%AD%E6%A9%9F%E6%A2%B0/?market=all,,,,pending_review
+refresh_2026-10-04,641A,ＮＯＫ　Ｇｒｏｕｐ,水素,GX・エネルギー,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E6%B0%B4%E7%B4%A0/?market=all,,,,pending_review
+refresh_2026-10-04,2429,ワールドホールディングス,物流,物流・海運,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81/?market=all,,,,pending_review
+refresh_2026-10-04,4287,ジャストプランニング,物流,物流・海運,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E7%89%A9%E6%B5%81/?market=all,,,,pending_review
+refresh_2026-10-04,642A,キューデンホールディングス,脱炭素,GX・エネルギー,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E8%84%B1%E7%82%AD%E7%B4%A0/?market=all,,,,pending_review
+refresh_2026-10-04,4004,レゾナック・ホールディングス,自動車部材・部品,自動車・モビリティ,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E8%BB%8A%E9%83%A8%E6%9D%90%E3%83%BB%E9%83%A8%E5%93%81/?market=all,,,,pending_review
+refresh_2026-10-04,641A,ＮＯＫ　Ｇｒｏｕｐ,自動車部材・部品,自動車・モビリティ,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E8%BB%8A%E9%83%A8%E6%9D%90%E3%83%BB%E9%83%A8%E5%93%81/?market=all,,,,pending_review
+refresh_2026-10-04,646A,クラサスケミカル,自動車部材・部品,自動車・モビリティ,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E8%BB%8A%E9%83%A8%E6%9D%90%E3%83%BB%E9%83%A8%E5%93%81/?market=all,,,,pending_review
+refresh_2026-10-04,641A,ＮＯＫ　Ｇｒｏｕｐ,自動車電子化,自動車・モビリティ,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E8%87%AA%E5%8B%95%E8%BB%8A%E9%9B%BB%E5%AD%90%E5%8C%96/?market=all,,,,pending_review
+refresh_2026-10-04,642A,キューデンホールディングス,送電,データセンター・電力,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E9%80%81%E9%9B%BB/?market=all,,,,pending_review
+refresh_2026-10-04,8541,愛媛銀行,銀行,金融・金利,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E9%8A%80%E8%A1%8C/?market=all,,,,pending_review
+refresh_2026-10-04,9021,西日本旅客鉄道,銀行,金融・金利,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E9%8A%80%E8%A1%8C/?market=all,,,,pending_review
+refresh_2026-10-04,9142,九州旅客鉄道,銀行,金融・金利,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E9%8A%80%E8%A1%8C/?market=all,,,,pending_review
+refresh_2026-10-04,5820,三ッ星,銅,資源・素材,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E9%8A%85/?market=all,,,,pending_review
+refresh_2026-10-04,3537,昭栄薬品,防災,防衛・国土強靱化,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E9%98%B2%E7%81%BD/?market=all,,,,pending_review
+refresh_2026-10-04,642A,キューデンホールディングス,電力会社,データセンター・電力,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E9%9B%BB%E5%8A%9B%E4%BC%9A%E7%A4%BE/?market=all,,,,pending_review
+refresh_2026-10-04,642A,キューデンホールディングス,電力設備投資関連,データセンター・電力,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E9%9B%BB%E5%8A%9B%E8%A8%AD%E5%82%99%E6%8A%95%E8%B3%87%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,641A,ＮＯＫ　Ｇｒｏｕｐ,電気自動車関連,自動車・モビリティ,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E9%9B%BB%E6%B0%97%E8%87%AA%E5%8B%95%E8%BB%8A%E9%96%A2%E9%80%A3/?market=all,,,,pending_review
+refresh_2026-10-04,5820,三ッ星,非鉄,資源・素材,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E9%9D%9E%E9%89%84/?market=all,,,,pending_review
+refresh_2026-10-04,642A,キューデンホールディングス,風力発電,GX・エネルギー,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E9%A2%A8%E5%8A%9B%E7%99%BA%E9%9B%BB/?market=all,,,,pending_review
+refresh_2026-10-04,3391,ツルハホールディングス,食品,内需・消費,,,,,pending_review,2026-10-04株探所属更新で追加。関連度は未再評価,https://s.kabutan.jp/themes/%E9%A3%9F%E5%93%81/?market=all,,,,pending_review
