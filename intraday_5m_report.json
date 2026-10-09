@@ -1,0 +1,62 @@
+{
+  "generated_at_jst": "2026-10-09T23:41:58.967436+09:00",
+  "source": "yfinance",
+  "interval": "5m",
+  "auto_adjust": false,
+  "lookback_calendar_days": 59,
+  "results": [
+    {
+      "ticker": "7936.T",
+      "days_written": 12,
+      "rows_written": 780
+    },
+    {
+      "ticker": "485A.T",
+      "days_written": 8,
+      "rows_written": 520
+    },
+    {
+      "ticker": "464A.T",
+      "days_written": 11,
+      "rows_written": 715
+    },
+    {
+      "ticker": "5131.T",
+      "days_written": 8,
+      "rows_written": 480
+    },
+    {
+      "ticker": "6203.T",
+      "days_written": 13,
+      "rows_written": 839
+    },
+    {
+      "ticker": "6613.T",
+      "days_written": 11,
+      "rows_written": 717
+    },
+    {
+      "ticker": "9984.T",
+      "days_written": 11,
+      "rows_written": 716
+    },
+    {
+      "ticker": "5803.T",
+      "days_written": 8,
+      "rows_written": 521
+    },
+    {
+      "ticker": "8306.T",
+      "days_written": 10,
+      "rows_written": 650
+    },
+    {
+      "ticker": "1570.T",
+      "days_written": 10,
+      "rows_written": 652
+    }
+  ],
+  "total_days": 123,
+  "total_bars": 7956,
+  "integrity": "ok"
+}
