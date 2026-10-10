@@ -1,0 +1,12 @@
+{
+  "status": "failed",
+  "reason": "当日の掲示板ランキング取得失敗",
+  "attempted_at": "2026-10-10T02:26:34.399636+09:00",
+  "ranking_status": {
+    "status": "failed",
+    "attempted_at": "2026-10-10T00:02:37.811281+09:00",
+    "error": "Yahooランキングが当日更新ではありません: 2026-10-09",
+    "source_url": "https://finance.yahoo.co.jp/stocks/ranking/bbs?market=all&term=daily",
+    "used_previous_day": false
+  }
+}
