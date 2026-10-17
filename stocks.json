@@ -1,0 +1,4023 @@
+{
+  "run_id": "20261016T235908-23318d72",
+  "stocks": [
+    {
+      "ticker": "1301.T",
+      "code": "1301",
+      "name": "極洋",
+      "date": "2026-10-16",
+      "close": 4560.0,
+      "rows": 120,
+      "themes": [
+        "円高メリット"
+      ],
+      "adj_close_latest": 4560.0,
+      "adj_close_5d_ago": 4465.0,
+      "adj_close_20d_ago": 4700.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1301.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1301.csv"
+    },
+    {
+      "ticker": "130A.T",
+      "code": "130A",
+      "name": "Ｖｅｒｉｔａｓ　Ｉｎ　Ｓｉｌｉｃｏ",
+      "date": "2026-10-16",
+      "close": 337.0,
+      "rows": 120,
+      "themes": [
+        "創薬",
+        "医薬品関連"
+      ],
+      "adj_close_latest": 337.0,
+      "adj_close_5d_ago": 425.0,
+      "adj_close_20d_ago": 425.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/130A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/130A.csv"
+    },
+    {
+      "ticker": "1332.T",
+      "code": "1332",
+      "name": "ニッスイ",
+      "date": "2026-10-16",
+      "close": 1108.0,
+      "rows": 120,
+      "themes": [
+        "円高メリット"
+      ],
+      "adj_close_latest": 1108.0,
+      "adj_close_5d_ago": 1082.5,
+      "adj_close_20d_ago": 1187.734375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1332.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1332.csv"
+    },
+    {
+      "ticker": "1333.T",
+      "code": "1333",
+      "name": "Ｕｍｉｏｓ",
+      "date": "2026-10-16",
+      "close": 1202.0,
+      "rows": 120,
+      "themes": [
+        "介護関連",
+        "円高メリット",
+        "宅配",
+        "食品"
+      ],
+      "adj_close_latest": 1202.0,
+      "adj_close_5d_ago": 1192.5,
+      "adj_close_20d_ago": 1269.8197021484375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1333.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1333.csv"
+    },
+    {
+      "ticker": "135A.T",
+      "code": "135A",
+      "name": "ＶＲＡＩＮ　Ｓｏｌｕｔｉｏｎ",
+      "date": "2026-10-16",
+      "close": 4105.0,
+      "rows": 120,
+      "themes": [
+        "IoT",
+        "デジタルトランスフォーメーション",
+        "人工知能"
+      ],
+      "adj_close_latest": 4105.0,
+      "adj_close_5d_ago": 4830.0,
+      "adj_close_20d_ago": 4430.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/135A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/135A.csv"
+    },
+    {
+      "ticker": "1375.T",
+      "code": "1375",
+      "name": "ユキグニファクトリー",
+      "date": "2026-10-16",
+      "close": 1139.0,
+      "rows": 120,
+      "themes": [
+        "食品"
+      ],
+      "adj_close_latest": 1139.0,
+      "adj_close_5d_ago": 1131.0,
+      "adj_close_20d_ago": 1167.042236328125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1375.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1375.csv"
+    },
+    {
+      "ticker": "1376.T",
+      "code": "1376",
+      "name": "カネコ種苗",
+      "date": "2026-10-16",
+      "close": 1497.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 1497.0,
+      "adj_close_5d_ago": 1492.0,
+      "adj_close_20d_ago": 1563.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1376.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1376.csv"
+    },
+    {
+      "ticker": "1377.T",
+      "code": "1377",
+      "name": "サカタのタネ",
+      "date": "2026-10-16",
+      "close": 4255.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 4255.0,
+      "adj_close_5d_ago": 4160.0,
+      "adj_close_20d_ago": 4380.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1377.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1377.csv"
+    },
+    {
+      "ticker": "1379.T",
+      "code": "1379",
+      "name": "ホクト",
+      "date": "2026-10-16",
+      "close": 2082.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 2082.0,
+      "adj_close_5d_ago": 2000.0,
+      "adj_close_20d_ago": 2073.123291015625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1379.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1379.csv"
+    },
+    {
+      "ticker": "1381.T",
+      "code": "1381",
+      "name": "アクシーズ",
+      "date": "2026-10-16",
+      "close": 3535.0,
+      "rows": 120,
+      "themes": [
+        "外食"
+      ],
+      "adj_close_latest": 3535.0,
+      "adj_close_5d_ago": 3555.0,
+      "adj_close_20d_ago": 3605.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1381.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1381.csv"
+    },
+    {
+      "ticker": "1382.T",
+      "code": "1382",
+      "name": "ホーブ",
+      "date": "2026-10-16",
+      "close": 1035.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 1035.0,
+      "adj_close_5d_ago": 830.0,
+      "adj_close_20d_ago": 887.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1382.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1382.csv"
+    },
+    {
+      "ticker": "1383.T",
+      "code": "1383",
+      "name": "ベルグアース",
+      "date": "2026-10-16",
+      "close": 3090.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 3090.0,
+      "adj_close_5d_ago": 3040.0,
+      "adj_close_20d_ago": 3005.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1383.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1383.csv"
+    },
+    {
+      "ticker": "1384.T",
+      "code": "1384",
+      "name": "ホクリヨウ",
+      "date": "2026-10-16",
+      "close": 2110.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 2110.0,
+      "adj_close_5d_ago": 2073.0,
+      "adj_close_20d_ago": 2185.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1384.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1384.csv"
+    },
+    {
+      "ticker": "1401.T",
+      "code": "1401",
+      "name": "エムビーエス",
+      "date": "2026-10-16",
+      "close": 1413.0,
+      "rows": 120,
+      "themes": [
+        "住宅関連",
+        "建設",
+        "耐震化",
+        "防災"
+      ],
+      "adj_close_latest": 1413.0,
+      "adj_close_5d_ago": 1430.0,
+      "adj_close_20d_ago": 1308.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1401.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1401.csv"
+    },
+    {
+      "ticker": "1407.T",
+      "code": "1407",
+      "name": "ウエストホールディングス",
+      "date": "2026-10-16",
+      "close": 2270.0,
+      "rows": 120,
+      "themes": [
+        "再生可能エネルギー",
+        "太陽光発電関連",
+        "蓄電池"
+      ],
+      "adj_close_latest": 2270.0,
+      "adj_close_5d_ago": 2175.0,
+      "adj_close_20d_ago": 2274.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1407.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1407.csv"
+    },
+    {
+      "ticker": "1414.T",
+      "code": "1414",
+      "name": "ショーボンドホールディングス",
+      "date": "2026-10-16",
+      "close": 1220.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化",
+        "建設",
+        "耐震化",
+        "防災"
+      ],
+      "adj_close_latest": 1220.0,
+      "adj_close_5d_ago": 1204.5,
+      "adj_close_20d_ago": 1264.5,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1414.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1414.csv"
+    },
+    {
+      "ticker": "1417.T",
+      "code": "1417",
+      "name": "ミライト・ワン",
+      "date": "2026-10-16",
+      "close": 3367.0,
+      "rows": 120,
+      "themes": [
+        "データセンター",
+        "ドローン",
+        "光ファイバー",
+        "太陽光発電関連",
+        "建設"
+      ],
+      "adj_close_latest": 3367.0,
+      "adj_close_5d_ago": 3334.0,
+      "adj_close_20d_ago": 3489.303466796875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1417.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1417.csv"
+    },
+    {
+      "ticker": "1418.T",
+      "code": "1418",
+      "name": "インターライフホールディングス",
+      "date": "2026-10-16",
+      "close": 609.0,
+      "rows": 120,
+      "themes": [
+        "建設"
+      ],
+      "adj_close_latest": 609.0,
+      "adj_close_5d_ago": 597.0,
+      "adj_close_20d_ago": 583.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1418.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1418.csv"
+    },
+    {
+      "ticker": "1419.T",
+      "code": "1419",
+      "name": "タマホーム",
+      "date": "2026-10-16",
+      "close": 2830.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "住宅関連"
+      ],
+      "adj_close_latest": 2830.0,
+      "adj_close_5d_ago": 2836.0,
+      "adj_close_20d_ago": 2917.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1419.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1419.csv"
+    },
+    {
+      "ticker": "141A.T",
+      "code": "141A",
+      "name": "トライアルホールディングス",
+      "date": "2026-10-16",
+      "close": 3585.0,
+      "rows": 120,
+      "themes": [
+        "デジタルトランスフォーメーション",
+        "人工知能",
+        "外食",
+        "小売り",
+        "物流",
+        "生活防衛",
+        "食品"
+      ],
+      "adj_close_latest": 3585.0,
+      "adj_close_5d_ago": 3715.0,
+      "adj_close_20d_ago": 3920.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/141A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/141A.csv"
+    },
+    {
+      "ticker": "1420.T",
+      "code": "1420",
+      "name": "サンヨーホームズ",
+      "date": "2026-10-16",
+      "close": 630.0,
+      "rows": 120,
+      "themes": [
+        "介護関連",
+        "住宅関連"
+      ],
+      "adj_close_latest": 630.0,
+      "adj_close_5d_ago": 630.0,
+      "adj_close_20d_ago": 631.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1420.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1420.csv"
+    },
+    {
+      "ticker": "1429.T",
+      "code": "1429",
+      "name": "日本アクア",
+      "date": "2026-10-16",
+      "close": 767.0,
+      "rows": 120,
+      "themes": [
+        "住宅関連",
+        "建設"
+      ],
+      "adj_close_latest": 767.0,
+      "adj_close_5d_ago": 771.0,
+      "adj_close_20d_ago": 794.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1429.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1429.csv"
+    },
+    {
+      "ticker": "142A.T",
+      "code": "142A",
+      "name": "ジンジブ",
+      "date": "2026-10-16",
+      "close": 953.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 953.0,
+      "adj_close_5d_ago": 974.0,
+      "adj_close_20d_ago": 831.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/142A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/142A.csv"
+    },
+    {
+      "ticker": "1430.T",
+      "code": "1430",
+      "name": "ファーストコーポレーション",
+      "date": "2026-10-16",
+      "close": 1070.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "不動産関連",
+        "建設"
+      ],
+      "adj_close_latest": 1070.0,
+      "adj_close_5d_ago": 1085.0,
+      "adj_close_20d_ago": 1021.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1430.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1430.csv"
+    },
+    {
+      "ticker": "1431.T",
+      "code": "1431",
+      "name": "Ｌｉｂ　Ｗｏｒｋ",
+      "date": "2026-10-16",
+      "close": 621.0,
+      "rows": 120,
+      "themes": [
+        "3Dプリンター",
+        "SaaS",
+        "サブスクリプション",
+        "人工知能",
+        "住宅関連",
+        "建設"
+      ],
+      "adj_close_latest": 621.0,
+      "adj_close_5d_ago": 627.0,
+      "adj_close_20d_ago": 651.3975219726562,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1431.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1431.csv"
+    },
+    {
+      "ticker": "1433.T",
+      "code": "1433",
+      "name": "ベステラ",
+      "date": "2026-10-16",
+      "close": 1210.0,
+      "rows": 120,
+      "themes": [
+        "原子力発電",
+        "脱炭素"
+      ],
+      "adj_close_latest": 1210.0,
+      "adj_close_5d_ago": 1194.0,
+      "adj_close_20d_ago": 1189.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1433.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1433.csv"
+    },
+    {
+      "ticker": "1434.T",
+      "code": "1434",
+      "name": "ＪＥＳＣＯホールディングス",
+      "date": "2026-10-16",
+      "close": 1505.0,
+      "rows": 120,
+      "themes": [
+        "再生可能エネルギー",
+        "建設",
+        "防災",
+        "電力設備投資関連"
+      ],
+      "adj_close_latest": 1505.0,
+      "adj_close_5d_ago": 1588.0,
+      "adj_close_20d_ago": 1588.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1434.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1434.csv"
+    },
+    {
+      "ticker": "1435.T",
+      "code": "1435",
+      "name": "ｒｏｂｏｔ　ｈｏｍｅ",
+      "date": "2026-10-16",
+      "close": 167.0,
+      "rows": 120,
+      "themes": [
+        "IoT",
+        "デジタルトランスフォーメーション",
+        "不動産テック",
+        "不動産ファンド",
+        "不動産関連"
+      ],
+      "adj_close_latest": 167.0,
+      "adj_close_5d_ago": 167.0,
+      "adj_close_20d_ago": 173.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1435.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1435.csv"
+    },
+    {
+      "ticker": "1436.T",
+      "code": "1436",
+      "name": "グリーンエナジー＆カンパニー",
+      "date": "2026-10-16",
+      "close": 1628.0,
+      "rows": 120,
+      "themes": [
+        "住宅関連",
+        "再生可能エネルギー",
+        "太陽光発電関連",
+        "建設",
+        "脱炭素",
+        "蓄電池"
+      ],
+      "adj_close_latest": 1628.0,
+      "adj_close_5d_ago": 1705.0,
+      "adj_close_20d_ago": 1767.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1436.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1436.csv"
+    },
+    {
+      "ticker": "1443.T",
+      "code": "1443",
+      "name": "技研ホールディングス",
+      "date": "2026-10-16",
+      "close": 265.0,
+      "rows": 120,
+      "themes": [
+        "建設",
+        "防災"
+      ],
+      "adj_close_latest": 265.0,
+      "adj_close_5d_ago": 266.0,
+      "adj_close_20d_ago": 275.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1443.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1443.csv"
+    },
+    {
+      "ticker": "1446.T",
+      "code": "1446",
+      "name": "キャンディル",
+      "date": "2026-10-16",
+      "close": 537.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 537.0,
+      "adj_close_5d_ago": 538.0,
+      "adj_close_20d_ago": 529.9065551757812,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1446.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1446.csv"
+    },
+    {
+      "ticker": "1447.T",
+      "code": "1447",
+      "name": "ＳＡＡＦホールディングス",
+      "date": "2026-10-16",
+      "close": 322.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "IoT",
+        "クラウドコンピューティング",
+        "デジタルトランスフォーメーション",
+        "フィンテック",
+        "マイナンバー",
+        "防災",
+        "電子政府"
+      ],
+      "adj_close_latest": 322.0,
+      "adj_close_5d_ago": 321.0,
+      "adj_close_20d_ago": 349.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1447.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1447.csv"
+    },
+    {
+      "ticker": "1450.T",
+      "code": "1450",
+      "name": "ＴＡＮＡＫＥＮ",
+      "date": "2026-10-16",
+      "close": 1496.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 1496.0,
+      "adj_close_5d_ago": 1495.0,
+      "adj_close_20d_ago": 1474.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1450.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1450.csv"
+    },
+    {
+      "ticker": "145A.T",
+      "code": "145A",
+      "name": "Ｌ　ｉｓ　Ｂ",
+      "date": "2026-10-16",
+      "close": 820.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "SaaS",
+        "デジタルトランスフォーメーション",
+        "人工知能",
+        "生成AI"
+      ],
+      "adj_close_latest": 820.0,
+      "adj_close_5d_ago": 845.0,
+      "adj_close_20d_ago": 892.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/145A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/145A.csv"
+    },
+    {
+      "ticker": "146A.T",
+      "code": "146A",
+      "name": "コロンビア・ワークス",
+      "date": "2026-10-16",
+      "close": 3410.0,
+      "rows": 120,
+      "themes": [
+        "ホテル",
+        "マンション関連",
+        "不動産ファンド",
+        "不動産関連"
+      ],
+      "adj_close_latest": 3410.0,
+      "adj_close_5d_ago": 3585.0,
+      "adj_close_20d_ago": 3565.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/146A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/146A.csv"
+    },
+    {
+      "ticker": "147A.T",
+      "code": "147A",
+      "name": "ソラコム",
+      "date": "2026-10-16",
+      "close": 950.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "IoT",
+        "クラウドコンピューティング",
+        "人工知能",
+        "生成AI"
+      ],
+      "adj_close_latest": 950.0,
+      "adj_close_5d_ago": 948.0,
+      "adj_close_20d_ago": 983.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/147A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/147A.csv"
+    },
+    {
+      "ticker": "1491.T",
+      "code": "1491",
+      "name": "中外鉱業",
+      "date": "2026-10-16",
+      "close": 669.0,
+      "rows": 120,
+      "themes": [
+        "ゲーム関連",
+        "レアメタル",
+        "不動産関連",
+        "工作機械",
+        "機械",
+        "都市鉱山",
+        "金"
+      ],
+      "adj_close_latest": 669.0,
+      "adj_close_5d_ago": 681.0,
+      "adj_close_20d_ago": 699.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1491.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1491.csv"
+    },
+    {
+      "ticker": "149A.T",
+      "code": "149A",
+      "name": "シンカ",
+      "date": "2026-10-16",
+      "close": 800.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "SaaS",
+        "クラウドコンピューティング",
+        "サブスクリプション"
+      ],
+      "adj_close_latest": 800.0,
+      "adj_close_5d_ago": 800.0,
+      "adj_close_20d_ago": 798.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/149A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/149A.csv"
+    },
+    {
+      "ticker": "150A.T",
+      "code": "150A",
+      "name": "ＪＳＨ",
+      "date": "2026-10-16",
+      "close": 733.0,
+      "rows": 120,
+      "themes": [
+        "旅行"
+      ],
+      "adj_close_latest": 733.0,
+      "adj_close_5d_ago": 795.0,
+      "adj_close_20d_ago": 773.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/150A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/150A.csv"
+    },
+    {
+      "ticker": "1514.T",
+      "code": "1514",
+      "name": "住石ホールディングス",
+      "date": "2026-10-16",
+      "close": 611.0,
+      "rows": 120,
+      "themes": [
+        "半導体部材・部品",
+        "風力発電"
+      ],
+      "adj_close_latest": 611.0,
+      "adj_close_5d_ago": 601.0,
+      "adj_close_20d_ago": 635.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1514.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1514.csv"
+    },
+    {
+      "ticker": "1515.T",
+      "code": "1515",
+      "name": "日鉄鉱業",
+      "date": "2026-10-16",
+      "close": 2946.0,
+      "rows": 120,
+      "themes": [
+        "下水道",
+        "不動産関連",
+        "太陽光発電関連",
+        "機械",
+        "資源開発",
+        "鉄鋼",
+        "銅",
+        "非鉄"
+      ],
+      "adj_close_latest": 2946.0,
+      "adj_close_5d_ago": 3050.0,
+      "adj_close_20d_ago": 3298.138916015625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1515.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1515.csv"
+    },
+    {
+      "ticker": "1518.T",
+      "code": "1518",
+      "name": "三井松島ホールディングス",
+      "date": "2026-10-16",
+      "close": 2288.0,
+      "rows": 120,
+      "themes": [
+        "半導体部材・部品"
+      ],
+      "adj_close_latest": 2288.0,
+      "adj_close_5d_ago": 2257.0,
+      "adj_close_20d_ago": 2168.861572265625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1518.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1518.csv"
+    },
+    {
+      "ticker": "151A.T",
+      "code": "151A",
+      "name": "ダイブグループ",
+      "date": "2026-10-16",
+      "close": 599.0,
+      "rows": 120,
+      "themes": [
+        "インバウンド",
+        "ホテル"
+      ],
+      "adj_close_latest": 599.0,
+      "adj_close_5d_ago": 606.0,
+      "adj_close_20d_ago": 628.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/151A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/151A.csv"
+    },
+    {
+      "ticker": "153A.T",
+      "code": "153A",
+      "name": "カウリス",
+      "date": "2026-10-16",
+      "close": 2660.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "SaaS",
+        "クラウドコンピューティング",
+        "サイバーセキュリティ",
+        "証券",
+        "銀行"
+      ],
+      "adj_close_latest": 2660.0,
+      "adj_close_5d_ago": 2767.0,
+      "adj_close_20d_ago": 1649.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/153A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/153A.csv"
+    },
+    {
+      "ticker": "155A.T",
+      "code": "155A",
+      "name": "情報戦略テクノロジー",
+      "date": "2026-10-16",
+      "close": 817.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "クラウドコンピューティング",
+        "サイバーセキュリティ",
+        "デジタルトランスフォーメーション",
+        "人工知能",
+        "生成AI"
+      ],
+      "adj_close_latest": 817.0,
+      "adj_close_5d_ago": 776.0,
+      "adj_close_20d_ago": 823.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/155A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/155A.csv"
+    },
+    {
+      "ticker": "156A.T",
+      "code": "156A",
+      "name": "マテリアルグループ",
+      "date": "2026-10-16",
+      "close": 762.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "SaaS",
+        "サブスクリプション"
+      ],
+      "adj_close_latest": 762.0,
+      "adj_close_5d_ago": 858.0,
+      "adj_close_20d_ago": 869.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/156A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/156A.csv"
+    },
+    {
+      "ticker": "157A.T",
+      "code": "157A",
+      "name": "グリーンモンスター",
+      "date": "2026-10-16",
+      "close": 740.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 740.0,
+      "adj_close_5d_ago": 745.0,
+      "adj_close_20d_ago": 732.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/157A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/157A.csv"
+    },
+    {
+      "ticker": "1605.T",
+      "code": "1605",
+      "name": "ＩＮＰＥＸ",
+      "date": "2026-10-16",
+      "close": 3670.0,
+      "rows": 120,
+      "themes": [
+        "アンモニア",
+        "レアメタル",
+        "再生可能エネルギー",
+        "太陽光発電関連",
+        "核融合発電",
+        "水素",
+        "脱炭素",
+        "資源開発",
+        "風力発電"
+      ],
+      "adj_close_latest": 3670.0,
+      "adj_close_5d_ago": 3625.0,
+      "adj_close_20d_ago": 3980.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1605.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1605.csv"
+    },
+    {
+      "ticker": "160A.T",
+      "code": "160A",
+      "name": "アズパートナーズ",
+      "date": "2026-10-16",
+      "close": 1940.0,
+      "rows": 120,
+      "themes": [
+        "不動産関連",
+        "介護関連"
+      ],
+      "adj_close_latest": 1940.0,
+      "adj_close_5d_ago": 1942.0,
+      "adj_close_20d_ago": 1938.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/160A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/160A.csv"
+    },
+    {
+      "ticker": "1662.T",
+      "code": "1662",
+      "name": "石油資源開発",
+      "date": "2026-10-16",
+      "close": 1678.0,
+      "rows": 120,
+      "themes": [
+        "レアアース",
+        "レアメタル",
+        "資源開発"
+      ],
+      "adj_close_latest": 1678.0,
+      "adj_close_5d_ago": 1683.0,
+      "adj_close_20d_ago": 1909.5916748046875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1662.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1662.csv"
+    },
+    {
+      "ticker": "1663.T",
+      "code": "1663",
+      "name": "Ｋ＆Ｏエナジーグループ",
+      "date": "2026-10-16",
+      "close": 1846.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 1846.0,
+      "adj_close_5d_ago": 1810.0,
+      "adj_close_20d_ago": 1922.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1663.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1663.csv"
+    },
+    {
+      "ticker": "166A.T",
+      "code": "166A",
+      "name": "タスキホールディングス",
+      "date": "2026-10-16",
+      "close": 988.0,
+      "rows": 120,
+      "themes": [
+        "IoT",
+        "SaaS",
+        "フィンテック",
+        "マンション関連",
+        "不動産テック",
+        "不動産ファンド",
+        "不動産関連",
+        "住宅関連",
+        "生成AI"
+      ],
+      "adj_close_latest": 988.0,
+      "adj_close_5d_ago": 970.0,
+      "adj_close_20d_ago": 1039.406982421875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/166A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/166A.csv"
+    },
+    {
+      "ticker": "167A.T",
+      "code": "167A",
+      "name": "リョーサン菱洋ホールディングス",
+      "date": "2026-10-16",
+      "close": 3355.0,
+      "rows": 120,
+      "themes": [
+        "IoT",
+        "サイバーセキュリティ",
+        "人工知能",
+        "半導体",
+        "半導体商社",
+        "自動車部材・部品",
+        "自動運転車"
+      ],
+      "adj_close_latest": 3355.0,
+      "adj_close_5d_ago": 3235.0,
+      "adj_close_20d_ago": 3133.33349609375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/167A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/167A.csv"
+    },
+    {
+      "ticker": "168A.T",
+      "code": "168A",
+      "name": "イタミアート",
+      "date": "2026-10-16",
+      "close": 1048.0,
+      "rows": 120,
+      "themes": [
+        "eコマース"
+      ],
+      "adj_close_latest": 1048.0,
+      "adj_close_5d_ago": 1064.0,
+      "adj_close_20d_ago": 1084.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/168A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/168A.csv"
+    },
+    {
+      "ticker": "1711.T",
+      "code": "1711",
+      "name": "ＳＤＳホールディングス",
+      "date": "2026-10-16",
+      "close": 230.0,
+      "rows": 120,
+      "themes": [
+        "再生可能エネルギー",
+        "太陽光発電関連",
+        "省エネ関連"
+      ],
+      "adj_close_latest": 230.0,
+      "adj_close_5d_ago": 231.0,
+      "adj_close_20d_ago": 245.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1711.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1711.csv"
+    },
+    {
+      "ticker": "1716.T",
+      "code": "1716",
+      "name": "第一カッター興業",
+      "date": "2026-10-16",
+      "close": 1321.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 1321.0,
+      "adj_close_5d_ago": 1297.0,
+      "adj_close_20d_ago": 1376.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1716.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1716.csv"
+    },
+    {
+      "ticker": "1717.T",
+      "code": "1717",
+      "name": "明豊ファシリティワークス",
+      "date": "2026-10-16",
+      "close": 925.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 925.0,
+      "adj_close_5d_ago": 921.0,
+      "adj_close_20d_ago": 930.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1717.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1717.csv"
+    },
+    {
+      "ticker": "1719.T",
+      "code": "1719",
+      "name": "安藤・間",
+      "date": "2026-10-16",
+      "close": 1737.0,
+      "rows": 120,
+      "themes": [
+        "再開発",
+        "国土強靱化",
+        "建設"
+      ],
+      "adj_close_latest": 1737.0,
+      "adj_close_5d_ago": 1715.0,
+      "adj_close_20d_ago": 1846.80908203125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1719.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1719.csv"
+    },
+    {
+      "ticker": "1720.T",
+      "code": "1720",
+      "name": "東急建設",
+      "date": "2026-10-16",
+      "close": 1178.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "建設"
+      ],
+      "adj_close_latest": 1178.0,
+      "adj_close_5d_ago": 1146.0,
+      "adj_close_20d_ago": 1184.3428955078125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1720.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1720.csv"
+    },
+    {
+      "ticker": "1721.T",
+      "code": "1721",
+      "name": "コムシスホールディングス",
+      "date": "2026-10-16",
+      "close": 5586.0,
+      "rows": 120,
+      "themes": [
+        "データセンター",
+        "光ファイバー",
+        "電力設備投資関連",
+        "電線地中化",
+        "風力発電"
+      ],
+      "adj_close_latest": 5586.0,
+      "adj_close_5d_ago": 5539.0,
+      "adj_close_20d_ago": 5376.8720703125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1721.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1721.csv"
+    },
+    {
+      "ticker": "1723.T",
+      "code": "1723",
+      "name": "日本電技",
+      "date": "2026-10-16",
+      "close": 2120.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 2120.0,
+      "adj_close_5d_ago": 2232.0,
+      "adj_close_20d_ago": 2483.322265625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1723.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1723.csv"
+    },
+    {
+      "ticker": "1724.T",
+      "code": "1724",
+      "name": "シンクレイヤ",
+      "date": "2026-10-16",
+      "close": 718.0,
+      "rows": 120,
+      "themes": [
+        "光ファイバー",
+        "防災"
+      ],
+      "adj_close_latest": 718.0,
+      "adj_close_5d_ago": 725.0,
+      "adj_close_20d_ago": 703.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1724.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1724.csv"
+    },
+    {
+      "ticker": "1736.T",
+      "code": "1736",
+      "name": "オーテック",
+      "date": "2026-10-16",
+      "close": 2540.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 2540.0,
+      "adj_close_5d_ago": 2499.0,
+      "adj_close_20d_ago": 2353.9404296875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1736.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1736.csv"
+    },
+    {
+      "ticker": "173A.T",
+      "code": "173A",
+      "name": "ハンモック",
+      "date": "2026-10-16",
+      "close": 1780.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "クラウドコンピューティング",
+        "サイバーセキュリティ",
+        "デジタルトランスフォーメーション",
+        "人工知能"
+      ],
+      "adj_close_latest": 1780.0,
+      "adj_close_5d_ago": 2162.0,
+      "adj_close_20d_ago": 1549.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/173A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/173A.csv"
+    },
+    {
+      "ticker": "175A.T",
+      "code": "175A",
+      "name": "Ｗｉｌｌ　Ｓｍａｒｔ",
+      "date": "2026-10-16",
+      "close": 623.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "IoT",
+        "クラウドコンピューティング",
+        "デジタルトランスフォーメーション",
+        "データ分析・解析",
+        "人工知能"
+      ],
+      "adj_close_latest": 623.0,
+      "adj_close_5d_ago": 614.0,
+      "adj_close_20d_ago": 621.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/175A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/175A.csv"
+    },
+    {
+      "ticker": "1762.T",
+      "code": "1762",
+      "name": "高松コンストラクショングループ",
+      "date": "2026-10-16",
+      "close": 4075.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "不動産関連",
+        "建設"
+      ],
+      "adj_close_latest": 4075.0,
+      "adj_close_5d_ago": 3845.0,
+      "adj_close_20d_ago": 4030.04736328125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1762.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1762.csv"
+    },
+    {
+      "ticker": "1766.T",
+      "code": "1766",
+      "name": "東建コーポレーション",
+      "date": "2026-10-16",
+      "close": 13230.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "住宅関連",
+        "建設",
+        "耐震化"
+      ],
+      "adj_close_latest": 13230.0,
+      "adj_close_5d_ago": 12550.0,
+      "adj_close_20d_ago": 13070.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1766.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1766.csv"
+    },
+    {
+      "ticker": "1768.T",
+      "code": "1768",
+      "name": "ソネック",
+      "date": "2026-10-16",
+      "close": 1023.0,
+      "rows": 120,
+      "themes": [
+        "建設"
+      ],
+      "adj_close_latest": 1023.0,
+      "adj_close_5d_ago": 1023.0,
+      "adj_close_20d_ago": 1023.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1768.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1768.csv"
+    },
+    {
+      "ticker": "1780.T",
+      "code": "1780",
+      "name": "ヤマウラ",
+      "date": "2026-10-16",
+      "close": 1476.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "建設"
+      ],
+      "adj_close_latest": 1476.0,
+      "adj_close_5d_ago": 1422.0,
+      "adj_close_20d_ago": 1469.873291015625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1780.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1780.csv"
+    },
+    {
+      "ticker": "1783.T",
+      "code": "1783",
+      "name": "ｆａｎｔａｓｉｓｔａ",
+      "date": "2026-10-16",
+      "close": 70.0,
+      "rows": 120,
+      "themes": [
+        "ホテル",
+        "不動産関連",
+        "蓄電池"
+      ],
+      "adj_close_latest": 70.0,
+      "adj_close_5d_ago": 70.0,
+      "adj_close_20d_ago": 77.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1783.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1783.csv"
+    },
+    {
+      "ticker": "1786.T",
+      "code": "1786",
+      "name": "オリエンタル白石",
+      "date": "2026-10-16",
+      "close": 333.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化",
+        "建設",
+        "耐震化"
+      ],
+      "adj_close_latest": 333.0,
+      "adj_close_5d_ago": 323.0,
+      "adj_close_20d_ago": 343.0594787597656,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1786.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1786.csv"
+    },
+    {
+      "ticker": "1793.T",
+      "code": "1793",
+      "name": "大本組",
+      "date": "2026-10-16",
+      "close": 2058.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 2058.0,
+      "adj_close_5d_ago": 2013.0,
+      "adj_close_20d_ago": 2091.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1793.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1793.csv"
+    },
+    {
+      "ticker": "1799.T",
+      "code": "1799",
+      "name": "第一建設工業",
+      "date": "2026-10-16",
+      "close": 3350.0,
+      "rows": 120,
+      "themes": [
+        "鉄道関連"
+      ],
+      "adj_close_latest": 3350.0,
+      "adj_close_5d_ago": 3305.0,
+      "adj_close_20d_ago": 3305.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1799.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1799.csv"
+    },
+    {
+      "ticker": "1801.T",
+      "code": "1801",
+      "name": "大成建設",
+      "date": "2026-10-16",
+      "close": 11290.0,
+      "rows": 120,
+      "themes": [
+        "サーバー冷却",
+        "サービスロボット",
+        "マンション関連",
+        "不動産関連",
+        "国土強靱化",
+        "建設",
+        "耐震化",
+        "防災",
+        "風力発電"
+      ],
+      "adj_close_latest": 11290.0,
+      "adj_close_5d_ago": 11775.0,
+      "adj_close_20d_ago": 12234.5400390625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1801.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1801.csv"
+    },
+    {
+      "ticker": "1802.T",
+      "code": "1802",
+      "name": "大林組",
+      "date": "2026-10-16",
+      "close": 2864.0,
+      "rows": 120,
+      "themes": [
+        "サーバー冷却",
+        "再開発",
+        "国土強靱化",
+        "建設",
+        "核融合発電",
+        "水素",
+        "耐震化",
+        "鉄道関連",
+        "防災",
+        "風力発電"
+      ],
+      "adj_close_latest": 2864.0,
+      "adj_close_5d_ago": 2848.0,
+      "adj_close_20d_ago": 3023.769287109375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1802.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1802.csv"
+    },
+    {
+      "ticker": "1803.T",
+      "code": "1803",
+      "name": "清水建設",
+      "date": "2026-10-16",
+      "close": 2007.0,
+      "rows": 120,
+      "themes": [
+        "スマートグリッド",
+        "介護関連",
+        "国土強靱化",
+        "建設",
+        "水素",
+        "耐震化",
+        "防災",
+        "風力発電"
+      ],
+      "adj_close_latest": 2007.0,
+      "adj_close_5d_ago": 2038.5,
+      "adj_close_20d_ago": 2336.385009765625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1803.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1803.csv"
+    },
+    {
+      "ticker": "1808.T",
+      "code": "1808",
+      "name": "長谷工コーポレーション",
+      "date": "2026-10-16",
+      "close": 2624.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "介護関連",
+        "建設"
+      ],
+      "adj_close_latest": 2624.0,
+      "adj_close_5d_ago": 2550.0,
+      "adj_close_20d_ago": 2700.513671875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1808.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1808.csv"
+    },
+    {
+      "ticker": "1810.T",
+      "code": "1810",
+      "name": "松井建設",
+      "date": "2026-10-16",
+      "close": 1429.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "太陽光発電関連",
+        "建設",
+        "耐震化",
+        "防災"
+      ],
+      "adj_close_latest": 1429.0,
+      "adj_close_5d_ago": 1366.0,
+      "adj_close_20d_ago": 1417.14404296875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1810.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1810.csv"
+    },
+    {
+      "ticker": "1812.T",
+      "code": "1812",
+      "name": "鹿島建設",
+      "date": "2026-10-16",
+      "close": 4710.0,
+      "rows": 120,
+      "themes": [
+        "サーバー冷却",
+        "ロボット",
+        "再開発",
+        "国土強靱化",
+        "太陽光発電関連",
+        "建設",
+        "耐震化",
+        "脱炭素",
+        "鉄道関連",
+        "防災",
+        "風力発電"
+      ],
+      "adj_close_latest": 4710.0,
+      "adj_close_5d_ago": 4757.0,
+      "adj_close_20d_ago": 4869.1787109375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1812.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1812.csv"
+    },
+    {
+      "ticker": "1813.T",
+      "code": "1813",
+      "name": "不動テトラ",
+      "date": "2026-10-16",
+      "close": 2750.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化",
+        "建設",
+        "防災",
+        "風力発電"
+      ],
+      "adj_close_latest": 2750.0,
+      "adj_close_5d_ago": 2717.0,
+      "adj_close_20d_ago": 2916.080078125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1813.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1813.csv"
+    },
+    {
+      "ticker": "1814.T",
+      "code": "1814",
+      "name": "大末建設",
+      "date": "2026-10-16",
+      "close": 4055.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "建設"
+      ],
+      "adj_close_latest": 4055.0,
+      "adj_close_5d_ago": 3355.0,
+      "adj_close_20d_ago": 3420.589111328125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1814.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1814.csv"
+    },
+    {
+      "ticker": "1815.T",
+      "code": "1815",
+      "name": "鉄建建設",
+      "date": "2026-10-16",
+      "close": 2182.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "再開発",
+        "国土強靱化",
+        "鉄道関連",
+        "防災"
+      ],
+      "adj_close_latest": 2182.0,
+      "adj_close_5d_ago": 2168.0,
+      "adj_close_20d_ago": 2227.5,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1815.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1815.csv"
+    },
+    {
+      "ticker": "1820.T",
+      "code": "1820",
+      "name": "西松建設",
+      "date": "2026-10-16",
+      "close": 5205.0,
+      "rows": 120,
+      "themes": [
+        "ホテル",
+        "下水道",
+        "不動産関連",
+        "国土強靱化",
+        "建設"
+      ],
+      "adj_close_latest": 5205.0,
+      "adj_close_5d_ago": 5111.0,
+      "adj_close_20d_ago": 5439.85205078125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1820.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1820.csv"
+    },
+    {
+      "ticker": "1822.T",
+      "code": "1822",
+      "name": "大豊建設",
+      "date": "2026-10-16",
+      "close": 795.0,
+      "rows": 120,
+      "themes": [
+        "下水道",
+        "国土強靱化",
+        "建設",
+        "防災"
+      ],
+      "adj_close_latest": 795.0,
+      "adj_close_5d_ago": 785.0,
+      "adj_close_20d_ago": 830.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1822.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1822.csv"
+    },
+    {
+      "ticker": "1826.T",
+      "code": "1826",
+      "name": "佐田建設",
+      "date": "2026-10-16",
+      "close": 1071.0,
+      "rows": 120,
+      "themes": [
+        "下水道",
+        "建設",
+        "耐震化"
+      ],
+      "adj_close_latest": 1071.0,
+      "adj_close_5d_ago": 1056.0,
+      "adj_close_20d_ago": 1076.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1826.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1826.csv"
+    },
+    {
+      "ticker": "1827.T",
+      "code": "1827",
+      "name": "ナカノフドー建設",
+      "date": "2026-10-16",
+      "close": 1261.0,
+      "rows": 120,
+      "themes": [
+        "建設"
+      ],
+      "adj_close_latest": 1261.0,
+      "adj_close_5d_ago": 1364.0,
+      "adj_close_20d_ago": 1321.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1827.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1827.csv"
+    },
+    {
+      "ticker": "1828.T",
+      "code": "1828",
+      "name": "田辺工業",
+      "date": "2026-10-16",
+      "close": 2371.0,
+      "rows": 120,
+      "themes": [
+        "建設"
+      ],
+      "adj_close_latest": 2371.0,
+      "adj_close_5d_ago": 2315.0,
+      "adj_close_20d_ago": 2450.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1828.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1828.csv"
+    },
+    {
+      "ticker": "1833.T",
+      "code": "1833",
+      "name": "奥村組",
+      "date": "2026-10-16",
+      "close": 5270.0,
+      "rows": 120,
+      "themes": [
+        "下水道",
+        "建設",
+        "耐震化",
+        "防災"
+      ],
+      "adj_close_latest": 5270.0,
+      "adj_close_5d_ago": 5230.0,
+      "adj_close_20d_ago": 5540.78662109375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1833.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1833.csv"
+    },
+    {
+      "ticker": "1835.T",
+      "code": "1835",
+      "name": "東鉄工業",
+      "date": "2026-10-16",
+      "close": 3950.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化",
+        "建設",
+        "耐震化",
+        "鉄道関連",
+        "防災"
+      ],
+      "adj_close_latest": 3950.0,
+      "adj_close_5d_ago": 3730.0,
+      "adj_close_20d_ago": 3824.194580078125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1835.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1835.csv"
+    },
+    {
+      "ticker": "1840.T",
+      "code": "1840",
+      "name": "土屋ホールディングス",
+      "date": "2026-10-16",
+      "close": 258.0,
+      "rows": 120,
+      "themes": [
+        "住宅関連"
+      ],
+      "adj_close_latest": 258.0,
+      "adj_close_5d_ago": 260.0,
+      "adj_close_20d_ago": 256.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1840.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1840.csv"
+    },
+    {
+      "ticker": "1844.T",
+      "code": "1844",
+      "name": "大盛工業",
+      "date": "2026-10-16",
+      "close": 412.0,
+      "rows": 120,
+      "themes": [
+        "下水道",
+        "不動産関連",
+        "水道関連",
+        "電線地中化"
+      ],
+      "adj_close_latest": 412.0,
+      "adj_close_5d_ago": 419.0,
+      "adj_close_20d_ago": 454.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1844.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1844.csv"
+    },
+    {
+      "ticker": "1847.T",
+      "code": "1847",
+      "name": "イチケン",
+      "date": "2026-10-16",
+      "close": 3430.0,
+      "rows": 120,
+      "themes": [
+        "建設"
+      ],
+      "adj_close_latest": 3430.0,
+      "adj_close_5d_ago": 3290.0,
+      "adj_close_20d_ago": 3292.334716796875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1847.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1847.csv"
+    },
+    {
+      "ticker": "1848.T",
+      "code": "1848",
+      "name": "富士ピー・エス",
+      "date": "2026-10-16",
+      "close": 821.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化",
+        "建設",
+        "耐震化",
+        "鉄道関連"
+      ],
+      "adj_close_latest": 821.0,
+      "adj_close_5d_ago": 857.0,
+      "adj_close_20d_ago": 762.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1848.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1848.csv"
+    },
+    {
+      "ticker": "1850.T",
+      "code": "1850",
+      "name": "南海辰村建設",
+      "date": "2026-10-16",
+      "close": 414.0,
+      "rows": 120,
+      "themes": [
+        "建設",
+        "鉄道関連"
+      ],
+      "adj_close_latest": 414.0,
+      "adj_close_5d_ago": 416.0,
+      "adj_close_20d_ago": 434.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1850.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1850.csv"
+    },
+    {
+      "ticker": "1852.T",
+      "code": "1852",
+      "name": "淺沼組",
+      "date": "2026-10-16",
+      "close": 864.0,
+      "rows": 120,
+      "themes": [
+        "建設",
+        "耐震化"
+      ],
+      "adj_close_latest": 864.0,
+      "adj_close_5d_ago": 836.0,
+      "adj_close_20d_ago": 867.3392333984375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1852.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1852.csv"
+    },
+    {
+      "ticker": "1853.T",
+      "code": "1853",
+      "name": "森組",
+      "date": "2026-10-16",
+      "close": 320.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "建設"
+      ],
+      "adj_close_latest": 320.0,
+      "adj_close_5d_ago": 320.0,
+      "adj_close_20d_ago": 323.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1853.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1853.csv"
+    },
+    {
+      "ticker": "1860.T",
+      "code": "1860",
+      "name": "戸田建設",
+      "date": "2026-10-16",
+      "close": 1378.0,
+      "rows": 120,
+      "themes": [
+        "介護関連",
+        "国土強靱化",
+        "建設",
+        "脱炭素",
+        "風力発電"
+      ],
+      "adj_close_latest": 1378.0,
+      "adj_close_5d_ago": 1334.0,
+      "adj_close_20d_ago": 1456.5604248046875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1860.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1860.csv"
+    },
+    {
+      "ticker": "1861.T",
+      "code": "1861",
+      "name": "熊谷組",
+      "date": "2026-10-16",
+      "close": 1214.0,
+      "rows": 120,
+      "themes": [
+        "再開発",
+        "建設"
+      ],
+      "adj_close_latest": 1214.0,
+      "adj_close_5d_ago": 1193.0,
+      "adj_close_20d_ago": 1269.2864990234375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1861.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1861.csv"
+    },
+    {
+      "ticker": "1866.T",
+      "code": "1866",
+      "name": "北野建設",
+      "date": "2026-10-16",
+      "close": 1094.0,
+      "rows": 120,
+      "themes": [
+        "ホテル",
+        "建設"
+      ],
+      "adj_close_latest": 1094.0,
+      "adj_close_5d_ago": 1060.0,
+      "adj_close_20d_ago": 1121.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1866.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1866.csv"
+    },
+    {
+      "ticker": "1867.T",
+      "code": "1867",
+      "name": "植木組",
+      "date": "2026-10-16",
+      "close": 2742.0,
+      "rows": 120,
+      "themes": [
+        "介護関連",
+        "建設"
+      ],
+      "adj_close_latest": 2742.0,
+      "adj_close_5d_ago": 2698.0,
+      "adj_close_20d_ago": 2719.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1867.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1867.csv"
+    },
+    {
+      "ticker": "186A.T",
+      "code": "186A",
+      "name": "アストロスケールホールディングス",
+      "date": "2026-10-16",
+      "close": 1081.0,
+      "rows": 120,
+      "themes": [
+        "宇宙開発関連",
+        "防衛"
+      ],
+      "adj_close_latest": 1081.0,
+      "adj_close_5d_ago": 1119.0,
+      "adj_close_20d_ago": 1020.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/186A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/186A.csv"
+    },
+    {
+      "ticker": "1870.T",
+      "code": "1870",
+      "name": "矢作建設工業",
+      "date": "2026-10-16",
+      "close": 2099.0,
+      "rows": 120,
+      "themes": [
+        "不動産関連",
+        "国土強靱化",
+        "建設",
+        "耐震化",
+        "鉄道関連",
+        "防災"
+      ],
+      "adj_close_latest": 2099.0,
+      "adj_close_5d_ago": 2025.0,
+      "adj_close_20d_ago": 2080.0615234375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1870.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1870.csv"
+    },
+    {
+      "ticker": "1871.T",
+      "code": "1871",
+      "name": "ピーエス・コンストラクション",
+      "date": "2026-10-16",
+      "close": 2116.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化",
+        "建設",
+        "耐震化",
+        "防災"
+      ],
+      "adj_close_latest": 2116.0,
+      "adj_close_5d_ago": 2020.0,
+      "adj_close_20d_ago": 2104.024169921875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1871.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1871.csv"
+    },
+    {
+      "ticker": "1873.T",
+      "code": "1873",
+      "name": "日本ハウスホールディングス",
+      "date": "2026-10-16",
+      "close": 315.0,
+      "rows": 120,
+      "themes": [
+        "ホテル",
+        "住宅関連"
+      ],
+      "adj_close_latest": 315.0,
+      "adj_close_5d_ago": 310.0,
+      "adj_close_20d_ago": 305.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1873.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1873.csv"
+    },
+    {
+      "ticker": "1878.T",
+      "code": "1878",
+      "name": "大東建託",
+      "date": "2026-10-16",
+      "close": 3191.0,
+      "rows": 120,
+      "themes": [
+        "住宅関連"
+      ],
+      "adj_close_latest": 3191.0,
+      "adj_close_5d_ago": 3111.0,
+      "adj_close_20d_ago": 3269.221923828125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1878.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1878.csv"
+    },
+    {
+      "ticker": "1879.T",
+      "code": "1879",
+      "name": "新日本建設",
+      "date": "2026-10-16",
+      "close": 2197.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "不動産関連",
+        "建設",
+        "耐震化"
+      ],
+      "adj_close_latest": 2197.0,
+      "adj_close_5d_ago": 2112.0,
+      "adj_close_20d_ago": 2230.481689453125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1879.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1879.csv"
+    },
+    {
+      "ticker": "1882.T",
+      "code": "1882",
+      "name": "東亜道路工業",
+      "date": "2026-10-16",
+      "close": 1581.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化"
+      ],
+      "adj_close_latest": 1581.0,
+      "adj_close_5d_ago": 1537.0,
+      "adj_close_20d_ago": 1561.2784423828125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1882.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1882.csv"
+    },
+    {
+      "ticker": "1885.T",
+      "code": "1885",
+      "name": "東亜建設工業",
+      "date": "2026-10-16",
+      "close": 2082.0,
+      "rows": 120,
+      "themes": [
+        "レアアース",
+        "建設",
+        "防災",
+        "風力発電"
+      ],
+      "adj_close_latest": 2082.0,
+      "adj_close_5d_ago": 2000.0,
+      "adj_close_20d_ago": 2078.284423828125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1885.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1885.csv"
+    },
+    {
+      "ticker": "1887.T",
+      "code": "1887",
+      "name": "日本国土開発",
+      "date": "2026-10-16",
+      "close": 516.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "下水道",
+        "不動産関連",
+        "再開発",
+        "国土強靱化",
+        "太陽光発電関連",
+        "建設",
+        "建設機械",
+        "耐震化",
+        "防災"
+      ],
+      "adj_close_latest": 516.0,
+      "adj_close_5d_ago": 507.0,
+      "adj_close_20d_ago": 549.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1887.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1887.csv"
+    },
+    {
+      "ticker": "1888.T",
+      "code": "1888",
+      "name": "若築建設",
+      "date": "2026-10-16",
+      "close": 3605.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化",
+        "建設"
+      ],
+      "adj_close_latest": 3605.0,
+      "adj_close_5d_ago": 3450.0,
+      "adj_close_20d_ago": 3615.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1888.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1888.csv"
+    },
+    {
+      "ticker": "1893.T",
+      "code": "1893",
+      "name": "五洋建設",
+      "date": "2026-10-16",
+      "close": 1346.0,
+      "rows": 120,
+      "themes": [
+        "データセンター",
+        "ドローン",
+        "国土強靱化",
+        "建設",
+        "鉄道関連",
+        "防災",
+        "風力発電"
+      ],
+      "adj_close_latest": 1346.0,
+      "adj_close_5d_ago": 1385.0,
+      "adj_close_20d_ago": 1491.508544921875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1893.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1893.csv"
+    },
+    {
+      "ticker": "1898.T",
+      "code": "1898",
+      "name": "世紀東急工業",
+      "date": "2026-10-16",
+      "close": 1451.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化",
+        "防災"
+      ],
+      "adj_close_latest": 1451.0,
+      "adj_close_5d_ago": 1414.0,
+      "adj_close_20d_ago": 1440.0999755859375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1898.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1898.csv"
+    },
+    {
+      "ticker": "1899.T",
+      "code": "1899",
+      "name": "福田組",
+      "date": "2026-10-16",
+      "close": 4975.0,
+      "rows": 120,
+      "themes": [
+        "不動産関連",
+        "建設",
+        "鉄道関連"
+      ],
+      "adj_close_latest": 4975.0,
+      "adj_close_5d_ago": 4620.0,
+      "adj_close_20d_ago": 4560.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1899.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1899.csv"
+    },
+    {
+      "ticker": "189A.T",
+      "code": "189A",
+      "name": "Ｄ＆Ｍカンパニー",
+      "date": "2026-10-16",
+      "close": 1065.0,
+      "rows": 120,
+      "themes": [
+        "リース",
+        "介護関連",
+        "医療機器"
+      ],
+      "adj_close_latest": 1065.0,
+      "adj_close_5d_ago": 1058.0,
+      "adj_close_20d_ago": 1048.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/189A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/189A.csv"
+    },
+    {
+      "ticker": "1904.T",
+      "code": "1904",
+      "name": "大成温調",
+      "date": "2026-10-16",
+      "close": 1237.0,
+      "rows": 120,
+      "themes": [
+        "建設"
+      ],
+      "adj_close_latest": 1237.0,
+      "adj_close_5d_ago": 1212.0,
+      "adj_close_20d_ago": 1178.5,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1904.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1904.csv"
+    },
+    {
+      "ticker": "190A.T",
+      "code": "190A",
+      "name": "Ｃｈｏｒｄｉａ　Ｔｈｅｒａｐｅｕｔｉｃｓ",
+      "date": "2026-10-16",
+      "close": 56.0,
+      "rows": 120,
+      "themes": [
+        "バイオテクノロジー関連",
+        "創薬"
+      ],
+      "adj_close_latest": 56.0,
+      "adj_close_5d_ago": 57.0,
+      "adj_close_20d_ago": 69.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/190A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/190A.csv"
+    },
+    {
+      "ticker": "1911.T",
+      "code": "1911",
+      "name": "住友林業",
+      "date": "2026-10-16",
+      "close": 1204.0,
+      "rows": 120,
+      "themes": [
+        "住宅関連",
+        "耐震化",
+        "風力発電"
+      ],
+      "adj_close_latest": 1204.0,
+      "adj_close_5d_ago": 1171.0,
+      "adj_close_20d_ago": 1259.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1911.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1911.csv"
+    },
+    {
+      "ticker": "1914.T",
+      "code": "1914",
+      "name": "日本基礎技術",
+      "date": "2026-10-16",
+      "close": 798.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化",
+        "耐震化",
+        "防災"
+      ],
+      "adj_close_latest": 798.0,
+      "adj_close_5d_ago": 768.0,
+      "adj_close_20d_ago": 802.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1914.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1914.csv"
+    },
+    {
+      "ticker": "1921.T",
+      "code": "1921",
+      "name": "巴コーポレーション",
+      "date": "2026-10-16",
+      "close": 1837.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "不動産関連",
+        "建設",
+        "耐震化",
+        "送電",
+        "電力設備投資関連"
+      ],
+      "adj_close_latest": 1837.0,
+      "adj_close_5d_ago": 1932.0,
+      "adj_close_20d_ago": 1917.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1921.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1921.csv"
+    },
+    {
+      "ticker": "1925.T",
+      "code": "1925",
+      "name": "大和ハウス工業",
+      "date": "2026-10-16",
+      "close": 2220.0,
+      "rows": 120,
+      "themes": [
+        "サービスロボット",
+        "スマートグリッド",
+        "データセンター",
+        "マンション関連",
+        "リチウムイオン電池",
+        "ロボット",
+        "不動産ファンド",
+        "介護関連",
+        "住宅関連",
+        "再生可能エネルギー",
+        "太陽光発電関連",
+        "物流",
+        "蓄電池",
+        "防災",
+        "風力発電"
+      ],
+      "adj_close_latest": 2220.0,
+      "adj_close_5d_ago": 2166.0,
+      "adj_close_20d_ago": 2237.027099609375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1925.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1925.csv"
+    },
+    {
+      "ticker": "1926.T",
+      "code": "1926",
+      "name": "ライト工業",
+      "date": "2026-10-16",
+      "close": 970.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化",
+        "建設",
+        "耐震化",
+        "防災"
+      ],
+      "adj_close_latest": 970.0,
+      "adj_close_5d_ago": 934.0,
+      "adj_close_20d_ago": 918.0154418945312,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1926.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1926.csv"
+    },
+    {
+      "ticker": "1928.T",
+      "code": "1928",
+      "name": "積水ハウス",
+      "date": "2026-10-16",
+      "close": 3390.0,
+      "rows": 120,
+      "themes": [
+        "マンション関連",
+        "介護関連",
+        "住宅関連",
+        "太陽光発電関連",
+        "防災"
+      ],
+      "adj_close_latest": 3390.0,
+      "adj_close_5d_ago": 3334.0,
+      "adj_close_20d_ago": 3366.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1928.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1928.csv"
+    },
+    {
+      "ticker": "1929.T",
+      "code": "1929",
+      "name": "日特建設",
+      "date": "2026-10-16",
+      "close": 1178.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化",
+        "防災"
+      ],
+      "adj_close_latest": 1178.0,
+      "adj_close_5d_ago": 1145.0,
+      "adj_close_20d_ago": 1193.3387451171875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1929.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1929.csv"
+    },
+    {
+      "ticker": "1930.T",
+      "code": "1930",
+      "name": "北陸電気工事",
+      "date": "2026-10-16",
+      "close": 1499.0,
+      "rows": 120,
+      "themes": [
+        "データセンター",
+        "建設",
+        "鉄道関連",
+        "電力設備投資関連"
+      ],
+      "adj_close_latest": 1499.0,
+      "adj_close_5d_ago": 1500.0,
+      "adj_close_20d_ago": 1544.698486328125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1930.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1930.csv"
+    },
+    {
+      "ticker": "1934.T",
+      "code": "1934",
+      "name": "ユアテック",
+      "date": "2026-10-16",
+      "close": 2437.0,
+      "rows": 120,
+      "themes": [
+        "電力設備投資関連",
+        "風力発電"
+      ],
+      "adj_close_latest": 2437.0,
+      "adj_close_5d_ago": 2446.0,
+      "adj_close_20d_ago": 2581.103759765625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1934.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1934.csv"
+    },
+    {
+      "ticker": "1938.T",
+      "code": "1938",
+      "name": "日本リーテック",
+      "date": "2026-10-16",
+      "close": 2469.0,
+      "rows": 120,
+      "themes": [
+        "太陽光発電関連",
+        "鉄道関連",
+        "電力設備投資関連"
+      ],
+      "adj_close_latest": 2469.0,
+      "adj_close_5d_ago": 2482.0,
+      "adj_close_20d_ago": 2524.072265625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1938.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1938.csv"
+    },
+    {
+      "ticker": "1939.T",
+      "code": "1939",
+      "name": "四電工",
+      "date": "2026-10-16",
+      "close": 2248.0,
+      "rows": 120,
+      "themes": [
+        "リース",
+        "太陽光発電関連",
+        "建設",
+        "電力設備投資関連"
+      ],
+      "adj_close_latest": 2248.0,
+      "adj_close_5d_ago": 2181.0,
+      "adj_close_20d_ago": 2216.48974609375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1939.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1939.csv"
+    },
+    {
+      "ticker": "1941.T",
+      "code": "1941",
+      "name": "中電工",
+      "date": "2026-10-16",
+      "close": 5150.0,
+      "rows": 120,
+      "themes": [
+        "電力設備投資関連",
+        "電線地中化"
+      ],
+      "adj_close_latest": 5150.0,
+      "adj_close_5d_ago": 5040.0,
+      "adj_close_20d_ago": 5060.8095703125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1941.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1941.csv"
+    },
+    {
+      "ticker": "1942.T",
+      "code": "1942",
+      "name": "関電工",
+      "date": "2026-10-16",
+      "close": 5199.0,
+      "rows": 120,
+      "themes": [
+        "スマートグリッド",
+        "データセンター",
+        "太陽光発電関連",
+        "送電",
+        "防災",
+        "電力設備投資関連",
+        "電線地中化",
+        "風力発電"
+      ],
+      "adj_close_latest": 5199.0,
+      "adj_close_5d_ago": 5321.0,
+      "adj_close_20d_ago": 5400.26220703125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1942.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1942.csv"
+    },
+    {
+      "ticker": "1944.T",
+      "code": "1944",
+      "name": "きんでん",
+      "date": "2026-10-16",
+      "close": 6447.0,
+      "rows": 120,
+      "themes": [
+        "スマートグリッド",
+        "データセンター",
+        "太陽光発電関連",
+        "送電",
+        "電力設備投資関連",
+        "電線地中化",
+        "風力発電"
+      ],
+      "adj_close_latest": 6447.0,
+      "adj_close_5d_ago": 6580.0,
+      "adj_close_20d_ago": 6667.2900390625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1944.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1944.csv"
+    },
+    {
+      "ticker": "1945.T",
+      "code": "1945",
+      "name": "東京エネシス",
+      "date": "2026-10-16",
+      "close": 1999.0,
+      "rows": 120,
+      "themes": [
+        "データセンター",
+        "再生可能エネルギー",
+        "原子力発電",
+        "太陽光発電関連",
+        "電力設備投資関連"
+      ],
+      "adj_close_latest": 1999.0,
+      "adj_close_5d_ago": 2079.0,
+      "adj_close_20d_ago": 2101.928955078125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1945.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1945.csv"
+    },
+    {
+      "ticker": "1946.T",
+      "code": "1946",
+      "name": "トーエネック",
+      "date": "2026-10-16",
+      "close": 2066.0,
+      "rows": 120,
+      "themes": [
+        "電力設備投資関連"
+      ],
+      "adj_close_latest": 2066.0,
+      "adj_close_5d_ago": 2050.0,
+      "adj_close_20d_ago": 2135.98388671875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1946.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1946.csv"
+    },
+    {
+      "ticker": "194A.T",
+      "code": "194A",
+      "name": "ＷＯＬＶＥＳ　ＨＡＮＤ",
+      "date": "2026-10-16",
+      "close": 1579.0,
+      "rows": 120,
+      "themes": [
+        "サブスクリプション",
+        "創薬",
+        "医療機器"
+      ],
+      "adj_close_latest": 1579.0,
+      "adj_close_5d_ago": 1598.0,
+      "adj_close_20d_ago": 1758.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/194A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/194A.csv"
+    },
+    {
+      "ticker": "1950.T",
+      "code": "1950",
+      "name": "日本電設工業",
+      "date": "2026-10-16",
+      "close": 3800.0,
+      "rows": 120,
+      "themes": [
+        "再生可能エネルギー",
+        "太陽光発電関連",
+        "鉄道関連"
+      ],
+      "adj_close_latest": 3800.0,
+      "adj_close_5d_ago": 3790.0,
+      "adj_close_20d_ago": 4025.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1950.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1950.csv"
+    },
+    {
+      "ticker": "1951.T",
+      "code": "1951",
+      "name": "エクシオグループ",
+      "date": "2026-10-16",
+      "close": 2565.5,
+      "rows": 120,
+      "themes": [
+        "IoT",
+        "クラウドコンピューティング",
+        "デジタルトランスフォーメーション",
+        "データセンター",
+        "光ファイバー",
+        "耐震化",
+        "鉄道関連",
+        "防災",
+        "電線地中化"
+      ],
+      "adj_close_latest": 2565.5,
+      "adj_close_5d_ago": 2516.5,
+      "adj_close_20d_ago": 2528.651123046875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1951.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1951.csv"
+    },
+    {
+      "ticker": "1952.T",
+      "code": "1952",
+      "name": "新日本空調",
+      "date": "2026-10-16",
+      "close": 3025.0,
+      "rows": 120,
+      "themes": [
+        "データセンター",
+        "原子力発電"
+      ],
+      "adj_close_latest": 3025.0,
+      "adj_close_5d_ago": 3005.0,
+      "adj_close_20d_ago": 3096.302490234375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1952.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1952.csv"
+    },
+    {
+      "ticker": "1959.T",
+      "code": "1959",
+      "name": "クラフティア",
+      "date": "2026-10-16",
+      "close": 7626.0,
+      "rows": 120,
+      "themes": [
+        "データセンター",
+        "太陽光発電関連",
+        "送電",
+        "防災",
+        "電力設備投資関連",
+        "電線地中化",
+        "風力発電"
+      ],
+      "adj_close_latest": 7626.0,
+      "adj_close_5d_ago": 7763.0,
+      "adj_close_20d_ago": 7762.54443359375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1959.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1959.csv"
+    },
+    {
+      "ticker": "195A.T",
+      "code": "195A",
+      "name": "ＭＵＳＣＡＴ　ＧＲＯＵＰ",
+      "date": "2026-10-16",
+      "close": 659.0,
+      "rows": 120,
+      "themes": [
+        "eコマース",
+        "クラウドコンピューティング",
+        "デジタルトランスフォーメーション",
+        "データ分析・解析"
+      ],
+      "adj_close_latest": 659.0,
+      "adj_close_5d_ago": 670.0,
+      "adj_close_20d_ago": 700.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/195A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/195A.csv"
+    },
+    {
+      "ticker": "1960.T",
+      "code": "1960",
+      "name": "サンテック",
+      "date": "2026-10-16",
+      "close": 1625.0,
+      "rows": 120,
+      "themes": [
+        "建設",
+        "電力設備投資関連"
+      ],
+      "adj_close_latest": 1625.0,
+      "adj_close_5d_ago": 1649.0,
+      "adj_close_20d_ago": 1643.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1960.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1960.csv"
+    },
+    {
+      "ticker": "1961.T",
+      "code": "1961",
+      "name": "三機工業",
+      "date": "2026-10-16",
+      "close": 2601.0,
+      "rows": 120,
+      "themes": [
+        "FA関連",
+        "サーバー冷却",
+        "データセンター",
+        "下水道",
+        "建設",
+        "水道関連",
+        "物流",
+        "省エネ関連",
+        "防災",
+        "電力設備投資関連"
+      ],
+      "adj_close_latest": 2601.0,
+      "adj_close_5d_ago": 2583.0,
+      "adj_close_20d_ago": 2401.623291015625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1961.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1961.csv"
+    },
+    {
+      "ticker": "1963.T",
+      "code": "1963",
+      "name": "日揮ホールディングス",
+      "date": "2026-10-16",
+      "close": 2132.5,
+      "rows": 120,
+      "themes": [
+        "アンモニア",
+        "レアアース",
+        "円安メリット",
+        "原子力発電",
+        "核融合発電",
+        "水素",
+        "脱炭素",
+        "蓄電池",
+        "資源開発"
+      ],
+      "adj_close_latest": 2132.5,
+      "adj_close_5d_ago": 2140.0,
+      "adj_close_20d_ago": 2343.5,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1963.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1963.csv"
+    },
+    {
+      "ticker": "1964.T",
+      "code": "1964",
+      "name": "中外炉工業",
+      "date": "2026-10-16",
+      "close": 3790.0,
+      "rows": 120,
+      "themes": [
+        "アンモニア",
+        "全固体電池",
+        "水素",
+        "設備投資",
+        "鉄鋼"
+      ],
+      "adj_close_latest": 3790.0,
+      "adj_close_5d_ago": 3755.0,
+      "adj_close_20d_ago": 3850.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1964.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1964.csv"
+    },
+    {
+      "ticker": "1965.T",
+      "code": "1965",
+      "name": "テクノ菱和",
+      "date": "2026-10-16",
+      "close": 2118.0,
+      "rows": 120,
+      "themes": [
+        "建設",
+        "省エネ関連"
+      ],
+      "adj_close_latest": 2118.0,
+      "adj_close_5d_ago": 2183.0,
+      "adj_close_20d_ago": 2242.408935546875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1965.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1965.csv"
+    },
+    {
+      "ticker": "1966.T",
+      "code": "1966",
+      "name": "高田工業所",
+      "date": "2026-10-16",
+      "close": 1714.0,
+      "rows": 120,
+      "themes": [
+        "半導体製造装置",
+        "原子力発電",
+        "電力設備投資関連"
+      ],
+      "adj_close_latest": 1714.0,
+      "adj_close_5d_ago": 1720.0,
+      "adj_close_20d_ago": 1721.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1966.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1966.csv"
+    },
+    {
+      "ticker": "1967.T",
+      "code": "1967",
+      "name": "ヤマト",
+      "date": "2026-10-16",
+      "close": 2151.0,
+      "rows": 120,
+      "themes": [
+        "下水道",
+        "建設",
+        "水道関連"
+      ],
+      "adj_close_latest": 2151.0,
+      "adj_close_5d_ago": 2132.0,
+      "adj_close_20d_ago": 2108.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1967.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1967.csv"
+    },
+    {
+      "ticker": "1968.T",
+      "code": "1968",
+      "name": "太平電業",
+      "date": "2026-10-16",
+      "close": 2410.0,
+      "rows": 120,
+      "themes": [
+        "再生可能エネルギー",
+        "原子力発電",
+        "耐震化",
+        "防災",
+        "電力設備投資関連",
+        "風力発電"
+      ],
+      "adj_close_latest": 2410.0,
+      "adj_close_5d_ago": 2418.0,
+      "adj_close_20d_ago": 2527.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1968.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1968.csv"
+    },
+    {
+      "ticker": "1969.T",
+      "code": "1969",
+      "name": "高砂熱学工業",
+      "date": "2026-10-16",
+      "close": 4190.0,
+      "rows": 120,
+      "themes": [
+        "サーバー冷却",
+        "データセンター",
+        "建設",
+        "水素"
+      ],
+      "adj_close_latest": 4190.0,
+      "adj_close_5d_ago": 4412.0,
+      "adj_close_20d_ago": 4360.53759765625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1969.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1969.csv"
+    },
+    {
+      "ticker": "196A.T",
+      "code": "196A",
+      "name": "ＭＦＳ",
+      "date": "2026-10-16",
+      "close": 334.0,
+      "rows": 120,
+      "themes": [
+        "住宅関連"
+      ],
+      "adj_close_latest": 334.0,
+      "adj_close_5d_ago": 376.0,
+      "adj_close_20d_ago": 320.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/196A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/196A.csv"
+    },
+    {
+      "ticker": "1972.T",
+      "code": "1972",
+      "name": "三晃金属工業",
+      "date": "2026-10-16",
+      "close": 1265.0,
+      "rows": 120,
+      "themes": [
+        "建設"
+      ],
+      "adj_close_latest": 1265.0,
+      "adj_close_5d_ago": 1251.0,
+      "adj_close_20d_ago": 1279.6993408203125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1972.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1972.csv"
+    },
+    {
+      "ticker": "1975.T",
+      "code": "1975",
+      "name": "朝日工業社",
+      "date": "2026-10-16",
+      "close": 3860.0,
+      "rows": 120,
+      "themes": [
+        "データセンター",
+        "半導体製造装置",
+        "建設"
+      ],
+      "adj_close_latest": 3860.0,
+      "adj_close_5d_ago": 3785.0,
+      "adj_close_20d_ago": 3711.5322265625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1975.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1975.csv"
+    },
+    {
+      "ticker": "1976.T",
+      "code": "1976",
+      "name": "明星工業",
+      "date": "2026-10-16",
+      "close": 1696.0,
+      "rows": 120,
+      "themes": [
+        "原子力発電",
+        "建設"
+      ],
+      "adj_close_latest": 1696.0,
+      "adj_close_5d_ago": 1655.0,
+      "adj_close_20d_ago": 1681.5167236328125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1976.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1976.csv"
+    },
+    {
+      "ticker": "1979.T",
+      "code": "1979",
+      "name": "大氣社",
+      "date": "2026-10-16",
+      "close": 3730.0,
+      "rows": 120,
+      "themes": [
+        "自動車製造装置"
+      ],
+      "adj_close_latest": 3730.0,
+      "adj_close_5d_ago": 3745.0,
+      "adj_close_20d_ago": 3700.46240234375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1979.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1979.csv"
+    },
+    {
+      "ticker": "197A.T",
+      "code": "197A",
+      "name": "タウンズ",
+      "date": "2026-10-16",
+      "close": 508.0,
+      "rows": 120,
+      "themes": [
+        "医薬品関連"
+      ],
+      "adj_close_latest": 508.0,
+      "adj_close_5d_ago": 518.0,
+      "adj_close_20d_ago": 513.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/197A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/197A.csv"
+    },
+    {
+      "ticker": "1980.T",
+      "code": "1980",
+      "name": "ダイダン",
+      "date": "2026-10-16",
+      "close": 3080.0,
+      "rows": 120,
+      "themes": [
+        "クラウドコンピューティング",
+        "サーバー冷却",
+        "データセンター",
+        "下水道",
+        "人工知能",
+        "受変電設備",
+        "建設",
+        "水道関連"
+      ],
+      "adj_close_latest": 3080.0,
+      "adj_close_5d_ago": 2966.0,
+      "adj_close_20d_ago": 2676.187744140625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1980.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1980.csv"
+    },
+    {
+      "ticker": "1981.T",
+      "code": "1981",
+      "name": "協和日成",
+      "date": "2026-10-16",
+      "close": 1336.0,
+      "rows": 120,
+      "themes": [
+        "水道関連"
+      ],
+      "adj_close_latest": 1336.0,
+      "adj_close_5d_ago": 1355.0,
+      "adj_close_20d_ago": 1324.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1981.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1981.csv"
+    },
+    {
+      "ticker": "1982.T",
+      "code": "1982",
+      "name": "日比谷総合設備",
+      "date": "2026-10-16",
+      "close": 3355.0,
+      "rows": 120,
+      "themes": [
+        "サーバー冷却",
+        "データセンター"
+      ],
+      "adj_close_latest": 3355.0,
+      "adj_close_5d_ago": 3195.0,
+      "adj_close_20d_ago": 3008.453125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1982.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1982.csv"
+    },
+    {
+      "ticker": "198A.T",
+      "code": "198A",
+      "name": "ＰｏｓｔＰｒｉｍｅ",
+      "date": "2026-10-16",
+      "close": 158.0,
+      "rows": 120,
+      "themes": [
+        "サブスクリプション"
+      ],
+      "adj_close_latest": 158.0,
+      "adj_close_5d_ago": 155.0,
+      "adj_close_20d_ago": 162.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/198A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/198A.csv"
+    },
+    {
+      "ticker": "1994.T",
+      "code": "1994",
+      "name": "高橋カーテンウォール工業",
+      "date": "2026-10-16",
+      "close": 598.0,
+      "rows": 120,
+      "themes": [
+        "建設"
+      ],
+      "adj_close_latest": 598.0,
+      "adj_close_5d_ago": 603.0,
+      "adj_close_20d_ago": 622.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/1994.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/1994.csv"
+    },
+    {
+      "ticker": "2001.T",
+      "code": "2001",
+      "name": "ニップン",
+      "date": "2026-10-16",
+      "close": 2808.0,
+      "rows": 120,
+      "themes": [
+        "バイオテクノロジー関連",
+        "円高メリット",
+        "食品"
+      ],
+      "adj_close_latest": 2808.0,
+      "adj_close_5d_ago": 2783.0,
+      "adj_close_20d_ago": 2975.02392578125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2001.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2001.csv"
+    },
+    {
+      "ticker": "2002.T",
+      "code": "2002",
+      "name": "日清製粉グループ本社",
+      "date": "2026-10-16",
+      "close": 2032.0,
+      "rows": 120,
+      "themes": [
+        "円高メリット",
+        "機械",
+        "食品"
+      ],
+      "adj_close_latest": 2032.0,
+      "adj_close_5d_ago": 1982.5,
+      "adj_close_20d_ago": 2044.162109375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2002.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2002.csv"
+    },
+    {
+      "ticker": "2003.T",
+      "code": "2003",
+      "name": "日東富士製粉",
+      "date": "2026-10-16",
+      "close": 1940.0,
+      "rows": 120,
+      "themes": [
+        "外食",
+        "食品"
+      ],
+      "adj_close_latest": 1940.0,
+      "adj_close_5d_ago": 1846.0,
+      "adj_close_20d_ago": 1846.7288818359373,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2003.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2003.csv"
+    },
+    {
+      "ticker": "2004.T",
+      "code": "2004",
+      "name": "昭和産業",
+      "date": "2026-10-16",
+      "close": 3865.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 3865.0,
+      "adj_close_5d_ago": 3705.0,
+      "adj_close_20d_ago": 3874.643310546875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2004.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2004.csv"
+    },
+    {
+      "ticker": "2009.T",
+      "code": "2009",
+      "name": "鳥越製粉",
+      "date": "2026-10-16",
+      "close": 1147.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 1147.0,
+      "adj_close_5d_ago": 1149.0,
+      "adj_close_20d_ago": 1108.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2009.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2009.csv"
+    },
+    {
+      "ticker": "2053.T",
+      "code": "2053",
+      "name": "中部飼料",
+      "date": "2026-10-16",
+      "close": 2000.0,
+      "rows": 120,
+      "themes": [
+        "円高メリット"
+      ],
+      "adj_close_latest": 2000.0,
+      "adj_close_5d_ago": 1910.0,
+      "adj_close_20d_ago": 2018.9259033203125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2053.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2053.csv"
+    },
+    {
+      "ticker": "2055.T",
+      "code": "2055",
+      "name": "日和産業",
+      "date": "2026-10-16",
+      "close": 340.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 340.0,
+      "adj_close_5d_ago": 342.0,
+      "adj_close_20d_ago": 343.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2055.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2055.csv"
+    },
+    {
+      "ticker": "205A.T",
+      "code": "205A",
+      "name": "ロゴスホールディングス",
+      "date": "2026-10-16",
+      "close": 1523.0,
+      "rows": 120,
+      "themes": [
+        "住宅関連",
+        "建設",
+        "建設DX"
+      ],
+      "adj_close_latest": 1523.0,
+      "adj_close_5d_ago": 1575.0,
+      "adj_close_20d_ago": 1652.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/205A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/205A.csv"
+    },
+    {
+      "ticker": "2060.T",
+      "code": "2060",
+      "name": "フィード・ワン",
+      "date": "2026-10-16",
+      "close": 1468.0,
+      "rows": 120,
+      "themes": [
+        "円高メリット"
+      ],
+      "adj_close_latest": 1468.0,
+      "adj_close_5d_ago": 1409.0,
+      "adj_close_20d_ago": 1444.1231689453125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2060.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2060.csv"
+    },
+    {
+      "ticker": "206A.T",
+      "code": "206A",
+      "name": "ＰＲＩＳＭ　ＢｉｏＬａｂ",
+      "date": "2026-10-16",
+      "close": 139.0,
+      "rows": 120,
+      "themes": [
+        "バイオテクノロジー関連",
+        "創薬",
+        "医薬品関連"
+      ],
+      "adj_close_latest": 139.0,
+      "adj_close_5d_ago": 136.0,
+      "adj_close_20d_ago": 166.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/206A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/206A.csv"
+    },
+    {
+      "ticker": "208A.T",
+      "code": "208A",
+      "name": "構造計画研究所ホールディングス",
+      "date": "2026-10-16",
+      "close": 2837.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "クラウドコンピューティング",
+        "サブスクリプション",
+        "データ分析・解析",
+        "建設DX",
+        "耐震化",
+        "防災",
+        "風力発電"
+      ],
+      "adj_close_latest": 2837.0,
+      "adj_close_5d_ago": 2805.0,
+      "adj_close_20d_ago": 2890.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/208A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/208A.csv"
+    },
+    {
+      "ticker": "2108.T",
+      "code": "2108",
+      "name": "日本甜菜製糖",
+      "date": "2026-10-16",
+      "close": 1860.0,
+      "rows": 120,
+      "themes": [
+        "円高メリット",
+        "食品"
+      ],
+      "adj_close_latest": 1860.0,
+      "adj_close_5d_ago": 1756.0,
+      "adj_close_20d_ago": 1710.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2108.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2108.csv"
+    },
+    {
+      "ticker": "2109.T",
+      "code": "2109",
+      "name": "ＤＭ三井製糖",
+      "date": "2026-10-16",
+      "close": 3770.0,
+      "rows": 120,
+      "themes": [
+        "円高メリット",
+        "食品"
+      ],
+      "adj_close_latest": 3770.0,
+      "adj_close_5d_ago": 3655.0,
+      "adj_close_20d_ago": 3746.700927734375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2109.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2109.csv"
+    },
+    {
+      "ticker": "2112.T",
+      "code": "2112",
+      "name": "塩水港精糖",
+      "date": "2026-10-16",
+      "close": 450.0,
+      "rows": 120,
+      "themes": [
+        "食品"
+      ],
+      "adj_close_latest": 450.0,
+      "adj_close_5d_ago": 444.0,
+      "adj_close_20d_ago": 455.9479370117188,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2112.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2112.csv"
+    },
+    {
+      "ticker": "2114.T",
+      "code": "2114",
+      "name": "フジ日本",
+      "date": "2026-10-16",
+      "close": 623.0,
+      "rows": 120,
+      "themes": [
+        "食品"
+      ],
+      "adj_close_latest": 623.0,
+      "adj_close_5d_ago": 631.0,
+      "adj_close_20d_ago": 666.9523315429688,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2114.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2114.csv"
+    },
+    {
+      "ticker": "2117.T",
+      "code": "2117",
+      "name": "ウェルネオシュガー",
+      "date": "2026-10-16",
+      "close": 2798.0,
+      "rows": 120,
+      "themes": [
+        "倉庫"
+      ],
+      "adj_close_latest": 2798.0,
+      "adj_close_5d_ago": 2673.0,
+      "adj_close_20d_ago": 2772.566650390625,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2117.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2117.csv"
+    },
+    {
+      "ticker": "211A.T",
+      "code": "211A",
+      "name": "カドス・コーポレーション",
+      "date": "2026-10-16",
+      "close": 3030.0,
+      "rows": 120,
+      "themes": [
+        "不動産関連",
+        "太陽光発電関連",
+        "建設"
+      ],
+      "adj_close_latest": 3030.0,
+      "adj_close_5d_ago": 3085.0,
+      "adj_close_20d_ago": 3300.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/211A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/211A.csv"
+    },
+    {
+      "ticker": "2120.T",
+      "code": "2120",
+      "name": "ＬＩＦＵＬＬ",
+      "date": "2026-10-16",
+      "close": 253.0,
+      "rows": 120,
+      "themes": [
+        "不動産テック",
+        "不動産関連"
+      ],
+      "adj_close_latest": 253.0,
+      "adj_close_5d_ago": 233.0,
+      "adj_close_20d_ago": 226.3087158203125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2120.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2120.csv"
+    },
+    {
+      "ticker": "2121.T",
+      "code": "2121",
+      "name": "ＭＩＸＩ",
+      "date": "2026-10-16",
+      "close": 3995.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 3995.0,
+      "adj_close_5d_ago": 3695.0,
+      "adj_close_20d_ago": 3725.3154296875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2121.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2121.csv"
+    },
+    {
+      "ticker": "2122.T",
+      "code": "2122",
+      "name": "インタースペース",
+      "date": "2026-10-16",
+      "close": 1339.0,
+      "rows": 120,
+      "themes": [
+        "サブスクリプション"
+      ],
+      "adj_close_latest": 1339.0,
+      "adj_close_5d_ago": 1310.0,
+      "adj_close_20d_ago": 1437.8974609375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2122.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2122.csv"
+    },
+    {
+      "ticker": "2124.T",
+      "code": "2124",
+      "name": "ジェイエイシーリクルートメント",
+      "date": "2026-10-16",
+      "close": 1114.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 1114.0,
+      "adj_close_5d_ago": 1061.0,
+      "adj_close_20d_ago": 1015.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2124.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2124.csv"
+    },
+    {
+      "ticker": "2127.T",
+      "code": "2127",
+      "name": "日本Ｍ＆Ａセンターホールディングス",
+      "date": "2026-10-16",
+      "close": 627.5999755859375,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 627.5999755859375,
+      "adj_close_5d_ago": 616.5,
+      "adj_close_20d_ago": 630.2254028320312,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2127.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2127.csv"
+    },
+    {
+      "ticker": "212A.T",
+      "code": "212A",
+      "name": "フィットイージー",
+      "date": "2026-10-16",
+      "close": 2827.0,
+      "rows": 120,
+      "themes": [
+        "サブスクリプション"
+      ],
+      "adj_close_latest": 2827.0,
+      "adj_close_5d_ago": 2788.0,
+      "adj_close_20d_ago": 2769.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/212A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/212A.csv"
+    },
+    {
+      "ticker": "2130.T",
+      "code": "2130",
+      "name": "メンバーズ",
+      "date": "2026-10-16",
+      "close": 673.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "人工知能",
+        "生成AI"
+      ],
+      "adj_close_latest": 673.0,
+      "adj_close_5d_ago": 701.0,
+      "adj_close_20d_ago": 903.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2130.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2130.csv"
+    },
+    {
+      "ticker": "2134.T",
+      "code": "2134",
+      "name": "北浜キャピタルパートナーズ",
+      "date": "2026-10-16",
+      "close": 15.0,
+      "rows": 120,
+      "themes": [
+        "データセンター",
+        "不動産ファンド",
+        "不動産関連",
+        "再生可能エネルギー"
+      ],
+      "adj_close_latest": 15.0,
+      "adj_close_5d_ago": 17.0,
+      "adj_close_20d_ago": 19.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2134.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2134.csv"
+    },
+    {
+      "ticker": "2138.T",
+      "code": "2138",
+      "name": "クルーズ",
+      "date": "2026-10-16",
+      "close": 446.0,
+      "rows": 120,
+      "themes": [
+        "eコマース",
+        "介護関連"
+      ],
+      "adj_close_latest": 446.0,
+      "adj_close_5d_ago": 412.0,
+      "adj_close_20d_ago": 435.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2138.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2138.csv"
+    },
+    {
+      "ticker": "2139.T",
+      "code": "2139",
+      "name": "中広",
+      "date": "2026-10-16",
+      "close": 501.0,
+      "rows": 120,
+      "themes": [
+        "eコマース"
+      ],
+      "adj_close_latest": 501.0,
+      "adj_close_5d_ago": 484.0,
+      "adj_close_20d_ago": 517.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2139.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2139.csv"
+    },
+    {
+      "ticker": "2146.T",
+      "code": "2146",
+      "name": "ＵＴグループ",
+      "date": "2026-10-16",
+      "close": 251.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 251.0,
+      "adj_close_5d_ago": 238.0,
+      "adj_close_20d_ago": 229.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2146.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2146.csv"
+    },
+    {
+      "ticker": "2148.T",
+      "code": "2148",
+      "name": "アイティメディア",
+      "date": "2026-10-16",
+      "close": 1138.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "クラウドコンピューティング",
+        "デジタルトランスフォーメーション",
+        "データ分析・解析",
+        "人工知能"
+      ],
+      "adj_close_latest": 1138.0,
+      "adj_close_5d_ago": 1115.0,
+      "adj_close_20d_ago": 1160.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2148.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2148.csv"
+    },
+    {
+      "ticker": "2153.T",
+      "code": "2153",
+      "name": "Ｅ・Ｊホールディングス",
+      "date": "2026-10-16",
+      "close": 1855.0,
+      "rows": 120,
+      "themes": [
+        "国土強靱化",
+        "防災"
+      ],
+      "adj_close_latest": 1855.0,
+      "adj_close_5d_ago": 1822.0,
+      "adj_close_20d_ago": 1846.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2153.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2153.csv"
+    },
+    {
+      "ticker": "2154.T",
+      "code": "2154",
+      "name": "オープンアップグループ",
+      "date": "2026-10-16",
+      "close": 2055.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 2055.0,
+      "adj_close_5d_ago": 1971.0,
+      "adj_close_20d_ago": 1990.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2154.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2154.csv"
+    },
+    {
+      "ticker": "2156.T",
+      "code": "2156",
+      "name": "セーラー広告",
+      "date": "2026-10-16",
+      "close": 267.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 267.0,
+      "adj_close_5d_ago": 267.0,
+      "adj_close_20d_ago": 277.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2156.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2156.csv"
+    },
+    {
+      "ticker": "2157.T",
+      "code": "2157",
+      "name": "コシダカホールディングス",
+      "date": "2026-10-16",
+      "close": 943.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 943.0,
+      "adj_close_5d_ago": 984.0,
+      "adj_close_20d_ago": 1001.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2157.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2157.csv"
+    },
+    {
+      "ticker": "2158.T",
+      "code": "2158",
+      "name": "ＦＲＯＮＴＥＯ",
+      "date": "2026-10-16",
+      "close": 729.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "クラウドコンピューティング",
+        "データ分析・解析",
+        "ロボット",
+        "人工知能",
+        "創薬",
+        "生成AI"
+      ],
+      "adj_close_latest": 729.0,
+      "adj_close_5d_ago": 675.0,
+      "adj_close_20d_ago": 608.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2158.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2158.csv"
+    },
+    {
+      "ticker": "215A.T",
+      "code": "215A",
+      "name": "タイミー",
+      "date": "2026-10-16",
+      "close": 1493.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 1493.0,
+      "adj_close_5d_ago": 1404.0,
+      "adj_close_20d_ago": 1380.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/215A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/215A.csv"
+    },
+    {
+      "ticker": "2160.T",
+      "code": "2160",
+      "name": "ジーエヌアイグループ",
+      "date": "2026-10-16",
+      "close": 2945.0,
+      "rows": 120,
+      "themes": [
+        "バイオテクノロジー関連",
+        "創薬",
+        "医療機器",
+        "医薬品関連"
+      ],
+      "adj_close_latest": 2945.0,
+      "adj_close_5d_ago": 3150.0,
+      "adj_close_20d_ago": 2928.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2160.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2160.csv"
+    },
+    {
+      "ticker": "2163.T",
+      "code": "2163",
+      "name": "アルトナー",
+      "date": "2026-10-16",
+      "close": 937.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 937.0,
+      "adj_close_5d_ago": 930.0,
+      "adj_close_20d_ago": 949.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2163.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2163.csv"
+    },
+    {
+      "ticker": "2164.T",
+      "code": "2164",
+      "name": "地域新聞社",
+      "date": "2026-10-16",
+      "close": 97.0,
+      "rows": 120,
+      "themes": [
+        "人工知能",
+        "生成AI"
+      ],
+      "adj_close_latest": 97.0,
+      "adj_close_5d_ago": 100.0,
+      "adj_close_20d_ago": 114.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2164.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2164.csv"
+    },
+    {
+      "ticker": "2168.T",
+      "code": "2168",
+      "name": "パソナグループ",
+      "date": "2026-10-16",
+      "close": 1524.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 1524.0,
+      "adj_close_5d_ago": 1445.0,
+      "adj_close_20d_ago": 1567.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2168.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2168.csv"
+    },
+    {
+      "ticker": "2169.T",
+      "code": "2169",
+      "name": "ＣＤＳ",
+      "date": "2026-10-16",
+      "close": 1747.0,
+      "rows": 120,
+      "themes": [
+        "FA関連",
+        "IoT",
+        "ロボット"
+      ],
+      "adj_close_latest": 1747.0,
+      "adj_close_5d_ago": 1750.0,
+      "adj_close_20d_ago": 1729.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2169.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2169.csv"
+    },
+    {
+      "ticker": "2170.T",
+      "code": "2170",
+      "name": "リンクアンドモチベーション",
+      "date": "2026-10-16",
+      "close": 607.0,
+      "rows": 120,
+      "themes": [
+        "クラウドコンピューティング",
+        "サブスクリプション"
+      ],
+      "adj_close_latest": 607.0,
+      "adj_close_5d_ago": 609.0,
+      "adj_close_20d_ago": 659.966796875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2170.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2170.csv"
+    },
+    {
+      "ticker": "2173.T",
+      "code": "2173",
+      "name": "博展",
+      "date": "2026-10-16",
+      "close": 778.0,
+      "rows": 120,
+      "themes": [
+        "サービスロボット",
+        "人工知能"
+      ],
+      "adj_close_latest": 778.0,
+      "adj_close_5d_ago": 772.0,
+      "adj_close_20d_ago": 701.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2173.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2173.csv"
+    },
+    {
+      "ticker": "2175.T",
+      "code": "2175",
+      "name": "エス・エム・エス",
+      "date": "2026-10-16",
+      "close": 2724.0,
+      "rows": 120,
+      "themes": [
+        "サブスクリプション",
+        "介護関連"
+      ],
+      "adj_close_latest": 2724.0,
+      "adj_close_5d_ago": 2576.0,
+      "adj_close_20d_ago": 2673.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2175.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2175.csv"
+    },
+    {
+      "ticker": "2179.T",
+      "code": "2179",
+      "name": "成学社",
+      "date": "2026-10-16",
+      "close": 828.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 828.0,
+      "adj_close_5d_ago": 820.0,
+      "adj_close_20d_ago": 804.776611328125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2179.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2179.csv"
+    },
+    {
+      "ticker": "2181.T",
+      "code": "2181",
+      "name": "パーソルホールディングス",
+      "date": "2026-10-16",
+      "close": 294.1000061035156,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 294.1000061035156,
+      "adj_close_5d_ago": 280.20001220703125,
+      "adj_close_20d_ago": 290.638671875,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2181.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2181.csv"
+    },
+    {
+      "ticker": "2183.T",
+      "code": "2183",
+      "name": "リニカル",
+      "date": "2026-10-16",
+      "close": 200.0,
+      "rows": 120,
+      "themes": [
+        "バイオテクノロジー関連",
+        "認知症薬"
+      ],
+      "adj_close_latest": 200.0,
+      "adj_close_5d_ago": 202.0,
+      "adj_close_20d_ago": 204.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2183.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2183.csv"
+    },
+    {
+      "ticker": "2185.T",
+      "code": "2185",
+      "name": "シイエム・シイ",
+      "date": "2026-10-16",
+      "close": 1869.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 1869.0,
+      "adj_close_5d_ago": 1880.0,
+      "adj_close_20d_ago": 1950.403564453125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2185.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2185.csv"
+    },
+    {
+      "ticker": "2186.T",
+      "code": "2186",
+      "name": "ソーバル",
+      "date": "2026-10-16",
+      "close": 897.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "IoT",
+        "人工知能",
+        "自動運転車"
+      ],
+      "adj_close_latest": 897.0,
+      "adj_close_5d_ago": 894.0,
+      "adj_close_20d_ago": 901.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2186.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2186.csv"
+    },
+    {
+      "ticker": "218A.T",
+      "code": "218A",
+      "name": "Ｌｉｂｅｒａｗａｒｅ",
+      "date": "2026-10-16",
+      "close": 1003.0,
+      "rows": 120,
+      "themes": [
+        "IoT",
+        "デジタルトランスフォーメーション",
+        "データ分析・解析",
+        "ドローン",
+        "ロボット",
+        "下水道",
+        "人工知能"
+      ],
+      "adj_close_latest": 1003.0,
+      "adj_close_5d_ago": 998.0,
+      "adj_close_20d_ago": 1135.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/218A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/218A.csv"
+    },
+    {
+      "ticker": "2193.T",
+      "code": "2193",
+      "name": "クックパッド",
+      "date": "2026-10-16",
+      "close": 125.0,
+      "rows": 120,
+      "themes": [
+        "eコマース",
+        "宅配"
+      ],
+      "adj_close_latest": 125.0,
+      "adj_close_5d_ago": 120.0,
+      "adj_close_20d_ago": 128.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2193.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2193.csv"
+    },
+    {
+      "ticker": "2195.T",
+      "code": "2195",
+      "name": "アミタホールディングス",
+      "date": "2026-10-16",
+      "close": 339.0,
+      "rows": 120,
+      "themes": [
+        "脱炭素"
+      ],
+      "adj_close_latest": 339.0,
+      "adj_close_5d_ago": 359.0,
+      "adj_close_20d_ago": 360.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2195.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2195.csv"
+    },
+    {
+      "ticker": "2198.T",
+      "code": "2198",
+      "name": "アイ・ケイ・ケイホールディングス",
+      "date": "2026-10-16",
+      "close": 762.0,
+      "rows": 120,
+      "themes": [
+        "介護関連",
+        "食品"
+      ],
+      "adj_close_latest": 762.0,
+      "adj_close_5d_ago": 757.0,
+      "adj_close_20d_ago": 779.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2198.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2198.csv"
+    },
+    {
+      "ticker": "219A.T",
+      "code": "219A",
+      "name": "Ｈｅａｒｔｓｅｅｄ",
+      "date": "2026-10-16",
+      "close": 2695.0,
+      "rows": 120,
+      "themes": [
+        "再生医療",
+        "創薬"
+      ],
+      "adj_close_latest": 2695.0,
+      "adj_close_5d_ago": 2650.0,
+      "adj_close_20d_ago": 2442.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/219A.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/219A.csv"
+    },
+    {
+      "ticker": "2201.T",
+      "code": "2201",
+      "name": "森永製菓",
+      "date": "2026-10-16",
+      "close": 2425.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 2425.0,
+      "adj_close_5d_ago": 2368.5,
+      "adj_close_20d_ago": 2450.354736328125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2201.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2201.csv"
+    },
+    {
+      "ticker": "2204.T",
+      "code": "2204",
+      "name": "中村屋",
+      "date": "2026-10-16",
+      "close": 3020.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 3020.0,
+      "adj_close_5d_ago": 3005.0,
+      "adj_close_20d_ago": 3125.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2204.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2204.csv"
+    },
+    {
+      "ticker": "2206.T",
+      "code": "2206",
+      "name": "江崎グリコ",
+      "date": "2026-10-16",
+      "close": 5104.0,
+      "rows": 120,
+      "themes": [
+        "食品"
+      ],
+      "adj_close_latest": 5104.0,
+      "adj_close_5d_ago": 4993.0,
+      "adj_close_20d_ago": 5031.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2206.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2206.csv"
+    },
+    {
+      "ticker": "2207.T",
+      "code": "2207",
+      "name": "ｍｅｉｔｏ",
+      "date": "2026-10-16",
+      "close": 3510.0,
+      "rows": 120,
+      "themes": [
+        "食品"
+      ],
+      "adj_close_latest": 3510.0,
+      "adj_close_5d_ago": 3375.0,
+      "adj_close_20d_ago": 3376.94970703125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2207.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2207.csv"
+    },
+    {
+      "ticker": "2208.T",
+      "code": "2208",
+      "name": "ブルボン",
+      "date": "2026-10-16",
+      "close": 3015.0,
+      "rows": 120,
+      "themes": [
+        "再生医療"
+      ],
+      "adj_close_latest": 3015.0,
+      "adj_close_5d_ago": 3010.0,
+      "adj_close_20d_ago": 3112.894287109375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2208.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2208.csv"
+    },
+    {
+      "ticker": "2211.T",
+      "code": "2211",
+      "name": "不二家",
+      "date": "2026-10-16",
+      "close": 2520.0,
+      "rows": 120,
+      "themes": [
+        "外食",
+        "食品"
+      ],
+      "adj_close_latest": 2520.0,
+      "adj_close_5d_ago": 2490.0,
+      "adj_close_20d_ago": 2517.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2211.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2211.csv"
+    },
+    {
+      "ticker": "2217.T",
+      "code": "2217",
+      "name": "モロゾフ",
+      "date": "2026-10-16",
+      "close": 1473.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 1473.0,
+      "adj_close_5d_ago": 1417.0,
+      "adj_close_20d_ago": 1483.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2217.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2217.csv"
+    },
+    {
+      "ticker": "2226.T",
+      "code": "2226",
+      "name": "湖池屋",
+      "date": "2026-10-16",
+      "close": 4715.0,
+      "rows": 120,
+      "themes": [
+        "食品"
+      ],
+      "adj_close_latest": 4715.0,
+      "adj_close_5d_ago": 4705.0,
+      "adj_close_20d_ago": 4935.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2226.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2226.csv"
+    },
+    {
+      "ticker": "2267.T",
+      "code": "2267",
+      "name": "ヤクルト本社",
+      "date": "2026-10-16",
+      "close": 2852.5,
+      "rows": 120,
+      "themes": [
+        "食品"
+      ],
+      "adj_close_latest": 2852.5,
+      "adj_close_5d_ago": 2758.5,
+      "adj_close_20d_ago": 2849.8349609375,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2267.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2267.csv"
+    },
+    {
+      "ticker": "2268.T",
+      "code": "2268",
+      "name": "Ｂ－Ｒ　サーティワン　アイスクリーム",
+      "date": "2026-10-16",
+      "close": 4055.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 4055.0,
+      "adj_close_5d_ago": 4050.0,
+      "adj_close_20d_ago": 4065.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2268.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2268.csv"
+    },
+    {
+      "ticker": "2270.T",
+      "code": "2270",
+      "name": "雪印メグミルク",
+      "date": "2026-10-16",
+      "close": 3555.0,
+      "rows": 120,
+      "themes": [
+        "食品"
+      ],
+      "adj_close_latest": 3555.0,
+      "adj_close_5d_ago": 3445.0,
+      "adj_close_20d_ago": 3770.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2270.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2270.csv"
+    },
+    {
+      "ticker": "2282.T",
+      "code": "2282",
+      "name": "日本ハム",
+      "date": "2026-10-16",
+      "close": 2074.0,
+      "rows": 120,
+      "themes": [
+        "食品"
+      ],
+      "adj_close_latest": 2074.0,
+      "adj_close_5d_ago": 2007.0,
+      "adj_close_20d_ago": 2098.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2282.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2282.csv"
+    },
+    {
+      "ticker": "2288.T",
+      "code": "2288",
+      "name": "丸大食品",
+      "date": "2026-10-16",
+      "close": 2180.0,
+      "rows": 120,
+      "themes": [],
+      "adj_close_latest": 2180.0,
+      "adj_close_5d_ago": 2132.0,
+      "adj_close_20d_ago": 2247.682861328125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2288.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2288.csv"
+    },
+    {
+      "ticker": "2294.T",
+      "code": "2294",
+      "name": "柿安本店",
+      "date": "2026-10-16",
+      "close": 2463.0,
+      "rows": 120,
+      "themes": [
+        "外食"
+      ],
+      "adj_close_latest": 2463.0,
+      "adj_close_5d_ago": 2434.0,
+      "adj_close_20d_ago": 2475.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2294.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2294.csv"
+    },
+    {
+      "ticker": "2304.T",
+      "code": "2304",
+      "name": "ＣＳＳホールディングス",
+      "date": "2026-10-16",
+      "close": 895.0,
+      "rows": 120,
+      "themes": [
+        "ホテル",
+        "外食"
+      ],
+      "adj_close_latest": 895.0,
+      "adj_close_5d_ago": 895.0,
+      "adj_close_20d_ago": 883.1973876953125,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2304.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2304.csv"
+    },
+    {
+      "ticker": "2315.T",
+      "code": "2315",
+      "name": "ＣＡＩＣＡ　ＤＩＧＩＴＡＬ",
+      "date": "2026-10-16",
+      "close": 61.0,
+      "rows": 120,
+      "themes": [
+        "IT関連",
+        "データ分析・解析",
+        "フィンテック",
+        "人工知能"
+      ],
+      "adj_close_latest": 61.0,
+      "adj_close_5d_ago": 60.0,
+      "adj_close_20d_ago": 63.0,
+      "supplemental_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/supplemental/2315.json",
+      "ohlcv_url": "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest/stocks/2315.csv"
+    }
+  ],
+  "selection": "none"
+}

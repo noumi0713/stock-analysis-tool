@@ -1,0 +1,35 @@
+[
+  {
+    "code": "1570",
+    "rows": 120,
+    "source": "https://finance.yahoo.co.jp/quote/1570.T/history",
+    "pages": [
+      "https://finance.yahoo.co.jp/quote/1570.T/history?page=2",
+      "https://finance.yahoo.co.jp/quote/1570.T/history?page=3",
+      "https://finance.yahoo.co.jp/quote/1570.T/history?page=4",
+      "https://finance.yahoo.co.jp/quote/1570.T/history?page=5",
+      "https://finance.yahoo.co.jp/quote/1570.T/history?page=6"
+    ],
+    "adjustment_note": "adj_close is provider adjusted close; no split event metadata supplied"
+  },
+  {
+    "code": "1357",
+    "rows": 120,
+    "source": "https://finance.yahoo.co.jp/quote/1357.T/history",
+    "pages": [
+      "https://finance.yahoo.co.jp/quote/1357.T/history?page=2",
+      "https://finance.yahoo.co.jp/quote/1357.T/history?page=3",
+      "https://finance.yahoo.co.jp/quote/1357.T/history?page=4",
+      "https://finance.yahoo.co.jp/quote/1357.T/history?page=5",
+      "https://finance.yahoo.co.jp/quote/1357.T/history?page=6"
+    ],
+    "adjustment_note": "adj_close is provider adjusted close; no split event metadata supplied"
+  },
+  {
+    "code": "618A",
+    "rows": 2,
+    "source": "https://finance.yahoo.co.jp/quote/618A.T/history",
+    "pages": [],
+    "adjustment_note": "adj_close is provider adjusted close; no split event metadata supplied"
+  }
+]
