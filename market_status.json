@@ -1,0 +1,426 @@
+{
+  "items": [
+    {
+      "ticker": "^N225",
+      "name": "日経平均",
+      "calendar": "XTKS",
+      "kind": "index",
+      "required": true,
+      "source": "yfinance",
+      "field_mode": "ohlc",
+      "unit": "index_points",
+      "expected_date": "2026-10-23",
+      "window_start": "2026-04-27",
+      "rows": 120,
+      "latest_date": "2026-10-23",
+      "missing_sessions": 0,
+      "invalid_rows": 0,
+      "rejections": [],
+      "missing_dates": [],
+      "status": "ready",
+      "source_evidence": [
+        {
+          "provider": "Yahoo Finance via yfinance",
+          "symbol": "^N225"
+        }
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "ready",
+          "rows": 120
+        }
+      ],
+      "raw_file": "market__N225.raw.csv",
+      "raw_sha256": "f407a7c10805f1bee82c4507ed19819accd6b3d6e554e3f5469f85015a3138c7"
+    },
+    {
+      "ticker": "^TOPX",
+      "name": "TOPIX",
+      "calendar": "XTKS",
+      "kind": "index",
+      "required": true,
+      "source": "tradingview_public",
+      "field_mode": "ohlc",
+      "unit": "index_points",
+      "provider_symbol": "TSE:TOPIX",
+      "identity_name": "TOPIX",
+      "note": "TradingView公開チャートの遅延TOPIX現物指数OHLC。正規シンボル・指数種別・取引所・時間帯を検証し、終了済み東証営業日だけを使用。ETF・先物ではない。",
+      "expected_date": "2026-10-23",
+      "window_start": "2026-04-27",
+      "rows": 120,
+      "latest_date": "2026-10-23",
+      "missing_sessions": 0,
+      "invalid_rows": 0,
+      "rejections": [],
+      "missing_dates": [],
+      "status": "ready",
+      "source_evidence": [
+        {
+          "url": "wss://data.tradingview.com/socket.io/websocket?from=symbols%2FTSE-TOPIX%2F",
+          "sha256": "3a83580b6581ad6e6fab5321be8c76e73a695ea92aaa8c2a97782f24b25fcf86",
+          "bytes": 19924,
+          "page_url": "https://www.tradingview.com/symbols/TSE-TOPIX/",
+          "symbol": "TSE:TOPIX",
+          "description": "TOPIX Index",
+          "timezone": "Asia/Tokyo",
+          "delay_seconds": 1200,
+          "authentication": "none"
+        }
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "ready",
+          "rows": 120
+        }
+      ],
+      "raw_file": "market__TOPX.raw.csv",
+      "raw_sha256": "11b98dbe73294e09d4aab0627e9cac19b0b245de27bee39f7ff4a889e21da8fb"
+    },
+    {
+      "ticker": "^TSEMOTHERS",
+      "name": "東証グロース市場250",
+      "calendar": "XTKS",
+      "kind": "index",
+      "required": true,
+      "source": "tradingview_public",
+      "provider_symbol": "TSE:MOS",
+      "note": "TradingView公開チャートの20分遅延指数OHLC。指数名・取引所・時間帯を検証。終了済み東証営業日だけを使用。ETF・先物ではない。",
+      "field_mode": "ohlc",
+      "unit": "index_points",
+      "expected_date": "2026-10-23",
+      "window_start": "2026-04-27",
+      "rows": 120,
+      "latest_date": "2026-10-23",
+      "missing_sessions": 0,
+      "invalid_rows": 0,
+      "rejections": [],
+      "missing_dates": [],
+      "status": "ready",
+      "source_evidence": [
+        {
+          "url": "wss://data.tradingview.com/socket.io/websocket?from=symbols%2FTSE-MOS%2F",
+          "sha256": "1496510b289b90d77dea7282a5a62f57acab534f78df6190aaf1cc6501780386",
+          "bytes": 19324,
+          "page_url": "https://www.tradingview.com/symbols/TSE-MOS/",
+          "symbol": "TSE:MOS",
+          "description": "TSE Growth Market 250 Index",
+          "timezone": "Asia/Tokyo",
+          "delay_seconds": 1200,
+          "authentication": "none"
+        }
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "ready",
+          "rows": 120
+        }
+      ],
+      "raw_file": "market__TSEMOTHERS.raw.csv",
+      "raw_sha256": "690f84ada53fc95dc21777604c754a38c0d7ed3b010d1420b14eeb95073f67ca"
+    },
+    {
+      "ticker": "JPY=X",
+      "name": "ドル円（Yahoo日次終値）",
+      "calendar": "FX",
+      "kind": "fx",
+      "required": true,
+      "source": "yfinance",
+      "field_mode": "close_only",
+      "unit": "JPY_per_USD",
+      "note": "提供元の日付を使用し進行中の当日を除外。始値・高値・安値は未使用。OHLC不整合は別記録。",
+      "expected_date": "2026-10-22",
+      "window_start": "2026-05-08",
+      "rows": 120,
+      "latest_date": "2026-10-22",
+      "missing_sessions": 0,
+      "invalid_rows": 0,
+      "ohlc_status": "not_used",
+      "source_ohlc_invalid_rows": 7,
+      "source_ohlc_issues": [
+        {
+          "date": "2026-06-01",
+          "open": 159.38299560546875,
+          "high": 159.74899291992188,
+          "low": 159.3679962158203,
+          "close": 159.35299682617188
+        },
+        {
+          "date": "2026-07-06",
+          "open": 161.48699951171875,
+          "high": 162.4239959716797,
+          "low": 161.46499633789062,
+          "close": 161.45199584960938
+        },
+        {
+          "date": "2026-07-13",
+          "open": 161.88600158691406,
+          "high": 162.39300537109375,
+          "low": 161.88600158691406,
+          "close": 161.8780059814453
+        },
+        {
+          "date": "2026-08-19",
+          "open": 159.5290069580078,
+          "high": 159.5290069580078,
+          "low": 158.052001953125,
+          "close": 159.5500030517578
+        },
+        {
+          "date": "2026-08-31",
+          "open": 160.0989990234375,
+          "high": 160.0989990234375,
+          "low": 159.4770050048828,
+          "close": 160.1219940185547
+        },
+        {
+          "date": "2026-09-15",
+          "open": 154.4219970703125,
+          "high": 155.22300720214844,
+          "low": 154.41400146484375,
+          "close": 154.38499450683594
+        },
+        {
+          "date": "2026-10-13",
+          "open": 158.50900268554688,
+          "high": 158.51400756835938,
+          "low": 157.84100341796875,
+          "close": 158.52000427246094
+        }
+      ],
+      "rejections": [],
+      "missing_dates": [],
+      "status": "ready",
+      "source_evidence": [
+        {
+          "provider": "Yahoo Finance via yfinance",
+          "symbol": "JPY=X"
+        }
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "ready",
+          "rows": 120
+        }
+      ],
+      "raw_file": "market_JPY_X.raw.csv",
+      "raw_sha256": "205127a9dffc65f011e9a2e7a8fc62f47ec9c9c33daac7cf3e17b9e63cf98f74"
+    },
+    {
+      "ticker": "^TNX",
+      "name": "米国10年国債利回り（Yahoo表示値・%）",
+      "calendar": "XNYS",
+      "kind": "yield",
+      "required": true,
+      "source": "yfinance",
+      "field_mode": "ohlc",
+      "unit": "percent",
+      "expected_date": "2026-10-22",
+      "window_start": "2026-05-04",
+      "rows": 120,
+      "latest_date": "2026-10-22",
+      "missing_sessions": 0,
+      "invalid_rows": 0,
+      "rejections": [],
+      "missing_dates": [],
+      "status": "ready",
+      "source_evidence": [
+        {
+          "provider": "Yahoo Finance via yfinance",
+          "symbol": "^TNX"
+        }
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "ready",
+          "rows": 120
+        }
+      ],
+      "raw_file": "market__TNX.raw.csv",
+      "raw_sha256": "12f56bac74ed06dcba272ed16d7e2b041ecb15fb324ae75af4df04c9d92f4be1"
+    },
+    {
+      "ticker": "JP10Y",
+      "name": "日本10年国債利回り",
+      "calendar": "XTKS",
+      "kind": "yield",
+      "required": true,
+      "note": "財務省・10年コンスタントマチュリティー金利（%）。翌営業日9:30頃公表。新発10年債の取引値とは区別。",
+      "source": "mof",
+      "field_mode": "close_only",
+      "unit": "percent",
+      "expected_date": "2026-10-22",
+      "window_start": "2026-04-24",
+      "rows": 120,
+      "latest_date": "2026-10-22",
+      "missing_sessions": 0,
+      "invalid_rows": 0,
+      "ohlc_status": "not_provided",
+      "rejections": [],
+      "missing_dates": [],
+      "status": "ready",
+      "source_evidence": [
+        {
+          "url": "https://www.mof.go.jp/jgbs/reference/interest_rate/data/jgbcm_all.csv",
+          "sha256": "3ed93b158ca7abec8c8c17e9b6b7c04df50cd4da276d731c5625bbca6afce951",
+          "bytes": 1178227
+        },
+        {
+          "url": "https://www.mof.go.jp/jgbs/reference/interest_rate/jgbcm.csv",
+          "sha256": "03104e8f1d4ea81b8a697ce3891d1aeae87c0a6b7b28ab28156f573026d024a6",
+          "bytes": 1754
+        }
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "ready",
+          "rows": 120
+        }
+      ],
+      "raw_file": "market_JP10Y.raw.csv",
+      "raw_sha256": "002a1f6fb17f88ad850035218f4cb29a40345fcbf1a3d1c1e84454e5bea8b065"
+    },
+    {
+      "ticker": "^GSPC",
+      "name": "S&P500",
+      "calendar": "XNYS",
+      "kind": "index",
+      "required": false,
+      "source": "yfinance",
+      "field_mode": "ohlc",
+      "unit": "index_points",
+      "expected_date": "2026-10-22",
+      "window_start": "2026-05-04",
+      "rows": 120,
+      "latest_date": "2026-10-22",
+      "missing_sessions": 0,
+      "invalid_rows": 0,
+      "rejections": [],
+      "missing_dates": [],
+      "status": "ready",
+      "source_evidence": [
+        {
+          "provider": "Yahoo Finance via yfinance",
+          "symbol": "^GSPC"
+        }
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "ready",
+          "rows": 120
+        }
+      ],
+      "raw_file": "market__GSPC.raw.csv",
+      "raw_sha256": "cd766fc1e58a7772b428c803ddd4599b54e633173471682efbbbf39a10980932"
+    },
+    {
+      "ticker": "^IXIC",
+      "name": "NASDAQ総合",
+      "calendar": "XNYS",
+      "kind": "index",
+      "required": false,
+      "source": "yfinance",
+      "field_mode": "ohlc",
+      "unit": "index_points",
+      "expected_date": "2026-10-22",
+      "window_start": "2026-05-04",
+      "rows": 120,
+      "latest_date": "2026-10-22",
+      "missing_sessions": 0,
+      "invalid_rows": 0,
+      "rejections": [],
+      "missing_dates": [],
+      "status": "ready",
+      "source_evidence": [
+        {
+          "provider": "Yahoo Finance via yfinance",
+          "symbol": "^IXIC"
+        }
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "ready",
+          "rows": 120
+        }
+      ],
+      "raw_file": "market__IXIC.raw.csv",
+      "raw_sha256": "28acd8d09f39b1ca88a88f83699127df5ba67613ae3875d9d81fa25b577c365e"
+    },
+    {
+      "ticker": "^SOX",
+      "name": "SOX",
+      "calendar": "XNYS",
+      "kind": "index",
+      "required": false,
+      "source": "yfinance",
+      "field_mode": "ohlc",
+      "unit": "index_points",
+      "expected_date": "2026-10-22",
+      "window_start": "2026-05-04",
+      "rows": 120,
+      "latest_date": "2026-10-22",
+      "missing_sessions": 0,
+      "invalid_rows": 0,
+      "rejections": [],
+      "missing_dates": [],
+      "status": "ready",
+      "source_evidence": [
+        {
+          "provider": "Yahoo Finance via yfinance",
+          "symbol": "^SOX"
+        }
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "ready",
+          "rows": 120
+        }
+      ],
+      "raw_file": "market__SOX.raw.csv",
+      "raw_sha256": "d913b3eb8af28f8b7f3ccc814b74d5ee49963e0714f8f97300d2c554ba1a32fc"
+    },
+    {
+      "ticker": "^VIX",
+      "name": "VIX",
+      "calendar": "XNYS",
+      "kind": "index",
+      "required": false,
+      "source": "cboe",
+      "field_mode": "ohlc",
+      "unit": "index_points",
+      "expected_date": "2026-10-22",
+      "window_start": "2026-05-04",
+      "rows": 120,
+      "latest_date": "2026-10-22",
+      "missing_sessions": 0,
+      "invalid_rows": 0,
+      "rejections": [],
+      "missing_dates": [],
+      "status": "ready",
+      "source_evidence": [
+        {
+          "url": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
+          "sha256": "079811c437a089a4a5674b2531f6302f8e3721efdd070b0b9d68b423f56e403e",
+          "bytes": 474043
+        }
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "ready",
+          "rows": 120
+        }
+      ],
+      "raw_file": "market__VIX.raw.csv",
+      "raw_sha256": "a19bf679217c1a37a3b4afe1e33dad601ff1ed205c444b851a250a6426dcc736"
+    }
+  ]
+}
