@@ -9,18 +9,50 @@
     },
     {
       "file": "theme_members.csv",
-      "repository": "noumi0713/stock-analysis-tool",
-      "commit": "739c98159df09e1c2bbefb5edc09714c2be2abec",
-      "path": "research/data/theme_members_124.csv",
-      "sha256": "7112fe90d2893d0dbe91499c66b9bca1d74b243318a19a6d6b0b561e04daea66"
+      "sha256": "6a3509d9dbb25edac72fd66280da74b1b8bd8faeefb9cf31d1527278c210ecf2",
+      "origin": {
+        "repository": "noumi0713/stock-analysis-tool",
+        "commit": "739c98159df09e1c2bbefb5edc09714c2be2abec",
+        "path": "research/data/theme_members_124.csv",
+        "sha256": "7112fe90d2893d0dbe91499c66b9bca1d74b243318a19a6d6b0b561e04daea66"
+      },
+      "refreshed_at": "2026-11-01",
+      "audit_path": "updates/2026-11-01/audit.json"
     },
     {
       "file": "theme_relevance.csv",
-      "repository": "noumi0713/stock-analysis-tool",
-      "commit": "94a882c2068323ffa4d0c7ef0aab6c11d9737cb9",
-      "path": "research/results/theme_relevance_batches/theme_relevance_full_final.csv",
-      "sha256": "cd888093db59eb29a0d1762153da21e1fbe42f0faa79280587ec8ac9f528a501"
+      "sha256": "7d5b6400550de2108bce59172fa7b6d496eae726107a9d767a2907634ad07f16",
+      "origin": {
+        "repository": "noumi0713/stock-analysis-tool",
+        "commit": "94a882c2068323ffa4d0c7ef0aab6c11d9737cb9",
+        "path": "research/results/theme_relevance_batches/theme_relevance_full_final.csv",
+        "sha256": "cd888093db59eb29a0d1762153da21e1fbe42f0faa79280587ec8ac9f528a501"
+      },
+      "refreshed_at": "2026-11-01",
+      "audit_path": "updates/2026-11-01/audit.json"
     }
   ],
-  "note": "Existing classifications and relevance values are inherited, not newly verified. Relevance confidence and evidence are preserved. Current membership is not a historical point-in-time classification."
+  "note": "Kabutan current membership refresh. Public business search top20 cross-check only. Retained relevance values preserved; new membership scores blank and pending_review. Current membership is not historical point-in-time classification.",
+  "refreshes": [
+    {
+      "date": "2026-11-01",
+      "before": {
+        "stocks": 3298,
+        "memberships": 10870,
+        "themes": 124,
+        "clusters": 13
+      },
+      "after": {
+        "stocks": 3287,
+        "memberships": 10937,
+        "themes": 124,
+        "clusters": 13,
+        "etf_etn_memberships": 0
+      },
+      "added_memberships": 146,
+      "removed_memberships": 79,
+      "jpx_list_as_of": "20260930",
+      "audit_path": "updates/2026-11-01/audit.json"
+    }
+  ]
 }
