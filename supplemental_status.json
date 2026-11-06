@@ -1,0 +1,6 @@
+{
+  "quality": "FAIL",
+  "attempted_at": "2026-11-07T03:01:14.092407+09:00",
+  "error": "KeyError: '5202'",
+  "note": "Additional collection failed. Any existing observations retain their old dates."
+}

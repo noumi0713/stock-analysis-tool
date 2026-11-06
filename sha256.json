@@ -1,0 +1,23 @@
+{
+  "READ_ME.txt": "19021fe8f8c1a6d5573117ef00cd0b830bbe82b67614db217f4fd14a4ea99b92",
+  "equities_120d.csv": "27f5364bb923fb15b5946d09912eb43d037eb18797667aaca761b304df53c53f",
+  "equities_120d.parquet": "1be03f389accd50d3eca00567c75b8b435dad7d92ddc976e5c48576962cdca82",
+  "equities_incomplete.csv": "99a821cdc5e65dd498a17d8ba399d2d0974301f2e173b6fa02b922c2efc6e328",
+  "manifest.json": "a08a73048af0c745099dbbf2d461c916c075f9eddbe9780ba2bf27ac47c7d0ea",
+  "market_JP10Y.raw.csv": "e4632428bfb97f1a8aa40cb58324181e81aa947c7b1dd1c45bf24c866514281e",
+  "market_JPY_X.raw.csv": "a5c58fa7c06e1351469f3cba39db3611f0bfaa429973a8fd360fc7b688a7aca6",
+  "market__GSPC.raw.csv": "6ef27e529a4289bb6a74aa27f5ea22c72d387bf919df42278d758c2d0cd87125",
+  "market__IXIC.raw.csv": "e18f33cab47a5c60f3daee2b403cf7e6f94b605213405ed0cf3de76519ed713f",
+  "market__N225.raw.csv": "92ccd1d015ceb91229822bfef22af2167fd3741297b6bec84de6c5e9b15e6e84",
+  "market__SOX.raw.csv": "fbf9c63b5c249478eb99c901303d29cc655c02aff1166a8c390d920708e07219",
+  "market__TNX.raw.csv": "978b78cbc3fe42e41a636c8b9380ba0205710d9960b141f337d228c079815fcd",
+  "market__TOPX.raw.csv": "66a6f31e7acff11ca905b3d7de17bb3d5f0e7a69b6a5217869cdab4fb54935ff",
+  "market__TSEMOTHERS.raw.csv": "a9200bade347ec82dfdb9d74ec3ef94daee9725b593ce5db040c09a38677876c",
+  "market__VIX.raw.csv": "f813661baf84f54836a7ad49e4f6ed9c872aebf0b19f4f2ed16523cd306d2694",
+  "market_status.json": "b2c19ccc0ae6d0ce7b2403db983a98bbead082a17faa858a3d6a538e4088ee14",
+  "markets_120d.csv": "8540cfc9477e492dd2ec403b6db17411fb2d01d664386c707b0251afa980e2b1",
+  "stock_status.csv": "9bb37edebdddc4194989da3edc079d5f09b70aa54c08ba1223201f76a34ef4dc",
+  "theme_members.csv": "005e978edb7d13565d8e6df92b6fe4f7fbe2ded1aec88fc2ec88cfd3fe4f2a20",
+  "themes_120d.csv": "70f3753afbcb97e386fe66caf90dc42c16db0cb2fd8c8c68d5cce4d687d4ef9a",
+  "universe.csv": "c76e8e97b8e719510af0a632861873c3d9ff40592600889641d31bd0af013948"
+}
