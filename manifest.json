@@ -1,0 +1,388 @@
+{
+  "dataset": "technical-data-7y",
+  "purpose": "Permanent latest-only certified technical feature master for ChatGPT analysis",
+  "source": "STEP1 certified equity feature master",
+  "quality": "PASS",
+  "period": {
+    "oldest": "2019-09-20",
+    "latest": "2026-11-13"
+  },
+  "tickers": 3695,
+  "trading_days": 1743,
+  "rows": 5964873,
+  "feature_count": 145,
+  "input_fingerprint": "337e4506562ca63f6b552cfee66eda0a46da0c13f2dbbd0a82c1a17d90c8554f",
+  "residual_risks": [
+    "TOPIX and TSE Growth 250 unavailable from certified exact-ticker source",
+    "US 2-year yield unavailable; no proxy substituted",
+    "current sector classification is applied historically and can introduce look-ahead bias",
+    "complete historical delisted membership unavailable; survivorship bias remains",
+    "moving windows have expected warm-up NA; recent IPOs have shorter histories"
+  ],
+  "partitioning": [
+    "archive_year",
+    "ticker_bucket"
+  ],
+  "files": [
+    {
+      "path": "equity_daily_features/archive_year=2019/ticker_bucket=1/data_0.parquet",
+      "size_bytes": 1185849,
+      "sha256": "18d8cf74e0a267f468c3f753d8503cea702cbb1761768ab02a2ed60425ec13d6"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2019/ticker_bucket=2/data_0.parquet",
+      "size_bytes": 2371113,
+      "sha256": "8cc9983898907ffd5d1a82224e886b47283c5c9ee735071bb10b5378163a6b37"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2019/ticker_bucket=3/data_0.parquet",
+      "size_bytes": 3777266,
+      "sha256": "9b22dd2b964d7a13038831015bfc38ea92948273ba3023c6d6e8b42ffe39dac4"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2019/ticker_bucket=4/data_0.parquet",
+      "size_bytes": 3140735,
+      "sha256": "6805b5acc5835e807b99b601eabe94660e20e9cb3b2a2c0b2102aee30c222689"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2019/ticker_bucket=5/data_0.parquet",
+      "size_bytes": 1669148,
+      "sha256": "5446a4cd5ee836a71ed275e7192d1c37d556e480ce10d300da21abd0067e780b"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2019/ticker_bucket=6/data_0.parquet",
+      "size_bytes": 4098216,
+      "sha256": "84736ca9f6c911cd86224e32c947d8365ebdf89e147e74b8152f6c6ce320d123"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2019/ticker_bucket=7/data_0.parquet",
+      "size_bytes": 3307804,
+      "sha256": "f8389868e637ef4de307e39b52d860bb894e227a703459f6c17c1fef3177571e"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2019/ticker_bucket=8/data_0.parquet",
+      "size_bytes": 2392084,
+      "sha256": "f5313e6a343a4680607a1be803d2e525b4c3590c89642eab6dc974438acf9367"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2019/ticker_bucket=9/data_0.parquet",
+      "size_bytes": 2649552,
+      "sha256": "a4764667bb32705b23e4e688ca0c3dd91f34c6d45779434706bb15c0b1305f8e"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2020/ticker_bucket=1/data_0.parquet",
+      "size_bytes": 5804024,
+      "sha256": "1920d7fc76ab144a9098099c77c47a0d9b559d0f006de48b068ec6d44d60e0c1"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2020/ticker_bucket=2/data_0.parquet",
+      "size_bytes": 12361800,
+      "sha256": "287caa71d5ef84ca62fc4f2a0bad21016f5625e7a9c9b99d7b6a09e2f1437816"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2020/ticker_bucket=3/data_0.parquet",
+      "size_bytes": 19394035,
+      "sha256": "17b44852591b7d7dcff4d677375acc5415791ddfc8bb29653385aa56eb5bd7dd"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2020/ticker_bucket=4/data_0.parquet",
+      "size_bytes": 16883153,
+      "sha256": "8773188210f2bfc5899fcf7249054b9c43103bac7eb0ca9c583029ca34b25b7c"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2020/ticker_bucket=5/data_0.parquet",
+      "size_bytes": 8251578,
+      "sha256": "6f48b700d387ba502413088892c60f550536fd2f1ebcc8da85672b4b28646578"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2020/ticker_bucket=6/data_0.parquet",
+      "size_bytes": 20934257,
+      "sha256": "2563cf103bc9a2bc6c332a54683b457ae00626a08068e8a1ce3eb3f9727edcd4"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2020/ticker_bucket=7/data_0.parquet",
+      "size_bytes": 18014372,
+      "sha256": "0c111073b7172666f31f9897bf8987ba6b6155e6632863a233d0e491afcdab1c"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2020/ticker_bucket=8/data_0.parquet",
+      "size_bytes": 12228090,
+      "sha256": "80093737b38b0935fa8e0f7ab0590c0eed6679884395fd5bd5bc56a208bfabb3"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2020/ticker_bucket=9/data_0.parquet",
+      "size_bytes": 13789663,
+      "sha256": "dd3e9578e87729372f2a553604a0d5b933addc9342f5f113a105f1b141beee46"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2021/ticker_bucket=1/data_0.parquet",
+      "size_bytes": 6220622,
+      "sha256": "55b2c594b8a924e26b4932bc92c925ac1d8e97dd493b84486f80dc62169a4c9b"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2021/ticker_bucket=2/data_0.parquet",
+      "size_bytes": 13304092,
+      "sha256": "6731d74cdd8b315c69bd599f38caf29988f8dc13b52910cee42fe0b5092d7c39"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2021/ticker_bucket=3/data_0.parquet",
+      "size_bytes": 20450415,
+      "sha256": "7113b0790680123c81adfcad0e2d69f9aa620e7148dbbd8204b6ce17844c2af5"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2021/ticker_bucket=4/data_0.parquet",
+      "size_bytes": 19844126,
+      "sha256": "d2b5ec5620dd618cd37c3a2fe8cb3eb5df5ebb9258a0c7c8ee5291a4979e3fe8"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2021/ticker_bucket=5/data_0.parquet",
+      "size_bytes": 8858018,
+      "sha256": "85004d5bb9e524eaa991fa76abe1b6ab3d16c3d1faab66bdec3bcc2796e0adfd"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2021/ticker_bucket=6/data_0.parquet",
+      "size_bytes": 22604905,
+      "sha256": "38946d1dc7dc2fedce2c7fd34510fd39072015a3296876e6de503060e145a741"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2021/ticker_bucket=7/data_0.parquet",
+      "size_bytes": 20498620,
+      "sha256": "c82177e6c79d5ceb1ad190d3c93129cf96e3199ae939002752cf56419a00838e"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2021/ticker_bucket=8/data_0.parquet",
+      "size_bytes": 12982010,
+      "sha256": "875b2cdf11184363a89fce110a0f3d8bfecb1f9e409764578d971626e01ece29"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2021/ticker_bucket=9/data_0.parquet",
+      "size_bytes": 14802545,
+      "sha256": "09dfcd9bde7b9e4c3921ecebf2cf439af6fa6f2e2a712ce815d28d1d8f83537d"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2022/ticker_bucket=1/data_0.parquet",
+      "size_bytes": 6156884,
+      "sha256": "961b56da46c9ddaa865784b66b6f6ddfa8e9f4bac9adffddb3e74f681dc2ab9f"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2022/ticker_bucket=2/data_0.parquet",
+      "size_bytes": 13483791,
+      "sha256": "74750bdc0d1ab9bfbfb995819b3d9d6f0091b5c6d90ce492fc6f29d4a360f6c9"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2022/ticker_bucket=3/data_0.parquet",
+      "size_bytes": 19962149,
+      "sha256": "39ea65317feed051b959e7b688e407bfccfdbaad7a0d9ca2a73655a9a36f6729"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2022/ticker_bucket=4/data_0.parquet",
+      "size_bytes": 21639808,
+      "sha256": "983da2e714d3a3f9c4d0b78e94655bdcde8e6553617d2dc5efc8d5651eadb144"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2022/ticker_bucket=5/data_0.parquet",
+      "size_bytes": 9108533,
+      "sha256": "27ee794cdb19025a0b3f53ed26bdc83be9bf2213cd5a4867dfd23a610b6faf6c"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2022/ticker_bucket=6/data_0.parquet",
+      "size_bytes": 22500423,
+      "sha256": "981a424c6efab865959087dab488c0caf10a71d6cd150f43aeb4043f947f48e1"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2022/ticker_bucket=7/data_0.parquet",
+      "size_bytes": 21411249,
+      "sha256": "22b0da3edf6f6b59d3aa014e823386f48b4fda3eb791d48a6e2423d32eaaac0b"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2022/ticker_bucket=8/data_0.parquet",
+      "size_bytes": 12849843,
+      "sha256": "972fa9fca81851c35804ef59e5665675150db997a602fb6a0163a495803f673a"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2022/ticker_bucket=9/data_0.parquet",
+      "size_bytes": 15679734,
+      "sha256": "8b754dcac3180c039047c744db792cd2e8bc4fbe04723954211a664a3d113564"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2023/ticker_bucket=1/data_0.parquet",
+      "size_bytes": 6403603,
+      "sha256": "26f6dcc3e2595ebac6e8a4183e09726eeabccc423701bdfeca7290e2c0e07c0b"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2023/ticker_bucket=2/data_0.parquet",
+      "size_bytes": 13859770,
+      "sha256": "f8ff9d0775766d6117e7b6afee29159704377f7df0a6fa77802ec1c3379c5ccd"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2023/ticker_bucket=3/data_0.parquet",
+      "size_bytes": 20292794,
+      "sha256": "ce562273916f25ddb2f3ab6b091cf3703dca9a8d8fe62b23a8e4c4b35a38a6c4"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2023/ticker_bucket=4/data_0.parquet",
+      "size_bytes": 22274762,
+      "sha256": "5d5ce63a2e432eb5d0c65fadac29614a92d2aaa9df54c09a016964a98ad85cf7"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2023/ticker_bucket=5/data_0.parquet",
+      "size_bytes": 11440097,
+      "sha256": "cc5929b2136ee842cdec270db7a348375e0454e4f44056c69a5e21ea98f02942"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2023/ticker_bucket=6/data_0.parquet",
+      "size_bytes": 23035470,
+      "sha256": "639db9d70956fb6045d1b8a49d39d07c4a4b02cd6e652a8c213022aef44b54a2"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2023/ticker_bucket=7/data_0.parquet",
+      "size_bytes": 22170093,
+      "sha256": "54aaa365cfafcf72b5fe52990288a3e3961cfee75cc199160b54b8d59a8910e6"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2023/ticker_bucket=8/data_0.parquet",
+      "size_bytes": 13162825,
+      "sha256": "2461c4ce745bdf818df79761f1bf0e08013bede9cc244fe72a9754114c004584"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2023/ticker_bucket=9/data_0.parquet",
+      "size_bytes": 17160846,
+      "sha256": "456ee56e06ed420adb96944ac97e849b9d89fe1861abad0fd897fd0fd6fe36b4"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2024/ticker_bucket=1/data_0.parquet",
+      "size_bytes": 7331473,
+      "sha256": "fe41113a76e3605e51d1180a30760c9779498f7436d6f298cd10fe9afacc19ed"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2024/ticker_bucket=2/data_0.parquet",
+      "size_bytes": 14234306,
+      "sha256": "b0b18acd8093c8cb6425f764b89033d1bff8ab1e3de212ac6d453e125c2a44ed"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2024/ticker_bucket=3/data_0.parquet",
+      "size_bytes": 20328840,
+      "sha256": "4a84c5b351df793d0180557da47cf9cf50839dea3e4078dcdbca7497c8a01257"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2024/ticker_bucket=4/data_0.parquet",
+      "size_bytes": 22380835,
+      "sha256": "f410f4ceae5eea823e3b5366b87ef0506a416c2ad58ec06e4735a50bb911262b"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2024/ticker_bucket=5/data_0.parquet",
+      "size_bytes": 12876921,
+      "sha256": "df1cc608394c0db4e7ce86744d03f871e113d0fda182a5830ee577905d29e0c6"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2024/ticker_bucket=6/data_0.parquet",
+      "size_bytes": 23241983,
+      "sha256": "bc950e7cb002cc54dfad84f8aa68ab228bed089c1bf7ff49a133e6f930647c9e"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2024/ticker_bucket=7/data_0.parquet",
+      "size_bytes": 22223494,
+      "sha256": "f3fc61e1c212120ffdbaf6a1ef1baae8c2c07d5635a53a9d87f29a29888d5fd4"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2024/ticker_bucket=8/data_0.parquet",
+      "size_bytes": 13212871,
+      "sha256": "1413d176e35dab9fa24679d6161508966390e7b446d19da4bd2cdcf3659a7304"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2024/ticker_bucket=9/data_0.parquet",
+      "size_bytes": 17778892,
+      "sha256": "6adeb27ec27a8e8a60cc17b6fa5ea16aa71bbd5ab126194722a9043216cae07c"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2025/ticker_bucket=1/data_0.parquet",
+      "size_bytes": 7849723,
+      "sha256": "1ced325eb1184d7c574f1a34ed0786d1ab2dbb71ba6d4b9d3da5587e5eefb32f"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2025/ticker_bucket=2/data_0.parquet",
+      "size_bytes": 15217027,
+      "sha256": "58cd68e57b0399ed08149dbf559a8247da51a83b40da5a6638df1f0e94e394f7"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2025/ticker_bucket=3/data_0.parquet",
+      "size_bytes": 21104446,
+      "sha256": "3df2cd258ebe7b8dfb837285cec8e4d2346cc747df3010cbbe588d99947ef43b"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2025/ticker_bucket=4/data_0.parquet",
+      "size_bytes": 22225266,
+      "sha256": "e3fa6150403d34b6a6ca7581441c4bef9d5101651e6dc3ccb8c53d35d63501aa"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2025/ticker_bucket=5/data_0.parquet",
+      "size_bytes": 12983283,
+      "sha256": "d0a9baf71fff2b369039b16d437e6782315df98e303dd6ab68a831905eeab5df"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2025/ticker_bucket=6/data_0.parquet",
+      "size_bytes": 23001569,
+      "sha256": "186ff812460d211445a699fccd319609cc2759c5ade1567a075ba23ec9aab387"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2025/ticker_bucket=7/data_0.parquet",
+      "size_bytes": 22015682,
+      "sha256": "ace60187acabd5747b80c321cf2041291cc0490e75aaedb4880f24cbecb34a65"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2025/ticker_bucket=8/data_0.parquet",
+      "size_bytes": 13045363,
+      "sha256": "ad68f8b9566fb0577fbcc4fa8ecdf60a0ec26cb5766b6613d64b68384b225fca"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2025/ticker_bucket=9/data_0.parquet",
+      "size_bytes": 17555766,
+      "sha256": "25d80431b7c7e1b815af7a8c86390bddef2228c7dd681fe42a2231008e7d4225"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2026/ticker_bucket=1/data_0.parquet",
+      "size_bytes": 6793763,
+      "sha256": "21fd30f092e0e357c0b6ea6948dd13feeccf241a8db6293e47f255465a9f94cf"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2026/ticker_bucket=2/data_0.parquet",
+      "size_bytes": 13158284,
+      "sha256": "341a366aed9a8b004d7ae0a2a43be885c43aeb1edaa54b02d5211048639bd71d"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2026/ticker_bucket=3/data_0.parquet",
+      "size_bytes": 18290415,
+      "sha256": "9d102d6c21d192cff9f97cc9b16e820bf85636f40f0b39df7fb6f7c84616cd56"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2026/ticker_bucket=4/data_0.parquet",
+      "size_bytes": 20056896,
+      "sha256": "c2e959cc2a227d5b755ae070433f491831f4e780930befff3c701b3632cde485"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2026/ticker_bucket=5/data_0.parquet",
+      "size_bytes": 11662189,
+      "sha256": "41b56aadd359cf971c3409898be4372cc8f55df7ac3bdbda7972ff7abd6ab694"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2026/ticker_bucket=6/data_0.parquet",
+      "size_bytes": 20042325,
+      "sha256": "2c147fff871b5f54bead29cc7eb429625301721fbf03b7b3572e58cd6307fdea"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2026/ticker_bucket=7/data_0.parquet",
+      "size_bytes": 18660119,
+      "sha256": "2692e900412f791aea6df9969c51bd14e0766d6453b893dda6c4ec7a87dbbc6e"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2026/ticker_bucket=8/data_0.parquet",
+      "size_bytes": 11274519,
+      "sha256": "fe8acdc8cacc7c054ee02a9c4addb73ac728de3d3c31feb0bb4c70e1f51b1b5b"
+    },
+    {
+      "path": "equity_daily_features/archive_year=2026/ticker_bucket=9/data_0.parquet",
+      "size_bytes": 15067006,
+      "sha256": "8d865d01829e214debfdcf3f7393fa2df2e428dc631c0e04d2dda55795f831a8"
+    }
+  ]
+}
