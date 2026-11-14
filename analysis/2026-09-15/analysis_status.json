@@ -1,0 +1,31 @@
+{
+  "analysis_date": "2026-09-15",
+  "equity_cutoff": "2026-09-14",
+  "ranking_count": 96,
+  "matched": 96,
+  "processed": 96,
+  "full120": 92,
+  "short_history": 4,
+  "unmatched": 0,
+  "unconfirmed_daily": 0,
+  "missing_daily": 0,
+  "liquidity_counts": {
+    "priority": 71,
+    "eligible": 16,
+    "exclude": 8,
+    "insufficient_history": 1
+  },
+  "new_consensus_success": 0,
+  "new_consensus_failure": 96,
+  "previous_consensus_overlap": 78,
+  "previous_consensus_class_counts": {
+    "判定不能": 44,
+    "強気": 20,
+    "基本": 14
+  },
+  "partial_supplement_count": 3,
+  "turnover_method": "Unadjusted close times volume; estimate, not exchange traded value or net capital flow",
+  "ranking_history_note": "5 calendar observations, including weekend; best rank only within stored history",
+  "no_intraday_data_used": true,
+  "original_rule_sha256": "eb027f2bf5a94c29adc0c8e365b46d26cf1783d595ded93c269cfa85355c77a2"
+}
