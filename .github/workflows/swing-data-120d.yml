@@ -3,9 +3,8 @@ name: 日本株120営業日データ更新
 on:
   workflow_dispatch:
   schedule:
-    # After TSE close, then retry delayed provider data. UTC = JST - 9.
-    - cron: '30 8 * * 1-5'
-    - cron: '30 10 * * 1-5'
+    # Every day at 17:00 JST (08:00 UTC), including weekends and holidays.
+    - cron: '0 8 * * *'
   push:
     branches: [main]
     paths:
