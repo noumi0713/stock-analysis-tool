@@ -12,6 +12,7 @@ import pandas as pd
 from swing_data.collector import atomic_json, read_json
 from swing_data.analysis_access import access_document
 from swing_data.swipe_review import build_swipe_review
+from swing_data.bollinger_screen import build_watchlist
 
 PUBLIC = "https://raw.githubusercontent.com/noumi0713/stock-analysis-tool/swing-data-120d-latest"
 
@@ -34,6 +35,11 @@ def publish(source: Path, target: Path) -> None:
                 "missing_markets":[], "note":"初回取得は未完了です。update_status.jsonを確認してください。"})
             (target / "index.md").write_text("# 日本株120日データ\n\n初回取得は未完了です。\n\n"
                 f"[更新結果]({PUBLIC}/update_status.json)\n", encoding="utf-8")
+        build_watchlist(target)
+        index = target / "index.md"
+        if index.exists() and "bollinger_minus2.md" not in index.read_text(encoding="utf-8"):
+            with index.open("a", encoding="utf-8") as output:
+                output.write(f"\n[日足−2σ到達一覧・更新状態]({PUBLIC}/bollinger_minus2.md)\n")
         return
     run = source / "runs" / latest["run_id"]
     # Files are made visible together by a single data-branch commit.
@@ -72,10 +78,16 @@ def publish(source: Path, target: Path) -> None:
         links.append(f"- {code} {names.get(ticker,ticker)} — [120営業日OHLCV]({PUBLIC}/stocks/{code}.csv)")
     atomic_json(target / "stocks.json", {"run_id":latest["run_id"], "stocks":summary, "selection":"none"})
     build_swipe_review(target, price_date=str(latest.get("expected_equity_date") or ""))
+    build_watchlist(target)
     text = ("# 日本株120営業日・チャッピー分析用\n\n"
             f"分析基準日時: {latest['analysis_as_of']}\n\n"
             f"株価対象日: {latest['expected_equity_date']} / 品質: {latest['quality']} / 必須市場系列: {latest.get('market_quality', '未評価')}\n\n"
             f"全対象 {latest['target_count']} 銘柄、120日適格 {latest['ready_count']} 銘柄。売買条件による選別なし。\n\n"
+            "## 日足−2σ到達一覧\n\n"
+            f"[到達銘柄を見る]({PUBLIC}/bollinger_minus2.md) / [CSV]({PUBLIC}/bollinger_minus2_latest.csv) / "
+            f"[判定状態]({PUBLIC}/bollinger_minus2_status.json)\n\n"
+            "全東証の適格データを対象に、20日ボリンジャーバンド下限への到達を別ファイルで抽出。"
+            "生データの母集団やスワイプ条件は変更しません。\n\n"
             f"[取得経路・全東証分析の入口]({PUBLIC}/analysis_access.md)\n\n"
             "以下はランキング内分析の手順です。全東証指定時は上記入口を優先し、ランキングによる制限を適用しません。\n\n"
             "## 読む順番\n\n"
