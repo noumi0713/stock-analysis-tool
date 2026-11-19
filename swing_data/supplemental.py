@@ -294,7 +294,7 @@ def collect(target, *, now=None, fetch=document, fundamentals_fetch=yahoo_snapsh
             status['items'][name] = dict(status='fetched',record_count=len(result[name]),
                 covered_codes=len({r['code'] for r in result[name]}),fetched_at=observed)
         except Exception as exc:
-            result[name] = previous.get(name,[])
+            result[name] = [row for row in previous.get(name, []) if row.get('code') in allowed]
             status['items'][name] = dict(status='stale' if result[name] else 'fetch_failed',
                 record_count=len(result[name]),error=f'{type(exc).__name__}: {exc}'[:250])
         print(json.dumps({name:status['items'][name]},ensure_ascii=False),flush=True)

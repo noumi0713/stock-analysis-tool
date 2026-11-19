@@ -5,6 +5,9 @@ on:
   schedule:
     # Every day at 17:00 JST (08:00 UTC), including weekends and holidays.
     - cron: '0 8 * * *'
+    # Recover a missed or failed publish at 20:17 and 07:37 JST.
+    - cron: '17 11 * * *'
+    - cron: '37 22 * * *'
   push:
     branches: [main]
     paths:
@@ -52,15 +55,44 @@ jobs:
             cp public-data/universe.csv swing_data/runtime/universe_cache.csv
             python -c 'import json,pathlib; p=pathlib.Path("swing_data/runtime/universe_cache.json"); p.write_text(json.dumps(json.load(open("public-data/manifest.json")).get("universe",{})))'
           fi
-      - name: Install PDF text reader
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: Check for missed daily update
+        id: freshness
+        if: github.event_name == 'schedule' && github.event.schedule != '0 8 * * *'
+        run: |
+          python - <<'PYTHON'
+          import os
+          from datetime import datetime
+          from pathlib import Path
+
+          from swing_data.collector import JST, read_json, session_window
+
+          expected = session_window(datetime.now(JST))[-1]
+          try:
+              status = read_json(Path("public-data/bollinger_minus2_status.json"))
+          except (OSError, ValueError):
+              status = {}
+          fresh = (
+              status.get("expected_date") == expected
+              and status.get("source_date") == expected
+              and status.get("status") in {"success", "partial"}
+              and status.get("evaluated_count", 0) > 0
+          )
+          message = f"Expected XTKS session {expected}; published {status.get('source_date')}; status {status.get('status')}"
+          print(message if fresh else f"::warning::Daily watchlist missing or failed. Recovering. {message}")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as summary:
+              summary.write(message + (" (up to date)" if fresh else " (recovery started)") + "\n")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"fresh={str(fresh).lower()}\n")
+          PYTHON
       - name: Fetch completed sessions
         id: collect
+        if: steps.freshness.outputs.fresh != 'true'
         continue-on-error: true
         env:
           PYTHONUNBUFFERED: '1'
         run: python -m swing_data.collector
       - name: Prepare readable site data and failure status
+        id: prepare
         if: always() && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
         run: python -m swing_data.publish --source swing_data/runtime --target public-data
       - name: Show daily Bollinger minus-two-sigma watchlist
@@ -76,6 +108,10 @@ jobs:
         env:
           PYTHONUNBUFFERED: '1'
         run: python -m swing_data.market_consensus --target public-data
+      - name: Install PDF text reader
+        if: steps.prepare.outcome == 'success'
+        continue-on-error: true
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
       - name: Collect supply, events, capital and EPS observations
         id: supplemental
         if: always() && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
@@ -84,23 +120,26 @@ jobs:
           PYTHONUNBUFFERED: '1'
         run: python -m swing_data.supplemental --target public-data
       - name: Publish latest-only data snapshot
-        if: always() && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
+        if: steps.prepare.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           cd public-data
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          published_ref=$(git rev-parse --verify HEAD 2>/dev/null || true)
           git checkout --orphan latest-snapshot
           git rm -rf --cached . >/dev/null 2>&1 || true
           git add --all
           git commit -m 'Publish latest 120-session data snapshot'
-          git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin HEAD:swing-data-120d-latest
+          git -c "http.extraHeader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force-with-lease="refs/heads/swing-data-120d-latest:$published_ref" origin HEAD:swing-data-120d-latest
+          published_at=$(TZ=Asia/Tokyo date --iso-8601=seconds)
+          printf '\nGitHub publish completed (JST): %s\n' "$published_at" | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Retain run evidence
-        if: always()
+        if: always() && steps.collect.outcome != 'skipped'
         uses: actions/upload-artifact@v4
         with:
-          name: swing-120d-${{ github.run_id }}
+          name: swing-120d-${{ github.run_id }}-attempt-${{ github.run_attempt }}
           path: swing_data/runtime/
           retention-days: 30
           if-no-files-found: warn
@@ -111,5 +150,8 @@ jobs:
         if: steps.consensus.outcome == 'failure'
         run: exit 1
       - name: Mark failed collection
-        if: steps.collect.outcome == 'failure'
-        run: exit 1
+        if: always() && steps.collect.outcome == 'failure'
+        run: |
+          cat swing_data/runtime/status.json
+          echo "::error::Equity or required market data failed validation. See the run artifact for per-ticker diagnostics."
+          exit 1

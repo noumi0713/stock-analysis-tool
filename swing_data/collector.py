@@ -157,6 +157,7 @@ def normalize(frame: pd.DataFrame, ticker: str, sessions: list[str], *, equity: 
     work["date"] = [pd.Timestamp(x).date().isoformat() for x in work.index]
     work = work[work.date.isin(sessions)].copy()
     work = work.dropna(subset=["open", "high", "low", "close", "volume"], how="all")
+    work = work.reset_index(drop=True)
     duplicates = work.date.duplicated(keep=False)
     numeric = ["open", "high", "low", "close", "volume"]
     for col in numeric + ["adj_close", "dividends", "stock_splits"]:
@@ -167,7 +168,22 @@ def normalize(frame: pd.DataFrame, ticker: str, sessions: list[str], *, equity: 
     valid &= (work[["open", "high", "low", "close", "adj_close"]] > 0).all(axis=1) & (work.volume >= 0)
     valid &= (work.high >= work[["open", "close", "low"]].max(axis=1)) & (work.low <= work[["open", "close", "high"]].min(axis=1))
     valid &= ~duplicates
+    if equity:
+        # Yahoo may already split-adjust its raw series. Check continuity in the
+        # adjusted series around the declared action, without applying it a second time.
+        ordered = work.sort_values("date")
+        previous_session = ordered.date.map({day: i for i, day in enumerate(sessions)}).diff().eq(1)
+        split_ratio = ordered.stock_splits.where(ordered.stock_splits > 0, 1.0)
+        adjusted_open = ordered.open * (ordered.adj_close / ordered.close).where(ordered.close > 0)
+        overnight = adjusted_open / ordered.adj_close.shift().where(ordered.adj_close.shift() > 0)
+        split_gap = (split_ratio.sub(1).abs() > 0) & previous_session & (overnight > 0) & (
+            (overnight * split_ratio - 1).abs() <= 0.12
+        ) & ((overnight - 1).abs() > 0.15)
+        report["suspected_split_rows"] = int(split_gap.sum())
+        valid &= ~split_gap.reindex(work.index)
     report["invalid_rows"] = int((~valid).sum())
+    report["invalid_dates"] = ",".join(sorted(set(work.loc[~valid, "date"])))
+    report["latest_close_missing"] = bool(work.loc[work.date.eq(sessions[-1]), "close"].isna().any())
     work = work.loc[valid].sort_values("date")
     report["zero_volume_rows"] = int((work.volume == 0).sum()) if equity else 0
     factor = work.adj_close / work.close
@@ -285,7 +301,7 @@ def collect(output: Path, *, config: Path = ROOT / "config", tickers: list[str] 
             status.update(total=len(universe), expected_date=sessions[-1], phase="個別株")
             ready, incomplete, reports = [], [], []
             targets = universe.ticker.tolist()
-            empty_batches = 0
+            unusable_batches = 0
             for start in range(0, len(targets), batch_size):
                 chunk = targets[start:start+batch_size]
                 frames, checks = fetch_group(chunk, sessions, downloader=downloader)
@@ -293,8 +309,12 @@ def collect(output: Path, *, config: Path = ROOT / "config", tickers: list[str] 
                     reports.append(checks[ticker])
                     frame = frames.get(ticker, pd.DataFrame(columns=PRICE_COLUMNS))
                     (ready if checks[ticker]["status"] == "ready" else incomplete).append(frame)
-                empty_batches = empty_batches + 1 if all(checks[t]["status"] == "fetch_failed" for t in chunk) else 0
-                if empty_batches >= 3:
+                upstream_missing = all(checks[t]["status"] == "fetch_failed" or
+                                       checks[t].get("latest_close_missing") for t in chunk)
+                unusable_batches = unusable_batches + 1 if upstream_missing else 0
+                provider_outage = unusable_batches >= 3 and not ready
+                if provider_outage:
+                    print("::warning::Three consecutive batches have no usable latest close; leaving other tickers unverified.", flush=True)
                     for ticker in targets[start+batch_size:]:
                         reports.append({"ticker":ticker, "status":"not_fetched_provider_outage", "rows":0,
                                         "expected_date":sessions[-1], "latest_date":None, "missing_sessions":WINDOW})
@@ -303,7 +323,7 @@ def collect(output: Path, *, config: Path = ROOT / "config", tickers: list[str] 
                               heartbeat_at=datetime.now(JST).isoformat())
                 atomic_json(output / "status.json", status)
                 print(json.dumps({k:status[k] for k in ["processed", "total", "ready"]}), flush=True)
-                if empty_batches >= 3:
+                if provider_outage:
                     break
                 if start + batch_size < len(targets):
                     time.sleep(1)
@@ -346,8 +366,11 @@ def collect(output: Path, *, config: Path = ROOT / "config", tickers: list[str] 
                 atomic_json(output / "latest.json", meta)
                 if quality == "PASS":
                     atomic_json(output / "last_complete.json", meta)
-            status.update(state="complete" if quality == "PASS" else "partial" if not prices.empty else "failed",
-                          completed_at=meta["completed_at"], quality=quality, ready=meta["ready_count"], error=None)
+            status.update(stock_status_counts=counts,
+                          latest_close_missing_count=sum(r.get("latest_close_missing", False) for r in reports),
+                          state="complete" if quality == "PASS" else "partial" if not prices.empty else "failed",
+                          completed_at=meta["completed_at"], quality=quality, ready=meta["ready_count"],
+                          error="最新120営業日の品質検査を通過した株価がありません。" if prices.empty else None)
             atomic_json(output / "status.json", status)
             return meta
         except Exception as exc:

@@ -119,6 +119,10 @@ def test_failed_update_removes_old_latest_matches(tmp_path, failure):
     status = build_watchlist(tmp_path, now=NOW)
     assert status["status"] == "not_ready" and status["matched_count"] == 0
     assert json.loads((tmp_path / "bollinger_minus2_latest.json").read_text())["matches"] == []
+    assert status["result"] == "failed"
+    assert status["last_good_date"] == SESSIONS[-1]
+    archived = json.loads((tmp_path / "bollinger_last_good/bollinger_minus2_latest.json").read_text())
+    assert archived["source_date"] == SESSIONS[-1] and len(archived["matches"]) == 1
     assert pd.read_csv(tmp_path / "bollinger_minus2_latest.csv").empty
     assert "該当銘柄はありません" not in (tmp_path / "bollinger_minus2.md").read_text()
 

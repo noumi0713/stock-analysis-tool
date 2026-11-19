@@ -51,6 +51,28 @@ def test_bad_data_is_not_ready(issue, expected):
     assert len(data) <= 120
 
 
+@pytest.mark.parametrize("ratio", [2.0, 0.5])
+def test_split_discontinuity_is_rejected_without_double_adjusting(ratio):
+    dates = session_window(datetime(2026, 9, 9, 18, tzinfo=ZoneInfo("Asia/Tokyo")))
+    raw = history(dates)
+    raw.loc[dates[-2], "Stock Splits"] = ratio
+    assert normalize(raw, "7203.T", dates)[1]["status"] == "ready"
+    raw.loc[:dates[-3], ["Open", "High", "Low", "Close", "Adj Close"]] *= ratio
+    _, report = normalize(raw, "7203.T", dates)
+    assert report["status"] == "invalid_rows"
+    assert report["suspected_split_rows"] == 1
+    assert report["invalid_dates"] == dates[-2]
+
+
+def test_latest_close_missing_diagnostic():
+    dates = session_window(datetime(2026, 9, 9, 18, tzinfo=ZoneInfo("Asia/Tokyo")))
+    raw = history(dates)
+    raw.loc[dates[-1], ["Close", "Adj Close"]] = float("nan")
+    _, report = normalize(raw, "7203.T", dates)
+    assert report["latest_close_missing"] is True
+    assert report["latest_date"] == dates[-2]
+
+
 def test_missing_ticker_retried_not_silently_dropped():
     dates = session_window(datetime(2026, 9, 9, 18, tzinfo=ZoneInfo("Asia/Tokyo")))
     calls = []

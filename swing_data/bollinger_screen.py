@@ -6,6 +6,7 @@ from collections import Counter
 from datetime import datetime
 import json
 from pathlib import Path
+import shutil
 
 import numpy as np
 import pandas as pd
@@ -14,6 +15,8 @@ from swing_data.collector import JST, atomic_json, read_json, session_window
 
 VERSION = "daily-bollinger-minus2-v1"
 PUBLIC = "https://github.com/noumi0713/stock-analysis-tool/blob/swing-data-120d-latest"
+WATCHLIST_FILES = ("bollinger_minus2.md", "bollinger_minus2_latest.csv",
+                   "bollinger_minus2_latest.json", "bollinger_minus2_status.json")
 COLUMNS = ["date", "stock_code", "company_name", "close", "low", "ma20",
            "lower_band", "close_sigma", "close_below_band", "new_touch",
            "turnover_proxy", "themes"]
@@ -68,7 +71,9 @@ def evaluate(frame: pd.DataFrame, sessions: list[str]) -> dict:
 
 def markdown(status: dict, matches: list[dict]) -> str:
     lines = ["# 日足 −2σ 到達銘柄", "",
-             f"状態: **{status['status']}** / 対象営業日: **{status['expected_date']}**", "",
+             f"状態: **{status['result']}** / 対象営業日: **{status['expected_date']}**", "",
+             f"一覧生成完了: {status['completed_at']} / 株価取得完了: {status['collection_completed_at'] or '未確認'}", "",
+             f"株価取得成功（品質適格） {status['acquired_count']} 銘柄 / 取得失敗・品質除外 {status['acquisition_failed_count']} 銘柄", "",
              f"全対象 {status['target_count']} 銘柄 / 判定済み {status['evaluated_count']} 銘柄 / "
              f"対象外・未取得 {status['excluded_count']} 銘柄 / 到達 **{len(matches)}** 銘柄", "",
              "条件: 調整後終値の20日単純平均 − 2×母標準偏差（ddof=0）に当日安値が到達。等値を含む。",
@@ -80,6 +85,8 @@ def markdown(status: dict, matches: list[dict]) -> str:
         lines += [f"**{status['reason']}**", ""]
     if status["status"] == "not_ready":
         lines += ["最新一覧は生成できませんでした。過去の一覧を当日分として代用していません。", ""]
+        if status.get("last_good_date"):
+            lines += [f"[前回の判定一覧（{status['last_good_date']}）]({PUBLIC}/bollinger_last_good/bollinger_minus2.md)", ""]
     elif not matches:
         lines += ["判定済み銘柄の中に該当銘柄はありません。", ""]
     else:
@@ -102,15 +109,33 @@ def build_watchlist(target: Path, *, now: datetime | None = None) -> dict:
     sessions = session_window(now)
     manifest = read_json(target / "manifest.json")
     update = read_json(target / "update_status.json")
+    archive = target / "bollinger_last_good"
+    previous = read_json(target / WATCHLIST_FILES[3])
+    if previous.get("source_date") == previous.get("expected_date") and previous.get("status") in {"success", "partial"} and all(
+        (target / name).is_file() for name in WATCHLIST_FILES
+    ):
+        archive.mkdir(exist_ok=True)
+        for name in WATCHLIST_FILES:
+            shutil.copyfile(target / name, archive / name)
+    last_good = read_json(archive / WATCHLIST_FILES[3])
+    attempt_is_current = update.get("expected_date") == sessions[-1]
+    target_count = int(update.get("total") or manifest.get("target_count", 0))
+    acquired = int(update.get("ready", 0)) if attempt_is_current else 0
     status = {"schema_version": 1, "rule_version": VERSION, "generated_at": now.isoformat(),
               "expected_date": sessions[-1], "source_date": manifest.get("expected_equity_date"),
               "source_run_id": manifest.get("run_id"), "status": "not_ready",
-              "target_count": int(manifest.get("target_count", 0)), "evaluated_count": 0,
-              "excluded_count": int(manifest.get("target_count", 0)), "matched_count": 0,
+              "target_count": target_count, "evaluated_count": 0, "excluded_count": target_count,
+              "acquired_count": acquired, "acquisition_failed_count": target_count - acquired, "matched_count": 0,
+              "collection_completed_at": update.get("completed_at"),
+              "collection_started_at": update.get("started_at"),
+              "attempt_run_id": update.get("run_id"), "last_good_date": last_good.get("source_date"),
+              "attempt_stock_status_counts": update.get("stock_status_counts", {}),
               "rules": RULES, "scope": manifest.get("universe", {}).get("scope", "unknown"),
               "source_stock_status_counts": manifest.get("stock_status_counts", {})}
     matches = []
     try:
+        if update.get("state") == "failed" and update.get("error"):
+            raise ValueError(f"株価更新失敗: {update['error']}")
         if manifest.get("expected_equity_date") != sessions[-1]:
             raise ValueError("株価が最新の終了済み営業日と一致しません。株価更新を確認してください。")
         if update.get("run_id") != manifest.get("run_id") or update.get("state") not in {"complete", "partial"}:
@@ -138,18 +163,22 @@ def build_watchlist(target: Path, *, now: datetime | None = None) -> dict:
                 item.update(stock_code=code, company_name=names[ticker], themes=themes.get(code, ""))
                 matches.append(item)
         matches.sort(key=lambda x: (not x["new_touch"], -x["turnover_proxy"], x["stock_code"]))
-        missing = len(universe) - prices.ticker.nunique()
+        acquired = prices.ticker.nunique()
+        missing = len(universe) - acquired
         if missing:
             excluded["not_in_eligible_120d_bundle"] = missing
         if not evaluated:
             raise ValueError("判定可能な最新120営業日データがありません。")
         status.update(status="success" if evaluated == len(universe) and status["scope"] == "tse_domestic_common"
                       and manifest.get("universe", {}).get("status") == "fetched" else "partial",
+                      acquired_count=acquired, acquisition_failed_count=missing,
                       evaluated_count=evaluated, excluded_count=len(universe) - evaluated,
                       matched_count=len(matches), excluded_reasons=dict(excluded))
     except (ValueError, KeyError, OSError, pd.errors.ParserError) as exc:
         matches = []
         status["reason"] = str(exc)[:500]
+    status["result"] = {"success": "complete", "partial": "partial", "not_ready": "failed"}[status["status"]]
+    status["completed_at"] = datetime.now(JST).isoformat()
     atomic_json(target / "bollinger_minus2_status.json", status)
     atomic_json(target / "bollinger_minus2_latest.json", {**status, "matches": matches})
     pd.DataFrame(matches, columns=COLUMNS).to_csv(target / "bollinger_minus2_latest.csv", index=False, encoding="utf-8-sig")
