@@ -144,3 +144,29 @@ def test_failed_publish_generates_failure_page(tmp_path):
     atomic_json(source / "status.json", {"run_id": "failed-new-run", "state": "failed"})
     publish(source, target)
     assert json.loads((target / "bollinger_minus2_status.json").read_text())["status"] == "not_ready"
+
+
+def test_recent_rebounds_are_published_even_without_a_new_touch(tmp_path):
+    approaching = history(close=[100.] * 117 + [80., 95., 97.])
+    crossed = history("9984.T", close=[100.] * 117 + [80., 95., 101.])
+    bundle(tmp_path, pd.concat([approaching, crossed], ignore_index=True))
+    status = build_watchlist(tmp_path, now=NOW)
+
+    assert status["matched_count"] == 0
+    assert status["ma20_rebound_counts"] == {"approaching": 1, "crossed": 1}
+    report = json.loads((tmp_path / "bollinger_minus2_latest.json").read_text())
+    first, second = report["ma20_rebounds"]
+    assert first["stock_code"] == "7203" and first["last_touch_date"] == SESSIONS[-3]
+    assert first["ma20_gap_pct"] == pytest.approx((97 / 98.6 - 1) * 100)
+    assert second["stock_code"] == "9984" and second["phase"] == "crossed"
+    assert "MA20に接近・上抜け" in (tmp_path / "bollinger_minus2.md").read_text()
+
+
+@pytest.mark.parametrize("closes", [
+    [100.] * 114 + [80., 95., 96., 96., 96., 97.],  # touch expired
+    [100.] * 117 + [80., 96., 95.],  # close fell
+    [100.] * 117 + [80., 90., 91.],  # still too far below MA20
+    [100.] * 117 + [80., 100., 101.],  # already above MA20 yesterday
+])
+def test_rebound_excludes_stale_or_unqualified_patterns(closes):
+    assert evaluate(history(close=closes), SESSIONS)["ma20_rebound"] is None

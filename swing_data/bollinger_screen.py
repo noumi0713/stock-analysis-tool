@@ -35,6 +35,37 @@ RULES = {
 }
 
 
+MA20_LOOKBACK = 5
+MA20_APPROACH_PCT = 3.0
+
+
+def ma20_rebound(close: pd.Series, ma: pd.Series, lower: pd.Series, touch: pd.Series,
+                 dates: pd.Series) -> dict | None:
+    """Identify observable approach/crossing patterns as of the latest close."""
+    latest, previous = close.iloc[-1], close.iloc[-2]
+    last_ma, prev_ma = ma.iloc[-1], ma.iloc[-2]
+    recent_touch = touch.iloc[-MA20_LOOKBACK:]
+    if not recent_touch.any() or latest <= previous or latest <= lower.iloc[-1]:
+        return None
+
+    # Measure the approach against each day's own moving average.
+    gap = float((latest / last_ma - 1) * 100)
+    previous_gap = float((previous / prev_ma - 1) * 100)
+    if previous <= prev_ma and latest > last_ma:
+        phase = "crossed"
+    elif latest <= last_ma and -MA20_APPROACH_PCT - 1e-9 <= gap and gap > previous_gap:
+        phase = "approaching"
+    else:
+        return None
+
+    return {
+        "phase": phase,
+        "last_touch_date": str(dates.loc[recent_touch[recent_touch].index[-1]]),
+        "ma20_gap_pct": gap,
+        "gap_improvement_pp": gap - previous_gap,
+    }
+
+
 def evaluate(frame: pd.DataFrame, sessions: list[str]) -> dict:
     """Validate the same 120 completed sessions; never fill gaps or mix price scales."""
     required = ["open", "high", "low", "close", "adj_open", "adj_high", "adj_low", "adj_close", "volume"]
@@ -63,13 +94,14 @@ def evaluate(frame: pd.DataFrame, sessions: list[str]) -> dict:
         "ma20": float(ma.iloc[-1] * factor), "lower_band": float(lower.iloc[-1] * factor),
         "close_sigma": float((f.adj_close.iloc[-1] - ma.iloc[-1]) / std.iloc[-1]) if std.iloc[-1] > 1e-12 else None,
         "matched": bool(touch.iloc[-1]),
+        "ma20_rebound": ma20_rebound(f.adj_close, ma, lower, touch, f.date),
         "close_below_band": bool(touch.iloc[-1] and f.adj_close.iloc[-1] <= lower.iloc[-1]),
         "new_touch": bool(touch.iloc[-1] and not touch.iloc[-2]),
         "turnover_proxy": float(f.close.iloc[-1] * f.volume.iloc[-1]),
     }
 
 
-def markdown(status: dict, matches: list[dict]) -> str:
+def markdown(status: dict, matches: list[dict], rebounds: list[dict]) -> str:
     lines = ["# 日足 −2σ 到達銘柄", "",
              f"状態: **{status['result']}** / 対象営業日: **{status['expected_date']}**", "",
              f"一覧生成完了: {status['completed_at']} / 株価取得完了: {status['collection_completed_at'] or '未確認'}", "",
@@ -87,9 +119,25 @@ def markdown(status: dict, matches: list[dict]) -> str:
         lines += ["最新一覧は生成できませんでした。過去の一覧を当日分として代用していません。", ""]
         if status.get("last_good_date"):
             lines += [f"[前回の判定一覧（{status['last_good_date']}）]({PUBLIC}/bollinger_last_good/bollinger_minus2.md)", ""]
-    elif not matches:
-        lines += ["判定済み銘柄の中に該当銘柄はありません。", ""]
     else:
+        lines += ["## −2σから反発してMA20に接近・上抜け", "",
+                  f"直近{MA20_LOOKBACK}営業日以内に−2σへ到達し、終値が前日より上昇して当日の−2σを上回った銘柄。",
+                  f"「接近」は終値がMA20以下で乖離{MA20_APPROACH_PCT:g}％以内、かつ前日より乖離が縮小。",
+                  "「上抜け」は前日終値がMA20以下で、当日終値がMA20を上回った銘柄。", ""]
+        if rebounds:
+            lines += ["| コード | 銘柄 | 判定 | 最終−2σ到達日 | 終値 | MA20 | 乖離 |",
+                      "|---|---|---|---|---:|---:|---:|"]
+            for item in rebounds:
+                name = str(item["company_name"]).replace("|", "／").replace("\n", " ")
+                label = "接近" if item["phase"] == "approaching" else "上抜け"
+                lines.append(f"| {item['stock_code']} | {name} | {label} | {item['last_touch_date']} | "
+                             f"{item['close']:,.2f} | {item['ma20']:,.2f} | {item['ma20_gap_pct']:+.2f}% |")
+        else:
+            lines.append("判定済み銘柄の中に接近・上抜けはありません。")
+        lines += ["", "## 当日−2σ到達銘柄", ""]
+    if status["status"] != "not_ready" and not matches:
+        lines += ["判定済み銘柄の中に該当銘柄はありません。", ""]
+    if matches:
         lines += ["| コード | 銘柄 | 終値 | 安値 | −2σ | 終値も下限以下 | 新規到達 |",
                   "|---|---|---:|---:|---:|:---:|:---:|"]
         for item in matches:
@@ -133,6 +181,7 @@ def build_watchlist(target: Path, *, now: datetime | None = None) -> dict:
               "rules": RULES, "scope": manifest.get("universe", {}).get("scope", "unknown"),
               "source_stock_status_counts": manifest.get("stock_status_counts", {})}
     matches = []
+    rebounds = []
     try:
         if update.get("state") == "failed" and update.get("error"):
             raise ValueError(f"株価更新失敗: {update['error']}")
@@ -158,10 +207,15 @@ def build_watchlist(target: Path, *, now: datetime | None = None) -> dict:
                 excluded[str(exc)] += 1
                 continue
             evaluated += 1
+            code = ticker.removesuffix(".T")
+            item.update(stock_code=code, company_name=names[ticker], themes=themes.get(code, ""))
+            rebound = item.pop("ma20_rebound")
             if item.pop("matched"):
-                code = ticker.removesuffix(".T")
-                item.update(stock_code=code, company_name=names[ticker], themes=themes.get(code, ""))
                 matches.append(item)
+            if rebound is not None:
+                rebounds.append({**item, **rebound})
+        rebounds.sort(key=lambda x: (x["phase"] != "approaching", abs(x["ma20_gap_pct"]),
+                                     -x["turnover_proxy"], x["stock_code"]))
         matches.sort(key=lambda x: (not x["new_touch"], -x["turnover_proxy"], x["stock_code"]))
         acquired = prices.ticker.nunique()
         missing = len(universe) - acquired
@@ -176,13 +230,17 @@ def build_watchlist(target: Path, *, now: datetime | None = None) -> dict:
                       matched_count=len(matches), excluded_reasons=dict(excluded))
     except (ValueError, KeyError, OSError, pd.errors.ParserError) as exc:
         matches = []
+        rebounds = []
         status["reason"] = str(exc)[:500]
     status["result"] = {"success": "complete", "partial": "partial", "not_ready": "failed"}[status["status"]]
+    status["ma20_rebound_counts"] = {
+        phase: sum(item["phase"] == phase for item in rebounds) for phase in ("approaching", "crossed")
+    }
     status["completed_at"] = datetime.now(JST).isoformat()
     atomic_json(target / "bollinger_minus2_status.json", status)
-    atomic_json(target / "bollinger_minus2_latest.json", {**status, "matches": matches})
+    atomic_json(target / "bollinger_minus2_latest.json", {**status, "matches": matches, "ma20_rebounds": rebounds})
     pd.DataFrame(matches, columns=COLUMNS).to_csv(target / "bollinger_minus2_latest.csv", index=False, encoding="utf-8-sig")
-    (target / "bollinger_minus2.md").write_text(markdown(status, matches), encoding="utf-8")
+    (target / "bollinger_minus2.md").write_text(markdown(status, matches, rebounds), encoding="utf-8")
     return status
 
 
