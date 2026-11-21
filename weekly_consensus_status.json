@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "snapshot_date": "2026-11-14",
+  "snapshot_date": "2026-11-21",
   "providers": [
     "Yahoo Finance",
     "IFIS",
@@ -14,18 +14,18 @@
     "quick_missing_policy": "continue with Yahoo+IFIS when both are valid",
     "one_source_policy": "insufficient_sources; no composite price"
   },
-  "universe_count": 3695,
-  "yahoo_success_count": 3695,
+  "universe_count": 3686,
+  "yahoo_success_count": 3686,
   "ifis_covered_count": 0,
   "quick_covered_count": 0,
   "three_source_count": 0,
   "two_source_count": 0,
-  "insufficient_source_count": 3695,
+  "insufficient_source_count": 3686,
   "composite_quality_counts": {
-    "insufficient_sources": 3695
+    "insufficient_sources": 3686
   },
-  "previous_snapshot_date": "2026-11-07",
-  "retrieved_at": "2026-11-14T16:18:56.361452+09:00",
+  "previous_snapshot_date": "2026-11-14",
+  "retrieved_at": "2026-11-21T16:57:01.376513+09:00",
   "notes": [
     "IFIS/QUICK are licensed sources; missing credentials or coverage remain missing.",
     "QUICK target range is aggregated from current broker target-price rows, not invented from earnings consensus.",
