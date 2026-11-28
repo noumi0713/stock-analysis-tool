@@ -1,0 +1,5488 @@
+{
+  "status": "success",
+  "ranking_date": "2026-11-27",
+  "price_date": "2026-11-27",
+  "population_type": "trading_value_top_100_plus_pattern_candidates",
+  "population_limit": null,
+  "base_population_limit": 100,
+  "ranking_metric": "latest_close_times_volume_descending",
+  "sort_instruction": "recent_pricesの最終adj_close / 6本前adj_close - 1 を画面で計算し降順",
+  "reference_template": {
+    "code": "285A",
+    "name": "キオクシア",
+    "as_of": "2026-10-02",
+    "calendar_days": 120,
+    "start": "2026-06-04",
+    "source": "Published adjusted daily OHLCV snapshot 20261002T183336-adb42ddd",
+    "dates": [
+      "2026-06-04",
+      "2026-06-05",
+      "2026-06-08",
+      "2026-06-09",
+      "2026-06-10",
+      "2026-06-11",
+      "2026-06-12",
+      "2026-06-15",
+      "2026-06-16",
+      "2026-06-17",
+      "2026-06-18",
+      "2026-06-19",
+      "2026-06-22",
+      "2026-06-23",
+      "2026-06-24",
+      "2026-06-25",
+      "2026-06-26",
+      "2026-06-29",
+      "2026-06-30",
+      "2026-07-01",
+      "2026-07-02",
+      "2026-07-03",
+      "2026-07-06",
+      "2026-07-07",
+      "2026-07-08",
+      "2026-07-09",
+      "2026-07-10",
+      "2026-07-13",
+      "2026-07-14",
+      "2026-07-15",
+      "2026-07-16",
+      "2026-07-17",
+      "2026-07-21",
+      "2026-07-22",
+      "2026-07-23",
+      "2026-07-24",
+      "2026-07-27",
+      "2026-07-28",
+      "2026-07-29",
+      "2026-07-30",
+      "2026-07-31",
+      "2026-08-03",
+      "2026-08-04",
+      "2026-08-05",
+      "2026-08-06",
+      "2026-08-07",
+      "2026-08-10",
+      "2026-08-12",
+      "2026-08-13",
+      "2026-08-14",
+      "2026-08-17",
+      "2026-08-18",
+      "2026-08-19",
+      "2026-08-20",
+      "2026-08-21",
+      "2026-08-24",
+      "2026-08-25",
+      "2026-08-26",
+      "2026-08-27",
+      "2026-08-28",
+      "2026-08-31",
+      "2026-09-01",
+      "2026-09-02",
+      "2026-09-03",
+      "2026-09-04",
+      "2026-09-07",
+      "2026-09-08",
+      "2026-09-09",
+      "2026-09-10",
+      "2026-09-11",
+      "2026-09-14",
+      "2026-09-15",
+      "2026-09-16",
+      "2026-09-17",
+      "2026-09-18",
+      "2026-09-24",
+      "2026-09-25",
+      "2026-09-28",
+      "2026-09-29",
+      "2026-09-30",
+      "2026-10-01",
+      "2026-10-02"
+    ],
+    "adj_close": [
+      25640.0,
+      26046.666015625,
+      23960.0,
+      25483.333984375,
+      23500.0,
+      25146.666015625,
+      27066.666015625,
+      30303.333984375,
+      31573.333984375,
+      32000.0,
+      32300.0,
+      36200.0,
+      36233.33203125,
+      30763.333984375,
+      30833.333984375,
+      34616.66796875,
+      30726.666015625,
+      29483.333984375,
+      29893.333984375,
+      29376.666015625,
+      25420.0,
+      27766.666015625,
+      27196.666015625,
+      24133.333984375,
+      23956.666015625,
+      25953.333984375,
+      25666.666015625,
+      22366.666015625,
+      23033.333984375,
+      24366.666015625,
+      20703.333984375,
+      17370.0,
+      20353.333984375,
+      21423.333984375,
+      20626.666015625,
+      18670.0,
+      18183.333984375,
+      14850.0,
+      12793.3330078125,
+      13166.6669921875,
+      15500.0,
+      16386.666015625,
+      17363.333984375,
+      18100.0,
+      16246.6669921875,
+      15910.0,
+      16003.3330078125,
+      16623.333984375,
+      17266.666015625,
+      17913.333984375,
+      20613.333984375,
+      19050.0,
+      16650.0,
+      17650.0,
+      18106.666015625,
+      16976.666015625,
+      17086.666015625,
+      16666.666015625,
+      17500.0,
+      15966.6669921875,
+      16663.333984375,
+      17000.0,
+      17000.0,
+      17223.333984375,
+      18153.333984375,
+      19843.333984375,
+      19136.666015625,
+      19000.0,
+      19363.333984375,
+      18010.0,
+      16863.333984375,
+      17250.0,
+      16926.666015625,
+      16626.666015625,
+      18190.0,
+      18193.333984375,
+      18593.333984375,
+      17780.0,
+      17880.0,
+      18095.0,
+      19100.0,
+      19300.0
+    ]
+  },
+  "items": [
+    {
+      "stock_code": "285A",
+      "stock_name": "キオクシアホールディングス",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 8450.0,
+      "ranking_trading_value": 1843271170000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 8271.0,
+          "close": 8271.0,
+          "volume": 159225000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 7307.0,
+          "close": 7307.0,
+          "volume": 141192200.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 8034.0,
+          "close": 8034.0,
+          "volume": 146697700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 6895.0,
+          "close": 6895.0,
+          "volume": 121196900.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 7762.0,
+          "close": 7762.0,
+          "volume": 126102200.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 8450.0,
+          "close": 8450.0,
+          "volume": 218138600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/285A.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 1
+    },
+    {
+      "stock_code": "6857",
+      "stock_name": "アドバンテスト",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 26585.0,
+      "ranking_trading_value": 636867601500.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 27045.0,
+          "close": 27045.0,
+          "volume": 25291500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 24255.0,
+          "close": 24255.0,
+          "volume": 26119000.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 27275.0,
+          "close": 27275.0,
+          "volume": 24019000.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 23745.0,
+          "close": 23745.0,
+          "volume": 20990800.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 24830.0,
+          "close": 24830.0,
+          "volume": 23825700.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 26585.0,
+          "close": 26585.0,
+          "volume": 23955900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6857.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 2
+    },
+    {
+      "stock_code": "9984",
+      "stock_name": "ソフトバンクグループ",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 2984.5,
+      "ranking_trading_value": 257663226100.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3537.0,
+          "close": 3537.0,
+          "volume": 73512200.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 3025.0,
+          "close": 3025.0,
+          "volume": 109918800.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3166.0,
+          "close": 3166.0,
+          "volume": 81405900.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2696.5,
+          "close": 2696.5,
+          "volume": 93966400.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2894.0,
+          "close": 2894.0,
+          "volume": 100897600.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2984.5,
+          "close": 2984.5,
+          "volume": 86333800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9984.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 3
+    },
+    {
+      "stock_code": "6920",
+      "stock_name": "レーザーテック",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 33600.0,
+      "ranking_trading_value": 191052960000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 33320.0,
+          "close": 33320.0,
+          "volume": 6199900.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 30250.0,
+          "close": 30250.0,
+          "volume": 5537100.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 33200.0,
+          "close": 33200.0,
+          "volume": 4631400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 29325.0,
+          "close": 29325.0,
+          "volume": 4515400.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 30550.0,
+          "close": 30550.0,
+          "volume": 5264700.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 33600.0,
+          "close": 33600.0,
+          "volume": 5686100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6920.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 4
+    },
+    {
+      "stock_code": "8035",
+      "stock_name": "東京エレクトロン",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 8220.0,
+      "ranking_trading_value": 190266696000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 8940.0,
+          "close": 8940.0,
+          "volume": 20001400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 8309.0,
+          "close": 8309.0,
+          "volume": 23196300.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 8946.0,
+          "close": 8946.0,
+          "volume": 25272700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 7825.0,
+          "close": 7825.0,
+          "volume": 22102900.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 7871.0,
+          "close": 7871.0,
+          "volume": 23895000.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 8220.0,
+          "close": 8220.0,
+          "volume": 23146800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8035.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 5
+    },
+    {
+      "stock_code": "4062",
+      "stock_name": "イビデン",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 5120.0,
+      "ranking_trading_value": 133101056000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 5260.0,
+          "close": 5260.0,
+          "volume": 25694400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4672.0,
+          "close": 4672.0,
+          "volume": 28127600.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 5372.0,
+          "close": 5372.0,
+          "volume": 2094700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4512.0,
+          "close": 4512.0,
+          "volume": 29425700.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4668.0,
+          "close": 4668.0,
+          "volume": 36864200.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5120.0,
+          "close": 5120.0,
+          "volume": 25996300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4062.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 6
+    },
+    {
+      "stock_code": "5803",
+      "stock_name": "フジクラ",
+      "market": "",
+      "sector": "鉄鋼・非鉄",
+      "ranking_price": 2199.5,
+      "ranking_trading_value": 131481930950.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2564.5,
+          "close": 2564.5,
+          "volume": 48643500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2252.0,
+          "close": 2252.0,
+          "volume": 61153400.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2418.0,
+          "close": 2418.0,
+          "volume": 65590000.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2062.5,
+          "close": 2062.5,
+          "volume": 51111200.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2077.0,
+          "close": 2077.0,
+          "volume": 76512900.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2199.5,
+          "close": 2199.5,
+          "volume": 59778100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5803.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 7
+    },
+    {
+      "stock_code": "6976",
+      "stock_name": "太陽誘電",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 6659.0,
+      "ranking_trading_value": 129020122700.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 6755.0,
+          "close": 6755.0,
+          "volume": 25568600.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 6187.0,
+          "close": 6187.0,
+          "volume": 20639900.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 6874.0,
+          "close": 6874.0,
+          "volume": 22045300.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 5874.0,
+          "close": 5874.0,
+          "volume": 16490600.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 6130.0,
+          "close": 6130.0,
+          "volume": 26177500.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 6659.0,
+          "close": 6659.0,
+          "volume": 19375300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6976.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 8
+    },
+    {
+      "stock_code": "6146",
+      "stock_name": "ディスコ",
+      "market": "",
+      "sector": "機械",
+      "ranking_price": 44280.0,
+      "ranking_trading_value": 92168820000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 45100.0,
+          "close": 45100.0,
+          "volume": 2233500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 41350.0,
+          "close": 41350.0,
+          "volume": 2156300.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 44650.0,
+          "close": 44650.0,
+          "volume": 2265900.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 40590.0,
+          "close": 40590.0,
+          "volume": 1538400.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 42200.0,
+          "close": 42200.0,
+          "volume": 1926800.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 44280.0,
+          "close": 44280.0,
+          "volume": 2081500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6146.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 9
+    },
+    {
+      "stock_code": "6981",
+      "stock_name": "村田製作所",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 5087.0,
+      "ranking_trading_value": 91356924300.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 5161.0,
+          "close": 5161.0,
+          "volume": 19262200.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4700.0,
+          "close": 4700.0,
+          "volume": 22704300.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 5400.0,
+          "close": 5400.0,
+          "volume": 25033000.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4633.0,
+          "close": 4633.0,
+          "volume": 26678800.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4823.0,
+          "close": 4823.0,
+          "volume": 22932300.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5087.0,
+          "close": 5087.0,
+          "volume": 17958900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6981.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 10
+    },
+    {
+      "stock_code": "9983",
+      "stock_name": "ファーストリテイリング",
+      "market": "",
+      "sector": "小売",
+      "ranking_price": 85330.0,
+      "ranking_trading_value": 90458333000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 83370.0,
+          "close": 83370.0,
+          "volume": 1178500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 82220.0,
+          "close": 82220.0,
+          "volume": 1383800.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 84040.0,
+          "close": 84040.0,
+          "volume": 1187000.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 86170.0,
+          "close": 86170.0,
+          "volume": 1493500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 85500.0,
+          "close": 85500.0,
+          "volume": 1195600.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 85330.0,
+          "close": 85330.0,
+          "volume": 1060100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9983.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 11
+    },
+    {
+      "stock_code": "8306",
+      "stock_name": "三菱ＵＦＪフィナンシャル・グループ",
+      "market": "",
+      "sector": "銀行",
+      "ranking_price": 3192.0,
+      "ranking_trading_value": 81253636800.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3197.0,
+          "close": 3197.0,
+          "volume": 33631300.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 3024.0,
+          "close": 3024.0,
+          "volume": 53282100.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3156.0,
+          "close": 3156.0,
+          "volume": 41560400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 3122.0,
+          "close": 3122.0,
+          "volume": 36859800.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 3118.0,
+          "close": 3118.0,
+          "volume": 22307300.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 3192.0,
+          "close": 3192.0,
+          "volume": 25455400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8306.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 12
+    },
+    {
+      "stock_code": "6525",
+      "stock_name": "ＫＯＫＵＳＡＩ　ＥＬＥＣＴＲＩＣ",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 5143.0,
+      "ranking_trading_value": 78842704300.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 5502.0,
+          "close": 5502.0,
+          "volume": 10348000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4897.0,
+          "close": 4897.0,
+          "volume": 8065800.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 5597.0,
+          "close": 5597.0,
+          "volume": 5270200.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4630.0,
+          "close": 4630.0,
+          "volume": 9689400.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4778.0,
+          "close": 4778.0,
+          "volume": 10664400.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5143.0,
+          "close": 5143.0,
+          "volume": 15330100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6525.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 13
+    },
+    {
+      "stock_code": "8411",
+      "stock_name": "みずほフィナンシャルグループ",
+      "market": "",
+      "sector": "銀行",
+      "ranking_price": 7702.0,
+      "ranking_trading_value": 78130628400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 7660.0,
+          "close": 7660.0,
+          "volume": 7376000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 7315.0,
+          "close": 7315.0,
+          "volume": 10964100.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 7711.0,
+          "close": 7711.0,
+          "volume": 12272600.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 7425.0,
+          "close": 7425.0,
+          "volume": 10379300.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 7375.0,
+          "close": 7375.0,
+          "volume": 7758500.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 7702.0,
+          "close": 7702.0,
+          "volume": 10144200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8411.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 14
+    },
+    {
+      "stock_code": "6098",
+      "stock_name": "リクルートホールディングス",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 16700.0,
+      "ranking_trading_value": 72379470000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 17815.0,
+          "close": 17815.0,
+          "volume": 2850100.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 16835.0,
+          "close": 16835.0,
+          "volume": 4567200.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 17410.0,
+          "close": 17410.0,
+          "volume": 4406900.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 17020.0,
+          "close": 17020.0,
+          "volume": 7026400.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 17245.0,
+          "close": 17245.0,
+          "volume": 3031700.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 16700.0,
+          "close": 16700.0,
+          "volume": 4334100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6098.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 15
+    },
+    {
+      "stock_code": "6758",
+      "stock_name": "ソニーグループ",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 4413.0,
+      "ranking_trading_value": 64270049400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4365.0,
+          "close": 4365.0,
+          "volume": 22806500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4312.0,
+          "close": 4312.0,
+          "volume": 22040400.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 4322.0,
+          "close": 4322.0,
+          "volume": 23629800.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4513.0,
+          "close": 4513.0,
+          "volume": 26726700.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4448.0,
+          "close": 4448.0,
+          "volume": 14268900.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 4413.0,
+          "close": 4413.0,
+          "volume": 14563800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6758.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 16
+    },
+    {
+      "stock_code": "5801",
+      "stock_name": "古河電気工業",
+      "market": "",
+      "sector": "鉄鋼・非鉄",
+      "ranking_price": 1822.0,
+      "ranking_trading_value": 64152437800.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 1855.0,
+          "close": 1855.0,
+          "volume": 28136100.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1620.0,
+          "close": 1620.0,
+          "volume": 41567000.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 1807.0,
+          "close": 1807.0,
+          "volume": 36568200.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1563.5,
+          "close": 1563.5,
+          "volume": 27041600.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1659.5,
+          "close": 1659.5,
+          "volume": 38171900.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 1822.0,
+          "close": 1822.0,
+          "volume": 35209900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5801.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 17
+    },
+    {
+      "stock_code": "7203",
+      "stock_name": "トヨタ自動車",
+      "market": "",
+      "sector": "自動車・輸送機",
+      "ranking_price": 3384.0,
+      "ranking_trading_value": 58487702400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3378.0,
+          "close": 3378.0,
+          "volume": 19040800.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 3312.0,
+          "close": 3312.0,
+          "volume": 26980700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3311.0,
+          "close": 3311.0,
+          "volume": 18250400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 3406.0,
+          "close": 3406.0,
+          "volume": 19094000.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 3377.0,
+          "close": 3377.0,
+          "volume": 15226400.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 3384.0,
+          "close": 3384.0,
+          "volume": 17283600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7203.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 18
+    },
+    {
+      "stock_code": "7974",
+      "stock_name": "任天堂",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 9034.0,
+      "ranking_trading_value": 55327829600.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 9306.0,
+          "close": 9306.0,
+          "volume": 13160700.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 8832.0,
+          "close": 8832.0,
+          "volume": 14027000.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 8656.0,
+          "close": 8656.0,
+          "volume": 9576500.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 8983.0,
+          "close": 8983.0,
+          "volume": 12196200.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 9082.0,
+          "close": 9082.0,
+          "volume": 9855900.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 9034.0,
+          "close": 9034.0,
+          "volume": 6124400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7974.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 19
+    },
+    {
+      "stock_code": "7011",
+      "stock_name": "三菱重工業",
+      "market": "",
+      "sector": "機械",
+      "ranking_price": 2743.0,
+      "ranking_trading_value": 53122309500.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2879.0,
+          "close": 2879.0,
+          "volume": 20609900.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2722.0,
+          "close": 2722.0,
+          "volume": 26911200.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2814.5,
+          "close": 2814.5,
+          "volume": 33187800.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2628.0,
+          "close": 2628.0,
+          "volume": 34578500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2622.0,
+          "close": 2622.0,
+          "volume": 21652600.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2743.0,
+          "close": 2743.0,
+          "volume": 19366500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7011.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 20
+    },
+    {
+      "stock_code": "8316",
+      "stock_name": "三井住友フィナンシャルグループ",
+      "market": "",
+      "sector": "銀行",
+      "ranking_price": 3050.0,
+      "ranking_trading_value": 52630800000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3077.0,
+          "close": 3077.0,
+          "volume": 18347400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2936.0,
+          "close": 2936.0,
+          "volume": 35364300.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3043.0,
+          "close": 3043.0,
+          "volume": 23950300.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2991.0,
+          "close": 2991.0,
+          "volume": 23162600.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2980.0,
+          "close": 2980.0,
+          "volume": 17632300.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 3050.0,
+          "close": 3050.0,
+          "volume": 17256000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8316.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 21
+    },
+    {
+      "stock_code": "6501",
+      "stock_name": "日立製作所",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 5168.0,
+      "ranking_trading_value": 51564236800.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4998.0,
+          "close": 4998.0,
+          "volume": 10449100.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4763.0,
+          "close": 4763.0,
+          "volume": 12953900.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 4974.0,
+          "close": 4974.0,
+          "volume": 12213100.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4959.0,
+          "close": 4959.0,
+          "volume": 9717200.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 5012.0,
+          "close": 5012.0,
+          "volume": 7800900.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5168.0,
+          "close": 5168.0,
+          "volume": 9977600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6501.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 22
+    },
+    {
+      "stock_code": "2914",
+      "stock_name": "日本たばこ産業",
+      "market": "",
+      "sector": "食品",
+      "ranking_price": 5774.0,
+      "ranking_trading_value": 51219999200.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 5857.0,
+          "close": 5857.0,
+          "volume": 9023400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 5265.0,
+          "close": 5265.0,
+          "volume": 26050600.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 5350.0,
+          "close": 5350.0,
+          "volume": 13129200.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 5629.0,
+          "close": 5629.0,
+          "volume": 10327700.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 5527.0,
+          "close": 5527.0,
+          "volume": 6558400.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5774.0,
+          "close": 5774.0,
+          "volume": 8870800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/2914.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 23
+    },
+    {
+      "stock_code": "4004",
+      "stock_name": "レゾナック・ホールディングス",
+      "market": "",
+      "sector": "素材・化学",
+      "ranking_price": 12670.0,
+      "ranking_trading_value": 43891414000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 12145.0,
+          "close": 12145.0,
+          "volume": 3598300.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 10995.0,
+          "close": 10995.0,
+          "volume": 5587400.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 12265.0,
+          "close": 12265.0,
+          "volume": 4528500.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 10900.0,
+          "close": 10900.0,
+          "volume": 3355600.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 11620.0,
+          "close": 11620.0,
+          "volume": 3555300.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 12670.0,
+          "close": 12670.0,
+          "volume": 3464200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4004.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 24
+    },
+    {
+      "stock_code": "5016",
+      "stock_name": "ＪＸ金属",
+      "market": "",
+      "sector": "鉄鋼・非鉄",
+      "ranking_price": 1979.5,
+      "ranking_trading_value": 42373374950.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2012.5,
+          "close": 2012.5,
+          "volume": 33995700.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1820.5,
+          "close": 1820.5,
+          "volume": 28085300.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 1932.0,
+          "close": 1932.0,
+          "volume": 23898600.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1730.0,
+          "close": 1730.0,
+          "volume": 23996600.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1836.0,
+          "close": 1836.0,
+          "volume": 21430900.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 1979.5,
+          "close": 1979.5,
+          "volume": 21406100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5016.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 25
+    },
+    {
+      "stock_code": "8058",
+      "stock_name": "三菱商事",
+      "market": "",
+      "sector": "商社・卸売",
+      "ranking_price": 5155.0,
+      "ranking_trading_value": 39100675000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4951.0,
+          "close": 4951.0,
+          "volume": 9766800.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4840.0,
+          "close": 4840.0,
+          "volume": 11267100.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 4925.0,
+          "close": 4925.0,
+          "volume": 9306400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 5037.0,
+          "close": 5037.0,
+          "volume": 9871600.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 5050.0,
+          "close": 5050.0,
+          "volume": 6853500.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5155.0,
+          "close": 5155.0,
+          "volume": 7585000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8058.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 26
+    },
+    {
+      "stock_code": "8766",
+      "stock_name": "東京海上ホールディングス",
+      "market": "",
+      "sector": "金融（除く銀行）",
+      "ranking_price": 594.4000244140625,
+      "ranking_trading_value": 39065277284.5459,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 566.0,
+          "close": 566.0,
+          "volume": 56669700.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 577.5,
+          "close": 577.5,
+          "volume": 97227000.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 585.0999755859375,
+          "close": 585.0999755859375,
+          "volume": 88121700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 597.5999755859375,
+          "close": 597.5999755859375,
+          "volume": 99953000.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 591.0999755859375,
+          "close": 591.0999755859375,
+          "volume": 56667200.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 594.4000244140625,
+          "close": 594.4000244140625,
+          "volume": 65722200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8766.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 27
+    },
+    {
+      "stock_code": "8031",
+      "stock_name": "三井物産",
+      "market": "",
+      "sector": "商社・卸売",
+      "ranking_price": 4688.0,
+      "ranking_trading_value": 36559836800.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4625.0,
+          "close": 4625.0,
+          "volume": 7193500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4476.0,
+          "close": 4476.0,
+          "volume": 8313600.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 4557.0,
+          "close": 4557.0,
+          "volume": 6560000.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4642.0,
+          "close": 4642.0,
+          "volume": 6488800.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4595.0,
+          "close": 4595.0,
+          "volume": 4405900.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 4688.0,
+          "close": 4688.0,
+          "volume": 7798600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8031.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 28
+    },
+    {
+      "stock_code": "5802",
+      "stock_name": "住友電気工業",
+      "market": "",
+      "sector": "鉄鋼・非鉄",
+      "ranking_price": 1368.0,
+      "ranking_trading_value": 32036371200.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 1341.5,
+          "close": 1341.5,
+          "volume": 25232400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1235.5,
+          "close": 1235.5,
+          "volume": 35769500.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 1309.5,
+          "close": 1309.5,
+          "volume": 31885000.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1233.5,
+          "close": 1233.5,
+          "volume": 29448900.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1283.5,
+          "close": 1283.5,
+          "volume": 24748200.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 1368.0,
+          "close": 1368.0,
+          "volume": 23418400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5802.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 29
+    },
+    {
+      "stock_code": "6861",
+      "stock_name": "キーエンス",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 14845.0,
+      "ranking_trading_value": 31851432000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 14690.0,
+          "close": 14690.0,
+          "volume": 1795800.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 14025.0,
+          "close": 14025.0,
+          "volume": 2824000.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 14750.0,
+          "close": 14750.0,
+          "volume": 3488200.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 14655.0,
+          "close": 14655.0,
+          "volume": 3884200.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 14310.0,
+          "close": 14310.0,
+          "volume": 2292900.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 14845.0,
+          "close": 14845.0,
+          "volume": 2145600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6861.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 30
+    },
+    {
+      "stock_code": "5838",
+      "stock_name": "楽天銀行",
+      "market": "",
+      "sector": "銀行",
+      "ranking_price": 4080.0,
+      "ranking_trading_value": 31542888000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4431.0,
+          "close": 4431.0,
+          "volume": 4395100.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 3915.0,
+          "close": 3915.0,
+          "volume": 5143100.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3980.0,
+          "close": 3980.0,
+          "volume": 3675600.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 3682.0,
+          "close": 3682.0,
+          "volume": 5618900.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 3756.0,
+          "close": 3756.0,
+          "volume": 5023300.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 4080.0,
+          "close": 4080.0,
+          "volume": 7731100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5838.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 31
+    },
+    {
+      "stock_code": "6367",
+      "stock_name": "ダイキン工業",
+      "market": "",
+      "sector": "機械",
+      "ranking_price": 23680.0,
+      "ranking_trading_value": 30980544000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 23940.0,
+          "close": 23940.0,
+          "volume": 1510900.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 23765.0,
+          "close": 23765.0,
+          "volume": 1765700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 23875.0,
+          "close": 23875.0,
+          "volume": 1244800.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 24390.0,
+          "close": 24390.0,
+          "volume": 1374200.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 23860.0,
+          "close": 23860.0,
+          "volume": 1237700.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 23680.0,
+          "close": 23680.0,
+          "volume": 1308300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6367.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 32
+    },
+    {
+      "stock_code": "6787",
+      "stock_name": "メイコー",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 9900.0,
+      "ranking_trading_value": 29853450000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 8370.0,
+          "close": 8370.0,
+          "volume": 2544400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 7720.0,
+          "close": 7720.0,
+          "volume": 2049700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 8730.0,
+          "close": 8730.0,
+          "volume": 2380000.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 7740.0,
+          "close": 7740.0,
+          "volume": 2642500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 8820.0,
+          "close": 8820.0,
+          "volume": 1975800.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 9900.0,
+          "close": 9900.0,
+          "volume": 3015500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6787.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 33
+    },
+    {
+      "stock_code": "4502",
+      "stock_name": "武田薬品工業",
+      "market": "",
+      "sector": "医薬品",
+      "ranking_price": 7341.0,
+      "ranking_trading_value": 29668651500.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 6950.0,
+          "close": 6950.0,
+          "volume": 5475600.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 6973.0,
+          "close": 6973.0,
+          "volume": 7665500.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 7060.0,
+          "close": 7060.0,
+          "volume": 6903200.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 7365.0,
+          "close": 7365.0,
+          "volume": 6484700.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 7250.0,
+          "close": 7250.0,
+          "volume": 4048000.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 7341.0,
+          "close": 7341.0,
+          "volume": 4041500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4502.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 34
+    },
+    {
+      "stock_code": "6503",
+      "stock_name": "三菱電機",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 4678.0,
+      "ranking_trading_value": 28284123600.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4600.0,
+          "close": 4600.0,
+          "volume": 6638900.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4364.0,
+          "close": 4364.0,
+          "volume": 6903700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 4622.0,
+          "close": 4622.0,
+          "volume": 8276600.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4474.0,
+          "close": 4474.0,
+          "volume": 6287300.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4457.0,
+          "close": 4457.0,
+          "volume": 4843000.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 4678.0,
+          "close": 4678.0,
+          "volume": 6046200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6503.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 35
+    },
+    {
+      "stock_code": "9433",
+      "stock_name": "ＫＤＤＩ",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 2786.5,
+      "ranking_trading_value": 28184054250.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2977.0,
+          "close": 2977.0,
+          "volume": 7322200.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2853.0,
+          "close": 2853.0,
+          "volume": 16656700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2777.0,
+          "close": 2777.0,
+          "volume": 14043700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2817.0,
+          "close": 2817.0,
+          "volume": 9511200.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2804.5,
+          "close": 2804.5,
+          "volume": 9278300.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2786.5,
+          "close": 2786.5,
+          "volume": 10114500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9433.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 36
+    },
+    {
+      "stock_code": "8001",
+      "stock_name": "伊藤忠商事",
+      "market": "",
+      "sector": "商社・卸売",
+      "ranking_price": 2305.5,
+      "ranking_trading_value": 28142777400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2291.0,
+          "close": 2291.0,
+          "volume": 11471700.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2248.0,
+          "close": 2248.0,
+          "volume": 15882500.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2216.5,
+          "close": 2216.5,
+          "volume": 19886400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2268.0,
+          "close": 2268.0,
+          "volume": 12562400.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2273.0,
+          "close": 2273.0,
+          "volume": 10045400.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2305.5,
+          "close": 2305.5,
+          "volume": 12206800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8001.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 37
+    },
+    {
+      "stock_code": "6752",
+      "stock_name": "パナソニック　ホールディングス",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 2895.5,
+      "ranking_trading_value": 27314699250.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3015.0,
+          "close": 3015.0,
+          "volume": 9952500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2687.0,
+          "close": 2687.0,
+          "volume": 19902900.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2946.5,
+          "close": 2946.5,
+          "volume": 16908700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2724.5,
+          "close": 2724.5,
+          "volume": 17620900.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2767.5,
+          "close": 2767.5,
+          "volume": 12930300.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2895.5,
+          "close": 2895.5,
+          "volume": 9433500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6752.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 38
+    },
+    {
+      "stock_code": "7013",
+      "stock_name": "ＩＨＩ",
+      "market": "",
+      "sector": "機械",
+      "ranking_price": 2391.0,
+      "ranking_trading_value": 27175627800.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2313.0,
+          "close": 2313.0,
+          "volume": 8134000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2181.0,
+          "close": 2181.0,
+          "volume": 15260600.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2275.5,
+          "close": 2275.5,
+          "volume": 13696700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2200.0,
+          "close": 2200.0,
+          "volume": 12516800.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2225.0,
+          "close": 2225.0,
+          "volume": 6343900.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2391.0,
+          "close": 2391.0,
+          "volume": 11365800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7013.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 39
+    },
+    {
+      "stock_code": "4063",
+      "stock_name": "信越化学工業",
+      "market": "",
+      "sector": "素材・化学",
+      "ranking_price": 5640.0,
+      "ranking_trading_value": 25564428000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 5529.0,
+          "close": 5529.0,
+          "volume": 5123300.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 5237.0,
+          "close": 5237.0,
+          "volume": 7247900.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 5459.0,
+          "close": 5459.0,
+          "volume": 6244500.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 5492.0,
+          "close": 5492.0,
+          "volume": 7926700.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 5516.0,
+          "close": 5516.0,
+          "volume": 4134700.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5640.0,
+          "close": 5640.0,
+          "volume": 4532700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4063.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 40
+    },
+    {
+      "stock_code": "9042",
+      "stock_name": "阪急阪神ホールディングス",
+      "market": "",
+      "sector": "運輸・物流",
+      "ranking_price": 4483.0,
+      "ranking_trading_value": 25489441400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4900.0,
+          "close": 4900.0,
+          "volume": 1066400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4756.0,
+          "close": 4756.0,
+          "volume": 2526700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 4673.0,
+          "close": 4673.0,
+          "volume": 1504100.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4750.0,
+          "close": 4750.0,
+          "volume": 2340400.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4628.0,
+          "close": 4628.0,
+          "volume": 3541800.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 4483.0,
+          "close": 4483.0,
+          "volume": 5685800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9042.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 41
+    },
+    {
+      "stock_code": "6723",
+      "stock_name": "ルネサスエレクトロニクス",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 2600.5,
+      "ranking_trading_value": 25274259500.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2608.0,
+          "close": 2608.0,
+          "volume": 11119200.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2425.0,
+          "close": 2425.0,
+          "volume": 11883100.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2625.0,
+          "close": 2625.0,
+          "volume": 13796400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2378.0,
+          "close": 2378.0,
+          "volume": 12475800.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2433.0,
+          "close": 2433.0,
+          "volume": 8533800.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2600.5,
+          "close": 2600.5,
+          "volume": 9719000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6723.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 42
+    },
+    {
+      "stock_code": "7012",
+      "stock_name": "川崎重工業",
+      "market": "",
+      "sector": "自動車・輸送機",
+      "ranking_price": 1588.0,
+      "ranking_trading_value": 25256822400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 1673.0,
+          "close": 1673.0,
+          "volume": 17410200.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1529.0,
+          "close": 1529.0,
+          "volume": 26690200.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 1565.5,
+          "close": 1565.5,
+          "volume": 22260100.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1479.5,
+          "close": 1479.5,
+          "volume": 19308500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1491.5,
+          "close": 1491.5,
+          "volume": 10632100.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 1588.0,
+          "close": 1588.0,
+          "volume": 15904800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7012.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 43
+    },
+    {
+      "stock_code": "9432",
+      "stock_name": "ＮＴＴ",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 168.6999969482422,
+      "ranking_trading_value": 24853474000.404358,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 168.89999389648438,
+          "close": 168.89999389648438,
+          "volume": 135171400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 167.6999969482422,
+          "close": 167.6999969482422,
+          "volume": 200479900.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 166.1999969482422,
+          "close": 166.1999969482422,
+          "volume": 188804900.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 168.0,
+          "close": 168.0,
+          "volume": 196556600.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 169.3000030517578,
+          "close": 169.3000030517578,
+          "volume": 156902900.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 168.6999969482422,
+          "close": 168.6999969482422,
+          "volume": 147323500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9432.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 44
+    },
+    {
+      "stock_code": "6701",
+      "stock_name": "日本電気",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 4659.0,
+      "ranking_trading_value": 24058610100.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4284.0,
+          "close": 4284.0,
+          "volume": 4273200.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4225.0,
+          "close": 4225.0,
+          "volume": 6107400.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 4338.0,
+          "close": 4338.0,
+          "volume": 7392500.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4496.0,
+          "close": 4496.0,
+          "volume": 7562000.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4625.0,
+          "close": 4625.0,
+          "volume": 7844000.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 4659.0,
+          "close": 4659.0,
+          "volume": 5163900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6701.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 45
+    },
+    {
+      "stock_code": "6702",
+      "stock_name": "富士通",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 3577.0,
+      "ranking_trading_value": 23927268400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3412.0,
+          "close": 3412.0,
+          "volume": 5716900.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 3332.0,
+          "close": 3332.0,
+          "volume": 6680500.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3364.0,
+          "close": 3364.0,
+          "volume": 6228100.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 3441.0,
+          "close": 3441.0,
+          "volume": 6763900.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 3521.0,
+          "close": 3521.0,
+          "volume": 4361800.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 3577.0,
+          "close": 3577.0,
+          "volume": 6689200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6702.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 46
+    },
+    {
+      "stock_code": "6301",
+      "stock_name": "小松製作所",
+      "market": "",
+      "sector": "機械",
+      "ranking_price": 5917.0,
+      "ranking_trading_value": 23312388300.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 5821.0,
+          "close": 5821.0,
+          "volume": 3997000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 5578.0,
+          "close": 5578.0,
+          "volume": 4109000.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 5774.0,
+          "close": 5774.0,
+          "volume": 3382500.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 5663.0,
+          "close": 5663.0,
+          "volume": 2345100.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 5639.0,
+          "close": 5639.0,
+          "volume": 1773600.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5917.0,
+          "close": 5917.0,
+          "volume": 3939900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6301.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 47
+    },
+    {
+      "stock_code": "3436",
+      "stock_name": "ＳＵＭＣＯ",
+      "market": "",
+      "sector": "建設・資材",
+      "ranking_price": 2054.0,
+      "ranking_trading_value": 22369497800.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2035.0,
+          "close": 2035.0,
+          "volume": 13119800.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1829.0,
+          "close": 1829.0,
+          "volume": 13353500.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2031.5,
+          "close": 2031.5,
+          "volume": 11316200.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1760.5,
+          "close": 1760.5,
+          "volume": 11066500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1870.5,
+          "close": 1870.5,
+          "volume": 10798300.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2054.0,
+          "close": 2054.0,
+          "volume": 10890700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3436.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 48
+    },
+    {
+      "stock_code": "6273",
+      "stock_name": "ＳＭＣ",
+      "market": "",
+      "sector": "機械",
+      "ranking_price": 58780.0,
+      "ranking_trading_value": 22183572000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 58730.0,
+          "close": 58730.0,
+          "volume": 385400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 55300.0,
+          "close": 55300.0,
+          "volume": 435200.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 59900.0,
+          "close": 59900.0,
+          "volume": 766200.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 56360.0,
+          "close": 56360.0,
+          "volume": 644200.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 56430.0,
+          "close": 56430.0,
+          "volume": 301000.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 58780.0,
+          "close": 58780.0,
+          "volume": 377400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6273.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 49
+    },
+    {
+      "stock_code": "6361",
+      "stock_name": "荏原製作所",
+      "market": "",
+      "sector": "機械",
+      "ranking_price": 3335.0,
+      "ranking_trading_value": 21655489000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3465.0,
+          "close": 3465.0,
+          "volume": 3824400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 3241.0,
+          "close": 3241.0,
+          "volume": 3287800.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3495.0,
+          "close": 3495.0,
+          "volume": 5289600.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 3236.0,
+          "close": 3236.0,
+          "volume": 5342500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 3165.0,
+          "close": 3165.0,
+          "volume": 5563600.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 3335.0,
+          "close": 3335.0,
+          "volume": 6493400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6361.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 50
+    },
+    {
+      "stock_code": "6762",
+      "stock_name": "ＴＤＫ",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 2306.0,
+      "ranking_trading_value": 21511290400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2273.5,
+          "close": 2273.5,
+          "volume": 8746500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2116.5,
+          "close": 2116.5,
+          "volume": 12009100.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2268.0,
+          "close": 2268.0,
+          "volume": 11225800.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2142.0,
+          "close": 2142.0,
+          "volume": 14382100.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2209.0,
+          "close": 2209.0,
+          "volume": 9394000.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2306.0,
+          "close": 2306.0,
+          "volume": 9328400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6762.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 51
+    },
+    {
+      "stock_code": "6954",
+      "stock_name": "ファナック",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 5339.0,
+      "ranking_trading_value": 21225728400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 5331.0,
+          "close": 5331.0,
+          "volume": 5613200.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 5047.0,
+          "close": 5047.0,
+          "volume": 6830400.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 5344.0,
+          "close": 5344.0,
+          "volume": 5749400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 5110.0,
+          "close": 5110.0,
+          "volume": 5383500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 5094.0,
+          "close": 5094.0,
+          "volume": 3523600.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5339.0,
+          "close": 5339.0,
+          "volume": 3975600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6954.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 52
+    },
+    {
+      "stock_code": "5706",
+      "stock_name": "三井金属",
+      "market": "",
+      "sector": "鉄鋼・非鉄",
+      "ranking_price": 1238.5,
+      "ranking_trading_value": 19900837250.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 1292.0,
+          "close": 1292.0,
+          "volume": 20333000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1120.0,
+          "close": 1120.0,
+          "volume": 27316700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 1191.0,
+          "close": 1191.0,
+          "volume": 19218800.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1072.0,
+          "close": 1072.0,
+          "volume": 20819400.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1110.5,
+          "close": 1110.5,
+          "volume": 16232500.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 1238.5,
+          "close": 1238.5,
+          "volume": 16068500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5706.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 53
+    },
+    {
+      "stock_code": "7741",
+      "stock_name": "ＨＯＹＡ",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 24325.0,
+      "ranking_trading_value": 19321347500.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 23570.0,
+          "close": 23570.0,
+          "volume": 696000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 22885.0,
+          "close": 22885.0,
+          "volume": 888700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 23740.0,
+          "close": 23740.0,
+          "volume": 937000.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 23850.0,
+          "close": 23850.0,
+          "volume": 1041200.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 23445.0,
+          "close": 23445.0,
+          "volume": 741800.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 24325.0,
+          "close": 24325.0,
+          "volume": 794300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7741.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 54
+    },
+    {
+      "stock_code": "8725",
+      "stock_name": "ＭＳ＆ＡＤインシュアランスグループホールディングス",
+      "market": "",
+      "sector": "金融（除く銀行）",
+      "ranking_price": 5388.0,
+      "ranking_trading_value": 18463059600.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 5061.0,
+          "close": 5061.0,
+          "volume": 3059500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 5081.0,
+          "close": 5081.0,
+          "volume": 6260500.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 5203.0,
+          "close": 5203.0,
+          "volume": 4458900.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 5463.0,
+          "close": 5463.0,
+          "volume": 5930100.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 5353.0,
+          "close": 5353.0,
+          "volume": 3554000.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5388.0,
+          "close": 5388.0,
+          "volume": 3426700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8725.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 55
+    },
+    {
+      "stock_code": "7182",
+      "stock_name": "ゆうちょ銀行",
+      "market": "",
+      "sector": "銀行",
+      "ranking_price": 3009.0,
+      "ranking_trading_value": 18403344900.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3057.0,
+          "close": 3057.0,
+          "volume": 6144800.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2955.5,
+          "close": 2955.5,
+          "volume": 7998000.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3078.0,
+          "close": 3078.0,
+          "volume": 6636400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 3016.0,
+          "close": 3016.0,
+          "volume": 6419100.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2986.5,
+          "close": 2986.5,
+          "volume": 3916000.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 3009.0,
+          "close": 3009.0,
+          "volume": 6116100.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7182.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 56
+    },
+    {
+      "stock_code": "8002",
+      "stock_name": "丸紅",
+      "market": "",
+      "sector": "商社・卸売",
+      "ranking_price": 4649.0,
+      "ranking_trading_value": 17852160000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4657.0,
+          "close": 4657.0,
+          "volume": 5981300.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4460.0,
+          "close": 4460.0,
+          "volume": 6438800.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 4471.0,
+          "close": 4471.0,
+          "volume": 4908200.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4513.0,
+          "close": 4513.0,
+          "volume": 4706700.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4512.0,
+          "close": 4512.0,
+          "volume": 2701700.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 4649.0,
+          "close": 4649.0,
+          "volume": 3840000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8002.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 57
+    },
+    {
+      "stock_code": "4588",
+      "stock_name": "オンコリスバイオファーマ",
+      "market": "",
+      "sector": "医薬品",
+      "ranking_price": 8580.0,
+      "ranking_trading_value": 17781192000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 7070.0,
+          "close": 7070.0,
+          "volume": 1460500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 6940.0,
+          "close": 6940.0,
+          "volume": 1262700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 7550.0,
+          "close": 7550.0,
+          "volume": 1142200.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 7730.0,
+          "close": 7730.0,
+          "volume": 1040500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 7800.0,
+          "close": 7800.0,
+          "volume": 1252600.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 8580.0,
+          "close": 8580.0,
+          "volume": 2072400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4588.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 58
+    },
+    {
+      "stock_code": "7735",
+      "stock_name": "ＳＣＲＥＥＮホールディングス",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 7687.0,
+      "ranking_trading_value": 17684712200.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 7827.0,
+          "close": 7827.0,
+          "volume": 2472900.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 7121.0,
+          "close": 7121.0,
+          "volume": 2741100.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 7608.0,
+          "close": 7608.0,
+          "volume": 2754100.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 6994.0,
+          "close": 6994.0,
+          "volume": 3170500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 7072.0,
+          "close": 7072.0,
+          "volume": 2276600.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 7687.0,
+          "close": 7687.0,
+          "volume": 2300600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7735.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 59
+    },
+    {
+      "stock_code": "9434",
+      "stock_name": "ソフトバンク",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 234.3000030517578,
+      "ranking_trading_value": 17521469688.217163,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 247.3999938964844,
+          "close": 247.3999938964844,
+          "volume": 73686500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 244.1000061035156,
+          "close": 244.1000061035156,
+          "volume": 77805200.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 238.0,
+          "close": 238.0,
+          "volume": 112732800.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 237.8999938964844,
+          "close": 237.8999938964844,
+          "volume": 98564000.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 234.8000030517578,
+          "close": 234.8000030517578,
+          "volume": 69284400.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 234.3000030517578,
+          "close": 234.3000030517578,
+          "volume": 74782200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9434.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 60
+    },
+    {
+      "stock_code": "8802",
+      "stock_name": "三菱地所",
+      "market": "",
+      "sector": "不動産",
+      "ranking_price": 4100.0,
+      "ranking_trading_value": 17381540000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4082.0,
+          "close": 4082.0,
+          "volume": 4984500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 3920.0,
+          "close": 3920.0,
+          "volume": 5032000.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3967.0,
+          "close": 3967.0,
+          "volume": 3483300.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4150.0,
+          "close": 4150.0,
+          "volume": 5954800.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4106.0,
+          "close": 4106.0,
+          "volume": 4755200.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 4100.0,
+          "close": 4100.0,
+          "volume": 4239400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8802.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 61
+    },
+    {
+      "stock_code": "5713",
+      "stock_name": "住友金属鉱山",
+      "market": "",
+      "sector": "鉄鋼・非鉄",
+      "ranking_price": 6140.0,
+      "ranking_trading_value": 17258312000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 6055.0,
+          "close": 6055.0,
+          "volume": 5124600.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 5368.0,
+          "close": 5368.0,
+          "volume": 4286600.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 5567.0,
+          "close": 5567.0,
+          "volume": 3354600.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 5422.0,
+          "close": 5422.0,
+          "volume": 3661000.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 5747.0,
+          "close": 5747.0,
+          "volume": 3183700.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 6140.0,
+          "close": 6140.0,
+          "volume": 2810800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5713.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 62
+    },
+    {
+      "stock_code": "6871",
+      "stock_name": "日本マイクロニクス",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 9659.0,
+      "ranking_trading_value": 17256769400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 9900.0,
+          "close": 9900.0,
+          "volume": 1867900.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 8802.0,
+          "close": 8802.0,
+          "volume": 2396100.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 9547.0,
+          "close": 9547.0,
+          "volume": 1690700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 8179.0,
+          "close": 8179.0,
+          "volume": 1310100.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 8598.0,
+          "close": 8598.0,
+          "volume": 1721700.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 9659.0,
+          "close": 9659.0,
+          "volume": 1786600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6871.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 63
+    },
+    {
+      "stock_code": "9107",
+      "stock_name": "川崎汽船",
+      "market": "",
+      "sector": "運輸・物流",
+      "ranking_price": 3127.0,
+      "ranking_trading_value": 17100624900.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3014.0,
+          "close": 3014.0,
+          "volume": 2856000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 3000.0,
+          "close": 3000.0,
+          "volume": 4036600.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3051.0,
+          "close": 3051.0,
+          "volume": 2547400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 3050.0,
+          "close": 3050.0,
+          "volume": 2784100.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 3069.0,
+          "close": 3069.0,
+          "volume": 1823400.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 3127.0,
+          "close": 3127.0,
+          "volume": 5468700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9107.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 64
+    },
+    {
+      "stock_code": "4503",
+      "stock_name": "アステラス製薬",
+      "market": "",
+      "sector": "医薬品",
+      "ranking_price": 2935.0,
+      "ranking_trading_value": 16803755500.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2769.5,
+          "close": 2769.5,
+          "volume": 6527500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2751.5,
+          "close": 2751.5,
+          "volume": 8080300.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2765.5,
+          "close": 2765.5,
+          "volume": 6786900.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2945.0,
+          "close": 2945.0,
+          "volume": 8222500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2906.5,
+          "close": 2906.5,
+          "volume": 4723200.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2935.0,
+          "close": 2935.0,
+          "volume": 5725300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4503.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 65
+    },
+    {
+      "stock_code": "4307",
+      "stock_name": "野村総合研究所",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 6691.0,
+      "ranking_trading_value": 16718132600.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 6025.0,
+          "close": 6025.0,
+          "volume": 2469700.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 6080.0,
+          "close": 6080.0,
+          "volume": 3913300.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 6135.0,
+          "close": 6135.0,
+          "volume": 2819100.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 6532.0,
+          "close": 6532.0,
+          "volume": 4043000.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 6640.0,
+          "close": 6640.0,
+          "volume": 3180000.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 6691.0,
+          "close": 6691.0,
+          "volume": 2498600.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4307.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 66
+    },
+    {
+      "stock_code": "7267",
+      "stock_name": "本田技研工業",
+      "market": "",
+      "sector": "自動車・輸送機",
+      "ranking_price": 1776.0,
+      "ranking_trading_value": 16464052800.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 1790.0,
+          "close": 1790.0,
+          "volume": 13219700.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1736.5,
+          "close": 1736.5,
+          "volume": 13536000.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 1739.5,
+          "close": 1739.5,
+          "volume": 15801600.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1763.5,
+          "close": 1763.5,
+          "volume": 12366700.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1767.0,
+          "close": 1767.0,
+          "volume": 11889100.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 1776.0,
+          "close": 1776.0,
+          "volume": 9270300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7267.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 67
+    },
+    {
+      "stock_code": "7936",
+      "stock_name": "アシックス",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 4345.0,
+      "ranking_trading_value": 16304178000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4290.0,
+          "close": 4290.0,
+          "volume": 8999000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4105.0,
+          "close": 4105.0,
+          "volume": 7531300.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 4138.0,
+          "close": 4138.0,
+          "volume": 4254700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4309.0,
+          "close": 4309.0,
+          "volume": 5308500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4438.0,
+          "close": 4438.0,
+          "volume": 5004100.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 4345.0,
+          "close": 4345.0,
+          "volume": 3752400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7936.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 68
+    },
+    {
+      "stock_code": "6532",
+      "stock_name": "ベイカレント",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 13725.0,
+      "ranking_trading_value": 16281967500.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 13015.0,
+          "close": 13015.0,
+          "volume": 1494300.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 12780.0,
+          "close": 12780.0,
+          "volume": 1662200.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 13295.0,
+          "close": 13295.0,
+          "volume": 1583500.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 13315.0,
+          "close": 13315.0,
+          "volume": 2008900.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 13790.0,
+          "close": 13790.0,
+          "volume": 1362800.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 13725.0,
+          "close": 13725.0,
+          "volume": 1186300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6532.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 69
+    },
+    {
+      "stock_code": "6988",
+      "stock_name": "日東電工",
+      "market": "",
+      "sector": "素材・化学",
+      "ranking_price": 3697.0,
+      "ranking_trading_value": 16155150600.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3540.0,
+          "close": 3540.0,
+          "volume": 2597200.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 3390.0,
+          "close": 3390.0,
+          "volume": 3912900.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3408.0,
+          "close": 3408.0,
+          "volume": 3444700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 3527.0,
+          "close": 3527.0,
+          "volume": 2793500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 3630.0,
+          "close": 3630.0,
+          "volume": 2516400.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 3697.0,
+          "close": 3697.0,
+          "volume": 4369800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6988.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 70
+    },
+    {
+      "stock_code": "4661",
+      "stock_name": "オリエンタルランド",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 3835.0,
+      "ranking_trading_value": 16076320000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3925.0,
+          "close": 3925.0,
+          "volume": 4680400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 3850.0,
+          "close": 3850.0,
+          "volume": 5516100.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3820.0,
+          "close": 3820.0,
+          "volume": 5788700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 3966.0,
+          "close": 3966.0,
+          "volume": 5783000.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 3872.0,
+          "close": 3872.0,
+          "volume": 5773700.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 3835.0,
+          "close": 3835.0,
+          "volume": 4192000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4661.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 71
+    },
+    {
+      "stock_code": "8309",
+      "stock_name": "三井住友トラストグループ",
+      "market": "",
+      "sector": "銀行",
+      "ranking_price": 1670.5,
+      "ranking_trading_value": 16029616850.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 1716.0,
+          "close": 1716.0,
+          "volume": 11409500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1650.5,
+          "close": 1650.5,
+          "volume": 13474200.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 1678.0,
+          "close": 1678.0,
+          "volume": 15286400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1637.5,
+          "close": 1637.5,
+          "volume": 9999800.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1630.5,
+          "close": 1630.5,
+          "volume": 7675200.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 1670.5,
+          "close": 1670.5,
+          "volume": 9595700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8309.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 72
+    },
+    {
+      "stock_code": "8591",
+      "stock_name": "オリックス",
+      "market": "",
+      "sector": "金融（除く銀行）",
+      "ranking_price": 5528.0,
+      "ranking_trading_value": 16027883200.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 5365.0,
+          "close": 5365.0,
+          "volume": 2629900.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 5198.0,
+          "close": 5198.0,
+          "volume": 4634300.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 5295.0,
+          "close": 5295.0,
+          "volume": 3093900.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 5354.0,
+          "close": 5354.0,
+          "volume": 3048300.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 5413.0,
+          "close": 5413.0,
+          "volume": 2852400.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5528.0,
+          "close": 5528.0,
+          "volume": 2899400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8591.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 73
+    },
+    {
+      "stock_code": "9501",
+      "stock_name": "東京電力ホールディングス",
+      "market": "",
+      "sector": "電力・ガス",
+      "ranking_price": 433.8999938964844,
+      "ranking_trading_value": 16023839994.598389,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 418.2000122070313,
+          "close": 418.2000122070313,
+          "volume": 17130000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 415.5,
+          "close": 415.5,
+          "volume": 29379200.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 415.2999877929688,
+          "close": 415.2999877929688,
+          "volume": 23597300.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 415.2000122070313,
+          "close": 415.2000122070313,
+          "volume": 20839300.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 422.2000122070313,
+          "close": 422.2000122070313,
+          "volume": 22490000.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 433.8999938964844,
+          "close": 433.8999938964844,
+          "volume": 36929800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9501.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 74
+    },
+    {
+      "stock_code": "9502",
+      "stock_name": "中部電力",
+      "market": "",
+      "sector": "電力・ガス",
+      "ranking_price": 2461.5,
+      "ranking_trading_value": 15867813600.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2462.0,
+          "close": 2462.0,
+          "volume": 2426300.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2412.0,
+          "close": 2412.0,
+          "volume": 3961000.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2380.5,
+          "close": 2380.5,
+          "volume": 2893400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2384.5,
+          "close": 2384.5,
+          "volume": 2907000.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2377.0,
+          "close": 2377.0,
+          "volume": 3876900.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2461.5,
+          "close": 2461.5,
+          "volume": 6446400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9502.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 75
+    },
+    {
+      "stock_code": "8053",
+      "stock_name": "住友商事",
+      "market": "",
+      "sector": "商社・卸売",
+      "ranking_price": 1594.5,
+      "ranking_trading_value": 15433006050.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 1578.0,
+          "close": 1578.0,
+          "volume": 9152700.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1502.0,
+          "close": 1502.0,
+          "volume": 14701800.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 1532.5,
+          "close": 1532.5,
+          "volume": 10728300.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1538.0,
+          "close": 1538.0,
+          "volume": 8816300.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1530.5,
+          "close": 1530.5,
+          "volume": 6177500.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 1594.5,
+          "close": 1594.5,
+          "volume": 9678900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8053.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 76
+    },
+    {
+      "stock_code": "4578",
+      "stock_name": "大塚ホールディングス",
+      "market": "",
+      "sector": "医薬品",
+      "ranking_price": 13025.0,
+      "ranking_trading_value": 15165007500.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 12155.0,
+          "close": 12155.0,
+          "volume": 913300.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 12390.0,
+          "close": 12390.0,
+          "volume": 1664600.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 12345.0,
+          "close": 12345.0,
+          "volume": 915900.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 13130.0,
+          "close": 13130.0,
+          "volume": 1465800.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 12800.0,
+          "close": 12800.0,
+          "volume": 1078400.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 13025.0,
+          "close": 13025.0,
+          "volume": 1164300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4578.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 77
+    },
+    {
+      "stock_code": "6971",
+      "stock_name": "京セラ",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 2823.0,
+      "ranking_trading_value": 14946938100.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2850.0,
+          "close": 2850.0,
+          "volume": 4112800.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2721.5,
+          "close": 2721.5,
+          "volume": 7109400.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2815.5,
+          "close": 2815.5,
+          "volume": 5196600.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2757.5,
+          "close": 2757.5,
+          "volume": 4905200.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2759.0,
+          "close": 2759.0,
+          "volume": 3679800.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2823.0,
+          "close": 2823.0,
+          "volume": 5294700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6971.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 78
+    },
+    {
+      "stock_code": "7832",
+      "stock_name": "バンダイナムコホールディングス",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 7309.0,
+      "ranking_trading_value": 14846040800.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 7275.0,
+          "close": 7275.0,
+          "volume": 2629400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 7068.0,
+          "close": 7068.0,
+          "volume": 2801200.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 7021.0,
+          "close": 7021.0,
+          "volume": 3638100.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 7410.0,
+          "close": 7410.0,
+          "volume": 3362900.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 7405.0,
+          "close": 7405.0,
+          "volume": 2633500.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 7309.0,
+          "close": 7309.0,
+          "volume": 2031200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7832.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 79
+    },
+    {
+      "stock_code": "9735",
+      "stock_name": "セコム",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 7462.0,
+      "ranking_trading_value": 14785206800.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 7247.0,
+          "close": 7247.0,
+          "volume": 1456900.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 7220.0,
+          "close": 7220.0,
+          "volume": 2120500.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 7307.0,
+          "close": 7307.0,
+          "volume": 1359900.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 7596.0,
+          "close": 7596.0,
+          "volume": 2090400.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 7558.0,
+          "close": 7558.0,
+          "volume": 1337500.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 7462.0,
+          "close": 7462.0,
+          "volume": 1981400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9735.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 80
+    },
+    {
+      "stock_code": "8308",
+      "stock_name": "りそなホールディングス",
+      "market": "",
+      "sector": "銀行",
+      "ranking_price": 2045.5,
+      "ranking_trading_value": 14656825700.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2083.0,
+          "close": 2083.0,
+          "volume": 10501300.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1967.5,
+          "close": 1967.5,
+          "volume": 12729800.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2047.0,
+          "close": 2047.0,
+          "volume": 11778300.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1980.0,
+          "close": 1980.0,
+          "volume": 10924700.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1977.0,
+          "close": 1977.0,
+          "volume": 7622500.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2045.5,
+          "close": 2045.5,
+          "volume": 7165400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8308.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 81
+    },
+    {
+      "stock_code": "6526",
+      "stock_name": "ソシオネクスト",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 1662.0,
+      "ranking_trading_value": 14397075000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 1728.0,
+          "close": 1728.0,
+          "volume": 7111700.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1570.5,
+          "close": 1570.5,
+          "volume": 6415500.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 1615.5,
+          "close": 1615.5,
+          "volume": 5314600.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1443.0,
+          "close": 1443.0,
+          "volume": 6910000.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1476.5,
+          "close": 1476.5,
+          "volume": 4423800.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 1662.0,
+          "close": 1662.0,
+          "volume": 8662500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6526.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 82
+    },
+    {
+      "stock_code": "6890",
+      "stock_name": "フェローテック",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 6751.0,
+      "ranking_trading_value": 14144695200.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 6884.0,
+          "close": 6884.0,
+          "volume": 2825600.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 6185.0,
+          "close": 6185.0,
+          "volume": 3113000.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 6653.0,
+          "close": 6653.0,
+          "volume": 2676600.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 5863.0,
+          "close": 5863.0,
+          "volume": 3256900.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 6250.0,
+          "close": 6250.0,
+          "volume": 2081400.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 6751.0,
+          "close": 6751.0,
+          "volume": 2095200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6890.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 83
+    },
+    {
+      "stock_code": "8015",
+      "stock_name": "豊田通商",
+      "market": "",
+      "sector": "商社・卸売",
+      "ranking_price": 6016.0,
+      "ranking_trading_value": 13947494400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 6082.0,
+          "close": 6082.0,
+          "volume": 3263200.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 5770.0,
+          "close": 5770.0,
+          "volume": 3666300.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 5934.0,
+          "close": 5934.0,
+          "volume": 1743100.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 5863.0,
+          "close": 5863.0,
+          "volume": 1655600.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 5745.0,
+          "close": 5745.0,
+          "volume": 2158700.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 6016.0,
+          "close": 6016.0,
+          "volume": 2318400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8015.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 84
+    },
+    {
+      "stock_code": "5020",
+      "stock_name": "ＥＮＥＯＳホールディングス",
+      "market": "",
+      "sector": "エネルギー資源",
+      "ranking_price": 1206.5,
+      "ranking_trading_value": 13813701100.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 1194.5,
+          "close": 1194.5,
+          "volume": 8590800.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1148.5,
+          "close": 1148.5,
+          "volume": 12593200.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 1144.0,
+          "close": 1144.0,
+          "volume": 9911700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1144.0,
+          "close": 1144.0,
+          "volume": 8157800.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1158.5,
+          "close": 1158.5,
+          "volume": 7005500.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 1206.5,
+          "close": 1206.5,
+          "volume": 11449400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5020.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 85
+    },
+    {
+      "stock_code": "4901",
+      "stock_name": "富士フイルムホールディングス",
+      "market": "",
+      "sector": "素材・化学",
+      "ranking_price": 3838.0,
+      "ranking_trading_value": 13456028000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3713.0,
+          "close": 3713.0,
+          "volume": 4360900.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 3699.0,
+          "close": 3699.0,
+          "volume": 4800700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3723.0,
+          "close": 3723.0,
+          "volume": 4126400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 3787.0,
+          "close": 3787.0,
+          "volume": 4677800.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 3836.0,
+          "close": 3836.0,
+          "volume": 3882000.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 3838.0,
+          "close": 3838.0,
+          "volume": 3506000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4901.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 86
+    },
+    {
+      "stock_code": "9766",
+      "stock_name": "コナミグループ",
+      "market": "",
+      "sector": "情報通信・サービスその他",
+      "ranking_price": 30470.0,
+      "ranking_trading_value": 13446411000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 30740.0,
+          "close": 30740.0,
+          "volume": 572500.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 29735.0,
+          "close": 29735.0,
+          "volume": 1028100.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 29845.0,
+          "close": 29845.0,
+          "volume": 632100.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 31080.0,
+          "close": 31080.0,
+          "volume": 593200.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 31190.0,
+          "close": 31190.0,
+          "volume": 441300.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 30470.0,
+          "close": 30470.0,
+          "volume": 441300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/9766.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 87
+    },
+    {
+      "stock_code": "8630",
+      "stock_name": "ＳＯＭＰＯホールディングス",
+      "market": "",
+      "sector": "金融（除く銀行）",
+      "ranking_price": 7212.0,
+      "ranking_trading_value": 13264310400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 6856.0,
+          "close": 6856.0,
+          "volume": 3121300.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 6994.0,
+          "close": 6994.0,
+          "volume": 4890300.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 7146.0,
+          "close": 7146.0,
+          "volume": 4420000.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 7242.0,
+          "close": 7242.0,
+          "volume": 3632100.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 7147.0,
+          "close": 7147.0,
+          "volume": 2237200.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 7212.0,
+          "close": 7212.0,
+          "volume": 1839200.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8630.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 88
+    },
+    {
+      "stock_code": "3382",
+      "stock_name": "セブン＆アイ・ホールディングス",
+      "market": "",
+      "sector": "小売",
+      "ranking_price": 2193.0,
+      "ranking_trading_value": 13084973100.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2190.0,
+          "close": 2190.0,
+          "volume": 6908000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2153.0,
+          "close": 2153.0,
+          "volume": 7358300.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2112.0,
+          "close": 2112.0,
+          "volume": 8757400.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2217.0,
+          "close": 2217.0,
+          "volume": 10056500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2196.0,
+          "close": 2196.0,
+          "volume": 5359400.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2193.0,
+          "close": 2193.0,
+          "volume": 5966700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3382.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 89
+    },
+    {
+      "stock_code": "8750",
+      "stock_name": "第一ライフグループ",
+      "market": "",
+      "sector": "金融（除く銀行）",
+      "ranking_price": 1784.0,
+      "ranking_trading_value": 13034617600.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 1749.0,
+          "close": 1749.0,
+          "volume": 9957100.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1709.0,
+          "close": 1709.0,
+          "volume": 12193400.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 1748.0,
+          "close": 1748.0,
+          "volume": 8564500.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1759.0,
+          "close": 1759.0,
+          "volume": 9203100.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1739.0,
+          "close": 1739.0,
+          "volume": 5658100.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 1784.0,
+          "close": 1784.0,
+          "volume": 7306400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/8750.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 90
+    },
+    {
+      "stock_code": "4543",
+      "stock_name": "テルモ",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 2638.0,
+      "ranking_trading_value": 12920132600.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2607.0,
+          "close": 2607.0,
+          "volume": 7208800.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2547.0,
+          "close": 2547.0,
+          "volume": 6654000.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2548.5,
+          "close": 2548.5,
+          "volume": 6436200.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2696.5,
+          "close": 2696.5,
+          "volume": 10144600.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2682.5,
+          "close": 2682.5,
+          "volume": 5098400.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2638.0,
+          "close": 2638.0,
+          "volume": 4897700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4543.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 91
+    },
+    {
+      "stock_code": "7751",
+      "stock_name": "キヤノン",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 4993.0,
+      "ranking_trading_value": 12791067400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4813.0,
+          "close": 4813.0,
+          "volume": 2990800.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4796.0,
+          "close": 4796.0,
+          "volume": 4132400.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 4856.0,
+          "close": 4856.0,
+          "volume": 3514300.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4959.0,
+          "close": 4959.0,
+          "volume": 4219300.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4989.0,
+          "close": 4989.0,
+          "volume": 2850700.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 4993.0,
+          "close": 4993.0,
+          "volume": 2561800.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7751.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 92
+    },
+    {
+      "stock_code": "7269",
+      "stock_name": "スズキ",
+      "market": "",
+      "sector": "自動車・輸送機",
+      "ranking_price": 2270.0,
+      "ranking_trading_value": 12042350000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2211.5,
+          "close": 2211.5,
+          "volume": 9655400.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2204.0,
+          "close": 2204.0,
+          "volume": 9038700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2183.5,
+          "close": 2183.5,
+          "volume": 7716700.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2248.5,
+          "close": 2248.5,
+          "volume": 8168400.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2279.5,
+          "close": 2279.5,
+          "volume": 6431100.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2270.0,
+          "close": 2270.0,
+          "volume": 5305000.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7269.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 93
+    },
+    {
+      "stock_code": "7453",
+      "stock_name": "良品計画",
+      "market": "",
+      "sector": "小売",
+      "ranking_price": 5010.0,
+      "ranking_trading_value": 11812077000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4915.0,
+          "close": 4915.0,
+          "volume": 2228000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4822.0,
+          "close": 4822.0,
+          "volume": 2903700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 4926.0,
+          "close": 4926.0,
+          "volume": 2457000.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 5094.0,
+          "close": 5094.0,
+          "volume": 2438300.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 5099.0,
+          "close": 5099.0,
+          "volume": 2211200.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5010.0,
+          "close": 5010.0,
+          "volume": 2357700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/7453.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 94
+    },
+    {
+      "stock_code": "2502",
+      "stock_name": "アサヒグループホールディングス",
+      "market": "",
+      "sector": "食品",
+      "ranking_price": 1773.5,
+      "ranking_trading_value": 11783843400.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 1823.5,
+          "close": 1823.5,
+          "volume": 4917000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 1784.0,
+          "close": 1784.0,
+          "volume": 6464700.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 1780.0,
+          "close": 1780.0,
+          "volume": 8546100.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 1834.5,
+          "close": 1834.5,
+          "volume": 7367000.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 1789.5,
+          "close": 1789.5,
+          "volume": 4839300.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 1773.5,
+          "close": 1773.5,
+          "volume": 6644400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/2502.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 95
+    },
+    {
+      "stock_code": "4568",
+      "stock_name": "第一三共",
+      "market": "",
+      "sector": "医薬品",
+      "ranking_price": 2872.0,
+      "ranking_trading_value": 11607188000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 2762.5,
+          "close": 2762.5,
+          "volume": 5500000.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 2707.0,
+          "close": 2707.0,
+          "volume": 5520200.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 2737.0,
+          "close": 2737.0,
+          "volume": 4739800.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 2895.5,
+          "close": 2895.5,
+          "volume": 8318500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 2875.0,
+          "close": 2875.0,
+          "volume": 4769100.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 2872.0,
+          "close": 2872.0,
+          "volume": 4041500.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/4568.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 96
+    },
+    {
+      "stock_code": "3563",
+      "stock_name": "ＦＯＯＤ　＆　ＬＩＦＥ　ＣＯＭＰＡＮＩＥＳ",
+      "market": "",
+      "sector": "小売",
+      "ranking_price": 5890.0,
+      "ranking_trading_value": 11469597000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 6318.0,
+          "close": 6318.0,
+          "volume": 1706600.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 5951.0,
+          "close": 5951.0,
+          "volume": 3434600.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 6136.0,
+          "close": 6136.0,
+          "volume": 2360600.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 6201.0,
+          "close": 6201.0,
+          "volume": 1694800.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 6040.0,
+          "close": 6040.0,
+          "volume": 1907300.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 5890.0,
+          "close": 5890.0,
+          "volume": 1947300.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/3563.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 97
+    },
+    {
+      "stock_code": "6506",
+      "stock_name": "安川電機",
+      "market": "",
+      "sector": "電機・精密",
+      "ranking_price": 3380.0,
+      "ranking_trading_value": 11463946000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 3475.0,
+          "close": 3475.0,
+          "volume": 2385900.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 3180.0,
+          "close": 3180.0,
+          "volume": 4994900.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 3446.0,
+          "close": 3446.0,
+          "volume": 3358000.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 3223.0,
+          "close": 3223.0,
+          "volume": 3037100.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 3219.0,
+          "close": 3219.0,
+          "volume": 2772500.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 3380.0,
+          "close": 3380.0,
+          "volume": 3391700.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/6506.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 98
+    },
+    {
+      "stock_code": "5108",
+      "stock_name": "ブリヂストン",
+      "market": "",
+      "sector": "自動車・輸送機",
+      "ranking_price": 4318.0,
+      "ranking_trading_value": 11178870200.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 4357.0,
+          "close": 4357.0,
+          "volume": 3348900.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 4238.0,
+          "close": 4238.0,
+          "volume": 6052100.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 4311.0,
+          "close": 4311.0,
+          "volume": 3447100.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 4385.0,
+          "close": 4385.0,
+          "volume": 3376300.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 4330.0,
+          "close": 4330.0,
+          "volume": 2489200.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 4318.0,
+          "close": 4318.0,
+          "volume": 2588900.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/5108.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 99
+    },
+    {
+      "stock_code": "2702",
+      "stock_name": "日本マクドナルドホールディングス",
+      "market": "",
+      "sector": "小売",
+      "ranking_price": 10195.0,
+      "ranking_trading_value": 11177798000.0,
+      "recent_prices": [
+        {
+          "date": "2026-11-19",
+          "adj_close": 9930.0,
+          "close": 9930.0,
+          "volume": 1320200.0
+        },
+        {
+          "date": "2026-11-20",
+          "adj_close": 9837.0,
+          "close": 9837.0,
+          "volume": 738800.0
+        },
+        {
+          "date": "2026-11-24",
+          "adj_close": 9940.0,
+          "close": 9940.0,
+          "volume": 821200.0
+        },
+        {
+          "date": "2026-11-25",
+          "adj_close": 10260.0,
+          "close": 10260.0,
+          "volume": 986500.0
+        },
+        {
+          "date": "2026-11-26",
+          "adj_close": 10135.0,
+          "close": 10135.0,
+          "volume": 1172900.0
+        },
+        {
+          "date": "2026-11-27",
+          "adj_close": 10195.0,
+          "close": 10195.0,
+          "volume": 1096400.0
+        }
+      ],
+      "price_data_issue": null,
+      "ohlcv_path": "stocks/2702.csv",
+      "pattern_signals": [],
+      "candidate_sources": [
+        "trading_value_top_100"
+      ],
+      "trading_value_rank": 100
+    }
+  ]
+}

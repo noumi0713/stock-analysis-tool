@@ -1,0 +1,16 @@
+{
+  "status": "failed",
+  "reason": "当日の掲示板ランキング取得失敗",
+  "attempted_at": "2026-11-29T01:44:35.157701+09:00",
+  "ranking_status": {
+    "status": "success",
+    "ranking_date": "2026-11-28",
+    "source_updated_at": "2026-11-28T02:12:00+09:00",
+    "collected_at": "2026-11-28T02:54:13.619279+09:00",
+    "row_count": 94,
+    "total_pages": 2,
+    "history_days": 68,
+    "source_url": "https://finance.yahoo.co.jp/stocks/ranking/bbs?market=all&term=daily",
+    "used_previous_day": false
+  }
+}

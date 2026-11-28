@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "rule_version": "daily-bollinger-minus2-v1",
+  "generated_at": "2026-11-28T13:17:23.062786+09:00",
+  "expected_date": "2026-11-27",
+  "source_date": "2026-11-27",
+  "source_run_id": "20261128T131221-3429a73e",
+  "status": "partial",
+  "target_count": 3686,
+  "evaluated_count": 3267,
+  "excluded_count": 419,
+  "acquired_count": 3269,
+  "acquisition_failed_count": 417,
+  "matched_count": 93,
+  "collection_completed_at": "2026-11-28T13:16:53.926293+09:00",
+  "collection_started_at": "2026-11-28T13:12:21.182820+09:00",
+  "attempt_run_id": "20261128T131221-3429a73e",
+  "last_good_date": "2026-11-26",
+  "attempt_stock_status_counts": {
+    "ready": 3269,
+    "zero_volume": 392,
+    "invalid_rows": 4,
+    "insufficient_history": 21
+  },
+  "rules": {
+    "period": 20,
+    "sigma_multiplier": 2,
+    "std_ddof": 0,
+    "formula": "SMA20(adj_close) - 2 * population_std20(adj_close)",
+    "match": "adj_low <= today's final lower band (including equality)",
+    "close_below_band": "adj_close <= today's final lower band",
+    "new_touch": "today matches and previous completed session did not match its own final band",
+    "price_units": "MA and lower band converted to latest close units by close/adj_close",
+    "timing": "引け後の日足判定。当日の終値を含む確定バンドと当日安値の比較。場中の動的バンドへの到達時刻は判定しない。",
+    "scope": "東証プライム・スタンダード・グロース内国普通株式。ETF・ETN・REITを除外。掲示板順位・テーマ・RSIの追加絞り込みなし。",
+    "note": "条件到達の監視一覧。買い推奨や反発確率ではありません。"
+  },
+  "scope": "tse_domestic_common",
+  "source_stock_status_counts": {
+    "ready": 3269,
+    "zero_volume": 392,
+    "invalid_rows": 4,
+    "insufficient_history": 21
+  },
+  "excluded_reasons": {
+    "invalid_ohlc": 2,
+    "not_in_eligible_120d_bundle": 417
+  },
+  "result": "partial",
+  "ma20_rebound_counts": {
+    "approaching": 350,
+    "crossed": 90
+  },
+  "completed_at": "2026-11-28T13:17:36.106637+09:00"
+}

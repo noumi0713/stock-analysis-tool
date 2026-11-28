@@ -1,0 +1,21 @@
+{
+  "state": "partial",
+  "run_id": "20261129T013805-e62ef2ef",
+  "started_at": "2026-11-29T01:38:05.620069+09:00",
+  "processed": 3686,
+  "total": 3686,
+  "expected_date": "2026-11-27",
+  "phase": "市場・テーマ集計",
+  "ready": 3269,
+  "heartbeat_at": "2026-11-29T01:43:20.021636+09:00",
+  "stock_status_counts": {
+    "ready": 3269,
+    "zero_volume": 392,
+    "invalid_rows": 4,
+    "insufficient_history": 21
+  },
+  "latest_close_missing_count": 4,
+  "completed_at": "2026-11-29T01:43:25.514492+09:00",
+  "quality": "PARTIAL",
+  "error": null
+}

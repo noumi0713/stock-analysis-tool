@@ -1,0 +1,546 @@
+{
+  "code": "6136",
+  "run_id": "20261129T013805-e62ef2ef",
+  "attempted_at": "2026-11-29T01:44:44.465374+09:00",
+  "coverage": {
+    "margin": "JPX weekly share balances, five available weeks. Absent code is unknown, not zero.",
+    "short_positions": "Disclosure events, not complete current holdings. Public reporting threshold generally 0.5%; below-threshold exit reports may appear. Never sum as total institutional shorts. Initial history starts at available current-month files.",
+    "earnings_calendar": "Company schedules in the available JPX workbooks only; absent date does not mean no imminent earnings.",
+    "guidance_revisions": "TDnet available 31-day archive initially, then retained daily. Matched XBRL previous/current forecast facts where available; otherwise title-only/unconfirmed. Read IR for corporate-action comparability. Not consensus revisions.",
+    "capital": "Yahoo snapshot; floatShares is not JPX FFW. Unknown effective date stays unknown.",
+    "consensus_eps": "Provider current/7/30/60/90-day EPS snapshots by fiscal end and currency, with analyst revision counts. Missing is not no change; not point-in-time backtest data.",
+    "technicals": "Calculated from current 120-session raw inputs in memory on reading; no saved indicator values."
+  },
+  "source_status": {
+    "margin": {
+      "status": "stale",
+      "record_count": 18340,
+      "error": "ValueError: No weekly margin PDF links"
+    },
+    "short_positions": {
+      "status": "fetched",
+      "record_count": 55756,
+      "covered_codes": 1871,
+      "fetched_at": "2026-11-29T01:44:44.465374+09:00"
+    },
+    "earnings_calendar": {
+      "status": "fetched",
+      "record_count": 3190,
+      "covered_codes": 3190,
+      "fetched_at": "2026-11-29T01:44:44.465374+09:00"
+    },
+    "guidance_revisions": {
+      "status": "fetched",
+      "record_count": 1333,
+      "covered_codes": 1232,
+      "fetched_at": "2026-11-29T01:44:44.465374+09:00"
+    },
+    "capital": {
+      "status": "unavailable",
+      "available_count": 0,
+      "target_count": 3686,
+      "attempted_count": 0
+    },
+    "consensus_eps": {
+      "status": "unavailable",
+      "available_count": 0,
+      "target_count": 3686,
+      "attempted_count": 0
+    }
+  },
+  "margin": [
+    {
+      "code": "6136",
+      "as_of": "2026-08-21",
+      "published_on": "2026-08-25",
+      "sell_shares": 44900,
+      "buy_shares": 106200,
+      "general_sell_shares": 41400,
+      "standard_sell_shares": 3500,
+      "general_buy_shares": 35300,
+      "standard_buy_shares": 70900,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026082100.pdf"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-08-28",
+      "published_on": "2026-09-01",
+      "sell_shares": 46700,
+      "buy_shares": 106700,
+      "general_sell_shares": 43700,
+      "standard_sell_shares": 3000,
+      "general_buy_shares": 32600,
+      "standard_buy_shares": 74100,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026082800.pdf"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-09-04",
+      "published_on": "2026-09-08",
+      "sell_shares": 37200,
+      "buy_shares": 106700,
+      "general_sell_shares": 31400,
+      "standard_sell_shares": 5800,
+      "general_buy_shares": 35700,
+      "standard_buy_shares": 71000,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026090400.pdf"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-09-11",
+      "published_on": "2026-09-15",
+      "sell_shares": 38100,
+      "buy_shares": 108500,
+      "general_sell_shares": 31600,
+      "standard_sell_shares": 6500,
+      "general_buy_shares": 32400,
+      "standard_buy_shares": 76100,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026091100.pdf"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-09-18",
+      "published_on": "2026-09-25",
+      "sell_shares": 18900,
+      "buy_shares": 108200,
+      "general_sell_shares": 15500,
+      "standard_sell_shares": 3400,
+      "general_buy_shares": 33000,
+      "standard_buy_shares": 75200,
+      "source_url": "https://www.jpx.co.jp/markets/statistics-equities/margin/tvdivq0000001rnl-att/syumatsu2026091800.pdf"
+    }
+  ],
+  "short_positions": [
+    {
+      "code": "6136",
+      "as_of": "2026-08-28",
+      "published_on": "2026-09-01",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0567,
+      "short_shares": 5457546.0,
+      "previous_as_of": "2026-08-24",
+      "previous_short_ratio": 0.055099999999999996,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001val0-att/20260901_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-08-31",
+      "published_on": "2026-09-02",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.057,
+      "short_shares": 5480707.0,
+      "previous_as_of": "2026-08-28",
+      "previous_short_ratio": 0.0567,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001vd50-att/20260902_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-09-03",
+      "published_on": "2026-09-07",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0581,
+      "short_shares": 5588827.0,
+      "previous_as_of": "2026-08-31",
+      "previous_short_ratio": 0.057,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001xtu8-att/20260907_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-09-09",
+      "published_on": "2026-09-11",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0579,
+      "short_shares": 5575538.0,
+      "previous_as_of": "2026-09-03",
+      "previous_short_ratio": 0.0581,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001y85n-att/20260911_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-09-10",
+      "published_on": "2026-09-14",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0558,
+      "short_shares": 5366431.0,
+      "previous_as_of": "2026-09-09",
+      "previous_short_ratio": 0.0579,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001ya51-att/20260914_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-09-18",
+      "published_on": "2026-09-24",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0548,
+      "short_shares": 5276443.0,
+      "previous_as_of": "2026-09-10",
+      "previous_short_ratio": 0.0558,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000001yxo7-att/20260924_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-10-07",
+      "published_on": "2026-10-09",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0432,
+      "short_shares": 4158097.0,
+      "previous_as_of": "2026-09-18",
+      "previous_short_ratio": 0.0548,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt0000029nt3-att/20261009_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-10-09",
+      "published_on": "2026-10-13",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.044000000000000004,
+      "short_shares": 4236898.0,
+      "previous_as_of": "2026-10-07",
+      "previous_short_ratio": 0.0432,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000002goi5-att/20261013_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-10-14",
+      "published_on": "2026-10-16",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0453,
+      "short_shares": 4355609.0,
+      "previous_as_of": "2026-10-09",
+      "previous_short_ratio": 0.044000000000000004,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000002h0fx-att/20261016_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-10-16",
+      "published_on": "2026-10-20",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0449,
+      "short_shares": 4326394.0,
+      "previous_as_of": "2026-10-14",
+      "previous_short_ratio": 0.0453,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000002h6n4-att/20261020_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-10-19",
+      "published_on": "2026-10-21",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.04190000000000001,
+      "short_shares": 4030459.0,
+      "previous_as_of": "2026-10-16",
+      "previous_short_ratio": 0.0449,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000002h912-att/20261021_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-10-21",
+      "published_on": "2026-10-23",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.042199999999999994,
+      "short_shares": 4062839.0,
+      "previous_as_of": "2026-10-19",
+      "previous_short_ratio": 0.04190000000000001,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000002hgnu-att/20261023_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-10-27",
+      "published_on": "2026-10-29",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.021099999999999997,
+      "short_shares": 2030262.0,
+      "previous_as_of": "2026-10-22",
+      "previous_short_ratio": 0.0416,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000002k28s-att/20261029_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-10-29",
+      "published_on": "2026-11-04",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0209,
+      "short_shares": 2015391.0,
+      "previous_as_of": "2026-10-27",
+      "previous_short_ratio": 0.021099999999999997,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000002kcrg-att/20261104_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-10-30",
+      "published_on": "2026-11-04",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0212,
+      "short_shares": 2043492.0,
+      "previous_as_of": "2026-10-29",
+      "previous_short_ratio": 0.0209,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000002kcrg-att/20261104_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-11-05",
+      "published_on": "2026-11-09",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.022400000000000003,
+      "short_shares": 2157666.0,
+      "previous_as_of": "2026-10-30",
+      "previous_short_ratio": 0.0212,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000002kk0n-att/20261109_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-11-13",
+      "published_on": "2026-11-17",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0139,
+      "short_shares": 1336881.0,
+      "previous_as_of": "2026-11-05",
+      "previous_short_ratio": 0.022400000000000003,
+      "notes": "",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000002py2u-att/20261117_Short_Positions.xls"
+    },
+    {
+      "code": "6136",
+      "as_of": "2026-11-17",
+      "published_on": "2026-11-19",
+      "holder": "Nomura International plc",
+      "investment_fund": "",
+      "discretionary_contractor": "",
+      "short_ratio": 0.0007000000000000001,
+      "short_shares": 70340.0,
+      "previous_as_of": "2026-11-13",
+      "previous_short_ratio": 0.0139,
+      "notes": "Below the threshold",
+      "source_url": "https://www.jpx.co.jp/markets/public/short-selling/t13vrt000002q3k6-att/20261119_Short_Positions.xls"
+    }
+  ],
+  "earnings_calendar": [],
+  "guidance_revisions": [
+    {
+      "code": "6136",
+      "published_at": "2026-10-09T15:30:00+09:00",
+      "title": "業績予想及び配当予想の修正に関するお知らせ",
+      "direction": "up_xbrl",
+      "verification": "XBRL matched metric/context/unit; inspect split and consolidation changes in IR",
+      "source_url": "https://www.release.tdnet.info/inbs/140120261007547255.pdf",
+      "xbrl_url": "https://www.release.tdnet.info/inbs/091220261007547255.zip",
+      "forecast_facts": [
+        {
+          "metric": "NetSales",
+          "context": "CurrentYearDuration_ConsolidatedMember_CurrentMember_ForecastMember",
+          "unit": "JPY",
+          "previous": 185000000000.0,
+          "current": 193000000000.0,
+          "direction": "up"
+        },
+        {
+          "metric": "OperatingIncome",
+          "context": "CurrentYearDuration_ConsolidatedMember_CurrentMember_ForecastMember",
+          "unit": "JPY",
+          "previous": 30000000000.0,
+          "current": 36000000000.0,
+          "direction": "up"
+        },
+        {
+          "metric": "OrdinaryIncome",
+          "context": "CurrentYearDuration_ConsolidatedMember_CurrentMember_ForecastMember",
+          "unit": "JPY",
+          "previous": 32000000000.0,
+          "current": 38000000000.0,
+          "direction": "up"
+        },
+        {
+          "metric": "NetIncome",
+          "context": "CurrentYearDuration_ConsolidatedMember_CurrentMember_ForecastMember",
+          "unit": "JPY",
+          "previous": 21000000000.0,
+          "current": 24000000000.0,
+          "direction": "up"
+        },
+        {
+          "metric": "NetIncomePerShare",
+          "context": "CurrentYearDuration_ConsolidatedMember_CurrentMember_ForecastMember",
+          "unit": "JPYPerShares",
+          "previous": 255.6,
+          "current": 288.48,
+          "direction": "up"
+        }
+      ]
+    }
+  ],
+  "fundamentals": [
+    {
+      "code": "6136",
+      "observed_at": "2026-11-28T02:50:32.530423+09:00",
+      "provider": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/quote/6136.T/analysis/",
+      "market_cap": 273019650048.0,
+      "currency": "JPY",
+      "shares_outstanding": 85318640.0,
+      "float_shares": 72673435.0,
+      "float_definition": "provider floatShares; not JPX free-float weight",
+      "market_price_at": 1795761000,
+      "consensus_periods": [
+        {
+          "period": "0q",
+          "end_date": "2026-11-30",
+          "currency": null,
+          "number_of_analysts": null,
+          "estimate": {
+            "avg": null,
+            "low": null,
+            "high": null,
+            "yearAgoEps": null
+          },
+          "eps_trend": {
+            "current": null,
+            "7daysAgo": null,
+            "30daysAgo": null,
+            "60daysAgo": null,
+            "90daysAgo": null
+          },
+          "eps_revisions": {
+            "upLast7days": null,
+            "upLast30days": null,
+            "downLast7days": null,
+            "downLast30days": null
+          }
+        },
+        {
+          "period": "+1q",
+          "end_date": "2027-02-28",
+          "currency": null,
+          "number_of_analysts": null,
+          "estimate": {
+            "avg": null,
+            "low": null,
+            "high": null,
+            "yearAgoEps": null
+          },
+          "eps_trend": {
+            "current": null,
+            "7daysAgo": null,
+            "30daysAgo": null,
+            "60daysAgo": null,
+            "90daysAgo": null
+          },
+          "eps_revisions": {
+            "upLast7days": null,
+            "upLast30days": null,
+            "downLast7days": null,
+            "downLast30days": null
+          }
+        },
+        {
+          "period": "0y",
+          "end_date": "2026-11-30",
+          "currency": "JPY",
+          "number_of_analysts": 4.0,
+          "estimate": {
+            "avg": 281.64868,
+            "low": 197.1,
+            "high": 339.1,
+            "yearAgoEps": 172.11
+          },
+          "eps_trend": {
+            "current": 281.64868,
+            "7daysAgo": 270.66266,
+            "30daysAgo": 255.56265,
+            "60daysAgo": 241.72768,
+            "90daysAgo": 224.97768
+          },
+          "eps_revisions": {
+            "upLast7days": 1.0,
+            "upLast30days": 2.0,
+            "downLast7days": null,
+            "downLast30days": 0.0
+          }
+        },
+        {
+          "period": "+1y",
+          "end_date": "2027-11-30",
+          "currency": "JPY",
+          "number_of_analysts": 4.0,
+          "estimate": {
+            "avg": 317.39737,
+            "low": 220.4,
+            "high": 414.9,
+            "yearAgoEps": 281.64868
+          },
+          "eps_trend": {
+            "current": 317.39737,
+            "7daysAgo": 309.95514,
+            "30daysAgo": 283.20514,
+            "60daysAgo": 268.572,
+            "90daysAgo": 254.872
+          },
+          "eps_revisions": {
+            "upLast7days": 1.0,
+            "upLast30days": 2.0,
+            "downLast7days": null,
+            "downLast30days": 0.0
+          }
+        }
+      ],
+      "consensus_status": "available",
+      "capital_status": "available"
+    }
+  ],
+  "fundamental_status": [
+    {
+      "code": "6136",
+      "status": "stale",
+      "reason": "provider_rate_limited"
+    }
+  ]
+}
